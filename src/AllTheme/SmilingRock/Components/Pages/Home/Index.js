@@ -10,6 +10,10 @@ function Home() {
       <div className='Submain'>
         <h1>Sub Main</h1>
       </div>
+
+      <div className='Submain'>
+        <h1>Sub Main 2</h1>
+      </div>
     </div>
   )
 }
