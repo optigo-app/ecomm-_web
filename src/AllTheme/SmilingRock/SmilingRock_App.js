@@ -14,9 +14,10 @@ const SmilingRock_App = () => {
             </div>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/cartPage" element={<CartDetails />} />
                 <Route path="/productlist" element={<ProductList />} />
                 <Route path="/productdetail" element={<ProductDetail />} />
-                <Route path="/cartPage" element={<Cart />} />
+
             </Routes>
         </>
     )
