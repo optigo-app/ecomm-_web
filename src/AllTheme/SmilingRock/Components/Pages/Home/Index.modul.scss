@@ -1,7 +1,6 @@
 
 @import '../../scss/variable';
 
-
 $generalColor : lightgray;
 
 .main{
@@ -12,3 +11,11 @@ $generalColor : lightgray;
     background-color: $generalColor;
 }
 
+.smiling_home_index_main{
+    background-color: $backgroundColor;
+    padding-inline: 6%;
+}
+
+.smiling_home_index_Submain{
+    background-color: white;
+}
