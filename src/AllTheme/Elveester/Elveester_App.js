@@ -1,9 +1,17 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Home from './Components/Pages/Home/Index'
+import CartDetails from './Components/Pages/Cart/Cart'
 
-const Elveester_App = () => {
-  return (
-    <div>Elveester_App</div>
-  )
+const SmilingRock_App = () => {
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/cartPage" element={<CartDetails />} />
+            </Routes>
+        </div>
+    )
 }
 
-export default Elveester_App
+export default SmilingRock_App
