@@ -1,0 +1,31 @@
+@import '../../../scss/variable';
+
+.smr_bodyContain{
+    background-color: $primaryBackgroundColor;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom: 0;
+    right: 0;
+}
+
+.smr_outerContain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 110px;
+}
+
+.smr_whiteInnerContain {
+    background-color: #fff;
+    margin-inline: 6%;
+    width: 100%;
+}
+
+@media screen and (max-width:1441px){
+    .smr_whiteInnerContain {
+        margin-inline: 2%;
+    }
+}
