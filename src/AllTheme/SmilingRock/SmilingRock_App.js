@@ -8,7 +8,7 @@ import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetai
 
 const SmilingRock_App = () => {
     return (
-        <div>
+        <>
             <div>
                 <Header />
             </div>
