@@ -1,0 +1,113 @@
+@import '../../../scss/variable';
+
+
+.smiling_Top_header{
+    height: 110px;
+    background-color: $backgroundColor;
+}
+
+.smiling_Top_header_sub{
+    padding-inline: 6%;
+    display: flex;
+    height: 100%;
+}
+
+.smiling_Top_header_div1{
+    width: 33.33%;
+    display: flex;
+    align-items: center;
+}
+
+.smiling_Top_header_div2{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.smiling_Top_header_div3{
+    width: 33.33%;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+.nav_ul_shop{
+    list-style: none;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+    gap: 20px;
+}
+.nav_li_smining{
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+}
+
+.nav_li_smining::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0%;
+    height: 1px;
+    background-color: white;
+    transition: width 0.3s ease-out;
+}
+
+.nav_li_smining:hover::before {
+    width: 100%;
+    left: 0;
+    right: auto;
+    transition: width 0.3s ease-out;
+}
+
+.nav_li_smining_Fixed{
+    color: #7d7f85;
+    font-size: 13px;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+}
+.nav_li_smining_Fixed::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0%;
+    height: 1px;
+    background-color: #7d7f85;
+    transition: width 0.3s ease-out;
+}
+
+.nav_li_smining_Fixed:hover::before {
+    width: 100%;
+    left: 0;
+    right: auto;
+    transition: width 0.3s ease-out;
+}
+
+
+
+.Smining-Top-Header-fixed-main {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    transform: translateY(-200px);
+    height: 60px;
+}
+
+.Smining-Top-Header-fixed-main.fixed {
+    position: fixed;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+    z-index: 1000;
+    transform: translateY(0px);
+    transition: all 0.4s ease;
+    height: 60px;
+}
