@@ -8,19 +8,15 @@ export default function ThemeRoutes() {
 
 
   return (
-    <div>
-      <div>
-        {false && <SmilingRock_App />}
-      </div>
-      <div>
+
+    <>
+        {true && <SmilingRock_App />}
+      
         {false && <DaimondTine_App />}
-      </div>
-      <div>
-        {true && <Elveester_App />}
-      </div>
-      <div>
+      
+        {false && <Elveester_App />}
+     
         {false && <MobileApp_App />}
-      </div>
-    </div>
+    </>
   )
 }
