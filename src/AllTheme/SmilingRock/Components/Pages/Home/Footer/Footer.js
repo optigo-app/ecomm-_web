@@ -7,8 +7,7 @@ const Footer = () => {
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [companyInfoData, setCompanuInfoData] = useState();
   const navigation = useNavigate();
-
-  console.log('companyInfoDatacompanyInfoData',companyInfoData);
+  
   useEffect(() => {
     let storeInit;
     let companyInfoData;

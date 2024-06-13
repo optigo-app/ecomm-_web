@@ -7,6 +7,10 @@ const useCart = () => {
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [productRemark, setProductRemark] = useState('');
+  const [showRemark, setShowRemark] = useState(false);
+
+
 
   useEffect(() => {
     console.log('dsadsdsadas', Data);
@@ -18,7 +22,7 @@ const useCart = () => {
 
   const handleSelectItem = (item) => {
     if (multiSelect) {
-      setSelectedItems(prevItems => 
+      setSelectedItems(prevItems =>
         prevItems.includes(item) ? prevItems.filter(i => i !== item) : [...prevItems, item]
       );
     } else {
@@ -27,6 +31,8 @@ const useCart = () => {
   };
 
   const handleQuantityChange = (quantity) => {
+    // Ensure quantity is always positive
+    quantity = Math.max(quantity, 1);
     console.log(`Selected quantity: ${quantity}`);
   };
 
@@ -46,17 +52,40 @@ const useCart = () => {
     setOpenModal(false);
   };
 
+  const handleAddReamrk = () => {
+    setShowRemark(true);
+  }
+
+  const handleRemarkChange = (event) => {
+    setProductRemark(event.target.value);
+  };
+
+  const handleSave = () => {
+    setShowRemark(false);
+    console.log('Product remark saved:', productRemark);
+  };
+
+  const handleCancel = () => {
+    setShowRemark(false);
+    console.log('Cancelled');
+  };
+
   return {
     cartData,
     selectedItem,
     selectedItems,
     multiSelect,
     openModal,
+    showRemark,
     handleSelectItem,
     handleQuantityChange,
     handleMultiSelectToggle,
     handleOpenModal,
-    handleCloseModal
+    handleCloseModal,
+    handleRemarkChange,
+    handleSave,
+    handleCancel,
+    handleAddReamrk
   };
 };
 

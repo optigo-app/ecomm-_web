@@ -1,5 +1,5 @@
 import React from 'react';
-import './cart.module.scss'
+import './smr_cartPage.scss';
 
 const QuantitySelector = ({ onQuantityChange }) => {
   return (

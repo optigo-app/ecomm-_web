@@ -1,3 +1,7 @@
+
+@import '../../../scss/variable';
+
+
 .smilingBridesMain {
     display: flex;
     margin-inline: 90px;
@@ -36,6 +40,13 @@
     width: 100%;
     margin-top: 5px;
     object-fit: cover;
+}
+
+.smilingBridesMainTitle{
+    text-align: center;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize5;
 }
 
 @media screen and (max-width: 1024px) {
