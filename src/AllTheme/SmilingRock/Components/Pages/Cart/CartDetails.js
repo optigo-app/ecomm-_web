@@ -1,33 +1,18 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import './smr_cartPage.scss';
+import Customization from './Customization';
 
-const CartDetails = ({ selectedItem, onQuantityChange, multiSelect }) => {
+const CartDetails = ({ selectedItem, onQuantityChange, multiSelect,handleAddReamrk, showRemark, handleRemarkChange, handleSave, handleCancel }) => {
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h5" component="h2">
-        {selectedItem.TitleLine}
-      </Typography>
-      <Typography variant="body1">
-        Price: ${selectedItem.ProductPrice}
-      </Typography>
-      <Typography variant="body1">
-        Quantity: {selectedItem.TotalQuantity}
-      </Typography>
-      {!multiSelect && (
-        <div>
-          <label htmlFor="quantity">Quantity: </label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            defaultValue={selectedItem.TotalQuantity}
-            onChange={(e) => onQuantityChange(e.target.value)}
-          />
-        </div>
-      )}
-    </Box>
+    <div className="smr_cart-container">
+      <div className="smr_Cart-imageDiv">
+        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
+        <img src="https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Medium/0003883_08052024153602887.png" alt="Cluster Diamond" className='smr_cartImage' />
+      </div>
+      <Customization selectedItem={selectedItem} onQuantityChange={onQuantityChange} showRemark={showRemark} handleAddReamrk={handleAddReamrk} handleRemarkChange={handleRemarkChange} handleSave={handleSave} handleCancel={handleCancel}/>
+    </div>
   );
 };
 
 export default CartDetails;
+
