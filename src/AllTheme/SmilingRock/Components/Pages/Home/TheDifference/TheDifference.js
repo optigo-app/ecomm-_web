@@ -3,6 +3,7 @@ import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const TheDifference = () => {
+    
     return (
         <div style={{ paddingBlock: '5%' }} className='smilingPAgeMain'>
             <p className='smilingTitle'>The Kayra's Difference</p>
