@@ -1,3 +1,7 @@
+@import '../../../scss/variable';
+
+
+
 .smilingRock {
     justify-content: center;
     margin-inline: 20%;
@@ -17,27 +21,29 @@
 
 .smilingTitle {
     text-align: center;
-    font-size: 25px;
+    font-size: $fontSize5;
     margin-bottom: 50px;
-    color: #7d7f85;
-    font-family: "Poppins", sans-serif;
+    font-family: $homePageFontFamily;
+    color: $homePageFontColor;
 }
 
 .smilingBoxName {
-    font-size: '';
-    color: #7d7f85;
-
+    font-size: $fontSize2;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
 }
-.smilingRockBoxSub2{
+
+.smilingRockBoxSub2 {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .learnMore {
     margin-top: auto;
-    color: #7d7f85;
-    font-size: 11px;
-    font-family: "Poppins", sans-serif;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize1;
     letter-spacing: 1.5px;
     width: fit-content;
 }
@@ -52,7 +58,7 @@
 .learnMore {
     position: relative;
     text-decoration: none;
-    color: #000;
+    color: $homePageFontColor;
 }
 
 .learnMore::before {
@@ -63,7 +69,7 @@
     /* Initially positioned outside */
     width: 0%;
     height: 1px;
-    background-color: black;
+    background-color: $homePageFontColor;
     transition: width 0.3s ease-out, left 0.3s ease-out;
     /* Added 'left' property for transition */
 }
@@ -109,8 +115,8 @@
         align-items: center;
     }
 
-    .smilingPAgeMain{
-        padding-block: 0px!important;
+    .smilingPAgeMain {
+        padding-block: 0px !important;
     }
 
     .smilingRockBox {
@@ -124,7 +130,7 @@
     }
 
     .smilingTitle {
-        font-size: 18px!important;
+        font-size: 18px !important;
     }
 
     .smilingRockBoxSub2 {
@@ -139,8 +145,8 @@
 
     .learnMore {
         text-align: left;
-        color: #7d7f85;
-        font-weight: 800!important;
+        color: $homePageFontColor;
+        font-weight: 800 !important;
         font-size: 10px;
     }
 }

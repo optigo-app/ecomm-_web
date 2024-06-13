@@ -1,3 +1,6 @@
+
+@import '../../../scss/variable';
+
 .sustaionMain {
     display: flex;
     justify-content: center;
@@ -24,6 +27,16 @@
     object-fit: cover;
 }
 .sustaionMainTitle{
+    margin: 0px;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize5;
+}
+
+.sustaionMainTitleDesc{
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize2;
     margin: 0px;
 }
 

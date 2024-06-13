@@ -7,12 +7,7 @@ const PromotionBanner2 = () => {
         <div className='paddingTopMobileSet'>
             <div className='smilingBridesMain'>
                 <div className='smilingBrides'>
-                    <p style={{
-                        color: "rgb(125, 127, 133)",
-                        fontSize: '25px',
-                        textAlign: 'center',
-                        fontFamily: 'FreightDispProMedium-Regular,Times New Roman,serif'
-                    }} className='smilingBridesMainTitle'>ELEGANT BRIDES </p>
+                    <p  className='smilingBridesMainTitle'>ELEGANT BRIDES </p>
                     <button className='enagementBtn'>ENGAGEMENT COLLECTION</button>
                 </div>
                 <div className='smlingBridesImages'>

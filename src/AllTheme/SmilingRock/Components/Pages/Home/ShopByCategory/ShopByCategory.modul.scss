@@ -1,11 +1,25 @@
+@import '../../../scss/variable';
+
+
+
 .shopbycategoryTitle {
-    font-family: "Poppins", sans-serif;
-    font-size: 40px;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize5;
     text-align: center;
-    color: rgb(125, 127, 133);
     margin: 0px;
 }
-
+.shopbycategoryDescp{
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize1;
+}
+.smr_shopByCateTitle{
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize2;
+    margin: 0px;
+}
 .shopbycategoryDesc {
     display: flex;
     justify-content: center;
@@ -31,7 +45,7 @@
 @media screen and (max-width: 1000px) {
     .shopbycategoryTitle {
         font-size: 20px !important;
-        margin: 5px 0px 0px 0px!important;
+        margin: 5px 0px 0px 0px !important;
     }
 }
 
