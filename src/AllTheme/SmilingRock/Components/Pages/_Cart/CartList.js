@@ -4,7 +4,8 @@ import CartItem from './CartItem';
 
 const CartList = ({ items, onSelect, selectedItems, multiSelect }) => {
   return (
-    <div className="smr_RightCartList">
+    <div className="cart-list">
+      <h2>Cart List</h2>
       <Grid container spacing={2}>
         {items.map(item => (
           <CartItem 

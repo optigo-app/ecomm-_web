@@ -21,29 +21,43 @@ const CartPage = () => {
   } = useCart();
 
   return (
-    <div className="Elvee_cartMainPage">
-      <div className="left-side">
-        {selectedItem && (
-          <CartDetails selectedItem={selectedItem} onQuantityChange={handleQuantityChange} multiSelect={multiSelect} />
-        )}
-      </div>
-      <div className="right-side">
-        <Button variant="contained" onClick={handleMultiSelectToggle}>
-          {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
-        </Button>
-        {multiSelect && (
-          <Button variant="contained" onClick={handleOpenModal} style={{ marginLeft: '10px' }}>
-            Show Selected Items
-          </Button>
-        )}
-        <CartList items={cartData} onSelect={handleSelectItem} selectedItems={selectedItems} multiSelect={multiSelect} />
-      </div>
+    <div>
+      <div className="cartBtnGroupMainDiv">
+        <div className="smr_cart-title">My Cart</div>
+        <div className="smr_cartButton-group">
+          <button className="smr_cartBtn smr_cartActivebtn">List View</button>
+          <button className='smr_cartBtn'>Image View</button>
+          <button className='smr_cartBtn'>CLEAR ALL</button>
+          <button className='smr_cartBtn'>Show ProductList</button>
 
-      <SelectedItemsModal 
-        open={openModal} 
-        onClose={handleCloseModal} 
-        selectedItems={selectedItems} 
-      />
+          <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+          {multiSelect && selectedItems.length != 0 &&
+            <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+          }
+          <div className='smr_placeOrderMainbtnDiv'>
+            <button className="smr_place-order-btnMobile">Place Order</button>
+          </div>
+        </div>
+        <div className='smr_placeOrderMainbtnDiv'>
+          <button className="smr_place-order-btn">Place Order</button>
+        </div>
+      </div>
+      <div className="smr_cartMainPage">
+        <div className="smr_cart-left-side">
+          {selectedItem && (
+            <CartDetails selectedItem={selectedItem} onQuantityChange={handleQuantityChange} multiSelect={multiSelect} />
+          )}
+        </div>
+        <div className="smr_cart-right-side">
+          <CartList items={cartData} onSelect={handleSelectItem} selectedItems={selectedItems} multiSelect={multiSelect} />
+        </div>
+
+        <SelectedItemsModal
+          open={openModal}
+          onClose={handleCloseModal}
+          selectedItems={selectedItems}
+        />
+      </div>
     </div>
   );
 };

@@ -10,13 +10,13 @@ export default function ThemeRoutes() {
   return (
     <div>
       <div>
-        {false && <SmilingRock_App />}
+        {true && <SmilingRock_App />}
       </div>
       <div>
         {false && <DaimondTine_App />}
       </div>
       <div>
-        {true && <Elveester_App />}
+        {false && <Elveester_App />}
       </div>
       <div>
         {false && <MobileApp_App />}
