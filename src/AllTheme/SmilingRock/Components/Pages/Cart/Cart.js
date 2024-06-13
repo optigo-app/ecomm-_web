@@ -1,67 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import CartDetails from './/CartDetails';
+import React from 'react';
+import useCart from '../../../../../utils/Glob_Functions/Cart';
+import CartDetails from './CartDetails';
 import CartList from './CartList';
-import fetchCartData from './data.json';
-import { Button, Grid } from '@mui/material';
+import SelectedItemsModal from './SelectedModal';
+import Button from '@mui/material/Button';
+import './smr_cartPage.scss';
 
-const Cart = () => {
-  const [cartData, setCartData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
-  console.log(fetchCartData);
-
-  useEffect(() => {
-    setCartData(fetchCartData?.Data?.rd);
-    setSelectedItem(fetchCartData?.Data?.rd[0])
-  }, []);
-
-  const handleSelectItem = (item) => {
-    setSelectedItem(item);
-  };
-
-  const handleQuantityChange = (quantity) => {
-    console.log(`Selected quantity: ${quantity}`);
-  };
+const CartPage = () => {
+  const {
+    cartData,
+    selectedItem,
+    selectedItems,
+    multiSelect,
+    openModal,
+    showRemark,
+    handleSelectItem,
+    handleQuantityChange,
+    handleMultiSelectToggle,
+    handleOpenModal,
+    handleCloseModal,
+    handleRemarkChange,
+    handleSave,
+    handleCancel,
+    handleAddReamrk        
+  } = useCart();
 
   return (
-    <div className='main'>
-      <h1 style={{ textAlign: 'center' }}>My Cart</h1>
-      <div>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item>
-            <button className='smiTopAddAllBtn' variant="contained" color="primary">List View</button>
-          </Grid>
-          <Grid item>
-            <button className='smiTopAddAllBtn' variant="contained" color="primary">Image View</button>
-          </Grid>
-          <Grid item>
-            <button className='smiTopAddAllBtn' variant="contained" color="primary">Clear All</button>
-          </Grid>
-          <Grid item>
-            <button className='smiTopAddAllBtn' variant="contained" color="primary">Show ProductList</button>
-          </Grid>
-        </Grid>
-        <div
-          className="smilingCartPagePlaceOrderBtnMainWeb"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            margin: "-50px 25px 0px 20px",
-            paddingBottom: 50
-          }}
-        >
-          <button className="placeOrderCartPageBtn">Place Order</button>
+    <div className='smr_MainBGDiv'>
+    <div className='cartMainPageDiv'>
+      <div className="cartBtnGroupMainDiv">
+        <div className="smr_cart-title">My Cart</div>
+        <div className="smr_cartButton-group">
+          <button className="smr_cartBtn smr_cartActivebtn">List View</button>
+          <button className='smr_cartBtn'>Image View</button>
+          <button className='smr_cartBtn'>CLEAR ALL</button>
+          <button className='smr_cartBtn'>Show ProductList</button>
+
+          <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+          {multiSelect && selectedItems.length != 0 &&
+            <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+          }
+          <div className='smr_placeOrderMobileMainbtnDiv'>
+            <button className="smr_place-order-btnMobile">Place Order</button>
+          </div>
+        </div>
+        <div className='smr_placeOrderMainbtnDiv'>
+          <button className="smr_place-order-btn">Place Order</button>
         </div>
       </div>
-      <div className="app">
-        <div className="left-side">
-          <CartDetails selectedItem={selectedItem} onQuantityChange={handleQuantityChange} />
+      <div className="smr_cartMainPage">
+        <div className="smr_cart-left-side">
+          {selectedItem && (
+            <CartDetails selectedItem={selectedItem} onQuantityChange={handleQuantityChange} multiSelect={multiSelect} showRemark={showRemark} handleAddReamrk={handleAddReamrk} handleRemarkChange={handleRemarkChange} handleSave={handleSave} handleCancel={handleCancel}  />
+          )}
         </div>
-        <div className="right-side">
-          <CartList items={cartData} onSelect={handleSelectItem} />
+        <div className="smr_cart-right-side">
+          <CartList items={cartData} onSelect={handleSelectItem} selectedItems={selectedItems} multiSelect={multiSelect} />
         </div>
+
+        <SelectedItemsModal
+          open={openModal}
+          onClose={handleCloseModal}
+          selectedItems={selectedItems}
+        />
       </div>
+    </div>
     </div>
   );
 };
 
-export default Cart;
+export default CartPage;

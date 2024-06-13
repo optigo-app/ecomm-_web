@@ -9,6 +9,8 @@ import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmai
 import { useRecoilState } from 'recoil'
 import { companyLogo } from './Components/Recoil/atom'
 import { Storeinit } from '../../utils/API/Storeinit/Storeinit'
+import ProductList from './Components/Pages/Product/ProductList/ProductList'
+import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
 
 const SmilingRock_App = () => {
 
@@ -22,7 +24,7 @@ const SmilingRock_App = () => {
     }, [])
 
     return (
-        <div>
+        <>
             <div>
                 <Header />
             </div>
@@ -31,9 +33,12 @@ const SmilingRock_App = () => {
                 <Route path="/LoginOption" element={<div className="authFlowBakcColor"><LoginOption /></div>} />
                 <Route path="/ContinueWithEmail" element={<div className="authFlowBakcColor"><ContinueWithEmail /></div>} />
                 <Route path="/LoginWithEmail" element={<div className="authFlowBakcColor"><LoginWithEmail /></div>} />
-                <Route path="/cartPage" element={<Cart />} />
+                <Route path="/cartPage" element={<CartDetails />} />
+                <Route path="/productlist" element={<ProductList />} />
+                <Route path="/productdetail" element={<ProductDetail />} />
+
             </Routes>
-        </div>
+        </>
     )
 }
 

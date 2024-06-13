@@ -1,5 +1,5 @@
 import React from 'react';
-import './smr_cartPage.scss';
+import "./cartPage.scss"
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
