@@ -13,17 +13,10 @@ import PromoSetSection from './PromosetSection/PromoSetSection';
 import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
+import { GetMenuAPI } from '../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 
 function Home() {
 
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
-
-
-  useEffect(() => {
-    Storeinit('astore').then((res) => {
-      setCompanyTitleLogo(res?.data?.Data?.rd[0]?.companylogo)
-    }).catch((err) => console.log(err))
-  }, [])
 
   return (
     <div className='smiling_home_index_main'>

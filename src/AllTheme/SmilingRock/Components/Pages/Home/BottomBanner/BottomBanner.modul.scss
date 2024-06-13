@@ -1,3 +1,6 @@
+
+@import '../../../scss/variable';
+
 .shopifyMain {
     display: flex;
     margin-inline: 90px;
@@ -20,15 +23,19 @@
 }
 
 .shopifyTitle {
-    color: #7d7f85;
-    font-size: 30px;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize5;
     text-align: center;
-    font-family: "Poppins", sans-serif;
+    margin: 0px;
 }
 .shopifyDescription{
     width: 70%;
-    font-size: 13px;
     text-align: center;
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    font-size: $fontSize2;
+    margin: 5px;
 }
 
 
