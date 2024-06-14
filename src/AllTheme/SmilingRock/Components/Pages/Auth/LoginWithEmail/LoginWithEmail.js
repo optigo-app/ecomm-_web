@@ -14,6 +14,7 @@ import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { loginState } from '../../../Recoil/atom';
+import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -123,10 +124,8 @@ export default function LoginWithEmail() {
 
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
-
-
         setIsLoading(true);
-        LoginWithEmailAPI(email, hashedPassword).then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('registerEmail', email)
@@ -199,29 +198,36 @@ export default function LoginWithEmail() {
 
     const handleForgotPassword = async () => {
         // try {
-        //     setIsLoading(true);
-        //     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        //     const { FrontEnd_RegNo, domain } = storeInit;
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        // const { FrontEnd_RegNo, domain } = storeInit;
 
-        //     // let Domian = `https://${domain}`
-        //     let Domian = `https://${storeInit?.domain}`
+        // // let Domian = `https://${domain}`
+        let Domian = `https://${storeInit?.domain}`
 
-        //     const combinedValue = JSON.stringify({
-        //         domain: `${Domian}`, userid: `${email}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-        //     });
+        // const combinedValue = JSON.stringify({
+        //     domain: `${Domian}`, userid: `${email}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
+        // });
 
-        //     const encodedCombinedValue = btoa(combinedValue);
-        //     const body = {
-        //         "con": "{\"id\":\"\",\"mode\":\"FORGOTPASSWORDEMAIL\",\"appuserid\":\"\"}",
-        //         "f": "m-test2.orail.co.in (getdesignnolist)",
-        //         p: encodedCombinedValue
-        //     };
-        //     const response = await CommonAPI(body);
-        //     if (response.Data.rd[0].stat === 1) {
-        //         toast.success('Reset Link Send On Your Email');
-        //     } else {
-        //         alert('Error')
-        //     }
+        // const encodedCombinedValue = btoa(combinedValue);
+        // const body = {
+        //     "con": "{\"id\":\"\",\"mode\":\"FORGOTPASSWORDEMAIL\",\"appuserid\":\"\"}",
+        //     "f": "m-test2.orail.co.in (getdesignnolist)",
+        //     p: encodedCombinedValue
+        // };
+        // const response = await CommonAPI(body);
+
+        setIsLoading(true);
+        ForgotPasswordEmailAPI(Domian, email).then((response) => {
+            setIsLoading(false);
+            if (response.Data.rd[0].stat === 1) {
+                toast.success('Reset Link Send On Your Email');
+            } else {
+                alert('Error')
+            }
+        }).catch((err) => console.log(err))
+
+
+
         // } catch (error) {
         //     console.error('Error:', error);
         // } finally {

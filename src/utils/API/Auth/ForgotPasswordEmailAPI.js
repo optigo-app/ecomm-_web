@@ -1,0 +1,28 @@
+import { CommonAPI } from "../CommonAPI/CommonAPI";
+
+
+export const ForgotPasswordEmailAPI = async (Domian, email) => {
+
+    let response
+
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const { FrontEnd_RegNo } = storeInit;
+
+    try {
+
+        const combinedValue = JSON.stringify({
+            domain: `${Domian}`, userid: `${email}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
+        });
+
+        const encodedCombinedValue = btoa(combinedValue);
+        const body = {
+            "con": "{\"id\":\"\",\"mode\":\"FORGOTPASSWORDEMAIL\",\"appuserid\":\"\"}",
+            "f": "m-test2.orail.co.in (getdesignnolist)",
+            p: encodedCombinedValue
+        };
+        response = await CommonAPI(body);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    return response;
+}
