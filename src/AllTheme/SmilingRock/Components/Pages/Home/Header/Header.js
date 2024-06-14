@@ -277,7 +277,7 @@ const Header = () => {
                       display: "flex",
                       alignItems: "center",
                       fontWeight: 500,
-                      cursor:'pointer'
+                      cursor: 'pointer'
                     }}
                   >
                     SHOP
@@ -323,55 +323,55 @@ const Header = () => {
                   </li>
                 )}
 
-                
-              {islogin &&
-                <>
-                  <Badge
-                    // badgeContent={getWishListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                  >
-                    <Tooltip title="WishList">
-                      <li
-                        className="nav_li_smining_Fixed_Icone"
-                        onClick={() => navigation("/myWishList")}>
-                        <PiStarThin
-                          style={{
-                            height: "20px",
-                            cursor: "pointer",
-                            width: "20px",
-                          }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                  <li
-                    className="nav_li_smining_Fixed_Icone"
-                    onClick={toggleOverlay} style={{}}>
-                    <IoSearchOutline
-                      style={{ height: "20px", cursor: "pointer", width: "20px" }}
-                    />
-                  </li>
-                  <Badge
-                    // badgeContent={getCartListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                  >
-                    <Tooltip title="Cart">
-                      <li
-                        // onClick={toggleCartDrawer(true)}
-                        className="nav_li_smining_Fixed_Icone"
-                      >
-                        <ShoppingCartOutlinedIcon
-                          sx={{ height: '30px', width: '30px' }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                </>
-              }
+
+                {islogin &&
+                  <>
+                    <Badge
+                      // badgeContent={getWishListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                    >
+                      <Tooltip title="WishList">
+                        <li
+                          className="nav_li_smining_Fixed_Icone"
+                          onClick={() => navigation("/myWishList")}>
+                          <PiStarThin
+                            style={{
+                              height: "20px",
+                              cursor: "pointer",
+                              width: "20px",
+                            }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                    <li
+                      className="nav_li_smining_Fixed_Icone"
+                      onClick={toggleOverlay} style={{}}>
+                      <IoSearchOutline
+                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                      />
+                    </li>
+                    <Badge
+                      // badgeContent={getCartListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                    >
+                      <Tooltip title="Cart">
+                        <li
+                          // onClick={toggleCartDrawer(true)}
+                          className="nav_li_smining_Fixed_Icone"
+                        >
+                          <ShoppingCartOutlinedIcon
+                            sx={{ height: '30px', width: '30px' }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                  </>
+                }
 
               </ul>
             </div>
@@ -381,8 +381,8 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
-            }`}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""}`}
+          style={{backgroundColor: isHeaderFixed && 'transparent'}}
         >
           <div
             style={{
@@ -392,22 +392,21 @@ const Header = () => {
               backgroundColor: "white",
               // flexDirection: "column",
               gap: "50px",
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              marginTop: isHeaderFixed && '20px'
             }}
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid}>
+                <div key={menuItem.menuid} style={{width: '200px'}}>
                   <ButtonBase
                     component="div"
-                    // onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
-                    className="muilistMenutext"
-                    style={{ width: '100%' }}
+                  // onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                   >
-                    <ListItem style={{ padding: '0px 5px 0px 5px', borderBottom: '1px solid lightgray' }}>
-                      <ListItemText primary={menuItem.menuname} className="muilistMenutext" />
+                    <ListItem style={{ padding: '0px 5px 0px 5px'}}>
+                      <p className="muilistMenutext">{menuItem.menuname}</p>
                     </ListItem>
                   </ButtonBase>
                   {/* {selectedMenu === menuItem.menuname && ( */}
@@ -415,22 +414,20 @@ const Header = () => {
                     <ButtonBase
                       component="div"
                       // onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
-                      style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                      style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button class="underline-button">view all</button>
+                        <button class="smr_underline_button">view all</button>
                       </div>
                     </ButtonBase>
                     <List>
                       {menuItem.param1.map(subMenuItem => (
                         <div key={subMenuItem.param1dataid}>
-                          <ButtonBase
-                            component="div"
+                          <div
                             // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
-                            style={{ width: '100%' }}
                           >
-                            <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
-                          </ButtonBase>
+                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px' , fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                          </div>
                           {/* {selectedMenu === menuItem.menuname && ( */}
                           <>
                             {/* <div style={{ paddingLeft: '10px' }}>
@@ -438,15 +435,15 @@ const Header = () => {
                                   </div> */}
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
                               {subMenuItem.param2.map(subSubMenuItem => (
-                                <ButtonBase
+                                <div
                                   component="div"
-                                  // onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
-                                  style={{ width: '100%' }}
+                                  style={{ display: 'flex', flexDirection: 'column' }}
+                                // onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
                                 >
                                   <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
-                                    <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
+                                    <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
                                   </ListItem>
-                                </ButtonBase>
+                                </div>
                               ))}
                             </List>
                           </>

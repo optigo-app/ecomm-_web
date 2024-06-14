@@ -43,6 +43,7 @@
 
 .nav_li_smining:hover {
     height: 150px;
+    width: 110px;
     display: flex;
     align-items: center;
 }
@@ -168,4 +169,33 @@
     transform: translateY(0px);
     transition: all 0.4s ease;
     height: 60px;
+}
+
+.muilistMenutext{
+    font-size: 15px!important;
+    font-weight: 600;
+    margin: 5px;
+}
+
+.smr_menuSubTitle{
+    font-size: 13px;
+}
+
+.muilist2ndSubMenutext{
+    font-size: 12px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.muilist2ndSubMenutext:hover{
+    color: black;
+    
+}
+
+.smr_underline_button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-bottom: 1px solid lightgray;
 }
