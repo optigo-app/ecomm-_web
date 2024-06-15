@@ -1,11 +1,16 @@
-$primaryColor : red;
-
+//backgroundcolors
 $backgroundColor: #c0bbb1;
+
+//fontcolors
+$primaryfontcolor:#7d7f85;
+$homePageFontColor: #7d7f85;
+
+//fontFamily
 $homePageFontFamily: 'FreightDispProMedium-Regular,Times New Roman,serif';
 // $homePageFontFamily: 'TTCommons-Medium';
 $homePageFontColor: #7d7f85;
 
-
+//fontSize
 $fontSize1: 12px;
 $fontSize2: 14px;
 $fontSize3: 16px;
@@ -23,3 +28,8 @@ $btn1FontColor:#7d7f85;
 $btn1hoverColor:#7d7f85;
 $btn1hoverFontColor:#fff;
 
+
+
+//borderColor
+
+$primaryBorderColor: #e1e1e1

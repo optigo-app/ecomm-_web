@@ -1,7 +1,10 @@
 
 import axios from "axios";
-const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
+// const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
+const APIURL = 'http://zen/api/ReactStore.aspx'
+
 // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
+// const NEWAPIURL = 'https://api.optigoapps.com/storev26/ReactStore.aspx';
 // const ZENURL = 'http://zen/api/store.aspx'
 
 
@@ -13,8 +16,8 @@ export const CommonAPI = async (body) => {
         const header = {
             Authorization: `Bearer ${token}`,
             Yearcode: YearCode,
-            Version: version, 
-            sp:"1"
+            Version: version,
+            sp: "1"
         };
         const response = await axios.post(APIURL, body, { headers: header });
         return response?.data;

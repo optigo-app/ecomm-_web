@@ -56,7 +56,7 @@ export default function ContinueWithEmail() {
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
                 navigation('/LoginWithEmail', { state: { email: trimmedEmail } });
                 if (trimmedEmail) {
-                    localStorage.setItem("userEmailForPdList", trimmedEmail);
+                    localStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
                 navigation('/register', { state: { email: trimmedEmail } });

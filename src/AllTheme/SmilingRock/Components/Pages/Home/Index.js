@@ -13,10 +13,8 @@ import PromoSetSection from './PromosetSection/PromoSetSection';
 import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
-import { GetMenuAPI } from '../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 
 function Home() {
-
 
   return (
     <div className='smiling_home_index_main'>
@@ -31,18 +29,6 @@ function Home() {
         <SustainAbility />
         <BottomBanner />
         <Footer />
-        {/* <div className="main">
-        <h1>SmilingRock</h1>
-      </div>
-
-      <div className='Submain'>
-        <h1>Sub Main</h1>
-      </div>
-
-      <div className='Submain'>
-        <h1>Sub Main 2</h1>
-      </div> */}
-
       </div>
       <div>
         <p style={{
@@ -54,7 +40,10 @@ function Home() {
           fontSize: '13px',
           fontWeight: 500,
           letterSpacing: '1px'
-        }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+        }} onClick={() => window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })}>BACK TO TOP</p>
       </div>
     </div>
   )
