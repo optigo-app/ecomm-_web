@@ -12,10 +12,11 @@ export const GetMenuAPI = async () => {
         let pEnc = btoa(pData)
 
         const body = {
-            con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"nimesh@ymail.in\"}",
-            // con: `{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"${email}\"}`,
+            // con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"nimesh@ymail.in\"}",
+            con: `{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"${email}\"}`,
             f: "onload (GETMENU)",
-            p: pEnc
+            // p: pEnc
+            dp:`{\"FrontEnd_RegNo\":\"${storeInit?.FrontEnd_RegNo}\",\"Customerid\":\"${userData?.id ?? 0}\"}`
         }
 
         response = await CommonAPI(body);

@@ -401,7 +401,7 @@ const Header = () => {
           </div>
           <div className='smiling_Top_header_div2'>
             <a href="/">
-              <img src={compnyLogo} loading='lazy' />
+              <img src={compnyLogo} loading='lazy' className='smr_logo_header'/>
             </a>
           </div>
           <div className='smiling_Top_header_div3'>
@@ -527,7 +527,7 @@ const Header = () => {
             </div>
             <div className='smiling_Top_header_div2'>
               <a href="/">
-                <img src={compnyLogo} loading='lazy' />
+                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed'/>
               </a>
             </div>
             <div className='smiling_Top_header_div3'>
@@ -649,7 +649,7 @@ const Header = () => {
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button className="underline-button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
+                        <button className="smr_underline_button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
                       </div>
                     </ButtonBase>
                     <List>
@@ -669,6 +669,7 @@ const Header = () => {
                                   component="div"
                                   style={{ width: '100%' }}
                                   onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
+                                  
                                 >
                                   <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
