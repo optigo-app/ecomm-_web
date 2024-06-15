@@ -1,5 +1,10 @@
+@import '../../scss/variable.scss';
+
+$cartUpdateBtncolor:#b1b1b1;
+
 .smr_MainBGDiv {
-  background-color: #c0bbb1;
+  background-color: $backgroundColor;
+  font-family: $homePageFontFamily;
 }
 
 .cartMainPageDiv {
@@ -11,6 +16,7 @@
 .smr_cartMainPage {
   display: flex;
   gap: 30px;
+  margin-bottom: -8%;
 }
 
 .cartBtnGroupMainDiv {
@@ -18,21 +24,23 @@
   padding-top: 40px;
 
   .smr_cart-title {
-    color: #555;
-    padding-bottom: 20px;
+    color: $titleColor;
+    padding-bottom: 35px;
+    font-size: $fontSize8;
+    // font-family: $homePageFontColor;
   }
 
-  .smr_smiTopAddAllBtn {
-    height: 60px;
-    width: 150px;
-    color: #7d7f85;
-    background-color: white;
-    border: 1px solid #7d7f85;
-    font-size: 13px;
-    font-weight: 500;
-    // margin: 10px;
-    justify-content: center;
-  }
+  // .smr_smiTopAddAllBtn {
+  //   height: 60px;
+  //   width: 150px;
+  //   color: $btn1FontColor;
+  //   background-color: $btn1bgColor;
+  //   border: 1px solid $btn1bgColor;
+  //   font-size: $fontSize4;
+  //   font-weight: 500;
+  //   // margin: 10px;
+  //   justify-content: center;
+  // }
 
   .smr_cartButton-group {
     display: flex;
@@ -43,20 +51,21 @@
     .smr_cartBtn {
       height: 60px;
       width: 150px;
-      color: #7d7f85;
-      background-color: white;
-      border: 1px solid #7d7f85;
+      font-size: $fontSize2;
+      color: $btn1FontColor;
+      background-color: $btn1bgColor;
+      border: 1px solid $btn1FontColor;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 
       &.smr_cartActivebtn {
-        background-color: #7d7f85;
-        color: #fff;
+        background-color: $btn1ActivebgColor;
+        color: $btn1hoverFontColor;
       }
 
       &:hover {
-        color: #fff;
-        background-color: #7d7f85;
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
       }
     }
   }
@@ -69,8 +78,9 @@
   }
 
   .smr_place-order-btn {
-    background-color: #888;
-    color: white;
+    background-color: $btn1hoverColor;
+    color: $btn1hoverFontColor;
+    font-size: $fontSize2;
     border: none;
     outline: none;
     height: 45px;
@@ -88,8 +98,9 @@
 }
 
 .smr_place-order-btnMobile {
-  background-color: #888;
-  color: white;
+  background-color: $btn1hoverColor;
+  color: $btn1hoverFontColor;
+  font-size: $fontSize2;
   border: none;
   outline: none;
   height: 45px;
@@ -157,6 +168,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 450px;
 
   .smr_cartImage {
     max-width: 100%;
@@ -170,12 +182,12 @@
 .smr_Cart_R-details {
   padding: 0 20px;
   flex: 1;
-  max-width: 600px;
+  // max-width: 600px;
 
   .smr_cart-Titleline {
-    font-size: 2em;
+    font-size: $fontSize7;
     margin-bottom: 20px;
-    color: #333;
+    color: $titleColor;
   }
 
   .smr_Cart-options {
@@ -192,6 +204,8 @@
 
       label {
         font-weight: bold;
+        font-size: $fontSize2;
+        color: $titleColor;
         margin-bottom: 5px;
       }
 
@@ -199,6 +213,7 @@
         padding: 10px;
         border-radius: 5px;
         border: 1px solid #ccc;
+        color: $titleColor;
       }
     }
   }
@@ -208,28 +223,60 @@
     justify-content: space-between;
   }
 
+  // cart quantity scss
+  
   .smr_cart-quantity {
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-
-    label {
-      font-weight: bold;
-      margin-right: 10px;
+    width: 130px;
+    height:  45px;
+  
+    .bttn-left {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
     }
-
-    input {
-      width: 60px;
-      padding: 10px;
+  
+    .input {
+      width: calc(100px * 0.5);
+      padding: 0;
+      margin: 0;
       text-align: center;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      border-top: 1px solid #ccc ;
+      border-bottom: 1px solid #ccc;
+      border-left: none;
+      border-right: none;
     }
+  
+    a.bttn, .bttn {
+      width: calc(100px * 0.5);
+      padding: 0;
+      text-align: center;
+      color: $titleColor;
+      border: 1px solid #ccc;
+      box-shadow: none;
+      background-color: white;
+      font-size: 24px;
+      cursor: pointer;
+  
+      span {
+        margin: auto !important;
+      }
+    }
+  
+    .bttn-right {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+  
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .product-price {
-    font-size: 1.5em;
-    color: #333;
+    font-size: $fontSize6;
+    color: $titleColor;
     margin-bottom: 20px;
   }
 
@@ -241,51 +288,22 @@
 
   .smr_cartUpdate-button {
     display: block;
-    padding: 15px;
-    background-color: #7d7f85;
+    height: 40px;
+    width: 100px;
+    // padding: 15px;
+    background-color: $cartUpdateBtncolor;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 1em;
+    font-size: $fontSize3;
     cursor: pointer;
     margin-bottom: 20px;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: $btn1hoverColor;
     }
   }
 
-  .product-remark {
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-    }
-
-    .remark-button {
-      display: block;
-      // width: 100%;
-      padding: 10px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #218838;
-      }
-    }
-  }
 }
 
 .smr_RightCartList {
@@ -298,6 +316,18 @@
 
 .smr_cartListCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
+  .smr_DesignNoTExt {
+    color: $titleColor;
+    font-weight: bold;
+    font-size: $fontSize1;
+  }
+
+  .smr_card-ContentData {
+    color: $titleColor;
+    font-size: $fontSize2;
+    font-family: $homePageFontFamily;
+  }
 }
 
 .smr_cartListImage {
@@ -338,6 +368,13 @@
   padding: 10px;
 }
 
+.smr_Modal-FilterList{
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
 .smr_paper {
   position: relative;
   width: 1200px;
@@ -353,6 +390,10 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  .smr_Modal_TitleTypo{
+    color: $titleColor;
+    margin: 0;
+  }
 }
 
 .smr_closeIcon {
@@ -390,6 +431,30 @@
   margin: 10px 0px 20px 0px;
 }
 
+.smr_filter-AccrodianDetails {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.smr_cart-Accordion{
+  .smr_FilterTitle{
+    color: $titleColor;
+    font-weight: 500;
+    font-size: $fontSize4;
+    font-family: $homePageFontFamily;
+  }
+  .smr_filterAccordianDeatilTitle{
+    color: $titleColor;
+    font-size: $fontSize3;
+    font-family: $homePageFontFamily;
+    padding-left: 10px;
+  }
+  .smr_filterCheckbox{
+    color: $titleColor;
+    font-size: $fontSize3;
+    font-family: $homePageFontFamily;
+  }
+}
 
 // customization ui
 
@@ -400,17 +465,34 @@
   border-radius: 8px;
 }
 
+.smr_remarkTitle {
+  color: $titleColor;
+  font-size: $fontSize4;
+  font-weight: bold;
+}
+
+.smr_prRemarkText {
+  color: $titleColor;
+  font-size: $fontSize4;
+}
+
 .smr_AddReamrkBtn {
   display: flex;
   justify-content: end;
   align-items: center;
+
   button {
-    background-color: #6b7280;
-    color: white;
-    padding: 10px 20px;
+    background-color: $cartUpdateBtncolor;
+    color: $btn1hoverFontColor;
+    height: 40px;
+    width: 150px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+
+    &:hover {
+      background-color: $btn1hoverColor;
+    }
   }
 }
 
@@ -421,7 +503,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #6b7280;
+    color: $titleColor;
   }
 
   textarea {
@@ -430,6 +512,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 4px;
     resize: none;
+    color: $titleColor;
   }
 }
 
@@ -446,14 +529,51 @@
   }
 
   .smr_remarksave-btn {
-    background-color: #6b7280;
-    color: white;
+    background-color: $cartUpdateBtncolor;
+    color: $btn1hoverFontColor;
+
+    &:hover {
+      background-color: $btn1hoverColor;
+    }
   }
 
   .smr_remarkcancel-btn {
-    background-color: white;
-    color: #6b7280;
-    border: 1px solid #6b7280;
+    background-color: $btn1bgColor;
+    color: $btn1FontColor;
+    border: 1px solid $titleColor;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+  }
+}
+
+.smr_projectUpdateCartBtn-group {
+  display: flex !important;
+  justify-content: end !important;
+  gap: 10px;
+  align-items: end;
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .smr_cartUpdate-btn {
+    background-color: $cartUpdateBtncolor;
+    color: $btn1hoverFontColor;
+
+    &:hover {
+      background-color: $btn1hoverColor;
+    }
+  }
+
+  .smr_cartCancel-btn {
+    background-color: $btn1bgColor;
+    color: $btn1FontColor;
+    border: 1px solid $titleColor;
 
     &:hover {
       background-color: #f3f4f6;

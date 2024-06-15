@@ -34,9 +34,9 @@
 
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './smr_cartPage.scss';
@@ -48,34 +48,109 @@ const DummyData = [
   { id: 4, title: 'Product 2', description: 'Description of Product 2' },
   { id: 5, title: 'Product 2', description: 'Description of Product 2' },
 ];
-const demoFilters = {
-  collections: ["Collection 1", "Collection 2", "Collection 3"],
-  categories: ["Category 1", "Category 2", "Category 3"],
-  subcategories: ["Subcategory 1", "Subcategory 2", "Subcategory 3"],
-  genders: ["Male", "Female", "Other"]
-};
 
-const FilterAccordion = ({ title, items }) => {
+
+
+
+const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) => {
   return (
     <Accordion className='smr_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ padding: '0' }}>
-        <Typography>{title}</Typography>
+        <Typography className='smr_FilterTitle'>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails style={{ padding: '0' }}>
-        <Typography>{items.join(', ')}</Typography>
+      <AccordionDetails className='smr_filterAccordianDetail' style={{ padding: '0' }}>
+        {items.map(item => (
+          <div className='smr_filter-AccrodianDetails' key={item.id}>
+            <Typography className='smr_filterAccordianDeatilTitle'>{item.name}</Typography>
+            <Checkbox
+              checked={checkedItems[title]?.[item.id] || false}
+              onChange={() => handleCheckboxChange(item.id, title)}
+              className='smr_filterCheckbox'
+            />
+          </div>
+        ))}
       </AccordionDetails>
     </Accordion>
   );
 };
 
-const generateFilterAccordions = (filters) => {
+const generateFilterAccordions = (filters, checkedItems, handleCheckboxChange) => {
   return Object.entries(filters).map(([category, items]) => (
-    <FilterAccordion key={category} title={category} items={items} />
+    <FilterAccordion
+      key={category}
+      title={category}
+      items={items}
+      checkedItems={checkedItems}
+      handleCheckboxChange={handleCheckboxChange}
+    />
   ));
 };
 
 
-const MyModal = ({ open, onClose, selectedItems }) => {
+const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCancelCart }) => {
+  const [checkedItems, setCheckedItems] = useState({});
+
+  const handleCheckboxChange = (itemId, category) => {
+    console.log('category--', category);
+    setCheckedItems(prevCheckedItems => ({
+      ...prevCheckedItems,
+      [category]: {
+        ...(prevCheckedItems[category] || {}),
+        [itemId]: !prevCheckedItems[category]?.[itemId],
+        "checked": !prevCheckedItems[category]?.[itemId],
+        "type": category,
+        "value": itemId
+      },
+    }));
+  };
+
+
+  const filteredItems = selectedItems.filter(item => {
+    return Object.keys(checkedItems).every(key => {
+      const filter = checkedItems[key];
+      if (!filter.checked) return true;
+      return item[filter.type] === filter.value;
+    });
+  });
+
+  console.log('filteredcheckedItems', filteredItems);
+
+  console.log('checkedItemds--', checkedItems);
+
+
+  let filterArr = {}
+  function getUniqueValues(array, key) {
+    console.log('filterArrrr', array);
+    return [...new Set(array.map(item => item[key]))];
+  }
+
+  const categories = getUniqueValues(selectedItems, 'CategoryName').map(category => ({
+    id: selectedItems.find(item => item.CategoryName === category).Categoryid,
+    name: category
+  }));
+
+  const collections = getUniqueValues(selectedItems, 'CollectionName').map(collection => ({
+    id: selectedItems.find(item => item.CollectionName === collection).Collectionid,
+    name: collection
+  }));
+
+  const subcategories = getUniqueValues(selectedItems, 'SubCategoryName').map(subcategory => ({
+    id: selectedItems.find(item => item.SubCategoryName === subcategory).SubCategoryid,
+    name: subcategory
+  }));
+
+  const genders = getUniqueValues(selectedItems, 'GenderName').map(gender => ({
+    id: selectedItems.find(item => item.GenderName === gender).Genderid,
+    name: gender
+  }));
+
+  filterArr.Categoryid = categories;
+  filterArr.Collectionid = collections;
+  filterArr.SubCategoryid = subcategories;
+  filterArr.Genderid = genders
+
+  console.log('filterArrData----', filterArr);
+
   return (
     <Modal
       className="smr_modal"
@@ -87,8 +162,8 @@ const MyModal = ({ open, onClose, selectedItems }) => {
     >
       <div className="smr_paper">
         <div className='smr_Modal_Title'>
-          <Typography variant="h5" id="modal-title" gutterBottom>
-            Modal Title
+          <Typography className='smr_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
+            Update Cart
           </Typography>
           <IconButton className="smr_closeIcon" onClick={onClose}>
             <CloseIcon />
@@ -100,10 +175,40 @@ const MyModal = ({ open, onClose, selectedItems }) => {
             <div className="smr_ShortCutCombo-section">
               <div>
                 <FormControl className="form-control">
-                  <InputLabel id="demo-simple-select-label">Diamond</InputLabel>
+                  <InputLabel id="metalTypeMaster">Metal Type</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="metalTypeMaster"
+                    id="metalTypeMaster"
+                    label="Metal Type"
+                  >
+                    <MenuItem value="">Diamond</MenuItem>
+                    <MenuItem value="1">Option 1</MenuItem>
+                    <MenuItem value="2">Option 2</MenuItem>
+                    <MenuItem value="3">Option 3</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+                <FormControl className="form-control">
+                  <InputLabel id="metalColorMaster">Metal Color</InputLabel>
+                  <Select
+                    labelId="metalColorMaster"
+                    id="metalColorMaster"
+                    label="Metal Color"
+                  >
+                    <MenuItem value="">Diamond</MenuItem>
+                    <MenuItem value="1">Option 1</MenuItem>
+                    <MenuItem value="2">Option 2</MenuItem>
+                    <MenuItem value="3">Option 3</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+                <FormControl className="form-control">
+                  <InputLabel id="diamondMaster">Diamond</InputLabel>
+                  <Select
+                    labelId="diamondMaster"
+                    id="diamondMaster"
                     label="Diamond"
                   >
                     <MenuItem value="">Diamond</MenuItem>
@@ -115,31 +220,13 @@ const MyModal = ({ open, onClose, selectedItems }) => {
               </div>
               <div>
                 <FormControl className="form-control">
-                  <InputLabel>Metal</InputLabel>
-                  <Select defaultValue="">
-                    <MenuItem value="">Metal</MenuItem>
-                    <MenuItem value="1">Option 1</MenuItem>
-                    <MenuItem value="2">Option 2</MenuItem>
-                    <MenuItem value="3">Option 3</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className="form-control">
-                  <InputLabel>Colorstone</InputLabel>
-                  <Select defaultValue="">
-                    <MenuItem value="">Colorstone</MenuItem>
-                    <MenuItem value="1">Option 1</MenuItem>
-                    <MenuItem value="2">Option 2</MenuItem>
-                    <MenuItem value="3">Option 3</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div>
-                <FormControl className="form-control">
-                  <InputLabel>Borderless</InputLabel>
-                  <Select defaultValue="">
-                    <MenuItem value="">Borderless</MenuItem>
+                  <InputLabel id="sizeMaster">Size</InputLabel>
+                  <Select
+                    labelId="sizeMaster"
+                    id="sizeMaster"
+                    label="Size"
+                  >
+                    <MenuItem value="">Diamond</MenuItem>
                     <MenuItem value="1">Option 1</MenuItem>
                     <MenuItem value="2">Option 2</MenuItem>
                     <MenuItem value="3">Option 3</MenuItem>
@@ -153,12 +240,14 @@ const MyModal = ({ open, onClose, selectedItems }) => {
           </div>
           <Grid container spacing={2}>
             <Grid item xs={6} md={3}>
-              {generateFilterAccordions(demoFilters)}
+              <div className='smr_Modal-FilterList'>
+                {generateFilterAccordions(filterArr, checkedItems, handleCheckboxChange)}
+              </div>
             </Grid>
             <Grid item xs={6} md={9}>
               <div className='smr_Modal-cardList'>
                 <Grid container spacing={2}>
-                  {selectedItems.map(product => (
+                  {filteredItems?.map(product => (
                     <Grid item key={product.id} xs={12} sm={4} md={4}>
                       <Card className='smr_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
                         <CardActionArea>
@@ -169,29 +258,29 @@ const MyModal = ({ open, onClose, selectedItems }) => {
                             className='smr_cartListImage'
                           />
                           <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                               <div>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" className='smr_card-ContentData'>
                                   NWT: {product?.netwt}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" className='smr_card-ContentData'>
                                   DWT: {product?.dwt}
                                 </Typography>
                               </div>
                               <div>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" className='smr_card-ContentData'>
                                   CWT: {product?.cwt}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" className='smr_card-ContentData'>
                                   GWT: {product?.gwt}
                                 </Typography>
                               </div>
                             </div>
                             <div className='designNocartList'>
-                              <p>{product?.designno}</p>
+                              <p className='smr_DesignNoTExt'>{product?.designno}</p>
                             </div>
                             <div className='closeCartIconDiv'>
-                              <CloseIcon className='closeCartIcon' />
+                              <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(product); }} />
                             </div>
                           </CardContent>
                         </CardActionArea>
@@ -202,6 +291,17 @@ const MyModal = ({ open, onClose, selectedItems }) => {
               </div>
             </Grid>
           </Grid>
+          <Divider sx={{margin:'10px 0px'}}/>
+          <CardActions className='smr_projectUpdateCartBtn-group'>
+            <div className="smr_projectUpdateCartBtn-group">
+              <button className="smr_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
+                Update
+              </button>
+              <button className="smr_cartCancel-btn" onClick={onCancelCart}>
+                Cancel
+              </button>
+            </div>
+          </CardActions>
         </div>
       </div>
     </Modal>

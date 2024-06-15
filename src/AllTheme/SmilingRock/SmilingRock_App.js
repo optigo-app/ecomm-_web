@@ -26,6 +26,7 @@ import { CurrencyComboAPI } from '../../utils/API/Combo/CurrencyComboAPI'
 import { DiamondQualityColorComboAPI } from '../../utils/API/Combo/DiamondQualityColorComboAPI'
 import { MetalColorCombo } from '../../utils/API/Combo/MetalColorCombo'
 import CartDetails from './Components/Pages/Cart/CartDetails'
+import Wishlist from './Components/Pages/Wishlist/Wishlist'
 
 const SmilingRock_App = () => {
 
@@ -109,6 +110,8 @@ const SmilingRock_App = () => {
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/productlist" element={<ProductList />} />
                 <Route path="/productdetail" element={<ProductDetail />} />
+                <Route path="/cartPage" element={<Cart />} />
+                <Route path="/myWishList" element={<Wishlist />} />
 
             </Routes>
         </>

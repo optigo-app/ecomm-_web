@@ -35,12 +35,13 @@
 import React, { useState } from 'react';
 import './smr_cartPage.scss';
 import { Divider } from '@mui/material';
+import QuantitySelector from './QuantitySelector';
 
-const Customization = ({ selectedItem, onQuantityChange, showRemark, handleAddReamrk, handleRemarkChange, handleSave, handleCancel }) => {
+const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, showRemark, handleAddReamrk, handleRemarkChange, handleSave, handleCancel }) => {
 
   return (
     <div className="smr_Cart_R-details">
-      <h1 className='smr_cart-Titleline'>{selectedItem?.TitleLine}</h1>
+      <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
       <Divider />
       <div className="smr_Cart-options">
         <div className="option">
@@ -69,16 +70,7 @@ const Customization = ({ selectedItem, onQuantityChange, showRemark, handleAddRe
         </div>
       </div>
       <div className='smr_cartQtyPricemainDev'>
-        <div className="smr_cart-quantity">
-          <label htmlFor="quantity">QTY</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            defaultValue={selectedItem.TotalQuantity}
-            onChange={(e) => onQuantityChange(Math.max(1, e.target.value))}
-          />
-        </div>
+        <QuantitySelector selectedItem={selectedItem} handleIncrement={ handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount}/>
         <div className="product-price">
           <span>Price: ${selectedItem.ProductPrice}</span>
         </div>
@@ -87,10 +79,10 @@ const Customization = ({ selectedItem, onQuantityChange, showRemark, handleAddRe
         <button className="smr_cartUpdate-button">Save</button>
       </div>
       <div className="smr_projectRemark">
-        <span htmlFor="product-remark">Product Remark</span>
+        <span className='smr_remarkTitle' htmlFor="product-remark">Product Remark</span>
         {!showRemark &&
           <div>
-            <p>{selectedItem?.productRemark}</p>
+            <p className='smr_prRemarkText'>{selectedItem?.productRemark}</p>
             <div className='smr_AddReamrkBtn'>
               <button className="smr_remarksave-btn" onClick={handleAddReamrk}>
                 {selectedItem?.productRemark ? "Update Remark" : "Add Remark"}
