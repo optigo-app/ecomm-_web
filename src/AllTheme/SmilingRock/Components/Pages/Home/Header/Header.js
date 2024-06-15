@@ -148,29 +148,130 @@ const Header = () => {
     setSerachShowOverlay(!serachsShowOverlay);
   };
 
-  // console.log("menuItem",menuItems);
+  const [drawerShowOverlay, setDrawerShowOverlay] = useState(false);
+  const toggleDrawerOverlay = () => {
+    setDrawerShowOverlay(!drawerShowOverlay);
+  };
 
   const handelMenu = (param,param1,param2) =>{
 
-     let obj ={
-      "menuname": param?.menuname ?? "",
-      "FilterKey": param?.key ?? "",
-      "FilterVal": param?.value ?? "",
-      "FilterKey1": param1?.key ?? "",
-      "FilterVal1": param1?.value ?? "",
-      "FilterKey2": param2?.key ?? "",
-      "FilterVal2": param2?.value ?? ""
+    let obj ={
+     "menuname": param?.menuname ?? "",
+     "FilterKey": param?.key ?? "",
+     "FilterVal": param?.value ?? "",
+     "FilterKey1": param1?.key ?? "",  
+     "FilterVal1": param1?.value ?? "",
+     "FilterKey2": param2?.key ?? "",
+     "FilterVal2": param2?.value ?? ""
+     }
+
+     localStorage.setItem("menuparams",JSON.stringify(obj))
+
+     let d = new Date();
+     let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+     handleDropdownClose()
+     navigate('productlist',{state: {"menu":randomno}})
+
+ }
+
+  //mobileMenu.................
+  const [selectedMenu, setSelectedMenu] = useState(null);
+
+  const handleMenuClick = async (menuItem, param1Item = null, param2Item = null) => {
+    const { param1, param2, ...cleanedMenuItem } = menuItem;
+
+    let menuDataObj = { ...cleanedMenuItem };
+
+    if (param1Item) {
+      const { param1, param2, ...cleanedParam1Item } = param1Item;
+      menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
+
+      console.log('Menu Item:', cleanedMenuItem);
+      console.log('Submenu Item:', cleanedParam1Item);
+
+      if (param2Item) {
+        menuDataObj = { ...menuDataObj, ...param2Item };
+        console.log('Second Submenu Item:', param2Item);
       }
+    } else {
+      console.log('Menu Item:', cleanedMenuItem);
+    }
 
-      localStorage.setItem("menuparams",JSON.stringify(obj))
+    console.log('Menu Data Object:', menuDataObj);
 
-      let d = new Date();
-      let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-      handleDropdownClose()
-      navigate('productlist',{state: {"menu":randomno}})
+    let finalData = {
+      menuname: menuDataObj?.menuname ?? "",
+      FilterKey: menuDataObj.param0name ?? "",
+      FilterVal: menuDataObj.param0dataname ?? "",
+      FilterKey1: menuDataObj?.param1name ?? "",
+      FilterVal1: menuDataObj?.param1dataname ?? "",
+      FilterKey2: menuDataObj?.param2name ?? "",
+      FilterVal2: menuDataObj?.param2dataname ?? ""
+    }
 
-  }
+    console.log('finalData', finalData);
+    // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
 
+    navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
+
+    // if (finalData) {
+    //   let resData;
+    //   await productListApiCall(finalData).then((res) => {
+    //     if (res) {
+    //       resData = res;
+    //       console.log("res", res);
+    //       setMenutransData(res)
+    //       localStorage.setItem("allproductlist", JSON.stringify(res))
+    //       localStorage.setItem("finalAllData", JSON.stringify(res))
+    //     }
+    //     return res
+    //   }).then(async (res) => {
+    //     if (res) {
+    //       let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
+    //       await getDesignPriceList(finalData, 1, {}, {}, autoCodeList).then((res) => {
+    //         if (res) {
+    //           localStorage.setItem("getPriceData", JSON.stringify(res))
+    //         }
+
+    //       })
+    //     }
+    //   }).catch((err) => {
+    //     if (err) {
+    //       toast.error("Something Went Wrong!!");
+    //     }
+    //   })
+    //   await FilterListAPI(finalData)
+
+    // }
+
+    console.log('menuData', finalData);
+    localStorage.setItem('menuparams', JSON.stringify(finalData));
+  };
+
+  const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
+    if (iconclicked == 'iconclicked') {
+      setSelectedMenu(prevMenu => (prevMenu === menuName ? null : menuName));
+      return;
+    }
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    handleMenuClick(menuItemWithoutParam1)
+  };
+
+  const handleSubMenuClick = (menuItem, subMenuName, subMenuItem, iconclicked) => {
+    if (iconclicked == 'iconclicked') {
+      return;
+    }
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
+    handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2 });
+  };
+
+  const handleSubSubMenuClick = (menuItem, subMenuItem, subSubMenuName, subSubMenuItem) => {
+    console.log('subSubMenuItem--', subSubMenuItem);
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
+    handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
+  };
 
   return (
     <div>
@@ -194,7 +295,6 @@ const Header = () => {
                   <div key={menuItem.menuid}>
                     <ButtonBase
                       component="div"
-                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                       className="muilistMenutext"
                       style={{ width: '100%' }}
                     >
@@ -206,11 +306,11 @@ const Header = () => {
                       <>
                         <ButtonBase
                           component="div"
-                          onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                          onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}
                           style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                         >
                           <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                            <button class="underline-button">view all</button>
+                            <button className="underline-button">view all</button>
                           </div>
                         </ButtonBase>
                         <List>
@@ -218,7 +318,7 @@ const Header = () => {
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
                                 component="div"
-                                onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                                onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
                                 style={{ width: '100%' }}
                               >
                                 <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
@@ -233,7 +333,7 @@ const Header = () => {
                                     {subMenuItem.param2.map(subSubMenuItem => (
                                       <ButtonBase
                                         component="div"
-                                        onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                        onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
                                         style={{ width: '100%' }}
                                       >
                                         <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
@@ -528,7 +628,6 @@ const Header = () => {
               padding: "50px",
               color: "#7d7f85",
               backgroundColor: "white",
-              // flexDirection: "column",
               gap: "50px",
               justifyContent: 'space-between',
               marginTop: isHeaderFixed && '20px'
@@ -541,21 +640,18 @@ const Header = () => {
                 <div key={menuItem.menuid} style={{ width: '200px' }}>
                   <ButtonBase
                     component="div"
-                  // onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                   >
                     <ListItem style={{ padding: '0px 5px 0px 5px' }}>
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </ListItem>
                   </ButtonBase>
-                  {/* {selectedMenu === menuItem.menuname && ( */}
                   <>
                     <ButtonBase
                       component="div"
-                      // onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button class="underline-button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
+                        <button className="underline-button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
                       </div>
                     </ButtonBase>
                     <List>
@@ -563,22 +659,16 @@ const Header = () => {
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
                             component="div"
-                            // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
                             style={{ width: '100%' }}
                             onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
                           >
                             <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                          </div>
-                          {/* {selectedMenu === menuItem.menuname && ( */}
+                          </ButtonBase>
                           <>
-                            {/* <div style={{ paddingLeft: '10px' }}>
-                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
-                                  </div> */}
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
                               {subMenuItem.param2.map(subSubMenuItem => (
                                 <div
                                   component="div"
-                                  // onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
                                   style={{ width: '100%' }}
                                   onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
                                 >
@@ -589,12 +679,10 @@ const Header = () => {
                               ))}
                             </List>
                           </>
-                          {/* )} */}
                         </div>
                       ))}
                     </List>
                   </>
-                  {/* )} */}
                 </div>
               ))}
             </div>
