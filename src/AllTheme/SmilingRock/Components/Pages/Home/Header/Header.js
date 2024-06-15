@@ -19,10 +19,7 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
-
-
   const navigation = useNavigate();
 
   const getMenuApi = async () => {

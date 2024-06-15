@@ -4,11 +4,13 @@ import axios from 'axios';
 
 export const Storeinit = async (param) => {
 
-  const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
+  // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
+  const APIURL = 'http://zen/api/ReactStore.aspx'
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') && param === "astore" ? 'astore.orail.co.in' : window.location.hostname,
+    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'zen' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') && param === "astore" ? 'astore.orail.co.in' : window.location.hostname,
     version: 'Live',
     sp: "1"
   };
@@ -21,17 +23,8 @@ export const Storeinit = async (param) => {
       "p": "",
       "f": "formname (init)",
     };
-     response = await axios.post(APIURL, body, { headers: header });
-    if (response.status === 200) {
-      localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
-      localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
-      localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
-    }
+    response = await axios.post(APIURL, body, { headers: header });
+
   } catch (error) {
     console.error('Error:', error);
   }
