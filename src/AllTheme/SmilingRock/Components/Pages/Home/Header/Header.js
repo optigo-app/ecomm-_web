@@ -23,8 +23,6 @@ const Header = () => {
   let navigate = useNavigate();
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
-
-
   const navigation = useNavigate();
 
   const getMenuApi = async () => {
