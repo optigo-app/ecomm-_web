@@ -5,6 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useSetRecoilState } from 'recoil';
+import Footer from '../../Home/Footer/Footer';
+import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
+import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
+import { loginState } from '../../../Recoil/atom';
 
 
 export default function Register() {
@@ -181,27 +185,30 @@ export default function Register() {
 
     if (Object.keys(errors).length === 0 && passwordError.length === 0) {
       const hashedPassword = hashPasswordSHA1(password);
+
       setIsLoading(true);
-      try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
-        const combinedValue = JSON.stringify({
-          firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-        });
-        const encodedCombinedValue = btoa(combinedValue);
-        const body = {
-          "con": "{\"id\":\"\",\"mode\":\"WEBSIGNUP\"}",
-          "f": "Register (handleSubmit)",
-          "p": encodedCombinedValue
-        }
-        const response = await CommonAPI(body);
-        console.log('ressssssssssssssssss', response);
+      // try {
+      //   const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      //   const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
+      //   const combinedValue = JSON.stringify({
+      //     firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
+      //   });
+      //   const encodedCombinedValue = btoa(combinedValue);
+      //   const body = {
+      //     "con": "{\"id\":\"\",\"mode\":\"WEBSIGNUP\"}",
+      //     "f": "Register (handleSubmit)",
+      //     "p": encodedCombinedValue
+      //   }
+      //   const response = await CommonAPI(body);
+
+      RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
+        setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          // localStorage.setItem('LoginUser', 'true')
-          // localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          // setIsLoginState('true')
-          // localStorage.setItem('registerEmail', email)
-          navigation('/LoginOption');
+          localStorage.setItem('LoginUser', true)
+          localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          setIsLoginState('true')
+          localStorage.setItem('registerEmail', email)
+          navigation('/');
         } else {
           if (response.Data?.rd[0].ismobileexists === 1) {
             errors.mobileNo = response.Data.rd[0].stat_msg;
@@ -211,18 +218,21 @@ export default function Register() {
           }
           setErrors(errors);
         }
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setIsLoading(false);
-      }
+
+      }).catch((err) => console.log(err))
+
+      // } catch (error) {
+      //   console.error('Error:', error);
+      // } finally {
+      //   setIsLoading(false);
+      // }
     } else {
       setErrors(errors);
     }
   };
 
   return (
-    <div className='paddingTopMobileSet' style={{ backgroundColor: '#c0bbb1', paddingTop: '110px' }}>
+    <div>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />
@@ -232,8 +242,8 @@ export default function Register() {
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',
-            paddingBlock: '60px',
-            marginTop: '15px',
+            marginTop: '0px',
+            paddingTop: '5%',
             fontSize: '40px',
             color: '#7d7f85',
             fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'

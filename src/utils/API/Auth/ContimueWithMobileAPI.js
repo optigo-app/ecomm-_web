@@ -2,31 +2,28 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 
+export const ContimueWithMobileAPI = async (mobileNo) => {
 
-
-export const LoginWithEmailAPI = async (email ,mobileNo, hashedPassword, ismobiletoke) => {
-
-    let response
+    let response;
     try {
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
-
         const combinedValue = JSON.stringify({
-            userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`
+            country_code: '91', mobile: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`
         });
-
-        console.log('cccccccccccccccc',combinedValue);
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": "{\"id\":\"\",\"mode\":\"WEBLOGIN\"}",
-            "f": "LoginWithEmail (handleSubmit)",
+            "con": "{\"id\":\"\",\"mode\":\"WEBVALDNMOBILE\"}",
+            "f": "continueWithMobile (handleSubmit)",
             p: encodedCombinedValue
         };
+
          response = await CommonAPI(body);
-       
+
     } catch (error) {
         console.error('Error:', error);
     }
+
     return response;
 
 }

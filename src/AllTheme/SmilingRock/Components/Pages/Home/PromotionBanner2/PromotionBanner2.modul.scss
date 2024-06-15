@@ -1,4 +1,3 @@
-
 @import '../../../scss/variable';
 
 
@@ -25,6 +24,7 @@
 
 .smilingBrides {
     width: 25%;
+    height: 650px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,11 +38,10 @@
 .smilingMainImages {
     height: 650px;
     width: 100%;
-    margin-top: 5px;
     object-fit: cover;
 }
 
-.smilingBridesMainTitle{
+.smilingBridesMainTitle {
     text-align: center;
     color: $homePageFontColor;
     font-family: $homePageFontFamily;
@@ -68,6 +67,7 @@
 
     .smilingBrides {
         width: 100%;
+        height: auto !important;
         order: 2;
     }
 
@@ -79,25 +79,25 @@
         background-color: #7d7f85;
     }
 
-    .linkingTitle{
-        margin: 5px 0px 0px 0px!important;
-        font-size: 20px!important;
+    .linkingTitle {
+        margin: 5px 0px 0px 0px !important;
+        font-size: 20px !important;
 
     }
 
-    .linkingShopCol{
+    .linkingShopCol {
         margin: 0px;
     }
 
-    .linkingShopCol{
-        font-weight: 700!important;
+    .linkingShopCol {
+        font-weight: 700 !important;
     }
 
-    .ring1Desc{
-        font-size: 12px!important;
-        letter-spacing: 1px!important;
-        font-weight: 500!important;
-        color: #7d7f85!important;
+    .ring1Desc {
+        font-size: 12px !important;
+        letter-spacing: 1px !important;
+        font-weight: 500 !important;
+        color: #7d7f85 !important;
     }
 }
 
@@ -107,7 +107,8 @@
         margin-top: 0px !important;
         border: none !important;
     }
-    .smilingBrides{
+
+    .smilingBrides {
         border: none !important;
     }
 
