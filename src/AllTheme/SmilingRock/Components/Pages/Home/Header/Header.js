@@ -19,6 +19,8 @@ const Header = () => {
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
+  let navigate = useNavigate();
+
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
 
 
@@ -76,10 +78,27 @@ const Header = () => {
 
 
   useEffect(() => {
-    getMenuApi();
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+
+    console.log("callll");
+
+    if(storeinit?.IsB2BWebsite === 0){
+      getMenuApi();
+      return;
+    }else if(storeinit?.IsB2BWebsite === 1 && isUserLogin === true){
+      getMenuApi();
+      return;
+    }else{
+      return;
+    }
+
+  }, [islogin]);
+
+  useEffect(() => {
     fetchData();
   }, []);
-
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -112,9 +131,6 @@ const Header = () => {
   }
 
 
-
-
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownOpen = () => {
@@ -130,6 +146,29 @@ const Header = () => {
     // setSearchText('');
     setSerachShowOverlay(!serachsShowOverlay);
   };
+
+  // console.log("menuItem",menuItems);
+
+  const handelMenu = (param,param1,param2) =>{
+
+     let obj ={
+      "menuname": param?.menuname ?? "",
+      "FilterKey": param?.key ?? "",
+      "FilterVal": param?.value ?? "",
+      "FilterKey1": param1?.key ?? "",
+      "FilterVal1": param1?.value ?? "",
+      "FilterKey2": param2?.key ?? "",
+      "FilterVal2": param2?.value ?? ""
+      }
+
+      localStorage.setItem("menuparams",JSON.stringify(obj))
+
+      let d = new Date();
+      let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+      handleDropdownClose()
+      navigate('productlist',{state: {"menu":randomno}})
+
+  }
 
 
   return (
@@ -418,7 +457,7 @@ const Header = () => {
                       style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button class="underline-button">view all</button>
+                        <button class="underline-button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
                       </div>
                     </ButtonBase>
                     <List>
@@ -428,6 +467,7 @@ const Header = () => {
                             component="div"
                             // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
                             style={{ width: '100%' }}
+                            onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
                           >
                             <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
                           </ButtonBase>
@@ -442,6 +482,7 @@ const Header = () => {
                                   component="div"
                                   // onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
                                   style={{ width: '100%' }}
+                                  onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
                                 >
                                   <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
