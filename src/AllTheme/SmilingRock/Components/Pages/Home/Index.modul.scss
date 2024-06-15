@@ -1,27 +1,26 @@
-
 @import '../../scss/variable';
 
 $generalColor : lightgray;
 
-.main{
+.main {
     background-color: $primaryColor;
 }
 
-.Submain{
+.Submain {
     background-color: $generalColor;
 }
 
-.smiling_home_index_main{
+.smiling_home_index_main {
     background-color: $backgroundColor;
     padding-inline: 6%;
 }
 
-.smiling_home_index_Submain{
+.smiling_home_index_Submain {
     background-color: white;
 }
 
 
-.authFlowBakcColor{
+.authFlowBakcColor {
     background-color: $backgroundColor;
 }
 
@@ -36,5 +35,12 @@ $generalColor : lightgray;
     justify-content: center;
     align-items: center;
     z-index: 1;
-  }
-  
+}
+
+
+@media screen and (max-width:1200px) {
+
+    .smiling_home_index_main {
+        padding-inline: 1% !important;
+    }
+}

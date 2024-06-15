@@ -19,6 +19,7 @@ import Register from './Components/Pages/Auth/Registretion/Register'
 import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
+import AboutUs from './Components/Pages/aboutUs/AboutUs'
 
 const SmilingRock_App = () => {
 
@@ -50,6 +51,7 @@ const SmilingRock_App = () => {
                 <Route path="/servicePolicy" element={<ServicePolicy />} />
                 <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
                 <Route path="/FunFact" element={<FunFact />} />
+                <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/productlist" element={<ProductList />} />
                 <Route path="/productdetail" element={<ProductDetail />} />
 

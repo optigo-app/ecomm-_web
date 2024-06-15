@@ -7,8 +7,9 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { PiStarThin } from "react-icons/pi";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 const Header = () => {
@@ -131,23 +132,213 @@ const Header = () => {
     setSerachShowOverlay(!serachsShowOverlay);
   };
 
+  const [drawerShowOverlay, setDrawerShowOverlay] = useState(false);
+  const toggleDrawerOverlay = () => {
+    setDrawerShowOverlay(!drawerShowOverlay);
+  };
+
+
+  //mobileMenu.................
+  const [selectedMenu, setSelectedMenu] = useState(null);
+
+  const handleMenuClick = async (menuItem, param1Item = null, param2Item = null) => {
+    const { param1, param2, ...cleanedMenuItem } = menuItem;
+
+    let menuDataObj = { ...cleanedMenuItem };
+
+    if (param1Item) {
+      const { param1, param2, ...cleanedParam1Item } = param1Item;
+      menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
+
+      console.log('Menu Item:', cleanedMenuItem);
+      console.log('Submenu Item:', cleanedParam1Item);
+
+      if (param2Item) {
+        menuDataObj = { ...menuDataObj, ...param2Item };
+        console.log('Second Submenu Item:', param2Item);
+      }
+    } else {
+      console.log('Menu Item:', cleanedMenuItem);
+    }
+
+    console.log('Menu Data Object:', menuDataObj);
+
+    let finalData = {
+      menuname: menuDataObj?.menuname ?? "",
+      FilterKey: menuDataObj.param0name ?? "",
+      FilterVal: menuDataObj.param0dataname ?? "",
+      FilterKey1: menuDataObj?.param1name ?? "",
+      FilterVal1: menuDataObj?.param1dataname ?? "",
+      FilterKey2: menuDataObj?.param2name ?? "",
+      FilterVal2: menuDataObj?.param2dataname ?? ""
+    }
+
+    console.log('finalData', finalData);
+    // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
+
+    navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
+
+    // if (finalData) {
+    //   let resData;
+    //   await productListApiCall(finalData).then((res) => {
+    //     if (res) {
+    //       resData = res;
+    //       console.log("res", res);
+    //       setMenutransData(res)
+    //       localStorage.setItem("allproductlist", JSON.stringify(res))
+    //       localStorage.setItem("finalAllData", JSON.stringify(res))
+    //     }
+    //     return res
+    //   }).then(async (res) => {
+    //     if (res) {
+    //       let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
+    //       await getDesignPriceList(finalData, 1, {}, {}, autoCodeList).then((res) => {
+    //         if (res) {
+    //           localStorage.setItem("getPriceData", JSON.stringify(res))
+    //         }
+
+    //       })
+    //     }
+    //   }).catch((err) => {
+    //     if (err) {
+    //       toast.error("Something Went Wrong!!");
+    //     }
+    //   })
+    //   await FilterListAPI(finalData)
+
+    // }
+
+    console.log('menuData', finalData);
+    localStorage.setItem('menuparams', JSON.stringify(finalData));
+  };
+
+  const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
+    if (iconclicked == 'iconclicked') {
+      setSelectedMenu(prevMenu => (prevMenu === menuName ? null : menuName));
+      return;
+    }
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    handleMenuClick(menuItemWithoutParam1)
+  };
+
+  const handleSubMenuClick = (menuItem, subMenuName, subMenuItem, iconclicked) => {
+    if (iconclicked == 'iconclicked') {
+      return;
+    }
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
+    handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2 });
+  };
+
+  const handleSubSubMenuClick = (menuItem, subMenuItem, subSubMenuName, subSubMenuItem) => {
+    console.log('subSubMenuItem--', subSubMenuItem);
+    const { param1, ...menuItemWithoutParam1 } = menuItem;
+    const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
+    handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
+  };
 
   return (
     <div>
+      {drawerShowOverlay && (
+        <>
+          <div className="srm_MobileSiderBarMain">
+            <div style={{ margin: '10px 20px' }}>
+              <IoClose
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+                onClick={toggleDrawerOverlay}
+              />
+            </div>
+            <div>
+              <List className='smr_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
+                {menuItems.map(menuItem => (
+                  <div key={menuItem.menuid}>
+                    <ButtonBase
+                      component="div"
+                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
+                      className="muilistMenutext"
+                      style={{ width: '100%' }}
+                    >
+                      <ListItem style={{ padding: '5px', borderBottom: '1px solid white' }}>
+                        <p className='smr_menuStaicMobile'>{menuItem.menuname}</p>
+                      </ListItem>
+                    </ButtonBase>
+                    {selectedMenu === menuItem.menuname && (
+                      <>
+                        <ButtonBase
+                          component="div"
+                          onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                          style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                        >
+                          <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
+                            <button class="underline-button">view all</button>
+                          </div>
+                        </ButtonBase>
+                        <List>
+                          {menuItem.param1.map(subMenuItem => (
+                            <div key={subMenuItem.param1dataid}>
+                              <ButtonBase
+                                component="div"
+                                onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                                style={{ width: '100%' }}
+                              >
+                                <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
+                              </ButtonBase>
+                              {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
+                              {selectedMenu === menuItem.menuname && (
+                                <>
+                                  {/* <div style={{ paddingLeft: '10px' }}>
+                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
+                                  </div> */}
+                                  <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+                                    {subMenuItem.param2.map(subSubMenuItem => (
+                                      <ButtonBase
+                                        component="div"
+                                        onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                        style={{ width: '100%' }}
+                                      >
+                                        <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                          <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
+                                        </ListItem>
+                                      </ButtonBase>
+                                    ))}
+                                  </List>
+                                </>
+                              )}
+                            </div>
+                          ))}
+                        </List>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </List>
+            </div>
+            <div>
+              <p className='smr_menuStaicMobilePage'>About us</p>
+            </div>
+
+            <div>
+              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }}>WishList</p>
+            </div>
+
+            <div>
+              <p className='smr_menuStaicMobilePageLink'>Account</p>
+            </div>
+          </div>
+        </>
+      )}
       <div className='smiling_Top_header'>
         <div className='smiling_Top_header_sub'>
           <div className='smiling_Top_header_div1'>
             <ul className="nav_ul_shop">
-              {/* <li
-                className="nav_li_smining"
-                style={{ cursor: "pointer" }}
-              >
-                IMPACT
-              </li> */}
 
-              {/* {islogin && */}
               <li
-                className="nav_li_smining"
+                className="nav_li_smining nav_li_smining_shop"
                 onMouseEnter={handleDropdownOpen}
                 onMouseLeave={handleDropdownClose}
               >
@@ -166,8 +357,13 @@ const Header = () => {
                   />
                 </span>
               </li>
-              {/* } */}
-
+            </ul>
+            <ul className="nav_ul_shop_menu_Mobile">
+              <MenuIcon
+                style={{ fontSize: "35px", color: "white" }}
+                className="muIconeMobileHeader"
+                onClick={toggleDrawerOverlay}
+              />
             </ul>
           </div>
           <div className='smiling_Top_header_div2'>
@@ -178,7 +374,7 @@ const Header = () => {
           <div className='smiling_Top_header_div3'>
             <ul className="nav_ul_shop">
               <li
-                className="nav_li_smining"
+                className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 // onClick={() => navigation("/aboutUs")}
                 onClick={handleLogout}
@@ -189,7 +385,7 @@ const Header = () => {
 
               {islogin ? (
                 <li
-                  className="nav_li_smining"
+                  className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                 >
                   ACCOUNT
@@ -267,7 +463,7 @@ const Header = () => {
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
                 <li
-                  className="nav_li_smining_Fixed"
+                  className="nav_li_smining_Fixed nav_li_smining_shop"
                   onMouseEnter={handleDropdownOpen}
                   onMouseLeave={handleDropdownClose}
                 >
@@ -286,6 +482,13 @@ const Header = () => {
                     />
                   </span>
                 </li>
+                <ul className="nav_ul_shop_menu_Mobile">
+                  <MenuIcon
+                    style={{ fontSize: "35px", color: "#7d7f85" }}
+                    className="muIconeMobileHeader"
+                    onClick={toggleDrawerOverlay}
+                  />
+                </ul>
                 {/* } */}
               </ul>
             </div>
@@ -297,7 +500,7 @@ const Header = () => {
             <div className='smiling_Top_header_div3'>
               <ul className="nav_ul_shop">
                 <li
-                  className="nav_li_smining_Fixed"
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigation("/aboutUs")}
                 >
@@ -306,7 +509,7 @@ const Header = () => {
 
                 {islogin ? (
                   <li
-                    className="nav_li_smining_Fixed"
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
                     onClick={() => navigation("/LoginOption")}
                   >
@@ -382,7 +585,7 @@ const Header = () => {
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
           className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""}`}
-          style={{backgroundColor: isHeaderFixed && 'transparent'}}
+          style={{ backgroundColor: isHeaderFixed && 'transparent' }}
         >
           <div
             style={{
@@ -400,12 +603,12 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} style={{width: '200px'}}>
+                <div key={menuItem.menuid} style={{ width: '200px' }}>
                   <ButtonBase
                     component="div"
                   // onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                   >
-                    <ListItem style={{ padding: '0px 5px 0px 5px'}}>
+                    <ListItem style={{ padding: '0px 5px 0px 5px' }}>
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </ListItem>
                   </ButtonBase>
@@ -424,9 +627,9 @@ const Header = () => {
                       {menuItem.param1.map(subMenuItem => (
                         <div key={subMenuItem.param1dataid}>
                           <div
-                            // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                          // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
                           >
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px' , fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                           </div>
                           {/* {selectedMenu === menuItem.menuname && ( */}
                           <>
