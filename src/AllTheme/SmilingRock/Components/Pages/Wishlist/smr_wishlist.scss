@@ -1,0 +1,198 @@
+@import '../../scss/variable.scss';
+
+.smr_MainWlDiv {
+    background-color: $backgroundColor;
+    font-family: $homePageFontFamily;
+}
+
+.WlMainPageDiv {
+    background-color: #fff;
+    margin-inline: 6%;
+}
+
+.smr_WlMainPage {
+    display: flex;
+    gap: 30px;
+    margin-bottom: -8%;
+}
+
+.WlBtnGroupMainDiv {
+    text-align: center;
+    padding-top: 40px;
+
+    .smr_Wl-title {
+        color: $titleColor;
+        padding-bottom: 35px;
+        font-size: $fontSize8;
+    }
+
+    .smr_WlButton-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+
+        .smr_WlBtn {
+            height: 60px;
+            width: 180px;
+            font-size: $fontSize2;
+            color: $btn1FontColor;
+            background-color: $btn1bgColor;
+            border: 1px solid $btn1FontColor;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+
+            &.smr_cartActivebtn {
+                background-color: $btn1ActivebgColor;
+                color: $btn1hoverFontColor;
+            }
+
+            &:hover {
+                color: $btn1hoverFontColor;
+                background-color: $btn1ActivebgColor;
+            }
+        }
+    }
+}
+
+.smr_WlListData {
+    padding: 60px 100px 10px 100px;
+    margin-bottom: -8%;
+}
+
+.smr_WlListCard {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
+}
+
+
+.designNoWlList {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    color: $titleColor;
+}
+
+.closeWlIconDiv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #000;
+    color: #fff;
+}
+
+.closeWlIcon {
+    cursor: pointer;
+}
+
+.smr_Wl-CartbtnDiv {
+    text-align: center;
+    margin-bottom: 10px;
+
+    .smr_Wl-Cartbtn {
+        width: 150px;
+        height: 30px;
+        font-size: $fontSize4;
+        color: $titleColor;
+        font-weight: 500;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.smr_card-ContentData {
+    text-align: center;
+    color: $titleColor;
+    font-size: $fontSize2;
+}
+
+@media (max-width: 768px) {
+    .smr_WlListData {
+        padding: 10px 10px 10px 10px;
+        margin-bottom: -8%;
+    }
+
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            display: block;
+
+            .smr_WlBtn {
+                margin-bottom: 10px;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
+        font-size: $fontSize2 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .smr_WlListData {
+        padding: 10px 10px 10px 10px;
+        margin-bottom: -8%;
+    }
+
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            display: block;
+
+            .smr_WlBtn {
+                margin-bottom: 10px;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .smr_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .smr_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .smr_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .smr_WlListData {
+        padding: 10px 10px 10px 10px;
+        margin-bottom: -8%;
+    }
+
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            display: block;
+
+            .smr_WlBtn {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .smr_card-ContentData {
+        font-size: $fontSize1 !important;
+    }
+
+    .smr_DesignNoTExt {
+        font-size: $fontSize1 !important;
+    }
+
+    .smr_Wl-Cartbtn {
+        font-size: $fontSize1 !important;
+        text-align: center;
+        width: 100% !important;
+    }
+}

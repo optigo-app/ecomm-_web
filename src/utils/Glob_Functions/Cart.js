@@ -9,6 +9,7 @@ const useCart = () => {
   const [openModal, setOpenModal] = useState(false);
   const [productRemark, setProductRemark] = useState('');
   const [showRemark, setShowRemark] = useState(false);
+  const [qtyCount, setQtyCount] = useState(0);
 
 
 
@@ -20,6 +21,7 @@ const useCart = () => {
     }
   }, []);
 
+  // for multiselect
   const handleSelectItem = (item) => {
     if (multiSelect) {
       setSelectedItems(prevItems =>
@@ -30,12 +32,6 @@ const useCart = () => {
     }
   };
 
-  const handleQuantityChange = (quantity) => {
-    // Ensure quantity is always positive
-    quantity = Math.max(quantity, 1);
-    console.log(`Selected quantity: ${quantity}`);
-  };
-
   const handleMultiSelectToggle = () => {
     setMultiSelect(!multiSelect);
     setSelectedItems([]);
@@ -44,6 +40,7 @@ const useCart = () => {
     }
   };
 
+  // for updation modal
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -52,6 +49,34 @@ const useCart = () => {
     setOpenModal(false);
   };
 
+  // remove
+
+  const handleRemoveItem = (item) => {
+    setCartData(cartData.filter(cartItem => cartItem.id !== item.id));
+    if (selectedItem === item) {
+      setSelectedItem(cartData.length > 1 ? cartData[0] : null);
+    }
+    setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
+  };
+
+  // update cart
+
+  const handleUpdateCart = (updatedItems) => {
+    console.log('updatedItems',updatedItems);
+    setCartData(updatedItems);
+    setSelectedItem(updatedItems.length > 0 ? updatedItems[0] : null);
+    setSelectedItems([]);
+    setMultiSelect(false);
+    setOpenModal(false);
+  };
+
+  const handleCancelUpdateCart = () => {
+    setSelectedItems([]);
+    setMultiSelect(false);
+    setOpenModal(false);
+  }
+
+  // for remark
   const handleAddReamrk = () => {
     setShowRemark(true);
   }
@@ -70,6 +95,15 @@ const useCart = () => {
     console.log('Cancelled');
   };
 
+  // for quantity
+  const handleIncrement = () => {
+    setQtyCount(prevCount => prevCount + 1);
+  };
+
+  const handleDecrement = () => {
+    setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
+  };
+
   return {
     cartData,
     selectedItem,
@@ -77,15 +111,20 @@ const useCart = () => {
     multiSelect,
     openModal,
     showRemark,
+    qtyCount,
     handleSelectItem,
-    handleQuantityChange,
+    handleIncrement,
+    handleDecrement,
     handleMultiSelectToggle,
     handleOpenModal,
     handleCloseModal,
     handleRemarkChange,
     handleSave,
     handleCancel,
-    handleAddReamrk
+    handleAddReamrk,
+    handleRemoveItem,
+    handleUpdateCart,
+    handleCancelUpdateCart
   };
 };
 
