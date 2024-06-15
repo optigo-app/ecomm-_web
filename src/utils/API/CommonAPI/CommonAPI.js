@@ -4,6 +4,7 @@ import axios from "axios";
 const APIURL = 'http://zen/api/ReactStore.aspx'
 
 // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
+// const NEWAPIURL = 'https://api.optigoapps.com/storev26/ReactStore.aspx';
 // const ZENURL = 'http://zen/api/store.aspx'
 
 

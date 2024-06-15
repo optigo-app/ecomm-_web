@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./productlist.scss";
+import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
+import { useLocation } from "react-router-dom";
 
 const ProductList = () => {
+
+  const[productListData,setProductListData]=useState([]);
+  const[isProdLoading,setIsProdLoading]=useState(false);
+  let location = useLocation();
+
+  useEffect(() => {
+    setIsProdLoading(true)
+    ProductListApi()
+    .then((res) => {
+      if(res){
+        setProductListData(res)
+        setIsProdLoading(false)
+      }
+  })
+    .catch((err) => console.log("err", err))
+
+  }, [location?.state?.menu]);
+  
+  console.log("productListData", productListData)
+
+
   return (
     <div id="top">
       <div className="smr_bodyContain">
@@ -19,9 +42,22 @@ const ProductList = () => {
               </select>
               </div>
             </div>
-            <div className="smr_main">
-              <div className="filter_portion"></div>
-              <div className="productList_portion"></div>
+            <div className="smr_mainPortion">
+              <div className="smr_filter_portion"></div>
+              <div className="smr_productList">
+                  <div className="smr_inner_portion">
+                      {
+                        <div className="smr_productCard">
+                          <>
+                          <img 
+                          className="smr_productCard_Image" 
+
+                          />
+                          </>
+                        </div>
+                      }
+                  </div>
+              </div>
             </div>
           </div>
         </div>

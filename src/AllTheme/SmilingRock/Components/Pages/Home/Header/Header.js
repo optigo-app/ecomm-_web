@@ -19,6 +19,9 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+
+  let navigate = useNavigate();
+
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
@@ -74,10 +77,27 @@ const Header = () => {
 
 
   useEffect(() => {
-    getMenuApi();
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+
+    console.log("callll");
+
+    if(storeinit?.IsB2BWebsite === 0){
+      getMenuApi();
+      return;
+    }else if(storeinit?.IsB2BWebsite === 1 && isUserLogin === true){
+      getMenuApi();
+      return;
+    }else{
+      return;
+    }
+
+  }, [islogin]);
+
+  useEffect(() => {
     fetchData();
   }, []);
-
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -110,9 +130,6 @@ const Header = () => {
   }
 
 
-
-
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownOpen = () => {
@@ -134,6 +151,26 @@ const Header = () => {
     setDrawerShowOverlay(!drawerShowOverlay);
   };
 
+  const handelMenu = (param,param1,param2) =>{
+
+    let obj ={
+     "menuname": param?.menuname ?? "",
+     "FilterKey": param?.key ?? "",
+     "FilterVal": param?.value ?? "",
+     "FilterKey1": param1?.key ?? "",  
+     "FilterVal1": param1?.value ?? "",
+     "FilterKey2": param2?.key ?? "",
+     "FilterVal2": param2?.value ?? ""
+     }
+
+     localStorage.setItem("menuparams",JSON.stringify(obj))
+
+     let d = new Date();
+     let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+     handleDropdownClose()
+     navigate('productlist',{state: {"menu":randomno}})
+
+ }
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -256,7 +293,6 @@ const Header = () => {
                   <div key={menuItem.menuid}>
                     <ButtonBase
                       component="div"
-                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                       className="muilistMenutext"
                       style={{ width: '100%' }}
                     >
@@ -268,11 +304,11 @@ const Header = () => {
                       <>
                         <ButtonBase
                           component="div"
-                          onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                          onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}
                           style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                         >
                           <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                            <button class="underline-button">view all</button>
+                            <button className="underline-button">view all</button>
                           </div>
                         </ButtonBase>
                         <List>
@@ -280,7 +316,7 @@ const Header = () => {
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
                                 component="div"
-                                onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                                onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
                                 style={{ width: '100%' }}
                               >
                                 <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
@@ -295,7 +331,7 @@ const Header = () => {
                                     {subMenuItem.param2.map(subSubMenuItem => (
                                       <ButtonBase
                                         component="div"
-                                        onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                        onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
                                         style={{ width: '100%' }}
                                       >
                                         <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
@@ -590,7 +626,6 @@ const Header = () => {
               padding: "50px",
               color: "#7d7f85",
               backgroundColor: "white",
-              // flexDirection: "column",
               gap: "50px",
               justifyContent: 'space-between',
               marginTop: isHeaderFixed && '20px'
@@ -603,42 +638,37 @@ const Header = () => {
                 <div key={menuItem.menuid} style={{ width: '200px' }}>
                   <ButtonBase
                     component="div"
-                  // onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                   >
                     <ListItem style={{ padding: '0px 5px 0px 5px' }}>
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </ListItem>
                   </ButtonBase>
-                  {/* {selectedMenu === menuItem.menuname && ( */}
                   <>
                     <ButtonBase
                       component="div"
-                      // onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button class="smr_underline_button">view all</button>
+                        <button className="underline-button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
                       </div>
                     </ButtonBase>
                     <List>
                       {menuItem.param1.map(subMenuItem => (
                         <div key={subMenuItem.param1dataid}>
-                          <div
-                          // onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                          <ButtonBase
+                            component="div"
+                            style={{ width: '100%' }}
+                            onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
                           >
                             <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                          </div>
-                          {/* {selectedMenu === menuItem.menuname && ( */}
+                          </ButtonBase>
                           <>
-                            {/* <div style={{ paddingLeft: '10px' }}>
-                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
-                                  </div> */}
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
                               {subMenuItem.param2.map(subSubMenuItem => (
                                 <div
                                   component="div"
-                                  style={{ display: 'flex', flexDirection: 'column' }}
-                                // onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                  style={{ width: '100%' }}
+                                  onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
                                 >
                                   <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
@@ -647,12 +677,10 @@ const Header = () => {
                               ))}
                             </List>
                           </>
-                          {/* )} */}
                         </div>
                       ))}
                     </List>
                   </>
-                  {/* )} */}
                 </div>
               ))}
             </div>

@@ -25,6 +25,7 @@ import { ColorStoneQualityColorComboAPI } from '../../utils/API/Combo/ColorStone
 import { CurrencyComboAPI } from '../../utils/API/Combo/CurrencyComboAPI'
 import { DiamondQualityColorComboAPI } from '../../utils/API/Combo/DiamondQualityColorComboAPI'
 import { MetalColorCombo } from '../../utils/API/Combo/MetalColorCombo'
+import CartDetails from './Components/Pages/Cart/CartDetails'
 
 const SmilingRock_App = () => {
 
