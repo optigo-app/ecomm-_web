@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithMobileCode.css';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
@@ -17,6 +17,12 @@ export default function LoginWithMobileCode() {
     const [enterOTP, setEnterOTP] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
     const setIsLoginState = useSetRecoilState(loginState)
+    const location = useLocation();
+
+    const search = location?.search
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
 
     useEffect(() => {
@@ -63,7 +69,13 @@ export default function LoginWithMobileCode() {
                 setIsLoginState(true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 localStorage.setItem('registerMobile', mobileNo);
-                navigation('/');
+
+                if(redirectMobileUrl){
+                    navigation(redirectMobileUrl);
+                }else{
+                    navigation('/')
+                }
+
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, otp: 'Invalid Code' }));
             }
@@ -134,7 +146,7 @@ export default function LoginWithMobileCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />
                 </div>

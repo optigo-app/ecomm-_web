@@ -471,7 +471,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        // onClick={toggleCartDrawer(true)}
+                        onClick={() => {navigate('/cartPage')}}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -597,7 +597,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          // onClick={toggleCartDrawer(true)}
+                          onClick={() => {navigate('/cartPage')}}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
