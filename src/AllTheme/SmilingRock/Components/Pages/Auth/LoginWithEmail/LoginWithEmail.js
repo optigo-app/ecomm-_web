@@ -25,6 +25,10 @@ export default function LoginWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
 
+    const search = location?.search
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+
 
     // const setPdData = useSetRecoilState(productDataNew)
     const setIsLoginState = useSetRecoilState(loginState)
@@ -132,7 +136,13 @@ export default function LoginWithEmail() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-                navigation('/');
+               
+                if(redirectEmailUrl){
+                    navigation(redirectEmailUrl);
+                }else{
+                    navigation('/')
+                }
+
                 // pdDataCalling()
                 // designDataCall()
                 // getCountFunc()

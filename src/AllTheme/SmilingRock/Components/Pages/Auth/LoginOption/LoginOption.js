@@ -1,6 +1,6 @@
 import React from 'react'
 import './LoginOption.modul.scss'
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 import { FaMobileAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io';
@@ -10,6 +10,10 @@ import Footer from '../../Home/Footer/Footer';
 const LoginOption = () => {
 
     const navigation = useNavigate();
+    const location = useLocation();
+
+    const search = location?.search
+    const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
     return (
         <div>
@@ -18,7 +22,7 @@ const LoginOption = () => {
                     <p className='loginDiTile'>Log in or sign up in seconds</p>
                     <p style={{ textAlign: 'center' }}>Use your email or mobile no to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
-                        <div className='loginMail' onClick={() => navigation('/ContinueWithEmail')}>
+                        <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
                         </div>

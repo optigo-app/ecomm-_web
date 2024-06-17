@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import Header from './Components/Pages/Home/Header/Header'
@@ -6,8 +6,8 @@ import Cart from './Components/Pages/Cart/Cart'
 import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
 import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
-import { useRecoilState } from 'recoil'
-import { companyLogo } from './Components/Recoil/atom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { companyLogo, loginState } from './Components/Recoil/atom'
 import { Storeinit } from '../../utils/API/Storeinit/Storeinit'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
@@ -25,12 +25,15 @@ import { ColorStoneQualityColorComboAPI } from '../../utils/API/Combo/ColorStone
 import { CurrencyComboAPI } from '../../utils/API/Combo/CurrencyComboAPI'
 import { DiamondQualityColorComboAPI } from '../../utils/API/Combo/DiamondQualityColorComboAPI'
 import { MetalColorCombo } from '../../utils/API/Combo/MetalColorCombo'
-import CartDetails from './Components/Pages/Cart/CartDetails'
 import Wishlist from './Components/Pages/Wishlist/Wishlist'
+import PageNotFound from "./Components/Pages/404Page/PageNotFound"
+import PrivateRoutes from './PrivateRoutes'
+
 
 const SmilingRock_App = () => {
-
     const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+    const islogin = useRecoilValue(loginState)
+
 
     useEffect(() => {
         Storeinit().then((response) => {
@@ -102,17 +105,18 @@ const SmilingRock_App = () => {
                 <Route path="/LoginWithMobileCode" element={<div className="authFlowBakcColor"><LoginWithMobileCode /></div>} />
                 <Route path="/LoginWithEmail" element={<div className="authFlowBakcColor"><LoginWithEmail /></div>} />
                 <Route path="/register" element={<div className="authFlowBakcColor"><Register /></div>} />
-                <Route path="/cartPage" element={<Cart />} />
                 <Route path="/ContactUs" element={<ContactUs />} />
                 <Route path="/servicePolicy" element={<ServicePolicy />} />
                 <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
                 <Route path="/FunFact" element={<FunFact />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-                <Route path="/productlist" element={<ProductList />} />
-                <Route path="/productdetail" element={<ProductDetail />} />
-                <Route path="/cartPage" element={<Cart />} />
-                <Route path="/myWishList" element={<Wishlist />} />
-
+                <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
+                    <Route path="/productlist" element={<ProductList />} />
+                    <Route path="/productdetail" element={<ProductDetail />} />
+                    <Route path="/cartPage" element={<Cart />} />
+                    <Route path="/myWishList" element={<Wishlist />} />
+                </Route>
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
         </>
     )
