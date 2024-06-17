@@ -1,5 +1,5 @@
 import React from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart';
+import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import WishlistItems from './WishlistItems';
 import Button from '@mui/material/Button';
 import Footer from "../Home/Footer/Footer"

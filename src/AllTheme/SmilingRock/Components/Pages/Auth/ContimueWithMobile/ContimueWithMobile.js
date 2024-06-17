@@ -18,6 +18,7 @@ export default function ContimueWithMobile() {
     const search = location?.search
     const redirectMobileUrl = `/LoginWithMobileCode/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
@@ -142,7 +143,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />
                 </div>
