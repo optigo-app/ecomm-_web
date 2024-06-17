@@ -31,6 +31,7 @@ import PrivateRoutes from './PrivateRoutes'
 
 
 const SmilingRock_App = () => {
+
     const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
     const islogin = useRecoilValue(loginState)
 
