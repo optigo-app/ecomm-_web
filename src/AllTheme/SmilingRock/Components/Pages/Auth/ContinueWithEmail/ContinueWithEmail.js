@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ContinueWithEmail.modul.scss';
 import { Button, CircularProgress, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
@@ -12,6 +12,11 @@ export default function ContinueWithEmail() {
     const [emailError, setEmailError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
+    const location = useLocation();
+
+    const search = location?.search
+    const redirectEmailUrl = `/LoginWithEmail/${search}`;
+    const redirectSignUpUrl = `/register/${search}`;
 
     // const validateEmail = (email) => {
     //     const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
@@ -54,12 +59,12 @@ export default function ContinueWithEmail() {
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
-                navigation('/LoginWithEmail', { state: { email: trimmedEmail } });
+                navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
                 if (trimmedEmail) {
                     localStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
-                navigation('/register', { state: { email: trimmedEmail } });
+                navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
             }
         }).catch((err) => console.log(err))
 
