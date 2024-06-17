@@ -22,6 +22,7 @@ export default function LoginWithMobileCode() {
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
 
     useEffect(() => {
@@ -74,7 +75,7 @@ export default function LoginWithMobileCode() {
                 }else{
                     navigation('/')
                 }
-                
+
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, otp: 'Invalid Code' }));
             }
@@ -145,7 +146,7 @@ export default function LoginWithMobileCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />
                 </div>

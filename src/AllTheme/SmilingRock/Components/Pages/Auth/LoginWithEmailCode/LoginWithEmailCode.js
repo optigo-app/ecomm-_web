@@ -23,6 +23,7 @@ export default function LoginWithEmailCode() {
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -113,7 +114,7 @@ export default function LoginWithEmailCode() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-                
+
                 if(redirectEmailUrl){
                     navigation(redirectEmailUrl);
                 }else{
@@ -213,7 +214,7 @@ export default function LoginWithEmailCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />
                 </div>

@@ -28,6 +28,7 @@ export default function LoginWithEmail() {
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
 
     // const setPdData = useSetRecoilState(productDataNew)
@@ -309,7 +310,7 @@ export default function LoginWithEmail() {
                         />
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
                         <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart';
+import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
@@ -46,10 +46,10 @@ const CartPage = () => {
           <div className="smr_cartButton-group">
             <button className="smr_cartBtn smr_cartActivebtn">List View</button>
             {/* <button className='smr_cartBtn'>Image View</button> */}
-            <button className='smr_cartBtn'>CLEAR ALL</button>
+            <button className='smr_cartBtn'>Clear All</button>
             <button className='smr_cartBtn'>Show ProductList</button>
 
-            <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+            {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
             {multiSelect && selectedItems.length != 0 &&
               <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
             }

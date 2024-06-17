@@ -17,6 +17,7 @@ export default function ContinueWithEmail() {
     const search = location?.search
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
 
     // const validateEmail = (email) => {
     //     const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
@@ -158,7 +159,7 @@ export default function ContinueWithEmail() {
                         </button> */}
 
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />
                 </div>
