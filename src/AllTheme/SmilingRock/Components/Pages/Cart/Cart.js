@@ -45,7 +45,7 @@ const CartPage = () => {
           <div className="smr_cart-title">My Cart</div>
           <div className="smr_cartButton-group">
             <button className="smr_cartBtn smr_cartActivebtn">List View</button>
-            <button className='smr_cartBtn'>Image View</button>
+            {/* <button className='smr_cartBtn'>Image View</button> */}
             <button className='smr_cartBtn'>CLEAR ALL</button>
             <button className='smr_cartBtn'>Show ProductList</button>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithEmailCode.modul.scss';
 import CryptoJS from 'crypto-js';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,6 +18,11 @@ export default function LoginWithEmailCode() {
     const [mobileNo, setMobileNo] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
     const setIsLoginState = useSetRecoilState(loginState)
+    const location = useLocation();
+
+    const search = location?.search
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -108,7 +113,12 @@ export default function LoginWithEmailCode() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-                navigation('/');
+                
+                if(redirectEmailUrl){
+                    navigation(redirectEmailUrl);
+                }else{
+                    navigation('/')
+                }
             } else {
                 errors.mobileNo = 'Code is Invalid'
             }
