@@ -206,7 +206,7 @@ export default function Register() {
         if (response.Data.rd[0].stat === 1) {
           localStorage.setItem('LoginUser', true)
           localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState('true')
+          setIsLoginState(true)
           localStorage.setItem('registerEmail', email)
           navigation('/');
         } else {

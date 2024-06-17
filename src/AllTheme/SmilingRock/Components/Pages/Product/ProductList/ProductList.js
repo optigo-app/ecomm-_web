@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation } from "react-router-dom";
+import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 const ProductList = () => {
 
   const[productListData,setProductListData]=useState([]);
   const[isProdLoading,setIsProdLoading]=useState(false);
+  const[storeInit,setStoreInit]=useState({});
+
   let location = useLocation();
+
+  useEffect(()=>{
+
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeinit)
+
+  },[])
 
   useEffect(() => {
     setIsProdLoading(true)
@@ -17,8 +27,8 @@ const ProductList = () => {
         setProductListData(res)
         setIsProdLoading(false)
       }
-  })
-    .catch((err) => console.log("err", err))
+
+  }).catch((err) => console.log("err", err))
 
   }, [location?.state?.menu]);
   
@@ -46,15 +56,27 @@ const ProductList = () => {
               <div className="smr_filter_portion"></div>
               <div className="smr_productList">
                   <div className="smr_inner_portion">
-                      {
+                      { productListData?.map((productData)=>
                         <div className="smr_productCard">
-                          <>
                           <img 
                           className="smr_productCard_Image" 
-
+                          src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                          alt=""
                           />
-                          </>
+                          <div className="smr_prod_title">
+
+                          </div>
+                          <div className="smr_prod_Allwt">
+                            <span className="smr_individual_prod_wt"></span>
+                            <span className="smr_individual_prod_wt"></span>
+                            <span className="smr_individual_prod_wt"></span>
+                            <span className="smr_individual_prod_wt"></span>
+                          </div>
+                          <div className="smr_prod_mtcolr_price">
+
+                          </div>
                         </div>
+                      )
                       }
                   </div>
               </div>

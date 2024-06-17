@@ -168,7 +168,7 @@ const Header = () => {
      let d = new Date();
      let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
      handleDropdownClose()
-     navigate('productlist',{state: {"menu":randomno}})
+     navigate('/productlist',{state: {"menu":randomno}})
 
  }
 
