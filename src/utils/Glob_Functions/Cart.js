@@ -9,7 +9,7 @@ const useCart = () => {
   const [openModal, setOpenModal] = useState(false);
   const [productRemark, setProductRemark] = useState('');
   const [showRemark, setShowRemark] = useState(false);
-  const [qtyCount, setQtyCount] = useState(0);
+  const [qtyCount, setQtyCount] = useState(1);
 
 
 

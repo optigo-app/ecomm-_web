@@ -13,6 +13,7 @@ import { loginState } from '../../../Recoil/atom';
 
 export default function Register() {
   const navigation = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -31,6 +32,10 @@ export default function Register() {
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
+  const search = location?.search
+  const updatedSearch = search.replace('?LoginRedirect=', '');
+  const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+
   const setIsLoginState = useSetRecoilState(loginState)
 
   const handleKeyDown = (event, nextRef) => {
@@ -40,7 +45,6 @@ export default function Register() {
     }
   };
 
-  const location = useLocation();
   useEffect(() => {
     const storedEmail = location.state?.email;
     const routeMobileNo = location.state?.mobileNo;
@@ -208,8 +212,14 @@ export default function Register() {
           localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           setIsLoginState('true')
           localStorage.setItem('registerEmail', email)
-          navigation('/');
-        } else {
+
+          if (redirectEmailUrl) {
+            navigation(redirectEmailUrl);
+          } else {
+            navigation('/')
+          }
+
+        } else {           
           if (response.Data?.rd[0].ismobileexists === 1) {
             errors.mobileNo = response.Data.rd[0].stat_msg;
           }
