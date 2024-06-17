@@ -131,11 +131,13 @@ const ProductListApi = async () => {
   };
 
   let pdList = [];
+  let pdResp = [];
 
   await CommonAPI(body).then((res) => {
     if(res){
       // let pdData = res?.Data.rd;
       pdList=res?.Data.rd;
+      pdResp=res?.Data
     }
     // pdData?.forEach((p) => {
     //   const mergedItem = {};
@@ -148,7 +150,7 @@ const ProductListApi = async () => {
     // });
   });
 
-  return pdList;
+  return {pdList,pdResp}
 };
 
 export default ProductListApi;

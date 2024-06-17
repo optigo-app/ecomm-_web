@@ -3,10 +3,13 @@ import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
+import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
 
 const ProductList = () => {
 
   const[productListData,setProductListData]=useState([]);
+  const[priceListData,setPriceListData]=useState([]);
+  const[finalProductListData,setFinalProductListData]=useState([]);
   const[isProdLoading,setIsProdLoading]=useState(false);
   const[storeInit,setStoreInit]=useState({});
 
@@ -20,19 +23,120 @@ const ProductList = () => {
   },[])
 
   useEffect(() => {
-    setIsProdLoading(true)
+    let param = JSON.parse(localStorage.getItem("menuparams"))
+
+    setIsProdLoading(true);
     ProductListApi()
-    .then((res) => {
-      if(res){
-        setProductListData(res)
-        setIsProdLoading(false)
+      .then((res) => {
+
+        if (res) {
+          setProductListData(res?.pdList);
+          setIsProdLoading(false);
+        }
+        return res;
+        
+      })
+      .then( async(res) => {
+
+        if (res) {
+          await GetPriceListApi(param,1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+            if(resp){
+              setPriceListData(resp)
+            }
+          })
+        }
+        return res;
+
+      }).then((res)=>{
+
+        console.log("data11",res?.pdList.length);
+
+        if(res?.pdList.length > 0){
+
+        const finalProdWithPrice = productListData.map((product)=>{
+
+          const newPriceData = priceListData?.rd?.find((pda) => pda.A == product.autocode)
+
+          const newPriceData1 = priceListData?.rd1?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
+
+          const newPriceData2 = priceListData?.rd2?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
+
+
+          let price = 0;
+          let markup = 0;
+          let metalrd = 0;
+          let diard1 = 0;
+          let csrd2 = 0;
+          let updNWT = 0;
+          let updGWT = 0;
+          let updDWT = 0;
+          let updDPCS = 0;
+          let updCWT = 0;
+          let updCPCS = 0;
+          // let updMT = "";
+          // let updMC = "";
+          let ismrpbase;
+          let mrpbaseprice;
+
+
+          if(newPriceData || newPriceData1 || newPriceData2){
+
+            price = (((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0)) + (newPriceData1 ?? 0) + (newPriceData2 ?? 0);
+            metalrd = (((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0))
+            diard1 = newPriceData1 ?? 0
+            csrd2 = newPriceData2 ?? 0
+            markup = newPriceData?.AB
+            updNWT = newPriceData?.I ?? 0
+            updGWT = newPriceData?.N ?? 0
+            updDWT = newPriceData?.K ?? 0
+            updDPCS = newPriceData?.J ?? 0
+            updCWT = newPriceData?.M ?? 0
+            updCPCS = newPriceData?.L ?? 0
+            // updMT = findMetalType(newPriceData?.C ?? product?.MetalTypeid)[0]?.metaltype ?? ""
+            // updMC = findMetalColor(product?.MetalColorid)[0]?.metalcolorname ?? ""
+            ismrpbase = newPriceData?.U
+            mrpbaseprice = newPriceData?.Z
+
+          }
+
+          return {
+            ...product, price, markup, metalrd, diard1, csrd2, updNWT, updGWT,
+            updDWT, updDPCS, updCWT, updCPCS, 
+            // updMT, updMC,
+            // diaQ, diaQid,diaC, diaCid, csQ, csQid, csC, csCid,
+             ismrpbase, mrpbaseprice
+          }
+        })
+
+        console.log("finalProdWithPrice",finalProdWithPrice)
+        setFinalProductListData(finalProdWithPrice)
       }
 
-  }).catch((err) => console.log("err", err))
+      })
+      .catch((err) => console.log("err", err));
 
   }, [location?.state?.menu]);
+
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
+  const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
+    if (pPrice <= 0) {
+      return 0
+    }
+    else if (pmu <= 0) {
+      return pPrice
+    }
+    else {
+      let percentPMU = ((pmu / 100) / curr)
+      return (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))
+    }
+  }
   
-  console.log("productListData", productListData)
+  // console.log("productListData", productListData)
 
 
   return (
@@ -56,24 +160,45 @@ const ProductList = () => {
               <div className="smr_filter_portion"></div>
               <div className="smr_productList">
                   <div className="smr_inner_portion">
-                      { productListData?.map((productData)=>
+                      { finalProductListData?.map((productData)=>
                         <div className="smr_productCard">
                           <img 
                           className="smr_productCard_Image" 
                           src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                           alt=""
                           />
-                          <div className="smr_prod_title">
-
+                          <div className={productData?.TitleLine?.length > 30 ? "smr_prod_title_with_width" : "smr_prod_title_with_no_width"}>
+                            {productData?.TitleLine}
                           </div>
                           <div className="smr_prod_Allwt">
-                            <span className="smr_individual_prod_wt"></span>
-                            <span className="smr_individual_prod_wt"></span>
-                            <span className="smr_individual_prod_wt"></span>
-                            <span className="smr_individual_prod_wt"></span>
+                            <span className="smr_por">
+                              <span className="smr_prod_wt">
+                                <span className="smr_keys">NWT:</span>
+                                <span className="smr_val">{productData?.updNWT}</span>
+                              </span>
+                              <span className="smr_prod_wt">
+                                <span className="smr_keys">GWT:</span>
+                                <span className="smr_val">{productData?.updGWT}</span>
+                              </span>
+                            </span>
+                            <span className="smr_por">
+                              <span className="smr_prod_wt">
+                                <span className="smr_keys">DWT:</span>.
+                                <span className="smr_val">{productData?.updDWT}</span>
+                              </span>
+                              <span className="smr_prod_wt">
+                                <span className="smr_keys">CWT:</span>
+                                <span className="smr_val">{productData?.updCWT}</span>
+                              </span>
+                            </span>
                           </div>
                           <div className="smr_prod_mtcolr_price">
-
+                              <span className="smr_price">
+                               <div className="currencyFont" style={{ fontSize: '17px' }} dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                               <span style={{ fontFamily: "Rubik, sans-serif", fontSize: '16px', color: 'black' }}>
+                                  {productData?.ismrpbase === 1 ? productData?.mrpbaseprice : PriceWithMarkupFunction(productData?.markup, productData?.price, storeInit?.CurrencyRate)?.toFixed(2)}
+                               </span>
+                              </span>
                           </div>
                         </div>
                       )

@@ -660,9 +660,9 @@ const Header = () => {
                             style={{ width: '100%' , display: 'flex', justifyContent: 'start',height: '25px' }}
                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
-                            <a href='/' className='smr_menuSubTitle'>
+                            {/* <a href='#' className='smr_menuSubTitle'> */}
                               <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                            </a>
+                            {/* </a> */}
                           </ButtonBase>
                           <>
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
