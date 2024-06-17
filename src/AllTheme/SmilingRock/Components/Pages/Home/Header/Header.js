@@ -82,13 +82,13 @@ const Header = () => {
 
     console.log("callll");
 
-    if(storeinit?.IsB2BWebsite === 0){
+    if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
-    }else if(storeinit?.IsB2BWebsite === 1 && isUserLogin === true){
+    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
       getMenuApi();
       return;
-    }else{
+    } else {
       return;
     }
 
@@ -97,7 +97,7 @@ const Header = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -151,26 +151,26 @@ const Header = () => {
     setDrawerShowOverlay(!drawerShowOverlay);
   };
 
-  const handelMenu = (param,param1,param2) =>{
+  const handelMenu = (param, param1, param2) => {
 
-    let obj ={
-     "menuname": param?.menuname ?? "",
-     "FilterKey": param?.key ?? "",
-     "FilterVal": param?.value ?? "",
-     "FilterKey1": param1?.key ?? "",  
-     "FilterVal1": param1?.value ?? "",
-     "FilterKey2": param2?.key ?? "",
-     "FilterVal2": param2?.value ?? ""
-     }
+    let obj = {
+      "menuname": param?.menuname ?? "",
+      "FilterKey": param?.key ?? "",
+      "FilterVal": param?.value ?? "",
+      "FilterKey1": param1?.key ?? "",
+      "FilterVal1": param1?.value ?? "",
+      "FilterKey2": param2?.key ?? "",
+      "FilterVal2": param2?.value ?? ""
+    }
 
-     localStorage.setItem("menuparams",JSON.stringify(obj))
+    localStorage.setItem("menuparams", JSON.stringify(obj))
 
-     let d = new Date();
-     let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-     handleDropdownClose()
-     navigate('productlist',{state: {"menu":randomno}})
+    let d = new Date();
+    let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+    handleDropdownClose()
+    navigate('productlist', { state: { "menu": randomno } })
 
- }
+  }
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -304,7 +304,7 @@ const Header = () => {
                       <>
                         <ButtonBase
                           component="div"
-                          onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}
+                          onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
                           style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                         >
                           <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
@@ -316,7 +316,7 @@ const Header = () => {
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
                                 component="div"
-                                onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
+                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                 style={{ width: '100%' }}
                               >
                                 <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
@@ -331,7 +331,7 @@ const Header = () => {
                                     {subMenuItem.param2.map(subSubMenuItem => (
                                       <ButtonBase
                                         component="div"
-                                        onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
+                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                         style={{ width: '100%' }}
                                       >
                                         <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
@@ -401,7 +401,7 @@ const Header = () => {
           </div>
           <div className='smiling_Top_header_div2'>
             <a href="/">
-              <img src={compnyLogo} loading='lazy' className='smr_logo_header'/>
+              <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
             </a>
           </div>
           <div className='smiling_Top_header_div3'>
@@ -527,7 +527,7 @@ const Header = () => {
             </div>
             <div className='smiling_Top_header_div2'>
               <a href="/">
-                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed'/>
+                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />
               </a>
             </div>
             <div className='smiling_Top_header_div3'>
@@ -649,7 +649,7 @@ const Header = () => {
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button className="smr_underline_button" onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname})}>view all</button>
+                        <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase>
                     <List>
@@ -657,10 +657,12 @@ const Header = () => {
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
                             component="div"
-                            style={{ width: '100%' }}
-                            onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname})}
+                            style={{ width: '100%' , display: 'flex', justifyContent: 'start',height: '25px' }}
+                            onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            <a href='/' className='smr_menuSubTitle'>
+                              <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            </a>
                           </ButtonBase>
                           <>
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
@@ -668,8 +670,8 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: '100%' }}
-                                  onClick={()=>handelMenu({"menuname":menuItem?.menuname,"key":menuItem?.param0name,"value":menuItem?.param0dataname},{"key":subMenuItem.param1name,"value":subMenuItem.param1dataname},{"key":subSubMenuItem.param2name,"value":subSubMenuItem.param2dataname})}
-                                  
+                                  onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
+
                                 >
                                   <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
