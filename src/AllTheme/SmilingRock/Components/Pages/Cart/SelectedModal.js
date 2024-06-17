@@ -1,54 +1,9 @@
-// import React from 'react';
-// import Modal from '@mui/material/Modal';
-// import Box from '@mui/material/Box';
-// import Typography from '@mui/material/Typography';
-
-// const SelectedItemsModal = ({ open, onClose, selectedItems }) => {
-//   return (
-//     <Modal open={open} onClose={onClose}>
-//       <Box sx={{ width: 1200, margin: 'auto', mt: 5, padding: 2, backgroundColor: 'white' }}>
-//         <Typography variant="h6" component="h2">
-//           Selected Items
-//         </Typography>
-
-//         {selectedItems.map(item => (
-//           <Box key={item.id} sx={{ mt: 2 }}>
-//             <Typography variant="h6">
-//               {item.TitleLine}
-//             </Typography>
-//             <Typography variant="body2">
-//               Price: ${item.ProductPrice}
-//             </Typography>
-//             <Typography variant="body2">
-//               Quantity: {item.TotalQuantity}
-//             </Typography>
-//           </Box>
-//         ))}
-//       </Box>
-//     </Modal>
-//   );
-// };
-
-// export default SelectedItemsModal;
-
-
-
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './smr_cartPage.scss';
-
-const DummyData = [
-  { id: 1, title: 'Product 1', description: 'Description of Product 1' },
-  { id: 2, title: 'Product 2', description: 'Description of Product 2' },
-  { id: 3, title: 'Product 2', description: 'Description of Product 2' },
-  { id: 4, title: 'Product 2', description: 'Description of Product 2' },
-  { id: 5, title: 'Product 2', description: 'Description of Product 2' },
-];
-
 
 
 
@@ -89,6 +44,11 @@ const generateFilterAccordions = (filters, checkedItems, handleCheckboxChange) =
 
 const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCancelCart }) => {
   const [checkedItems, setCheckedItems] = useState({});
+  const [metalTypeCombo, setMetalTypeCombo] = useState([]);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [ColorStoneCombo, setColorStoneCombo] = useState([]);
+  const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
+  const [sizeCombo, setSizeCombo] = useState([]);
 
   const handleCheckboxChange = (itemId, category) => {
     console.log('category--', category);
@@ -151,6 +111,21 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   console.log('filterArrData----', filterArr);
 
+
+  // for Short-combo data
+  useEffect(() => {
+    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    setMetalTypeCombo(metalTypeData);
+    setMetalColorCombo(metalColorData);
+    setDiamondQualityColorCombo(diamondQtyColorData);
+    setColorStoneCombo(CSQtyColorData);
+    console.log('metaltype', diamondQtyColorData);
+
+  }, [])
+
   return (
     <Modal
       className="smr_modal"
@@ -181,10 +156,11 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="metalTypeMaster"
                     label="Metal Type"
                   >
-                    <MenuItem value="">Diamond</MenuItem>
-                    <MenuItem value="1">Option 1</MenuItem>
-                    <MenuItem value="2">Option 2</MenuItem>
-                    <MenuItem value="3">Option 3</MenuItem>
+                    {metalTypeCombo.map(option => (
+                      <MenuItem key={option.Metalid} value={option.metaltype}>
+                        {option.metaltype}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -196,10 +172,11 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="metalColorMaster"
                     label="Metal Color"
                   >
-                    <MenuItem value="">Diamond</MenuItem>
-                    <MenuItem value="1">Option 1</MenuItem>
-                    <MenuItem value="2">Option 2</MenuItem>
-                    <MenuItem value="3">Option 3</MenuItem>
+                    {metalColorCombo.map(option => (
+                      <MenuItem key={option.id} value={option.colorname}>
+                        {option.colorname}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -211,10 +188,11 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="diamondMaster"
                     label="Diamond"
                   >
-                    <MenuItem value="">Diamond</MenuItem>
-                    <MenuItem value="1">Option 1</MenuItem>
-                    <MenuItem value="2">Option 2</MenuItem>
-                    <MenuItem value="3">Option 3</MenuItem>
+                    {diamondQualityColorCombo.map(option => (
+                      <MenuItem key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality+'#'+ option?.color}>
+                        {option?.Quality+'#'+ option?.color}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -291,7 +269,7 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
               </div>
             </Grid>
           </Grid>
-          <Divider sx={{margin:'10px 0px'}}/>
+          <Divider sx={{ margin: '10px 0px' }} />
           <CardActions className='smr_projectUpdateCartBtn-group'>
             <div className="smr_projectUpdateCartBtn-group">
               <button className="smr_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>

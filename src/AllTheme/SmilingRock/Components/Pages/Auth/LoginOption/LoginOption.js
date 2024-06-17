@@ -15,6 +15,8 @@ const LoginOption = () => {
     const search = location?.search
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
+    const redirectMobileUrl = `/ContimueWithMobile/${search}`;
+
     return (
         <div>
             <div className='loginDailog'>
@@ -26,7 +28,7 @@ const LoginOption = () => {
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
                         </div>
-                        <div className='loginMobile' onClick={() => navigation('/ContimueWithMobile')}>
+                        <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
                             <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
                         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
@@ -12,6 +12,12 @@ export default function ContimueWithMobile() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [buttonFocused, setButtonFocused] = useState(false);
     const navigation = useNavigate();
+    const location = useLocation();
+
+
+    const search = location?.search
+    const redirectMobileUrl = `/LoginWithMobileCode/${search}`;
+    const redirectSignUpUrl = `/register/${search}`;
 
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
@@ -66,10 +72,10 @@ export default function ContimueWithMobile() {
                 toast.error('You are not a customer, contact to admin')
             } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
                 toast.success('OTP send Sucssessfully');
-                navigation('/LoginWithMobileCode', { state: { mobileNo: mobileNo } });
+                navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
                 localStorage.setItem('registerMobile', mobileNo)
             } else {
-                navigation('/register', { state: { mobileNo: mobileNo } });
+                navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
                 localStorage.setItem('registerMobile', mobileNo)
             }
         }).catch((err) => console.log(err))

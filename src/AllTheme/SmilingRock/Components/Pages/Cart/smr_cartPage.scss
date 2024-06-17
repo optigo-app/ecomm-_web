@@ -15,7 +15,7 @@ $cartUpdateBtncolor:#b1b1b1;
 // Top button Group code
 .smr_cartMainPage {
   display: flex;
-  gap: 30px;
+  // gap: 30px;
   margin-bottom: -8%;
 }
 
@@ -157,7 +157,7 @@ $cartUpdateBtncolor:#b1b1b1;
 .smr_cart-container {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 40px;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -168,7 +168,7 @@ $cartUpdateBtncolor:#b1b1b1;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 450px;
+  max-width: 400px;
 
   .smr_cartImage {
     max-width: 100%;
@@ -327,6 +327,8 @@ $cartUpdateBtncolor:#b1b1b1;
     color: $titleColor;
     font-size: $fontSize2;
     font-family: $homePageFontFamily;
+    display: flex;
+    justify-content: start;
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithMobileCode.css';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
@@ -17,6 +17,11 @@ export default function LoginWithMobileCode() {
     const [enterOTP, setEnterOTP] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
     const setIsLoginState = useSetRecoilState(loginState)
+    const location = useLocation();
+
+    const search = location?.search
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
 
 
     useEffect(() => {
@@ -63,7 +68,13 @@ export default function LoginWithMobileCode() {
                 setIsLoginState(true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 localStorage.setItem('registerMobile', mobileNo);
-                navigation('/');
+
+                if(redirectMobileUrl){
+                    navigation(redirectMobileUrl);
+                }else{
+                    navigation('/')
+                }
+                
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, otp: 'Invalid Code' }));
             }
