@@ -1,5 +1,5 @@
 import React from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/__Cart';
+import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
@@ -15,6 +15,7 @@ const CartPage = () => {
     multiSelect,
     openModal,
     showRemark,
+    productRemark,
     qtyCount,
     handleSelectItem,
     handleIncrement,
@@ -28,7 +29,12 @@ const CartPage = () => {
     handleAddReamrk,
     handleRemoveItem,
     handleUpdateCart,
-    handleCancelUpdateCart
+    handleCancelUpdateCart,
+    handleMetalTypeChange, 
+    handleMetalColorChange, 
+    handleDiamondChange, 
+    handleSizeChange 
+
   } = useCart();
 
   function scrollToTop() {
@@ -71,10 +77,16 @@ const CartPage = () => {
                 qtyCount={qtyCount}
                 multiSelect={multiSelect}
                 showRemark={showRemark}
+                productRemark={productRemark}
                 handleAddReamrk={handleAddReamrk}
                 handleRemarkChange={handleRemarkChange}
                 handleSave={handleSave}
-                handleCancel={handleCancel} />
+                handleCancel={handleCancel}
+                handleMetalTypeChange={handleMetalTypeChange} 
+                handleMetalColorChange={handleMetalColorChange} 
+                handleDiamondChange={handleDiamondChange} 
+                handleSizeChange={handleSizeChange} 
+                 />
             )}
           </div>
           <div className="smr_cart-right-side">

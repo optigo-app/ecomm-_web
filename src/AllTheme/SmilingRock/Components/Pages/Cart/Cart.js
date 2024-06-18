@@ -1,5 +1,5 @@
 import React from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/_Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
