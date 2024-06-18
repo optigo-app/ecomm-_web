@@ -13,6 +13,7 @@ import PromoSetSection from './PromosetSection/PromoSetSection';
 import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
+import BestSaller from './BestSaller/BestSaller';
 
 function Home() {
 
@@ -27,6 +28,7 @@ function Home() {
         <PromotionBanner2 />
         <PromoSetSection />
         <SustainAbility />
+        <BestSaller />
         <BottomBanner />
         <Footer />
       </div>

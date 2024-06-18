@@ -197,8 +197,8 @@ const PromoSetSection = () => {
                 </div>
             </Slider>
         </div>
-
     </div>
+
 </div>
   )
 }
