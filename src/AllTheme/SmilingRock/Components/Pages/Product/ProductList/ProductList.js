@@ -6,6 +6,9 @@ import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
 import { findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
+import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const ProductList = () => {
 
@@ -14,6 +17,8 @@ const ProductList = () => {
   const[finalProductListData,setFinalProductListData]=useState([]);
   const[isProdLoading,setIsProdLoading]=useState(false);
   const[storeInit,setStoreInit]=useState({});
+  const[filterData,setFilterData]= useState([])
+  const[filterChecked,setFilterChecked]= useState({})
 
   let location = useLocation();
 
@@ -21,6 +26,14 @@ const ProductList = () => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeinit)
   },[])
+
+  // useEffect(()=>{
+  //   // let FilterData = JSON.parse(localStorage.getItem("AllFilter"));
+      
+    
+  // },[priceListData])
+
+  // console.log("filterData",filterData);
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
@@ -34,11 +47,16 @@ const ProductList = () => {
         })
         .then( async(res) => {
           if (res) {
-            await GetPriceListApi(param,1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
               if(resp){
                 setPriceListData(resp)
               }
             })
+          }
+          return res
+        }).then(async(res)=>{
+          if(res){
+            FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
           }
         })
         .catch((err) => console.log("err", err))
@@ -50,9 +68,11 @@ const ProductList = () => {
       const newPriceData = priceListData?.rd?.find(
         (pda) => pda.A == product.autocode
       );
+      
       const newPriceData1 = priceListData?.rd1
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
+
       const newPriceData2 = priceListData?.rd2
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
@@ -158,6 +178,59 @@ const ProductList = () => {
     return finalprodListimg
   }
 
+  const handleCheckboxChange = (e,listname,val) =>{
+    const { name, checked } = e.target;
+    
+      setFilterChecked((prev)=>({
+        ...prev,
+        [name]:{checked,type:listname,id:name,value:val}
+      }))
+
+  }
+  
+  useEffect(()=>{
+  let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
+  
+  const output = {};
+
+  onlyTrueFilterValue.forEach(item => {
+      if (!output[item.type]) {
+        output[item.type] = '';
+      }
+      output[item.type] += `${item.id}, `;
+    });
+
+    for (const key in output) {
+      output[key] = output[key].slice(0, -2);
+    }
+
+
+    ProductListApi(output)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+          }
+          return res;
+        })
+        .then( async(res) => {
+          if (res) {
+            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+              if(resp){
+                setPriceListData(resp)  
+              }
+            })
+          }
+          return res
+        }).then(async(res)=>{
+          if(res){
+            FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+          }
+        })
+        .catch((err) => console.log("err", err))
+    console.log("filterchecked",output);
+
+  },[filterChecked])
+
 
   return (
     <div id="top">
@@ -182,11 +255,107 @@ const ProductList = () => {
                 </div>
               </div>
               <div className="smr_mainPortion">
-                <div className="smr_filter_portion"></div>
+                <div className="smr_filter_portion">
+                  <div style={{padding:'21px 71px'}}>
+                  <span className="smr_filter_text">
+                    <span>Filter</span>
+                  </span>
+                  <div>
+                    {
+                        filterData?.map((ele)=>(
+                        <>
+                        { !((ele?.id).includes("Range")) && <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                          >
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                            >
+                              <span className="filtercategoryLable">
+                                {ele.Name}
+                              </span>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: 'fit-content',
+                                maxHeight: '300px',
+                                overflow: 'auto',
+                              }}
+                            >
+                            
+                              {JSON.parse(ele?.options).map((opt) => (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: 'space-between',
+                                    gap: "12px",
+                                  }}
+                                  key={opt?.id}
+                                >
+
+                                  <small
+                                    style={{
+                                      fontFamily: "TT Commons, sans-serif",
+                                      color: "#7f7d85",
+                                    }}
+                                  >
+                                    {opt.Name}
+                                  </small>
+                                  <Checkbox
+                                    name={opt?.id}
+                                    // checked={
+                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                    //     : false
+                                    // }
+                                    style={{
+                                      color: "#7f7d85",
+                                      padding: 0,
+                                      width: "10px",
+                                    }}
+                                    onClick={(e) =>
+                                      handleCheckboxChange(e,ele?.id,opt?.Name)
+                                    }
+                                    size="small"
+                                  />
+                                </div>
+                              ))}
+                            </AccordionDetails>
+                          </Accordion>}
+                        </>
+                        ))
+                    }
+                  </div>
+                  </div>
+                </div>
                 <div className="smr_productList">
                     <div className="smr_inner_portion">
                         { finalProductListData?.map((productData)=>
-                          <div className="smr_productCard">
+                          <div className="smr_productCard" onClick={()=>console.log(productData)}>
                             <img 
                             className="smr_productCard_Image" 
                             // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
@@ -194,7 +363,7 @@ const ProductList = () => {
                             alt=""
                             />
                             <div className={productData?.TitleLine?.length > 30 ? "smr_prod_title_with_width" : "smr_prod_title_with_no_width"}>
-                              {productData?.TitleLine}
+                              {productData?.TitleLine} {productData?.TitleLine?.length>0 && "-"} {productData?.designno}
                             </div>
                             <div className="smr_prod_Allwt">
                               <span className="smr_por">
@@ -209,7 +378,7 @@ const ProductList = () => {
                               </span>
                               <span className="smr_por">
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>.
+                                  <span className="smr_keys">DWT:</span>
                                   <span className="smr_val">{productData?.updDWT}</span>
                                 </span>
                                 <span className="smr_prod_wt">
@@ -220,12 +389,12 @@ const ProductList = () => {
                             </div>
                             <div className="smr_prod_mtcolr_price">
                                 <span className="smr_prod_metal_col">
-                                  {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname}-{findMetalType(productData?.MetalPurityid)[0]?.metaltype} 
+                                  {findMetalColor(productData?.MetalColorid)?.[0]?.metalcolorname.toUpperCase()}-{findMetalType(productData?.MetalPurityid)[0]?.metaltype} 
                                 </span>
                                 <span>/</span>
                                 <span className="smr_price">
-                                <div className="currencyFont" style={{ fontSize: '17px' }} dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                <span style={{ fontFamily: "Rubik, sans-serif", fontSize: '16px', color: 'black' }}>
+                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                <span className="smr_pricePort">
                                     {productData?.ismrpbase === 1 ? productData?.mrpbaseprice : PriceWithMarkupFunction(productData?.markup, productData?.price, storeInit?.CurrencyRate)?.toFixed(2)}
                                 </span>
                                 </span>
