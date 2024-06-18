@@ -1,12 +1,12 @@
 @import '../../../scss/variable';
 
-.smr_bodyContain{
+.smr_bodyContain {
     background-color: $backgroundColor;
     height: 100%;
     width: 100%;
 }
 
-.smr_outerContain{
+.smr_outerContain {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,71 +19,151 @@
     width: 100%;
 }
 
-.smr_prodSorting{
+.smr_prodSorting {
     display: flex;
     justify-content: flex-end;
     font-family: "Rubik", sans-serif;
 
-    .container{
+    .container {
         display: flex;
         align-items: baseline;
         border-bottom: 1px solid $primaryBorderColor;
         width: auto;
-        padding-right: 15px;
+        margin-right: 65px;
+        margin-top: 10px;
     }
 
-    .label{
+    .label {
         font-size: 12px;
-        color:$primaryfontcolor;
-    }
-    
-    .select{
-        width: auto; 
-        height: 40px; 
-        border: none; 
-        outline: none; 
-        font-size: 12px;
-        color:$primaryfontcolor;
+        color: $primaryfontcolor;
     }
 
-    .option{
+    .select {
+        width: auto;
+        height: 27px;
+        border: none;
+        outline: none;
         font-size: 12px;
-        color:$primaryfontcolor;
+        color: $primaryfontcolor;
+    }
+
+    .option {
+        font-size: 12px;
+        color: $primaryfontcolor;
     }
 
 }
 
 // main portion of product and filter
 
-.smr_mainPortion{
-    width:100%;
+.smr_mainPortion {
+    width: 100%;
     display: flex;
 
-    .smr_filter_portion{
-        width:20%;
+    .smr_filter_portion {
+        width: 25%;
     }
 
-    .smr_productList{
-        width:80%;
+    .smr_productList {
+        width: 75%;
         display: flex;
         align-items: center;
+        margin: 20px 50px 0px 0px;
 
-        .smr_inner_portion{
+        .smr_inner_portion {
             width: 100%;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            // justify-content: end;
 
-            .smr_productCard{
-                width: 33.33%;
+            .smr_productCard {
+                width: 32.80%;
                 border: 1px solid $primaryBorderColor;
                 text-align: center;
                 color: $primaryfontcolor;
                 position: relative;
                 z-index: 0;
 
-                .smr_productCard_Image{
+                .smr_productCard_Image {
+                    object-fit: cover;
+                    background-position: 50%;
+                    background-size: cover;
+                    height: 412px;
+                    min-height: 412px;
+                    width: 100%;
+                }
 
+                .smr_prod_title_with_width {
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    cursor: pointer;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    padding: 0 5px;
+                    min-height: 19.5px;
+                    width: 300px;
+                    margin: 3px;
+                    max-height: 3em;
+                    /* Adjust as needed */
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .smr_prod_title_with_no_width {
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    cursor: pointer;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    padding: 0 5px;
+                    min-height: 19.5px;
+                    /* width:300px; */
+                    margin: 3px;
+                }
+
+                .smr_prod_Allwt {
+                    display: flex;
+                    flex-direction: column;
+                    padding-inline: 26px;
+                    gap: 3px;
+
+                    .smr_por {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .smr_prod_wt {
+                            display: flex;
+                            gap: 2px;
+
+                            .smr_keys {
+                                font-size: 13px;
+                            }
+
+                            .smr_val {
+                                font-size: 15px;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+
+                .smr_prod_mtcolr_price {
+                    display: flex;
+                    justify-content: center;
+                    gap:3px;
+                    .smr_price {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 2px
+                    }
                 }
             }
         }
@@ -95,7 +175,7 @@
 
 
 
-@media screen and (max-width:1441px){
+@media screen and (max-width:1441px) {
     .smr_whiteInnerContain {
         margin-inline: 2%;
     }

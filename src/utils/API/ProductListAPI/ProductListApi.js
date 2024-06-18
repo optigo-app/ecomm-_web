@@ -88,38 +88,69 @@ const ProductListApi = async () => {
 
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  let menuparam = JSON.parse(localStorage.getItem("menuparams"));
 
   const data = {
     PackageId: `${loginInfo?.PackageId }`,
-    autocode: "",
+    autocode: '',
     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
     Customerid: `${loginInfo?.id}`,
+    DesignNo:'',
+    FilterKey:`${menuparam?.FilterKey}`,
+    FilterVal:`${menuparam?.FilterVal}`,
+    FilterKey1:`${menuparam?.FilterKey1}`,
+    FilterVal1:`${menuparam?.FilterVal1}`,
+    FilterKey2:`${menuparam?.FilterKey2}`,
+    FilterVal2:`${menuparam?.FilterVal2}`,
+    PageNo:`${0}`,
+    PageSize:`${0}`,
+    // Collectionid: `${filterObj?.Collectionid ?? ""}`,
+    // Categoryid: `${filterObj?.Categoryid ?? ""}`,
+    // SubCategoryid: `${filterObj?.SubCategoryid ?? ""}`,
+    // Brandid: `${filterObj?.Brandid ?? ""}`,
+    // Genderid: `${filterObj?.Genderid ?? ""}`,
+    // Ocassionid: `${filterObj?.Ocassionid ?? ""}`,
+    // Themeid: `${filterObj?.Themeid ?? ""}`,
+    // Min_DiaWeight: '',
+    // Max_DiaWeight: '',
+    // Min_GrossWeight: '',
+    // Max_GrossWeight: '',
+    // Max_NetWt: '',
+    // Min_NetWt: '',
+    // Max_Price: '',
+    // Min_Price: '',
+    // Producttypeid: `${filterObj?.Producttypeid ?? ""}`
   };
 
-  let encData = btoa(JSON.stringify(data));
+  let encData = JSON.stringify(data)
 
   let body = {
     con: `{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${loginInfo?.userid ?? ""}\"}`,
     f: "onlogin (GETPRODUCTLIST)",
-    p: encData,
+    dp: encData,
   };
 
   let pdList = [];
+  let pdResp = [];
 
   await CommonAPI(body).then((res) => {
-    let pdData = res?.Data.rd;
-    pdData?.forEach((p) => {
-      const mergedItem = {};
-      for (let key in p) {
-        if (keyMapping[key]) {
-          mergedItem[keyMapping[key]] = p[key];
-        }
-      }
-      pdList.push(mergedItem);
-    });
+    if(res){
+      // let pdData = res?.Data.rd;
+      pdList=res?.Data.rd;
+      pdResp=res?.Data
+    }
+    // pdData?.forEach((p) => {
+    //   const mergedItem = {};
+    //   for (let key in p) {
+    //     if (keyMapping[key]) {
+    //       mergedItem[keyMapping[key]] = p[key];
+    //     }
+    //   }
+    //   pdList.push(mergedItem);
+    // });
   });
 
-  return pdList;
+  return {pdList,pdResp}
 };
 
 export default ProductListApi;
