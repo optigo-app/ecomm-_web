@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Index.modul.scss'
 import { Storeinit } from '../../../../../utils/API/Storeinit/Storeinit';
 import { companyLogo } from '../../Recoil/atom';
@@ -14,11 +14,14 @@ import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
 import BestSaller from './BestSaller/BestSaller';
+import { Helmet } from 'react-helmet';
 
 function Home() {
 
+
   return (
     <div className='smiling_home_index_main'>
+
       <div className='smiling_home_index_Submain'>
         <TopSection />
         <TheDifference />
