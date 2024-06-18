@@ -155,6 +155,9 @@
                 }
 
                 .smr_prod_mtcolr_price {
+                    display: flex;
+                    justify-content: center;
+                    gap:3px;
                     .smr_price {
                         display: flex;
                         align-items: center;
