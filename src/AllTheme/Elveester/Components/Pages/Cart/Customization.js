@@ -32,14 +32,17 @@
 
 // export default CartDetails;
 
-import React from 'react';
-import './cartPage.scss'
+import React, { useState } from 'react';
+import './smr_cartPage.scss';
+import { Divider } from '@mui/material';
+import QuantitySelector from './QuantitySelector';
 
-const Customization = ({ selectedItem, onQuantityChange }) => {
-  console.log('selected', selectedItem);
+const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, showRemark, handleAddReamrk, handleRemarkChange, handleSave, handleCancel }) => {
+
   return (
     <div className="smr_Cart_R-details">
-      <h1 className='smr_cart-Titleline'>{selectedItem?.TitleLine}</h1>
+      <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+      <Divider />
       <div className="smr_Cart-options">
         <div className="option">
           <label htmlFor="metal-type">Metal Type:</label>
@@ -67,87 +70,47 @@ const Customization = ({ selectedItem, onQuantityChange }) => {
         </div>
       </div>
       <div className='smr_cartQtyPricemainDev'>
-        <div className="smr_cart-quantity">
-          <label htmlFor="quantity">QTY</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            defaultValue={selectedItem.TotalQuantity}
-            onChange={(e) => onQuantityChange(Math.max(1, e.target.value))}
-          />
-        </div>
+        <QuantitySelector selectedItem={selectedItem} handleIncrement={ handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount}/>
         <div className="product-price">
-          <span>Price: ${selectedItem.ProductPrice}</span>
+          <span>Price: ${selectedItem?.FinalCost}</span>
         </div>
       </div>
       <div className='smr_UpdateCartBtn'>
         <button className="smr_cartUpdate-button">Save</button>
       </div>
-      {/* <div className="product-remark">
-        <div className="container-fluid mainRenarkConatiner" style={{ border: '1px solid rgb(225, 225, 225)', borderRadius: '12px' }}>
-          <div className="d-flex justify-content-center row">
-            <div className="col-md-12">
-              <div className="d-flex flex-column comment-section">
-                <div className="bg-white p-2 remark-container">
-                  <div className="d-flex flex-row user-info">
-                    <h6 className="remarkText">Product Remark</h6>  
-                  </div>
-                  <div className="mt-2">
-                    <p className="comment-text remarkText w-100" style={{ wordWrap: 'break-word' }}>
-                      {remarksApires !== '' ? remarksApires : cartSelectData?.Remarks}
-                    </p>
-                  </div>
-                </div>
-                {!showRemarkFields && (
-                  <div className="mt-2 mb-2 text-right">
-                    <button
-                      className="showremarkbtn"
-                      type="button"
-                      onClick={handleShowReamrkFields}
-                    >
-                      Add Remark
-                    </button>
-                  </div>
-                )}
-                {showRemarkFields && (
-                  <div className={`remark-fields ${showRemarkFields ? 'active' : ''}`}>
-                    <div className="d-flex flex-row align-items-start">
-                      <textarea
-                        className="textarea"
-                        defaultValue={''}
-                        value={remarks}
-                        style={{
-                          height: '100px',
-                          fontSize: '13px',
-                        }}
-                        onChange={(event) => handleInputChangeRemarks(event)}
-                      />
-                    </div>
-                    <div className="mt-2 text-right">
-                      <button
-                        className="showremarkbtn"
-                        type="button"
-                        onClick={() => handleSubmit(cartSelectData)}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="cancelremarkbtn"
-                        type="button"
-                        onClick={() => setShowRemarkFields(!showRemarkFields)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+      <div className="smr_projectRemark">
+        <span className='smr_remarkTitle' htmlFor="product-remark">Product Remark</span>
+        {!showRemark &&
+          <div>
+            <p className='smr_prRemarkText'>{selectedItem?.Remarks}</p>
+            <div className='smr_AddReamrkBtn'>
+              <button className="smr_remarksave-btn" onClick={handleAddReamrk}>
+                {selectedItem?.Remarks ? "Update Remark" : "Add Remark"}
+              </button>
             </div>
           </div>
-
-        </div>
-      </div> */}
+        }
+        {showRemark &&
+          <>
+            <div className="smr_product-remark">
+              <textarea
+                className="smr_product-remarkTextArea"
+                rows="4"
+                value={selectedItem?.Remarks}
+                onChange={handleRemarkChange}
+              ></textarea>
+            </div>
+            <div className="smr_projectRemarkBtn-group">
+              <button className="smr_remarksave-btn" onClick={handleSave}>
+                Save
+              </button>
+              <button className="smr_remarkcancel-btn" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </>
+        }
+      </div>
     </div>
   );
 };

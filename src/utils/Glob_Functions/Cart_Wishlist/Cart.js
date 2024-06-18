@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import Data from "../JsonData/cart.json"
+import Data from "../../JsonData/cart.json"
+import { fetchCartDetails } from '../../API/CartAPI/CartApi';
 
 const useCart = () => {
   const [cartData, setCartData] = useState([]);
@@ -10,8 +11,6 @@ const useCart = () => {
   const [productRemark, setProductRemark] = useState('');
   const [showRemark, setShowRemark] = useState(false);
   const [qtyCount, setQtyCount] = useState(1);
-
-
 
   useEffect(() => {
     console.log('dsadsdsadas', Data);
@@ -62,7 +61,7 @@ const useCart = () => {
   // update cart
 
   const handleUpdateCart = (updatedItems) => {
-    console.log('updatedItems',updatedItems);
+    console.log('updatedItems', updatedItems);
     setCartData(updatedItems);
     setSelectedItem(updatedItems.length > 0 ? updatedItems[0] : null);
     setSelectedItems([]);

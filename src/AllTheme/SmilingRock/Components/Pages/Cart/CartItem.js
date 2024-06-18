@@ -26,7 +26,7 @@ const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLengt
           boxShadow: isSelected ? 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important' : 'none',
         }}
         onClick={() => onSelect(item)}>
-        <CardActionArea style={{ flexGrow: 1 }}>
+        <CardActionArea style={{ flexGrow: 1 }} > 
           <CardMedia
             component="img"
             image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}

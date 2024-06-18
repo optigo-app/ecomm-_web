@@ -165,10 +165,10 @@ const Header = () => {
 
     localStorage.setItem("menuparams", JSON.stringify(obj))
 
-    let d = new Date();
-    let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-    handleDropdownClose()
-    navigate('productlist', { state: { "menu": randomno } })
+     let d = new Date();
+     let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+     handleDropdownClose()
+     navigate('/productlist',{state: {"menu":randomno}})
 
   }
 
@@ -471,7 +471,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        // onClick={toggleCartDrawer(true)}
+                        onClick={() => {navigate('/cartPage')}}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -597,7 +597,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          // onClick={toggleCartDrawer(true)}
+                          onClick={() => {navigate('/cartPage')}}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -660,9 +660,9 @@ const Header = () => {
                             style={{ width: '100%' , display: 'flex', justifyContent: 'start',height: '25px' }}
                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
-                            <a href='/' className='smr_menuSubTitle'>
+                            {/* <a href='#' className='smr_menuSubTitle'> */}
                               <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                            </a>
+                            {/* </a> */}
                           </ButtonBase>
                           <>
                             <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>

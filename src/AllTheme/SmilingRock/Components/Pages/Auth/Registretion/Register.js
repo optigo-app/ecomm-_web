@@ -35,6 +35,7 @@ export default function Register() {
   const search = location?.search
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  const cancelRedireactUrl = `/LoginOption/${search}`;
 
   const setIsLoginState = useSetRecoilState(loginState)
 
@@ -210,7 +211,7 @@ export default function Register() {
         if (response.Data.rd[0].stat === 1) {
           localStorage.setItem('LoginUser', true)
           localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState('true')
+          setIsLoginState(true)
           localStorage.setItem('registerEmail', email)
 
           if (redirectEmailUrl) {
@@ -219,7 +220,7 @@ export default function Register() {
             navigation('/')
           }
 
-        } else {           
+        } else {
           if (response.Data?.rd[0].ismobileexists === 1) {
             errors.mobileNo = response.Data.rd[0].stat_msg;
           }
@@ -390,7 +391,7 @@ export default function Register() {
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
+            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
           </div>
           <Footer />
         </div>
