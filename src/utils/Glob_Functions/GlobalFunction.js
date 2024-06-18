@@ -15,3 +15,9 @@ export function findMetalType(paramId) {
   let item = metalTypeArr.filter(item => item?.Metalid === paramId)
   return item
 }
+
+export function findMetal(param) {
+  let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
+  let item = metalTypeArr.filter(item => item?.metaltype === param)
+  return item
+}

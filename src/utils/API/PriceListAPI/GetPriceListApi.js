@@ -1,11 +1,14 @@
+import { findMetal } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const GetPriceListApi = async(param,page=1,obj={},filterObj={},autocodeList) =>{
+export const GetPriceListApi = async(page=1,obj={},filterObj={},autocodeList) =>{
 
     const storeInit = JSON.parse(localStorage.getItem("storeInit"))
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
+    const param = JSON.parse(localStorage.getItem("menuparams"))
     const islogin = JSON.parse(localStorage.getItem("LoginUser"))
     const UserEmail = localStorage.getItem("registerEmail")
+
 
     // let encodedFilter = {
     //     "DesignNo":"",
@@ -41,7 +44,7 @@ export const GetPriceListApi = async(param,page=1,obj={},filterObj={},autocodeLi
     //   }
 
     const GetPriceReq = {
-        "CurrencyRate": `${loginUserDetail?.CurrencyRate}`,
+        "CurrencyRate": `${storeInit?.CurrencyRate}`,
         "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
         // "Customerid": `${loginUserDetail?.id}`,
         // "Laboursetid": `${loginUserDetail?.pricemanagement_laboursetid}`,
@@ -53,7 +56,7 @@ export const GetPriceListApi = async(param,page=1,obj={},filterObj={},autocodeLi
         "diamondpricelistname": `${(storeInit?.IsB2BWebsite == 0 && (islogin == false))  ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
         "colorstonepricelistname": `${(storeInit?.IsB2BWebsite == 0 && (islogin == false)) ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
         "SettingPriceUniqueNo": `${(storeInit?.IsB2BWebsite == 0 && (islogin == false)) ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
-        "DesignNo":"",
+        "designno":"",
         "FilterKey":`${param?.FilterKey}`,
         "FilterVal":`${param?.FilterVal}`,
         "FilterKey1":`${param?.FilterKey1}`,
@@ -62,17 +65,17 @@ export const GetPriceListApi = async(param,page=1,obj={},filterObj={},autocodeLi
         "FilterVal2":`${param?.FilterVal2}`,
         "PageNo":`${page}`,
         "PageSize":`${storeInit?.PageSize}`,
-        "Metalid":`${"2"}`,
-        "DiaQCid":`${"3,4"}`,
-        "CsQCid":`${"0,0"}`,
+        "Metalid":findMetal(loginUserDetail?.cmboMetalType)[0]?.Metalid,
+        "DiaQCid":loginUserDetail?.cmboDiaQCid,
+        "CsQCid":loginUserDetail?.cmboCSQCid,
         "IsFromDesDet":"0",
-        "Collectionid": `${filterObj?.Collectionid ?? ""}`,
-        "Categoryid": `${filterObj?.Categoryid ?? ""}`,
-        "SubCategoryid": `${filterObj?.SubCategoryid ?? ""}`,
-        "Brandid": `${filterObj?.Brandid ?? ""}`,
-        "Genderid": `${filterObj?.Genderid ?? ""}`,
-        "Ocassionid": `${filterObj?.Ocassionid ?? ""}`,
-        "Themeid": `${filterObj?.Themeid ?? ""}`,
+        "Collectionid": `${filterObj?.collection ?? ""}`,
+    "Categoryid": `${filterObj?.category ?? ""}`,
+    "SubCategoryid": `${filterObj?.subcategory ?? ""}`,
+    "Brandid": `${filterObj?.brand ?? ""}`,
+    "Genderid": `${filterObj?.gender ?? ""}`,
+    "Ocassionid": `${filterObj?.ocassion ?? ""}`,
+    "Themeid": `${filterObj?.theme ?? ""}`,
         "Min_DiaWeight": '',
         "Max_DiaWeight": '',
         "Min_GrossWeight": '',
@@ -81,7 +84,7 @@ export const GetPriceListApi = async(param,page=1,obj={},filterObj={},autocodeLi
         "Min_NetWt": '',
         "Max_Price": '',
         "Min_Price": '',
-        "Producttypeid": `${filterObj?.Producttypeid ?? ""}`,
+        "Producttypeid": `${filterObj?.producttype ?? ""}`,
         "AutoCodeList":`${autocodeList}`,
         
       }
