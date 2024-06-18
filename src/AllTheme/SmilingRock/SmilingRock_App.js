@@ -28,6 +28,7 @@ import { MetalColorCombo } from '../../utils/API/Combo/MetalColorCombo'
 import Wishlist from './Components/Pages/Wishlist/Wishlist'
 import PageNotFound from "./Components/Pages/404Page/PageNotFound"
 import PrivateRoutes from './PrivateRoutes'
+import { Helmet } from 'react-helmet'
 
 
 const SmilingRock_App = () => {
@@ -35,6 +36,8 @@ const SmilingRock_App = () => {
     const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
     const islogin = useRecoilValue(loginState)
 
+    const [title, setTitle] = useState();
+    const [favicon, setFavIcon] = useState();
 
     useEffect(() => {
         Storeinit().then((response) => {
@@ -43,6 +46,10 @@ const SmilingRock_App = () => {
                 localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
                 localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
                 localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
+                let title = response?.data?.Data?.rd[0]?.companyname
+                let favIcon = response?.data?.Data?.rd[0]?.favicon
+                setTitle(title);
+                setFavIcon(favIcon)
                 callAllApi();
                 window.scrollTo({
                     top: 0,
@@ -96,6 +103,15 @@ const SmilingRock_App = () => {
         <>
             <div>
                 <Header />
+
+
+                <Helmet>
+                    <title>{title}</title>
+                    <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+                    <meta name="description" content={title} />
+                    <link rel="apple-touch-icon" href={favicon} />
+                    <link rel="manifest" href={favicon} />
+                </Helmet>
             </div>
             <Routes>
                 <Route path="/" element={<Home />} />
