@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import Data from "../../JsonData/cart.json"
+import Data from "../../JsonData/cart.json"
 import { fetchCartDetails } from '../../API/CartAPI/CartApi';
 
 const useCart = () => {
@@ -12,68 +12,13 @@ const useCart = () => {
   const [showRemark, setShowRemark] = useState(false);
   const [qtyCount, setQtyCount] = useState(1);
 
-
-  const getCartData = async () => {
-    try {
-      let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-      const storedData = localStorage.getItem("loginUserDetail");
-      const data = JSON.parse(storedData);
-      const customerEmail = data.id ?? 0;
-
-      const { FrontEnd_RegNo, ukey } = storeInit;
-
-
-      const response = await fetchCartDetails(customerEmail, ukey, FrontEnd_RegNo);
-
-      if (response?.Data) {
-      console.log('res--', response?.Data?.rd);
-      setCartData(response?.Data?.rd);
-      if (response?.Data?.rd?.length > 0) {
-        setSelectedItem(response?.Data?.rd[0]);
-      }
-      
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
-
-
   useEffect(() => {
-    getCartData();
-  }, [])
-
-
-//   const handleRemove = async (data) => {
-//     try {
-//       setIsLoading(true);
-//       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-//       const { FrontEnd_RegNo } = storeInit;
-//       const response = await removeFromCartList(data);
-  
-//       if (response.Data.rd[0].stat === 1) {
-
-//         let prevIndexofCartList = cartListData?.findIndex((cld) => cld?.autocode === data?.autocode);
-//         if (prevIndexofCartList === 0) {
-
-//         } else {
-
-//         }
-//       } else {
-//         alert("Error");
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//     }
-//   };
-
-
-
-console.log('cartData--', cartData);
-
-
+    console.log('dsadsdsadas', Data);
+    setCartData(Data?.rd);
+    if (Data?.rd?.length > 0) {
+      setSelectedItem(Data?.rd[0]);
+    }
+  }, []);
 
   // for multiselect
   const handleSelectItem = (item) => {
