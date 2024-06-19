@@ -1,7 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj) => {
+const ProductListApi = async (filterObj={},page) => {
 
 
   const keyMapping = {
@@ -102,8 +102,8 @@ const ProductListApi = async (filterObj) => {
     FilterVal1:`${menuparam?.FilterVal1}`,
     FilterKey2:`${menuparam?.FilterKey2}`,
     FilterVal2:`${menuparam?.FilterVal2}`,
-    PageNo:`${0}`,
-    PageSize:`${0}`,
+    PageNo:`${page}`,
+    PageSize:`${storeinit?.PageSize}`,
     Collectionid: `${filterObj?.collection ?? ""}`,
     Categoryid: `${filterObj?.category ?? ""}`,
     SubCategoryid: `${filterObj?.subcategory ?? ""}`,
