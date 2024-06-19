@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { useNavigate } from 'react-router';
 
-const Footer = () => {
+const Footer = ({fromPage}) => {
 
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [companyInfoData, setCompanuInfoData] = useState();
@@ -32,7 +32,7 @@ const Footer = () => {
 
   return (
     <div>
-      <div className='footerBottomMain'>
+      <div className='footerBottomMain' style={{marginTop:fromPage === "ProdList" && '8%'}}>
         <div className='footerIconMain'>
           {socialMediaData?.map((social, index) => (
             <div className='footerSocialIcon'>
