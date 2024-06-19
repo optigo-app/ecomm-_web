@@ -17,7 +17,9 @@ export const MetalColorCombo = async () => {
         const body = {
           "con": `{\"id\":\"\",\"mode\":\"METALCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
           "f": "index (getSizeData)",
-          "p": encodedCombinedValue
+          "p": encodedCombinedValue,
+          "dp": combinedValue,
+
         }
 
         response = await CommonAPI(body);

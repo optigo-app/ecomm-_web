@@ -25,7 +25,7 @@
     align-items: center;
 }
 
-.smr_logo_header{
+.smr_logo_header {
     object-fit: contain;
     max-width: 110px;
 }
@@ -120,7 +120,8 @@
     right: auto;
     transition: width 0.3s ease-out;
 }
-.smr_logo_header_Fixed{
+
+.smr_logo_header_Fixed {
     object-fit: contain;
     max-width: 60px;
 }
@@ -209,6 +210,11 @@
     border-bottom: 1px solid lightgray;
 }
 
+.smr_listMain {
+    display: flex;
+    flex-flow: column wrap;
+    height: 350px;
+}
 
 
 
@@ -241,7 +247,7 @@
         display: none;
     }
 
-    .nav_li_smining_Mobile{
+    .nav_li_smining_Mobile {
         display: none;
     }
 

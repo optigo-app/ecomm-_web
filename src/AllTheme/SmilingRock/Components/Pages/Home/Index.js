@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Index.modul.scss'
-import { Storeinit } from '../../../../../utils/API/Storeinit/Storeinit';
+import { Storeinit } from '../../../../../utils/API/Home/Storeinit/Storeinit';
 import { companyLogo } from '../../Recoil/atom';
 import { useRecoilState } from 'recoil';
 import TopSection from './TopVideo/TopSection';
@@ -15,6 +15,9 @@ import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
 import BestSaller from './BestSaller/BestSaller';
 import { Helmet } from 'react-helmet';
+import NewArrival from './NewArrival/NewArrival';
+import DesignSet from './DesignSet/DesignSet';
+import TrendingView from './TrandingView/TrendingView';
 
 function Home() {
 
@@ -29,8 +32,15 @@ function Home() {
         <DaimondEveyone />
         <ShopByCategory />
         <PromotionBanner2 />
+
+        <DesignSet />
+        <TrendingView />
+        
         <PromoSetSection />
+
+        <NewArrival />
         <SustainAbility />
+
         <BestSaller />
         <BottomBanner />
         <Footer />

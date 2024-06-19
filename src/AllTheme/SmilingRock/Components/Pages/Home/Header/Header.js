@@ -635,7 +635,7 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} style={{ width: '200px' }}>
+                <div key={menuItem.menuid} style={{ minWidth: '200px' }}>
                   <ButtonBase
                     component="div"
                   >
@@ -652,7 +652,7 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase>
-                    <List>
+                    <List className='smr_listMain'>
                       {menuItem.param1.map(subMenuItem => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase

@@ -15,9 +15,10 @@ export const RegisterAPI = async (firstName, lastName, email, mobileNo, hashedPa
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBSIGNUP\"}",
             "f": "Register (handleSubmit)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
         }
-         response = await CommonAPI(body);
+        response = await CommonAPI(body);
     } catch (error) {
         console.error('Error:', error);
     }

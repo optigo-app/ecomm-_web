@@ -18,7 +18,9 @@ export const ForgotPasswordEmailAPI = async (Domian, email) => {
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"FORGOTPASSWORDEMAIL\",\"appuserid\":\"\"}",
             "f": "m-test2.orail.co.in (getdesignnolist)",
-            p: encodedCombinedValue
+            p: encodedCombinedValue,
+            "dp": combinedValue,
+
         };
         response = await CommonAPI(body);
     } catch (error) {

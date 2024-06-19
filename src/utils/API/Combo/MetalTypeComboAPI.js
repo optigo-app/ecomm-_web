@@ -19,7 +19,9 @@ export const MetalTypeComboAPI = async () => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"METALTYPECOMBO\",\"appuserid\":\"${storedEmail}\"}`,
             "f": "Account (changePassword)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
+
         }
 
         response = await CommonAPI(body);
