@@ -21,7 +21,9 @@ export const DiamondQualityColorComboAPI = async () => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"DIAQUALITYCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
             "f": "header (getQualityColor)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
+
         }
         
 

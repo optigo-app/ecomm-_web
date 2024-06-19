@@ -14,7 +14,9 @@ export const LoginWithEmailCodeAPI = async (storedEmail) => {
         const body = {
             con: "{\"id\":\"\",\"mode\":\"WEBSCEMAIL\"}",
             f: "LoginWithEmailCode (firstTimeOTP)",
-            p: encodedCombinedValue
+            p: encodedCombinedValue,
+            "dp": combinedValue,
+
         };
          response = await CommonAPI(body);
 

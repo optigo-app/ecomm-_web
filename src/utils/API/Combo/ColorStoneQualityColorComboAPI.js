@@ -19,7 +19,8 @@ export const ColorStoneQualityColorComboAPI = async () => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"CSQUALITYCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
             "f": "indexPage (getColorStoneQualityData)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
         }
 
         response = await CommonAPI(body);

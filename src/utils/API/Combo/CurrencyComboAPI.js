@@ -20,7 +20,9 @@ export const CurrencyComboAPI = async () => {
         let body = {
             "con": `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
             "f": "on-index(home)-call (CURRENCYCOMBO)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
+
         }
         
         response = await CommonAPI(body);

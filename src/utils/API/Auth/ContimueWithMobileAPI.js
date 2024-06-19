@@ -15,7 +15,9 @@ export const ContimueWithMobileAPI = async (mobileNo) => {
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBVALDNMOBILE\"}",
             "f": "continueWithMobile (handleSubmit)",
-            p: encodedCombinedValue
+            p: encodedCombinedValue,
+            "dp": combinedValue,
+
         };
 
          response = await CommonAPI(body);
