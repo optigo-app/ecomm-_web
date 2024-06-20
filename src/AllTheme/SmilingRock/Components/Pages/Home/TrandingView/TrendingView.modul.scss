@@ -24,12 +24,12 @@
     }
 
     .smr_trendingViewMain {
-        height: 300px !important;
+        height: 250px !important;
         width: 500px !important;
     }
 
     .smr_trendingImageDiv {
-        height: 80% !important;
+        height: 90% !important;
     }
 
     .smr_TrendingViewImage {
@@ -76,6 +76,10 @@
         background-position: center;
         color: black !important;
         background-repeat: no-repeat;
+    }
+
+    .mySwiper{
+        min-height: 200px;
     }
 
 }

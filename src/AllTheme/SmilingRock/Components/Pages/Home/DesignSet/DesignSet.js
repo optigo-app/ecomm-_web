@@ -38,8 +38,7 @@ const DesignSet = () => {
 
 
     return (
-        <div style={{ position: 'relative' }}>
-
+        <div className='smr_designSetMain' style={{ position: 'relative' }}>
             <div>
                 <p className='designSetTitle'>Design Set</p>
             </div>
@@ -66,9 +65,9 @@ const DesignSet = () => {
                     },
                 }}
                 modules={[Pagination, Navigation]} 
-                navigation={{ // Custom navigation configuration
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                navigation={{ 
+                    nextEl: '.swiper-button-next-designSet',
+                    prevEl: '.swiper-button-prev-designSet',
                 }}
                 className="mySwiper"
             >
@@ -82,8 +81,8 @@ const DesignSet = () => {
                         </div>
                     </SwiperSlide>
                 ))}
-                <div className="swiper-button-next"></div>
-                <div className="swiper-button-prev"></div>
+                <div className="swiper-button-next-designSet"></div>
+                <div className="swiper-button-prev-designSet"></div>
             </Swiper>
             <p className='smr_designSetShowAll'>View All</p>
         </div>
