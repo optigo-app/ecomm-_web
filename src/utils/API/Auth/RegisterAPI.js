@@ -9,7 +9,7 @@ export const RegisterAPI = async (firstName, lastName, email, mobileNo, hashedPa
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
         const combinedValue = JSON.stringify({
-            firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
+            firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobileno: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

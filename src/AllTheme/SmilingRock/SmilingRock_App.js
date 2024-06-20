@@ -40,6 +40,11 @@ const SmilingRock_App = () => {
     const [favicon, setFavIcon] = useState();
 
     useEffect(() => {
+         let data = localStorage.getItem('storeInit');
+         if(data){
+            let logo = JSON.parse(data);
+            setCompanyTitleLogo(logo?.companylogo)
+         }
         Storeinit().then((response) => {
             if (response.status === 200) {
                 setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
