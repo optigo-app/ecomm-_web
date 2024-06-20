@@ -33,15 +33,15 @@ function Home() {
         <ShopByCategory />
         <PromotionBanner2 />
 
-        <DesignSet />
+        {/* <DesignSet /> */}
         <TrendingView />
         
         <PromoSetSection />
 
-        <NewArrival />
+        {/* <NewArrival /> */}
         <SustainAbility />
 
-        <BestSaller />
+        {/* <BestSaller /> */}
         <BottomBanner />
         <Footer />
       </div>

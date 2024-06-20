@@ -15,6 +15,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 const Header = () => {
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
+  const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
+
   const compnyLogo = useRecoilValue(companyLogo);
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
@@ -102,7 +104,7 @@ const Header = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsHeaderFixed(scrollPosition > 100);
-      // setIsHeaderFixedDropShow(scrollPosition > 100);
+      setIsHeaderFixedDropShow(scrollPosition > 100);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -165,10 +167,10 @@ const Header = () => {
 
     localStorage.setItem("menuparams", JSON.stringify(obj))
 
-     let d = new Date();
-     let randomno =  Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-     handleDropdownClose()
-     navigate('/productlist',{state: {"menu":randomno}})
+    let d = new Date();
+    let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+    handleDropdownClose()
+    navigate('/productlist', { state: { "menu": randomno } })
 
   }
 
@@ -273,6 +275,59 @@ const Header = () => {
 
   return (
     <div>
+
+      {serachsShowOverlay && (
+        <>
+          <div className="smr_smlingSearchoverlay">
+            <div className="smr_smlingTopSerachOver">
+              <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
+              <input
+                type="text"
+                placeholder="Enter Design Number End Click Enter"
+                // value={searchText}
+                autoFocus
+                // onChange={(e) => setSearchText(e.target.value)}
+                className="smr_serachinputBoxOverly"
+                // onKeyDown={searchDataFucn}
+              />
+              <IoClose
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  color: "#7d7f85",
+                  cursor: "pointer",
+                }}
+                onClick={toggleOverlay}
+              />
+            </div>
+          </div>
+
+          <div className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""}`}>
+            <div className="smr_smlingTopSerachOver-Fixed">
+              <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
+              <input
+                type="text"
+                placeholder="Enter Design Number End Click Enter"
+                // value={searchText}
+                autoFocus
+                // onChange={(e) => setSearchText(e.target.value)}
+                className="smr_serachinputBoxOverly"
+                // onKeyDown={searchDataFucn}
+              />
+              <IoClose
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  color: "#7d7f85",
+                  cursor: "pointer",
+                }}
+                onClick={toggleOverlay}
+              />
+            </div>
+          </div>
+        </>
+      )}
+
       {drawerShowOverlay && (
         <>
           <div className="srm_MobileSiderBarMain">
@@ -365,6 +420,7 @@ const Header = () => {
           </div>
         </>
       )}
+
       <div className='smiling_Top_header'>
         <div className='smiling_Top_header_sub'>
           <div className='smiling_Top_header_div1'>
@@ -376,13 +432,8 @@ const Header = () => {
                 onMouseLeave={handleDropdownClose}
               >
                 <span
-                  className="nav-li-smining"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontWeight: 500,
-                    cursor: 'pointer'
-                  }}
+                  className="nav_li_smining"
+                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                 >
                   SHOP
                   <RiArrowDropDownLine
@@ -430,17 +481,19 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => navigation("/LoginOption")}
                 >
-                  LOGIN
+                  LOG IN
                 </li>
               )}
 
               {islogin &&
                 <>
                   <Badge
-                    // badgeContent={getWishListCount}
+                    badgeContent={'4'}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
+                    className='badgeColorFix'
+
                   >
                     <Tooltip title="WishList">
                       <li
@@ -464,14 +517,15 @@ const Header = () => {
                     />
                   </li>
                   <Badge
-                    // badgeContent={getCartListCount}
+                    badgeContent={'2'}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
+                    className='badgeColorFix'
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={() => {navigate('/cartPage')}}
+                        onClick={() => { navigate('/cartPage') }}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -489,7 +543,7 @@ const Header = () => {
         </div>
 
         <div
-          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""} `}
+          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""}  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
             <div className='smiling_Top_header_div1'>
@@ -555,7 +609,7 @@ const Header = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => navigation("/LoginOption")}
                   >
-                    LOGIN
+                    LOG IN
                   </li>
                 )}
 
@@ -563,10 +617,11 @@ const Header = () => {
                 {islogin &&
                   <>
                     <Badge
-                      // badgeContent={getWishListCount}
+                      badgeContent={'3'}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
+                      className='badgeColor'
                     >
                       <Tooltip title="WishList">
                         <li
@@ -590,14 +645,15 @@ const Header = () => {
                       />
                     </li>
                     <Badge
-                      // badgeContent={getCartListCount}
+                      badgeContent={'2'}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
+                      className='badgeColor'
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={() => {navigate('/cartPage')}}
+                          onClick={() => { navigate('/cartPage') }}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -657,11 +713,11 @@ const Header = () => {
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
                             component="div"
-                            style={{ width: '100%' , display: 'flex', justifyContent: 'start',height: '25px' }}
+                            style={{ width: '100%', display: 'flex', justifyContent: 'start', height: '25px' }}
                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
-                              <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                             {/* </a> */}
                           </ButtonBase>
                           <>
