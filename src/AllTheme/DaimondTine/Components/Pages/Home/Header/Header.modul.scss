@@ -1,0 +1,46 @@
+
+.dai_headerMain{
+
+
+    .dai_headerMainTop {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        background-color: white !important;
+        margin-inline: 20%;
+        border-bottom: 1px solid lightgray;
+        padding: 0;
+        padding-left: 0 !important;
+        color: #acabab;
+        justify-content: space-between;
+      }
+
+      .div_contact_info{
+        display: flex;
+      }
+
+      .dai_login_link{
+        display: flex;
+        gap: 15px;
+      }
+
+      .dt_headermainDiv {
+        display: flex;
+        background-color: white;
+        height: 100px;
+        margin-inline: 20%;
+    } 
+
+    .dt_headermainDiv1{
+      width: 33.33%;
+    }
+    
+    .dt_headermainDiv2{
+      width: 33.33%;
+    }
+    
+    .dt_headermainDiv3{
+      width: 33.33%;
+    }
+
+}
