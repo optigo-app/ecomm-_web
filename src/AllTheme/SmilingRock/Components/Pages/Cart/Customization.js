@@ -1,44 +1,46 @@
-// import React from 'react';
-// import Typography from '@mui/material/Typography';
-// import Box from '@mui/material/Box';
-
-// const CartDetails = ({ selectedItem, onQuantityChange, multiSelect }) => {
-//   return (
-//     <Box sx={{ padding: 2 }}>
-//       <Typography variant="h5" component="h2">
-//         {selectedItem.TitleLine}
-//       </Typography>
-//       <Typography variant="body1">
-//         Price: ${selectedItem.ProductPrice}
-//       </Typography>
-//       <Typography variant="body1">
-//         Quantity: {selectedItem.TotalQuantity}
-//       </Typography>
-//       {!multiSelect && (
-//         <div>
-//           <label htmlFor="quantity">Quantity: </label>
-//           <input
-//             type="number"
-//             id="quantity"
-//             name="quantity"
-//             defaultValue={selectedItem.TotalQuantity}
-//             onChange={(e) => onQuantityChange(e.target.value)}
-//           />
-//         </div>
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default CartDetails;
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './smr_cartPage.scss';
 import { Divider } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 
-const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, showRemark, handleAddReamrk, handleRemarkChange, handleSave, handleCancel }) => {
+const Customization = ({
+  selectedItem,
+  qtyCount,
+  handleIncrement,
+  handleDecrement,
+  showRemark,
+  productRemark,
+  handleAddReamrk,
+  handleRemarkChange,
+  handleSave,
+  handleCancel,
+  handleMetalTypeChange,
+  handleMetalColorChange,
+  handleDiamondChange,
+  handleSizeChange
+}) => {
 
+  const [metalTypeCombo, setMetalTypeCombo] = useState([]);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [ColorStoneCombo, setColorStoneCombo] = useState([]);
+  const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
+  const [sizeCombo, setSizeCombo] = useState([]);
+
+
+  useEffect(() => {
+    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    setMetalTypeCombo(metalTypeData);
+    setMetalColorCombo(metalColorData);
+    setDiamondQualityColorCombo(diamondQtyColorData);
+    setColorStoneCombo(CSQtyColorData);
+    console.log('metaltype', diamondQtyColorData);
+
+  }, [])
+
+  console.log('selectedItems---', selectedItem);
   return (
     <div className="smr_Cart_R-details">
       <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
@@ -46,33 +48,48 @@ const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecremen
       <div className="smr_Cart-options">
         <div className="option">
           <label htmlFor="metal-type">Metal Type:</label>
-          <select id="metal-type">
-            <option value="gold-18k">Gold 18K</option>
+          <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+            {metalTypeCombo.map(option => (
+              <option key={option.Metalid} value={option.Metalid}>{option.metaltype}</option>
+            ))}
           </select>
         </div>
         <div className="option">
           <label htmlFor="metal-color">Metal Color:</label>
-          <select id="metal-color">
-            <option value="yellow-gold">Yellow Gold</option>
+          <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+            {metalColorCombo.map(option => (
+              <option key={option.id} value={option.colorname}> {option.colorname}</option>
+            ))}
           </select>
         </div>
         <div className="option">
           <label htmlFor="diamond">Diamond:</label>
-          <select id="diamond">
-            <option value="better-si-gh">BETTER_SI#GH</option>
+          <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+            {diamondQualityColorCombo.map(option => (
+              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.ColorId + '#' + option?.QualityId}> {option?.Quality + '#' + option?.color}</option>
+            ))}
           </select>
         </div>
+
+        {/* <div className="option">
+          <label htmlFor="diamond">Color Stone:</label>
+          <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+            {diamondQualityColorCombo.map(option => (
+              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
+            ))}
+          </select>
+        </div> */}
         <div className="option">
           <label htmlFor="size">Size:</label>
-          <select id="size">
+          <select id="size" value={selectedItem?.size} onChange={handleSizeChange}>
             <option value="hoops">Hoops</option>
           </select>
         </div>
       </div>
       <div className='smr_cartQtyPricemainDev'>
-        <QuantitySelector selectedItem={selectedItem} handleIncrement={ handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount}/>
+        <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
         <div className="product-price">
-          <span>Price: ${selectedItem.ProductPrice}</span>
+          <span>Price: ${selectedItem?.FinalCost}</span>
         </div>
       </div>
       <div className='smr_UpdateCartBtn'>
@@ -82,10 +99,10 @@ const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecremen
         <span className='smr_remarkTitle' htmlFor="product-remark">Product Remark</span>
         {!showRemark &&
           <div>
-            <p className='smr_prRemarkText'>{selectedItem?.productRemark}</p>
+            <p className='smr_prRemarkText'>{selectedItem?.Remarks || productRemark}</p>
             <div className='smr_AddReamrkBtn'>
               <button className="smr_remarksave-btn" onClick={handleAddReamrk}>
-                {selectedItem?.productRemark ? "Update Remark" : "Add Remark"}
+                {selectedItem?.Remarks ? "Update Remark" : "Add Remark"}
               </button>
             </div>
           </div>
@@ -96,12 +113,13 @@ const Customization = ({ selectedItem, qtyCount, handleIncrement, handleDecremen
               <textarea
                 className="smr_product-remarkTextArea"
                 rows="4"
-                value={selectedItem?.productRemark}
+                defaultValue={selectedItem?.Remarks || productRemark}
+                value={productRemark}
                 onChange={handleRemarkChange}
               ></textarea>
             </div>
             <div className="smr_projectRemarkBtn-group">
-              <button className="smr_remarksave-btn" onClick={handleSave}>
+              <button className="smr_remarksave-btn" onClick={() => {handleSave(selectedItem)}}>
                 Save
               </button>
               <button className="smr_remarkcancel-btn" onClick={handleCancel}>

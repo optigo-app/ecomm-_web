@@ -12,7 +12,7 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
         type="number"
         className="input"
         id="input"
-        defaultValue={selectedItem?.TotalQuantity}
+        defaultValue={selectedItem?.Quantity}
         value={qtyCount}
         readOnly
       />

@@ -50,7 +50,7 @@ const Customization = ({
           <label htmlFor="metal-type">Metal Type:</label>
           <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
             {metalTypeCombo.map(option => (
-              <option key={option.Metalid} value={option.metaltype}>{option.metaltype}</option>
+              <option key={option.Metalid} value={option.Metalid}>{option.metaltype}</option>
             ))}
           </select>
         </div>
@@ -66,10 +66,19 @@ const Customization = ({
           <label htmlFor="diamond">Diamond:</label>
           <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
             {diamondQualityColorCombo.map(option => (
-              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
+              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.ColorId + '#' + option?.QualityId}> {option?.Quality + '#' + option?.color}</option>
             ))}
           </select>
         </div>
+
+        {/* <div className="option">
+          <label htmlFor="diamond">Color Stone:</label>
+          <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+            {diamondQualityColorCombo.map(option => (
+              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
+            ))}
+          </select>
+        </div> */}
         <div className="option">
           <label htmlFor="size">Size:</label>
           <select id="size" value={selectedItem?.size} onChange={handleSizeChange}>
