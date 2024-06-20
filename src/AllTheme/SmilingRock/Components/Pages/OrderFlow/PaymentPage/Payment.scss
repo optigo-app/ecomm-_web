@@ -1,0 +1,77 @@
+@import '../../../scss/variable.scss';
+
+.smr_paymentMainDiv {
+    background-color: #c0bbb1;
+}
+
+.smr_paymentSecondMainDiv {
+    margin-inline: 6%;
+    background-color: #fff;
+}
+
+.smr_PaymentContainer {
+    margin-inline: 4%;
+    padding-top: 4%;
+}
+
+.smr_paymentBackbtnDiv {
+    .smr_paymentBackbtn {
+        width: 32px;
+        height: 32px;
+        color: $titleColor;
+    }
+}
+
+.smr_paymentDetailMainDiv {
+    display: flex;
+    justify-content: space-around;
+    font-family: $homePageFontFamily;
+    color: $titleColor;
+}
+
+.smr_paymenttotalpricesummary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.smr_paymenttotalpricesummary p {
+    padding: 0;
+    margin: 8px;
+}
+
+.smr_paymentUserName {
+    font-weight: 600;
+}
+
+.smr_paymentDetailLeftSideContent {
+    h2 {
+        font-size: $fontSize6;
+    }
+}
+
+.smr_paymentButtonDiv {
+    text-align: center;
+
+    .smr_payOnAccountBtn {
+        margin-right: 20px;
+        height: 40px;
+        width: 180px;
+        font-family: $homePageFontFamily !important;
+        font-size: $fontSize3;
+        color: $btn1FontColor;
+        background-color: $btn1bgColor;
+        border: 1px solid $btn1FontColor;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1ActivebgColor;
+        }
+    }
+}
+
+.smr_backtoTopBtn{
+    font-family: $homePageFontFamily;
+}
