@@ -15,6 +15,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 
 const ProductList = () => {
 
@@ -307,20 +308,6 @@ const ProductList = () => {
      console.log("event",e.target.checked,ele,type);
      let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-     if(type==="Cart"){
-        setCartArr((prev)=>({
-          ...prev,
-          [ele?.autocode]:e.target.checked
-        }))
-     }
-
-     if(type === "Wish"){
-      setWishArr((prev)=>({
-        ...prev,
-        [ele?.autocode]:e.target.checked
-      }))
-     }
-
      let prodObj = {
       "autocode": ele?.autocode,
       "Metalid":ele?.MetalPurityid,
@@ -336,9 +323,27 @@ const ProductList = () => {
 
      if(e.target.checked == true){
       CartAndWishListAPI(type,prodObj).then((res)=>{
-        console.log("res",res);
+        console.log("res",res)
       }).catch((err)=>console.log("err",err))
+     }else{
+       RemoveCartAndWishAPI(type,ele?.autocode).then((res)=>{
+        console.log("res",res)
+       }).catch((err)=>console.log("err",err))
      }
+
+     if(type==="Cart"){
+      setCartArr((prev)=>({
+        ...prev,
+        [ele?.autocode]:e.target.checked
+      }))
+      }
+
+    if(type === "Wish"){
+      setWishArr((prev)=>({
+        ...prev,
+        [ele?.autocode]:e.target.checked
+      }))
+    }
      
   }
 
