@@ -531,7 +531,7 @@ const ProductList = () => {
                         {finalProductListData?.map((productData) => (
                           <div className="smr_productCard">
                             <div className="cart_and_wishlist_icon">
-                              <Button className="smr_cart-icon">
+                              {/* <Button className="smr_cart-icon"> */}
                                 <Checkbox
                                   icon={
                                     <LocalMallOutlinedIcon
@@ -550,14 +550,14 @@ const ProductList = () => {
                                       }}
                                     />
                                   }
-                                  disableRipple={true}
-                                  sx={{ padding: "5px" }}
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Cart")}
                                   checked={Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
                                 />
-                              </Button>
-                              <Button className="smr_wish-icon">
+                              {/* </Button> */}
+                              {/* <Button className="smr_wish-icon"> */}
                                 <Checkbox
                                   icon={
                                     <FavoriteBorderIcon
@@ -576,15 +576,15 @@ const ProductList = () => {
                                       }}
                                     />
                                   }
-                                  disableRipple={true}
-                                  sx={{ padding: "5px" }}
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Wish")}
                                   // checked={productData?.IsInWish}
                                   checked={Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
                                   // onChange={(e) => handelWishList(e, products)}
                                 />
-                              </Button>
+                              {/* </Button> */}
                             </div>
                             <img
                               className="smr_productCard_Image"
