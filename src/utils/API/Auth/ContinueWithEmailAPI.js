@@ -16,7 +16,9 @@ export const ContinueWithEmailAPI = async (trimmedEmail) => {
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBVALDNEMAIL\"}",
             "f": "emilValid (handleEmail)",
-            p: encodedCombinedValue
+            p: encodedCombinedValue,
+            "dp": combinedValue,
+
         };
         response = await CommonAPI(body);
     } catch (error) {

@@ -1,12 +1,11 @@
 import React from 'react'
-import './BestSaller.modul.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import './NewArrival.modul.scss'
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
 
-
-const BestSaller = () => {
+const NewArrival = () => {
 
 
     const settings = {
@@ -21,8 +20,8 @@ const BestSaller = () => {
     };
 
     return (
-        <div className='smr_bestSallerMain'>
-            <p className='smr_BestSallerTitle'>Best Saller</p>
+        <div className='smr_bestNewArrival'>
+            <p className='smr_BestSallerTitle'>New Arrival</p>
             <div className='smr_BestSallerMainSub'>
                 <div className='smr_BestSallerMainImage'>
                     <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetBanner1Img2.png`} className='smr_BestSallerMainImage_img' />
@@ -100,4 +99,4 @@ const BestSaller = () => {
     )
 }
 
-export default BestSaller
+export default NewArrival

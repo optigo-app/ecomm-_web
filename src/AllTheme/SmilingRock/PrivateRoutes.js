@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { Storeinit } from '../../utils/API/Storeinit/Storeinit';
+import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit';
 
 const PrivateRoutes = ({ isLoginStatus }) => {
     const [isLoading, setIsLoading] = useState(true);

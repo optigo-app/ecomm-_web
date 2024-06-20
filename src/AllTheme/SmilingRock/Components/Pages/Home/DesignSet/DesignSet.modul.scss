@@ -1,0 +1,75 @@
+@import '../../../scss/variable';
+
+.smr_designSetMain {
+
+    .designSetTitle {
+        margin: 40px 0px 10px 0px;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+    }
+
+    .smr_designSetShowAll {
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .designsetPrice {
+        margin: 0px;
+        font-weight: 500;
+    }
+
+    .srm_designSetMain {
+        height: 200px !important;
+        width: 500px !important;
+        margin-inline: 5px !important;
+    }
+
+    .smr_designsetDiv {
+        width: 100%;
+        max-height: 85%;
+    }
+
+
+    .swiper-button-next-designSet,
+    .swiper-button-prev-designSet {
+        color: #000;
+        /* Customize the color if needed */
+        display: block;
+        /* Ensure the buttons are displayed */
+        position: absolute;
+        /* Absolute positioning for navigation buttons */
+        top: 50%;
+        width: 27px;
+        height: 44px;
+        margin-top: -22px;
+        z-index: 10;
+        cursor: pointer;
+        background-size: 27px 44px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+
+
+    .swiper-button-next-designSet,
+    .swiper-button-prev-designSet {
+        display: block;
+        /* Ensure the buttons are displayed */
+        position: absolute;
+        /* Absolute positioning for navigation buttons */
+        top: 50%;
+        width: 20px !important;
+        height: 20px !important;
+        margin-top: -22px;
+        z-index: 10;
+        cursor: pointer;
+        background-size: 27px 44px;
+        background-position: center;
+        color: black !important;
+        background-repeat: no-repeat;
+    }
+}

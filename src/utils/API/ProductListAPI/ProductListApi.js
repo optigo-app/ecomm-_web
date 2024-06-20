@@ -1,7 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async () => {
+const ProductListApi = async (filterObj={},page) => {
 
 
   const keyMapping = {
@@ -95,31 +95,31 @@ const ProductListApi = async () => {
     autocode: '',
     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
     Customerid: `${loginInfo?.id}`,
-    DesignNo:'',
+    designno:'',
     FilterKey:`${menuparam?.FilterKey}`,
     FilterVal:`${menuparam?.FilterVal}`,
     FilterKey1:`${menuparam?.FilterKey1}`,
     FilterVal1:`${menuparam?.FilterVal1}`,
     FilterKey2:`${menuparam?.FilterKey2}`,
     FilterVal2:`${menuparam?.FilterVal2}`,
-    PageNo:`${0}`,
-    PageSize:`${0}`,
-    // Collectionid: `${filterObj?.Collectionid ?? ""}`,
-    // Categoryid: `${filterObj?.Categoryid ?? ""}`,
-    // SubCategoryid: `${filterObj?.SubCategoryid ?? ""}`,
-    // Brandid: `${filterObj?.Brandid ?? ""}`,
-    // Genderid: `${filterObj?.Genderid ?? ""}`,
-    // Ocassionid: `${filterObj?.Ocassionid ?? ""}`,
-    // Themeid: `${filterObj?.Themeid ?? ""}`,
-    // Min_DiaWeight: '',
-    // Max_DiaWeight: '',
-    // Min_GrossWeight: '',
-    // Max_GrossWeight: '',
-    // Max_NetWt: '',
-    // Min_NetWt: '',
-    // Max_Price: '',
-    // Min_Price: '',
-    // Producttypeid: `${filterObj?.Producttypeid ?? ""}`
+    PageNo:`${page}`,
+    PageSize:`${storeinit?.PageSize}`,
+    Collectionid: `${filterObj?.collection ?? ""}`,
+    Categoryid: `${filterObj?.category ?? ""}`,
+    SubCategoryid: `${filterObj?.subcategory ?? ""}`,
+    Brandid: `${filterObj?.brand ?? ""}`,
+    Genderid: `${filterObj?.gender ?? ""}`,
+    Ocassionid: `${filterObj?.ocassion ?? ""}`,
+    Themeid: `${filterObj?.theme ?? ""}`,
+    Min_DiaWeight: '',
+    Max_DiaWeight: '',
+    Min_GrossWeight: '',
+    Max_GrossWeight: '',
+    Max_NetWt: '',
+    Min_NetWt: '',
+    Max_Price: '',
+    Min_Price: '',
+    Producttypeid: `${filterObj?.producttype ?? ""}`
   };
 
   let encData = JSON.stringify(data)
@@ -127,6 +127,7 @@ const ProductListApi = async () => {
   let body = {
     con: `{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${loginInfo?.userid ?? ""}\"}`,
     f: "onlogin (GETPRODUCTLIST)",
+    p:btoa(encData),
     dp: encData,
   };
 

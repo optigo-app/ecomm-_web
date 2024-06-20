@@ -7,8 +7,22 @@
     margin-bottom: 20px;
 }
 
+.skeltonMainDiv_prodlistPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    // margin-inline: 13%;
+    margin-bottom: 20px;
+}
+
 .skeltoncards{
     box-shadow: none !important;
+}
+
+.skeltoncards_listpage{
+    box-shadow: none !important;
+    width:350px
 }
 
 @media (max-width:1440px) {
