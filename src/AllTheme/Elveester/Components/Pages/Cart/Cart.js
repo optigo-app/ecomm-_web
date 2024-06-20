@@ -28,6 +28,7 @@ const CartPage = () => {
     handleCancel,
     handleAddReamrk,
     handleRemoveItem,
+    handleRemoveAll,
     handleUpdateCart,
     handleCancelUpdateCart,
     handleMetalTypeChange, 
@@ -52,7 +53,7 @@ const CartPage = () => {
           <div className="smr_cartButton-group">
             <button className="smr_cartBtn smr_cartActivebtn">List View</button>
             {/* <button className='smr_cartBtn'>Image View</button> */}
-            <button className='smr_cartBtn'>Clear All</button>
+            <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
             <button className='smr_cartBtn'>Show ProductList</button>
 
             {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}

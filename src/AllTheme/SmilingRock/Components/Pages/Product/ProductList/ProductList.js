@@ -15,6 +15,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 
 const ProductList = () => {
 
@@ -31,6 +32,8 @@ const ProductList = () => {
   const [currPage,setCurrPage] = useState(1);
   const [cartArr,setCartArr] = useState({})
   const [wishArr,setWishArr] = useState({})
+  const [menuParams,setMenuParams] = useState({})
+  
 
 
   let location = useLocation();
@@ -40,14 +43,11 @@ const ProductList = () => {
     setStoreInit(storeinit)
   },[])
 
-  // useEffect(()=>{
-  //   // let FilterData = JSON.parse(localStorage.getItem("AllFilter"));
-      
-  console.log("isProdLoading",isProdLoading);
-    
-  // },[priceListData])
 
-  // console.log("filterData",filterData);
+  useEffect(()=>{
+    let param = JSON.parse(localStorage.getItem("menuparams"))
+    setMenuParams(param)
+  },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
@@ -307,20 +307,6 @@ const ProductList = () => {
      console.log("event",e.target.checked,ele,type);
      let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-     if(type==="Cart"){
-        setCartArr((prev)=>({
-          ...prev,
-          [ele?.autocode]:e.target.checked
-        }))
-     }
-
-     if(type === "Wish"){
-      setWishArr((prev)=>({
-        ...prev,
-        [ele?.autocode]:e.target.checked
-      }))
-     }
-
      let prodObj = {
       "autocode": ele?.autocode,
       "Metalid":ele?.MetalPurityid,
@@ -336,14 +322,31 @@ const ProductList = () => {
 
      if(e.target.checked == true){
       CartAndWishListAPI(type,prodObj).then((res)=>{
-        console.log("res",res);
+        console.log("res",res)
       }).catch((err)=>console.log("err",err))
+     }else{
+       RemoveCartAndWishAPI(type,ele?.autocode).then((res)=>{
+        console.log("res",res)
+       }).catch((err)=>console.log("err",err))
      }
+
+     if(type==="Cart"){
+      setCartArr((prev)=>({
+        ...prev,
+        [ele?.autocode]:e.target.checked
+      }))
+      }
+
+    if(type === "Wish"){
+      setWishArr((prev)=>({
+        ...prev,
+        [ele?.autocode]:e.target.checked
+      }))
+    }
      
   }
 
   console.log("Arr",cartArr,wishArr);
-
 
 
   return (
@@ -351,7 +354,10 @@ const ProductList = () => {
       <div className="smr_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
-            {isProdLoading ? (
+            {
+            isProdLoading ? 
+            // true ? 
+            (
               <ProductListSkeleton />
             ) : (
               <>
@@ -517,9 +523,10 @@ const ProductList = () => {
                   </div>
                   <div className="smr_productList">
                     {isOnlyProdLoading ? (
-                      // true ?
                       <ProductListSkeleton fromPage={"Prodlist"} />
                     ) : (
+                      <div className="smr_outer_portion">
+                      <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
                       <div className="smr_inner_portion">
                         {finalProductListData?.map((productData) => (
                           <div className="smr_productCard">
@@ -547,7 +554,7 @@ const ProductList = () => {
                                   sx={{ padding: "5px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Cart")}
-                                  checked={Object.keys(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
+                                  checked={Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
                                 />
                               </Button>
                               <Button className="smr_wish-icon">
@@ -574,7 +581,7 @@ const ProductList = () => {
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Wish")}
                                   // checked={productData?.IsInWish}
-                                  checked={Object.keys(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
+                                  checked={Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
                                   // onChange={(e) => handelWishList(e, products)}
                                 />
                               </Button>
@@ -666,6 +673,7 @@ const ProductList = () => {
                           </div>
                         ))}
                       </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -679,10 +687,12 @@ const ProductList = () => {
               }}
             >
               <Pagination
-                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                count={Math.ceil(afterFilterCount/storeInit.PageSize)}
                 size="large"
                 shape="circular"
                 onChange={handelPageChange}
+                showFirstButton
+                showLastButton
               />
             </div>
             <Footer fromPage={"ProdList"} />

@@ -29,6 +29,9 @@ import Wishlist from './Components/Pages/Wishlist/Wishlist'
 import PageNotFound from "./Components/Pages/404Page/PageNotFound"
 import PrivateRoutes from './PrivateRoutes'
 import { Helmet } from 'react-helmet'
+import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
+import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
+import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
 
 
 const SmilingRock_App = () => {
@@ -137,6 +140,9 @@ const SmilingRock_App = () => {
                     <Route path="/productdetail" element={<ProductDetail />} />
                     <Route path="/cartPage" element={<Cart />} />
                     <Route path="/myWishList" element={<Wishlist />} />
+                    <Route path="/Delivery" element={<Delivery />} />
+                    <Route path="/Payment" element={<Payment />} />
+                    <Route path="/Confirmation" element={<Confirmation />} />
                 </Route>
                 <Route path="*" element={<PageNotFound />} />
             </Routes>

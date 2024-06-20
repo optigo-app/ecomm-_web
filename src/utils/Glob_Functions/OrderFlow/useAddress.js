@@ -1,0 +1,254 @@
+import { useState, useEffect } from 'react';
+// import { toast } from 'react-toastify';
+import { fetchAddresses, addAddress, editAddress, deleteAddress, setDefaultAddress } from '../../API/OrderFlow/DeliveryAPI';
+
+export const useAddress = () => {
+    const [addressData, setAddressData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [editAddressId, setEditAddressId] = useState(null);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        mobileNo: '',
+        address: '',
+        country: '',
+        state: '',
+        city: '',
+        zipCode: ''
+    });
+    const [errors, setErrors] = useState({});
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editAddressIndex, setEditAddressIndex] = useState(null);
+    const [deleteId, setDeleteId] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            setIsLoading(true);
+            const addresses = await fetchAddresses();
+            setAddressData(addresses);
+            setIsLoading(false);
+        };
+        fetchInitialData();
+    }, []);
+
+    const handleOpen = (addressId) => {
+        console.log('addressId',addressData);
+        if (addressId) {
+            const address = addressData?.find(addr => addr?.id === addressId);
+            setFormData({
+                firstName: address?.shippingfirstname,
+                lastName: address?.shippinglastname,
+                mobileNo: address?.shippingmobile,
+                address: address?.street,
+                country: address?.country,
+                state: address?.state,
+                city: address?.city,
+                zipCode: address?.zip
+            });
+            setIsEditMode(true);
+            setEditAddressId(addressId);
+        } else {
+            setFormData({
+                firstName: '',
+                lastName: '',
+                mobileNo: '',
+                address: '',
+                country: '',
+                state: '',
+                city: '',
+                zipCode: ''
+            });
+            setIsEditMode(false);
+        }
+        setOpen(true);
+    };
+console.log('editAddressId', editAddressId);
+    const handleClose = () => {
+        setOpen(false);
+        setErrors({});
+        setFormData({
+            firstName: '',
+            lastName: '',
+            mobileNo: '',
+            address: '',
+            country: '',
+            state: '',
+            city: '',
+            zipCode: ''
+        });
+    };
+
+    const handleInputChange = (e, field) => {
+        const value = e.target.value;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [field]: value
+        }));
+
+        validateField(field, value);
+    };
+
+    const validateField = (field, value) => {
+        let error = '';
+
+        switch (field) {
+            case 'firstName':
+                if (!value) error = 'First name is required';
+                break;
+            case 'lastName':
+                if (!value) error = 'Last name is required';
+                break;
+            case 'mobileNo':
+                if (!value) error = 'Mobile number is required';
+                else if (value.length < 10) error = 'Mobile number must be at least 10 digits';
+                break;
+            case 'address':
+                if (!value) error = 'Address is required';
+                break;
+            case 'country':
+                if (!value) error = 'Country is required';
+                break;
+            case 'state':
+                if (!value) error = 'State is required';
+                break;
+            case 'city':
+                if (!value) error = 'City is required';
+                break;
+            case 'zipCode':
+                if (!value) error = 'ZIP code is required';
+                break;
+            default:
+                break;
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: error
+        }));
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+        if (!formData.firstName) formErrors.firstName = 'First name is required';
+        if (!formData.lastName) formErrors.lastName = 'Last name is required';
+        if (!formData.mobileNo) {
+            formErrors.mobileNo = 'Mobile number is required';
+        } else if (formData.mobileNo.length < 10) {
+            formErrors.mobileNo = 'Mobile number must be at least 10 digits';
+        }
+        if (!formData.address) formErrors.address = 'Address is required';
+        if (!formData.country) formErrors.country = 'Country is required';
+        if (!formData.state) formErrors.state = 'State is required';
+        if (!formData.city) formErrors.city = 'City is required';
+        if (!formData.zipCode) formErrors.zipCode = 'ZIP code is required';
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            setIsLoading(true);
+            if (isEditMode) {
+                const updatedAddress = await editAddress(editAddressId, formData);
+                if (updatedAddress) {
+                    const updatedAddressData = addressData.map((item, index) => index === editAddressId ? updatedAddress : item);
+                    setAddressData(updatedAddressData);
+                    // toast.success('Address updated successfully');
+                } else {
+                    // toast.error('Something went wrong');
+                }
+            } else {
+                const newAddress = await addAddress(formData);
+                if (newAddress) {
+                    setAddressData((prevData) => [...prevData, newAddress]);
+                    // toast.success('Address added successfully');
+                } else {
+                    // toast.error('Something went wrong');
+                }
+            }
+            handleClose();
+            setIsLoading(false);
+        }
+    };
+
+    const handleCancel = () => {
+        setOpen(false);
+        setErrors({});
+        setFormData({
+            firstName: '',
+            lastName: '',
+            mobileNo: '',
+            address: '',
+            country: '',
+            state: '',
+            city: '',
+            zipCode: ''
+        });
+    }
+
+    const handleDelete = async (addressId) => {
+        setIsLoading(true);
+        const success = await deleteAddress(deleteId);
+        if (success) {
+            setAddressData(addressData.filter((item) => item.id !== addressId));
+            // toast.success('Address deleted successfully');
+        } else {
+            // toast.error('Something went wrong');
+        }
+        setIsLoading(false);
+        handleDeleteClose();
+    };
+
+    const handleDeleteClick = (id) => {
+        setDeleteId(id);
+        setOpenDelete(true);
+    };
+
+    const handleDeleteClose = () => {
+        setDeleteId('');
+        setOpenDelete(false);
+    };
+
+    const handleDefaultSelection = async (addressId) => {
+        const address = addressData.find(addr => addr?.id === addressId?.id);
+        if (address && address.isdefault === 1) {
+            return;
+        }
+        setIsLoading(true);
+        const updatedAddressData = await setDefaultAddress(addressId, addressData);
+        setAddressData(updatedAddressData);
+        setIsLoading(false);
+    };
+
+
+    const proceedToOrder = (navigation) => {
+        if (addressData.some((item) => item.isdefault === 1)) {
+            navigation('/payment');
+        } else {
+            // toast.error('Please select a default address');
+        }
+    };
+
+    return {
+        addressData,
+        open,
+        openDelete,
+        formData,
+        errors,
+        isEditMode,
+        isLoading,
+        handleOpen,
+        handleClose,
+        handleCancel,
+        handleInputChange,
+        handleSubmit,
+        handleDelete,
+        handleDeleteClick,
+        handleDeleteClose,
+        handleDefaultSelection,
+        proceedToOrder
+    };
+};
