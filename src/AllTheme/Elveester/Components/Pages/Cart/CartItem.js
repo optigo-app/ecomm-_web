@@ -12,7 +12,7 @@ import { green } from '@mui/material/colors';
 
 const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLength }) => {
 
-  console.log('itemLength---', itemLength);
+  console.log('itemLength---', item);
 
   return (
     <Grid item xs={12} sm={itemLength !== 1 ? 6 : 12} md={itemLength !== 1 ? 6 : 12}>
@@ -37,18 +37,18 @@ const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLengt
             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
               <div>
                 <Typography variant="body2" className='smr_card-ContentData'>
-                  NWT: {item?.netwt}
+                  NWT: {item?.MetalWeight}
                 </Typography>
                 <Typography variant="body2" className='smr_card-ContentData'>
-                  DWT: {item?.dwt}
+                  CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
                 </Typography>
               </div>
               <div>
                 <Typography variant="body2" className='smr_card-ContentData'>
-                  CWT: {item?.cwt}
+                  GWT: {item?.totalGrossweight}
                 </Typography>
                 <Typography variant="body2" className='smr_card-ContentData'>
-                  GWT: {item?.gwt}
+                  DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
                 </Typography>
               </div>
             </div>

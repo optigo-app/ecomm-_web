@@ -1,11 +1,11 @@
 import React from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/_Cart';
+import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
-import Footer from "../Home/Footer/Footer"
+// import Footer from "../Home/Footer/Footer"
 
 const CartPage = () => {
   const {
@@ -15,6 +15,7 @@ const CartPage = () => {
     multiSelect,
     openModal,
     showRemark,
+    productRemark,
     qtyCount,
     handleSelectItem,
     handleIncrement,
@@ -27,8 +28,14 @@ const CartPage = () => {
     handleCancel,
     handleAddReamrk,
     handleRemoveItem,
+    handleRemoveAll,
     handleUpdateCart,
-    handleCancelUpdateCart
+    handleCancelUpdateCart,
+    handleMetalTypeChange, 
+    handleMetalColorChange, 
+    handleDiamondChange, 
+    handleSizeChange 
+
   } = useCart();
 
   function scrollToTop() {
@@ -46,7 +53,7 @@ const CartPage = () => {
           <div className="smr_cartButton-group">
             <button className="smr_cartBtn smr_cartActivebtn">List View</button>
             {/* <button className='smr_cartBtn'>Image View</button> */}
-            <button className='smr_cartBtn'>Clear All</button>
+            <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
             <button className='smr_cartBtn'>Show ProductList</button>
 
             {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
@@ -71,10 +78,16 @@ const CartPage = () => {
                 qtyCount={qtyCount}
                 multiSelect={multiSelect}
                 showRemark={showRemark}
+                productRemark={productRemark}
                 handleAddReamrk={handleAddReamrk}
                 handleRemarkChange={handleRemarkChange}
                 handleSave={handleSave}
-                handleCancel={handleCancel} />
+                handleCancel={handleCancel}
+                handleMetalTypeChange={handleMetalTypeChange} 
+                handleMetalColorChange={handleMetalColorChange} 
+                handleDiamondChange={handleDiamondChange} 
+                handleSizeChange={handleSizeChange} 
+                 />
             )}
           </div>
           <div className="smr_cart-right-side">
@@ -97,7 +110,7 @@ const CartPage = () => {
             onCancelCart ={handleCancelUpdateCart}
           />
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
         <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
