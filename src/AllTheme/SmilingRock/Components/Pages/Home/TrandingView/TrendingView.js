@@ -64,11 +64,11 @@ const TrendingView = () => {
                             spaceBetween: 0,
                         },
                     }}
-                    modules={[Pagination, Navigation]} 
-                navigation={{ // Custom navigation configuration
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }}
+                    modules={[Pagination, Navigation]}
+                    navigation={{ // Custom navigation configuration
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }}
                     className="mySwiper"
                 >
 
