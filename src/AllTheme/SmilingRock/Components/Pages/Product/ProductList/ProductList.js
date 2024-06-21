@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Pagination } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, FormControlLabel, Pagination } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -33,8 +33,9 @@ const ProductList = () => {
   const [cartArr,setCartArr] = useState({})
   const [wishArr,setWishArr] = useState({})
   const [menuParams,setMenuParams] = useState({})
+  const [filterProdListEmpty,setFilterProdListEmpty] = useState(false)
   
-
+  // console.log("filterProdListEmpty",filterProdListEmpty);
 
   let location = useLocation();
 
@@ -42,7 +43,6 @@ const ProductList = () => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeinit)
   },[])
-
 
   useEffect(()=>{
     let param = JSON.parse(localStorage.getItem("menuparams"))
@@ -83,7 +83,6 @@ const ProductList = () => {
         }).finally(()=> setIsProdLoading(false))
         .catch((err) => console.log("err", err))
   }, [location?.state?.menu])
-
 
   useEffect(() => {
     const finalProdWithPrice = productListData.map((product) => {
@@ -158,7 +157,6 @@ const ProductList = () => {
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
     
-
   }, [productListData, priceListData]);
 
   const decodeEntities = (html) => {
@@ -235,6 +233,7 @@ const ProductList = () => {
     ProductListApi(output,1)
         .then((res) => {
           if (res) {
+
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
             // console.log("resp",res?.pdResp?.rd1[0]?.designcount);
@@ -256,7 +255,7 @@ const ProductList = () => {
         //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
         //   }
         // })
-        .catch((err) => console.log("err", err)).finally(()=>setIsOnlyProdLoading(false))
+        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
 
   },[filterChecked])
 
@@ -346,7 +345,15 @@ const ProductList = () => {
      
   }
 
-  console.log("Arr",cartArr,wishArr);
+  useEffect(()=>{
+    if(productListData?.length === 0 || !productListData){
+      setFilterProdListEmpty(true)
+    }else{
+      setFilterProdListEmpty(false)
+    }
+  },[productListData])
+
+  // console.log("Arr",Object.values(cartArr)?.length ,Object.values(wishArr)?.length );
 
 
   return (
@@ -450,11 +457,13 @@ const ProductList = () => {
                                     "&.MuiAccordionSummary-root": {
                                       padding: 0,
                                     },
+
                                   }}
+                                  className="filtercategoryLable"
                                 >
-                                  <span className="filtercategoryLable">
+                                  {/* <span> */}
                                     {ele.Name}
-                                  </span>
+                                  {/* </span> */}
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -476,14 +485,16 @@ const ProductList = () => {
                                       }}
                                       key={opt?.id}
                                     >
-                                      <small
+                                      {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
                                         }}
                                       >
                                         {opt.Name}
-                                      </small>
+                                      </small> */}
+                                      <FormControlLabel
+                                      control={
                                       <Checkbox
                                         name={opt?.id}
                                         // checked={
@@ -510,7 +521,20 @@ const ProductList = () => {
                                           )
                                         }
                                         size="small"
+                                        />
+                                      }
+                                      
+                                      // sx={{
+                                      //   display: "flex",
+                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                      //   width: "100%",
+                                      //   flexDirection: "row-reverse", // Align items to the right
+                                      //   fontFamily:'TT Commons Regular'
+                                      // }}
+                                      className="smr_mui_checkbox_label"
+                                      label={opt.Name}
                                       />
+                                      
                                     </div>
                                   ))}
                                 </AccordionDetails>
@@ -521,7 +545,15 @@ const ProductList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="smr_productList">
+                  {
+                    filterProdListEmpty ? 
+                    <div style={{display:'flex',justifyContent:'center',width:'75%',alignItems:'center',height:'500px'}}>
+                      <span className="smr_prod_datanotfound">
+                        Products Not found !!!
+                      </span>
+                    </div>
+                    :
+                    <div className="smr_productList">
                     {isOnlyProdLoading ? (
                       <ProductListSkeleton fromPage={"Prodlist"} />
                     ) : (
@@ -554,8 +586,9 @@ const ProductList = () => {
                                   sx={{ padding: "10px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Cart")}
-                                  checked={Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
+                                  checked={cartArr[productData?.autocode]  ?? productData?.IsInCart === 1 ? true :false }
                                 />
+                                {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
                               {/* </Button> */}
                               {/* <Button className="smr_wish-icon"> */}
                                 <Checkbox
@@ -581,7 +614,8 @@ const ProductList = () => {
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Wish")}
                                   // checked={productData?.IsInWish}
-                                  checked={Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
+                                  checked={wishArr[productData?.autocode] ?? productData?.IsInWish  === 1 ? true :false}
+                                  // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
                                   // onChange={(e) => handelWishList(e, products)}
                                 />
                               {/* </Button> */}
@@ -609,6 +643,52 @@ const ProductList = () => {
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
+                              {/* <span className="smr_por"> */}
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">NWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updNWT.toFixed(3)}
+                                  </span>
+                                </span>
+                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
+                                  <>
+                                  <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">GWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updGWT.toFixed(3)}
+                                  </span>
+                                </span>
+                                </>
+                                }
+                              {/* </span> */}
+                              {/* <span className="smr_por"> */}
+                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
+                               <>
+                               <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">DWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
+                                  </span>
+                                </span>
+                               </>
+                                }
+
+                                { (storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
+                                  <>
+                                  <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">CWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
+                                  </span>
+                                </span>
+                                  </>
+                                }
+                              {/* </span> */}
+                            </div>
+                            {/* <div className="smr_prod_Allwt">
                               <span className="smr_por">
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
@@ -637,7 +717,7 @@ const ProductList = () => {
                                   </span>
                                 </span>
                               </span>
-                            </div>
+                            </div> */}
                             <div className="smr_prod_mtcolr_price">
                               <span className="smr_prod_metal_col">
                                 {findMetalColor(
@@ -675,7 +755,7 @@ const ProductList = () => {
                       </div>
                       </div>
                     )}
-                  </div>
+                  </div>}
                 </div>
               </>
             )}

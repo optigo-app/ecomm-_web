@@ -7,6 +7,7 @@ import { updateQuantity } from '../../API/CartAPI/QuantityAPI';
 // import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
 
 const useCart = () => {
+  const [isloding, setIsLoading] = useState(false);
   const [cartData, setCartData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [multiSelect, setMultiSelect] = useState(false);
@@ -22,8 +23,27 @@ const useCart = () => {
   const [diamondPriceData, setDiamondPriceData] = useState();
   const [metalPriceData, setMetalPriceData] = useState();
   const [colorStonePriceData, setColorStonePriceData] = useState();
+  const [metalTypeCombo, setMetalTypeCombo] = useState([]);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [ColorStoneCombo, setColorStoneCombo] = useState([]);
+  const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
+  const [sizeCombo, setSizeCombo] = useState([]);
+
+
+  useEffect(() => {
+    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    setMetalTypeCombo(metalTypeData);
+    setMetalColorCombo(metalColorData);
+    setDiamondQualityColorCombo(diamondQtyColorData);
+    setColorStoneCombo(CSQtyColorData);
+    console.log('metaltype', diamondQtyColorData);
+  }, [])
 
   const getCartData = async () => {
+    setIsLoading(true);
     try {
       let storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const storedData = localStorage.getItem("loginUserDetail");
@@ -50,6 +70,7 @@ const useCart = () => {
                 setDiamondPriceData(resp?.rd1)
                 setColorStonePriceData(resp?.rd2)
                 setQtyCount(response?.Data?.rd[0]?.Quantity)
+                setIsLoading(false);
               }
             });
           } catch (error) {
@@ -60,7 +81,7 @@ const useCart = () => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -199,9 +220,9 @@ const useCart = () => {
   };
 
   // for quantity
-  const handleIncrement = async() => {
+  const handleIncrement = async () => {
     setQtyCount(prevCount => prevCount + 1);
-    let lastEnteredQuantity = qtyCount+1
+    let lastEnteredQuantity = qtyCount + 1
     let num = selectedItem?.designno
     try {
       const response = await updateQuantity(num, lastEnteredQuantity);
@@ -215,23 +236,30 @@ const useCart = () => {
     setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
     let num = selectedItem?.designno;
-    if(qtyCount > 1){
-    try {
-      const response = await updateQuantity(num, updatedQtyCount);
-      console.log("Response:", response);
-    } catch (error) {
-      console.error("Failed to update quantity:", error);
+    if (qtyCount > 1) {
+      try {
+        const response = await updateQuantity(num, updatedQtyCount);
+        console.log("Response:", response);
+      } catch (error) {
+        console.error("Failed to update quantity:", error);
+      }
     }
-  }
   };
-  
-  console.log('qtyCount',selectedItem);
+
+  console.log('qtyCount', selectedItem);
 
   // for dropdown changes
   const handleMetalTypeChange = async (event) => {
-    setSelectedItem(prevItem => ({ ...prevItem, metaltypename: event.target.value }));
-    console.log('event--', event.target.value);
-    setMetalID(event.target.value)
+    const selectedTypeName = event.target.value;
+    setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
+    console.log('eventKey--', event.target.value);
+
+    const selectedMetal = metalTypeCombo.find(option => option.metaltype == selectedTypeName);
+    if (selectedMetal) {
+      const selectedMetalId = selectedMetal.Metalid;
+      console.log('Selected Metalid:', selectedMetalId);
+      setMetalID(selectedMetalId);
+    }
   };
 
   const handleMetalColorChange = (event) => {
@@ -240,12 +268,25 @@ const useCart = () => {
   };
 
   const handleDiamondChange = (event) => {
-    let parts = event.target.value.split('#');
-    setSelectedItem(prevItem => ({ ...prevItem, diamondquality: parts[0] }));
-    setSelectedItem(prevItem => ({ ...prevItem, diamondcolor: parts[1] }));
-    console.log('event', parts);
-    setdiaID(parts[0] + ',' + parts[1])
+    debugger
+    const value = event.target.value;
+    const [quality, color] = value.split('#');
+
+    setSelectedItem(prevItem => ({
+      ...prevItem,
+      diamondquality: quality,
+      diamondcolor: color
+    }));
+
+    const selectedDia = diamondQualityColorCombo.find(option => option.Quality === quality && option.color === color);
+    if (selectedDia) {
+      const selectedDiaQId = selectedDia?.QualityId;
+      const selectedDiaCId = selectedDia?.ColorId;
+      console.log('Selected Metalid:', selectedDiaQId, selectedDiaCId);
+      setdiaID(selectedDiaQId + "," + selectedDiaCId)
+    }
   };
+  console.log('selectedDiaCId', diaIDData);
 
   const handleSizeChange = (event) => {
     setSelectedItem(prevItem => ({ ...prevItem, size: event.target.value }));
@@ -259,18 +300,35 @@ const useCart = () => {
   // for price calculation
 
   const diaUpdatedPrice = () => {
-    let parts = diaIDData?.split(',');
-    let filteredDiaData = metalPriceData?.filter(item => item.G == parts[0] && item.I == parts[1]);
-    console.log('diamondId', parts);
-    console.log('diamondkkkk--', diamondPriceData)
-    console.log('filteredDiaData', filteredDiaData);
+    debugger
+    if (getSinglePriceData?.rd1) {
+      let parts = diaIDData?.split(',');
+      let filteredDiaData;
+      if (filteredDiaData?.length !== 0) {
+        filteredDiaData = diamondPriceData?.filter(item => item.G == parts[0] && item.I == parts[1]);
+        let sum = filteredDiaData?.reduce((accumulator, currentValue) => accumulator + currentValue?.S, 0);
+
+        console.log('diamondPrice---',sum);
+      } else {
+        filteredDiaData = 0.00;
+      }
+      console.log('diamondId', parts);
+      console.log('diamondkkkk--', diamondPriceData)
+      console.log('filteredDiaData', filteredDiaData);
+    }
   }
 
   const metalUpdatedPrice = () => {
+    debugger
     if (getSinglePriceData?.rd) {
       let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
+      let metalPriceCalData;
       console.log("filteredMtData", filteredMtData);
-      let metalPriceCalData = (filteredMtData[0]?.V / filteredMtData[0]?.AA) + filteredMtData[0]?.W + filteredMtData[0]?.X;
+      if (filteredMtData?.length !== 0) {
+        metalPriceCalData = ((filteredMtData[0].V / filteredMtData[0].AA) + filteredMtData[0].W + filteredMtData[0].X).toFixed(3);
+      } else {
+        metalPriceCalData = 0.00;
+      }
       console.log('metalPriceData--', metalPriceCalData);
       console.log('metalId--', metalID);
     }
@@ -278,7 +336,7 @@ const useCart = () => {
   }
 
   const colUpdatedPrice = () => {
-    
+
   }
 
 
@@ -291,6 +349,7 @@ const useCart = () => {
   }, [getSinglePriceData, metalID, diaIDData])
 
   return {
+    isloding,
     cartData,
     selectedItem,
     selectedItems,
@@ -316,6 +375,7 @@ const useCart = () => {
     handleMetalTypeChange,
     handleMetalColorChange,
     handleDiamondChange,
+    handleColorStoneChange,
     handleSizeChange
   };
 };
