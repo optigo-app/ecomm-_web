@@ -13,7 +13,8 @@ export const fetchAddresses = async () => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"GETSHIPINGADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
             "f": "Delivery (FetchAddress)",
-            p: encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue
         };
         const response = await CommonAPI(body);
         if (response.Data.rd) {
@@ -35,21 +36,17 @@ export const addAddress = async (formData) => {
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            addrid: ``, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`
+            addrid: ``, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobileno: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"ADDADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
             "f": "Delivery (AddAddress)",
-            p: encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue
         };
         const response = await CommonAPI(body);
-        if (response.Data.rd[0].stat === 1) {
-            fetchAddresses();
-        } else {
-            // toast.error('Something went wrong');
-            return null;
-        }
+        return response?.Data?.rd;
     } catch (error) {
         console.error('Error:', error);
         return null;
@@ -64,21 +61,17 @@ export const editAddress = async (index, formData) => {
         const addressData = JSON.parse(localStorage.getItem('addressData'));
 
         const combinedValue = JSON.stringify({
-            addrid: `${index}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`
+            addrid: `${index}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobileno: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"EDITADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
             "f": "Delivery (EditAddress)",
-            p: encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue
         };
         const response = await CommonAPI(body);
-        if (response.Data.rd[0].stat === 1) {
-            fetchAddresses();
-        } else {
-            // toast.error('Something went wrong');
-            return null;
-        }
+        return response?.Data?.rd;
     } catch (error) {
         console.error('Error:', error);
         return null;
@@ -101,7 +94,7 @@ export const deleteAddress = async (addressId) => {
             p: encodedCombinedValue
         };
         const response = await CommonAPI(body);
-        return response.Data.rd[0].stat === 1;
+        return response?.Data?.rd;
     } catch (error) {
         console.error('Error:', error);
         return false;
@@ -109,7 +102,6 @@ export const deleteAddress = async (addressId) => {
 };
 
 export const setDefaultAddress = async (address) => {
-    debugger
     try {
         const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
@@ -126,12 +118,7 @@ export const setDefaultAddress = async (address) => {
             p: encodedCombinedValue
         };
         const response = await CommonAPI(body);
-        if (response.Data.rd[0].stat === 1) {
-            fetchAddresses();
-        } else {
-            // toast.error('Something went wrong');
-            return address;
-        }
+        return response?.Data?.rd;
     } catch (error) {
         console.error('Error:', error);
         return address;

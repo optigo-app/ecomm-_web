@@ -2,10 +2,24 @@ import React from 'react';
 import './smr_cartPage.scss';
 import Customization from './Customization';
 
-const CartDetails = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, multiSelect, handleAddReamrk, productRemark, showRemark, handleRemarkChange, handleSave, handleCancel, handleMetalTypeChange,
+const CartDetails = ({
+  selectedItem,
+  qtyCount,
+  handleIncrement,
+  handleDecrement,
+  multiSelect,
+  handleAddReamrk,
+  productRemark,
+  showRemark,
+  handleRemarkChange,
+  handleSave,
+  handleCancel,
+  handleMetalTypeChange,
   handleMetalColorChange,
   handleDiamondChange,
-  handleSizeChange }) => {
+  handleColorStoneChange,
+  handleSizeChange
+}) => {
   return (
     <div className="smr_cart-container">
       <div className="smr_Cart-imageDiv">
@@ -26,6 +40,7 @@ const CartDetails = ({ selectedItem, qtyCount, handleIncrement, handleDecrement,
         handleMetalTypeChange={handleMetalTypeChange}
         handleMetalColorChange={handleMetalColorChange}
         handleDiamondChange={handleDiamondChange}
+        handleColorStoneChange={handleColorStoneChange}
         handleSizeChange={handleSizeChange}
       />
     </div>

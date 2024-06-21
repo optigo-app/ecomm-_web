@@ -23,18 +23,19 @@ export const useAddress = () => {
     const [deleteId, setDeleteId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const fetchInitialData = async () => {
+        setIsLoading(true);
+        const addresses = await fetchAddresses();
+        setAddressData(addresses);
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        const fetchInitialData = async () => {
-            setIsLoading(true);
-            const addresses = await fetchAddresses();
-            setAddressData(addresses);
-            setIsLoading(false);
-        };
         fetchInitialData();
     }, []);
 
     const handleOpen = (addressId) => {
-        console.log('addressId',addressData);
+        console.log('addressId', addressData);
         if (addressId) {
             const address = addressData?.find(addr => addr?.id === addressId);
             setFormData({
@@ -64,7 +65,7 @@ export const useAddress = () => {
         }
         setOpen(true);
     };
-console.log('editAddressId', editAddressId);
+    console.log('editAddressId', editAddressId);
     const handleClose = () => {
         setOpen(false);
         setErrors({});
@@ -154,8 +155,7 @@ console.log('editAddressId', editAddressId);
             if (isEditMode) {
                 const updatedAddress = await editAddress(editAddressId, formData);
                 if (updatedAddress) {
-                    const updatedAddressData = addressData.map((item, index) => index === editAddressId ? updatedAddress : item);
-                    setAddressData(updatedAddressData);
+                    fetchInitialData()
                     // toast.success('Address updated successfully');
                 } else {
                     // toast.error('Something went wrong');
@@ -163,7 +163,7 @@ console.log('editAddressId', editAddressId);
             } else {
                 const newAddress = await addAddress(formData);
                 if (newAddress) {
-                    setAddressData((prevData) => [...prevData, newAddress]);
+                    fetchInitialData()
                     // toast.success('Address added successfully');
                 } else {
                     // toast.error('Something went wrong');
@@ -213,15 +213,36 @@ console.log('editAddressId', editAddressId);
     };
 
     const handleDefaultSelection = async (addressId) => {
+        debugger
         const address = addressData.find(addr => addr?.id === addressId?.id);
         if (address && address.isdefault === 1) {
             return;
         }
+    
         setIsLoading(true);
-        const updatedAddressData = await setDefaultAddress(addressId, addressData);
-        setAddressData(updatedAddressData);
-        setIsLoading(false);
+        
+        try {
+            const updatedAddressData = await setDefaultAddress(addressId, addressData);
+            console.log('updatedAddressData', updatedAddressData);
+            if(updatedAddressData[0]?.stat == 1){
+                fetchInitialData();
+            }
+        } catch (error) {
+            console.error('Error setting default address:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
+    
+    useEffect(() => {
+        const defaultAddressItem = addressData.find(item => item.isdefault === 1);
+        if (defaultAddressItem) {
+            let deafu = JSON.stringify(defaultAddressItem)
+            localStorage.setItem('selectedAddressId', deafu)
+        } else {
+            return;
+        }
+    }, [addressData]);
 
 
     const proceedToOrder = (navigation) => {

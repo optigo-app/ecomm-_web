@@ -46,8 +46,8 @@
     width: 150px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1FontColor;
-    background-color: $btn1bgColor;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
     border-radius: 6px;
     cursor: pointer;

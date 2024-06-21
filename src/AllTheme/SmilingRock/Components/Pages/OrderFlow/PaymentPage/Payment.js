@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Payment.scss";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Footer from '../../Home/Footer/Footer';
+import { useNavigate } from 'react-router-dom';
+// import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 
 const Payment = () => {
+    const navigate = useNavigate();
+    const [selectedAddrData, setSelectedAddrData] = useState();
+
+    const handleBackNavigate = () => {
+        navigate(-1);
+    }
+
+    useEffect(() => {
+        const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+        console.log('selectedAddressData', selectedAddressData);
+        setSelectedAddrData(selectedAddressData)
+    }, [])
+
+    const handlePay = async () => {
+        // const paymentResponse = await handlePaymentAPI();
+        // console.log("paymentResponse",paymentResponse);
+        navigate('/Confirmation')
+    }
 
     function scrollToTop() {
         window.scrollTo({
@@ -17,18 +37,18 @@ const Payment = () => {
             <div className='smr_paymentSecondMainDiv'>
                 <div className='smr_PaymentContainer'>
                     <div className='smr_paymentBackbtnDiv'>
-                        <IoMdArrowRoundBack className='smr_paymentBackbtn' />
+                        <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
                     </div>
                     <div className='smr_paymentDetailMainDiv'>
                         <div className='smr_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
                             <div className='billingAddress'>
                                 <h3>Billing Address</h3>
-                                <p>Name : Dillon Casey</p>
-                                <p>Address : Eiismod cupiditate c</p>
-                                <p>City : Qui elit ipsum dele-14491</p>
-                                <p>State : Accusantium et do at,Hic do aut et non fu</p>
-                                <p>Mobile : Laborum aut deleniti</p>
+                                <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p>Address : {selectedAddrData?.street}</p>
+                                <p>City : {selectedAddrData?.city}</p>
+                                <p>State : {selectedAddrData?.state}</p>
+                                <p>Mobile : {selectedAddrData?.shippingmobile}</p>
                             </div>
                         </div>
                         <div className='smr_paymentDetailRightSideContent'>
@@ -48,15 +68,15 @@ const Payment = () => {
                             <div className='shippingAddress'>
                                 <h3>Shipping Address</h3>
                                 <p className='smr_paymentUserName'>Dillon Casey</p>
-                                <p>Eiismod cupiditate c</p>
-                                <p>Qui elit ipsum dele-14491</p>
-                                <p>Accusantium et do at,Hic do aut et non fu</p>
-                                <p>Laborum aut deleniti</p>
+                                <p>{selectedAddrData?.street}</p>
+                                <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
+                                <p>{selectedAddrData?.state}</p>
+                                <p>{selectedAddrData?.shippingmobile}</p>
                             </div>
                         </div>
                     </div>
                     <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn'>PAY ON ACCOUNT</button>
+                        <button className='smr_payOnAccountBtn' onClick={handlePay}>PAY ON ACCOUNT</button>
                     </div>
                 </div>
                 <Footer />
