@@ -6,7 +6,8 @@ const ShopByCategory = () => {
     return (
         <div>
             <div>
-                <p className='shopbycategoryTitle'>Find the perfect diamond for you</p>
+                <p className='shopbycategoryTitle'>Shop By Category</p>
+                {/* <p className='shopbycategoryTitle'>Find the perfect diamond for you</p>Shop By Category */}
                 <div className='shopbycategoryDesc'>
                     <p style={{
                         width: '240px',

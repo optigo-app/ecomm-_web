@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './TrendingView.modul.scss'
-import { GetTrandingView } from '../../../../../../utils/API/Home/GetTranding/GetTrandingView'
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,6 +12,8 @@ import 'swiper/css/navigation';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 
 const TrendingView = () => {
 
@@ -41,7 +42,7 @@ const TrendingView = () => {
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
-        GetTrandingView().then((response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending").then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
             }
@@ -87,7 +88,7 @@ const TrendingView = () => {
 
             <div className='linkingLoveMain linkingLoveMain2'>
                 <div className='linkingLoveImage'>
-                    <img src={`${imageUrl} + ${trandingViewData && trandingViewData[0]?.designno} + "_" + 1 + "." + ${trandingViewData && trandingViewData[0]?.ImageExtension}`} className='linkingLoveImageDesign' />
+                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
                 </div>
                 <div className='linkingLove'>
                     <p className='linkingTitle'>Trending View</p>
