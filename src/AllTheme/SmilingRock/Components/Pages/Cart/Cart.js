@@ -5,10 +5,12 @@ import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
+import Footer from '../Home/Footer/Footer';
 // import Footer from "../Home/Footer/Footer"
 
 const CartPage = () => {
   const {
+    isloding,
     cartData,
     selectedItem,
     selectedItems,
@@ -31,10 +33,11 @@ const CartPage = () => {
     handleRemoveAll,
     handleUpdateCart,
     handleCancelUpdateCart,
-    handleMetalTypeChange, 
-    handleMetalColorChange, 
-    handleDiamondChange, 
-    handleSizeChange 
+    handleMetalTypeChange,
+    handleMetalColorChange,
+    handleDiamondChange,
+    handleColorStoneChange,
+    handleSizeChange
 
   } = useCart();
 
@@ -50,6 +53,7 @@ const CartPage = () => {
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           <div className="smr_cart-title">My Cart</div>
+
           <div className="smr_cartButton-group">
             <button className="smr_cartBtn smr_cartActivebtn">List View</button>
             {/* <button className='smr_cartBtn'>Image View</button> */}
@@ -83,11 +87,12 @@ const CartPage = () => {
                 handleRemarkChange={handleRemarkChange}
                 handleSave={handleSave}
                 handleCancel={handleCancel}
-                handleMetalTypeChange={handleMetalTypeChange} 
-                handleMetalColorChange={handleMetalColorChange} 
-                handleDiamondChange={handleDiamondChange} 
-                handleSizeChange={handleSizeChange} 
-                 />
+                handleMetalTypeChange={handleMetalTypeChange}
+                handleMetalColorChange={handleMetalColorChange}
+                handleDiamondChange={handleDiamondChange}
+                handleColorStoneChange={handleColorStoneChange}
+                handleSizeChange={handleSizeChange}
+              />
             )}
           </div>
           <div className="smr_cart-right-side">
@@ -96,9 +101,9 @@ const CartPage = () => {
               onSelect={handleSelectItem}
               selectedItem={selectedItem}
               selectedItems={selectedItems}
-              multiSelect={multiSelect} 
+              multiSelect={multiSelect}
               onRemove={handleRemoveItem}
-              />
+            />
           </div>
 
           <SelectedItemsModal
@@ -107,10 +112,10 @@ const CartPage = () => {
             selectedItems={selectedItems}
             onRemove={handleRemoveItem}
             onUpdateCart={handleUpdateCart}
-            onCancelCart ={handleCancelUpdateCart}
+            onCancelCart={handleCancelUpdateCart}
           />
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
         <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
