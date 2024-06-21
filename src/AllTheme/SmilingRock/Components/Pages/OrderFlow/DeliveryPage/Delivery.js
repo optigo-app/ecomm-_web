@@ -7,6 +7,7 @@ import DeleteDialog from './DeleteDialog';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
+import SkeletonLoader from './AddressSkelton';
 
 const AddressManagement = () => {
     const {
@@ -38,33 +39,37 @@ const AddressManagement = () => {
         });
     }
 
-
-
     return (
         <div className='smr_DeliverMainDiv'>
             <div className='smr_secondMaindivAdd'>
                 <div className='smr_addMainDiv'>
                     <div className='smr_TitleDetailMainDiv'>
+                        <div>
                         <h1 className='smr_deliveryTitle'>Delivery</h1>
                         <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                        </div>
+                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
-
-                    <div className='smr_getAddrMainDiv'>
-                        <Grid container spacing={1}>
-                            {addressData?.map((data, index) => (
-                                <React.Fragment key={data.id}>
-                                    <AddressCard
-                                        key={data.id}
-                                        name={data.name}
-                                        address={data}
-                                        index={index}
-                                        handleOpen={handleOpen}
-                                        handleDeleteClick={handleDeleteClick}
-                                        handleDefaultSelection={handleDefaultSelection} />
-                                </React.Fragment>
-                            ))}
-                        </Grid>
-                    </div>
+                    {!isLoading ? (
+                        <div className='smr_getAddrMainDiv'>
+                            <Grid container spacing={2}>
+                                {addressData?.map((data, index) => (
+                                    <React.Fragment key={data.id} >
+                                        <AddressCard
+                                            key={data.id}
+                                            name={data.name}
+                                            address={data}
+                                            index={index}
+                                            handleOpen={handleOpen}
+                                            handleDeleteClick={handleDeleteClick}
+                                            handleDefaultSelection={handleDefaultSelection} />
+                                    </React.Fragment>
+                                ))}
+                            </Grid>
+                        </div>
+                    ) :
+                        <SkeletonLoader />
+                    }
                     <AddressForm
                         open={open}
                         handleClose={handleClose}
@@ -82,7 +87,6 @@ const AddressManagement = () => {
                     />
                     <div className='smr_AddressBtnGroup'>
                         <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
-                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                 </div>
                 <Footer />

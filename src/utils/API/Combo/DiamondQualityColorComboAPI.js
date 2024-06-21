@@ -14,7 +14,7 @@ export const DiamondQualityColorComboAPI = async () => {
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, diamondpricelistname: `${loginUserDetail?.diamondpricelistname}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
