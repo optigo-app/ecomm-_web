@@ -129,7 +129,7 @@
     
                     .smr_prod_Title{
     
-                        padding-bottom: 7px;
+                        // padding-bottom: 7px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -149,9 +149,9 @@
                             margin: 3px;
                             max-height: 3em;
                             /* Adjust as needed */
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                         }
         
                         .smr_prod_title_with_no_width {
@@ -166,6 +166,9 @@
                             min-height: 19.5px;
                             /* width:300px; */
                             margin: 3px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                         }
     
                         .smr_prod_designno{
@@ -180,8 +183,9 @@
                     .smr_prod_Allwt {
                         display: flex;
                         flex-direction: row;
-                        justify-content: space-between;
-                        padding-inline: 8px;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        padding-inline: 30px;
                         gap: 3px;
                         font-family:$primaryFontFamily;
     
@@ -190,18 +194,18 @@
                             // align-items: center;
                             flex-direction: column;
     
-                            .smr_prod_wt {
-                                display: flex;
-                                gap: 2px;
+                        }
+                        .smr_prod_wt {
+                            display: flex;
+                            gap: 2px;
     
-                                .smr_keys {
-                                    font-size: 11px;
-                                }
+                            .smr_keys {
+                                font-size: 12px;
+                            }
     
-                                .smr_val {
-                                    font-size: 11px;
-                                    font-weight: 400;
-                                }
+                            .smr_val {
+                                font-size: 12px;
+                                font-weight: 400;
                             }
                         }
                     }
@@ -222,7 +226,7 @@
                             justify-content: center;
                             color:$primaryfontcolor;
                             gap: 2px;
-                            font-size: 1.1rem;
+                            font-size: 14px;
                             // font-weight: 600;
     
                             // .smr_currencyFont{
@@ -240,6 +244,33 @@
         
     }
 }
+
+.smr_mui_checkbox_label{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    font-family:$primaryFontFamily;
+}
+
+.MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root{
+    font-family:$primaryFontFamily;
+    color:$primaryfontcolor;
+    // font-size: 12px;
+
+}
+
+.smr_prod_datanotfound{
+    font-family:$primaryFontFamilyMedium;
+    color:$primaryfontcolor;
+    font-size: 28px;
+}
+
+.filtercategoryLable{
+    color: $primaryfontcolor;
+    border-radius: 0;
+}
+
 
 
 
