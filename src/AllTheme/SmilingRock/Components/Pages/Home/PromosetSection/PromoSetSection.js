@@ -101,7 +101,6 @@ const PromoSetSection = () => {
                 </div>
 
                 <div className='linkRingLove'>
-
                     <div>
                         <div className='linkLoveRing1'>
                             <img src={!ring1ImageChange ?  `${storImagePath()}/images/HomePage/Promo/Set/1/promoSetBanner1Img1.png`:`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetBanner1Img1Hover.png`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing1} onMouseLeave={handleMouseLeaveRing1} />

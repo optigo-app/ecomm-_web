@@ -32,6 +32,8 @@ const ProductList = () => {
   const [currPage,setCurrPage] = useState(1);
   const [cartArr,setCartArr] = useState({})
   const [wishArr,setWishArr] = useState({})
+  const [menuParams,setMenuParams] = useState({})
+  
 
 
   let location = useLocation();
@@ -41,14 +43,11 @@ const ProductList = () => {
     setStoreInit(storeinit)
   },[])
 
-  // useEffect(()=>{
-  //   // let FilterData = JSON.parse(localStorage.getItem("AllFilter"));
-      
-  console.log("isProdLoading",isProdLoading);
-    
-  // },[priceListData])
 
-  // console.log("filterData",filterData);
+  useEffect(()=>{
+    let param = JSON.parse(localStorage.getItem("menuparams"))
+    setMenuParams(param)
+  },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
@@ -350,13 +349,15 @@ const ProductList = () => {
   console.log("Arr",cartArr,wishArr);
 
 
-
   return (
     <div id="top">
       <div className="smr_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
-            {isProdLoading ? (
+            {
+            isProdLoading ? 
+            // true ? 
+            (
               <ProductListSkeleton />
             ) : (
               <>
@@ -522,14 +523,15 @@ const ProductList = () => {
                   </div>
                   <div className="smr_productList">
                     {isOnlyProdLoading ? (
-                      // true ?
                       <ProductListSkeleton fromPage={"Prodlist"} />
                     ) : (
+                      <div className="smr_outer_portion">
+                      <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
                       <div className="smr_inner_portion">
                         {finalProductListData?.map((productData) => (
                           <div className="smr_productCard">
                             <div className="cart_and_wishlist_icon">
-                              <Button className="smr_cart-icon">
+                              {/* <Button className="smr_cart-icon"> */}
                                 <Checkbox
                                   icon={
                                     <LocalMallOutlinedIcon
@@ -548,14 +550,14 @@ const ProductList = () => {
                                       }}
                                     />
                                   }
-                                  disableRipple={true}
-                                  sx={{ padding: "5px" }}
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Cart")}
-                                  checked={Object.keys(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
+                                  checked={Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] :productData?.IsInCart}
                                 />
-                              </Button>
-                              <Button className="smr_wish-icon">
+                              {/* </Button> */}
+                              {/* <Button className="smr_wish-icon"> */}
                                 <Checkbox
                                   icon={
                                     <FavoriteBorderIcon
@@ -574,15 +576,15 @@ const ProductList = () => {
                                       }}
                                     />
                                   }
-                                  disableRipple={true}
-                                  sx={{ padding: "5px" }}
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
 
                                   onChange={(e)=> handleCartandWish(e,productData,"Wish")}
                                   // checked={productData?.IsInWish}
-                                  checked={Object.keys(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
+                                  checked={Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :productData?.IsInWish}
                                   // onChange={(e) => handelWishList(e, products)}
                                 />
-                              </Button>
+                              {/* </Button> */}
                             </div>
                             <img
                               className="smr_productCard_Image"
@@ -671,6 +673,7 @@ const ProductList = () => {
                           </div>
                         ))}
                       </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -684,10 +687,12 @@ const ProductList = () => {
               }}
             >
               <Pagination
-                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                count={Math.ceil(afterFilterCount/storeInit.PageSize)}
                 size="large"
                 shape="circular"
                 onChange={handelPageChange}
+                showFirstButton
+                showLastButton
               />
             </div>
             <Footer fromPage={"ProdList"} />
