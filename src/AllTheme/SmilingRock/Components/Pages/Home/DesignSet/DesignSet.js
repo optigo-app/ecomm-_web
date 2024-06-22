@@ -17,7 +17,7 @@ const DesignSet = () => {
     const [imageUrl, setImageUrl] = useState();
     const [designSetList, setDesignSetList] = useState()
     const sliderRef = useRef(null);
-    const scrollAmount = 100;
+    const scrollAmount = 250;
 
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem('storeInit'))
@@ -41,17 +41,18 @@ const DesignSet = () => {
         return finalprodListimg
     }
 
+    console.log('scrollll',sliderRef);
     return (
-        <div className='smr_designSetMain' style={{ position: 'relative' }}>
+        <div className='smr_designSetMain' style={{ position: 'relative' , marginTop: '80px'}}>
             <div>
                 <p className='designSetTitle'>Design Set</p>
             </div>
             <div className='App' style={{ marginInline: '90px' }}>
                 <button
-                    className="nav-btn"
+                    className="nav-btn-left"
                     onClick={() => {
                         const container = sliderRef.current;
-                        container.scrollLeft -= scrollAmount; // Scroll left by the specified amount
+                        container.scrollLeft -= scrollAmount; 
                     }}
                 >
                     <FaChevronLeft />
@@ -60,15 +61,15 @@ const DesignSet = () => {
                 <div className="images-container" ref={sliderRef}>
                     {designSetList?.map((slide, index) => (
                         <div className='smr_designSetDiv'>
-                            <img className='image' loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} style={{ height: '100%', objectFit: 'contain' }} />
+                            <img className='image' loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} />
                         </div>
                     ))}
                 </div>
                 <button
-                    className="nav-btn"
+                    className="nav-btn-right"
                     onClick={() => {
                         const container = sliderRef.current;
-                        container.scrollLeft += scrollAmount; // Scroll right by the specified amount
+                        container.scrollLeft += scrollAmount; 
                     }}
                 >
                     <FaChevronRight />

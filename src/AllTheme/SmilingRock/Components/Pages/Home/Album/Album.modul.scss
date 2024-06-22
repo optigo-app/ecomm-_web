@@ -1,0 +1,34 @@
+@import '../../../scss/variable';
+
+.smr_alubmMainDiv {
+
+    margin-inline: 60px;
+
+    .smr_AlbumImageMain {
+        height: 300px;
+        width: 300px;
+        margin: 5px;
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+
+    }
+
+   
+    .smr_albumTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .smr_AlbumImageMain_img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .smr_albumALL_div {
+        display: flex;
+        justify-content: center;
+    }
+}

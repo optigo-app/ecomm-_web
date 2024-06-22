@@ -68,7 +68,7 @@ const PromoSetSection = () => {
 
   return (
     <div>
-    <div className='linkingLoveMain'>
+    <div className='linkingLoveMain' style={{marginTop: '120px'}}>
         <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>
             {/* <p className='linkingDesc'>Ready to share link with your loved ones!</p> */}
@@ -134,6 +134,7 @@ const PromoSetSection = () => {
 
                         </div>
                     </Slider>
+                    
         </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />

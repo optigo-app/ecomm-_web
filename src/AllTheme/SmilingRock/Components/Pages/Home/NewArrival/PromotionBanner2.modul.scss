@@ -4,6 +4,7 @@
 .smilingBridesMain {
     display: flex;
     margin-inline: 90px;
+    border: 0.5px solid #e1e1e1;
 }
 
 .enagementBtn {
@@ -24,11 +25,10 @@
 
 .smilingBrides {
     width: 25%;
-    height: 648px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 0.5px solid #e1e1e1;
+    border-right: 0.5px solid #e1e1e1;
 }
 
 .smlingBridesImages {
@@ -48,6 +48,13 @@
     font-size: $fontSize5;
 }
 
+.smr_newArrivaldivMain{
+    display: flex;
+    width: 100%;
+}
+.smr_newArrialDiv1{
+    width: 50%;
+}
 @media screen and (max-width: 1024px) {
     .smilingBridesMain {
         margin-inline: 10px;

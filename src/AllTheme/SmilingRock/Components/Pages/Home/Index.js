@@ -11,6 +11,7 @@ import Footer from './Footer/Footer';
 import TrendingView from './TrandingView/TrendingView';
 import NewArrival from './newArrival/NewArrival';
 import DesignSet from './DesignSet/DesignSet';
+import Album from './Album/Album';
 
 function Home() {
 
@@ -21,14 +22,16 @@ function Home() {
       <div className='smiling_home_index_Submain'>
         <TopSection />
         <TheDifference />
-        
         <PromotionBaner1 />
+        <Album />
         <TrendingView />
 
         {/* <DaimondEveyone /> */}
         <ShopByCategory />
         <NewArrival />
 
+        <DesignSet />
+        
         
         <PromoSetSection />
 
@@ -36,7 +39,6 @@ function Home() {
 
         {/* <BestSaller /> */}
 
-        <DesignSet />
 
         <BottomBanner />
         <Footer />

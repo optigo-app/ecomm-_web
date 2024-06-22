@@ -5,7 +5,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 
 const NewArrival = () => {
 
-    const [newArrivalData , setNewArrivalData] = useState('');
+    const [newArrivalData, setNewArrivalData] = useState('');
     const [imageUrl, setImageUrl] = useState();
 
     useEffect(() => {
@@ -19,16 +19,25 @@ const NewArrival = () => {
         }).catch((err) => console.log(err))
     }, [])
 
+    console.log('newwwww', newArrivalData);
 
     return (
         <div className='paddingTopMobileSet'>
             <div className='smilingBridesMain'>
                 <div className='smilingBrides'>
-                    <p  className='smilingBridesMainTitle'>NEW ARRIVAL </p>
+                    <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
                     <button className='enagementBtn'>NEW ARRIVAL COLLECTION</button>
                 </div>
                 <div className='smlingBridesImages'>
-                    <img src={`${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''} />
+                    <div className='smr_newArrivaldivMain'>
+                        <div className='smr_newArrialDiv1'>
+                            <img src={`${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''} />
+
+                        </div>
+                        <div className='smr_newArrialDiv1'>
+                            <img src={`${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
