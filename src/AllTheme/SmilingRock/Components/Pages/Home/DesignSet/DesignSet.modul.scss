@@ -9,6 +9,7 @@
         align-items: center;
         display: flex;
         justify-content: center;
+        position: relative;
       }
       
       .images-container {
@@ -19,29 +20,50 @@
       }
       
       .image {
-        width: 200px;
-        height: 200px;
+        max-width: 200px;
         margin: 5px;
         border-radius: 8px;
       }
       
-      .nav-btn {
+      .nav-btn-left {
         color: inherit;
-        border: none;
+        border: 1px solid lightgray;
         padding: 0;
         font: inherit;
         cursor: pointer;
         outline: inherit;
-        background-color: #c3c3c3;
-        border-radius: 6px;
-        height: 50px;
-        width: 30px;
-        margin: 5px;
+        border-radius: 35px;
+        height: 35px;
+        width: 35px;
+        margin: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 0px;
+      }
+
+      .nav-btn-right{
+        color: inherit;
+        border: 1px solid lightgray;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        border-radius: 35px;
+        height: 35px;
+        width: 35px;
+        margin: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 0px;
       }
 
       .smr_designSetDiv{
-        height: 200px;
-        width: 350px;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+        margin: 5px;
       }
 
     .designSetTitle {

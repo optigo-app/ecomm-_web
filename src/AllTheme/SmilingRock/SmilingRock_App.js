@@ -111,8 +111,6 @@ const SmilingRock_App = () => {
         <>
             <div>
                 <Header />
-
-
                 <Helmet>
                     <title>{title}</title>
                     <link rel="icon" type="image/png" href={favicon} sizes="16x16" />

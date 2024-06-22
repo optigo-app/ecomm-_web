@@ -8,6 +8,9 @@ import { DiamondQualityColorComboAPI } from '../../utils/API/Combo/DiamondQualit
 import { ColorStoneQualityColorComboAPI } from '../../utils/API/Combo/ColorStoneQualityColorComboAPI'
 import { MetalColorCombo } from '../../utils/API/Combo/MetalColorCombo'
 import { CurrencyComboAPI } from '../../utils/API/Combo/CurrencyComboAPI'
+import { Helmet } from 'react-helmet'
+import { Route, Routes } from 'react-router-dom'
+import Home from './Components/Pages/Home/Index'
 
 const DaimondTine_App = () => {
 
@@ -86,8 +89,18 @@ const DaimondTine_App = () => {
 
   return (
     <div>
-
       <Header />
+      <Helmet>
+        <title>{title}</title>
+        <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+        <meta name="description" content={title} />
+        <link rel="apple-touch-icon" href={favicon} />
+        <link rel="manifest" href={favicon} />
+      </Helmet>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   )
 }
