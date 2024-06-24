@@ -97,7 +97,7 @@ const TrendingView = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                    <img src={!ring3ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[2]?.designno}_1.${trandingViewData && trandingViewData[2]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
@@ -105,7 +105,7 @@ const TrendingView = () => {
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                    <img src={!ring4ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
@@ -117,7 +117,7 @@ const TrendingView = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                    <img src={!ring3ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
@@ -125,7 +125,7 @@ const TrendingView = () => {
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                    <img src={!ring4ImageChange ? `${imageUrl}${trandingViewData && trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension}` : `${imageUrl}${trandingViewData && trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>

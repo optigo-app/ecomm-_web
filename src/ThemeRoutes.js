@@ -10,9 +10,9 @@ export default function ThemeRoutes() {
   return (
 
     <>
-        {true && <SmilingRock_App />}
+        {false && <SmilingRock_App />}
       
-        {false && <DaimondTine_App />}
+        {true && <DaimondTine_App />}
       
         {false && <Elveester_App />}
      

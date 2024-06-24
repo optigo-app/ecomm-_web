@@ -11,6 +11,7 @@ import { CurrencyComboAPI } from '../../utils/API/Combo/CurrencyComboAPI'
 import { Helmet } from 'react-helmet'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
+import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 
 const DaimondTine_App = () => {
 
@@ -100,6 +101,7 @@ const DaimondTine_App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/LoginOption" element={<LoginOption />} />
       </Routes>
     </div>
   )

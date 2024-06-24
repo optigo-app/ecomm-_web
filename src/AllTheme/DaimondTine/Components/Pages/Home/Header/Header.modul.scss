@@ -37,6 +37,12 @@
 
   .dt_headermainDiv2 {
     width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .dt_header_logo{
+    max-width: 150px;
   }
 
   .dt_headermainDiv3 {
