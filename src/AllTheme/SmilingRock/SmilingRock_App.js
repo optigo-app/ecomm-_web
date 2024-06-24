@@ -32,6 +32,7 @@ import { Helmet } from 'react-helmet'
 import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
 import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
+import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 
 
 const SmilingRock_App = () => {
@@ -126,6 +127,7 @@ const SmilingRock_App = () => {
                 <Route path="/ContimueWithMobile" element={<div className="authFlowBakcColor"><ContimueWithMobile /></div>} />
                 <Route path="/LoginWithEmailCode" element={<div className="authFlowBakcColor"><LoginWithEmailCode /></div>} />
                 <Route path="/LoginWithMobileCode" element={<div className="authFlowBakcColor"><LoginWithMobileCode /></div>} />
+                <Route path="/ForgotPass" element={<div className="authFlowBakcColor"><ForgotPass /></div>} />
                 <Route path="/LoginWithEmail" element={<div className="authFlowBakcColor"><LoginWithEmail /></div>} />
                 <Route path="/register" element={<div className="authFlowBakcColor"><Register /></div>} />
                 <Route path="/ContactUs" element={<ContactUs />} />
