@@ -1,10 +1,12 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handleProductRemark = async (data, remarks, customerID, userEmail) => {
+export const handleProductRemark = async (data, remarks) => {
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
         const { FrontEnd_RegNo } = storeInit;
+
+        let customerEmail = loginUserDetail?.email1
 
         const combinedValue = {
             designno: data.designno,
@@ -17,13 +19,10 @@ export const handleProductRemark = async (data, remarks, customerID, userEmail) 
         const encodedCombinedValue = btoa(JSON.stringify(combinedValue));
         
         const body = {
-            con: JSON.stringify({
-                id: "",
-                mode: "SAVEDESIGNREMARK",
-                appuserid: loginUserDetail?.email1 ?? "",
-            }),
+            "con": `{\"id\":\"\",\"mode\":\"SAVEDESIGNREMARK\",\"appuserid\":\"${customerEmail ?? ''}\"}`,
             f: "Header (handleSingleRemarksSubmit)",
             p: encodedCombinedValue,
+            dp:JSON.stringify(combinedValue),
         };
 
         const response = await CommonAPI(body);

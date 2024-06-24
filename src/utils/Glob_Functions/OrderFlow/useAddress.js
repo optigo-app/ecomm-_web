@@ -192,8 +192,9 @@ export const useAddress = () => {
     const handleDelete = async (addressId) => {
         setIsLoading(true);
         const success = await deleteAddress(deleteId);
-        if (success) {
+        if (success[0]?.stat == 1) {
             setAddressData(addressData.filter((item) => item.id !== addressId));
+            fetchInitialData();
             // toast.success('Address deleted successfully');
         } else {
             // toast.error('Something went wrong');
@@ -213,7 +214,6 @@ export const useAddress = () => {
     };
 
     const handleDefaultSelection = async (addressId) => {
-        debugger
         const address = addressData.find(addr => addr?.id === addressId?.id);
         if (address && address.isdefault === 1) {
             return;
@@ -248,6 +248,7 @@ export const useAddress = () => {
     const proceedToOrder = (navigation) => {
         if (addressData.some((item) => item.isdefault === 1)) {
             navigation('/payment');
+            window.scrollTo(0, 0);
         } else {
             // toast.error('Please select a default address');
         }

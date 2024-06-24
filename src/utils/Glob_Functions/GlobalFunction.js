@@ -12,12 +12,37 @@ export function findMetalColor(paramId) {
 
 export function findMetalType(paramId) {
   let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
-  let item = metalTypeArr.filter(item => item?.Metalid === paramId)
+  let item = metalTypeArr.filter(item => item?.Metalid == paramId)
+  // console.log("findMetal pro",paramId,item);
+
   return item
 }
 
 export function findMetal(param) {
   let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
   let item = metalTypeArr.filter(item => item?.metaltype === param)
+  return item
+}
+
+export function findDiaQcId(param) {
+
+  let diaQCArr = JSON.parse(localStorage.getItem("diamondQualityColorCombo"))
+  let quality = param.split(",")[0]
+  let color = param.split(",")[1]
+
+  let item = diaQCArr?.filter(ele => ele?.Quality == quality && ele?.color == color)
+  // console.log("diaa dia",item,param);
+  
+  return item
+}
+
+export function findCsQcId(param) {
+
+  let CsQCArr = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"))
+  let quality = param.split(",")[0]
+  let color = param.split(",")[1]
+
+  let item = CsQCArr?.filter(ele => ele?.Quality == quality && ele?.color == color)
+  // console.log("diaa cs",item,param);
   return item
 }

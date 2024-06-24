@@ -1,7 +1,8 @@
+import { findCsQcId, findDiaQcId, findMetal } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj={},page) => {
+const ProductListApi = async (filterObj={},page,obj={}) => {
 
 
   const keyMapping = {
@@ -90,6 +91,17 @@ const ProductListApi = async (filterObj={},page) => {
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
   let menuparam = JSON.parse(localStorage.getItem("menuparams"));
 
+
+  let diaQc = (obj?.dia === undefined ? loginInfo?.cmboDiaQCid : obj?.dia)
+  // let diaQc = findDiaQcId(obj?.dia ?? loginInfo?.cmboDiaQCid)[0]
+  let csQc = (obj?.cs === undefined ? loginInfo?.cmboCSQCid : obj?.cs)
+  // let csQc = findCsQcId(obj?.cs ?? loginInfo?.cmboCSQCid)[0]
+  let mtiddd =  obj?.mt === undefined ? loginInfo?.cmboMetalType : obj?.mt
+  let mtid = findMetal(loginInfo?.cmboMetalType)[0]?.Metalid
+
+  // console.log("diaa prod api",mtid);
+
+
   const data = {
     PackageId: `${loginInfo?.PackageId }`,
     autocode: '',
@@ -104,6 +116,9 @@ const ProductListApi = async (filterObj={},page) => {
     FilterVal2:`${menuparam?.FilterVal2}`,
     PageNo:`${page}`,
     PageSize:`${storeinit?.PageSize}`,
+    Metalid: `${obj?.mt ?? mtid}`,
+    DiaQCid: `${diaQc}`,
+    CsQCid: `${csQc}`,
     Collectionid: `${filterObj?.collection ?? ""}`,
     Categoryid: `${filterObj?.category ?? ""}`,
     SubCategoryid: `${filterObj?.subcategory ?? ""}`,

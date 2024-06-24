@@ -4,7 +4,8 @@ $btn1bgColor:#fff;
 $btn1ActivebgColor:#7d7f85;
 
 //fontcolors
-$primaryfontcolor:#8f8c8b;
+$primaryfontcolor:#8f8c8be6;
+// $primaryfontcolor:#8f8c8b;
 $homePageFontColor: #7d7f85;
 $titleColor:#7d7f85;
 $btn1FontColor:#7d7f85;
@@ -16,7 +17,9 @@ $primaryfontcolorLight:#7d7f856e;
 $homePageFontFamily: 'FreightDispProMedium-Regular,Times New Roman,serif';
 // $primaryFontFamily:"Rubik", sans-serif;
 $primaryFontFamily:'TT Commons Regular';
+// $primaryFontFamily:"Roboto", sans-serif;
 $primaryFontFamilyMedium:'TT Commons Medium';
+// $primaryFontFamilyMedium:"Roboto", sans-serif;
 
 
 
@@ -36,15 +39,18 @@ $primaryBorderColor: #e1e1e1;
 
 @font-face {
     font-family:'TT Commons Regular';
-    src: url('../fonts/TT Commons Regular.otf') format('truetype');
+    src: url('../fonts/TT Commons Regular.otf') 
+    // format('truetype');
 }
 
 @font-face {
     font-family:'TT Commons Medium';
-    src: url('../fonts/TT Commons Medium.otf') format('truetype');
+    src: url('../fonts/TT Commons Medium.otf') 
+    // format('truetype');
 }
 
 @font-face {
     font-family:'TT Commons Bold';
-    src: url('../fonts/TT Commons Bold.otf') format('truetype');
+    src: url('../fonts/TT Commons Bold.otf') 
+    // format('truetype');
 }

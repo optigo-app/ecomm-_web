@@ -29,10 +29,19 @@
     .smr_WlButton-group {
         display: flex;
         gap: 1rem;
-        justify-content: center;
+        justify-content: space-between;
         margin-bottom: 2rem;
 
-        .smr_WlBtn {
+        .smr_ReomoveAllWLbtn {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            margin-inline: 6%;
+            color: $titleColor !important;
+            text-decoration-color: $titleColor !important;
+        }
+
+        .smr_WlAddToCartBtn {
             height: 60px;
             width: 180px;
             font-size: $fontSize2;
@@ -41,6 +50,7 @@
             border: 1px solid $btn1FontColor;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
+            margin-inline: 6%;
 
             &.smr_cartActivebtn {
                 background-color: $btn1ActivebgColor;
@@ -55,6 +65,32 @@
     }
 }
 
+
+.smr_noWishlistData {
+    text-align: center;
+
+    .smr_title {
+        color: $titleColor;
+        font-size: $fontSize6;
+    }
+
+    .smr_desc {
+        color: $titleColor;
+        font-size: $fontSize4;
+    }
+
+    .smr_browseOurCollectionbtn {
+        background-color: #7d7f85;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        outline: none;
+        width: 220px;
+    }
+}
+
 .smr_WlListData {
     padding: 60px 100px 10px 100px;
     margin-bottom: -8%;
@@ -62,22 +98,20 @@
 
 .smr_WlListCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    position: relative;
 
 }
 
-
-.designNoWlList {
-    position: absolute;
-    top: 0;
-    left: 5px;
-    color: $titleColor;
+.smr_wishDT {
+    font-size: $fontSize1;
+    font-family: $homePageFontFamily;
 }
 
 .closeWlIconDiv {
     position: absolute;
     top: 0;
     right: 0;
-    background: #000;
+    background: #c9c9c9;
     color: #fff;
 }
 
@@ -92,11 +126,12 @@
     .smr_Wl-Cartbtn {
         width: 150px;
         height: 30px;
-        font-size: $fontSize4;
+        font-size: $fontSize2;
         color: $titleColor;
         font-weight: 500;
         border: none;
         background: none;
+        text-transform: capitalize !important;
         cursor: pointer;
 
         &:hover {
@@ -108,8 +143,10 @@
 
 .smr_card-ContentData {
     text-align: center;
-    color: $titleColor;
-    font-size: $fontSize2;
+    color: $titleColor !important;
+    font-size: $fontSize1 !important;
+    font-family: $homePageFontFamily;
+    padding-bottom: 6px;
 }
 
 @media (max-width: 768px) {
@@ -195,4 +232,32 @@
         text-align: center;
         width: 100% !important;
     }
+}
+
+
+
+
+// skelton scss
+
+.smr_addwishlistSkeltonMainBox {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+
+    .smr_addwishlistSkelton {
+        width: 345px !important;
+        max-width: 345px !important;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
+        .smr_addwishlistSkelton {
+            background-color: #f6f6f6 !important;
+        }
+    }
+}
+
+.smr_pipe {
+    margin: 0px 10px;
 }

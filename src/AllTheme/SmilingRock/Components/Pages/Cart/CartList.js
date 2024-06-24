@@ -2,20 +2,41 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import CartItem from './CartItem';
 
-const CartList = ({ items, onSelect, selectedItem, selectedItems, multiSelect, onRemove  }) => {
+const CartList = ({
+  items,
+  CartCardImageFunc,
+  onSelect,
+  selectedItem,
+  selectedItems,
+  multiSelect,
+  showRemark,
+  productRemark,
+  onRemove,
+  handleAddReamrk,
+  handleRemarkChange,
+  handleSave,
+  handleCancel,
+}) => {
   return (
     <div className="smr_RightCartList">
       <Grid container spacing={2}>
         {items.map(item => (
-          <CartItem 
-            key={item.id} 
-            item={item} 
-            onSelect={onSelect} 
+          <CartItem
+            key={item.id}
+            item={item}
+            CartCardImageFunc={CartCardImageFunc}
+            onSelect={onSelect}
             isActive={selectedItems.includes(item)}
-            isSelected={multiSelect ? selectedItems.includes(item) : selectedItem === item} 
+            isSelected={multiSelect ? selectedItems.includes(item) : selectedItem === item}
             multiSelect={multiSelect}
             onRemove={onRemove}
-            itemLength = {items?.length}
+            itemLength={items?.length}
+            showRemark={showRemark}
+            productRemark={productRemark}
+            handleAddReamrk={handleAddReamrk}
+            handleRemarkChange={handleRemarkChange}
+            handleSave={handleSave}
+            handleCancel={handleCancel}
           />
         ))}
       </Grid>

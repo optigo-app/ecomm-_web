@@ -4,11 +4,14 @@ import { handleProductRemark } from '../../API/CartAPI/ProductRemarkAPIData';
 import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
 import { GetSinglePriceListApi } from '../../API/CartAPI/SinglePriceListForCart';
 import { updateQuantity } from '../../API/CartAPI/QuantityAPI';
-// import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
+import { getSizeData } from '../../API/CartAPI/GetCategorySizeAPI';
+import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image-not-found.jpg"
 
 const useCart = () => {
   const [isloding, setIsLoading] = useState(false);
+  const [storeInit, setStoreInit] = useState();
   const [cartData, setCartData] = useState([]);
+  const [CurrencyData, setCurrencyData] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -28,6 +31,22 @@ const useCart = () => {
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [sizeCombo, setSizeCombo] = useState([]);
+  const [sizeId, setSizeId] = useState();
+  const [selectedMetalData, setSelectedMetalData] = useState()
+  const [selectedDiaData, setSelectedDiaData] = useState()
+  const [selectedCSData, setSelectedCSData] = useState()
+
+
+  useEffect(() => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    setStoreInit(storeInit)
+    if (storeInit?.IsB2BWebsite != 0) {
+      setCurrencyData(storedData?.Currencysymbol)
+    } else {
+      setCurrencyData(storeInit?.Currencysymbol)
+    }
+  }, [])
 
 
   useEffect(() => {
@@ -58,6 +77,8 @@ const useCart = () => {
         setCartData(response?.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
+          let item = response?.Data?.rd[0]
+          handleCategorySize(item);
           setMetalID(response?.Data?.rd[0]?.metaltypeid)
           setdiaID(response?.Data?.rd[0]?.diamondqualityid + ',' + response?.Data?.rd[0]?.diamondcolorid)
           setColorStoneID(response?.Data?.rd[0]?.colorstonequalityid + ',' + response?.Data?.rd[0]?.colorstonecolorid)
@@ -103,6 +124,7 @@ const useCart = () => {
       setdiaID(item?.diamondqualityid + ',' + item?.diamondcolorid);
       setColorStoneID(item?.colorstonequalityid + ',' + item?.colorstonecolorid)
       setQtyCount(item?.Quantity)
+      handleCategorySize(item);
       try {
         await GetSinglePriceListApi(item).then((resp) => {
           if (resp) {
@@ -139,6 +161,7 @@ const useCart = () => {
 
   // remove
   const handleRemoveItem = async (item) => {
+    let param = "Cart"
     setCartData(cartData.filter(cartItem => cartItem.id !== item.id));
     if (selectedItem === item) {
       setSelectedItem(cartData.length > 1 ? cartData[0] : null);
@@ -146,8 +169,9 @@ const useCart = () => {
     setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
 
     try {
-      const response = await removeFromCartList(item);
-      if (response && response.Data && response.Data.rd && response.Data.rd[0].stat === 1) {
+      const response = await removeFromCartList(item, param);
+      if (response.Data.rd[0].msg === "success") {
+        getCartData();
         console.log('Product successfully removed');
       } else {
         console.log('Failed to remove product or product not found');
@@ -161,9 +185,13 @@ const useCart = () => {
   };
 
   const handleRemoveAll = async () => {
+    let param = "Cart"
     try {
-      const response = await removeFromCartList('IsDeleteAll');
-      if (response && response.Data && response.Data.rd && response.Data.rd[0].stat === 1) {
+      const response = await removeFromCartList('IsDeleteAll', param);
+      if (response.Data.rd[0].msg == "success") {
+        setSelectedItem([]);
+        getCartData();
+        setCartData([]);
         console.log('Product successfully removed');
       } else {
         console.log('Failed to remove product or product not found');
@@ -173,6 +201,19 @@ const useCart = () => {
     } finally {
     }
   };
+
+  //get category Size
+
+  const handleCategorySize = async (item) => {
+    try {
+      const response = await getSizeData(item);
+      if (response) {
+        console.log('categoryData', response);
+        setSizeCombo(response?.Data)
+      }
+    } catch (error) {
+    }
+  }
 
   // update cart
   const handleUpdateCart = (updatedItems) => {
@@ -192,8 +233,11 @@ const useCart = () => {
 
   // for remark
   const handleAddReamrk = () => {
+    debugger
     setShowRemark(true);
   };
+
+  console.log('showremark--', showRemark)
 
   const handleRemarkChange = (event) => {
     setProductRemark(event.target.value);
@@ -268,7 +312,6 @@ const useCart = () => {
   };
 
   const handleDiamondChange = (event) => {
-    debugger
     const value = event.target.value;
     const [quality, color] = value.split('#');
 
@@ -289,18 +332,36 @@ const useCart = () => {
   console.log('selectedDiaCId', diaIDData);
 
   const handleSizeChange = (event) => {
-    setSelectedItem(prevItem => ({ ...prevItem, size: event.target.value }));
+    let sizedata = event?.target?.value;
+    setSelectedItem(prevItem => ({ ...prevItem, size: sizedata }));
+    setSizeId(sizedata)
   };
 
   const handleColorStoneChange = (event) => {
+    const value = event.target.value;
+    const [quality, color] = value.split('#');
 
+    setSelectedItem(prevItem => ({
+      ...prevItem,
+      colorstonequality: quality,
+      colorstonecolor: color
+    }));
+
+    const selectedCS = ColorStoneCombo.find(option => option.Quality === quality && option.color === color);
+    if (selectedCS) {
+      const selectedCSQId = selectedCS?.QualityId;
+      const selectedCSCId = selectedCS?.ColorId;
+      console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
+      setColorStoneID(selectedCSQId + "," + selectedCSCId)
+    }
+
+    console.log('kdjhkjhdhjas--', selectedCS);
   }
 
 
   // for price calculation
 
   const diaUpdatedPrice = () => {
-    debugger
     if (getSinglePriceData?.rd1) {
       let parts = diaIDData?.split(',');
       let filteredDiaData;
@@ -308,7 +369,7 @@ const useCart = () => {
         filteredDiaData = diamondPriceData?.filter(item => item.G == parts[0] && item.I == parts[1]);
         let sum = filteredDiaData?.reduce((accumulator, currentValue) => accumulator + currentValue?.S, 0);
 
-        console.log('diamondPrice---',sum);
+        console.log('diamondPrice---', sum);
       } else {
         filteredDiaData = 0.00;
       }
@@ -319,13 +380,14 @@ const useCart = () => {
   }
 
   const metalUpdatedPrice = () => {
-    debugger
+
     if (getSinglePriceData?.rd) {
       let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
       let metalPriceCalData;
       console.log("filteredMtData", filteredMtData);
+      setSelectedMetalData(filteredMtData)
       if (filteredMtData?.length !== 0) {
-        metalPriceCalData = ((filteredMtData[0].V / filteredMtData[0].AA) + filteredMtData[0].W + filteredMtData[0].X).toFixed(3);
+        metalPriceCalData = ((filteredMtData[0].V / filteredMtData[0].AA) + filteredMtData[0].W + filteredMtData[0].X)?.toFixed(3);
       } else {
         metalPriceCalData = 0.00;
       }
@@ -340,14 +402,106 @@ const useCart = () => {
   }
 
 
+  const handleSizeWiseMetalPrice = () => {
+
+    let filterSizeMetalData
+    if (sizeCombo != undefined) {
+      filterSizeMetalData = sizeCombo?.rd1?.filter((sizeMt) =>
+        sizeMt?.sizename === sizeId &&
+        sizeMt?.DiamondStoneTypeName?.toLowerCase() === "metal"
+      );
+    }
+    let CalcNetwt;
+    let fprice;
+    if (filterSizeMetalData?.length !== 0 && filterSizeMetalData != undefined) {
+      CalcNetwt = ((selectedItem?.MetalWeight ?? 0) + (filterSizeMetalData[0]?.Weight ?? 0) ?? 0)
+      fprice = ((selectedMetalData[0]?.AD ?? 0) * CalcNetwt) + ((selectedMetalData[0]?.AC ?? 0) * CalcNetwt)
+    }
+
+    console.log('filterSizeMetalData--', fprice);
+  }
+
+  const handleSizeWiseDiaPrice = () => {
+    let filterSizeDiaData;
+    if (sizeCombo.length != 0 && sizeCombo != undefined) {
+      filterSizeDiaData = sizeCombo?.rd1.filter((sizeMt) =>
+        sizeMt?.sizename === sizeId &&
+        sizeMt?.DiamondStoneTypeName?.toLowerCase() === "diamond"
+      );
+    }
+    let calcDiaWt;
+    let CalcPics;
+    let fpprice;
+
+    let diaRate = diamondPriceData?.reduce((acc, obj) => acc + obj.O, 0)
+    let diaSettRate = diamondPriceData?.reduce((acc, obj) => acc + obj.Q, 0)
+
+    if (filterSizeDiaData?.length !== 0 && filterSizeDiaData != undefined) {
+
+      calcDiaWt = (selectedItem?.totalDiaWt ?? 0) + (filterSizeDiaData?.Weight ?? 0)
+
+      CalcPics = (selectedItem?.totaldiamondpcs ?? 0) + (filterSizeDiaData?.pieces ?? 0)
+
+      fpprice = ((diaRate ?? 0) * (calcDiaWt ?? 0)) + ((diaSettRate ?? 0) * (CalcPics ?? 0))
+    }
+    console.log('filterSizeDiaData--', fpprice);
+  }
+
+  const handleSizeWiseCSPrice = () => {
+    let filterSizeCSlData;
+    if (sizeCombo.length != 0 && sizeCombo != undefined) {
+      filterSizeCSlData = sizeCombo?.rd1.filter((sizeMt) =>
+        sizeMt?.sizename === sizeId &&
+        sizeMt?.DiamondStoneTypeName?.toLowerCase() === "color stone"
+      );
+    }
+    let calcDiaWt;
+    let CalcPics;
+    let fpprice;
+
+    let csqcRate = colorStonePriceData?.reduce((acc, obj) => acc + obj.O, 0)
+    let csqcSettRate = colorStonePriceData?.reduce((acc, obj) => acc + obj.Q, 0)
+
+    if (filterSizeCSlData?.length !== 0 && filterSizeCSlData != undefined) {
+
+      calcDiaWt = (selectedItem?.totalCSWt ?? 0) + (filterSizeCSlData?.Weight ?? 0)
+
+      CalcPics = (selectedItem?.totalcolorstonepcs ?? 0) + (filterSizeCSlData?.pieces ?? 0)
+
+      fpprice = ((csqcRate ?? 0) * (calcDiaWt ?? 0)) + ((csqcSettRate ?? 0) * (CalcPics ?? 0))
+    }
+
+    console.log('filterSizeCSlData--', fpprice);
+  }
+
 
   useEffect(() => {
     setTimeout(() => {
       metalUpdatedPrice()
       diaUpdatedPrice()
-    }, 100);
-  }, [getSinglePriceData, metalID, diaIDData])
+      handleSizeWiseMetalPrice()
+      handleSizeWiseDiaPrice()
+      handleSizeWiseCSPrice()
+    }, 500);
+  }, [getSinglePriceData, metalID, diaIDData, sizeId])
 
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
+  const CartCardImageFunc = (pd) => {
+    let finalprodListimg;
+    if (pd?.ImageCount > 0) {
+      finalprodListimg = storeInit?.DesignImageFol + pd?.designno + "_" + '1' + "." + pd?.ImageExtension
+    } else {
+      finalprodListimg = imageNotFound;
+    }
+    return finalprodListimg;
+  }
+
+  
   return {
     isloding,
     cartData,
@@ -358,6 +512,9 @@ const useCart = () => {
     showRemark,
     productRemark,
     qtyCount,
+    sizeCombo,
+    CurrencyData,
+    CartCardImageFunc,
     handleSelectItem,
     handleIncrement,
     handleDecrement,
@@ -376,7 +533,8 @@ const useCart = () => {
     handleMetalColorChange,
     handleDiamondChange,
     handleColorStoneChange,
-    handleSizeChange
+    handleSizeChange,
+    decodeEntities
   };
 };
 
