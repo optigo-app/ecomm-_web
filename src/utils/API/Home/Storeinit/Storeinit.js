@@ -7,6 +7,8 @@ export const Storeinit = async (param) => {
   // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
   const APIURL = 'http://zen/api/ReactStore.aspx'
 
+  console.log('eeeeeeeee',window.location);
+  
   const header = {
     Authorization: 'Bearer optigo_json_api',
     domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,

@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import './Index.modul.scss'
-import { Storeinit } from '../../../../../utils/API/Home/Storeinit/Storeinit';
-import { companyLogo } from '../../Recoil/atom';
-import { useRecoilState } from 'recoil';
 import TopSection from './TopVideo/TopSection';
 import TheDifference from './TheDifference/TheDifference';
 import PromotionBaner1 from './PromotionBanner1/PromotionBaner1';
-import DaimondEveyone from './DaimondEveyone/DaimondEveyone';
 import ShopByCategory from './ShopByCategory/ShopByCategory';
-import PromotionBanner2 from './PromotionBanner2/PromotionBanner2';
 import PromoSetSection from './PromosetSection/PromoSetSection';
 import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
-import BestSaller from './BestSaller/BestSaller';
-import { Helmet } from 'react-helmet';
-import NewArrival from './NewArrival/NewArrival';
-import DesignSet from './DesignSet/DesignSet';
 import TrendingView from './TrandingView/TrendingView';
+import NewArrival from './newArrival/NewArrival';
+import DesignSet from './DesignSet/DesignSet';
+import Album from './Album/Album';
 
 function Home() {
 
@@ -29,19 +23,23 @@ function Home() {
         <TopSection />
         <TheDifference />
         <PromotionBaner1 />
-        <DaimondEveyone />
-        <ShopByCategory />
-        <PromotionBanner2 />
-
-        {/* <DesignSet /> */}
+        <Album />
         <TrendingView />
+
+        {/* <DaimondEveyone /> */}
+        <ShopByCategory />
+        <NewArrival />
+
+        <DesignSet />
+        
         
         <PromoSetSection />
 
-        {/* <NewArrival /> */}
-        <SustainAbility />
+        {/* <SustainAbility /> */}
 
         {/* <BestSaller /> */}
+
+
         <BottomBanner />
         <Footer />
       </div>

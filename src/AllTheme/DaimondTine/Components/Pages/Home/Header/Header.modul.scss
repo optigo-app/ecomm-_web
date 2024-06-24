@@ -1,46 +1,102 @@
+.dai_headerMain {
+  .dai_headerMainTop {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    background-color: white !important;
+    margin-inline: 20%;
+    border-bottom: 1px solid lightgray;
+    padding: 0;
+    padding-left: 0 !important;
+    color: #acabab;
+    justify-content: space-between;
+  }
 
-.dai_headerMain{
+  .div_contact_info {
+    display: flex;
+  }
+
+  .dai_login_link {
+    display: flex;
+    gap: 15px;
+  }
+
+  .dt_headermainDiv {
+    display: flex;
+    background-color: white;
+    height: 100px;
+    margin-inline: 20%;
+  }
+
+  .dt_headermainDiv1 {
+    width: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+  }
+
+  .dt_headermainDiv2 {
+    width: 33.33%;
+  }
+
+  .dt_headermainDiv3 {
+    width: 33.33%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .dt_nav_li_smining {
+    margin-inline: 10px;
+  }
+
+  .serachinputBoxOverly {
+    border: none;
+    color: #222;
+    font-size: 13px;
+    height: 50px;
+    outline: none;
+    width: 95%;
+  }
+
+  .dt_nav_ul_shop {
+    display: flex;
+    list-style: none;
+    margin: 0px;
+  }
 
 
-    .dai_headerMainTop {
-        display: flex;
-        height: 30px;
-        align-items: center;
-        background-color: white !important;
-        margin-inline: 20%;
-        border-bottom: 1px solid lightgray;
-        padding: 0;
-        padding-left: 0 !important;
-        color: #acabab;
-        justify-content: space-between;
-      }
+  .dt_TopFixed_Header {
+    align-items: center;
+    background-color: #000;
+    color: #fff !important;
+    display: flex;
+    height: 60px;
+    justify-content: space-between;
+    z-index: 1;
+  }
 
-      .div_contact_info{
-        display: flex;
-      }
+  .dt_ul_main {
+    height: 100%;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0px;
+    width: 100%;
+    justify-content: center;
+  }
 
-      .dai_login_link{
-        display: flex;
-        gap: 15px;
-      }
+  .dt_menu_li{
+    margin-inline: 10px;
+  }
 
-      .dt_headermainDiv {
-        display: flex;
-        background-color: white;
-        height: 100px;
-        margin-inline: 20%;
-    } 
 
-    .dt_headermainDiv1{
-      width: 33.33%;
-    }
-    
-    .dt_headermainDiv2{
-      width: 33.33%;
-    }
-    
-    .dt_headermainDiv3{
-      width: 33.33%;
-    }
-
+  .dt_TopFixed_Header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+  }
 }
