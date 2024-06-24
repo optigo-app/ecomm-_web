@@ -9,7 +9,7 @@ export const Storeinit = async (param) => {
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'zen' : window.location.hostname,
+    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') && param === "astore" ? 'astore.orail.co.in' : window.location.hostname,
     version: 'Live',
     sp: "1"

@@ -89,9 +89,10 @@ export const deleteAddress = async (addressId) => {
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"DELETEADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"DELADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
             "f": "Delivery (DeleteAddress)",
-            p: encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp":combinedValue
         };
         const response = await CommonAPI(body);
         return response?.Data?.rd;
@@ -115,7 +116,8 @@ export const setDefaultAddress = async (address) => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
             "f": "Delivery (SetDefaultAddress)",
-            p: encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp":combinedValue
         };
         const response = await CommonAPI(body);
         return response?.Data?.rd;
