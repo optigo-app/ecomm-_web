@@ -77,18 +77,21 @@ const PromoSetSection = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
                                 </div>
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
                                 </div>
                             </div>
 
@@ -97,18 +100,22 @@ const PromoSetSection = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
                                 </div>
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
                                 </div>
                             </div>
 
@@ -121,6 +128,8 @@ const PromoSetSection = () => {
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
                                 </div>
                             </div>
                             <div>
@@ -129,6 +138,7 @@ const PromoSetSection = () => {
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
                                 </div>
                             </div>
 

@@ -199,12 +199,14 @@ const Header = () => {
                     />
                 </div>
                 <div className="dt_headermainDiv2">
+                    <a href='/'>
                     <img
                         alt=""
                         src={titleImg}
-                        className="gorjanaHederImage"
+                        className="dt_header_logo"
                         onClick={() => navigation("/")}
                     />
+                    </a>
                 </div>
                 <div className="dt_headermainDiv3">
                     {/* {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) && */}
