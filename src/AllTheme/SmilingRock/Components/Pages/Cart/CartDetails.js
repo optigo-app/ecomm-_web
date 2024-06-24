@@ -4,13 +4,16 @@ import Customization from './Customization';
 
 const CartDetails = ({
   selectedItem,
+  CartCardImageFunc,
   qtyCount,
   handleIncrement,
   handleDecrement,
   multiSelect,
   handleAddReamrk,
   productRemark,
+  sizeCombo,
   showRemark,
+  CurrencyData,
   handleRemarkChange,
   handleSave,
   handleCancel,
@@ -18,13 +21,14 @@ const CartDetails = ({
   handleMetalColorChange,
   handleDiamondChange,
   handleColorStoneChange,
-  handleSizeChange
+  handleSizeChange,
+  decodeEntities
 }) => {
   return (
     <div className="smr_cart-container">
       <div className="smr_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
-        <img src="https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Medium/0003883_08052024153602887.png" alt="Cluster Diamond" className='smr_cartImage' />
+        <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage' />
       </div>
       <Customization
         selectedItem={selectedItem}
@@ -33,6 +37,8 @@ const CartDetails = ({
         qtyCount={qtyCount}
         showRemark={showRemark}
         productRemark={productRemark}
+        sizeCombo={sizeCombo}
+        CurrencyData={CurrencyData}
         handleAddReamrk={handleAddReamrk}
         handleRemarkChange={handleRemarkChange}
         handleSave={handleSave}
@@ -42,6 +48,7 @@ const CartDetails = ({
         handleDiamondChange={handleDiamondChange}
         handleColorStoneChange={handleColorStoneChange}
         handleSizeChange={handleSizeChange}
+        decodeEntities={decodeEntities}
       />
     </div>
   );

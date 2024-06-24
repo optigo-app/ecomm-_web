@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const removeFromCartList = async (data) => {
+export const removeFromCartList = async (data,param) => {
   try {
     const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
@@ -11,21 +11,21 @@ export const removeFromCartList = async (data) => {
 
     if (data == 'IsDeleteAll') {
       combinedValue = JSON.stringify({
-        ForEvt: "Cart",
+        ForEvt: param,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${loginUserDetail?.id ?? 0}`,
         autocode: "",
-        Cartidlist: ``,
-        isdelete_all: 1
+        Cartidlist: "",
+        isdelete_all: '1'
       });
     } else {
       combinedValue = JSON.stringify({
-        ForEvt: "Cart",
+        ForEvt: param,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${loginUserDetail?.id ?? 0}`,
         autocode: "",
         Cartidlist: `${data?.id}`,
-        isdelete_all: 0
+        isdelete_all: "0"
       });
     }
     const encodedCombinedValue = btoa(combinedValue);
@@ -38,8 +38,8 @@ export const removeFromCartList = async (data) => {
 
     console.log('encodedCombinedValue',encodedCombinedValue);
 
-    // const response = await CommonAPI(body);
-    // return response;
+    const response = await CommonAPI(body);
+    return response;
   } catch (error) {
     console.error("Error:", error);
     throw error;
