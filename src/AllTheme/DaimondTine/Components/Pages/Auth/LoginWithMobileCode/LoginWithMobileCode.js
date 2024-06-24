@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './LoginWithMobileCode.modul.scss';
+import './LoginWithMobileCode.modil.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
-import { loginState } from '../../../Recoil/atom';
+import { dt_loginState } from '../../../Recoil/atom';
+import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import { ToastContainer, toast } from 'react-toastify';
-import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 
 export default function LoginWithMobileCode() {
     const [errors, setErrors] = useState({});
@@ -16,14 +16,11 @@ export default function LoginWithMobileCode() {
     const [mobileNo, setMobileNo] = useState('');
     const [enterOTP, setEnterOTP] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(dt_loginState)
     const location = useLocation();
-
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
-    const cancelRedireactUrl = `/LoginOption/${search}`;
-
 
     useEffect(() => {
         const storedMobile = localStorage.getItem('registerMobile');
@@ -63,6 +60,7 @@ export default function LoginWithMobileCode() {
             errors.otp = 'Code is required';
             return;
         }
+
         LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login').then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('LoginUser', true)
@@ -97,62 +95,60 @@ export default function LoginWithMobileCode() {
     };
 
     return (
-        <div className='smr_loginmobileCodeMain'>
+        <div className='dt_loginmobileCode' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
+            <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <ToastContainer />
-            <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='smling-forgot-main'>
-                    <p style={{
-                        textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
-                        fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-                        className='AuthScreenMainTitle'
-                    >Login With Code</p>
-                    <p style={{
-                        textAlign: 'center',
-                        marginTop: '-80px',
-                        fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-                        className='AuthScreenSubTitle'
-                    >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>
+            <div>
+                <div className='dt_mobileCodeMainDiv'>
+                    <div className='dt_mobileCodeSubDiv'>
+                        <p style={{
+                            textAlign: 'center',
+                            paddingBlock: '60px',
+                            fontSize: '25px',
+                            fontFamily: 'PT Sans, sans-serif'
+                        }}
+                            className='AuthScreenMainTitle'
+                        >Login With Code</p>
+                        <p style={{
+                            textAlign: 'center',
+                            marginTop: '-80px',
+                            fontSize: '15px',
+                            color: '#7d7f85',
+                            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        }}
+                            className='AuthScreenSubTitle'
+                        >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
-                        <TextField
-                            autoFocus
-                            id="outlined-basic"
-                            label="Enter Code"
-                            variant="outlined"
-                            className='labgrowRegister'
-                            style={{ margin: '15px' }}
-                            onKeyDown={(event) => {
-                                if (event.key === 'Enter') {
-                                    handleSubmit();
-                                }
-                            }}
-                            onChange={(e) => handleInputChange(e, setEnterOTP, 'mobileNo')}
-                            error={!!errors.otp}
-                            helperText={errors.otp}
-                        />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+                            <TextField
+                                autoFocus
+                                id="outlined-basic"
+                                label="Enter Code"
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px' }}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                        handleSubmit();
+                                    }
+                                }}
+                                onChange={(e) => handleInputChange(e, setEnterOTP, 'mobileNo')}
+                                error={!!errors.otp}
+                                helperText={errors.otp}
+                            />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                            <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                            <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
+                            <Button style={{ marginTop: '10px', color: 'gray' ,marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        </div>
+
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+                <Footer />
             </div>
         </div>
     );

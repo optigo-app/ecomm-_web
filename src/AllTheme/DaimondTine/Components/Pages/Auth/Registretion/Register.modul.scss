@@ -1,14 +1,8 @@
-.smr_registerMain {
+.dt_registerMain {
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;
-    }
-
-
-    .smling-register-main {
-        margin-inline: 6%;
-        background-color: white;
     }
 
     .labgrowRegister {
@@ -17,23 +11,24 @@
     }
 
     .createBtnRegister {
-        height: 60px;
-        width: 420px;
-        color: white;
-        background-color: #7d7f85;
-        border: 0;
+        height: 40px;
+        width: 95%;
+        margin-inline: 15px;
+        border: 1px solid black;
         margin-top: 10px;
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: 1;
-        cursor: pointer;
+        font-size: 14.5px;
+        color: #1f1919;
+        opacity: .8;
+        font-weight: 600 !important;
+        letter-spacing: 1px;
         transition: all 0.5s ease;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        background-color: white;
     }
 
     .createBtnRegister:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
+        background-color: rgba(66, 66, 66, 0.05);
     }
 
     .SmilingSignInHere {
@@ -41,7 +36,6 @@
         font-size: 12px;
         margin-top: 10px;
         font-weight: 500;
-
         position: relative;
         text-decoration: none;
         transition: color 0.3s;
@@ -71,9 +65,43 @@
         display: none !important;
     }
 
+    .submitBtnForgot {
+        height: 40px;
+        width: 430px;
+        border: 1px solid black;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #424242;
+        font-weight: 600!important;
+        letter-spacing: 1px;
+        transition: all 0.5s ease;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        background-color: white;
+    }
+    .submitBtnForgot:hover{
+        background-color: rgba(66, 66, 66, 0.05);
+    }
 
+    .dt_registerMainD{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .dt_registerSubDiv{
+        background-color: white;
+        width: 30%;
+    }
     @media screen and (max-width: 700px) {
 
+        .submitBtnForgot {
+            width: 90%!important;
+            height: 50px !important;
+    
+        }
+        
         .AuthScreenRegisterMainTitle {
             padding-block: 10px !important;
             padding-bottom: 0px !important;
@@ -87,12 +115,7 @@
         }
 
         .createBtnRegister {
-            width: 80%;
-        }
-
-        .smling-register-main {
-            margin-inline: 2% !important;
-
+            width: 90%;
         }
 
     }

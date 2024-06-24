@@ -5,15 +5,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
 import { useSetRecoilState } from 'recoil';
-import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { loginState } from '../../../Recoil/atom';
-
+import Footer from '../../Home/Footer/Footer';
+import { dt_loginState } from '../../../Recoil/atom';
 
 export default function Register() {
   const navigation = useNavigate();
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -31,13 +28,15 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+  const location = useLocation();
+
 
   const search = location?.search
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const cancelRedireactUrl = `/LoginOption/${search}`;
 
-  const setIsLoginState = useSetRecoilState(loginState)
+
+  const setIsLoginState = useSetRecoilState(dt_loginState)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === 'Enter') {
@@ -47,8 +46,8 @@ export default function Register() {
   };
 
   useEffect(() => {
-    const storedEmail = location.state?.email;
-    const routeMobileNo = location.state?.mobileNo;
+    const storedEmail = location?.state?.email;
+    const routeMobileNo = location?.state?.mobileNo;
 
     if (routeMobileNo) {
       setMobileNo(routeMobileNo);
@@ -59,7 +58,7 @@ export default function Register() {
       setEmail(storedEmail);
       emailRef.current.disabled = true;
     }
-  }, [location.state]);
+  }, [location?.state]);
 
   const handleInputChange = (e, setter, fieldName) => {
     const { value } = e.target;
@@ -151,7 +150,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
 
     const errors = {};
     if (!firstName.trim()) {
@@ -190,22 +189,7 @@ export default function Register() {
 
     if (Object.keys(errors).length === 0 && passwordError.length === 0) {
       const hashedPassword = hashPasswordSHA1(password);
-
       setIsLoading(true);
-      // try {
-      //   const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-      //   const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
-      //   const combinedValue = JSON.stringify({
-      //     firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-      //   });
-      //   const encodedCombinedValue = btoa(combinedValue);
-      //   const body = {
-      //     "con": "{\"id\":\"\",\"mode\":\"WEBSIGNUP\"}",
-      //     "f": "Register (handleSubmit)",
-      //     "p": encodedCombinedValue
-      //   }
-      //   const response = await CommonAPI(body);
-
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
@@ -231,33 +215,25 @@ export default function Register() {
         }
 
       }).catch((err) => console.log(err))
-
-      // } catch (error) {
-      //   console.error('Error:', error);
-      // } finally {
-      //   setIsLoading(false);
-      // }
     } else {
       setErrors(errors);
     }
   };
 
   return (
-    <div className='smr_registerMain'>
+    <div className='dt_registerMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />
         </div>
       )}
-      <div style={{ backgroundColor: '#c0bbb1' }}>
-        <div className='smling-register-main'>
+      <div className='dt_registerMainD'>
+        <div className='dt_registerSubDiv'>
           <p style={{
             textAlign: 'center',
-            marginTop: '0px',
-            paddingTop: '5%',
-            fontSize: '40px',
-            color: '#7d7f85',
-            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+            fontSize: '25px',
+            fontFamily: 'PT Sans, sans-serif',
+            marginTop: '20px'
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>
@@ -385,20 +361,17 @@ export default function Register() {
               }}
             />
 
-            <button className='createBtnRegister' onClick={handleSubmit}>CREATE ACCOUNT</button>
+            <button className='submitBtnForgot' onClick={handleSubmit}>CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
+            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '20px' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
           </div>
-          <Footer />
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-      </div>
+      <Footer />
     </div>
   );
 }

@@ -246,7 +246,7 @@ export default function LoginWithEmail() {
         // }
     }
     return (
-        <div>
+        <div className='smr_loginEmail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -254,7 +254,7 @@ export default function LoginWithEmail() {
                 </div>
             )}
             <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='smling-forgot-main'>
+                <div className='smr_loginEmailD'>
                     <p style={{
                         textAlign: 'center',
                         paddingBlock: '60px',

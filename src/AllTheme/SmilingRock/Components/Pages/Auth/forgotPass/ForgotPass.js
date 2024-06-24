@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../home/Header/Header'
-import './ForgotPass.css'
+import './ForgotPass.modul.scss'
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material'
-import Footer from '../../home/Footer/Footer'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router'
-import { CommonAPI } from '../../../../Utils/API/CommonAPI'
+import Footer from '../../Home/Footer/Footer';
+import { ResetPasswordAPI } from '../../../../../../utils/API/Auth/ResetPasswordAPI';
 
 export default function ForgotPass() {
 
@@ -23,8 +22,8 @@ export default function ForgotPass() {
 
     useEffect(() => {
         const storedEmail = localStorage.getItem('userEmailForPdList');
-        if (storedEmail) { 
-            setEmail(storedEmail); 
+        if (storedEmail) {
+            setEmail(storedEmail);
         }
 
     }, []); // 
@@ -96,32 +95,15 @@ export default function ForgotPass() {
         if (Object.keys(errors).length === 0) {
             const hashedPassword = hashPasswordSHA1(password);
             setIsLoading(true);
-            try {
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                const { FrontEnd_RegNo } = storeInit;
-                const combinedValue = JSON.stringify({
-                    // userid: 'xoraxor802@fryshare.com', pass: `${hashedPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-                    userid: `${email}`, pass: `${hashedPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-                });
-
-                const encodedCombinedValue = btoa(combinedValue);
-                const body = {
-                    "con": `{\"id\":\"\",\"mode\":\"resetpassword\",\"appuserid\":\"${email}\"}`,
-                    "f": "ForgotPassword (handleSubmit)",
-                    "p": encodedCombinedValue
-                }
-                const response = await CommonAPI(body);
-                console.log('ressssssssssssss', response);
+            ResetPasswordAPI(email, hashedPassword).then((response) => {
                 if (response.Data.rd[0].stat === 1) {
                     navigation('/ContinueWithEmail');
                 } else {
                     alert(response.Data.rd[0].stat_msg);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            } finally {
-                setIsLoading(false);
-            }
+            }).catch((err) => console.log(err))
+
+
         } else {
             setErrors(errors);
         }
@@ -129,24 +111,18 @@ export default function ForgotPass() {
 
 
     return (
-        <div className='paddingTopMobileSet' style={{
-            backgroundColor: '#c0bbb1',
-            paddingTop: '110px'
-        }}>
+        <div className='smr_forgotMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-
-            <div style={{
-                backgroundColor: '#c0bbb1'
-            }}>
-                <div className='smling-forgot-main'>
+            <div style={{ backgroundColor: '#c0bbb1' }}>
+                <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '15px',
+                        padding: '60px',
+                        margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
