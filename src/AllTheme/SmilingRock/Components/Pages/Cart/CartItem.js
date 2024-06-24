@@ -52,7 +52,7 @@ const CartItem = ({
       }}
         onClick={() => onSelect(item)}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:'center', gap: '20px', position: 'relative' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={CartCardImageFunc(item)}
