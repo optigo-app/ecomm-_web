@@ -31,11 +31,10 @@ const Usewishlist = () => {
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

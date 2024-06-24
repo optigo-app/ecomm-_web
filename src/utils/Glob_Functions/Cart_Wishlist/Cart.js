@@ -312,7 +312,7 @@ const useCart = () => {
   };
 
   const handleDiamondChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value; 
     const [quality, color] = value.split('#');
 
     setSelectedItem(prevItem => ({
