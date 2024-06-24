@@ -1,12 +1,7 @@
-import { findMetal } from "../../Glob_Functions/GlobalFunction";
+import { findCsQcId, findDiaQcId, findMetal } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const GetPriceListApi = async (
-  page = 1,
-  obj = {},
-  filterObj = {},
-  autocodeList
-) => {
+export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeList,obje) => {
   const storeInit = JSON.parse(localStorage.getItem("storeInit"));
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const param = JSON.parse(localStorage.getItem("menuparams"));
@@ -46,6 +41,17 @@ export const GetPriceListApi = async (
   //     "AutoCodeList":`${autocodeList}`,
   //   }
 
+  // let diaQc = findDiaQcId(obje?.dia ?? loginUserDetail?.cmboDiaQCid)[0]
+  let diaQc = (obje?.dia === undefined ?  loginUserDetail?.cmboDiaQCid : obj?.dia)
+  // let csQc = findCsQcId(obje?.cs ?? loginUserDetail?.cmboCSQCid)[0]
+  let csQc = (obje?.cs === undefined ? loginUserDetail?.cmboCSQCid : obj?.cs)
+
+  let mtidd = obje?.mt===undefined ?loginUserDetail?.cmboMetalType: obje?.mt
+
+  let mtid = findMetal(loginUserDetail?.cmboMetalType)[0]?.Metalid
+
+  // console.log("diaa prod api",obje?.mt);
+
   const GetPriceReq = {
     CurrencyRate: `${storeInit?.CurrencyRate}`,
     FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`,
@@ -84,9 +90,9 @@ export const GetPriceListApi = async (
     FilterVal2: `${param?.FilterVal2}`,
     PageNo: `${page}`,
     PageSize: `${storeInit?.PageSize}`,
-    Metalid: findMetal(loginUserDetail?.cmboMetalType)[0]?.Metalid,
-    DiaQCid: loginUserDetail?.cmboDiaQCid,
-    CsQCid: loginUserDetail?.cmboCSQCid,
+    Metalid: `${obje?.mt ?? mtid}`,
+    DiaQCid: `${diaQc}`,
+    CsQCid: `${csQc}`,
     IsFromDesDet: "0",
     Collectionid: `${filterObj?.collection ?? ""}`,
     Categoryid: `${filterObj?.category ?? ""}`,
