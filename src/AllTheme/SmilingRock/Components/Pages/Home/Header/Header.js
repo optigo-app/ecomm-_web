@@ -308,7 +308,7 @@ const Header = () => {
                 autoFocus
                 // onChange={(e) => setSearchText(e.target.value)}
                 className="smr_serachinputBoxOverly"
-                // onKeyDown={searchDataFucn}
+              // onKeyDown={searchDataFucn}
               />
               <IoClose
                 style={{
@@ -332,7 +332,7 @@ const Header = () => {
                 autoFocus
                 // onChange={(e) => setSearchText(e.target.value)}
                 className="smr_serachinputBoxOverly"
-                // onKeyDown={searchDataFucn}
+              // onKeyDown={searchDataFucn}
               />
               <IoClose
                 style={{
@@ -461,6 +461,33 @@ const Header = () => {
                   />
                 </span>
               </li>
+
+              <li
+                className="nav_li_smining nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+              >
+                {/* IMPACT */}
+                SERVICE POLICY
+              </li>
+
+              <li
+                className="nav_li_smining nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
+              >
+                EXPERT ADVICE
+              </li>
+
+              <li
+                className="nav_li_smining nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
+              >
+                FUN FACT
+              </li>
+
+              
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -480,20 +507,28 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                // onClick={() => navigation("/aboutUs")}
-                onClick={handleLogout}
-
+                onClick={() => navigation("/aboutUs")}
               >
                 ABOUT US
               </li>
 
               {islogin ? (
-                <li
-                  className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                >
-                  ACCOUNT
-                </li>
+                <>
+                  <li
+                    className="nav_li_smining nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                  >
+                    ACCOUNT
+                  </li>
+
+                  <li
+                    className="nav_li_smining nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleLogout}
+                  >
+                    LOG OUT
+                  </li>
+                </>
 
               ) : (
                 <li
@@ -589,6 +624,31 @@ const Header = () => {
                     />
                   </span>
                 </li>
+
+                <li
+                className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+              >
+                SERVICE POLICY
+              </li>
+
+              <li
+                className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
+              >
+                EXPERT ADVICE
+              </li>
+
+              <li
+                className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
+              >
+                FUN FACT
+              </li>
+
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
                     style={{ fontSize: "35px", color: "#7d7f85" }}
@@ -615,13 +675,23 @@ const Header = () => {
                 </li>
 
                 {islogin ? (
-                  <li
-                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/LoginOption")}
-                  >
-                    ACCOUNT
-                  </li>
+                  <>
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                    // onClick={() => navigation("/LoginOption")}
+                    >
+                      ACCOUNT
+                    </li>
+
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleLogout}
+                    >
+                      LOG OUT
+                    </li>
+                  </>
 
                 ) : (
                   <li
@@ -699,7 +769,7 @@ const Header = () => {
           <div
             style={{
               display: "flex",
-              padding: "50px",
+              padding: "25px",
               color: "#7d7f85",
               backgroundColor: "white",
               gap: "50px",
@@ -711,7 +781,7 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} style={{ minWidth: '200px' }}>
+                <div key={menuItem.menuid} style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
                   >
@@ -720,14 +790,14 @@ const Header = () => {
                     </ListItem>
                   </ButtonBase>
                   <>
-                    <ButtonBase
+                    {/* <ButtonBase
                       component="div"
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
-                    </ButtonBase>
+                    </ButtonBase> */}
                     <List className='smr_listMain'>
                       {menuItem.param1.map(subMenuItem => (
                         <div key={subMenuItem.param1dataid}>
@@ -737,7 +807,7 @@ const Header = () => {
                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                             {/* </a> */}
                           </ButtonBase>
                           <>
@@ -749,7 +819,7 @@ const Header = () => {
                                   onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
-                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '15px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
                                   </ListItem>
                                 </div>
@@ -758,7 +828,10 @@ const Header = () => {
                           </>
                         </div>
                       ))}
+                        <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                     </List>
+
+                  
                   </>
                 </div>
               ))}

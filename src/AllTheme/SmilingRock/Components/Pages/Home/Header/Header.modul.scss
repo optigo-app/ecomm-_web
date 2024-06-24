@@ -48,7 +48,7 @@
 
 .nav_li_smining_shop:hover {
     height: 150px;
-    width: 110px;
+    // width: 110px;
     display: flex;
     align-items: center;
 }
@@ -65,7 +65,7 @@
 .nav_li_smining {
     color: white;
     font-size: $fontSize2;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
@@ -187,6 +187,7 @@
     font-size: 15px !important;
     font-weight: 600;
     margin: 5px 5px 5px 0px;
+    text-decoration: underline;
 }
 
 .smr_menuSubTitle {
@@ -210,7 +211,10 @@
     border: none;
     outline: none;
     cursor: pointer;
-    border-bottom: 1px solid lightgray;
+    border: 1px solid lightgray;
+    width: 80px;
+    height: 25px;
+    margin-top: 15px;
 }
 
 .smr_listMain {

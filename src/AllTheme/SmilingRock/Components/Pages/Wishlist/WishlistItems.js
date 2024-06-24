@@ -7,42 +7,56 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 
-const WishlistItems = ({ item, itemsLength }) => {
-
-    const handletocart = () => {
-        console.log('this btn is clicked')
-    }
+const WishlistItems = ({ item, itemsLength, currency, decodeEntities, WishCardImageFunc, handleRemoveItem, handleWishlistToCart }) => {
 
     return (
-        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength !== 1 ? 3        : 12}>
-            <Card className='smr_WlListCard' sx={{ position: 'relative', display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-                <div style={{ flexGrow: 1 }}>
+        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={3}>
+            <Card className='smr_WlListCard'>
+                <div className='cardContent'>
                     <CardMedia
                         component="img"
-                        image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
+                        // image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
+                        image={WishCardImageFunc(item)}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
                     />
                     <CardContent>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <div>
-                                <Typography variant="body2" className='smr_card-ContentData'>
-                                    GOLD 18K /WHITE GOLD /4.11
-                                </Typography>
-                                <Typography variant="body2" className='smr_card-ContentData'>
-                                    {item?.ProductPrice}
-                                </Typography>
-                            </div>
+                        <div className='cardText'>
+                            <Typography variant="body2" className='smr_card-ContentData'>
+                                {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
+                            </Typography>
+                            <Typography variant="body2" className='smr_card-ContentData'>
+                                <span className='smr_wishDT'>NWT : </span>
+                                <span className='smr_wishDT'>{item?.TotalNwt !== "" && item?.TotalNwt}</span>
+                                <span className='smr_pipe'> | </span>
+                                <span className='smr_wishDT'>GWT: </span>
+                                <span className='smr_wishDT'>{item?.ActualGrossweight !== "" && item?.ActualGrossweight}</span>
+                                <span className='smr_pipe'> | </span>
+                                <span className='smr_wishDT'>DWT: </span>
+                                <span>{item?.totaldiamondweight !== "" && item?.totaldiamondweight}</span>
+                            </Typography>
+                            <Typography variant="body2" className='smr_card-ContentData'>
+                                {item?.metalcolorname != "" && item?.metalcolorname} - {item?.metaltypeName != "" && item?.metaltypeName} /  <span
+                                    className="smr_currencyFont"
+                                    dangerouslySetInnerHTML={{
+                                        __html: decodeEntities(
+                                            currency
+                                        ),
+                                    }}
+                                /> {item?.TotalUnitCost != "" && (item?.TotalUnitCost).toFixed(3)}
+                            </Typography>
                         </div>
-                        <div className='designNoWlList'>
+                        {/* <div className='designNoWlList'>
                             <p className='smr_DesignNoTExt'>{item?.designno}</p>
-                        </div>
+                        </div> */}
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
-                        <button className='smr_Wl-Cartbtn' onClick={handletocart}>Add to cart +</button>
+                        <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCart(item)}>
+                            {item?.IsInCart !== 1 ? "Add to cart +" : "Already in cart"}
+                        </button>
                     </div>
                 </div>
-                <div className='closeWlIconDiv'>
+                <div className='closeWlIconDiv' onClick={(e) => { e.stopPropagation(); handleRemoveItem(item); }}>
                     <CloseIcon className='closeWlIcon' />
                 </div>
             </Card>

@@ -1,41 +1,71 @@
-import React from 'react';
-import './smr_cartPage.scss';
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CloseIcon from '@mui/icons-material/Close';
 import { green } from '@mui/material/colors';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
+import RemarkModal from './RemarkModal';
 
-const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLength }) => {
+const CartItem = ({
+  item,
+  CartCardImageFunc,
+  onSelect,
+  isSelected,
+  multiSelect,
+  onRemove,
+  itemLength,
+  showRemark,
+  productRemark,
+  handleAddRemark,  
+  handleRemarkChange,
+  handleSave,
+  handleCancel,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [remark, setRemark] = useState(item.Remarks || '');
 
-  console.log('itemLength---', item);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleRemarkChangeInternal = (e) => {
+    setRemark(e.target.value);
+    handleRemarkChange(e);
+  };
+
+  const handleSaveInternal = () => {
+    handleSave(item, remark);
+    handleClose();
+  };
+
 
   return (
-    <Grid item xs={12} sm={itemLength !== 1 ? 6 : 12} md={itemLength !== 1 ? 6 : 12}>
+    <Grid item xs={12} sm={itemLength !== 1 ? 4 : 12} md={itemLength !== 1 ? 4 : 12}>
       <Card className='smr_cartListCard'
-        sx={{
-          maxWidth: 250,
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: '10px',
-          boxShadow: isSelected ? 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important' : 'none',
-        }}
-        onClick={() => onSelect(item)}>
-        <CardActionArea style={{ flexGrow: 1 }} > 
+        sx={{ 
+          boxShadow: isSelected && 'none',
+          border:isSelected && '1px solid #af8238', 
+          maxWidth:450
+      }}
+        onClick={() => onSelect(item)}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:'center', gap: '20px', position: 'relative' }}>
           <CardMedia
             component="img"
-            image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
+            image={CartCardImageFunc(item)}
             alt={item?.TitleLine}
             className='smr_cartListImage'
           />
-          <CardContent>
+          <div>
+          <CardContent className='smr_cartcontentData'>
+            <Typography variant="body2" className='smr_DesignNoTExt'>
+              {item?.designno}
+            </Typography>
             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-              <div>
+              <div style={{ marginBottom: '10px' }}>
                 <Typography variant="body2" className='smr_card-ContentData'>
                   NWT: {item?.MetalWeight}
                 </Typography>
@@ -43,7 +73,7 @@ const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLengt
                   CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
                 </Typography>
               </div>
-              <div>
+              <div style={{ marginBottom: '10px' }}>
                 <Typography variant="body2" className='smr_card-ContentData'>
                   GWT: {item?.totalGrossweight}
                 </Typography>
@@ -52,16 +82,31 @@ const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLengt
                 </Typography>
               </div>
             </div>
-            <div className='designNocartList'>
-              <p className='smr_DesignNoTExt'>{item?.designno}</p>
-            </div>
+            <Box sx={{ position: 'absolute', bottom: '5px' }}>
+              {item?.Remarks !== "" &&
+                <Typography variant="body2" className='smr_card-ContentData'>
+                  Remark: {item?.Remarks || productRemark}
+                </Typography>
+              }
+              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                {item?.Remarks ? "Update Remark" : "Add Remark"}
+              </Link>
+              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={(e) => { e.stopPropagation(); onRemove(item); }} >
+                Remove
+              </Link>
+            </Box>
           </CardContent>
-        </CardActionArea>
-        <div className='closeCartIconDiv'>
-          <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(item); }}/>
-        </div>
+          </div>
+        </Box>
         {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
       </Card>
+      <RemarkModal
+        open={open}
+        onClose={handleClose}
+        remark={remark}
+        onRemarkChange={handleRemarkChangeInternal}
+        onSave={handleSaveInternal}
+      />
     </Grid>
   );
 };

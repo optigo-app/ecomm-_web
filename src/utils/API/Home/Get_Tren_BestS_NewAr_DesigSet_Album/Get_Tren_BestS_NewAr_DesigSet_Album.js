@@ -1,6 +1,6 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
-export const GetTrandingView = async () => {
+export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode) => {
     let response;
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
@@ -9,7 +9,7 @@ export const GetTrandingView = async () => {
         const email = localStorage.getItem("registerEmail") ?? ""
 
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"GETTrending\",\"appuserid\":\"${email}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"${mode}\",\"appuserid\":\"${email}\"}`,
             "f": "zen (cartcount)",
             "dp": combinedValue,
         }
