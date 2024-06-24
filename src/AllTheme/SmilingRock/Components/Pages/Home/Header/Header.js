@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { companyLogo, loginState } from '../../../Recoil/atom';
+import { CartCount, WishCount, companyLogo, loginState } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -10,6 +10,7 @@ import { PiStarThin } from "react-icons/pi";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 
 const Header = () => {
@@ -21,6 +22,9 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+
+  const [cartCountNum,setCartCountNum] = useRecoilState(CartCount)
+  const [wishCountNum,setWishCountNum] = useRecoilState(WishCount)
 
   let navigate = useNavigate();
 
@@ -273,6 +277,22 @@ const Header = () => {
     handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
   };
 
+
+ useEffect(()=>{
+  GetCountAPI().then((res)=>{
+   if(res){
+    setCartCountNum(res?.cartcount)
+    setWishCountNum(res?.wishcount)
+   }
+  }).catch((err)=>{
+      if(err){
+        console.log("getCountApiErr",err);
+      }
+  })
+  console.log("getCount", GetCountAPI());
+ },[])
+
+
   return (
     <div>
 
@@ -523,7 +543,7 @@ const Header = () => {
               {islogin &&
                 <>
                   <Badge
-                    badgeContent={'4'}
+                    badgeContent={wishCountNum}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
@@ -552,7 +572,7 @@ const Header = () => {
                     />
                   </li>
                   <Badge
-                    badgeContent={'2'}
+                    badgeContent={cartCountNum}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
@@ -687,7 +707,7 @@ const Header = () => {
                 {islogin &&
                   <>
                     <Badge
-                      badgeContent={'3'}
+                      badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
@@ -715,7 +735,7 @@ const Header = () => {
                       />
                     </li>
                     <Badge
-                      badgeContent={'2'}
+                      badgeContent={cartCountNum}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"

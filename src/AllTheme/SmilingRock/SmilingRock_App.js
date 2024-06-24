@@ -135,7 +135,7 @@ const SmilingRock_App = () => {
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
                     <Route path="/productlist" element={<ProductList />} />
-                    <Route path="/productdetail" element={<ProductDetail />} />
+                    <Route path="/productdetail/*" element={<ProductDetail />} />
                     <Route path="/cartPage" element={<Cart />} />
                     <Route path="/myWishList" element={<Wishlist />} />
                     <Route path="/Delivery" element={<Delivery />} />

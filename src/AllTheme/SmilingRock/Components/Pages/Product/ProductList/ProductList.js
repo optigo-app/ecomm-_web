@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, FormControlLabel, Pagination } from "@mui/material";
@@ -16,8 +16,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
+import { useSetRecoilState } from "recoil";
+import { CartCount, WishCount } from "../../../Recoil/atom";
+import pako from "pako";
 
 const ProductList = () => {
+
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   const[productListData,setProductListData]=useState([]);
   const[priceListData,setPriceListData]=useState([]);
@@ -34,25 +39,50 @@ const ProductList = () => {
   const [wishArr,setWishArr] = useState({})
   const [menuParams,setMenuParams] = useState({})
   const [filterProdListEmpty,setFilterProdListEmpty] = useState(false)
-  
-  // console.log("filterProdListEmpty",filterProdListEmpty);
+  const [metalTypeCombo,setMetalTypeCombo] = useState([]);
+  const [diaQcCombo,setDiaQcCombo] = useState([]);
+  const [csQcCombo,setCsQcCombo]= useState([]);
+  const [selectedMetalId,setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId,setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId,setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+
+
+  const setCartCountVal = useSetRecoilState(CartCount)
+  const setWishCountVal = useSetRecoilState(WishCount)
+
 
   let location = useLocation();
+  let navigate = useNavigate();
+
+  useEffect(()=>{
+
+  },[])
 
   useEffect(()=>{
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeinit)
+
+    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    setMetalTypeCombo(mtCombo)
+
+    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    setDiaQcCombo(diaQcCombo)
+
+    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    setCsQcCombo(CsQcCombo)
   },[])
 
   useEffect(()=>{
     let param = JSON.parse(localStorage.getItem("menuparams"))
     setMenuParams(param)
-  },[location?.state?.menu,productListData,filterChecked])
+  },[location?.key,productListData,filterChecked])
+  // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
+    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
     setIsProdLoading(true)
-      ProductListApi({},currPage)
+      ProductListApi({},currPage,obj)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -63,7 +93,7 @@ const ProductList = () => {
         .then( async(res) => {
           let forWardResp;
           if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
               if(resp){
                 setPriceListData(resp)
                 forWardResp = resp;
@@ -82,7 +112,7 @@ const ProductList = () => {
           return forWardResp1
         }).finally(()=> setIsProdLoading(false))
         .catch((err) => console.log("err", err))
-  }, [location?.state?.menu])
+  }, [location?.key])
 
   useEffect(() => {
     const finalProdWithPrice = productListData.map((product) => {
@@ -178,7 +208,6 @@ const ProductList = () => {
     }
   }
 
-
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
     let pdImgList = [];
@@ -200,12 +229,13 @@ const ProductList = () => {
 
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
+
+    // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
     
       setFilterChecked((prev)=>({
         ...prev,
-        [name]:{checked,type:listname,id:name,value:val}
+        [name]:{checked,type:listname,id:name?.replace(/[a-zA-Z]/g, ''),value:val}
       }))
-
   }
 
   const FilterValueWithCheckedOnly = () =>{
@@ -229,20 +259,20 @@ const ProductList = () => {
   
   useEffect(()=>{
    let output = FilterValueWithCheckedOnly()
+   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    setIsOnlyProdLoading(true)
-    ProductListApi(output,1)
+    ProductListApi(output,1,obj)
         .then((res) => {
           if (res) {
 
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            // console.log("resp",res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
         .then( async(res) => {
           if (res) {
-            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
               if(resp){
                 setPriceListData(resp)  
               }
@@ -268,6 +298,7 @@ const ProductList = () => {
   const handelPageChange = (event,value) =>{
 
     let output = FilterValueWithCheckedOnly()
+    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
 
     setIsProdLoading(true)
     setCurrPage(value)
@@ -277,7 +308,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     },100)
-    ProductListApi(output,value)
+    ProductListApi(output,value,obj)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -287,7 +318,7 @@ const ProductList = () => {
         })
         .then( async(res) => {
           if (res) {
-            await GetPriceListApi(value,{},output,res?.pdResp?.rd1[0]?.AutoCodeList).then((resp)=>{
+            await GetPriceListApi(value,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
               if(resp){
                 setPriceListData(resp)  
               }
@@ -321,11 +352,17 @@ const ProductList = () => {
 
      if(e.target.checked == true){
       CartAndWishListAPI(type,prodObj).then((res)=>{
-        console.log("res",res)
+        let cartC = res?.Data?.rd[0]?.Cartlistcount
+        let wishC =res?.Data?.rd[0]?.Wishlistcount
+        setWishCountVal(wishC)
+        setCartCountVal(cartC);
       }).catch((err)=>console.log("err",err))
      }else{
        RemoveCartAndWishAPI(type,ele?.autocode).then((res)=>{
-        console.log("res",res)
+        let cartC = res?.Data?.rd[0]?.Cartlistcount
+        let wishC =res?.Data?.rd[0]?.Wishlistcount
+        setWishCountVal(wishC)
+        setCartCountVal(cartC);
        }).catch((err)=>console.log("err",err))
      }
 
@@ -353,8 +390,114 @@ const ProductList = () => {
     }
   },[productListData])
 
-  // console.log("Arr",Object.values(cartArr)?.length ,Object.values(wishArr)?.length );
 
+  const handelCustomCombo = (obj) =>{
+
+    setIsOnlyProdLoading(true)
+    let output = FilterValueWithCheckedOnly()
+    ProductListApi(output,currPage,obj)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .then( async(res) => {
+          if (res) {
+            await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+              if(resp){
+                setPriceListData(resp)  
+              }
+            })
+          }
+          return res
+        })
+        .catch((err) => console.log("err", err))
+        .finally(()=>{
+          setTimeout(() => {
+            localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+            setIsOnlyProdLoading(false)
+          }, 100);
+        })
+  }
+
+  useEffect(()=>{
+
+    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+
+    localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+
+    handelCustomCombo(obj)
+
+  },[selectedMetalId,selectedDiaId,selectedCsId])
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+      
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+      
+   
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+  const decodeAndDecompress = (encodedString) => {
+    try {
+      // Decode the Base64 string to binary data
+      const binaryString = atob(encodedString);
+      
+      // Convert binary string to Uint8Array
+      const uint8Array = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i);
+      }
+      
+      // Decompress the data
+      const decompressed = pako.inflate(uint8Array, { to: 'string' });
+  
+      // Convert decompressed data back to JSON object
+      const jsonObject = JSON.parse(decompressed);
+  
+      return jsonObject;
+    } catch (error) {
+      console.error('Error decoding and decompressing:', error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (productData) =>{
+
+    let output = FilterValueWithCheckedOnly()
+
+
+    let obj = {
+      a:productData?.autocode,
+      b:productData?.designno,
+      m:selectedMetalId,
+      d:selectedDiaId,
+      c:selectedCsId,
+      f:output
+    }
+
+    // compressAndEncode(JSON.stringify(obj))
+
+    decodeAndDecompress()
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+
+    console.log("output",encodeObj)
+
+    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g,`_`)}${productData?.TitleLine?.length > 0 ? "_" :""}${productData?.designno}?p=${encodeObj}`)
+
+  }
+
+  
 
   return (
     <div id="top">
@@ -369,41 +512,91 @@ const ProductList = () => {
             ) : (
               <>
                 <div className="smr_prodSorting">
-                  <div className="smr_prodSorting container">
-                    <label className="smr_prodSorting label">
+                  <div className="empty_sorting_div">
+
+                  </div>
+
+                  <div className="smr_main_sorting_div">
+                  <div className="smr_metal_custom">
+                  <label className="label">
+                      Metal:&nbsp;
+                    </label>
+                    <select className="select" value={selectedMetalId} onChange={(e)=>setSelectedMetalId(e.target.value)}>
+                      {
+                        metalTypeCombo?.map((metalele)=>(
+                          <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+
+                  <div className="smr_dia_custom">
+                  <label className="label">
+                      Diamond:&nbsp;
+                    </label>
+                    <select className="select" value={selectedDiaId} onChange={(e)=>setSelectedDiaId(e.target.value)}>
+                      {
+                        
+                        diaQcCombo?.map((diaQc)=>(
+                          <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+
+                  { storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
+                  <label className="label">
+                      color stone:&nbsp;
+                    </label>
+                    <select className="select" value={selectedCsId} onChange={(e)=>setSelectedCsId(e.target.value)}>
+                      {
+                        csQcCombo?.map((csCombo)=>(
+                          <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                        ))
+                      }
+                    </select>
+                  </div>}
+
+                  <div className="smr_sorting_custom">
+                  <div className="container">
+                    <label className="label">
                       Sort By:&nbsp;
                     </label>
-                    <select className="smr_prodSorting select">
+                    <select className="select">
                       <option
-                        className="smr_prodSorting option"
+                        className="option"
                         value="Recommended"
                       >
                         Recommended
                       </option>
-                      <option className="smr_prodSorting option" value="New">
+                      <option className="option" value="New">
                         New
                       </option>
                       <option
-                        className="smr_prodSorting option"
+                        className="option"
                         value="In Stock"
                       >
                         In stock
                       </option>
                       <option
-                        className="smr_prodSorting option"
+                        className="option"
                         value="PRICE HIGH TO LOW"
                       >
                         Price High To Low
                       </option>
                       <option
-                        className="smr_prodSorting option"
+                        className="option"
                         value="PRICE LOW TO HIGH"
                       >
                         Price Low To High
                       </option>
                     </select>
                   </div>
+                  </div>
+                  </div>
+
                 </div>
+
                 <div className="smr_mainPortion">
                   <div className="smr_filter_portion">
                     <div style={{ padding: "21px 71px" }}>
@@ -426,7 +619,7 @@ const ProductList = () => {
                       <div style={{ marginTop: "12px" }}>
                         {filterData?.map((ele) => (
                           <>
-                            {!(ele?.id).includes("Range") && (
+                            {!(ele?.id)?.includes("Range") && (
                               <Accordion
                                 elevation={0}
                                 sx={{
@@ -475,7 +668,7 @@ const ProductList = () => {
                                     overflow: "auto",
                                   }}
                                 >
-                                  {JSON.parse(ele?.options).map((opt) => (
+                                  {(JSON.parse(ele?.options) ?? []).map((opt) => (
                                     <div
                                       style={{
                                         display: "flex",
@@ -496,17 +689,17 @@ const ProductList = () => {
                                       <FormControlLabel
                                       control={
                                       <Checkbox
-                                        name={opt?.id}
+                                        name={`${ele?.id}${opt?.id}`}
                                         // checked={
                                         //   filterChecked[`checkbox${index + 1}${i + 1}`]
                                         //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
                                         //     : false
                                         // }
                                         checked={
-                                          filterChecked[opt?.id]?.checked ===
+                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
                                           undefined
                                             ? false
-                                            : filterChecked[opt?.id]?.checked
+                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -558,7 +751,7 @@ const ProductList = () => {
                       <ProductListSkeleton fromPage={"Prodlist"} />
                     ) : (
                       <div className="smr_outer_portion">
-                      <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
+                      {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                       <div className="smr_inner_portion">
                         {finalProductListData?.map((productData) => (
                           <div className="smr_productCard">
@@ -625,7 +818,7 @@ const ProductList = () => {
                               // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                               src={ProdCardImageFunc(productData)}
                               alt=""
-                              onClick={()=>console.log(productData)}
+                              onClick={()=>handleMoveToDetail(productData)}
                             />
                             <div className="smr_prod_Title" >
                               <span
@@ -643,6 +836,7 @@ const ProductList = () => {
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
+                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px'}}> 
                               {/* <span className="smr_por"> */}
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
@@ -687,6 +881,7 @@ const ProductList = () => {
                                   </>
                                 }
                               {/* </span> */}
+                              </div>
                             </div>
                             {/* <div className="smr_prod_Allwt">
                               <span className="smr_por">
@@ -725,7 +920,7 @@ const ProductList = () => {
                                 )?.[0]?.metalcolorname.toUpperCase()}
                                 -
                                 {
-                                  findMetalType(productData?.MetalPurityid)[0]
+                                  findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
                                     ?.metaltype
                                 }
                               </span>
@@ -765,6 +960,7 @@ const ProductList = () => {
                 justifyContent: "center",
                 marginTop: "5%",
               }}
+              className="smr_pagination_portion"
             >
               <Pagination
                 count={Math.ceil(afterFilterCount/storeInit.PageSize)}
