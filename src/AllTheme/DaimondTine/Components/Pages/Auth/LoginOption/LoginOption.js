@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './LoginOption.modul.css'
+import './LoginOption.modul.scss'
 import { IoClose } from 'react-icons/io5';
 import { FaMobileAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io';
@@ -15,7 +15,7 @@ export default function LoginOption() {
     }, []);
 
     return (
-        <div style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
+        <div className='dt_loginOptionMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
             <div>
                 <div className='dt_authBoxMain'>
                     <div className='optionLoginMain'>

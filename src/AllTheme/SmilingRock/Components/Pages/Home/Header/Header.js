@@ -159,7 +159,7 @@ const Header = () => {
 
   const handelMenu = (param, param1, param2) => {
 
-    let obj = {
+    let finalData = {
       "menuname": param?.menuname ?? "",
       "FilterKey": param?.key ?? "",
       "FilterVal": param?.value ?? "",
@@ -169,13 +169,37 @@ const Header = () => {
       "FilterVal2": param2?.value ?? ""
     }
 
-    localStorage.setItem("menuparams", JSON.stringify(obj))
+    localStorage.setItem("menuparams", JSON.stringify(finalData))
 
-    let d = new Date();
-    let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join('&');
+
+      const paginationParam = [
+        `page=${finalData.page ?? 1}`,
+        `size=${finalData.size ?? 50}`
+      ].join('&');
+
+    console.log('otherparamsUrl--',otherparamUrl);
+    const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
+
+
+    // let d = new Date();
+    // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
     handleDropdownClose()
-    navigate('/productlist', { state: { "menu": randomno } })
-
+    navigate(url)
   }
 
   //mobileMenu.................

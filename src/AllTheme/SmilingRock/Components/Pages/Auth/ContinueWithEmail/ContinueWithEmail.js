@@ -99,7 +99,7 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div>
+        <div className='smr_continuemail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">

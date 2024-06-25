@@ -10,6 +10,7 @@ export const ColorStoneQualityColorComboAPI = async () => {
         const storedEmail = localStorage.getItem('registerEmail') || '';
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
+        
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
             FrontEnd_RegNo: `${FrontEnd_RegNo}`, colorstonepricelistname: `${loginUserDetail?.colorstonepricelistname}`

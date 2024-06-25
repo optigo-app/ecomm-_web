@@ -308,6 +308,39 @@
 
 }
 
+.smr_product_label{
+  position: absolute;
+  top: 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.smr_instock{
+  background-color: #00800045;
+  color: black;
+  padding: 0px 5px;
+}
+
+.smr_bestSeller{
+  background-color: #bc000075;
+  color: white;
+  padding: 0px 5px;
+}
+
+.smr_intrending{
+  background-color: khaki;
+  color: black;
+  padding: 0px 5px;
+}
+
+.smr_newarrival{
+  background-color: lightskyblue;
+  color: black;
+  padding: 0px 5px;
+}
+
 // .smr_shorcutCustomization{
 //     border:1px solid #d9d9d9;
 //     // margin-inline:5%;

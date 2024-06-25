@@ -19,7 +19,6 @@ const NewArrival = () => {
         }).catch((err) => console.log(err))
     }, [])
 
-    console.log('newwwww', newArrivalData);
 
     return (
         <div className='paddingTopMobileSet'>
