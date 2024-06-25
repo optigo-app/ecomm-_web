@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './LoginWithMobileCode.css';
+import './LoginWithMobileCode.modul.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { loginState } from '../../../Recoil/atom';
@@ -97,7 +97,7 @@ export default function LoginWithMobileCode() {
     };
 
     return (
-        <div>
+        <div className='smr_loginmobileCodeMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

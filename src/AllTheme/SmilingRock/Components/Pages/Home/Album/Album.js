@@ -21,8 +21,6 @@ const Album = () => {
     console.log('albumData', albumData);
     console.log('albumData imageUrl', imageUrl);
 
-    
-
     return (
         <div className='smr_alubmMainDiv'>
             <p className='smr_albumTitle'>ALBUM</p>

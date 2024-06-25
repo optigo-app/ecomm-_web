@@ -302,6 +302,24 @@ const Header = () => {
   };
 
 
+  const handleClick = (event) => {
+    // Prevent default action for the left mouse button click
+    if (event.button === 0) {
+      event.preventDefault();
+    }
+  };
+
+  const handleContextMenu = (event) => {
+    event.preventDefault(); // Prevent default context menu
+    // const url = '/productlist';
+    // const newTab = window.open(url, '_blank'); // Open URL in new tab
+    // if (newTab) {
+    //   newTab.focus(); // Ensure new tab gets focus
+    // }
+  };
+
+
+
  useEffect(()=>{
   GetCountAPI().then((res)=>{
    if(res){
@@ -831,7 +849,9 @@ const Header = () => {
                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            {/* <a href='/productlist' onContextMenu={handleContextMenu}> */}
+                              <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                              {/* </a> */}
                             {/* </a> */}
                           </ButtonBase>
                           <>
@@ -843,7 +863,7 @@ const Header = () => {
                                   onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
-                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '15px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
                                   </ListItem>
                                 </div>

@@ -28,6 +28,11 @@ const Header = () => {
     const [selectedData, setSelectedData] = useState([]);
 
 
+    const fetchData = () => {
+        const value = JSON.parse(localStorage.getItem('LoginUser'));
+        setislogin(value);
+    };
+
     const getMenuApi = async () => {
         await GetMenuAPI().then((response) => {
             setMenuData(response?.Data?.rd)
@@ -161,6 +166,24 @@ const Header = () => {
         setSelectedData(menuItems[index] || []);
     };
 
+    const handleLogout = () => {
+        setislogin(false);
+        localStorage.setItem('LoginUser', false);
+        localStorage.removeItem('storeInit');
+        localStorage.removeItem('loginUserDetail');
+        localStorage.removeItem('remarks');
+        localStorage.removeItem('selectedAddressId');
+        localStorage.removeItem('orderNumber');
+        localStorage.removeItem('registerEmail');
+        localStorage.removeItem('UploadLogicalPath');
+        localStorage.removeItem('remarks');
+        localStorage.removeItem('registerMobile');
+        localStorage.removeItem('allproductlist');
+        navigation('/')
+        window.location.reload();
+    }
+
+
 
     return (
         <div className='dai_headerMain'>
@@ -174,11 +197,11 @@ const Header = () => {
                 <div className="dai_login_link">
                     <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
                     <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} />
-                    {/* {islogin === "false" && */}
-                    <a href="/LoginOption" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
-                        Login
-                    </a>
-                    {/* } */}
+                    {!islogin &&
+                        <p style={{margin: '0px'}} onClick={() => navigation('/LoginOption')}>
+                            Login
+                        </p>
+                    }
                 </div>
             </div>
 
@@ -199,38 +222,40 @@ const Header = () => {
                     />
                 </div>
                 <div className="dt_headermainDiv2">
-                    <img
-                        alt=""
-                        src={titleImg}
-                        className="gorjanaHederImage"
-                        onClick={() => navigation("/")}
-                    />
+                    <a href='/'>
+                        <img
+                            alt=""
+                            src={titleImg}
+                            className="dt_header_logo"
+                            onClick={() => navigation("/")}
+                        />
+                    </a>
                 </div>
                 <div className="dt_headermainDiv3">
                     {/* {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) && */}
                     <ul className="dt_nav_ul_shop">
                         <>
-                            {/* {islogin == 'true' && */}
-                            <Badge
-                                // badgeContent={getWishListCount}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                    },
-                                }}
-                            >
-                                <Tooltip title="WishList">
-                                    <li
-                                        className="dt_nav_li_smining"
-                                        style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
-                                        <GoHeart color="#7D7F85" fontSize='25px' />
-                                    </li>
-                                </Tooltip>
-                            </Badge>
-                            {/* } */}
+                            {islogin == 'true' &&
+                                <Badge
+                                    // badgeContent={getWishListCount}
+                                    max={1000}
+                                    overlap={"rectangular"}
+                                    color="secondary"
+                                    sx={{
+                                        '& .MuiBadge-badge': {
+                                            backgroundColor: '#a8807c',
+                                        },
+                                    }}
+                                >
+                                    <Tooltip title="WishList">
+                                        <li
+                                            className="dt_nav_li_smining"
+                                            style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                                            <GoHeart color="#7D7F85" fontSize='25px' />
+                                        </li>
+                                    </Tooltip>
+                                </Badge>
+                            }
                             <Badge
                                 // badgeContent={getCartListCount}
                                 max={1000}
@@ -264,15 +289,15 @@ const Header = () => {
                                 <IoPersonOutline color="#7D7F85" fontSize='25px' />
                             </li>
                         </Tooltip>
-                        {/* {islogin == 'true' && */}
-                        <li
-                            className="dt_nav_li_smining"
-                            style={{ cursor: "pointer", marginTop: "0" }}
-                        // onClick={handleLogout}
-                        >
-                            <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
-                        </li>
-                        {/* } */}
+                        {islogin &&
+                            <li
+                                className="dt_nav_li_smining"
+                                style={{ cursor: "pointer", marginTop: "0" }}
+                                onClick={handleLogout}
+                            >
+                                <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
+                            </li>
+                        }
                     </ul>
                     {/* } */}
                 </div>
