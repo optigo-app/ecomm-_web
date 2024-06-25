@@ -22,7 +22,6 @@ export const CartAndWishListAPI = async(type,obj) =>{
         dp: JSON.stringify(FinalObj),
       };
 
-      console.log("addtocart",body);
     
 
     let cartAndWishResp;

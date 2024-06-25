@@ -21,7 +21,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         return <div></div>;
     }
 
-   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location.pathname)}`;
+   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location.pathname)}${location?.search}`;
    
     if (isLoginStatus != true) {
         if (location.pathname.startsWith('/productlist') || location.pathname.startsWith('/productdetail')) {
