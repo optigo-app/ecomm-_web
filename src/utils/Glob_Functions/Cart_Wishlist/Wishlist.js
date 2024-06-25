@@ -3,25 +3,31 @@ import { fetchWishlistDetails } from '../../API/WishlistAPI/WishlistAPI';
 import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
 import { handleWishlistToCartAPI } from '../../API/WishList_Cart/WishlistToCart';
 import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image-not-found.jpg"
+import { useSetRecoilState } from 'recoil';
+import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
+import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 
 const Usewishlist = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [itemInCart, setItemInCart] = useState();
   const [storeInit, setStoreInit] = useState();
+  const [countData, setCountData] = useState();
   const [CurrencyData, setCurrencyData] = useState();
   const [wishlistData, setWishlistData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
 
+
   useEffect(() => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
-    if(storeInit?.IsB2BWebsite != 0){
+    if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData?.Currencysymbol)
-    }else{
+    } else {
       setCurrencyData(storeInit?.Currencysymbol)
     }
-  },[])
+  }, [])
 
 
   const getWishlistData = async () => {
@@ -32,6 +38,11 @@ const Usewishlist = () => {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
         setIsLoading(false);
+
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCountData(res)
+        })
       }
     } catch (error) {
       console.error("Error:", error);
@@ -56,22 +67,31 @@ const Usewishlist = () => {
     try {
       const response = await removeFromCartList(item, param);
       console.log('response--', response);
-      if (response.Data.rd[0].msg === "success") {
-        console.log('Product successfully removed');
+      let resStatus = response.Data.rd[0];
+      if (resStatus?.msg === "success") {
+
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCountData(res)
+        })
       } else {
         console.log('Failed to remove product or product not found');
       }
     } catch (error) {
       console.error("Error:", error);
-    } 
+    }
   };
 
   const handleRemoveAll = async () => {
     let param = "wish";
     try {
       const response = await removeFromCartList('IsDeleteAll', param);
-      if (response.Data.rd[0].msg === "success") {
-        console.log('All products successfully removed');
+      let resStatus = response.Data.rd[0];
+      if (resStatus?.msg === "success") {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCountData(res)
+        })
         setWishlistData([]);
       } else {
         console.log('Failed to remove all products or products not found');
@@ -83,11 +103,17 @@ const Usewishlist = () => {
 
   // add to cart
   const handleWishlistToCart = async (item) => {
-    let param = ""; 
+    let param = "";
     try {
       const response = await handleWishlistToCartAPI(param, item);
-      if(response) {
-        console.log('Item added to cart');
+      let resStatus = response?.Data?.rd[0]
+      if (resStatus?.msg == "success") {
+        getWishlistData();
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCountData(res)
+        })
+        console.log('responseWisData', resStatus);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -99,8 +125,14 @@ const Usewishlist = () => {
     let param = "isSelectAll";
     try {
       const response = await handleWishlistToCartAPI(param);
-      if(response) {
+      let resStatus = response?.Data?.rd[0]
+      if (resStatus?.msg == "success") {
+        getWishlistData();
         console.log('All wishlist items added to cart');
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCountData(res)
+        })
         // update the state if needed, e.g., mark all items as added to cart
       }
     } catch (error) {
@@ -116,9 +148,9 @@ const Usewishlist = () => {
 
   const WishCardImageFunc = (pd) => {
     let finalprodListimg;
-    if(pd?.ImageCount > 0){
+    if (pd?.ImageCount > 0) {
       finalprodListimg = storeInit?.DesignImageFol + pd?.designno + "_" + '1' + "." + pd?.ImageExtension
-    }else{
+    } else {
       finalprodListimg = imageNotFound;
     }
     return finalprodListimg;
@@ -128,6 +160,8 @@ const Usewishlist = () => {
     isLoading,
     wishlistData,
     CurrencyData,
+    countData,
+    itemInCart,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,

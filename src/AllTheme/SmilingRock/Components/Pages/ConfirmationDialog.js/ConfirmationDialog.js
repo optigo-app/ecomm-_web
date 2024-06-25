@@ -1,10 +1,12 @@
 import React from 'react';
+import "./smr_confirmation.scss"
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Divider } from '@mui/material';
 
 const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
   return (
@@ -20,12 +22,14 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
           {content}
         </DialogContentText>
       </DialogContent>
+      <Divider/>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
+      <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
+          Remove
         </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
-          Confirm
+        <Divider  orientation="vertical" flexItem/>
+        <Button  className='smr_DialogBtn' onClick={onClose}  fullWidth>
+          Cancel
         </Button>
       </DialogActions>
     </Dialog>

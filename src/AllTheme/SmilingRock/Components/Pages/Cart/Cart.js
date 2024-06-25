@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
@@ -10,10 +10,13 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../ConfirmationDialog.js/ConfirmationDialog';
+import { CartCount } from '../../Recoil/atom';
+import { useSetRecoilState } from 'recoil';
 
 const CartPage = () => {
   const {
     isloding,
+    ispriceloding,
     cartData,
     selectedItem,
     selectedItems,
@@ -24,6 +27,7 @@ const CartPage = () => {
     qtyCount,
     sizeCombo,
     CurrencyData,
+    countData,
     CartCardImageFunc,
     handleSelectItem,
     handleIncrement,
@@ -50,6 +54,8 @@ const CartPage = () => {
 
   const navigate = useNavigate();
 
+  const setCartCountVal = useSetRecoilState(CartCount)
+
   const handlePlaceOrder = () => {
     let priceData = cartData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
     localStorage.setItem('TotalPriceData', priceData)
@@ -71,7 +77,6 @@ const CartPage = () => {
   };
 
   const handleConfirmRemoveAll = () => {
-    debugger;
     setDialogOpen(false);
     handleRemoveAll();
   };
@@ -80,6 +85,11 @@ const CartPage = () => {
     setDialogOpen(false);
   };
 
+
+  useEffect(() => {
+    setCartCountVal(countData?.cartcount);
+    console.log('rasdasjdgjhasg--', cartData);
+  }, [cartData, handleRemoveItem, handleRemoveAll])
 
 
   return (
@@ -111,58 +121,67 @@ const CartPage = () => {
               </div>
             </>
           }
-          {!isloding  && cartData.length == 0 &&
-            <div>No Data Found!</div>
-          }
         </div>
         {!isloding ? (
-          <div className="smr_cartMainPage">
-            <div className="smr_cart-left-side">
-              <CartList
-                items={cartData}
-                CartCardImageFunc={CartCardImageFunc}
-                showRemark={showRemark}
-                productRemark={productRemark}
-                onSelect={handleSelectItem}
-                selectedItem={selectedItem}
-                selectedItems={selectedItems}
-                multiSelect={multiSelect}
-                onRemove={handleRemoveItem}
-                handleAddReamrk={handleAddReamrk}
-                handleRemarkChange={handleRemarkChange}
-                handleSave={handleSave}
-                handleCancel={handleCancel}
-              />
-            </div>
-            <div className="smr_cart-right-side">
-              {selectedItem && (
-                <CartDetails
-                  selectedItem={selectedItem}
-                  CartCardImageFunc={CartCardImageFunc}
-                  handleIncrement={handleIncrement}
-                  handleDecrement={handleDecrement}
-                  qtyCount={qtyCount}
-                  multiSelect={multiSelect}
-                  sizeCombo={sizeCombo}
-                  CurrencyData={CurrencyData}
-                  handleMetalTypeChange={handleMetalTypeChange}
-                  handleMetalColorChange={handleMetalColorChange}
-                  handleDiamondChange={handleDiamondChange}
-                  handleColorStoneChange={handleColorStoneChange}
-                  handleSizeChange={handleSizeChange}
-                  decodeEntities={decodeEntities}
+          <>
+            {cartData.length !== 0 ? (
+              <div className="smr_cartMainPage">
+                <div className="smr_cart-left-side">
+                  <CartList
+                    items={cartData}
+                    CartCardImageFunc={CartCardImageFunc}
+                    showRemark={showRemark}
+                    productRemark={productRemark}
+                    onSelect={handleSelectItem}
+                    selectedItem={selectedItem}
+                    selectedItems={selectedItems}
+                    multiSelect={multiSelect}
+                    onRemove={handleRemoveItem}
+                    handleAddReamrk={handleAddReamrk}
+                    handleRemarkChange={handleRemarkChange}
+                    handleSave={handleSave}
+                    handleCancel={handleCancel}
+                  />
+                </div>
+                <div className="smr_cart-right-side">
+                  {selectedItem && (
+                    <CartDetails
+                    ispriceloding={ispriceloding}
+                      selectedItem={selectedItem}
+                      CartCardImageFunc={CartCardImageFunc}
+                      handleIncrement={handleIncrement}
+                      handleDecrement={handleDecrement}
+                      qtyCount={qtyCount}
+                      multiSelect={multiSelect}
+                      sizeCombo={sizeCombo}
+                      CurrencyData={CurrencyData}
+                      handleMetalTypeChange={handleMetalTypeChange}
+                      handleMetalColorChange={handleMetalColorChange}
+                      handleDiamondChange={handleDiamondChange}
+                      handleColorStoneChange={handleColorStoneChange}
+                      handleSizeChange={handleSizeChange}
+                      decodeEntities={decodeEntities}
+                      onUpdateCart={handleUpdateCart}
+                    />
+                  )}
+                </div>
+                <SelectedItemsModal
+                  open={openModal}
+                  onClose={handleCloseModal}
+                  selectedItems={selectedItems}
+                  onRemove={handleRemoveItem}
+                  onUpdateCart={handleUpdateCart}
+                  onCancelCart={handleCancelUpdateCart}
                 />
-              )}
-            </div>
-            <SelectedItemsModal
-              open={openModal}
-              onClose={handleCloseModal}
-              selectedItems={selectedItems}
-              onRemove={handleRemoveItem}
-              onUpdateCart={handleUpdateCart}
-              onCancelCart={handleCancelUpdateCart}
-            />
-          </div>
+              </div>
+            ) :
+              <div className='smr_noWishlistData'>
+                <p className='smr_title'>No Wishlist Found!</p>
+                <p className='smr_desc'>Please First Add To Wishlist Data</p>
+                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+              </div>
+            }
+          </>
         ) :
           <CartPageSkeleton />
         }
@@ -171,7 +190,7 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Clear All"
+          title="Confirm Remove All"
           content="Are you sure you want to clear all items?"
         />
 
