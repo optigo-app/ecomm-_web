@@ -70,6 +70,9 @@
     padding: 35px 0px 0px 15px;
     left:-71px;
     top:0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .smr_prod_shortInfo_inner{

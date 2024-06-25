@@ -509,10 +509,10 @@ const ProductList = () => {
     const images = document.getElementById(`smr_productCard_Image${e?.target?.id}`);
 
     if(images && type == "enter"){
-      images.src = ProdCardImageFunc(pd,1)
+      images.src = ProdCardImageFunc(pd,2)
     }
     if(images && type == "leave"){
-      images.src = ProdCardImageFunc(pd,0)
+      images.src = ProdCardImageFunc(pd,1)
     }
   }
 
@@ -835,7 +835,7 @@ const ProductList = () => {
                             <div className="smr_product_label">
                                   {productData?.IsInReadyStock ==1 && <span className="smr_instock">In Stock</span>}
                                   {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
-                                  {productData?.IsTrending == 1 && <span className="smr_intrending">In Trending</span>}
+                                  {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
                                   {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
                             </div>
                             <img
