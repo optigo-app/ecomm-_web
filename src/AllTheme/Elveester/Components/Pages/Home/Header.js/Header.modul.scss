@@ -1,0 +1,51 @@
+.el_header_main {
+
+    // homePageFontFamily
+    .el_withoutL_Header_Main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+        z-index: 1;
+    }
+
+    .el_withoutL_ul_Main {
+        display: flex;
+        list-style: none;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .el_whioutL_headerDiv1 {
+        width: 44%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .el_whioutL_headerDiv2 {
+        width: 12%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .el_whioutL_headerDiv3 {
+        width: 44%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .el_without_headerLogo {
+        max-width: 150px;
+    }
+
+    .el_whioutL_headerDiv3_sub1 {
+        display: flex;
+    }
+
+    .el_whioutL_li{
+        margin-inline: 15px;
+    }
+}
