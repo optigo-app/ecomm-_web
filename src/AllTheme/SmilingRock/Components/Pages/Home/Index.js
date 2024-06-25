@@ -15,6 +15,13 @@ import NewArrival from './newArrival/NewArrival';
 
 function Home() {
 
+  const [localData, setLocalData] = useState();
+
+  useEffect(() => {
+    let localData = JSON.parse(localStorage.getItem('storeInit'));
+    setLocalData(localData);
+    console.log('localDatalocalData', localData);
+  },[])
 
   return (
     <div className='smiling_home_index_main'>
@@ -23,17 +30,17 @@ function Home() {
         <TopSection />
         <TheDifference />
         <PromotionBaner1 />
-        <Album />
-        <TrendingView />
+        {localData?.IsHomeAlbum === 1 && <Album />}
+        {localData?.IsHomeTrending === 1 && <TrendingView />}
 
         {/* <DaimondEveyone /> */}
         <ShopByCategory />
-        <NewArrival />
+        {localData?.IsHomeNewArrival === 1 && <NewArrival />}
 
-        <DesignSet />
-        
-        
-        <PromoSetSection />
+        {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+
+
+        {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
 
         {/* <SustainAbility /> */}
 

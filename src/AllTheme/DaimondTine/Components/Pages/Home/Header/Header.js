@@ -190,7 +190,7 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
+                    <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: '#acabab', textDecoration: 'none' }}>
                         Call: +91-9810876359
                     </a>
                 </div>

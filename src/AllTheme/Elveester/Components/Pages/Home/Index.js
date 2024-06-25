@@ -1,9 +1,10 @@
 import React from 'react'
+import TopSection from './TopSection/TopSection';
 
 function Home() {
   return (
     <div>
-        Elveester
+        <TopSection />
     </div>
   )
 }
