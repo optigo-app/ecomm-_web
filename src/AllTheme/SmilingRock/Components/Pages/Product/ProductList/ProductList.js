@@ -50,6 +50,14 @@ const ProductList = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
+  console.log("productListData",productListData);
+
+  useEffect(()=>{
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    })
+  },[])
 
   let location = useLocation();
   let navigate = useNavigate();
@@ -208,7 +216,7 @@ const ProductList = () => {
     }
   }
 
-  const ProdCardImageFunc = (pd) => {
+  const ProdCardImageFunc = (pd,j) => {
     let finalprodListimg;
     let pdImgList = [];
 
@@ -222,7 +230,10 @@ const ProductList = () => {
       finalprodListimg = imageNotFound;
     }
     if(pdImgList?.length > 0){
-      finalprodListimg = pdImgList[0]
+      finalprodListimg = pdImgList[j]
+      if(j>0 && (!finalprodListimg || finalprodListimg == undefined)){
+        finalprodListimg = pdImgList[0]
+      }
     }
     return finalprodListimg
   }
@@ -490,11 +501,19 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-
-    console.log("output",encodeObj)
-
     navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g,`_`)}${productData?.TitleLine?.length > 0 ? "_" :""}${productData?.designno}?p=${encodeObj}`)
 
+  }
+
+  const handelRolloverImage = (pd,e,type) =>{
+    const images = document.getElementById(`smr_productCard_Image${e?.target?.id}`);
+
+    if(images && type == "enter"){
+      images.src = ProdCardImageFunc(pd,2)
+    }
+    if(images && type == "leave"){
+      images.src = ProdCardImageFunc(pd,1)
+    }
   }
 
   
@@ -813,12 +832,22 @@ const ProductList = () => {
                                 />
                               {/* </Button> */}
                             </div>
+                            <div className="smr_product_label">
+                                  {productData?.IsInReadyStock ==1 && <span className="smr_instock">In Stock</span>}
+                                  {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
+                                  {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
+                                  {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
+                            </div>
                             <img
                               className="smr_productCard_Image"
+
+                              id={`smr_productCard_Image${productData?.autocode}`}
                               // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                              src={ProdCardImageFunc(productData)}
+                              src={ProdCardImageFunc(productData,0)}
                               alt=""
                               onClick={()=>handleMoveToDetail(productData)}
+                              onMouseEnter={(e)=>handelRolloverImage(productData,e,"enter")}
+                              onMouseLeave={(e)=>handelRolloverImage(productData,e,"leave")}
                             />
                             <div className="smr_prod_Title" >
                               <span

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
@@ -7,12 +7,17 @@ import "./smr_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { CartCount, WishCount } from "../../Recoil/atom";
+import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 
 const Wishlist = () => {
   const {
     isloding,
     wishlistData,
     CurrencyData,
+    countData,
+    itemInCart,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
@@ -21,9 +26,32 @@ const Wishlist = () => {
     handleAddtoCartAll
   } = Usewishlist();
 
+  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(CartCount)
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleRemoveAllDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleConfirmRemoveAll = () => {
+    setDialogOpen(false);
+    handleRemoveAll();
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  useEffect(() => {
+    setWishCountVal(countData?.wishcount);
+    setCartCountVal(countData?.cartcount)
+    console.log('rasdasjdgjhasg--',countData);
+  },[wishlistData, handleWishlistToCart, handleAddtoCartAll, handleRemoveItem,handleRemoveAll])
+
   function scrollToTop() {
     window.scrollTo({
-      top: 0,
+      top: 0, 
       behavior: "smooth",
     });
   }
@@ -40,7 +68,7 @@ const Wishlist = () => {
                   className="smr_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
-                  onClick={handleRemoveAll}
+                  onClick={handleRemoveAllDialog}
                 >
                   CLEAR ALL
                 </Link>
@@ -55,6 +83,7 @@ const Wishlist = () => {
           <WishlistData
             items={wishlistData}
             curr={CurrencyData}
+            itemInCart={itemInCart}
             decodeEntities={decodeEntities}
             WishCardImageFunc={WishCardImageFunc}
             handleRemoveItem={handleRemoveItem}
@@ -63,6 +92,14 @@ const Wishlist = () => {
         ) : (
           <SkeletonLoader />
         )}
+        <ConfirmationDialog
+          open={dialogOpen}
+          onClose={handleCloseDialog}
+          onConfirm={handleConfirmRemoveAll}
+          title="Confirm Clear All"
+          content="Are you sure you want to clear all items?"
+        />
+
         <Footer />
       </div>
       <div

@@ -25,7 +25,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           p: 4,
           display: 'flex',
           flexDirection: 'column',
-          borderRadius:'8px'
+          borderRadius: '8px',
         }}
       >
         <Typography id="remark-modal-title" variant="h6" component="h2">
@@ -33,7 +33,6 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
         </Typography>
         <TextField
           id="remark-modal-description"
-          // label="Remark"
           multiline
           rows={4}
           variant="outlined"
@@ -43,12 +42,12 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           sx={{ mt: 2 }}
         />
         <div className="smr_projectRemarkBtn-group">
-          <button className="smr_remarksave-btn" onClick={onSave}>
+          <Button className="smr_remarksave-btn" onClick={onSave}>
             Save
-          </button>
-          <button className="smr_remarkcancel-btn" onClick={onClose}>
+          </Button>
+          <Button className="smr_remarkcancel-btn" onClick={onClose}>
             Cancel
-          </button>
+          </Button>
         </div>
       </Box>
     </Modal>
