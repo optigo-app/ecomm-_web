@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -15,6 +15,8 @@ const CartItem = ({
   CartCardImageFunc,
   onSelect,
   isSelected,
+  selectedItem,
+  isActive,
   multiSelect,
   onRemove,
   itemLength,
@@ -27,6 +29,7 @@ const CartItem = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
+  const [isSelectedItems, setIsSelectedItems] = useState();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,14 +44,24 @@ const CartItem = ({
     handleClose();
   };
 
+  useEffect(() => {
+    handleIsSelected()
+  },[isSelected])
+
+  const handleIsSelected = () => {
+    let isselected = selectedItem?.id == item?.id
+    console.log('isselectedItems',isselected);
+    setIsSelectedItems()
+  }
 
   return (
-    <Grid item xs={12} sm={itemLength !== 1 ? 4 : 12} md={itemLength !== 1 ? 4 : 12}>
+    <Grid item xs={12} sm={itemLength == 2 ? 6 : 4}>
       <Card className='smr_cartListCard'
         sx={{ 
-          boxShadow: isSelected && 'none',
-          border:isSelected && '1px solid #af8238', 
-          maxWidth:450
+          boxShadow: selectedItem?.id == item?.id && 'none',
+          border:selectedItem?.id == item?.id && '1px solid #af8238', 
+          maxWidth:450,
+          width:390,
       }}
         onClick={() => onSelect(item)}
       >

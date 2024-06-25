@@ -1,7 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const handleWishlistToCartAPI = async (param, item) => {
-    debugger
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = localStorage.getItem("loginUserDetail");
     const { FrontEnd_RegNo } = storeInit;

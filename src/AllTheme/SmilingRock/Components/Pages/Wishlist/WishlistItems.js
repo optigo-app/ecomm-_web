@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 
-const WishlistItems = ({ item, itemsLength, currency, decodeEntities, WishCardImageFunc, handleRemoveItem, handleWishlistToCart }) => {
+const WishlistItems = ({ item, itemInCart, itemsLength, currency, decodeEntities, WishCardImageFunc, handleRemoveItem, handleWishlistToCart }) => {
 
     return (
         <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={3}>

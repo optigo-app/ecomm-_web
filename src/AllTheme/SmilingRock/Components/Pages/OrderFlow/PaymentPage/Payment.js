@@ -5,15 +5,21 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { useSetRecoilState } from 'recoil';
+import { CartCount } from '../../../Recoil/atom';
 // import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 
 const Payment = () => {
     const navigate = useNavigate();
+    const [countData, setCountData] = useState();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
+
+    const setCartCountVal = useSetRecoilState(CartCount)
 
     useEffect(() => {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -48,10 +54,17 @@ const Payment = () => {
     const handlePay = async () => {
         const paymentResponse = await handlePaymentAPI();
         console.log("paymentResponse", paymentResponse);
-        if (paymentResponse?.Data?.rd?.state == 1) {
-            // let num = response.Data?.rd[0]?.orderno
-            // localStorage.setItem('orderNumber', num)
+        if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+            let num = paymentResponse.Data?.rd[0]?.orderno
+            localStorage.setItem('orderNumber', num);
             navigate('/Confirmation')
+
+            GetCountAPI().then((res) => {
+                console.log('responseCount', res);
+                setCountData(res)
+                setCartCountVal(res?.cartcount)
+            })
+
         } else {
             toast.error('Something went wrong!')
         }

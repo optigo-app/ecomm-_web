@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './smr_cartPage.scss';
-import { Divider } from '@mui/material';
+import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 
 const Customization = ({
+  ispriceloding,
   selectedItem,
   qtyCount,
   handleIncrement,
@@ -15,7 +16,8 @@ const Customization = ({
   handleDiamondChange,
   handleColorStoneChange,
   handleSizeChange,
-  decodeEntities
+  decodeEntities,
+  onUpdateCart
 }) => {
 
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
@@ -75,34 +77,40 @@ const Customization = ({
             ))}
           </select>
         </div>
-
-        <div className="option">
-          <label htmlFor="size">Size:</label>
-          <select id="size" value={selectedItem?.size} onChange={handleSizeChange}>
-            {sizeCombo?.rd?.map(option => (
-              <option key={option?.id} value={option?.sizename}> {option?.sizename}</option>
-            ))}
-          </select>
-        </div>
+        {sizeCombo?.rd?.length !== 0 &&
+          <div className="option">
+            <label htmlFor="size">Size:</label>
+            <select id="size" value={selectedItem?.size} onChange={handleSizeChange}>
+              <option value=''>Select Size</option>
+              {sizeCombo?.rd?.map(option => (
+                <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
+              ))}
+            </select>
+          </div>
+        }
       </div>
       <div className='smr_cartQtyPricemainDev'>
         <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
         <div className="product-price">
-          <span>
-            <span
-              className="smr_currencyFont"
-              dangerouslySetInnerHTML={{
-                __html: decodeEntities(
-                  CurrencyData
-                ),
-              }}
-            />
-            {(selectedItem?.FinalCost)?.toFixed(3)}
-          </span>
+          {!ispriceloding ? (
+            <span>
+              <span
+                className="smr_currencyFont"
+                dangerouslySetInnerHTML={{
+                  __html: decodeEntities(
+                    CurrencyData
+                  ),
+                }}
+              />
+              {(selectedItem?.FinalCost)}
+            </span>
+          ) :
+            <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+          }
         </div>
       </div>
       <div className='smr_UpdateCartBtn'>
-        <button className="smr_cartUpdate-button">Save</button>
+        <button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
       </div>
     </div>
   );
