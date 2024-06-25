@@ -9,7 +9,7 @@ export const handleProductRemark = async (data, remarks) => {
         let customerEmail = loginUserDetail?.email1
 
         const combinedValue = {
-            designno: data.designno,
+            CartId: `${data?.id}`,
             autocode: data.autocode,
             remarks: remarks,
             FrontEnd_RegNo: FrontEnd_RegNo,

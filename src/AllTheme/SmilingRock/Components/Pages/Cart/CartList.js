@@ -17,6 +17,7 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
+  console.log('itemgsgdhas-', selectedItem);
   return (
     <div className="smr_RightCartList">
       <Grid container spacing={2}>
@@ -26,6 +27,7 @@ const CartList = ({
             item={item}
             CartCardImageFunc={CartCardImageFunc}
             onSelect={onSelect}
+            selectedItem={selectedItem}
             isActive={selectedItems.includes(item)}
             isSelected={multiSelect ? selectedItems.includes(item) : selectedItem === item}
             multiSelect={multiSelect}

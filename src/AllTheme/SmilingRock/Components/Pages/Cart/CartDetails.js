@@ -3,6 +3,7 @@ import './smr_cartPage.scss';
 import Customization from './Customization';
 
 const CartDetails = ({
+  ispriceloding,
   selectedItem,
   CartCardImageFunc,
   qtyCount,
@@ -22,7 +23,8 @@ const CartDetails = ({
   handleDiamondChange,
   handleColorStoneChange,
   handleSizeChange,
-  decodeEntities
+  onUpdateCart,
+  decodeEntities,
 }) => {
   return (
     <div className="smr_cart-container">
@@ -31,6 +33,7 @@ const CartDetails = ({
         <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage' />
       </div>
       <Customization
+        ispriceloding={ispriceloding}
         selectedItem={selectedItem}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
@@ -49,6 +52,7 @@ const CartDetails = ({
         handleColorStoneChange={handleColorStoneChange}
         handleSizeChange={handleSizeChange}
         decodeEntities={decodeEntities}
+        onUpdateCart={onUpdateCart}
       />
     </div>
   );

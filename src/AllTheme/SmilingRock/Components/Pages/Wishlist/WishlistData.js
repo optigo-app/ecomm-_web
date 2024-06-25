@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import WishlistItems from './WishlistItems';
 
 
-const WishlistData = ({ items, curr, decodeEntities, handleRemoveItem, handleWishlistToCart, WishCardImageFunc }) => {
+const WishlistData = ({ items, itemInCart, curr, decodeEntities, handleRemoveItem, handleWishlistToCart, WishCardImageFunc }) => {
 
   console.log('itemLength', items?.length);
 
@@ -17,6 +17,7 @@ const WishlistData = ({ items, curr, decodeEntities, handleRemoveItem, handleWis
                 key={item.id}
                 item={item}
                 currency={curr}
+                itemInCart={itemInCart}
                 decodeEntities={decodeEntities}
                 WishCardImageFunc={WishCardImageFunc}
                 itemsLength={items?.length}
