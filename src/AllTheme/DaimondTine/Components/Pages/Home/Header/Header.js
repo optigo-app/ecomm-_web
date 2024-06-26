@@ -42,6 +42,8 @@ const Header = () => {
 
     //this useEffect for the top header fixed
     useEffect(() => {
+        fetchData();
+        
         const handleScroll = () => {
             const scrollY = window.scrollY;
             if (scrollY > 100) {

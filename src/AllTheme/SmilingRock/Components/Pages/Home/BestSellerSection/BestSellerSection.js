@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import './PromoSetSection.modul.scss'
+import './BestSellerSection.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 
-const PromoSetSection = () => {
-
-    const [ring1ImageChange, setRing1ImageChange] = useState(false);
-    const [ring2ImageChange, setRing2ImageChange] = useState(false);
-    const [ring3ImageChange, setRing3ImageChange] = useState(false);
-    const [ring4ImageChange, setRing4ImageChange] = useState(false);
+const BestSellerSection = () => {
 
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData , setBestSellerData] = useState('')
@@ -38,33 +33,7 @@ const PromoSetSection = () => {
         }).catch((err) => console.log(err))
     }, [])
 
-    const handleMouseEnterRing1 = () => {
-        setRing1ImageChange(true)
-    }
-    const handleMouseLeaveRing1 = () => {
-        setRing1ImageChange(false)
-    }
-
-    const handleMouseEnterRing2 = () => {
-        setRing2ImageChange(true)
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing2ImageChange(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
+  
 
   return (
     <div>
@@ -77,7 +46,8 @@ const PromoSetSection = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[0]?.designno === undefined ? '' : bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension === undefined ? '' : bestSellerData[0]?.ImageExtension}`} className='likingLoveImages'/>
+                                  
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
@@ -86,11 +56,33 @@ const PromoSetSection = () => {
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[1]?.designno === undefined ? '' : bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension === undefined ? '' : bestSellerData[1]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[1]?.UnitCost}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='linkRingLove'>
+                            <div>
+                                <div className='linkLoveRing1'>
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[2]?.designno === undefined ? '' : bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension === undefined ? '' : bestSellerData[2]?.ImageExtension}`} className='likingLoveImages'/>
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[2]?.UnitCost}</p>
+
+                                </div>
+                            </div>
+                            <div>
+                                <div className='linkLoveRing2'>
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[3]?.designno === undefined ? '' : bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension === undefined ? '' : bestSellerData[3]?.ImageExtension}`} className='likingLoveImages'/>
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[3]?.UnitCost}</p>
 
                                 </div>
                             </div>
@@ -100,45 +92,21 @@ const PromoSetSection = () => {
                         <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[4]?.designno === undefined ? '' : bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension === undefined ? '' : bestSellerData[4]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[4]?.UnitCost}</p>
 
                                 </div>
                             </div>
                             <div>
                                 <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+                                <img src={ `${imageUrl}${bestSellerData && bestSellerData[5]?.designno === undefined ? '' : bestSellerData[5]?.designno}_1.${bestSellerData && bestSellerData[5]?.ImageExtension === undefined ? '' : bestSellerData[5]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div className='linkRingLove'>
-                            <div>
-                                <div className='linkLoveRing1'>
-                                    <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[9]?.designno}_1.${bestSellerData && bestSellerData[9]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[10]?.designno}_1.${bestSellerData && bestSellerData[10]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
-                                </div>
-                                <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
-
-                                </div>
-                            </div>
-                            <div>
-                                <div className='linkLoveRing2'>
-                                    <img src={!ring4ImageChange ? `${imageUrl} + ${bestSellerData && bestSellerData[11]?.designno} + "_" + 1 + "." + ${bestSellerData && bestSellerData[11]?.ImageExtension}` : `${imageUrl} + ${bestSellerData && bestSellerData[12]?.designno} + "_" + 1 + "." + ${bestSellerData && bestSellerData[12]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
-                                </div>
-                                <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+                                    <p className='smr_bestSellerPrice'>$ {bestSellerData[5]?.UnitCost}</p>
                                 </div>
                             </div>
 
@@ -155,7 +123,186 @@ const PromoSetSection = () => {
   )
 }
 
-export default PromoSetSection;
+export default BestSellerSection;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react'
+// import './BestSellerSection.modul.scss'
+// import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import Slider from 'react-slick';
+// import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+
+// const BestSellerSection = () => {
+
+//     const [ring1ImageChange, setRing1ImageChange] = useState(false);
+//     const [ring2ImageChange, setRing2ImageChange] = useState(false);
+//     const [ring3ImageChange, setRing3ImageChange] = useState(false);
+//     const [ring4ImageChange, setRing4ImageChange] = useState(false);
+
+//     const [imageUrl, setImageUrl] = useState();
+//     const [bestSellerData , setBestSellerData] = useState('')
+
+//     const settings = {
+//         dots: true,
+//         infinite: true,
+//         speed: 500,
+//         slidesToShow: 1,
+//         slidesToScroll: 1,
+//         arrows: false,
+//         // prevArrow: false, 
+//         // nextArrow: false,
+//     };
+
+//     useEffect(() => {
+//         let data = JSON.parse(localStorage.getItem('storeInit'))
+//         setImageUrl(data?.DesignImageFol);
+
+//         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller").then((response) => {
+//             if (response?.Data?.rd) {
+//                 setBestSellerData(response?.Data?.rd);
+//             }
+//         }).catch((err) => console.log(err))
+//     }, [])
+
+//     const handleMouseEnterRing1 = () => {
+//         setRing1ImageChange(true)
+//     }
+//     const handleMouseLeaveRing1 = () => {
+//         setRing1ImageChange(false)
+//     }
+
+//     const handleMouseEnterRing2 = () => {
+//         setRing2ImageChange(true)
+//     }
+//     const handleMouseLeaveRing2 = () => {
+//         setRing2ImageChange(false)
+//     }
+
+//     const handleMouseEnterRing3 = () => {
+//         setRing3ImageChange(true)
+//     }
+//     const handleMouseLeaveRing3 = () => {
+//         setRing3ImageChange(false)
+//     }
+
+//     const handleMouseEnterRing4 = () => {
+//         setRing4ImageChange(true)
+//     }
+//     const handleMouseLeaveRing4 = () => {
+//         setRing4ImageChange(false)
+//     }
+
+//   return (
+//     <div>
+//     <div className='linkingLoveMain' style={{marginTop: '120px'}}>
+//         <div className='linkingLove'>
+//             <p className='linkingTitle'>Best Seller</p>
+//             {/* <p className='linkingDesc'>Ready to share link with your loved ones!</p> */}
+//             <p className='linkingShopCol'>SHOP COLLECTION</p>
+//             <Slider {...settings} >
+//                         <div className='linkRingLove'>
+//                             <div>
+//                                 <div className='linkLoveRing1'>
+//                                     <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                 </div>
+//                             </div>
+//                             <div>
+//                                 <div className='linkLoveRing2'>
+//                                     <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
+//                                 </div>
+//                             </div>
+
+//                         </div>
+
+//                         <div className='linkRingLove'>
+//                             <div>
+//                                 <div className='linkLoveRing1'>
+//                                     <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
+//                                 </div>
+//                             </div>
+//                             <div>
+//                                 <div className='linkLoveRing2'>
+//                                     <img src={!ring4ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
+//                                 </div>
+//                             </div>
+
+//                         </div>
+
+//                         <div className='linkRingLove'>
+//                             <div>
+//                                 <div className='linkLoveRing1'>
+//                                     <img src={!ring3ImageChange ? `${imageUrl}${bestSellerData && bestSellerData[9]?.designno}_1.${bestSellerData && bestSellerData[9]?.ImageExtension}` : `${imageUrl}${bestSellerData && bestSellerData[10]?.designno}_1.${bestSellerData && bestSellerData[10]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing3} onMouseLeave={handleMouseLeaveRing3} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+
+//                                 </div>
+//                             </div>
+//                             <div>
+//                                 <div className='linkLoveRing2'>
+//                                     <img src={!ring4ImageChange ? `${imageUrl} + ${bestSellerData && bestSellerData[11]?.designno} + "_" + 1 + "." + ${bestSellerData && bestSellerData[11]?.ImageExtension}` : `${imageUrl} + ${bestSellerData && bestSellerData[12]?.designno} + "_" + 1 + "." + ${bestSellerData && bestSellerData[12]?.ImageExtension}`} className='likingLoveImages' onMouseEnter={handleMouseEnterRing4} onMouseLeave={handleMouseLeaveRing4} />
+//                                 </div>
+//                                 <div className='linkLoveRing1Desc'>
+//                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                 </div>
+//                             </div>
+
+//                         </div>
+//                     </Slider>
+                    
+//         </div>
+//         <div className='linkingLoveImage'>
+//             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
+//         </div>
+//     </div>
+    
+// </div>
+//   )
+// }
+
+// export default BestSellerSection;
 
 
 // import React, { useState } from 'react'
