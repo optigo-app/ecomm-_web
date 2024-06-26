@@ -23,7 +23,7 @@ const TopSection = () => {
 
     return (
         <div>
-            {islogin ? (
+            {!islogin ? (
                 <>
                     {loading ? (
                         <Skeleton variant="rectangular" width='100%' height={700} animation="wave" />

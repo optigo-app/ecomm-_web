@@ -1,6 +1,13 @@
 .el_header_main {
 
     // homePageFontFamily
+
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 11;
+    background-color: white;
+
     .el_withoutL_Header_Main {
         display: flex;
         justify-content: center;
@@ -45,7 +52,28 @@
         display: flex;
     }
 
-    .el_whioutL_li{
+    .el_whioutL_li {
         margin-inline: 15px;
     }
+
+    .el_login_header_main {
+        display: flex;
+        height: 80px;
+    }
+
+    .el_login_header_main_div1_logo {
+        max-width: 150px;
+    }
+
+    .el_login_header_main_div1_ul {
+        display: flex;
+        list-style: none;
+    }
+
+    .el_login_header_main_div2 {
+        display: flex;
+        list-style: none;
+    }
+
+    .el_login_header_main_div1 {}
 }

@@ -33,23 +33,26 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
 import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
+import Header2 from './Components/Pages/Home/Header/Header2'
 
 
 const SmilingRock_App = () => {
 
     const islogin = useRecoilValue(loginState)
 
-  const [localData, setLocalData] = useState();
+    const [localData, setLocalData] = useState();
 
-  useEffect(() => {
-    let localD = JSON.parse(localStorage.getItem('storeInit'));
-    setLocalData(localD);
-  },[])
+    useEffect(() => {
+        let localD = JSON.parse(localStorage.getItem('storeInit'));
+        setLocalData(localD);
+    }, [])
 
     return (
         <>
             <div>
                 {localData?.Headerno === 1 && <Header />}
+                {localData?.Headerno === 2 && <Header2 />}
+                {/* <Header2 /> */}
             </div>
             <Routes>
                 <Route path="/" element={<Home />} />

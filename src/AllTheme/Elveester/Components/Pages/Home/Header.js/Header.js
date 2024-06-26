@@ -18,6 +18,9 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(el_loginState);
 
   useEffect(() => {
+    const value = JSON.parse(localStorage.getItem('LoginUser'));
+    setislogin(value);
+    
     if (titleImg) {
       const storeInit = JSON.parse(localStorage.getItem('storeInit'));
       setCompanyTitleLogo(storeInit?.companylogo);
@@ -33,7 +36,6 @@ const Header = () => {
       window.location.href = '/';
       return;
     }
-
     const element = document?.getElementById(param);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
@@ -163,7 +165,7 @@ const Header = () => {
   const handleLogout = () => {
     setislogin(false)
     localStorage.clear();
-    localStorage.setItem('LoginUser', 'false');
+    localStorage.setItem('LoginUser', false);
     localStorage.removeItem('storeInit');
     localStorage.removeItem('loginUserDetail');
     localStorage.removeItem('remarks');
@@ -180,110 +182,96 @@ const Header = () => {
   return (
     <div className='el_header_main'>
 
-      <div className="el_withoutL_Header_Main ">
-        <ul className="el_withoutL_ul_Main">
-          <div className="el_whioutL_headerDiv1">
-            <li
-              className="el_whioutL_li"
-              style={{ cursor: "pointer" }}
-              onClick={() => ScrollToView('brandsComponentID')}
-            >
-              Our Brands
-            </li>
-            <li
-              className="el_whioutL_li"
-              style={{ cursor: "pointer" }}
-              onClick={() => ScrollToView('elveeGiftMainId')}
-            >
-              Product
-            </li>
-            <li
-              className="el_whioutL_li"
-              style={{ cursor: "pointer" }}
-              onClick={() => ScrollToView('craftmenshipId')}
-            >
-              Our Craftsmanship
-            </li>
-          </div>
-          <div className="el_whioutL_headerDiv2">
-            <a href="/">
-              {titleImg && <img src={titleImg} alt="Title" className="el_without_headerLogo" />}
-            </a>
-          </div>
-          <div className="el_whioutL_headerDiv3">
-            <div className='el_whioutL_headerDiv3_sub1'>
+      {!islogin ?
+        <div className="el_withoutL_Header_Main ">
+          <ul className="el_withoutL_ul_Main">
+            <div className="el_whioutL_headerDiv1">
               <li
                 className="el_whioutL_li"
                 style={{ cursor: "pointer" }}
-                onClick={() => ScrollToView('mainGalleryConatinerID')}
+                onClick={() => ScrollToView('brandsComponentID')}
               >
-                Gallery
+                Our Brands
               </li>
               <li
                 className="el_whioutL_li"
                 style={{ cursor: "pointer" }}
-                onClick={() => ScrollToView('mainSocialMediaConatinerID')}
+                onClick={() => ScrollToView('elveeGiftMainId')}
               >
-                Social Media
+                Product
               </li>
               <li
                 className="el_whioutL_li"
                 style={{ cursor: "pointer" }}
-              // onClick={() => navigation("/contact")}
+                onClick={() => ScrollToView('craftmenshipId')}
               >
-                Contact
+                Our Craftsmanship
               </li>
             </div>
-            <div className='el_whioutL_headerDiv3_sub2'>
-              <p style={{ fontSize: '14px', textTransform: 'capitalize', margin: '0px 20px 0px 0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
-                Log In
-              </p>
+            <div className="el_whioutL_headerDiv2">
+              <a href="/">
+                {titleImg && <img src={titleImg} alt="Title" className="el_without_headerLogo" />}
+              </a>
             </div>
-          </div>
-        </ul>
-      </div>
-
-      <div className="Smining-Top-LoginHeader">
-        <div
-          className="HeaderMenuItemMainDiv"
-        >
-          <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
-          </a>
-          <ul className="nav-ul-shop" style={{ height: '100%', display: 'flex', alignItems: 'center', listStyle: "none", padding: 0 }}>
-            {menuItems.map((item, index) => (
-              <li
-                className="nav-li-smining"
-                style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
-                key={index}
-                label={item.menuname}
-                onMouseEnter={() => { handleMouseEnter(index, item) }}
-                onMouseLeave={() => {
-                  handleMouseLeave();
-                }}
-                onClick={() => handleMenuClick(item)}
-              >
-                {item.menuname}<IoCaretDownSharp style={{ height: '24px', width: '20px', marginLeft: '3px' }} />
-              </li>
-            ))}
+            <div className="el_whioutL_headerDiv3">
+              <div className='el_whioutL_headerDiv3_sub1'>
+                <li
+                  className="el_whioutL_li"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => ScrollToView('mainGalleryConatinerID')}
+                >
+                  Gallery
+                </li>
+                <li
+                  className="el_whioutL_li"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => ScrollToView('mainSocialMediaConatinerID')}
+                >
+                  Social Media
+                </li>
+                <li
+                  className="el_whioutL_li"
+                  style={{ cursor: "pointer" }}
+                // onClick={() => navigation("/contact")}
+                >
+                  Contact
+                </li>
+              </div>
+              <div className='el_whioutL_headerDiv3_sub2'>
+                <p style={{ fontSize: '14px', textTransform: 'capitalize', margin: '0px 20px 0px 0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
+                  Log In
+                </p>
+              </div>
+            </div>
           </ul>
         </div>
+        :
+        <div className="el_login_header_main">
+          <div className="el_login_header_main_div1">
+            <a href="/">
+              {titleImg && <img src={titleImg} alt="Title" className="el_login_header_main_div1_logo" />}
+            </a>
+            <ul className="el_login_header_main_div1_ul">
+              {menuItems.map((item, index) => (
+                <li
+                  className="nav-li-smining"
+                  style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
+                  key={index}
+                  label={item.menuname}
+                  onMouseEnter={() => { handleMouseEnter(index, item) }}
+                  onMouseLeave={() => {
+                    handleMouseLeave();
+                  }}
+                  onClick={() => handleMenuClick(item)}
+                >
+                  {item.menuname}<IoCaretDownSharp style={{ height: '24px', width: '20px', marginLeft: '3px' }} />
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div
-          style={{
-            width: "30%",
-            display: "flex",
-            justifyContent: 'end',
-            marginRight: '20px'
-          }}
-        >
-          <ul className="nav-ul-shop-afterLogin">
+          <ul className="el_login_header_main_div2">
             <>
-              {/* {location?.pathname == '/productpage' &&
-                      <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={toggleOverlay}>
-                        <IoSearch color="#7D7F85" fontSize='25px' />
-                      </li>
-                    } */}
               <Badge
                 // badgeContent={getWishListCount}
                 max={1000}
@@ -332,8 +320,7 @@ const Header = () => {
             </li>
           </ul>
         </div>
-      </div>
-
+      }
     </div>
   )
 }
