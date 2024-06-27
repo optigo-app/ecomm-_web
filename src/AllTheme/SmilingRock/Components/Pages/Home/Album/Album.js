@@ -19,17 +19,17 @@ const Album = () => {
     }, [])
 
     console.log('albumData', albumData);
-    console.log('albumData imageUrl', imageUrl);
 
     return (
         <div className='smr_alubmMainDiv'>
             <p className='smr_albumTitle'>ALBUM</p>
             <div className='smr_albumALL_div'>
                 {
-                    albumData?.slice(0, 4).map((data , index) =>(
-                                <div key={index} className='smr_AlbumImageMain'>
-                                        <img src={imageUrl + data?.AlbumImageFol + '/' + data?.AlbumImageName} className='smr_AlbumImageMain_img'/>
-                                </div>
+                    albumData?.slice(0, 4).map((data, index) => (
+                        <div key={index} className='smr_AlbumImageMain'>
+                            <img src={imageUrl + data?.AlbumImageFol + '/' + data?.AlbumImageName} className='smr_AlbumImageMain_img' />
+                            <p className='smr_albumName'>{data?.AlbumName}</p>
+                        </div>
                     ))
                 }
             </div>

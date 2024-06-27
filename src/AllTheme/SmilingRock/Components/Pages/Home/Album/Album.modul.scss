@@ -5,15 +5,13 @@
     margin-inline: 60px;
 
     .smr_AlbumImageMain {
-        height: 300px;
+        height: fit-content;
         width: 300px;
         margin: 5px;
         cursor: pointer;
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
-
     }
 
-   
     .smr_albumTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
@@ -22,6 +20,12 @@
         margin-top: 50px;
     }
 
+    .smr_albumName{
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        margin: 0px 0px 10px 0px;
+        text-align: center;
+    }
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: contain;

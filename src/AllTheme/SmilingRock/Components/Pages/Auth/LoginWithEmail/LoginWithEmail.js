@@ -15,6 +15,7 @@ import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEma
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
+import Cookies from 'js-cookie';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -130,9 +131,11 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '','').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
+                console.log('responseresponse',response?.Data?.rd[0]?.Token);
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token); 
                 localStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)

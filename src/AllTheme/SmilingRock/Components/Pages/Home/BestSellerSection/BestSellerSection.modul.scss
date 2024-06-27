@@ -1,155 +1,166 @@
-
 @import '../../../scss/variable';
 
+.smr_bestSallerMain {
 
-.linkingLoveMain {
-    display: flex;
-    margin-top: 50px;
-    margin-inline: 90px;
-}
-
-.linkingLove {
-    width: 60%;
-    /* border-bottom: 1px solid; */
-}
-
-.linkingLoveImage {
-    width: 40%;
-    /* border: 1px solid; */
-}
-
-.linkingTitle {
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize5;
-    text-align: center;
-}
-
-.linkingDesc {
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize2;
-    margin: 0px;
-    text-align: center;
-}
-
-.linkingShopCol {
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize1;
-    text-align: center;
-}
-
-.linkRingLove {
-    display: flex !important;
-}
-
-.linkLoveRing1 {
-    /* border: 1px solid; */
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    padding: 5px;
-
-}
-
-.linkLoveRing1Desc {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.ring1Desc {
-    width: 70%;
-    text-align: center;
-    font-weight: 500;
-    color: $homePageFontColor;
-    font-family: $homePageFontFamily;
-    font-size: $fontSize3;
-    margin: 5px;
-
-}
-
-.linkLoveRing2 {
-    /* border: 1px solid; */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 5px;
-}
-
-.linkingLoveImageDesign {
-    height: 645px;
-    margin-top: 5px;
-    width: 100%;
-}
-
-.likingLoveImages {
-    height: 400px;
-    cursor: pointer;
-}
-
-.smr_bestSellerPrice{
-    color: $homePageFontColor;
-    margin: 0px;
-    font-weight: 600;
-}
-@media screen and (max-width: 1700px) {
-
-    .linkingLoveImageDesign {
-        height: 100% !important;
-        width: 100% !important;
-    }
-
-
-    .likingLoveImages {
-        /* height: 100% !important; */
-        width: 100% !important;
-    }
-
-}
-
-@media screen and (max-width: 1000px) {
 
     .linkingLoveMain {
         display: flex;
-        margin-top: 10px;
-        flex-direction: column;
-        margin-inline: 10px;
+        margin-top: 50px;
+        margin-inline: 90px;
     }
 
-    .linkingLoveMain2{
-        margin-top: 30px;
-    }
     .linkingLove {
-        width: 100%;
-        order: 2;
+        width: 60%;
+        /* border-bottom: 1px solid; */
     }
 
     .linkingLoveImage {
-        width: 100%;
-        order: 1;
+        width: 40%;
+        /* border: 1px solid; */
+    }
+
+    .linkingTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+    }
+
+    .linkingDesc {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize2;
+        margin: 0px;
+        text-align: center;
+    }
+
+    .linkingShopCol {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize1;
+        text-align: center;
+    }
+
+    .linkRingLove {
+        display: flex !important;
+    }
+
+    .linkLoveRing1 {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        padding: 5px;
+
+    }
+
+    .linkLoveRing1Desc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ring1Desc {
+        width: 70%;
+        text-align: center;
+        font-weight: 500;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize3;
+        margin: 5px;
+
+    }
+
+    .linkLoveRing2 {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 5px;
     }
 
     .linkingLoveImageDesign {
-        height: 100%;
-        width: 100%;
+        height: 645px;
         margin-top: 5px;
+        width: 100%;
     }
 
     .likingLoveImages {
-        height: 250px;
+        height: 400px;
+        cursor: pointer;
     }
 
-    .linkRingLoveSubMain{
-        height: 250px!important;
-        width: 50%!important;
+    .smr_bestSellerPrice {
+        color: $homePageFontColor;
+        margin: 0px;
+        font-weight: 600;
     }
-}
 
-@media screen and (max-width: 420px) {
 
-    .likingLoveImages {
-        height: 150px;
+    @media screen and (max-width: 1200px) {
+       
+        .linkingLoveMain{
+            margin-inline: 10px!important;
+        }
+        .likingLoveImages{
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+
+        .linkingLoveMain {
+            display: flex;
+            margin-top: 10px;
+            flex-direction: column;
+            margin-inline: 10px;
+        }
+
+        .linkingLoveMain2 {
+            margin-top: 30px;
+        }
+
+        .linkingLove {
+            width: 100%;
+            order: 2;
+        }
+
+        .linkingLoveImage {
+            width: 100%;
+            order: 1;
+        }
+
+        .likingLoveImages {
+            width: 100%;
+        }
+
+        .linkingLoveMain {
+            margin-inline: 10px !important;
+        }
+
+
+        .likingLoveImages {
+            height: 250px;
+        }
+
+        .linkRingLoveSubMain {
+            height: 250px !important;
+            width: 50% !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .linkingLoveImageDesign {
+            object-fit: contain;
+            height: auto!important;
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+
+        .likingLoveImages {
+            height: 150px;
+        }
     }
 }

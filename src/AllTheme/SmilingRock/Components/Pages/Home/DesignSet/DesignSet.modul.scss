@@ -64,6 +64,7 @@
       .smr_designSetDiv{
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
         margin: 5px;
+        cursor: pointer;
       }
 
     .designSetTitle {
@@ -74,6 +75,11 @@
         text-align: center;
     }
 
+    .smr_designList_title{
+      color: $homePageFontColor;
+      margin: 0px 0px 5px 0px;
+      text-align: center;
+    }
     .smr_designSetShowAll {
         text-decoration: underline;
         cursor: pointer;
