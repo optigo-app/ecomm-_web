@@ -12,6 +12,7 @@ import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../ConfirmationDialog.js/ConfirmationDialog';
 import { CartCount } from '../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
+import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 
 const CartPage = () => {
   const {
@@ -28,6 +29,7 @@ const CartPage = () => {
     sizeCombo,
     CurrencyData,
     countData,
+    mrpbasedPriceFlag,
     CartCardImageFunc,
     handleSelectItem,
     handleIncrement,
@@ -48,8 +50,8 @@ const CartPage = () => {
     handleDiamondChange,
     handleColorStoneChange,
     handleSizeChange,
-    decodeEntities
-
+    decodeEntities,
+    handleMoveToDetail
   } = useCart();
 
   const navigate = useNavigate();
@@ -71,6 +73,12 @@ const CartPage = () => {
   }
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [countstatus, setCountStatus] = useState();
+
+  useEffect(() => {
+    const iswishUpdateStatus = localStorage.getItem('cartUpdation');
+    setCountStatus(iswishUpdateStatus)
+  }, [handleRemoveItem, handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -79,18 +87,19 @@ const CartPage = () => {
   const handleConfirmRemoveAll = () => {
     setDialogOpen(false);
     handleRemoveAll();
+    setTimeout(() => {
+      if (countstatus) {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCartCountVal(res?.cartcount);
+        })
+      }
+    }, 500)
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
-
-
-  useEffect(() => {
-    setCartCountVal(countData?.cartcount);
-    console.log('rasdasjdgjhasg--', cartData);
-  }, [cartData, handleRemoveItem, handleRemoveAll])
-
 
   return (
     <div className='smr_MainBGDiv'>
@@ -146,7 +155,7 @@ const CartPage = () => {
                 <div className="smr_cart-right-side">
                   {selectedItem && (
                     <CartDetails
-                    ispriceloding={ispriceloding}
+                      ispriceloding={ispriceloding}
                       selectedItem={selectedItem}
                       CartCardImageFunc={CartCardImageFunc}
                       handleIncrement={handleIncrement}
@@ -155,6 +164,7 @@ const CartPage = () => {
                       multiSelect={multiSelect}
                       sizeCombo={sizeCombo}
                       CurrencyData={CurrencyData}
+                      mrpbasedPriceFlag={mrpbasedPriceFlag}
                       handleMetalTypeChange={handleMetalTypeChange}
                       handleMetalColorChange={handleMetalColorChange}
                       handleDiamondChange={handleDiamondChange}
@@ -162,6 +172,7 @@ const CartPage = () => {
                       handleSizeChange={handleSizeChange}
                       decodeEntities={decodeEntities}
                       onUpdateCart={handleUpdateCart}
+                      handleMoveToDetail={handleMoveToDetail}
                     />
                   )}
                 </div>

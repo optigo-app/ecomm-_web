@@ -6,9 +6,13 @@ import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image
 import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
+import pako from 'pako';
+import { useNavigate } from 'react-router-dom';
 
 const Usewishlist = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [isWLLoading, setIsWlLoading] = useState(false);
+  const [updateCount, setUpdateCount] = useState();
   const [itemInCart, setItemInCart] = useState();
   const [storeInit, setStoreInit] = useState();
   const [countData, setCountData] = useState();
@@ -16,6 +20,7 @@ const Usewishlist = () => {
   const [wishlistData, setWishlistData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [countDataUpdted, setCountDataUpdated] = useState();
 
 
   useEffect(() => {
@@ -31,18 +36,13 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
-    setIsLoading(true);
+    setIsWlLoading(true);
     try {
       const response = await fetchWishlistDetails();
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
-        setIsLoading(false);
-
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setIsWlLoading(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -69,16 +69,15 @@ const Usewishlist = () => {
       console.log('response--', response);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
-
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
       } else {
         console.log('Failed to remove product or product not found');
+        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
+      setUpdateCount(false);
     }
   };
 
@@ -88,15 +87,15 @@ const Usewishlist = () => {
       const response = await removeFromCartList('IsDeleteAll', param);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
         setWishlistData([]);
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
       } else {
         console.log('Failed to remove all products or products not found');
+        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
     }
   };
@@ -109,14 +108,14 @@ const Usewishlist = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
         console.log('responseWisData', resStatus);
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
+      localStorage.setItem('wishUpdation', false)
     }
   };
 
@@ -128,15 +127,14 @@ const Usewishlist = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
         console.log('All wishlist items added to cart');
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
-        // update the state if needed, e.g., mark all items as added to cart
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
+      localStorage.setItem('wishUpdation', false)
     }
   };
 
@@ -156,18 +154,65 @@ const Usewishlist = () => {
     return finalprodListimg;
   }
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (wishtData) =>{
+    debugger
+
+    console.log('wishtData',wishtData);
+
+    // let output = FilterValueWithCheckedOnly()
+
+
+    let obj = {
+      a:wishtData?.autocode,
+      b:wishtData?.designno,
+      m:wishtData?.metaltypeid,
+      d:`${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
+      c:`${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
+      f:{}
+    }
+
+    console.log("wishtDataobj",obj);
+
+    compressAndEncode(JSON.stringify(obj))
+
+    // decodeAndDecompress()
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+    navigate(`/productdetail/${wishtData?.TitleLine.replace(/\s+/g,`_`)}${wishtData?.TitleLine?.length > 0 ? "_" :""}${wishtData?.designno}?p=${encodeObj}`)
+
+  }
+
+console.log("lohjshjuhajuh", isWLLoading)
   return {
-    isLoading,
+    isWLLoading,
     wishlistData,
     CurrencyData,
-    countData,
+    updateCount,
     itemInCart,
+    updateCount,
+    countDataUpdted,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,
     handleRemoveAll,
     handleWishlistToCart,
-    handleAddtoCartAll
+    handleAddtoCartAll,
+    handleMoveToDetail
   };
 };
 

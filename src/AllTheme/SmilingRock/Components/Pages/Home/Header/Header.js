@@ -27,6 +27,8 @@ const Header = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
   const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
 
+  const[searchText,setSearchText] = useState("")
+
   let navigate = useNavigate();
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
@@ -288,6 +290,15 @@ const Header = () => {
 
 
 
+ const searchDataFucn = (e) => {
+  if(e.key === 'Enter'){
+    if(searchText){
+      navigation(`/productlist`, { state: {SearchVal:searchText}})
+    }
+  }
+ }
+
+
   return (
     <div className='smr_headerMain_div'>
 
@@ -299,11 +310,11 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Enter Design Number End Click Enter"
-                // value={searchText}
+                value={searchText}
                 autoFocus
-                // onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => setSearchText(e.target.value)}
                 className="smr_serachinputBoxOverly"
-              // onKeyDown={searchDataFucn}
+                onKeyDown={searchDataFucn}
               />
               <IoClose
                 style={{
@@ -323,11 +334,11 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Enter Design Number End Click Enter"
-                // value={searchText}
+                value={searchText}
                 autoFocus
-                // onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => setSearchText(e.target.value)}
                 className="smr_serachinputBoxOverly"
-              // onKeyDown={searchDataFucn}
+              onKeyDown={searchDataFucn}
               />
               <IoClose
                 style={{
