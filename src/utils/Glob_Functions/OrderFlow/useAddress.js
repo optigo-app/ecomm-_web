@@ -250,7 +250,7 @@ export const useAddress = () => {
             navigation('/payment');
             window.scrollTo(0, 0);
         } else {
-            // toast.error('Please select a default address');
+
         }
     };
 

@@ -15,6 +15,7 @@ const CartDetails = ({
   sizeCombo,
   showRemark,
   CurrencyData,
+  mrpbasedPriceFlag,
   handleRemarkChange,
   handleSave,
   handleCancel,
@@ -42,6 +43,7 @@ const CartDetails = ({
         productRemark={productRemark}
         sizeCombo={sizeCombo}
         CurrencyData={CurrencyData}
+        mrpbasedPriceFlag={mrpbasedPriceFlag}
         handleAddReamrk={handleAddReamrk}
         handleRemarkChange={handleRemarkChange}
         handleSave={handleSave}
