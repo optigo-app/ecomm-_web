@@ -19,6 +19,7 @@ import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandW
 import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
+import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 
 const ProductList = () => {
 
@@ -46,11 +47,13 @@ const ProductList = () => {
   const [selectedDiaId,setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId,setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
+  const [rollOverImgPd,setRolloverImgPd] = useState()
+
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  console.log("productListData",productListData);
+  console.log("finalProductListData",finalProductListData);
 
   useEffect(()=>{
     window.scroll({
@@ -62,9 +65,17 @@ const ProductList = () => {
   let location = useLocation();
   let navigate = useNavigate();
 
+  
+  console.log("searchVal",location?.state?.SearchVal);
   useEffect(()=>{
-
-  },[])
+    if(location?.state?.SearchVal !== undefined){ 
+      setTimeout(()=>{
+        SearchProduct(location?.state?.SearchVal).then((res)=>{
+          console.log("search",res)
+        })
+      },500)
+    }
+  },[location?.key])
 
   useEffect(()=>{
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -82,7 +93,9 @@ const ProductList = () => {
 
   useEffect(()=>{
     let param = JSON.parse(localStorage.getItem("menuparams"))
-    setMenuParams(param)
+    if(location?.state?.SearchVal === undefined){
+      setMenuParams(param)
+     }
   },[location?.key,productListData,filterChecked])
   // },[location?.state?.menu,productListData,filterChecked])
 
@@ -90,7 +103,9 @@ const ProductList = () => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
     let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
     setIsProdLoading(true)
-      ProductListApi({},currPage,obj)
+      // ProductListApi({},currPage,obj)
+     if(location?.state?.SearchVal === undefined){ 
+      ProductListApi({},1,obj)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -120,6 +135,7 @@ const ProductList = () => {
           return forWardResp1
         }).finally(()=> setIsProdLoading(false))
         .catch((err) => console.log("err", err))
+      }
   }, [location?.key])
 
   useEffect(() => {
@@ -136,6 +152,18 @@ const ProductList = () => {
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
 
+        let pdImgList = [];
+
+        if(product?.ImageCount > 0){
+          for(let i = 1; i <= product?.ImageCount; i++){
+            let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+            pdImgList.push(imgString)
+          }
+        }
+        else{
+          pdImgList.push(imageNotFound)
+        }
+
       let price = 0;
       let markup = 0;
       let metalrd = 0;
@@ -149,6 +177,7 @@ const ProductList = () => {
       let updCPCS = 0;
       let ismrpbase;
       let mrpbaseprice;
+      let images = pdImgList;
 
       if (newPriceData || newPriceData1 || newPriceData2) {
         price =
@@ -189,32 +218,15 @@ const ProductList = () => {
         updCPCS,
         ismrpbase,
         mrpbaseprice,
+        images
       };
     });
 
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
-    
   }, [productListData, priceListData]);
 
-  const decodeEntities = (html) => {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  }
-
-  const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
-    if (pPrice <= 0) {
-      return 0
-    }
-    else if (pmu <= 0) {
-      return pPrice
-    }
-    else {
-      let percentPMU = ((pmu / 100) / curr)
-      return (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))
-    }
-  }
+  
 
   const ProdCardImageFunc = (pd,j) => {
     let finalprodListimg;
@@ -237,6 +249,27 @@ const ProductList = () => {
     }
     return finalprodListimg
   }
+
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
+  const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
+    if (pPrice <= 0) {
+      return 0
+    }
+    else if (pmu <= 0) {
+      return pPrice
+    }
+    else {
+      let percentPMU = ((pmu / 100) / curr)
+      return (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))
+    }
+  }
+
+  
 
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
@@ -272,7 +305,9 @@ const ProductList = () => {
    let output = FilterValueWithCheckedOnly()
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    setIsOnlyProdLoading(true)
-    ProductListApi(output,1,obj)
+
+   if(location?.state?.SearchVal === undefined){
+      ProductListApi(output,1,obj)
         .then((res) => {
           if (res) {
 
@@ -297,6 +332,7 @@ const ProductList = () => {
         //   }
         // })
         .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+      }
 
   },[filterChecked])
 
@@ -406,31 +442,34 @@ const ProductList = () => {
 
     setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
-    ProductListApi(output,currPage,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
-        .catch((err) => console.log("err", err))
-        .finally(()=>{
-          setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
-            setIsOnlyProdLoading(false)
-          }, 100);
-        })
+
+    if(location?.state?.SearchVal === undefined){
+      ProductListApi(output,currPage,obj)
+          .then((res) => {
+            if (res) {
+              setProductListData(res?.pdList);
+              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            }
+            return res;
+          })
+          .then( async(res) => {
+            if (res) {
+              await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+                if(resp){
+                  setPriceListData(resp)  
+                }
+              })
+            }
+            return res
+          })
+          .catch((err) => console.log("err", err))
+          .finally(()=>{
+            setTimeout(() => {
+              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+              setIsOnlyProdLoading(false)
+            }, 100);
+          })
+    }
   }
 
   useEffect(()=>{
@@ -505,18 +544,12 @@ const ProductList = () => {
 
   }
 
-  const handelRolloverImage = (pd,e,type) =>{
-    const images = document.getElementById(`smr_productCard_Image${e?.target?.id}`);
-
-    if(images && type == "enter"){
-      images.src = ProdCardImageFunc(pd,2)
-    }
-    if(images && type == "leave"){
-      images.src = ProdCardImageFunc(pd,1)
+  const handleImgRollover = (pd,i) =>{
+    if(pd?.images?.length >=1){
+      setRolloverImgPd((prev)=>{ return {...prev,[i]:pd?.images[1] }})
     }
   }
 
-  
 
   return (
     <div id="top">
@@ -532,7 +565,7 @@ const ProductList = () => {
               <>
                 <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
-
+                     <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
                   </div>
 
                   <div className="smr_main_sorting_div">
@@ -772,7 +805,7 @@ const ProductList = () => {
                       <div className="smr_outer_portion">
                       {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                       <div className="smr_inner_portion">
-                        {finalProductListData?.map((productData) => (
+                        {finalProductListData?.map((productData,i) => (
                           <div className="smr_productCard">
                             <div className="cart_and_wishlist_icon">
                               {/* <Button className="smr_cart-icon"> */}
@@ -843,11 +876,11 @@ const ProductList = () => {
 
                               id={`smr_productCard_Image${productData?.autocode}`}
                               // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                              src={ProdCardImageFunc(productData,0)}
+                              // src={ ProdCardImageFunc(productData,0)}
+                              src={productData?.images?.length > 0 ? productData?.images[0] :  imageNotFound}
                               alt=""
                               onClick={()=>handleMoveToDetail(productData)}
-                              onMouseEnter={(e)=>handelRolloverImage(productData,e,"enter")}
-                              onMouseLeave={(e)=>handelRolloverImage(productData,e,"leave")}
+                              onMouseEnter={()=>{handleImgRollover(productData,i)}}
                             />
                             <div className="smr_prod_Title" >
                               <span
