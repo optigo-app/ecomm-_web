@@ -42,7 +42,7 @@ const Customization = ({
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
-  console.log('selectedItems---', mrpbasedPriceFlag);
+  console.log('selectedItems---', selectedItem);
   return (
     <div className="smr_Cart_R-details">
       <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
@@ -118,9 +118,9 @@ const Customization = ({
           {sizeCombo?.rd?.length !== 0 &&
             <div className="option">
               <label htmlFor="size">Size:</label>
-              <select id="size" value={selectedItem?.detail_ringsize} onChange={handleSizeChange}>
+              <select id="size" value={selectedItem?.size} onChange={handleSizeChange}>
                 {mrpbasedPriceFlag == 1 ? (
-                  <option value={selectedItem?.detail_ringsize}>{selectedItem?.detail_ringsize}</option>
+                  <option value={selectedItem?.size}>{selectedItem?.size}</option>
                 ) :
                   <>
                     <option value=''>Select Size</option>

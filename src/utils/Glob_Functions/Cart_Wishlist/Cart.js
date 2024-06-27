@@ -10,8 +10,11 @@ import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from '../../../AllTheme/SmilingRock/Components/Recoil/atom';
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import { updateCartAPI } from '../../API/CartAPI/UpdateCartAPI';
+import pako from 'pako';
+import { useNavigate } from 'react-router-dom';
 
 const useCart = () => {
+  const navigate = useNavigate();
   const [isloding, setIsLoading] = useState(false);
   const [ispriceloding, setIsPriceLoding] = useState(false);
   const [countData, setCountData] = useState();
@@ -51,7 +54,6 @@ const useCart = () => {
   const [sizeChangeData, setSizeChangeData] = useState();
   const [markupData, setMarkUpData] = useState();
   const [filterMetalPriceData, setFilterMetalPriceData] = useState();
-  const [mrpbasedPriceFlag, setmrpBasedPriceFlag] = useState(0);
   const [finalPrice, setFinalPrice] = useState();
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
 
@@ -584,6 +586,7 @@ const useCart = () => {
   }
 
   const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
+    debugger;
     console.log("pricewithmarkup", pmu, pPrice)
     if (pPrice <= 0) {
       return 0
@@ -599,7 +602,7 @@ const useCart = () => {
       }
       return price;
     }
-  }
+  }                    
 
   const handleFinalPriceCalculate = () => {
     console.log("TotalPrice--", mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice);
@@ -642,47 +645,26 @@ const useCart = () => {
 
   };
 
-  const handleMrpBasedPrice = (mrpprice) => {
-    debugger
-    console.log('mrpprice', mrpprice);
-    if (mrpprice) {
-      let mrpPrice = mrpprice[0]?.Z
-      setFinalPriceWithMarkup(mrpPrice)
-      if (mrpPrice) {
-        setIsPriceLoding(false);
-        setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: mrpPrice }));
-      }
-    }
-  }
-
 
   useEffect(() => {
-    debugger
-    let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
     let timeoutId;
     timeoutId = setTimeout(() => {
       setIsPriceLoding(true);
-      if (filteredMtData[0]?.U != 1) {
-        if (sizeId) {
-          if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined && mtSizeprice !== undefined && diaSizeprice !== undefined && csSizeprice !== undefined) {
-            handleFinalPriceCalculate();
-          }
-        } else {
-          if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined) {
-            handleFinalPriceCalculate();
-          }
+      if (sizeId) {
+        if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined && mtSizeprice !== undefined && diaSizeprice !== undefined && csSizeprice !== undefined) {
+          handleFinalPriceCalculate();
         }
-        setmrpBasedPriceFlag(0)
       } else {
-        handleMrpBasedPrice(filteredMtData);
-        setmrpBasedPriceFlag(1)
+        if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined) {
+          handleFinalPriceCalculate();
+        }
       }
     }, 4000);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, handleFinalPriceCalculate, handleMrpBasedPrice]);
+  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, handleFinalPriceCalculate]);
 
 
   useEffect(() => {
@@ -693,13 +675,13 @@ const useCart = () => {
         colUpdatedPrice();
 
         if (storeInit?.IsProductWebCustomization === 1) {
-          if (storeInit?.IsMetalCustomization === 1) {
+          if (storeInit?.IsMetalCustomization == 1) {
             handleSizeWiseDiaPrice();
           }
-          if (storeInit?.IsCsCustomization === 1) {
+          if (storeInit?.IsCsCustomization == 1) {
             handleSizeWiseCSPrice();
           }
-          if (storeInit?.IsDiamondCustomization === 1) {
+          if (storeInit?.IsDiamondCustomization == 1) {
             handleSizeWiseMetalPrice();
           }
         }
@@ -708,7 +690,6 @@ const useCart = () => {
 
     return () => clearTimeout(timeoutId);
   }, [cartData, getSinglePriceData, metalID, diaIDData, colorStoneID, sizeId, storeInit]);
-
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -727,6 +708,42 @@ const useCart = () => {
   }
 
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (cartData) => {
+
+    console.log("cartDataDet", cartData);
+
+    let obj = {
+      a: cartData?.autocode,
+      b: cartData?.designno,
+      m: cartData?.metaltypeid,
+      d: diaIDData,
+      c: colorStoneID,
+      f: {}
+    }
+    console.log('hdjhsjj777--', obj);
+    compressAndEncode(JSON.stringify(obj))
+
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+    navigate(`/productdetail/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
+
+  }
+
   return {
     isloding,
     ispriceloding,
@@ -741,7 +758,6 @@ const useCart = () => {
     sizeCombo,
     CurrencyData,
     countData,
-    mrpbasedPriceFlag,
     CartCardImageFunc,
     handleSelectItem,
     handleIncrement,
@@ -762,7 +778,8 @@ const useCart = () => {
     handleDiamondChange,
     handleColorStoneChange,
     handleSizeChange,
-    decodeEntities
+    decodeEntities,
+    handleMoveToDetail
   };
 };
 
