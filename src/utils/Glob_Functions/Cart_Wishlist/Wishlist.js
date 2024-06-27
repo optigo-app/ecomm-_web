@@ -8,7 +8,8 @@ import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/R
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 
 const Usewishlist = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isWLLoading, setIsWlLoading] = useState(false);
+  const [updateCount, setUpdateCount] = useState();
   const [itemInCart, setItemInCart] = useState();
   const [storeInit, setStoreInit] = useState();
   const [countData, setCountData] = useState();
@@ -16,6 +17,7 @@ const Usewishlist = () => {
   const [wishlistData, setWishlistData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [countDataUpdted, setCountDataUpdated] = useState();
 
 
   useEffect(() => {
@@ -31,18 +33,13 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
-    setIsLoading(true);
+    setIsWlLoading(true);
     try {
       const response = await fetchWishlistDetails();
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
-        setIsLoading(false);
-
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setIsWlLoading(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -69,16 +66,15 @@ const Usewishlist = () => {
       console.log('response--', response);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
-
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
       } else {
         console.log('Failed to remove product or product not found');
+        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
+      setUpdateCount(false);
     }
   };
 
@@ -88,15 +84,15 @@ const Usewishlist = () => {
       const response = await removeFromCartList('IsDeleteAll', param);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
         setWishlistData([]);
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
       } else {
         console.log('Failed to remove all products or products not found');
+        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
     }
   };
@@ -109,14 +105,14 @@ const Usewishlist = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
         console.log('responseWisData', resStatus);
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
+      localStorage.setItem('wishUpdation', false)
     }
   };
 
@@ -128,15 +124,14 @@ const Usewishlist = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
+        setCountDataUpdated(resStatus)
+        localStorage.setItem('wishUpdation', true)
         console.log('All wishlist items added to cart');
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
-        // update the state if needed, e.g., mark all items as added to cart
       }
     } catch (error) {
+      setUpdateCount(false);
       console.error("Error:", error);
+      localStorage.setItem('wishUpdation', false)
     }
   };
 
@@ -155,13 +150,15 @@ const Usewishlist = () => {
     }
     return finalprodListimg;
   }
-
+console.log("lohjshjuhajuh", isWLLoading)
   return {
-    isLoading,
+    isWLLoading,
     wishlistData,
     CurrencyData,
-    countData,
+    updateCount,
     itemInCart,
+    updateCount,
+    countDataUpdted,
     decodeEntities,
     WishCardImageFunc,
     handleRemoveItem,

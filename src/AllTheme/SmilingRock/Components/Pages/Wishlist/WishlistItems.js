@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./smr_wishlist.scss"
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -6,8 +6,61 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSetRecoilState } from 'recoil';
+import { CartCount, WishCount } from '../../Recoil/atom';
+import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 
-const WishlistItems = ({ item, itemInCart, itemsLength, currency, decodeEntities, WishCardImageFunc, handleRemoveItem, handleWishlistToCart }) => {
+const WishlistItems = (
+    {
+        item,
+        itemInCart,
+        updateCount,
+        countDataUpdted,
+        itemsLength,
+        currency,
+        decodeEntities,
+        WishCardImageFunc,
+        handleRemoveItem,
+        handleWishlistToCart
+    }) => {
+
+    const setWishCountVal = useSetRecoilState(WishCount)
+    const setCartCountVal = useSetRecoilState(CartCount)
+    const [countstatus, setCountStatus] = useState();
+
+    useEffect(() => {
+        const iswishUpdateStatus = localStorage.getItem('wishUpdation');
+        setCountStatus(iswishUpdateStatus)
+    }, [handleRemoveItem,handleWishlistToCart])
+
+
+    console.log('countstatus',countstatus);
+
+    console.log('countDataUpdted', countDataUpdted);
+    const handleWishlistToCartFun = (item) => {
+        handleWishlistToCart(item);
+        if (countstatus) {
+            GetCountAPI().then((res) => {
+                console.log('responseCount', res);
+                setCartCountVal(res?.cartcount);
+            })
+        }
+        setTimeout(() => {
+        }, 500)
+    }
+
+
+    const handleRemoveItemFun = () => {
+        handleRemoveItem(item);
+        setTimeout(() => {
+            if (countstatus) {
+                GetCountAPI().then((res) => {
+                    console.log('responseCount', res);
+                    setWishCountVal(res?.wishcount);
+                })
+            }
+        }, 500)
+    }
 
     return (
         <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={3}>
@@ -51,12 +104,13 @@ const WishlistItems = ({ item, itemInCart, itemsLength, currency, decodeEntities
                         </div> */}
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
-                        <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCart(item)}>
+                        <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
                             {item?.IsInCart !== 1 ? "Add to cart +" : "Already in cart"}
                         </button>
+
                     </div>
                 </div>
-                <div className='closeWlIconDiv' onClick={(e) => { e.stopPropagation(); handleRemoveItem(item); }}>
+                <div className='closeWlIconDiv' onClick={(e) => handleRemoveItemFun(item)}>
                     <CloseIcon className='closeWlIcon' />
                 </div>
             </Card>

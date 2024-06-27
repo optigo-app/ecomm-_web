@@ -10,13 +10,15 @@ import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
+import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 
 const Wishlist = () => {
   const {
-    isloding,
+    isWLLoading,
     wishlistData,
     CurrencyData,
-    countData,
+    updateCount,
+    countDataUpdted,
     itemInCart,
     decodeEntities,
     WishCardImageFunc,
@@ -26,42 +28,66 @@ const Wishlist = () => {
     handleAddtoCartAll
   } = Usewishlist();
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const setWishCountVal = useSetRecoilState(WishCount)
   const setCartCountVal = useSetRecoilState(CartCount)
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [countstatus, setCountStatus] = useState();
+
+  useEffect(() => {
+      const iswishUpdateStatus = localStorage.getItem('wishUpdation');
+      setCountStatus(iswishUpdateStatus)
+  }, [handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
 
+
   const handleConfirmRemoveAll = () => {
     setDialogOpen(false);
     handleRemoveAll();
+    setTimeout(() => {
+      if (countstatus) {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setWishCountVal(res?.wishcount);
+        })
+      }
+    }, 500)
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
 
-  useEffect(() => {
-    setWishCountVal(countData?.wishcount);
-    setCartCountVal(countData?.cartcount)
-    console.log('rasdasjdgjhasg--',countData);
-  },[wishlistData, handleWishlistToCart, handleAddtoCartAll, handleRemoveItem,handleRemoveAll])
+
+  const handleAddtoCartAllfun = () => {
+    handleAddtoCartAll();
+    setTimeout(() => {
+      if (countstatus) {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCartCountVal(res?.cartcount);
+        })
+      }
+    }, 500)
+  }
 
   function scrollToTop() {
     window.scrollTo({
-      top: 0, 
+      top: 0,
       behavior: "smooth",
     });
   }
-  console.log("cartdata--", wishlistData);
+
+  console.log("cartdataCount--", wishlistData);
+
   return (
     <div className="smr_MainWlDiv">
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           <div className="smr_Wl-title">My Wishlist</div>
-          {wishlistData?.length !== 0 && (
+          {wishlistData?.length != 0 &&
             <>
               <div className="smr_WlButton-group">
                 <Link
@@ -73,15 +99,19 @@ const Wishlist = () => {
                   CLEAR ALL
                 </Link>
                 {/* <button className='smr_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
-                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAll}>ADD TO CART ALL</button>
+                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
                 {/* <button className='smr_WlBtn'>SHOW PRODUCT LIST</button> */}
               </div>
             </>
-          )}
+          }
+
         </div>
-        {!isloding ? (
+        {!isWLLoading ? (
           <WishlistData
+            isloding={isWLLoading}
             items={wishlistData}
+            updateCount={updateCount}
+            countDataUpdted={countDataUpdted}
             curr={CurrencyData}
             itemInCart={itemInCart}
             decodeEntities={decodeEntities}

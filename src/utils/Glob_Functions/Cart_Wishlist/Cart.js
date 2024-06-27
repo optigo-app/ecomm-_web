@@ -48,8 +48,12 @@ const useCart = () => {
   const [mtSizeprice, setMtSizePrice] = useState();
   const [diaSizeprice, setDiaSizePrice] = useState();
   const [csSizeprice, setCsSizePrice] = useState();
+  const [sizeChangeData, setSizeChangeData] = useState();
+  const [markupData, setMarkUpData] = useState();
+  const [filterMetalPriceData, setFilterMetalPriceData] = useState();
+  const [mrpbasedPriceFlag, setmrpBasedPriceFlag] = useState(0);
   const [finalPrice, setFinalPrice] = useState();
-  const [finalPriceWisthMakrup, setFinalPriceWisthMarkup]  = useState();
+  const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -60,9 +64,9 @@ const useCart = () => {
     const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
-      setCurrencyData(storedData?.Currencysymbol)
+      setCurrencyData(storedData)
     } else {
-      setCurrencyData(storeInit?.Currencysymbol)
+      setCurrencyData(storeInit)
     }
   }, [])
 
@@ -198,16 +202,14 @@ const useCart = () => {
       let resStatus = response.Data.rd[0]
       if (resStatus?.msg === "success") {
 
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCountData(res)
-        })
+        localStorage.setItem('cartUpdation', true)
         console.log('Product successfully removed');
       } else {
         console.log('Failed to remove product or product not found');
       }
     } catch (error) {
       console.error("Error:", error);
+      localStorage.setItem('cartUpdation', false)
     } finally {
 
     }
@@ -226,9 +228,11 @@ const useCart = () => {
         getCartData();
         setCartData([]);
         selectedItems([]);
+        localStorage.setItem('cartUpdation', true)
         console.log('Product successfully removed');
       } else {
         console.log('Failed to remove product or product not found');
+        localStorage.setItem('cartUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -259,7 +263,7 @@ const useCart = () => {
     setMultiSelect(false);
     setOpenModal(false);
     try {
-      const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, finalPrice,finalPriceWisthMakrup);
+      const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
       let resStatus = response.Data.rd[0]
       if (resStatus?.msg === "success") {
         console.log('Product successfully updated');
@@ -294,13 +298,13 @@ const useCart = () => {
     setShowRemark(false);
     try {
       const response = await handleProductRemark(data, productRemark);
-      let resStatus =  response?.Data?.rd[0]
-      if(resStatus?.stat == 1){
+      let resStatus = response?.Data?.rd[0]
+      if (resStatus?.stat == 1) {
         const updatedCartData = cartData.map(cart =>
           cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
         );
         setCartData(updatedCartData);
-        setProductRemark(resStatus?.design_remark); 
+        setProductRemark(resStatus?.design_remark);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -315,6 +319,7 @@ const useCart = () => {
 
   // for quantity
   const handleIncrement = async () => {
+    setIsPriceLoding(true);
     setQtyCount(prevCount => prevCount + 1);
     let lastEnteredQuantity = qtyCount + 1
     let num = selectedItem?.id
@@ -327,6 +332,7 @@ const useCart = () => {
   };
 
   const handleDecrement = async () => {
+    setIsPriceLoding(true);
     setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
     let num = selectedItem?.id;
@@ -395,9 +401,17 @@ const useCart = () => {
   const handleSizeChange = (event) => {
     let sizedata = event?.target?.value;
     setSelectedItem(prevItem => ({ ...prevItem, size: sizedata }));
-    setSizeId(sizedata)
+    setSizeId(sizedata);
     console.log("sizeIdkdnk", sizedata);
+
+    const sizeChangeData = sizeCombo?.rd.filter((size) => {
+      return size.sizename === sizedata;
+    });
+
+    setSizeChangeData(sizeChangeData)
+    console.log("sizeChangeData", sizeChangeData);
   };
+
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
@@ -421,7 +435,7 @@ const useCart = () => {
   }
 
 
-  // for price calculation
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~for price calculation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const diaUpdatedPrice = () => {
     setIsPriceLoding(true);
@@ -457,6 +471,7 @@ const useCart = () => {
         metalPriceCalData = 0.00;
       }
       setMtPrice(metalPriceCalData);
+      setFilterMetalPriceData(filteredMtData);
       console.log('metalPriceData--', metalPriceCalData);
       console.log('metalId--', metalID);
     }
@@ -484,7 +499,7 @@ const useCart = () => {
     }
   }
 
-  // sizewise price calculation
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sizewise price calculation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const handleSizeWiseMetalPrice = () => {
     setIsPriceLoding(true);
     let filterSizeMetalData
@@ -499,12 +514,12 @@ const useCart = () => {
     if (filterSizeMetalData?.length !== 0 && filterSizeMetalData != undefined) {
       CalcNetwt = ((selectedItem?.MetalWeight ?? 0) + (filterSizeMetalData[0]?.Weight ?? 0) ?? 0)
       if (selectedMetalData) {
-        fprice = ((selectedMetalData[0]?.AD ?? 0) * CalcNetwt) + ((selectedMetalData[0]?.AC ?? 0) * CalcNetwt)
+        fprice = ((selectedMetalData[0]?.AD ?? 0) * CalcNetwt) + ((selectedMetalData[0]?.AC ?? 0) * CalcNetwt);
       }
       setMtSizePrice(fprice);
     }
 
-    console.log('filterSizeMetalData--', fprice);
+    console.log('filterSizeMetalData--', sizeCombo);
   }
   console.log('selectedMetalData', selectedMetalData);
   const handleSizeWiseDiaPrice = () => {
@@ -568,9 +583,28 @@ const useCart = () => {
 
   }
 
+  const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
+    console.log("pricewithmarkup", pmu, pPrice)
+    if (pPrice <= 0) {
+      return 0
+    }
+    else {
+      let percentPMU = ((pmu / 100) / curr)
+      let price = (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))?.toFixed(3)
+      console.log("priceNarkgsbdjhsb", price);
+      setFinalPriceWithMarkup(price);
+      if (price) {
+        setIsLoading(false);
+        setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: price }));
+      }
+      return price;
+    }
+  }
+
   const handleFinalPriceCalculate = () => {
     console.log("TotalPrice--", mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice);
-  
+    let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
+    setMarkUpData(filteredMtData[0]?.AB);
     let sizeWisePrice;
     if (sizeId) {
       const formattedMtSizeprice = mtSizeprice?.toFixed(3);
@@ -583,53 +617,98 @@ const useCart = () => {
       const formattedCsprice = csprice?.toFixed(3);
       sizeWisePrice = parseFloat(formattedMtprice) + parseFloat(formattedDiaprice) + parseFloat(formattedCsprice);
     }
-  
-    const finalPrice = (sizeWisePrice * qtyCount).toFixed(3);
+
+    let finalPrice = (sizeWisePrice * qtyCount).toFixed(3);
+
+    if (sizeChangeData) {
+      if (sizeChangeData[0]?.IsMarkUpInAmount == 1) {
+        let designMarkUp = (filteredMtData[0]?.AB ?? 0)
+        finalPrice = ((sizeWisePrice * qtyCount) + (sizeChangeData[0]?.MarkUp / CurrencyData?.CurrencyRate)).toFixed(3);
+        PriceWithMarkupFunction(designMarkUp, finalPrice, CurrencyData?.CurrencyRate)
+      }
+    } else {
+      const percentMarkupPlus = (filteredMtData[0]?.AB ?? 0) + (sizeChangeData ? sizeChangeData[0]?.MarkUp : 0)
+      finalPrice = ((sizeWisePrice * qtyCount) + (sizeChangeData ? sizeChangeData[0]?.MarkUp : 0 / CurrencyData?.CurrencyRate)).toFixed(3);
+      PriceWithMarkupFunction(percentMarkupPlus, finalPrice, CurrencyData?.CurrencyRate)
+    }
+
     setFinalPrice(finalPrice);
-    if(finalPrice){
+    if (finalPrice) {
       setIsPriceLoding(false);
     }
-  
-    setSelectedItem(prevItem => ({ ...prevItem, FinalCost: finalPrice }));
-  
+    setSelectedItem(prevItem => ({ ...prevItem, UnitCost: finalPrice }));
+
     console.log("FinalPrice:", finalPrice);
-  
+
   };
-  
+
+  const handleMrpBasedPrice = (mrpprice) => {
+    debugger
+    console.log('mrpprice', mrpprice);
+    if (mrpprice) {
+      let mrpPrice = mrpprice[0]?.Z
+      setFinalPriceWithMarkup(mrpPrice)
+      if (mrpPrice) {
+        setIsPriceLoding(false);
+        setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: mrpPrice }));
+      }
+    }
+  }
+
 
   useEffect(() => {
+    debugger
+    let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
     let timeoutId;
     timeoutId = setTimeout(() => {
       setIsPriceLoding(true);
-      if (sizeId) {
-        if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined && mtSizeprice !== undefined && diaSizeprice !== undefined && csSizeprice !== undefined) {
-          handleFinalPriceCalculate();
+      if (filteredMtData[0]?.U != 1) {
+        if (sizeId) {
+          if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined && mtSizeprice !== undefined && diaSizeprice !== undefined && csSizeprice !== undefined) {
+            handleFinalPriceCalculate();
+          }
+        } else {
+          if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined) {
+            handleFinalPriceCalculate();
+          }
         }
+        setmrpBasedPriceFlag(0)
       } else {
-        if (mtprice !== undefined && diaprice !== undefined && csprice !== undefined) {
-          handleFinalPriceCalculate();
-        }
+        handleMrpBasedPrice(filteredMtData);
+        setmrpBasedPriceFlag(1)
       }
     }, 4000);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, handleFinalPriceCalculate]);
+  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, handleFinalPriceCalculate, handleMrpBasedPrice]);
 
 
   useEffect(() => {
-    setTimeout(() => {
-      if (cartData.length != 0) {
-        metalUpdatedPrice()
-        diaUpdatedPrice()
+    const timeoutId = setTimeout(() => {
+      if (cartData.length !== 0) {
+        metalUpdatedPrice();
+        diaUpdatedPrice();
         colUpdatedPrice();
-        handleSizeWiseDiaPrice()
-        handleSizeWiseCSPrice()
-        handleSizeWiseMetalPrice()
+
+        if (storeInit?.IsProductWebCustomization === 1) {
+          if (storeInit?.IsMetalCustomization === 1) {
+            handleSizeWiseDiaPrice();
+          }
+          if (storeInit?.IsCsCustomization === 1) {
+            handleSizeWiseCSPrice();
+          }
+          if (storeInit?.IsDiamondCustomization === 1) {
+            handleSizeWiseMetalPrice();
+          }
+        }
       }
     }, 1000);
-  }, [getSinglePriceData, metalID, diaIDData, colorStoneID, sizeId])
+
+    return () => clearTimeout(timeoutId);
+  }, [cartData, getSinglePriceData, metalID, diaIDData, colorStoneID, sizeId, storeInit]);
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -662,6 +741,7 @@ const useCart = () => {
     sizeCombo,
     CurrencyData,
     countData,
+    mrpbasedPriceFlag,
     CartCardImageFunc,
     handleSelectItem,
     handleIncrement,

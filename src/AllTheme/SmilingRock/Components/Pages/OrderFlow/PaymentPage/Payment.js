@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import "./Payment.scss";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Footer from '../../Home/Footer/Footer';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useSetRecoilState } from 'recoil';
 import { CartCount } from '../../../Recoil/atom';
-// import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
+import OrderRemarkModal from '../OrderRemark/OrderRemark';
+import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 
 const Payment = () => {
     const navigate = useNavigate();
@@ -19,11 +20,29 @@ const Payment = () => {
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
 
-    const setCartCountVal = useSetRecoilState(CartCount)
+    const setCartCountVal = useSetRecoilState(CartCount);
+
+    const [open, setOpen] = useState(false);
+    const [orderRemark, setOrderRemark] = useState();
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleRemarkChangeInternal = (e) => {
+        setOrderRemark(e.target.value);
+    };
+
+    const handleSaveInternal = () => {
+        handleOrderRemarkFun(orderRemark);
+        handleClose();
+    };
+console.log('orderreamrk', orderRemark);
 
     useEffect(() => {
+        const orderRemakdata = localStorage.getItem("orderRemark");
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
         const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+        setOrderRemark(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
         } else {
@@ -70,6 +89,24 @@ const Payment = () => {
         }
     }
 
+    const handleOrderRemarkChange = () => {
+
+    }
+    const handleOrderRemarkFun = async () => {
+        try {
+            const response = await handleOrderRemark(orderRemark);
+            let resStatus = response?.Data?.rd[0]
+            if (resStatus?.stat == 1) {
+                // const updatedCartData = cartData.map(cart =>
+                //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
+                // );
+                localStorage.setItem('orderRemark', orderRemark)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -90,9 +127,13 @@ const Payment = () => {
                 <div className='smr_PaymentContainer'>
                     <div className='smr_paymentBackbtnDiv'>
                         <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
-                        {/* <div className='smr_paymentButtonDiv'>
-                            <button className='smr_payOnAccountBtn' onClick={handlePay}>PAY ON ACCOUNT</button>
-                        </div> */}
+                        <Link
+                            className="smr_addorderRemarkbtn"
+                            variant="body2"
+                            onClick={handleOpen}
+                        >
+                            {orderRemark == "" ? "Add order Remark" : "Update order Remark"}
+                        </Link>
                     </div>
                     <div className='smr_paymentDetailMainDiv'>
                         <div className='smr_paymentDetailLeftSideContent'>
@@ -104,6 +145,10 @@ const Payment = () => {
                                 <p>City : {selectedAddrData?.city}</p>
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
+                                <p className='smr_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                    Order Remark : {orderRemark}
+                                </p>
+
                             </div>
                         </div>
                         <div className='smr_paymentDetailRightSideContent'>
@@ -164,6 +209,13 @@ const Payment = () => {
                         <button className='smr_payOnAccountBtn' onClick={handlePay}>PAY ON ACCOUNT</button>
                     </div>
                 </div>
+                <OrderRemarkModal
+                    open={open}
+                    onClose={handleClose}
+                    remark={orderRemark}
+                    onRemarkChange={handleRemarkChangeInternal}
+                    onSave={handleSaveInternal}
+                />
                 <Footer />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>

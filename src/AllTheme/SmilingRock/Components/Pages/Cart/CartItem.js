@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
+import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import { CartCount } from '../../Recoil/atom';
+import { useSetRecoilState } from 'recoil';
 
 const CartItem = ({
   item,
@@ -22,7 +25,7 @@ const CartItem = ({
   itemLength,
   showRemark,
   productRemark,
-  handleAddRemark,  
+  handleAddRemark,
   handleRemarkChange,
   handleSave,
   handleCancel,
@@ -30,6 +33,13 @@ const CartItem = ({
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
+  const [countstatus, setCountStatus] = useState();
+  const setCartCountVal = useSetRecoilState(CartCount)
+
+  useEffect(() => {
+    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
+    setCountStatus(isCartUpdateStatus)
+  }, [onRemove])
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -46,26 +56,38 @@ const CartItem = ({
 
   useEffect(() => {
     handleIsSelected()
-  },[isSelected])
+  }, [isSelected])
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems',isselected);
+    console.log('isselectedItems', isselected);
     setIsSelectedItems()
+  }
+
+  const handleRemoveItem = () => {
+    onRemove(item)
+    setTimeout(() => {
+      if (countstatus) {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCartCountVal(res?.cartcount);
+        })
+      }
+    }, 500)
   }
 
   return (
     <Grid item xs={12} sm={itemLength == 2 ? 6 : 4}>
       <Card className='smr_cartListCard'
-        sx={{ 
+        sx={{
           boxShadow: selectedItem?.id == item?.id && 'none',
-          border:selectedItem?.id == item?.id && '1px solid #af8238', 
-          maxWidth:450,
-          width:390,
-      }}
+          border: selectedItem?.id == item?.id && '1px solid #af8238',
+          maxWidth: 450,
+          width: 390,
+        }}
         onClick={() => onSelect(item)}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:'center', position: 'relative' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={CartCardImageFunc(item)}
@@ -73,42 +95,42 @@ const CartItem = ({
             className='smr_cartListImage'
           />
           <div>
-          <CardContent className='smr_cartcontentData'>
-            <Typography variant="body2" className='smr_DesignNoTExt'>
-              {item?.designno}
-            </Typography>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-              <div style={{ marginBottom: '10px' }}>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  NWT: {item?.MetalWeight}
-                </Typography>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
-                </Typography>
+            <CardContent className='smr_cartcontentData'>
+              <Typography variant="body2" className='smr_DesignNoTExt'>
+                {item?.designno}
+              </Typography>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                <div style={{ marginBottom: '10px' }}>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    NWT: {item?.MetalWeight}
+                  </Typography>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
+                  </Typography>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    GWT: {item?.totalGrossweight}
+                  </Typography>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
+                  </Typography>
+                </div>
               </div>
-              <div style={{ marginBottom: '10px' }}>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  GWT: {item?.totalGrossweight}
-                </Typography>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
-                </Typography>
-              </div>
-            </div>
-            <Box sx={{ position: 'absolute', bottom: '5px' }}>
-              {item?.Remarks !== "" &&
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  Remark: {item?.Remarks || productRemark}
-                </Typography>
-              }
-              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
-                {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={(e) => { e.stopPropagation(); onRemove(item); }} >
-                Remove
-              </Link>
-            </Box>
-          </CardContent>
+              <Box sx={{ position: 'absolute', bottom: '5px' }}>
+                {item?.Remarks !== "" &&
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    Remark: {item?.Remarks || productRemark}
+                  </Typography>
+                }
+                <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                  {item?.Remarks ? "Update Remark" : "Add Remark"}
+                </Link>
+                <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+                  Remove
+                </Link>
+              </Box>
+            </CardContent>
           </div>
         </Box>
         {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
