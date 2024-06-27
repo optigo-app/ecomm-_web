@@ -25,7 +25,8 @@ const Wishlist = () => {
     handleRemoveItem,
     handleRemoveAll,
     handleWishlistToCart,
-    handleAddtoCartAll
+    handleAddtoCartAll,
+    handleMoveToDetail
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -118,6 +119,7 @@ const Wishlist = () => {
             WishCardImageFunc={WishCardImageFunc}
             handleRemoveItem={handleRemoveItem}
             handleWishlistToCart={handleWishlistToCart}
+            handleMoveToDetail={handleMoveToDetail}
           />
         ) : (
           <SkeletonLoader />

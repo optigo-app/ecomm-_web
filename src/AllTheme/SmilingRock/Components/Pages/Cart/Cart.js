@@ -50,8 +50,8 @@ const CartPage = () => {
     handleDiamondChange,
     handleColorStoneChange,
     handleSizeChange,
-    decodeEntities
-
+    decodeEntities,
+    handleMoveToDetail
   } = useCart();
 
   const navigate = useNavigate();
@@ -172,6 +172,7 @@ const CartPage = () => {
                       handleSizeChange={handleSizeChange}
                       decodeEntities={decodeEntities}
                       onUpdateCart={handleUpdateCart}
+                      handleMoveToDetail={handleMoveToDetail}
                     />
                   )}
                 </div>

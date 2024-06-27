@@ -24,49 +24,49 @@ const ProductList = () => {
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-  const[productListData,setProductListData]=useState([]);
-  const[priceListData,setPriceListData]=useState([]);
-  const[finalProductListData,setFinalProductListData]=useState([]);
-  const[isProdLoading,setIsProdLoading]=useState(true);
-  const[isOnlyProdLoading,setIsOnlyProdLoading]=useState(true);
-  const[storeInit,setStoreInit]=useState({});
-  const[filterData,setFilterData]= useState([])
-  const[filterChecked,setFilterChecked]= useState({})
-  const[afterFilterCount,setAfterFilterCount]=useState();
+  const [productListData, setProductListData] = useState([]);
+  const [priceListData, setPriceListData] = useState([]);
+  const [finalProductListData, setFinalProductListData] = useState([]);
+  const [isProdLoading, setIsProdLoading] = useState(true);
+  const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
+  const [storeInit, setStoreInit] = useState({});
+  const [filterData, setFilterData] = useState([])
+  const [filterChecked, setFilterChecked] = useState({})
+  const [afterFilterCount, setAfterFilterCount] = useState();
   const [accExpanded, setAccExpanded] = useState(null);
-  const [currPage,setCurrPage] = useState(1);
-  const [cartArr,setCartArr] = useState({})
-  const [wishArr,setWishArr] = useState({})
-  const [menuParams,setMenuParams] = useState({})
-  const [filterProdListEmpty,setFilterProdListEmpty] = useState(false)
-  const [metalTypeCombo,setMetalTypeCombo] = useState([]);
-  const [diaQcCombo,setDiaQcCombo] = useState([]);
-  const [csQcCombo,setCsQcCombo]= useState([]);
-  const [selectedMetalId,setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId,setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId,setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [currPage, setCurrPage] = useState(1);
+  const [cartArr, setCartArr] = useState({})
+  const [wishArr, setWishArr] = useState({})
+  const [menuParams, setMenuParams] = useState({})
+  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false)
+  const [metalTypeCombo, setMetalTypeCombo] = useState([]);
+  const [diaQcCombo, setDiaQcCombo] = useState([]);
+  const [csQcCombo, setCsQcCombo] = useState([]);
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  console.log("productListData",productListData);
+  console.log("productListData", productListData);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scroll({
       top: 0,
       behavior: "smooth",
     })
-  },[])
+  }, [])
 
   let location = useLocation();
   let navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeinit)
 
@@ -78,48 +78,48 @@ const ProductList = () => {
 
     let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
     setCsQcCombo(CsQcCombo)
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
     setMenuParams(param)
-  },[location?.key,productListData,filterChecked])
+  }, [location?.key, productListData, filterChecked])
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
-    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setIsProdLoading(true)
-      ProductListApi({},currPage,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          let forWardResp;
-          if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)
-                forWardResp = resp;
-              }
-            })
-          }
-          return forWardResp
-        }).then(async(forWardResp)=>{
-          let forWardResp1;
-          if(forWardResp){
-            FilterListAPI().then((res)=>{
-              setFilterData(res)
-              forWardResp1 = res
-            }).catch((err)=>console.log("err",err))
-          }
-          return forWardResp1
-        }).finally(()=> setIsProdLoading(false))
-        .catch((err) => console.log("err", err))
+    ProductListApi({}, currPage, obj)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .then(async (res) => {
+        let forWardResp;
+        if (res) {
+          await GetPriceListApi(1, {}, {}, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+            if (resp) {
+              setPriceListData(resp)
+              forWardResp = resp;
+            }
+          })
+        }
+        return forWardResp
+      }).then(async (forWardResp) => {
+        let forWardResp1;
+        if (forWardResp) {
+          FilterListAPI().then((res) => {
+            setFilterData(res)
+            forWardResp1 = res
+          }).catch((err) => console.log("err", err))
+        }
+        return forWardResp1
+      }).finally(() => setIsProdLoading(false))
+      .catch((err) => console.log("err", err))
   }, [location?.key])
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const ProductList = () => {
       const newPriceData = priceListData?.rd?.find(
         (pda) => pda.A == product.autocode
       );
-      
+
       const newPriceData1 = priceListData?.rd1
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
@@ -194,7 +194,7 @@ const ProductList = () => {
 
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
-    
+
   }, [productListData, priceListData]);
 
   const decodeEntities = (html) => {
@@ -216,240 +216,240 @@ const ProductList = () => {
     }
   }
 
-  const ProdCardImageFunc = (pd,j) => {
+  const ProdCardImageFunc = (pd, j) => {
     let finalprodListimg;
     let pdImgList = [];
 
-    if(pd?.ImageCount > 0){
-      for(let i = 1; i <= pd?.ImageCount; i++){
+    if (pd?.ImageCount > 0) {
+      for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
         pdImgList.push(imgString)
       }
     }
-    else{
+    else {
       finalprodListimg = imageNotFound;
     }
-    if(pdImgList?.length > 0){
+    if (pdImgList?.length > 0) {
       finalprodListimg = pdImgList[j]
-      if(j>0 && (!finalprodListimg || finalprodListimg == undefined)){
+      if (j > 0 && (!finalprodListimg || finalprodListimg == undefined)) {
         finalprodListimg = pdImgList[0]
       }
     }
     return finalprodListimg
   }
 
-  const handleCheckboxChange = (e,listname,val) =>{
+  const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
-    
-      setFilterChecked((prev)=>({
-        ...prev,
-        [name]:{checked,type:listname,id:name?.replace(/[a-zA-Z]/g, ''),value:val}
-      }))
+
+    setFilterChecked((prev) => ({
+      ...prev,
+      [name]: { checked, type: listname, id: name?.replace(/[a-zA-Z]/g, ''), value: val }
+    }))
   }
 
-  const FilterValueWithCheckedOnly = () =>{
+  const FilterValueWithCheckedOnly = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
-  
+
     const output = {};
-  
+
     onlyTrueFilterValue.forEach(item => {
-        if (!output[item.type]) {
-          output[item.type] = '';
-        }
-        output[item.type] += `${item.id}, `;
-      });
-  
-      for (const key in output) {
-        output[key] = output[key].slice(0, -2);
+      if (!output[item.type]) {
+        output[item.type] = '';
       }
+      output[item.type] += `${item.id}, `;
+    });
 
-      return output
+    for (const key in output) {
+      output[key] = output[key].slice(0, -2);
+    }
+
+    return output
   }
-  
-  useEffect(()=>{
-   let output = FilterValueWithCheckedOnly()
-   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
-   setIsOnlyProdLoading(true)
-    ProductListApi(output,1,obj)
-        .then((res) => {
-          if (res) {
 
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
-        // .then(async(res)=>{
-        //   if(res){
-        //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-        //   }
-        // })
-        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+  useEffect(() => {
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    setIsOnlyProdLoading(true)
+    ProductListApi(output, 1, obj)
+      .then((res) => {
+        if (res) {
 
-  },[filterChecked])
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .then(async (res) => {
+        if (res) {
+          await GetPriceListApi(1, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+            if (resp) {
+              setPriceListData(resp)
+            }
+          })
+        }
+        return res
+      })
+      // .then(async(res)=>{
+      //   if(res){
+      //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+      //   }
+      // })
+      .catch((err) => console.log("err", err)).finally((res) => { setIsOnlyProdLoading(false) })
+
+  }, [filterChecked])
 
 
-  const handelFilterClearAll = () =>{
-    if(Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
+  const handelFilterClearAll = () => {
+    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
 
-  const handelPageChange = (event,value) =>{
+  const handelPageChange = (event, value) => {
 
     let output = FilterValueWithCheckedOnly()
-    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     setIsProdLoading(true)
     setCurrPage(value)
-    setTimeout(()=>{
+    setTimeout(() => {
       window.scroll({
         top: 0,
         behavior: 'smooth'
       })
-    },100)
-    ProductListApi(output,value,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(value,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
-        .catch((err) => console.log("err", err)).finally(()=>{
-          setTimeout(() => {
-            setIsProdLoading(false)
-          }, 100);
-        })
+    }, 100)
+    ProductListApi(output, value, obj)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .then(async (res) => {
+        if (res) {
+          await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+            if (resp) {
+              setPriceListData(resp)
+            }
+          })
+        }
+        return res
+      })
+      .catch((err) => console.log("err", err)).finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false)
+        }, 100);
+      })
   }
 
-  const handleCartandWish = (e,ele,type) =>{
-     console.log("event",e.target.checked,ele,type);
-     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const handleCartandWish = (e, ele, type) => {
+    console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-     let prodObj = {
+    let prodObj = {
       "autocode": ele?.autocode,
-      "Metalid":ele?.MetalPurityid,
+      "Metalid": ele?.MetalPurityid,
       "MetalColorId": ele?.MetalColorid,
       "DiaQCid": loginInfo?.cmboDiaQCid,
       "CsQCid": loginInfo?.cmboCSQCid,
       "Size": ele?.DefaultSize,
       "Unitcost": ele?.price,
       "markup": ele?.markup,
-      "UnitCostWithmarkup": PriceWithMarkupFunction(ele?.markup,ele?.price,storeInit?.CurrencyRate),
+      "UnitCostWithmarkup": PriceWithMarkupFunction(ele?.markup, ele?.price, storeInit?.CurrencyRate),
       "Remark": ""
     }
 
-     if(e.target.checked == true){
-      CartAndWishListAPI(type,prodObj).then((res)=>{
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC =res?.Data?.rd[0]?.Wishlistcount
+        let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
         setCartCountVal(cartC);
-      }).catch((err)=>console.log("err",err))
-     }else{
-       RemoveCartAndWishAPI(type,ele?.autocode).then((res)=>{
+      }).catch((err) => console.log("err", err))
+    } else {
+      RemoveCartAndWishAPI(type, ele?.autocode).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC =res?.Data?.rd[0]?.Wishlistcount
+        let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
         setCartCountVal(cartC);
-       }).catch((err)=>console.log("err",err))
-     }
+      }).catch((err) => console.log("err", err))
+    }
 
-     if(type==="Cart"){
-      setCartArr((prev)=>({
+    if (type === "Cart") {
+      setCartArr((prev) => ({
         ...prev,
-        [ele?.autocode]:e.target.checked
-      }))
-      }
-
-    if(type === "Wish"){
-      setWishArr((prev)=>({
-        ...prev,
-        [ele?.autocode]:e.target.checked
+        [ele?.autocode]: e.target.checked
       }))
     }
-     
+
+    if (type === "Wish") {
+      setWishArr((prev) => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked
+      }))
+    }
+
   }
 
-  useEffect(()=>{
-    if(productListData?.length === 0 || !productListData){
+  useEffect(() => {
+    if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true)
-    }else{
+    } else {
       setFilterProdListEmpty(false)
     }
-  },[productListData])
+  }, [productListData])
 
 
-  const handelCustomCombo = (obj) =>{
+  const handelCustomCombo = (obj) => {
 
     setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
-    ProductListApi(output,currPage,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
-        .catch((err) => console.log("err", err))
-        .finally(()=>{
-          setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
-            setIsOnlyProdLoading(false)
-          }, 100);
-        })
+    ProductListApi(output, currPage, obj)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .then(async (res) => {
+        if (res) {
+          await GetPriceListApi(currPage, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+            if (resp) {
+              setPriceListData(resp)
+            }
+          })
+        }
+        return res
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setTimeout(() => {
+          localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+          setIsOnlyProdLoading(false)
+        }, 100);
+      })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
     handelCustomCombo(obj)
 
-  },[selectedMetalId,selectedDiaId,selectedCsId])
+  }, [selectedMetalId, selectedDiaId, selectedCsId])
 
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
-      
+
       const compressed = pako.deflate(uint8Array, { to: 'string' });
-      
-   
+
+
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
       console.error('Error compressing and encoding:', error);
@@ -461,19 +461,19 @@ const ProductList = () => {
     try {
       // Decode the Base64 string to binary data
       const binaryString = atob(encodedString);
-      
+
       // Convert binary string to Uint8Array
       const uint8Array = new Uint8Array(binaryString.length);
       for (let i = 0; i < binaryString.length; i++) {
         uint8Array[i] = binaryString.charCodeAt(i);
       }
-      
+
       // Decompress the data
       const decompressed = pako.inflate(uint8Array, { to: 'string' });
-  
+
       // Convert decompressed data back to JSON object
       const jsonObject = JSON.parse(decompressed);
-  
+
       return jsonObject;
     } catch (error) {
       console.error('Error decoding and decompressing:', error);
@@ -481,42 +481,39 @@ const ProductList = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) =>{
-
+  const handleMoveToDetail = (productData) => {
     let output = FilterValueWithCheckedOnly()
-
-
     let obj = {
-      a:productData?.autocode,
-      b:productData?.designno,
-      m:selectedMetalId,
-      d:selectedDiaId,
-      c:selectedCsId,
-      f:output
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: productData?.metaltypeid,
+      d: selectedDiaId,
+      c: selectedCsId,
+      f: output
     }
-
+    console.log('ksjkfjkjdkjfkjsdk--', obj);
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress()
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g,`_`)}${productData?.TitleLine?.length > 0 ? "_" :""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
-  const handelRolloverImage = (pd,e,type) =>{
+  const handelRolloverImage = (pd, e, type) => {
     const images = document.getElementById(`smr_productCard_Image${e?.target?.id}`);
 
-    if(images && type == "enter"){
-      images.src = ProdCardImageFunc(pd,2)
+    if (images && type == "enter") {
+      images.src = ProdCardImageFunc(pd, 2)
     }
-    if(images && type == "leave"){
-      images.src = ProdCardImageFunc(pd,1)
+    if (images && type == "leave") {
+      images.src = ProdCardImageFunc(pd, 1)
     }
   }
 
-  
+
 
   return (
     <div id="top">
@@ -524,180 +521,180 @@ const ProductList = () => {
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
             {
-            isProdLoading ? 
-            // true ? 
-            (
-              <ProductListSkeleton />
-            ) : (
-              <>
-                <div className="smr_prodSorting">
-                  <div className="empty_sorting_div">
+              isProdLoading ?
+                // true ? 
+                (
+                  <ProductListSkeleton />
+                ) : (
+                  <>
+                    <div className="smr_prodSorting">
+                      <div className="empty_sorting_div">
 
-                  </div>
+                      </div>
 
-                  <div className="smr_main_sorting_div">
-                  <div className="smr_metal_custom">
-                  <label className="label">
-                      Metal:&nbsp;
-                    </label>
-                    <select className="select" value={selectedMetalId} onChange={(e)=>setSelectedMetalId(e.target.value)}>
-                      {
-                        metalTypeCombo?.map((metalele)=>(
-                          <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
-                        ))
-                      }
-                    </select>
-                  </div>
+                      <div className="smr_main_sorting_div">
+                        <div className="smr_metal_custom">
+                          <label className="label">
+                            Metal:&nbsp;
+                          </label>
+                          <select className="select" value={selectedMetalId} onChange={(e) => setSelectedMetalId(e.target.value)}>
+                            {
+                              metalTypeCombo?.map((metalele) => (
+                                <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
+                              ))
+                            }
+                          </select>
+                        </div>
 
-                  <div className="smr_dia_custom">
-                  <label className="label">
-                      Diamond:&nbsp;
-                    </label>
-                    <select className="select" value={selectedDiaId} onChange={(e)=>setSelectedDiaId(e.target.value)}>
-                      {
-                        
-                        diaQcCombo?.map((diaQc)=>(
-                          <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
-                        ))
-                      }
-                    </select>
-                  </div>
+                        <div className="smr_dia_custom">
+                          <label className="label">
+                            Diamond:&nbsp;
+                          </label>
+                          <select className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
+                            {
 
-                  { storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
-                  <label className="label">
-                      color stone:&nbsp;
-                    </label>
-                    <select className="select" value={selectedCsId} onChange={(e)=>setSelectedCsId(e.target.value)}>
-                      {
-                        csQcCombo?.map((csCombo)=>(
-                          <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
-                        ))
-                      }
-                    </select>
-                  </div>}
+                              diaQcCombo?.map((diaQc) => (
+                                <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                              ))
+                            }
+                          </select>
+                        </div>
 
-                  <div className="smr_sorting_custom">
-                  <div className="container">
-                    <label className="label">
-                      Sort By:&nbsp;
-                    </label>
-                    <select className="select">
-                      <option
-                        className="option"
-                        value="Recommended"
-                      >
-                        Recommended
-                      </option>
-                      <option className="option" value="New">
-                        New
-                      </option>
-                      <option
-                        className="option"
-                        value="In Stock"
-                      >
-                        In stock
-                      </option>
-                      <option
-                        className="option"
-                        value="PRICE HIGH TO LOW"
-                      >
-                        Price High To Low
-                      </option>
-                      <option
-                        className="option"
-                        value="PRICE LOW TO HIGH"
-                      >
-                        Price Low To High
-                      </option>
-                    </select>
-                  </div>
-                  </div>
-                  </div>
+                        {storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
+                          <label className="label">
+                            color stone:&nbsp;
+                          </label>
+                          <select className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
+                            {
+                              csQcCombo?.map((csCombo) => (
+                                <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                              ))
+                            }
+                          </select>
+                        </div>}
 
-                </div>
-
-                <div className="smr_mainPortion">
-                  <div className="smr_filter_portion">
-                    <div style={{ padding: "21px 71px" }}>
-                      <span className="smr_filter_text">
-                        <span>
-                          {Object.values(filterChecked).filter(
-                            (ele) => ele.checked
-                          )?.length === 0
-                            ? "Filters"
-                            : ` Product Found: ${afterFilterCount}`}
-                        </span>
-                        <span onClick={() => handelFilterClearAll()}>
-                          {Object.values(filterChecked).filter(
-                            (ele) => ele.checked
-                          )?.length > 0
-                            ? "Clear All"
-                            : ""}
-                        </span>
-                      </span>
-                      <div style={{ marginTop: "12px" }}>
-                        {filterData?.map((ele) => (
-                          <>
-                            {!(ele?.id)?.includes("Range") && (
-                              <Accordion
-                                elevation={0}
-                                sx={{
-                                  borderBottom: "1px solid #c7c8c9",
-                                  borderRadius: 0,
-                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                    {
-                                      borderBottomLeftRadius: "0px",
-                                      borderBottomRightRadius: "0px",
-                                    },
-                                  "&.MuiPaper-root.MuiAccordion-root:before": {
-                                    background: "none",
-                                  },
-                                }}
-                                // expanded={accExpanded}
-                                // defaultExpanded={}
+                        <div className="smr_sorting_custom">
+                          <div className="container">
+                            <label className="label">
+                              Sort By:&nbsp;
+                            </label>
+                            <select className="select">
+                              <option
+                                className="option"
+                                value="Recommended"
                               >
-                                <AccordionSummary
-                                  expandIcon={
-                                    <ExpandMoreIcon sx={{ width: "20px" }} />
-                                  }
-                                  aria-controls="panel1-content"
-                                  id="panel1-header"
-                                  sx={{
-                                    color: "#7f7d85",
-                                    borderRadius: 0,
+                                Recommended
+                              </option>
+                              <option className="option" value="New">
+                                New
+                              </option>
+                              <option
+                                className="option"
+                                value="In Stock"
+                              >
+                                In stock
+                              </option>
+                              <option
+                                className="option"
+                                value="PRICE HIGH TO LOW"
+                              >
+                                Price High To Low
+                              </option>
+                              <option
+                                className="option"
+                                value="PRICE LOW TO HIGH"
+                              >
+                                Price Low To High
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
 
-                                    "&.MuiAccordionSummary-root": {
-                                      padding: 0,
-                                    },
+                    </div>
 
-                                  }}
-                                  className="filtercategoryLable"
-                                >
-                                  {/* <span> */}
-                                    {ele.Name}
-                                  {/* </span> */}
-                                </AccordionSummary>
-                                <AccordionDetails
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "4px",
-                                    minHeight: "fit-content",
-                                    maxHeight: "300px",
-                                    overflow: "auto",
-                                  }}
-                                >
-                                  {(JSON.parse(ele?.options) ?? []).map((opt) => (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        gap: "12px",
+                    <div className="smr_mainPortion">
+                      <div className="smr_filter_portion">
+                        <div style={{ padding: "21px 71px" }}>
+                          <span className="smr_filter_text">
+                            <span>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length === 0
+                                ? "Filters"
+                                : ` Product Found: ${afterFilterCount}`}
+                            </span>
+                            <span onClick={() => handelFilterClearAll()}>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0
+                                ? "Clear All"
+                                : ""}
+                            </span>
+                          </span>
+                          <div style={{ marginTop: "12px" }}>
+                            {filterData?.map((ele) => (
+                              <>
+                                {!(ele?.id)?.includes("Range") && (
+                                  <Accordion
+                                    elevation={0}
+                                    sx={{
+                                      borderBottom: "1px solid #c7c8c9",
+                                      borderRadius: 0,
+                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                                        background: "none",
+                                      },
+                                    }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                  >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                      aria-controls="panel1-content"
+                                      id="panel1-header"
+                                      sx={{
+                                        color: "#7f7d85",
+                                        borderRadius: 0,
+
+                                        "&.MuiAccordionSummary-root": {
+                                          padding: 0,
+                                        },
+
                                       }}
-                                      key={opt?.id}
+                                      className="filtercategoryLable"
                                     >
-                                      {/* <small
+                                      {/* <span> */}
+                                      {ele.Name}
+                                      {/* </span> */}
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            gap: "12px",
+                                          }}
+                                          key={opt?.id}
+                                        >
+                                          {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -705,214 +702,214 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                      <FormControlLabel
-                                      control={
-                                      <Checkbox
-                                        name={`${ele?.id}${opt?.id}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
-                                        checked={
-                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                          undefined
-                                            ? false
-                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                        }
-                                        style={{
-                                          color: "#7f7d85",
-                                          padding: 0,
-                                          width: "10px",
-                                        }}
-                                        onClick={(e) =>
-                                          handleCheckboxChange(
-                                            e,
-                                            ele?.id,
-                                            opt?.Name
-                                          )
-                                        }
-                                        size="small"
-                                        />
-                                      }
-                                      
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="smr_mui_checkbox_label"
-                                      label={opt.Name}
-                                      />
-                                      
-                                    </div>
-                                  ))}
-                                </AccordionDetails>
-                              </Accordion>
-                            )}
-                          </>
-                        ))}
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                name={`${ele?.id}${opt?.id}`}
+                                                // checked={
+                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                //     : false
+                                                // }
+                                                checked={
+                                                  filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                                    undefined
+                                                    ? false
+                                                    : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                                }
+                                                style={{
+                                                  color: "#7f7d85",
+                                                  padding: 0,
+                                                  width: "10px",
+                                                }}
+                                                onClick={(e) =>
+                                                  handleCheckboxChange(
+                                                    e,
+                                                    ele?.id,
+                                                    opt?.Name
+                                                  )
+                                                }
+                                                size="small"
+                                              />
+                                            }
+
+                                            // sx={{
+                                            //   display: "flex",
+                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                            //   width: "100%",
+                                            //   flexDirection: "row-reverse", // Align items to the right
+                                            //   fontFamily:'TT Commons Regular'
+                                            // }}
+                                            className="smr_mui_checkbox_label"
+                                            label={opt.Name}
+                                          />
+
+                                        </div>
+                                      ))}
+                                    </AccordionDetails>
+                                  </Accordion>
+                                )}
+                              </>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  {
-                    filterProdListEmpty ? 
-                    <div style={{display:'flex',justifyContent:'center',width:'75%',alignItems:'center',height:'500px'}}>
-                      <span className="smr_prod_datanotfound">
-                        Products Not found !!!
-                      </span>
-                    </div>
-                    :
-                    <div className="smr_productList">
-                    {isOnlyProdLoading ? (
-                      <ProductListSkeleton fromPage={"Prodlist"} />
-                    ) : (
-                      <div className="smr_outer_portion">
-                      {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                      <div className="smr_inner_portion">
-                        {finalProductListData?.map((productData) => (
-                          <div className="smr_productCard">
-                            <div className="cart_and_wishlist_icon">
-                              {/* <Button className="smr_cart-icon"> */}
-                                <Checkbox
-                                  icon={
-                                    <LocalMallOutlinedIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#7d7f85",
-                                        opacity: ".7",
-                                      }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <LocalMallIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#009500",
-                                      }}
-                                    />
-                                  }
-                                  disableRipple={false}
-                                  sx={{ padding: "10px" }}
+                      {
+                        filterProdListEmpty ?
+                          <div style={{ display: 'flex', justifyContent: 'center', width: '75%', alignItems: 'center', height: '500px' }}>
+                            <span className="smr_prod_datanotfound">
+                              Products Not found !!!
+                            </span>
+                          </div>
+                          :
+                          <div className="smr_productList">
+                            {isOnlyProdLoading ? (
+                              <ProductListSkeleton fromPage={"Prodlist"} />
+                            ) : (
+                              <div className="smr_outer_portion">
+                                {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
+                                <div className="smr_inner_portion">
+                                  {finalProductListData?.map((productData) => (
+                                    <div className="smr_productCard">
+                                      <div className="cart_and_wishlist_icon">
+                                        {/* <Button className="smr_cart-icon"> */}
+                                        <Checkbox
+                                          icon={
+                                            <LocalMallOutlinedIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#7d7f85",
+                                                opacity: ".7",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <LocalMallIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#009500",
+                                              }}
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
 
-                                  onChange={(e)=> handleCartandWish(e,productData,"Cart")}
-                                  checked={cartArr[productData?.autocode]  ?? productData?.IsInCart === 1 ? true :false }
-                                />
-                                {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                              {/* </Button> */}
-                              {/* <Button className="smr_wish-icon"> */}
-                                <Checkbox
-                                  icon={
-                                    <FavoriteBorderIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#7d7f85",
-                                        opacity: ".7",
-                                      }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <FavoriteIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#e31b23",
-                                      }}
-                                    />
-                                  }
-                                  disableRipple={false}
-                                  sx={{ padding: "10px" }}
+                                          onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                          checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1 ? true : false}
+                                        />
+                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                        {/* </Button> */}
+                                        {/* <Button className="smr_wish-icon"> */}
+                                        <Checkbox
+                                          icon={
+                                            <FavoriteBorderIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#7d7f85",
+                                                opacity: ".7",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <FavoriteIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#e31b23",
+                                              }}
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
 
-                                  onChange={(e)=> handleCartandWish(e,productData,"Wish")}
-                                  // checked={productData?.IsInWish}
-                                  checked={wishArr[productData?.autocode] ?? productData?.IsInWish  === 1 ? true :false}
-                                  // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                  // onChange={(e) => handelWishList(e, products)}
-                                />
-                              {/* </Button> */}
-                            </div>
-                            <div className="smr_product_label">
-                                  {productData?.IsInReadyStock ==1 && <span className="smr_instock">In Stock</span>}
-                                  {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
-                                  {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
-                                  {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
-                            </div>
-                            <img
-                              className="smr_productCard_Image"
+                                          onChange={(e) => handleCartandWish(e, productData, "Wish")}
+                                          // checked={productData?.IsInWish}
+                                          checked={wishArr[productData?.autocode] ?? productData?.IsInWish === 1 ? true : false}
+                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                        // onChange={(e) => handelWishList(e, products)}
+                                        />
+                                        {/* </Button> */}
+                                      </div>
+                                      <div className="smr_product_label">
+                                        {productData?.IsInReadyStock == 1 && <span className="smr_instock">In Stock</span>}
+                                        {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
+                                      </div>
+                                      <img
+                                        className="smr_productCard_Image"
 
-                              id={`smr_productCard_Image${productData?.autocode}`}
-                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                              src={ProdCardImageFunc(productData,0)}
-                              alt=""
-                              onClick={()=>handleMoveToDetail(productData)}
-                              onMouseEnter={(e)=>handelRolloverImage(productData,e,"enter")}
-                              onMouseLeave={(e)=>handelRolloverImage(productData,e,"leave")}
-                            />
-                            <div className="smr_prod_Title" >
-                              <span
-                                className={
-                                  productData?.TitleLine?.length > 30
-                                    ? "smr_prod_title_with_width"
-                                    : "smr_prod_title_with_no_width"
-                                }
-                              >
-                                {productData?.TitleLine}{" "}
-                                {productData?.TitleLine?.length > 0 && "-"}
-                              </span>
-                              <span className="smr_prod_designno">
-                                {productData?.designno}
-                              </span>
-                            </div>
-                            <div className="smr_prod_Allwt">
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px'}}> 
-                              {/* <span className="smr_por"> */}
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
-                                  <>
-                                  <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                </>
-                                }
-                              {/* </span> */}
-                              {/* <span className="smr_por"> */}
-                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
-                               <>
-                               <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
-                                  </span>
-                                </span>
-                               </>
-                                }
+                                        id={`smr_productCard_Image${productData?.autocode}`}
+                                        // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                        src={ProdCardImageFunc(productData, 0)}
+                                        alt=""
+                                        onClick={() => handleMoveToDetail(productData)}
+                                        onMouseEnter={(e) => handelRolloverImage(productData, e, "enter")}
+                                        onMouseLeave={(e) => handelRolloverImage(productData, e, "leave")}
+                                      />
+                                      <div className="smr_prod_Title" >
+                                        <span
+                                          className={
+                                            productData?.TitleLine?.length > 30
+                                              ? "smr_prod_title_with_width"
+                                              : "smr_prod_title_with_no_width"
+                                          }
+                                        >
+                                          {productData?.TitleLine}{" "}
+                                          {productData?.TitleLine?.length > 0 && "-"}
+                                        </span>
+                                        <span className="smr_prod_designno">
+                                          {productData?.designno}
+                                        </span>
+                                      </div>
+                                      <div className="smr_prod_Allwt">
+                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: '1px', gap: '3px' }}>
+                                          {/* <span className="smr_por"> */}
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_keys">NWT:</span>
+                                            <span className="smr_val">
+                                              {productData?.updNWT.toFixed(3)}
+                                            </span>
+                                          </span>
+                                          {(storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
+                                            <>
+                                              <span>|</span>
+                                              <span className="smr_prod_wt">
+                                                <span className="smr_keys">GWT:</span>
+                                                <span className="smr_val">
+                                                  {productData?.updGWT.toFixed(3)}
+                                                </span>
+                                              </span>
+                                            </>
+                                          }
+                                          {/* </span> */}
+                                          {/* <span className="smr_por"> */}
+                                          {(storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
+                                            <>
+                                              <span>|</span>
+                                              <span className="smr_prod_wt">
+                                                <span className="smr_keys">DWT:</span>
+                                                <span className="smr_val">
+                                                  {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
+                                                </span>
+                                              </span>
+                                            </>
+                                          }
 
-                                { (storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
-                                  <>
-                                  <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
-                                  </span>
-                                </span>
-                                  </>
-                                }
-                              {/* </span> */}
-                              </div>
-                            </div>
-                            {/* <div className="smr_prod_Allwt">
+                                          {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
+                                            <>
+                                              <span>|</span>
+                                              <span className="smr_prod_wt">
+                                                <span className="smr_keys">CWT:</span>
+                                                <span className="smr_val">
+                                                  {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
+                                                </span>
+                                              </span>
+                                            </>
+                                          }
+                                          {/* </span> */}
+                                        </div>
+                                      </div>
+                                      {/* <div className="smr_prod_Allwt">
                               <span className="smr_por">
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
@@ -942,47 +939,47 @@ const ProductList = () => {
                                 </span>
                               </span>
                             </div> */}
-                            <div className="smr_prod_mtcolr_price">
-                              <span className="smr_prod_metal_col">
-                                {findMetalColor(
-                                  productData?.MetalColorid
-                                )?.[0]?.metalcolorname.toUpperCase()}
-                                -
-                                {
-                                  findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
-                                    ?.metaltype
-                                }
-                              </span>
-                              <span>/</span>
-                              <span className="smr_price">
-                                <span
-                                  className="smr_currencyFont"
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    ),
-                                  }}
-                                />
-                                <span className="smr_pricePort">
-                                  {productData?.ismrpbase === 1
-                                    ? productData?.mrpbaseprice
-                                    : PriceWithMarkupFunction(
-                                        productData?.markup,
-                                        productData?.price,
-                                        storeInit?.CurrencyRate
-                                      )?.toFixed(2)}
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      </div>
-                    )}
-                  </div>}
-                </div>
-              </>
-            )}
+                                      <div className="smr_prod_mtcolr_price">
+                                        <span className="smr_prod_metal_col">
+                                          {findMetalColor(
+                                            productData?.MetalColorid
+                                          )?.[0]?.metalcolorname.toUpperCase()}
+                                          -
+                                          {
+                                            findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
+                                              ?.metaltype
+                                          }
+                                        </span>
+                                        <span>/</span>
+                                        <span className="smr_price">
+                                          <span
+                                            className="smr_currencyFont"
+                                            dangerouslySetInnerHTML={{
+                                              __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                              ),
+                                            }}
+                                          />
+                                          <span className="smr_pricePort">
+                                            {productData?.ismrpbase === 1
+                                              ? productData?.mrpbaseprice
+                                              : PriceWithMarkupFunction(
+                                                productData?.markup,
+                                                productData?.price,
+                                                storeInit?.CurrencyRate
+                                              )?.toFixed(2)}
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>}
+                    </div>
+                  </>
+                )}
             <div
               style={{
                 display: "flex",
@@ -992,7 +989,7 @@ const ProductList = () => {
               className="smr_pagination_portion"
             >
               <Pagination
-                count={Math.ceil(afterFilterCount/storeInit.PageSize)}
+                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
                 size="large"
                 shape="circular"
                 onChange={handelPageChange}
