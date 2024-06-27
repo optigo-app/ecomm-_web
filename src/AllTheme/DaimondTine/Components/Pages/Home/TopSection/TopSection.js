@@ -36,7 +36,7 @@ const TopSection = () => {
             >
                 {sliderData.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '100%', minHeight: '700px',maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
+                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
                     </SwiperSlide>
                 ))}
             </Swiper>

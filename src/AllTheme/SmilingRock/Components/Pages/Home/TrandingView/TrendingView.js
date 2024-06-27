@@ -14,16 +14,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+import { useNavigate } from 'react-router-dom';
+import pako from "pako";
 
 const TrendingView = () => {
 
+    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState('');
     const [imageUrl, setImageUrl] = useState();
 
     const [ring3ImageChange, setRing3ImageChange] = useState(false);
     const [ring4ImageChange, setRing4ImageChange] = useState(false);
-
-
+    const navigation = useNavigate();
+    const [storeInit, setStoreInit] = useState({});
 
     const settings = {
         dots: true,
@@ -39,6 +42,9 @@ const TrendingView = () => {
 
 
     useEffect(() => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        setStoreInit(storeinit)
+
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
@@ -64,12 +70,6 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
-
-    console.log('trandingViewDatatrandingViewData', trandingViewData &&
-
-
-        `${imageUrl}${trandingViewData && trandingViewData[11]?.designno === undefined ? '' : trandingViewData[11]?.designno}_1.${trandingViewData && trandingViewData[11]?.ImageExtension}`
-    );
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
         if (pd?.ImageCount > 0) {
@@ -81,74 +81,148 @@ const TrendingView = () => {
         return finalprodListimg
     }
 
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid,
+            f: {}
+        }
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+    }
+
+    const decodeEntities = (html) => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
 
     return (
         <div className='smr_trendingViewTopMain'>
-
-
-            <div className='linkingLoveMain linkingLoveMain2'>
-                <div className='linkingLoveImage'>
+            <div className='smr_trendingViewTopMain_div'>
+                <div className='smr_trendingViewTopMain_Imgdiv'>
                     <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
                 </div>
-                <div className='linkingLove'>
+                <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
                     <p className='linkingShopCol'>SHOP COLLECTION</p>
                     <Slider {...settings} >
                         <div className='linkRingLove'>
                             <div>
-                                <div className='linkLoveRing1'>
-                                    <img src={ `${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[0]?.designno, trandingViewData[0]?.autocode, trandingViewData[0]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[0]?.UnitCost}</p>
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2'>
-                                <img src={ `${imageUrl}${trandingViewData && trandingViewData[1]?.designno === undefined ? '' : trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[1]?.ImageExtension === undefined ? '' : trandingViewData[1]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[1]?.designno, trandingViewData[1]?.autocode, trandingViewData[1]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[1]?.designno === undefined ? '' : trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[1]?.ImageExtension === undefined ? '' : trandingViewData[1]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[1]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[1]?.UnitCost}</p>
                                 </div>
                             </div>
-
                         </div>
 
                         <div className='linkRingLove'>
                             <div>
-                                <div className='linkLoveRing1'>
-                                <img src={ `${imageUrl}${trandingViewData && trandingViewData[2]?.designno === undefined ? '' : trandingViewData[2]?.designno}_1.${trandingViewData && trandingViewData[2]?.ImageExtension === undefined ? '' : trandingViewData[2]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[2]?.designno, trandingViewData[2]?.autocode, trandingViewData[2]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[2]?.designno === undefined ? '' : trandingViewData[2]?.designno}_1.${trandingViewData && trandingViewData[2]?.ImageExtension === undefined ? '' : trandingViewData[2]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[2]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[2]?.UnitCost}</p>
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2'>
-                                <img src={ `${imageUrl}${trandingViewData && trandingViewData[3]?.designno === undefined ? '' : trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension === undefined ? '' : trandingViewData[3]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[3]?.designno, trandingViewData[3]?.autocode, trandingViewData[3]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[3]?.designno === undefined ? '' : trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension === undefined ? '' : trandingViewData[3]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[3]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[3]?.UnitCost}</p>
                                 </div>
                             </div>
-
                         </div>
 
                         <div className='linkRingLove'>
                             <div>
-                                <div className='linkLoveRing1'>
-                                <img src={ `${imageUrl}${trandingViewData && trandingViewData[4]?.designno === undefined ? '' : trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension === undefined ? '' : trandingViewData[4]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[4]?.designno, trandingViewData[4]?.autocode, trandingViewData[4]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[4]?.designno === undefined ? '' : trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension === undefined ? '' : trandingViewData[4]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[4]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[4]?.UnitCost}</p>
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2'>
-                                <img src={ `${imageUrl}${trandingViewData && trandingViewData[5]?.designno === undefined ? '' : trandingViewData[5]?.designno}_1.${trandingViewData && trandingViewData[5]?.ImageExtension === undefined ? '' : trandingViewData[5]?.ImageExtension}`} className='likingLoveImages'/>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[5]?.designno, trandingViewData[5]?.autocode, trandingViewData[6]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[5]?.designno === undefined ? '' : trandingViewData[5]?.designno}_1.${trandingViewData && trandingViewData[5]?.ImageExtension === undefined ? '' : trandingViewData[5]?.ImageExtension}`} className='likingLoveImages' />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
+                                    <p className='ring1Desc'>{trandingViewData[5]?.TitleLine}</p>
+                                    <p className='ring1Desc'><span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[5]?.UnitCost}</p>
                                 </div>
                             </div>
 
@@ -205,7 +279,7 @@ export default TrendingView
 //         slidesToShow: 1,
 //         slidesToScroll: 1,
 //         arrows: false,
-//         // prevArrow: false, 
+//         // prevArrow: false,
 //         // nextArrow: false,
 //     };
 

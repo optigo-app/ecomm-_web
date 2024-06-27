@@ -14,6 +14,12 @@
 }
 
 
+@media screen and (max-width: 1200px) {
+    .dt_topSectionImg {
+        min-height: auto !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .dt_imageContainer {
         margin-top: 20px;
@@ -22,6 +28,7 @@
     .dt_centeredImg {
         width: 90%;
     }
+
 
 }
 

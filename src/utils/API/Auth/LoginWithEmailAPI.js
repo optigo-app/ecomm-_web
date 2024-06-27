@@ -4,7 +4,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 
-export const LoginWithEmailAPI = async (email ,mobileNo, hashedPassword, ismobiletoke) => {
+export const LoginWithEmailAPI = async (email ,mobileNo, hashedPassword, ismobiletoke, userCookie) => {
 
     let response
     try {
@@ -12,10 +12,8 @@ export const LoginWithEmailAPI = async (email ,mobileNo, hashedPassword, ismobil
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`
+            userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`,Token: `${userCookie}`
         });
-
-        console.log('cccccccccccccccc',combinedValue);
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBLOGIN\"}",

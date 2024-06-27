@@ -10,6 +10,8 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+import Pako from 'pako';
 
 const DesignSet = () => {
 
@@ -18,8 +20,14 @@ const DesignSet = () => {
     const [designSetList, setDesignSetList] = useState()
     const sliderRef = useRef(null);
     const scrollAmount = 250;
+    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const navigation = useNavigate();
+    const[storeInit,setStoreInit]=useState({});
 
     useEffect(() => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        setStoreInit(storeinit)
+
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignSetImageFol);
 
@@ -41,7 +49,38 @@ const DesignSet = () => {
         return finalprodListimg
     }
 
-    console.log('scrollll',sliderRef);
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid,
+            f: {}
+        }
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+    }
+
+
+    
+    const decodeEntities = (html) => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+      }
+
     return (
         <div className='smr_designSetMain' style={{ position: 'relative' , marginTop: '80px'}}>
             <div>
@@ -60,8 +99,17 @@ const DesignSet = () => {
 
                 <div className="images-container" ref={sliderRef}>
                     {designSetList?.map((slide, index) => (
-                        <div className='smr_designSetDiv'>
+                        <div className='smr_designSetDiv' >
                             <img className='image' loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} />
+                            <p className='smr_designList_title'>{slide?.TitleLine}</p>
+                            <p className='smr_designList_title'><span
+                                  className="smr_currencyFont"
+                                  dangerouslySetInnerHTML={{
+                                    __html: decodeEntities(
+                                      storeInit?.Currencysymbol
+                                    ),
+                                  }}
+                                /> {slide?.UnitCost}</p>
                         </div>
                     ))}
                 </div>
