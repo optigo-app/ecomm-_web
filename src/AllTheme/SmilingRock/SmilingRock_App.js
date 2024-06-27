@@ -33,92 +33,26 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
 import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
+import Header2 from './Components/Pages/Home/Header/Header2'
 
 
 const SmilingRock_App = () => {
 
-    const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
     const islogin = useRecoilValue(loginState)
 
-    const [title, setTitle] = useState();
-    const [favicon, setFavIcon] = useState();
+    const [localData, setLocalData] = useState();
 
     useEffect(() => {
-         let data = localStorage.getItem('storeInit');
-         if(data){
-            let logo = JSON.parse(data);
-            setCompanyTitleLogo(logo?.companylogo)
-         }
-        Storeinit().then((response) => {
-            if (response.status === 200) {
-                setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
-                localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
-                localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
-                localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
-                let title = response?.data?.Data?.rd[0]?.companyname
-                let favIcon = response?.data?.Data?.rd[0]?.favicon
-                setTitle(title);
-                setFavIcon(favIcon)
-                callAllApi();
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-            }
-        }).catch((err) => console.log(err))
+        let localD = JSON.parse(localStorage.getItem('storeInit'));
+        setLocalData(localD);
     }, [])
 
-
-    const callAllApi = () => {
-        MetalTypeComboAPI().then((response) => {
-            if (response?.Data?.rd) {
-                let data = JSON.stringify(response?.Data?.rd)
-                localStorage.setItem('metalTypeCombo', data)
-            }
-        }).catch((err) => console.log(err))
-
-
-        DiamondQualityColorComboAPI().then((response) => {
-            if (response?.Data?.rd) {
-                let data = JSON.stringify(response?.Data?.rd)
-                localStorage.setItem('diamondQualityColorCombo', data)
-            }
-        }).catch((err) => console.log(err))
-
-        ColorStoneQualityColorComboAPI().then((response) => {
-            if (response?.Data?.rd) {
-                let data = JSON.stringify(response?.Data?.rd)
-                localStorage.setItem('ColorStoneQualityColorCombo', data)
-            }
-        }).catch((err) => console.log(err))
-
-        MetalColorCombo().then((response) => {
-            if (response?.Data?.rd) {
-                let data = JSON.stringify(response?.Data?.rd)
-                localStorage.setItem('MetalColorCombo', data)
-            }
-        }).catch((err) => console.log(err))
-
-        CurrencyComboAPI().then((response) => {
-            if (response?.Data?.rd) {
-                let data = JSON.stringify(response?.Data?.rd)
-                localStorage.setItem('CurrencyCombo', data)
-            }
-        }).catch((err) => console.log(err))
-
-    }
     return (
         <>
             <div>
-                <Header />
-                <Helmet>
-                    <title>{title}</title>
-                    <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
-                    <meta name="description" content={title} />
-                    <link rel="apple-touch-icon" href={favicon} />
-                    <link rel="manifest" href={favicon} />
-                </Helmet>
+                {localData?.Headerno === 1 && <Header />}
+                {localData?.Headerno === 2 && <Header2 />}
+                {/* <Header2 /> */}
             </div>
             <Routes>
                 <Route path="/" element={<Home />} />

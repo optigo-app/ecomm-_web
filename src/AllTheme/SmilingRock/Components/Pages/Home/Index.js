@@ -4,45 +4,71 @@ import TopSection from './TopVideo/TopSection';
 import TheDifference from './TheDifference/TheDifference';
 import PromotionBaner1 from './PromotionBanner1/PromotionBaner1';
 import ShopByCategory from './ShopByCategory/ShopByCategory';
-import PromoSetSection from './PromosetSection/PromoSetSection';
+import PromoSetSection from './BestSellerSection/BestSellerSection';
 import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
 import TrendingView from './TrandingView/TrendingView';
 import DesignSet from './DesignSet/DesignSet';
 import Album from './Album/Album';
-import NewArrival from './NewArrival/NewArrival';
+import NewArrival from './newArrival/NewArrival';
+import BestSellerSection from './BestSellerSection/BestSellerSection';
 
 function Home() {
 
+  const [localData, setLocalData] = useState();
+
+  useEffect(() => {
+    let localData = JSON.parse(localStorage.getItem('storeInit'));
+    setLocalData(localData);
+    console.log('localDatalocalData', localData);
+  }, [])
 
   return (
     <div className='smiling_home_index_main'>
 
-      <div className='smiling_home_index_Submain'>
-        <TopSection />
-        <TheDifference />
-        <PromotionBaner1 />
-        <Album />
-        <TrendingView />
+      {localData?.Blockno === 1 &&
+        <div className='smiling_home_index_Submain'>
+          <TopSection />
+          <TheDifference />
+          <PromotionBaner1 />
+          {localData?.IsHomeAlbum === 1 && <Album />}
+          {localData?.IsHomeTrending === 1 && <TrendingView />}
+          {/* <DaimondEveyone /> */}
+          <ShopByCategory />
+          {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+          {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+          {/* <SustainAbility /> */}
+          {/* <BestSaller /> */}
+          <BottomBanner />
+          <Footer />
+        </div>
+      }
 
-        {/* <DaimondEveyone /> */}
-        <ShopByCategory />
-        <NewArrival />
+      {localData?.Blockno === 2 &&
+        <div className='smiling_home_index_Submain'>
+          <TopSection />
+          <TheDifference />
+          <PromotionBaner1 />
+          {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
 
-        <DesignSet />
-        
-        
-        <PromoSetSection />
+          {localData?.IsHomeAlbum === 1 && <Album />}
+          {/* <DaimondEveyone /> */}
+          <ShopByCategory />
+          {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+          {localData?.IsHomeTrending === 1 && <TrendingView />}
 
-        {/* <SustainAbility /> */}
+          {/* <SustainAbility /> */}
+          {/* <BestSaller /> */}
+          <BottomBanner />
+          <Footer />
+        </div>
+      }
 
-        {/* <BestSaller /> */}
 
 
-        <BottomBanner />
-        <Footer />
-      </div>
       <div>
         <p style={{
           paddingBlock: '30px',
