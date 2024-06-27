@@ -11,6 +11,7 @@ import { IoClose, IoSearchOutline } from "react-icons/io5";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import Cookies from 'js-cookie';
 
 
 const Header = () => {
@@ -23,23 +24,29 @@ const Header = () => {
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
-  const [cartCountNum,setCartCountNum] = useRecoilState(CartCount)
-  const [wishCountNum,setWishCountNum] = useRecoilState(WishCount)
+  const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
 
   let navigate = useNavigate();
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
-  const getMenuApi = async () => {
-    await GetMenuAPI().then((response) => {
-      setMenuData(response?.Data?.rd)
-    }).catch((err) => console.log(err))
-  }
+  useEffect(() => {
+    GetCountAPI().then((res) => {
+      if (res) {
+        setCartCountNum(res?.cartcount)
+        setWishCountNum(res?.wishcount)
+      }
+    }).catch((err) => {
+      if (err) {
+        console.log("getCountApiErr", err);
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
-
     const uniqueMenuItems = uniqueMenuIds.map(menuid => {
       const item = menuData?.find(data => data?.menuid === menuid);
       const param1DataIds = [...new Set(menuData?.filter(data => data?.menuid === menuid)?.map(item => item?.param1dataid))];
@@ -76,12 +83,6 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
-  const fetchData = () => {
-    const value = JSON.parse(localStorage.getItem('LoginUser'));
-    setislogin(value);
-  };
-
-
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
@@ -116,10 +117,23 @@ const Header = () => {
     };
   }, []);
 
+  const fetchData = () => {
+    const value = JSON.parse(localStorage.getItem('LoginUser'));
+    setislogin(value);
+  };
+
+
+  const getMenuApi = async () => {
+    await GetMenuAPI().then((response) => {
+      setMenuData(response?.Data?.rd)
+    }).catch((err) => console.log(err))
+  }
+
 
 
   const handleLogout = () => {
     setislogin(false);
+    Cookies.remove('userLoginCookie');
     localStorage.setItem('LoginUser', false);
     localStorage.removeItem('storeInit');
     localStorage.removeItem('loginUserDetail');
@@ -131,6 +145,7 @@ const Header = () => {
     localStorage.removeItem('remarks');
     localStorage.removeItem('registerMobile');
     localStorage.removeItem('allproductlist');
+    localStorage.clear();
     navigation('/')
     window.location.reload();
   }
@@ -158,7 +173,7 @@ const Header = () => {
   };
 
   const handelMenu = (param, param1, param2) => {
-
+    setDrawerShowOverlay(false);
     let finalData = {
       "menuname": param?.menuname ?? "",
       "FilterKey": param?.key ?? "",
@@ -168,9 +183,7 @@ const Header = () => {
       "FilterKey2": param2?.key ?? "",
       "FilterVal2": param2?.value ?? ""
     }
-
     localStorage.setItem("menuparams", JSON.stringify(finalData))
-
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
@@ -187,14 +200,13 @@ const Header = () => {
       .filter(Boolean)
       .join('&');
 
-      const paginationParam = [
-        `page=${finalData.page ?? 1}`,
-        `size=${finalData.size ?? 50}`
-      ].join('&');
+    const paginationParam = [
+      `page=${finalData.page ?? 1}`,
+      `size=${finalData.size ?? 50}`
+    ].join('&');
 
-    console.log('otherparamsUrl--',otherparamUrl);
+    console.log('otherparamsUrl--', otherparamUrl);
     const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
-
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -202,31 +214,22 @@ const Header = () => {
     navigate(url)
   }
 
+
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
-
   const handleMenuClick = async (menuItem, param1Item = null, param2Item = null) => {
     const { param1, param2, ...cleanedMenuItem } = menuItem;
-
     let menuDataObj = { ...cleanedMenuItem };
 
     if (param1Item) {
       const { param1, param2, ...cleanedParam1Item } = param1Item;
       menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
-
-      console.log('Menu Item:', cleanedMenuItem);
-      console.log('Submenu Item:', cleanedParam1Item);
-
       if (param2Item) {
         menuDataObj = { ...menuDataObj, ...param2Item };
-        console.log('Second Submenu Item:', param2Item);
       }
     } else {
       console.log('Menu Item:', cleanedMenuItem);
     }
-
-    console.log('Menu Data Object:', menuDataObj);
-
     let finalData = {
       menuname: menuDataObj?.menuname ?? "",
       FilterKey: menuDataObj.param0name ?? "",
@@ -236,43 +239,7 @@ const Header = () => {
       FilterKey2: menuDataObj?.param2name ?? "",
       FilterVal2: menuDataObj?.param2dataname ?? ""
     }
-
-    console.log('finalData', finalData);
-    // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
-
     navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
-
-    // if (finalData) {
-    //   let resData;
-    //   await productListApiCall(finalData).then((res) => {
-    //     if (res) {
-    //       resData = res;
-    //       console.log("res", res);
-    //       setMenutransData(res)
-    //       localStorage.setItem("allproductlist", JSON.stringify(res))
-    //       localStorage.setItem("finalAllData", JSON.stringify(res))
-    //     }
-    //     return res
-    //   }).then(async (res) => {
-    //     if (res) {
-    //       let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-    //       await getDesignPriceList(finalData, 1, {}, {}, autoCodeList).then((res) => {
-    //         if (res) {
-    //           localStorage.setItem("getPriceData", JSON.stringify(res))
-    //         }
-
-    //       })
-    //     }
-    //   }).catch((err) => {
-    //     if (err) {
-    //       toast.error("Something Went Wrong!!");
-    //     }
-    //   })
-    //   await FilterListAPI(finalData)
-
-    // }
-
-    console.log('menuData', finalData);
     localStorage.setItem('menuparams', JSON.stringify(finalData));
   };
 
@@ -301,9 +268,7 @@ const Header = () => {
     handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
   };
 
-
   const handleClick = (event) => {
-    // Prevent default action for the left mouse button click
     if (event.button === 0) {
       event.preventDefault();
     }
@@ -320,23 +285,11 @@ const Header = () => {
 
 
 
- useEffect(()=>{
-  GetCountAPI().then((res)=>{
-   if(res){
-    setCartCountNum(res?.cartcount)
-    setWishCountNum(res?.wishcount)
-   }
-  }).catch((err)=>{
-      if(err){
-        console.log("getCountApiErr",err);
-      }
-  })
-  console.log("getCount", GetCountAPI());
- },[])
+
 
 
   return (
-    <div>
+    <div className='smr_headerMain_div'>
 
       {serachsShowOverlay && (
         <>
@@ -393,7 +346,7 @@ const Header = () => {
       {drawerShowOverlay && (
         <>
           <div className="srm_MobileSiderBarMain">
-            <div style={{ margin: '10px 20px' }}>
+            <div style={{ margin: '20px 10px 0px 10px' , display :'flex', justifyContent: 'space-between'}}>
               <IoClose
                 style={{
                   height: "30px",
@@ -403,6 +356,64 @@ const Header = () => {
                 }}
                 onClick={toggleDrawerOverlay}
               />
+
+              <div className='smiling_Top_header_div2'>
+                <a href="/">
+                  <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+                </a>
+              </div>
+
+              {islogin &&
+                <>
+                  <Badge
+                    badgeContent={wishCountNum}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    className='badgeColorFix smr_mobileHideIcone'
+                  >
+                    <Tooltip title="WishList">
+                      <li
+                        className="nav_li_smining_Icone"
+                        onClick={() => navigation("/myWishList")}>
+                        <PiStarThin
+                          style={{
+                            height: "20px",
+                            cursor: "pointer",
+                            width: "20px",
+                          }}
+                        />
+                      </li>
+                    </Tooltip>
+                  </Badge>
+                  <li
+                    className="nav_li_smining_Icone smr_mobileHideIcone"
+                    onClick={toggleOverlay} style={{}}>
+                    <IoSearchOutline
+                      style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                    />
+                  </li>
+                  <Badge
+                    badgeContent={cartCountNum}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    className='badgeColorFix'
+                  >
+                    <Tooltip title="Cart">
+                      <li
+                        onClick={() => { navigate('/cartPage') }}
+                        className="nav_li_smining_Icone"
+                      >
+                        <ShoppingCartOutlinedIcon
+                          sx={{ height: '30px', width: '30px' }}
+                        />
+                      </li>
+                    </Tooltip>
+                  </Badge>
+                </>
+              }
+              
             </div>
             <div>
               <List className='smr_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
@@ -411,6 +422,7 @@ const Header = () => {
                     <ButtonBase
                       component="div"
                       className="muilistMenutext"
+                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                       style={{ width: '100%' }}
                     >
                       <ListItem style={{ padding: '5px', borderBottom: '1px solid white' }}>
@@ -425,7 +437,7 @@ const Header = () => {
                           style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                         >
                           <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                            <button className="underline-button">view all</button>
+                            <button className="smr_mobile_viewAllBtn">View All</button>
                           </div>
                         </ButtonBase>
                         <List>
@@ -436,7 +448,7 @@ const Header = () => {
                                 onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                 style={{ width: '100%' }}
                               >
-                                <p style={{ margin: '0px 0px 0px 15px', width: '100%' }}>{subMenuItem.param1dataname}</p>
+                                <p style={{ margin: '0px 0px 0px 15px', width: '100%', fontWeight: '600', color: 'white' }}>{subMenuItem.param1dataname}</p>
                               </ButtonBase>
                               {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
                               {selectedMenu === menuItem.menuname && (
@@ -449,11 +461,9 @@ const Header = () => {
                                       <ButtonBase
                                         component="div"
                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
-                                        style={{ width: '100%' }}
+                                        style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                       >
-                                        <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
-                                          <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
-                                        </ListItem>
+                                        <p className="smr_mobile_subMenu">{subSubMenuItem.param2dataname}</p>
                                       </ButtonBase>
                                     ))}
                                   </List>
@@ -479,6 +489,44 @@ const Header = () => {
             <div>
               <p className='smr_menuStaicMobilePageLink'>Account</p>
             </div>
+
+            {islogin && (
+              <div
+                style={{
+                  display: "flex",
+                  borderBottom: "1px solid white",
+                  alignItems: "end",
+                  marginInline: '15px'
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search"
+                  style={{
+                    width: "100%",
+                    borderBottom: "1px solid white",
+                    border: "none",
+                    outline: "none",
+                    backgroundColor: "rgba(192, 187, 177, 1.8)",
+                    marginTop: "15px",
+                    fontWeight: 500,
+                    color: "white",
+                    fontSize: '17px'
+                  }}
+                  className="mobileSideBarSearch"
+                />
+                <IoSearchOutline
+                  style={{
+                    height: "20px",
+                    cursor: "pointer",
+                    color: "white",
+                    width: "20px",
+                    marginInline: "5px",
+                  }}
+                />
+              </div>
+            )
+            }
           </div>
         </>
       )}
@@ -529,7 +577,7 @@ const Header = () => {
                 FUN FACT
               </li>
 
-              
+
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -589,8 +637,7 @@ const Header = () => {
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
-                    className='badgeColorFix'
-
+                    className='badgeColorFix smr_mobileHideIcone'
                   >
                     <Tooltip title="WishList">
                       <li
@@ -607,7 +654,7 @@ const Header = () => {
                     </Tooltip>
                   </Badge>
                   <li
-                    className="nav_li_smining_Icone"
+                    className="nav_li_smining_Icone smr_mobileHideIcone"
                     onClick={toggleOverlay} style={{}}>
                     <IoSearchOutline
                       style={{ height: "20px", cursor: "pointer", width: "20px" }}
@@ -668,28 +715,28 @@ const Header = () => {
                 </li>
 
                 <li
-                className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
-              >
-                SERVICE POLICY
-              </li>
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+                >
+                  SERVICE POLICY
+                </li>
 
-              <li
-                className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
-              >
-                EXPERT ADVICE
-              </li>
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
+                >
+                  EXPERT ADVICE
+                </li>
 
-              <li
-                className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
-              >
-                FUN FACT
-              </li>
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
+                >
+                  FUN FACT
+                </li>
 
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
@@ -753,11 +800,11 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className='badgeColor'
+                      className='badgeColor smr_mobileHideIcone'
                     >
                       <Tooltip title="WishList">
                         <li
-                          className="nav_li_smining_Fixed_Icone"
+                          className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                           onClick={() => navigation("/myWishList")}>
                           <PiStarThin
                             style={{
@@ -770,7 +817,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Fixed_Icone"
+                      className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
@@ -850,8 +897,8 @@ const Header = () => {
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             {/* <a href='/productlist' onContextMenu={handleContextMenu}> */}
-                              <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                              {/* </a> */}
+                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                            {/* </a> */}
                             {/* </a> */}
                           </ButtonBase>
                           <>
@@ -872,19 +919,17 @@ const Header = () => {
                           </>
                         </div>
                       ))}
-                        <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
+                      <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                     </List>
 
-                  
+
                   </>
                 </div>
               ))}
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   )
 }

@@ -54,6 +54,13 @@
 }
 .smr_newArrialDiv1{
     width: 50%;
+    cursor: pointer;
+}
+
+.smr_nwArrivalTitle{
+    margin: 0px 0px 10px 0px;
+    color: $homePageFontColor;
+    text-align: center;
 }
 @media screen and (max-width: 1024px) {
     .smilingBridesMain {

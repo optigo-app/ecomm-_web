@@ -9,6 +9,7 @@ import { Badge, Tooltip } from '@mui/material';
 import { GoHeart } from 'react-icons/go';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { FaPowerOff } from 'react-icons/fa';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Header = () => {
 
@@ -20,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     const value = JSON.parse(localStorage.getItem('LoginUser'));
     setislogin(value);
-    
+
     if (titleImg) {
       const storeInit = JSON.parse(localStorage.getItem('storeInit'));
       setCompanyTitleLogo(storeInit?.companylogo);
@@ -118,33 +119,12 @@ const Header = () => {
       const { param1, param2, ...cleanedParam1Item } = param1Item;
       menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
 
-      console.log('Menu Item:', cleanedMenuItem);
-      console.log('Submenu Item:', cleanedParam1Item);
-
       if (param2Item) {
         menuDataObj = { ...menuDataObj, ...param2Item };
-        console.log('Second Submenu Item:', param2Item);
       }
     } else {
       console.log('Menu Item:', cleanedMenuItem);
     }
-
-    console.log('Menu Data Object:', menuDataObj);
-
-    let finalData = {
-      menuname: menuDataObj?.menuname ?? "",
-      FilterKey: menuDataObj.param0name ?? "",
-      FilterVal: menuDataObj.param0dataname ?? "",
-      FilterKey1: menuDataObj?.param1name ?? "",
-      FilterVal1: menuDataObj?.param1dataname ?? "",
-      FilterKey2: menuDataObj?.param2name ?? "",
-      FilterVal2: menuDataObj?.param2dataname ?? ""
-    }
-
-    console.log('finalData', finalData);
-    // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
-
-
   };
 
 
@@ -248,14 +228,14 @@ const Header = () => {
         :
         <div className="el_login_header_main">
           <div className="el_login_header_main_div1">
-            <a href="/">
+            <a href="/" style={{display: 'flex', justifyContent: 'center', alignItems :'center'}}>
               {titleImg && <img src={titleImg} alt="Title" className="el_login_header_main_div1_logo" />}
             </a>
             <ul className="el_login_header_main_div1_ul">
               {menuItems.map((item, index) => (
                 <li
-                  className="nav-li-smining"
-                  style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
+                  className="el_Login_header_li"
+                  style={{ textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
                   key={index}
                   label={item.menuname}
                   onMouseEnter={() => { handleMouseEnter(index, item) }}
@@ -273,22 +253,25 @@ const Header = () => {
           <ul className="el_login_header_main_div2">
             <>
               <Badge
-                // badgeContent={getWishListCount}
+                badgeContent={'3'}
                 max={1000}
                 overlap={"rectangular"}
                 color="secondary"
+                className='el_login_header_main_div2_li'
               >
                 <Tooltip title="WishList">
-                  <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                  <li 
+                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
                     <GoHeart color="#7D7F85" fontSize='25px' />
                   </li>
                 </Tooltip>
               </Badge>
               <Badge
-                // badgeContent={getCartListCount}
+                badgeContent={'3'}
                 max={1000}
                 overlap={"rectangular"}
                 color="secondary"
+                className='el_login_header_main_div2_li'
               >
                 <Tooltip title="Cart">
                   <li
@@ -304,7 +287,7 @@ const Header = () => {
               </Badge></>
             <Tooltip title="Account">
               <li
-                className="nav-li-smining-Afterlogin"
+                className="el_login_header_main_div2_li"
                 style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
                 onClick={() => navigation("/account")}
               >
@@ -312,7 +295,7 @@ const Header = () => {
               </li>
             </Tooltip>
             <li
-              className="nav-li-smining-Afterlogin"
+              className="el_login_header_main_div2_li"
               style={{ cursor: "pointer", marginTop: "0" }}
               onClick={handleLogout}
             >
@@ -321,6 +304,44 @@ const Header = () => {
           </ul>
         </div>
       }
+
+      <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+        <div
+          style={{
+            display: "flex",
+            padding: "50px",
+            color: "#7d7f85",
+            // backgroundColor: "rgba(255, 255, 255, 0.8)",
+            // flexDirection: "column",
+            gap: "50px",
+            justifyContent: 'space-between'
+          }}
+          className="menuDropdownData"
+        >
+          <div style={{}}>
+            <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
+              {selectedData?.param1?.map((param1Item, param1Index) => (
+                <div key={param1Index}>
+                  <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif',color:'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                  <div style={{ height: '300px', display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
+                    {param1Item?.param2?.map((param2Item, param2Index) => (
+                      <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                        {param2Item?.param2dataname}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* <div style={{ display: 'flex', gap: '15px' }}>
+            <img src={`${storImagePath()}/elvee/images/Menu/Menu1.jpg`} alt="#" className="menuImages" />
+            <img src={`${storImagePath()}/elvee/images/Menu/Menu2.jpg`} alt="#" className="menuImages" />
+          </div> */}
+
+        </div>
+      </div>
     </div>
   )
 }
