@@ -28,7 +28,10 @@
 
 .empty_sorting_div{
   display: flex;
+  justify-content: start;
+  align-items: center;
   width:25%;
+ 
 }
 
 .smr_main_sorting_div{
@@ -109,12 +112,14 @@
 }
 
 .smr_breadcums_port {
-  position: absolute;
-  top: -40px;
-  z-index: 999;
+  // position: absolute;
+  // top: -40px;
+  // z-index: 999;
   font-family: $primaryFontFamily;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: $primaryfontcolorLight;
+  margin-left:72px;
+  margin-top: 10px;
 }
 
 .smr_inner_portion {

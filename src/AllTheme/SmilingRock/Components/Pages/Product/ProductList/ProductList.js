@@ -19,6 +19,7 @@ import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandW
 import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
+import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 
 const ProductList = () => {
 
@@ -46,11 +47,13 @@ const ProductList = () => {
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
+  const [rollOverImgPd,setRolloverImgPd] = useState()
+
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  console.log("productListData", productListData);
+  console.log("finalProductListData",finalProductListData);
 
   useEffect(() => {
     window.scroll({
@@ -62,9 +65,17 @@ const ProductList = () => {
   let location = useLocation();
   let navigate = useNavigate();
 
-  useEffect(() => {
-
-  }, [])
+  
+  console.log("searchVal",location?.state?.SearchVal);
+  useEffect(()=>{
+    if(location?.state?.SearchVal !== undefined){ 
+      setTimeout(()=>{
+        SearchProduct(location?.state?.SearchVal).then((res)=>{
+          console.log("search",res)
+        })
+      },500)
+    }
+  },[location?.key])
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -82,44 +93,49 @@ const ProductList = () => {
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
-    setMenuParams(param)
-  }, [location?.key, productListData, filterChecked])
+    if(location?.state?.SearchVal === undefined){
+      setMenuParams(param)
+     }
+  },[location?.key,productListData,filterChecked])
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setIsProdLoading(true)
-    ProductListApi({}, currPage, obj)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .then(async (res) => {
-        let forWardResp;
-        if (res) {
-          await GetPriceListApi(1, {}, {}, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
-              forWardResp = resp;
-            }
-          })
-        }
-        return forWardResp
-      }).then(async (forWardResp) => {
-        let forWardResp1;
-        if (forWardResp) {
-          FilterListAPI().then((res) => {
-            setFilterData(res)
-            forWardResp1 = res
-          }).catch((err) => console.log("err", err))
-        }
-        return forWardResp1
-      }).finally(() => setIsProdLoading(false))
-      .catch((err) => console.log("err", err))
+      // ProductListApi({},currPage,obj)
+     if(location?.state?.SearchVal === undefined){ 
+      ProductListApi({},1,obj)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .then( async(res) => {
+          let forWardResp;
+          if (res) {
+            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+              if(resp){
+                setPriceListData(resp)
+                forWardResp = resp;
+              }
+            })
+          }
+          return forWardResp
+        }).then(async(forWardResp)=>{
+          let forWardResp1;
+          if(forWardResp){
+            FilterListAPI().then((res)=>{
+              setFilterData(res)
+              forWardResp1 = res
+            }).catch((err)=>console.log("err",err))
+          }
+          return forWardResp1
+        }).finally(()=> setIsProdLoading(false))
+        .catch((err) => console.log("err", err))
+      }
   }, [location?.key])
 
   useEffect(() => {
@@ -136,6 +152,18 @@ const ProductList = () => {
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
 
+        let pdImgList = [];
+
+        if(product?.ImageCount > 0){
+          for(let i = 1; i <= product?.ImageCount; i++){
+            let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+            pdImgList.push(imgString)
+          }
+        }
+        else{
+          pdImgList.push(imageNotFound)
+        }
+
       let price = 0;
       let markup = 0;
       let metalrd = 0;
@@ -149,6 +177,7 @@ const ProductList = () => {
       let updCPCS = 0;
       let ismrpbase;
       let mrpbaseprice;
+      let images = pdImgList;
 
       if (newPriceData || newPriceData1 || newPriceData2) {
         price =
@@ -189,13 +218,36 @@ const ProductList = () => {
         updCPCS,
         ismrpbase,
         mrpbaseprice,
+        images
       };
     });
 
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
-
   }, [productListData, priceListData]);
+
+
+  const ProdCardImageFunc = (pd,j) => {
+    let finalprodListimg;
+    let pdImgList = [];
+
+    if(pd?.ImageCount > 0){
+      for(let i = 1; i <= pd?.ImageCount; i++){
+        let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
+        pdImgList.push(imgString)
+      }
+    }
+    else{
+      finalprodListimg = imageNotFound;
+    }
+    if(pdImgList?.length > 0){
+      finalprodListimg = pdImgList[j]
+      if(j>0 && (!finalprodListimg || finalprodListimg == undefined)){
+        finalprodListimg = pdImgList[0]
+      }
+    }
+    return finalprodListimg
+  }
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -216,29 +268,9 @@ const ProductList = () => {
     }
   }
 
-  const ProdCardImageFunc = (pd, j) => {
-    let finalprodListimg;
-    let pdImgList = [];
+  
 
-    if (pd?.ImageCount > 0) {
-      for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
-        pdImgList.push(imgString)
-      }
-    }
-    else {
-      finalprodListimg = imageNotFound;
-    }
-    if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[j]
-      if (j > 0 && (!finalprodListimg || finalprodListimg == undefined)) {
-        finalprodListimg = pdImgList[0]
-      }
-    }
-    return finalprodListimg
-  }
-
-  const handleCheckboxChange = (e, listname, val) => {
+  const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
@@ -267,36 +299,39 @@ const ProductList = () => {
 
     return output
   }
+  
+  useEffect(()=>{
+   let output = FilterValueWithCheckedOnly()
+   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+   setIsOnlyProdLoading(true)
 
-  useEffect(() => {
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-    setIsOnlyProdLoading(true)
-    ProductListApi(output, 1, obj)
-      .then((res) => {
-        if (res) {
+   if(location?.state?.SearchVal === undefined){
+      ProductListApi(output,1,obj)
+        .then((res) => {
+          if (res) {
 
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .then(async (res) => {
-        if (res) {
-          await GetPriceListApi(1, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
-            }
-          })
-        }
-        return res
-      })
-      // .then(async(res)=>{
-      //   if(res){
-      //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-      //   }
-      // })
-      .catch((err) => console.log("err", err)).finally((res) => { setIsOnlyProdLoading(false) })
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .then( async(res) => {
+          if (res) {
+            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+              if(resp){
+                setPriceListData(resp)  
+              }
+            })
+          }
+          return res
+        })
+        // .then(async(res)=>{
+        //   if(res){
+        //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+        //   }
+        // })
+        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+      }
 
   }, [filterChecked])
 
@@ -406,31 +441,34 @@ const ProductList = () => {
 
     setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
-    ProductListApi(output, currPage, obj)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .then(async (res) => {
-        if (res) {
-          await GetPriceListApi(currPage, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
+
+    if(location?.state?.SearchVal === undefined){
+      ProductListApi(output,currPage,obj)
+          .then((res) => {
+            if (res) {
+              setProductListData(res?.pdList);
+              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
             }
+            return res;
           })
-        }
-        return res
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setTimeout(() => {
-          localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-          setIsOnlyProdLoading(false)
-        }, 100);
-      })
+          .then( async(res) => {
+            if (res) {
+              await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+                if(resp){
+                  setPriceListData(resp)  
+                }
+              })
+            }
+            return res
+          })
+          .catch((err) => console.log("err", err))
+          .finally(()=>{
+            setTimeout(() => {
+              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+              setIsOnlyProdLoading(false)
+            }, 100);
+          })
+    }
   }
 
   useEffect(() => {
@@ -502,17 +540,11 @@ const ProductList = () => {
 
   }
 
-  const handelRolloverImage = (pd, e, type) => {
-    const images = document.getElementById(`smr_productCard_Image${e?.target?.id}`);
-
-    if (images && type == "enter") {
-      images.src = ProdCardImageFunc(pd, 2)
-    }
-    if (images && type == "leave") {
-      images.src = ProdCardImageFunc(pd, 1)
+  const handleImgRollover = (pd,i) =>{
+    if(pd?.images?.length >=1){
+      setRolloverImgPd((prev)=>{ return {...prev,[i]:pd?.images[1] }})
     }
   }
-
 
 
   return (
@@ -521,16 +553,16 @@ const ProductList = () => {
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
             {
-              isProdLoading ?
-                // true ? 
-                (
-                  <ProductListSkeleton />
-                ) : (
-                  <>
-                    <div className="smr_prodSorting">
-                      <div className="empty_sorting_div">
-
-                      </div>
+            isProdLoading ? 
+            // true ? 
+            (
+              <ProductListSkeleton />
+            ) : (
+              <>
+                <div className="smr_prodSorting">
+                  <div className="empty_sorting_div">
+                     <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
+                  </div>
 
                       <div className="smr_main_sorting_div">
                         <div className="smr_metal_custom">
@@ -702,97 +734,97 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                          <FormControlLabel
-                                            control={
-                                              <Checkbox
-                                                name={`${ele?.id}${opt?.id}`}
-                                                // checked={
-                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                //     : false
-                                                // }
-                                                checked={
-                                                  filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                                    undefined
-                                                    ? false
-                                                    : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                                }
-                                                style={{
-                                                  color: "#7f7d85",
-                                                  padding: 0,
-                                                  width: "10px",
-                                                }}
-                                                onClick={(e) =>
-                                                  handleCheckboxChange(
-                                                    e,
-                                                    ele?.id,
-                                                    opt?.Name
-                                                  )
-                                                }
-                                                size="small"
-                                              />
-                                            }
-
-                                            // sx={{
-                                            //   display: "flex",
-                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                            //   width: "100%",
-                                            //   flexDirection: "row-reverse", // Align items to the right
-                                            //   fontFamily:'TT Commons Regular'
-                                            // }}
-                                            className="smr_mui_checkbox_label"
-                                            label={opt.Name}
-                                          />
-
-                                        </div>
-                                      ))}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                              </>
-                            ))}
-                          </div>
-                        </div>
+                                      <FormControlLabel
+                                      control={
+                                      <Checkbox
+                                        name={`${ele?.id}${opt?.id}`}
+                                        // checked={
+                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                        //     : false
+                                        // }
+                                        checked={
+                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                          undefined
+                                            ? false
+                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(
+                                            e,
+                                            ele?.id,
+                                            opt?.Name
+                                          )
+                                        }
+                                        size="small"
+                                        />
+                                      }
+                                      
+                                      // sx={{
+                                      //   display: "flex",
+                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                      //   width: "100%",
+                                      //   flexDirection: "row-reverse", // Align items to the right
+                                      //   fontFamily:'TT Commons Regular'
+                                      // }}
+                                      className="smr_mui_checkbox_label"
+                                      label={opt.Name}
+                                      />
+                                      
+                                    </div>
+                                  ))}
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          </>
+                        ))}
                       </div>
-                      {
-                        filterProdListEmpty ?
-                          <div style={{ display: 'flex', justifyContent: 'center', width: '75%', alignItems: 'center', height: '500px' }}>
-                            <span className="smr_prod_datanotfound">
-                              Products Not found !!!
-                            </span>
-                          </div>
-                          :
-                          <div className="smr_productList">
-                            {isOnlyProdLoading ? (
-                              <ProductListSkeleton fromPage={"Prodlist"} />
-                            ) : (
-                              <div className="smr_outer_portion">
-                                {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                                <div className="smr_inner_portion">
-                                  {finalProductListData?.map((productData) => (
-                                    <div className="smr_productCard">
-                                      <div className="cart_and_wishlist_icon">
-                                        {/* <Button className="smr_cart-icon"> */}
-                                        <Checkbox
-                                          icon={
-                                            <LocalMallOutlinedIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#7d7f85",
-                                                opacity: ".7",
-                                              }}
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <LocalMallIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#009500",
-                                              }}
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px" }}
+                    </div>
+                  </div>
+                  {
+                    filterProdListEmpty ? 
+                    <div style={{display:'flex',justifyContent:'center',width:'75%',alignItems:'center',height:'500px'}}>
+                      <span className="smr_prod_datanotfound">
+                        Products Not found !!!
+                      </span>
+                    </div>
+                    :
+                    <div className="smr_productList">
+                    {isOnlyProdLoading ? (
+                      <ProductListSkeleton fromPage={"Prodlist"} />
+                    ) : (
+                      <div className="smr_outer_portion">
+                      {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
+                      <div className="smr_inner_portion">
+                        {finalProductListData?.map((productData,i) => (
+                          <div className="smr_productCard">
+                            <div className="cart_and_wishlist_icon">
+                              {/* <Button className="smr_cart-icon"> */}
+                                <Checkbox
+                                  icon={
+                                    <LocalMallOutlinedIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#7d7f85",
+                                        opacity: ".7",
+                                      }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <LocalMallIcon
+                                      sx={{
+                                        fontSize: "22px",
+                                        color: "#009500",
+                                      }}
+                                    />
+                                  }
+                                  disableRipple={false}
+                                  sx={{ padding: "10px" }}
 
                                           onChange={(e) => handleCartandWish(e, productData, "Cart")}
                                           checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1 ? true : false}
@@ -838,62 +870,62 @@ const ProductList = () => {
                                       <img
                                         className="smr_productCard_Image"
 
-                                        id={`smr_productCard_Image${productData?.autocode}`}
-                                        // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                        src={ProdCardImageFunc(productData, 0)}
-                                        alt=""
-                                        onClick={() => handleMoveToDetail(productData)}
-                                        onMouseEnter={(e) => handelRolloverImage(productData, e, "enter")}
-                                        onMouseLeave={(e) => handelRolloverImage(productData, e, "leave")}
-                                      />
-                                      <div className="smr_prod_Title" >
-                                        <span
-                                          className={
-                                            productData?.TitleLine?.length > 30
-                                              ? "smr_prod_title_with_width"
-                                              : "smr_prod_title_with_no_width"
-                                          }
-                                        >
-                                          {productData?.TitleLine}{" "}
-                                          {productData?.TitleLine?.length > 0 && "-"}
-                                        </span>
-                                        <span className="smr_prod_designno">
-                                          {productData?.designno}
-                                        </span>
-                                      </div>
-                                      <div className="smr_prod_Allwt">
-                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: '1px', gap: '3px' }}>
-                                          {/* <span className="smr_por"> */}
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_keys">NWT:</span>
-                                            <span className="smr_val">
-                                              {productData?.updNWT.toFixed(3)}
-                                            </span>
-                                          </span>
-                                          {(storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">GWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.updGWT.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
-                                          {/* </span> */}
-                                          {/* <span className="smr_por"> */}
-                                          {(storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">DWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
+                              id={`smr_productCard_Image${productData?.autocode}`}
+                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                              // src={ ProdCardImageFunc(productData,0)}
+                              src={productData?.images?.length > 0 ? productData?.images[0] :  imageNotFound}
+                              alt=""
+                              onClick={()=>handleMoveToDetail(productData)}
+                              onMouseEnter={()=>{handleImgRollover(productData,i)}}
+                            />
+                            <div className="smr_prod_Title" >
+                              <span
+                                className={
+                                  productData?.TitleLine?.length > 30
+                                    ? "smr_prod_title_with_width"
+                                    : "smr_prod_title_with_no_width"
+                                }
+                              >
+                                {productData?.TitleLine}{" "}
+                                {productData?.TitleLine?.length > 0 && "-"}
+                              </span>
+                              <span className="smr_prod_designno">
+                                {productData?.designno}
+                              </span>
+                            </div>
+                            <div className="smr_prod_Allwt">
+                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px'}}> 
+                              {/* <span className="smr_por"> */}
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">NWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updNWT.toFixed(3)}
+                                  </span>
+                                </span>
+                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
+                                  <>
+                                  <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">GWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updGWT.toFixed(3)}
+                                  </span>
+                                </span>
+                                </>
+                                }
+                              {/* </span> */}
+                              {/* <span className="smr_por"> */}
+                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
+                               <>
+                               <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">DWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
+                                  </span>
+                                </span>
+                               </>
+                                }
 
                                           {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
                                             <>
