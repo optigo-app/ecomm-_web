@@ -1,13 +1,13 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, finalPrice, finalPriceWisthMakrup) => {
+export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup) => {
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
         const { FrontEnd_RegNo } = storeInit;
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
         const UserEmail = localStorage.getItem("registerEmail")
 
-        console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, finalPrice, finalPriceWisthMakrup);
+        console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
 
         const combinedValue = JSON.stringify({
             ForEvt: "Cart",
@@ -21,10 +21,10 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "MetalColorId": metalCOLORID ?? 0,
                     "DiaQCid": `${diaIDData}` ?? "0,0",
                     "CsQCid": `${colorStoneID}` ?? "0,0",
-                    "Size": "10",
-                    "Unitcost": finalPrice,
-                    "markup": "15",
-                    "UnitCostWithmarkup": finalPriceWisthMakrup ?? 0
+                    "Size": `${sizeId ?? 0}`,
+                    "Unitcost": `${finalPrice ?? 0}`,
+                    "markup": `${markupData ?? 0}`,
+                    "UnitCostWithmarkup": `${finalPriceWithMarkup ?? 0}`
                 }]
         });
         const encodedCombinedValue = btoa(combinedValue);
@@ -37,8 +37,8 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
 
 
         console.log("updatecartBody", body);
-        const response = await CommonAPI(body);
-        return response;
+        // const response = await CommonAPI(body);
+        // return response;
     } catch (error) {
         console.error("Error:", error);
         throw error;

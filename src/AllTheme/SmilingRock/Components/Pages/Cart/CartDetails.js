@@ -15,6 +15,7 @@ const CartDetails = ({
   sizeCombo,
   showRemark,
   CurrencyData,
+  mrpbasedPriceFlag,
   handleRemarkChange,
   handleSave,
   handleCancel,
@@ -25,12 +26,13 @@ const CartDetails = ({
   handleSizeChange,
   onUpdateCart,
   decodeEntities,
+  handleMoveToDetail
 }) => {
   return (
     <div className="smr_cart-container">
       <div className="smr_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
-        <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage' />
+        <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage'  onClick={() => handleMoveToDetail(selectedItem)}/>
       </div>
       <Customization
         ispriceloding={ispriceloding}
@@ -42,6 +44,7 @@ const CartDetails = ({
         productRemark={productRemark}
         sizeCombo={sizeCombo}
         CurrencyData={CurrencyData}
+        mrpbasedPriceFlag={mrpbasedPriceFlag}
         handleAddReamrk={handleAddReamrk}
         handleRemarkChange={handleRemarkChange}
         handleSave={handleSave}
