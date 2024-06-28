@@ -815,7 +815,7 @@ const ProductDetail = () => {
                     )}
 
                     <div className="smr_thumb_prod_img">
-                      {pdThumbImg?.map((ele) => (
+                      { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                         <img
                           src={ele}
                           alt={""}
@@ -965,7 +965,7 @@ const ProductDetail = () => {
                         </div>
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                      <div className="smr_single_prod_customize_outer">
+                      {SizeCombo?.length > 0 && <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
                         <select
                           className="menuitemSelectoreMain"
@@ -986,7 +986,7 @@ const ProductDetail = () => {
                             </option>
                           ))}
                         </select>
-                      </div>
+                      </div>}
                     </div>
 
                     { handlePrice() !== 0 && <div className="smr_price_portion">
