@@ -77,17 +77,17 @@ const CartItem = ({
   }
 
   return (
-    <Grid item xs={12} sm={itemLength == 2 ? 6 : 4}>
+    <Grid item xs={12} sm={itemLength <= 2 ? 6 : 6} md={itemLength <= 2 ? 6 : 6} lg={itemLength <= 2 ? 6 : 4} xxl={itemLength <= 2 ? 6 : 3}>
       <Card className='smr_cartListCard'
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'none',
           border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          width: 390,
+          // width:itemLength <= 2 && '390px'
         }}
         onClick={() => onSelect(item)}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={CartCardImageFunc(item)}
@@ -117,7 +117,7 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box sx={{ position: 'absolute', bottom: '5px' }}>
+              <Box className="smr_cartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right:'5px' }}>
                 {item?.Remarks !== "" &&
                   <Typography variant="body2" className='smr_card-ContentData'>
                     Remark: {item?.Remarks || productRemark}
