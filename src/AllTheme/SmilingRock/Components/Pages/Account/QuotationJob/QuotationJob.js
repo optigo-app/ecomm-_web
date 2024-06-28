@@ -400,7 +400,7 @@ const QuotationJob = () => {
             console.error('Error parsing date:', error.message);
             return 0;
         }
-    } else if(orderBy === 'FinalAmount'){
+    } else if(orderBy === 'FinalAmount' || orderBy === "JobNo"){
       
       const valueA = parseFloat(a[orderBy]) || 0;
       const valueB = parseFloat(b[orderBy]) || 0;
@@ -461,7 +461,6 @@ const QuotationJob = () => {
       };
       
       const response = await CommonAPI(body);
-      console.log(response);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
       if (response.Data?.rd) {
