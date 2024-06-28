@@ -190,7 +190,7 @@ const Header = () => {
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    ].filter(Boolean).join('&');
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -208,7 +208,7 @@ const Header = () => {
     ].join('&');
 
     console.log('otherparamsUrl--', otherparamUrl);
-    const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
+    const url = `/productlist?V=${queryParameters}/k=${otherparamUrl}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -286,14 +286,10 @@ const Header = () => {
   };
 
 
-
-
-
-
  const searchDataFucn = (e) => {
   if(e.key === 'Enter'){
     if(searchText){
-      navigation(`/productlist`, { state: {SearchVal:searchText}})
+      navigation(`/productlist/?S=${searchText}`, { state: {SearchVal:searchText}})
     }
   }
  }
