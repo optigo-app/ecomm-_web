@@ -1,12 +1,43 @@
 import { findCsQcId, findDiaQcId, findMetal } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeList,obje) => {
+export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeList,obje,mainData = "") => {
   const storeInit = JSON.parse(localStorage.getItem("storeInit"));
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const param = JSON.parse(localStorage.getItem("menuparams"));
   const islogin = JSON.parse(localStorage.getItem("LoginUser"));
   const UserEmail = localStorage.getItem("registerEmail");
+
+  let MenuParams = {};
+  let serachVar = ""
+
+  if(Array.isArray(mainData)){
+    if(mainData?.length > 0){
+      Object.values(mainData[0]).forEach((ele,index)=>{
+       let keyName = `FilterKey${index === 0 ? '' : index}`;
+       MenuParams[keyName] = ele.replace(/%20/g, ' ')
+      })
+  
+      Object.values(mainData[1]).forEach((ele,index)=>{
+       let keyName = `FilterVal${index === 0 ? '' : index}`;
+       MenuParams[keyName] = ele.replace(/%20/g, ' ')
+      })
+    }
+   }else{
+    if(mainData !== ""){
+      if(mainData.split("=")[0] == "AlbumName"){
+        MenuParams.FilterKey = mainData?.split("=")[0]
+        MenuParams.FilterVal = mainData?.split("=")[1]
+      }else if(mainData.split("=")[0] == "S"){
+        serachVar = mainData.split("=")[1] 
+      }else{
+        MenuParams.FilterKey = mainData?.split("=")[1]
+        MenuParams.FilterVal = mainData?.split("=")[1]
+      }
+    }
+   }
+
+   console.log("MenuParams",mainData)
 
   // let encodedFilter = {
   //     "DesignNo":"",
@@ -42,13 +73,17 @@ export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeL
   //   }
 
   // let diaQc = findDiaQcId(obje?.dia ?? loginUserDetail?.cmboDiaQCid)[0]
-  let diaQc = (obje?.dia === undefined ?  loginUserDetail?.cmboDiaQCid : obj?.dia)
   // let csQc = findCsQcId(obje?.cs ?? loginUserDetail?.cmboCSQCid)[0]
-  let csQc = (obje?.cs === undefined ? loginUserDetail?.cmboCSQCid : obj?.cs)
+  // let mtidd = obje?.mt===undefined ?loginUserDetail?.cmboMetalType: obje?.mt
 
-  let mtidd = obje?.mt===undefined ?loginUserDetail?.cmboMetalType: obje?.mt
 
-  let mtid = findMetal(loginUserDetail?.cmboMetalType)[0]?.Metalid
+  // let diaQc = (obje?.dia === undefined ?  loginUserDetail?.cmboDiaQCid : obj?.dia)
+  // let csQc = (obje?.cs === undefined ? loginUserDetail?.cmboCSQCid : obj?.cs)
+  // let mtid = findMetal(loginUserDetail?.cmboMetalType)[0]?.Metalid
+
+  let diaQc = (obj?.dia === undefined ? loginUserDetail?.cmboDiaQCid : obj?.dia)
+  let csQc = (obj?.cs === undefined ? loginUserDetail?.cmboCSQCid : obj?.cs)
+  let mtid = (obj?.mt === undefined ? loginUserDetail?.MetalId : obj?.mt)
 
   // console.log("diaa prod api",obje?.mt);
 
@@ -82,12 +117,13 @@ export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeL
         : loginUserDetail?.SettingPriceUniqueNo
     }`,
     designno: "",
-    FilterKey: `${param?.FilterKey}`,
-    FilterVal: `${param?.FilterVal}`,
-    FilterKey1: `${param?.FilterKey1}`,
-    FilterVal1: `${param?.FilterVal1}`,
-    FilterKey2: `${param?.FilterKey2}`,
-    FilterVal2: `${param?.FilterVal2}`,
+    FilterKey: `${MenuParams?.FilterKey ?? ""}`,
+    FilterVal: `${MenuParams?.FilterVal ?? ""}`,
+    FilterKey1: `${MenuParams?.FilterKey1 ?? ""}`,
+    FilterVal1: `${MenuParams?.FilterVal1 ?? ""}`,
+    FilterKey2: `${MenuParams?.FilterKey2 ?? ""}`,
+    FilterVal2: `${MenuParams?.FilterVal2 ?? ""}`,
+    SearchKey:`${serachVar ?? ""}`,
     PageNo: `${page}`,
     PageSize: `${storeInit?.PageSize}`,
     Metalid: `${obje?.mt ?? mtid}`,

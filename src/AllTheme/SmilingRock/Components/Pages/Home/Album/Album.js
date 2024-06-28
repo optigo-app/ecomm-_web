@@ -22,7 +22,7 @@ const Album = () => {
   }, []);
 
   const handleNavigate = (name) => {
-    navigation(`/productlist/?AB=${name}`);
+    navigation(`/productlist/?AlbumName=${name}`);
   };
 
   return (
