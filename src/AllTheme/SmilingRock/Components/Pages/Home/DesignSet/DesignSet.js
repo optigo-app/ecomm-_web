@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './DesignSet.modul.scss'
+import React, { useEffect, useState } from 'react';
+import './DesignSet.modul.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 
@@ -7,80 +7,126 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import imageNotFound from "../../../Assets/image-not-found.jpg"
-import { FaChevronLeft } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa";
+import imageNotFound from '../../../Assets/image-not-found.jpg';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import Pako from 'pako';
 
 const DesignSet = () => {
-
-
     const [imageUrl, setImageUrl] = useState();
-    const [designSetList, setDesignSetList] = useState()
-    const sliderRef = useRef(null);
-    const scrollAmount = 250;
+    const [designSetList, setDesignSetList] = useState([]);
+    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const navigation = useNavigate();
+    const [storeInit, setStoreInit] = useState({});
 
     useEffect(() => {
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let storeinit = JSON.parse(localStorage.getItem('storeInit'));
+        setStoreInit(storeinit);
+
+        let data = JSON.parse(localStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet").then((response) => {
-            if (response?.Data?.rd) {
-                setDesignSetList(response?.Data?.rd);
-            }
-        }).catch((err) => console.log(err))
-    }, [])
+        Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet')
+            .then((response) => {
+                if (response?.Data?.rd) {
+                    setDesignSetList(response?.Data?.rd);
+                }
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
         if (pd?.DefaultImageName) {
-            finalprodListimg = imageUrl + pd?.designsetuniqueno + '/' + pd?.DefaultImageName
-        }
-        else {
+            finalprodListimg = imageUrl + pd?.designsetuniqueno + '/' + pd?.DefaultImageName;
+        } else {
             finalprodListimg = imageNotFound;
         }
-        return finalprodListimg
-    }
+        return finalprodListimg;
+    };
 
-    console.log('scrollll',sliderRef);
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid,
+            f: {},
+        };
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    };
+
+    const decodeEntities = (html) => {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    };
+
+    console.log('designSetListdesignSetListdesignSetList',designSetList);
+
+
     return (
-        <div className='smr_designSetMain' style={{ position: 'relative' , marginTop: '80px'}}>
+        <div className="smr_designSetMain">
             <div>
-                <p className='designSetTitle'>Design Set</p>
+                <p className="designSetTitle">Design Set</p>
             </div>
-            <div className='App' style={{ marginInline: '90px' }}>
-                <button
-                    className="nav-btn-left"
-                    onClick={() => {
-                        const container = sliderRef.current;
-                        container.scrollLeft -= scrollAmount; 
-                    }}
-                >
+            <div className="App">
+                <button className="nav-btn-left">
                     <FaChevronLeft />
                 </button>
 
-                <div className="images-container" ref={sliderRef}>
-                    {designSetList?.map((slide, index) => (
-                        <div className='smr_designSetDiv'>
-                            <img className='image' loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} />
-                        </div>
-                    ))}
-                </div>
-                <button
-                    className="nav-btn-right"
-                    onClick={() => {
-                        const container = sliderRef.current;
-                        container.scrollLeft += scrollAmount; 
+                <Swiper
+                    modules={[Navigation]}
+                    // modules={[Navigation, Pagination]}
+                    spaceBetween={50}
+                    slidesPerView={3}
+                    navigation={{
+                        nextEl: '.nav-btn-right',
+                        prevEl: '.nav-btn-left',
                     }}
+                // pagination={{ clickable: true }}
                 >
+                    {designSetList?.map((slide, index) => (
+                        <SwiperSlide key={index} className='srm_designSetMain'>
+                            <div className="smr_designSetDiv">
+                                <img className="image" loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} />
+                                <p className="smr_designList_title">{slide?.TitleLine}</p>
+                                <p className="smr_designList_title">
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(storeInit?.Currencysymbol),
+                                        }}
+                                    />{' '}
+                                    {slide?.UnitCost}
+                                </p>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <button className="nav-btn-right">
                     <FaChevronRight />
                 </button>
             </div>
-            <p className='smr_designSetShowAll'>View All</p>
+            {/* <p className="smr_designSetShowAll">View All</p> */}
         </div>
-    )
-}
+    );
+};
 
-export default DesignSet
+export default DesignSet;
+
 
 
 
