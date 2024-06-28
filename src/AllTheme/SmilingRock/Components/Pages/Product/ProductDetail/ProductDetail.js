@@ -194,7 +194,7 @@ const ProductDetail = () => {
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
       Size: singleProd?.DefaultSize,
-      Unitcost: finalprice.toFixed(2),
+      Unitcost: handlePrice(),
       markup: mtrd?.AB,
       UnitCostWithmarkup: handlePrice(),
       Remark: "",

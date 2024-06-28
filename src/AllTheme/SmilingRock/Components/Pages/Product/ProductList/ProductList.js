@@ -20,6 +20,10 @@ import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
+import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
+import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 
 const ProductList = () => {
 
@@ -49,35 +53,158 @@ const ProductList = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? "");
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? "");
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
+  const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
+  const [loginInfo, setLoginInfo] = useState();
 
   const [rollOverImgPd,setRolloverImgPd] = useState()
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  // console.log("locationData",location);
 
-  let MergedUrl = (Arr1,Arr2) =>{
-    let mergedArray = Arr1.map((key, index) => {
-      return { [key]: Arr2[index] };
-    })
+  // useEffect(()=>{
 
-    return mergedArray;
-    
-  }
+  //   let UrlVal =  location?.search.slice(1).split("/")
 
-  useEffect(()=>{
+  //     let MenuVal = '';
+  //     let MenuKey = '';
+  //     let SearchVar = '';
+  //     let TrendingVar = '';
+  //     let NewArrivalVar = '';
+  //     let BestSellerVar = '';
+  //     let AlbumVar = '';
 
-  let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
-  let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+  //   UrlVal.forEach((ele)=>{
+  //     let firstChar = ele.charAt(0);
 
-  let MergedUrlArr = MergedUrl(key,val)
+  //     switch (firstChar) {
+  //       case 'V':
+  //           MenuVal = ele;
+  //           break;
+  //       case 'K':
+  //           MenuKey = ele;
+  //           break;
+  //       case 'S':
+  //           SearchVar = ele;
+  //           break;
+  //       case 'T':
+  //           TrendingVar = ele;
+  //           break;
+  //       case 'N':
+  //           NewArrivalVar = ele;
+  //           break;
+  //       case 'B':
+  //           BestSellerVar = ele;
+  //           break;
+  //       case 'AB':
+  //           AlbumVar = ele;
+  //           break;
+  //       default:
+  //           return '';
+  //     }
+  //   })
 
-  console.log("key1111",MergedUrlArr)
+  //   if(MenuVal && MenuKey){
+  //     let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
+  //     let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
 
-  },[])
+  //     let MergedUrlArr = MergedUrl(key,val)
 
-  
+  //     console.log("menuval",MergedUrlArr)
+  //   }
+
+  //   if(SearchVar){
+  //     console.log("SearchVar",SearchVar)
+  //   }
+  //   if(TrendingVar){
+  //     console.log("TrendingVar",TrendingVar)
+  //   }
+  //   if(NewArrivalVar){
+  //     console.log("NewArrivalVar",NewArrivalVar)
+  //   }
+  //   if(BestSellerVar){
+  //     console.log("BestSellerVar",BestSellerVar)
+  //   }
+  //   if(AlbumVar){
+  //     console.log("AlbumVar",AlbumVar)
+  //   }
+
+
+  // },[location?.key])
+
+
+  const callAllApi = () => {
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+
+    if (!mtTypeLocal || mtTypeLocal?.length === 0) {
+      MetalTypeComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            setMetalTypeCombo(data);
+
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+     else {
+      setMetalTypeCombo(mtTypeLocal);
+    }
+
+    if (!diaQcLocal || diaQcLocal?.length === 0) {
+      DiamondQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("diamondQualityColorCombo",JSON.stringify(data));
+            setDiaQcCombo(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } 
+    else {
+      setDiaQcCombo(diaQcLocal);
+    }
+
+    if (!csQcLocal || csQcLocal?.length === 0) {
+      ColorStoneQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data) );
+            setCsQcCombo(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } 
+    else {
+      setCsQcCombo(csQcLocal);
+    }
+
+    if (!mtColorLocal || mtColorLocal?.length === 0) {
+      MetalColorCombo()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    setLoginInfo(logininfo);
+  }, []);
+
+  useEffect(() => {
+    callAllApi();
+  }, [loginInfo]);
 
   useEffect(() => {
     window.scroll({
@@ -86,17 +213,15 @@ const ProductList = () => {
     })
   }, [])
 
-  
-
-  useEffect(()=>{
-    if(location?.state?.SearchVal !== undefined){ 
-      setTimeout(()=>{
-        SearchProduct(location?.state?.SearchVal).then((res)=>{
-          console.log("search",res)
-        })
-      },500)
-    }
-  },[location?.key])
+  // useEffect(()=>{
+  //   if(location?.state?.SearchVal !== undefined){ 
+  //     setTimeout(()=>{
+  //       SearchProduct(location?.state?.SearchVal).then((res)=>{
+  //         console.log("search",res)
+  //       })
+  //     },500)
+  //   }
+  // },[location?.key])
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -121,14 +246,88 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"))
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    let UrlVal =  location?.search.slice(1).split("/")
+
+      let MenuVal = '';
+      let MenuKey = '';
+      let SearchVar = '';
+      let TrendingVar = '';
+      let NewArrivalVar = '';
+      let BestSellerVar = '';
+      let AlbumVar = '';
+
+      let productlisttype;
+
+    UrlVal.forEach((ele)=>{
+      let firstChar = ele.charAt(0);
+
+      switch (firstChar) {
+        case 'V':
+            MenuVal = ele;
+            break;
+        case 'K':
+            MenuKey = ele;
+            break;
+        case 'S':
+            SearchVar = ele;
+            break;
+        case 'T':
+            TrendingVar = ele;
+            break;
+        case 'N':
+            NewArrivalVar = ele;
+            break;
+        case 'B':
+            BestSellerVar = ele;
+            break;
+        case 'A':
+            AlbumVar = ele;
+            break;
+        default:
+            return '';
+      }
+    })
+
+    if(MenuVal && MenuKey){
+      let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
+      let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+
+      setIsBreadcumShow(true)
+      // let MergedUrlArr = MergedUrl(key,val);
+
+      productlisttype=[key,val]
+    }
+
+    if(SearchVar){
+      productlisttype = SearchVar
+      console.log("SearchVar",SearchVar)
+    }
+    if(TrendingVar){
+      productlisttype = TrendingVar
+      console.log("TrendingVar",TrendingVar)
+    }
+    if(NewArrivalVar){
+      productlisttype = NewArrivalVar
+      console.log("NewArrivalVar",NewArrivalVar)
+    }
+    if(BestSellerVar){
+      productlisttype = BestSellerVar
+      console.log("BestSellerVar",BestSellerVar)
+    }
+    if(AlbumVar){
+      productlisttype = AlbumVar
+      console.log("AlbumVar",AlbumVar)
+    }
+    
     setIsProdLoading(true)
-      // ProductListApi({},currPage,obj)
+
      if(location?.state?.SearchVal === undefined){ 
-      ProductListApi({},1,obj)
+      ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
+            console.log("productList",res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
@@ -137,8 +336,10 @@ const ProductList = () => {
         .then( async(res) => {
           let forWardResp;
           if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
               if(resp){
+               console.log("productPriceData",resp);
+
                 setPriceListData(resp)
                 forWardResp = resp;
               }
@@ -148,13 +349,16 @@ const ProductList = () => {
         }).then(async(forWardResp)=>{
           let forWardResp1;
           if(forWardResp){
-            FilterListAPI().then((res)=>{
+            FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err)=>console.log("err",err))
           }
           return forWardResp1
-        }).finally(()=> setIsProdLoading(false))
+        }).finally(()=> {
+          setIsProdLoading(false)
+          setIsOnlyProdLoading(false)
+        })
         .catch((err) => console.log("err", err))
       }
   }, [location?.key])
@@ -321,9 +525,9 @@ const ProductList = () => {
   useEffect(()=>{
    let output = FilterValueWithCheckedOnly()
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
-   setIsOnlyProdLoading(true)
-
+   
    if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+     setIsOnlyProdLoading(true)
       ProductListApi(output,1,obj)
         .then((res) => {
           if (res) {
@@ -454,10 +658,10 @@ const ProductList = () => {
 
   const handelCustomCombo = (obj) => {
 
-    setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
-
+    
     if(location?.state?.SearchVal === undefined){
+      setIsOnlyProdLoading(true)
       ProductListApi(output,currPage,obj)
           .then((res) => {
             if (res) {
@@ -490,10 +694,15 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-    if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-      handelCustomCombo(obj)
+    
+    if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
+      if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+        handelCustomCombo(obj)
+      }
     }
 
 
@@ -579,7 +788,7 @@ const ProductList = () => {
               <>
                 <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
-                     <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
+                     { IsBreadCumShow && <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>}
                   </div>
 
                       <div className="smr_main_sorting_div">
