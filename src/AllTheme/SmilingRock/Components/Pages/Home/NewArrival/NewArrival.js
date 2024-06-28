@@ -65,7 +65,7 @@ const NewArrival = () => {
             <div className='smilingBridesMain'>
                 <div className='smilingBrides'>
                     <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
-                    <button className='enagementBtn' onClick={() =>  navigation('/NewArrival' , {state : {name : 'Trending'}})}>NEW ARRIVAL COLLECTION</button>
+                    <button className='enagementBtn' onClick={() =>  navigation('/NewArrival/?N=NewArrival')}>NEW ARRIVAL COLLECTION</button>
                 </div>
                 <div className='smlingBridesImages'>
                     <div className='smr_newArrivaldivMain'>
