@@ -316,13 +316,14 @@ const ProductDetail = () => {
   },[sizeData,SizeCombo])
 
   let metalUpdatedPrice = () => {
-
+debugger;
     if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
       
 
       let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
   
       let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
+      console.log('fpricemetal', fprice);
 
       return Number(fprice.toFixed(2))
     } else {
