@@ -861,6 +861,7 @@ const ProductList = () => {
                                         />
                                         {/* </Button> */}
                                       </div>
+                                      
                                       <div className="smr_product_label">
                                         {productData?.IsInReadyStock == 1 && <span className="smr_instock">In Stock</span>}
                                         {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
