@@ -34,6 +34,7 @@ import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
 import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 import Header2 from './Components/Pages/Home/Header/Header2'
+import Account from './Components/Pages/Account/Account';
 
 
 const SmilingRock_App = () => {
@@ -77,6 +78,7 @@ const SmilingRock_App = () => {
                     <Route path="/Delivery" element={<Delivery />} />
                     <Route path="/Payment" element={<Payment />} />
                     <Route path="/Confirmation" element={<Confirmation />} />
+                    <Route path="/account" element={<Account />} />
                 </Route>
                 <Route path="*" element={<PageNotFound />} />
             </Routes>

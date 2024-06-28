@@ -559,6 +559,7 @@ const Header = () => {
                   <li
                     className="nav_li_smining nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
+                    onClick={() => navigation("/account")}
                   >
                     ACCOUNT
                   </li>
@@ -722,6 +723,7 @@ const Header = () => {
                       className="nav_li_smining_Fixed nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                     // onClick={() => navigation("/LoginOption")}
+                      onClick={() => navigation("/account")}
                     >
                       ACCOUNT
                     </li>
