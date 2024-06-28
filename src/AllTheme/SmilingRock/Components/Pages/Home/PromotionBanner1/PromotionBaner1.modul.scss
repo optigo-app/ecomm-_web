@@ -32,6 +32,11 @@
 }
 
 @media screen and (max-width: 1024px) {
+
+    .smr_promotion1 {
+        min-height: auto !important;
+    }
+
     .FestiveMainImage {
         display: flex !important;
         flex-direction: column !important;
@@ -61,7 +66,7 @@
     .smilingFestiMainTitle2 {
         font-size: 20px !important;
         color: white !important;
-        
+
     }
 
     .smilingFestiMainTitle3 {
@@ -75,6 +80,6 @@
         background-color: gray;
         font-weight: 500;
         font-size: 13px;
-        margin-top: 10px!important;
+        margin-top: 10px !important;
     }
 }

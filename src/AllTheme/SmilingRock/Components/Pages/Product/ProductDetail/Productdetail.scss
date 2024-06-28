@@ -56,6 +56,12 @@
     object-fit: scale-down;
 }
 
+.smr_prod_video{
+    position: inherit;
+    width:100%;
+    object-fit: scale-down;
+}
+
 .smr_prod_thumb_img{
     object-fit: contain;
     width: 70px;
@@ -236,6 +242,15 @@
     margin-bottom: 60px;
 }
 
+.smr_stockItem_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    margin-bottom: 60px;
+}
+
 .smr_details_title{
     font-size: 30px;
     font-family: $homePageFontFamily;
@@ -252,3 +267,85 @@
     list-style: none;
     margin: 0px 0px 3px;
 }
+
+.cart_and_wishlist_icon{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1;
+    flex-direction: row-reverse;
+}
+
+.smr_stockitem_container{
+    width:100%
+}
+
+.smr_stock_item_card{
+    display: flex;
+    justify-content: center;
+    width: 94%;
+    align-items: center;
+    margin-inline: 3%;
+    gap:10px
+
+}
+
+.smr_stockItemCard{
+    display: flex;
+    position: relative;
+    width: 20%;
+    border: 1px solid #e1e1e1;
+    text-align: center;
+    flex-direction: column;
+}
+
+.smr_productCard_Image {
+    object-fit:contain;
+    // background-position: 50%;
+    background-size: cover;
+    // height: 100%;
+    // min-height: 100%;
+    width: 100%;
+}
+
+.smr_prod_Allwt {
+    display: flex;
+    // flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 30px;
+    gap: 3px;
+    font-family: $primaryFontFamily;
+    color: $primaryfontcolor2;
+}
+
+.smr_prod_wt {
+    display: flex;
+    gap: 2px;
+    font-family: $primaryFontFamily;
+    
+}
+  
+.smr_keys {
+font-size: 12px;
+}
+
+.smr_val {
+font-size: 12px;
+font-weight: 400;
+}
+
+.smr_prod_designno {
+font-size: 14px;
+font-weight: 400;
+padding: 0px 5px;
+color: $primaryfontcolor2;
+}
+
+.smr_stockItem_price_type_mt{
+    color: $primaryfontcolor;
+    font-size: 14px;
+    font-family: $primaryFontFamily;
+}
+  

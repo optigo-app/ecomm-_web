@@ -13,7 +13,8 @@ const WishlistData = ({
   decodeEntities,
   handleRemoveItem,
   handleWishlistToCart,
-  WishCardImageFunc
+  WishCardImageFunc,
+  handleMoveToDetail
 }) => {
 
   console.log('itemLength', items?.length);
@@ -35,6 +36,7 @@ const WishlistData = ({
               itemsLength={items?.length}
               handleRemoveItem={handleRemoveItem}
               handleWishlistToCart={handleWishlistToCart}
+              handleMoveToDetail={handleMoveToDetail}
             />
           ))}
         </Grid>

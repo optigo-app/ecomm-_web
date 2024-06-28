@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import Header from './Components/Pages/Home/Header/Header'
 import Cart from './Components/Pages/Cart/Cart'
 import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
 import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { companyLogo, loginState } from './Components/Recoil/atom'
 import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
@@ -35,15 +35,39 @@ import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirma
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 import Header2 from './Components/Pages/Home/Header/Header2'
 import Account from './Components/Pages/Account/Account';
+import Cookies from 'js-cookie'
+import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
 
 
 const SmilingRock_App = () => {
 
     const islogin = useRecoilValue(loginState)
-
     const [localData, setLocalData] = useState();
+    const navigation = useNavigate();
+    const setIsLoginState = useSetRecoilState(loginState)
+    const location = useLocation();
+    const search = location?.search
+    const updatedSearch = search.replace('?LoginRedirect=', '');
+    const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
 
     useEffect(() => {
+
+        const cookieValue = Cookies.get('userLoginCookie');
+        if (cookieValue) {
+            LoginWithEmailAPI('', '', '', '', cookieValue).then((response) => {
+                if (response.Data.rd[0].stat === 1) {
+                    Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
+                    setIsLoginState(true)
+                    localStorage.setItem('LoginUser', true)
+                    localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                    if (redirectEmailUrl) {
+                        navigation(redirectEmailUrl);
+                    } else {
+                        navigation('/')
+                    }
+                }
+            }).catch((err) => console.log(err))
+        }
         let localD = JSON.parse(localStorage.getItem('storeInit'));
         setLocalData(localD);
     }, [])

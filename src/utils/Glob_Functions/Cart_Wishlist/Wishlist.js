@@ -6,8 +6,11 @@ import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image
 import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
+import pako from 'pako';
+import { useNavigate } from 'react-router-dom';
 
 const Usewishlist = () => {
+  const navigate = useNavigate();
   const [isWLLoading, setIsWlLoading] = useState(false);
   const [updateCount, setUpdateCount] = useState();
   const [itemInCart, setItemInCart] = useState();
@@ -150,6 +153,50 @@ const Usewishlist = () => {
     }
     return finalprodListimg;
   }
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (wishtData) =>{
+    debugger
+
+    console.log('wishtData',wishtData);
+
+    // let output = FilterValueWithCheckedOnly()
+
+
+    let obj = {
+      a:wishtData?.autocode,
+      b:wishtData?.designno,
+      m:wishtData?.metaltypeid,
+      d:`${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
+      c:`${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
+      f:{}
+    }
+
+    console.log("wishtDataobj",obj);
+
+    compressAndEncode(JSON.stringify(obj))
+
+    // decodeAndDecompress()
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+    navigate(`/productdetail/${wishtData?.TitleLine.replace(/\s+/g,`_`)}${wishtData?.TitleLine?.length > 0 ? "_" :""}${wishtData?.designno}?p=${encodeObj}`)
+
+  }
+
 console.log("lohjshjuhajuh", isWLLoading)
   return {
     isWLLoading,
@@ -164,7 +211,8 @@ console.log("lohjshjuhajuh", isWLLoading)
     handleRemoveItem,
     handleRemoveAll,
     handleWishlistToCart,
-    handleAddtoCartAll
+    handleAddtoCartAll,
+    handleMoveToDetail
   };
 };
 

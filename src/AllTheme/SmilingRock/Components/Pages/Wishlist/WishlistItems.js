@@ -21,7 +21,8 @@ const WishlistItems = (
         decodeEntities,
         WishCardImageFunc,
         handleRemoveItem,
-        handleWishlistToCart
+        handleWishlistToCart,
+        handleMoveToDetail
     }) => {
 
     const setWishCountVal = useSetRecoilState(WishCount)
@@ -72,6 +73,7 @@ const WishlistItems = (
                         image={WishCardImageFunc(item)}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
+                        onClick={() => handleMoveToDetail(item)}
                     />
                     <CardContent>
                         <div className='cardText'>

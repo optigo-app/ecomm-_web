@@ -7,6 +7,7 @@
     top: 0;
     z-index: 11;
     background-color: white;
+    height: 80px;
 
     .el_withoutL_Header_Main {
         display: flex;
@@ -59,6 +60,7 @@
     .el_login_header_main {
         display: flex;
         height: 80px;
+        justify-content: space-between;
     }
 
     .el_login_header_main_div1_logo {
@@ -68,12 +70,59 @@
     .el_login_header_main_div1_ul {
         display: flex;
         list-style: none;
+        margin: 0px;
+        padding: 0px;
     }
 
     .el_login_header_main_div2 {
         display: flex;
+        align-items: center;
         list-style: none;
+        margin: 0px;
+        padding: 0px;
     }
 
-    .el_login_header_main_div1 {}
+    .el_login_header_main_div2_li{
+        margin-inline: 15px;
+    }
+    .el_login_header_main_div1 {
+        display: flex;
+    }
+
+
+    .el_shop_dropdown {
+        height: auto;
+        width: 100%;
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        top: 72px;
+        left: 0;
+        backdrop-filter: blur(8px);
+        border-radius: 0 0 15px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        transition: backdrop-filter 0.3s ease;
+        z-index: 11111111;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px;
+        display: none;
+        transition: all 0.5s ease;
+    }
+
+    .el_shop_dropdown.open {
+        display: block;
+        position: absolute;
+        z-index: 111111;
+        width: 100%;
+        margin-top: 0px;
+        transition: all 0.5s ease;
+    }
+
+    .el_Login_header_li {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        text-transform: uppercase;
+        margin-inline: 20px;
+    }
+
 }
