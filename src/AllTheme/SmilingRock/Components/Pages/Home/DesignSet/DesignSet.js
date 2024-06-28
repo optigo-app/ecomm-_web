@@ -120,7 +120,6 @@ const DesignSet = () => {
                     <FaChevronRight />
                 </button>
             </div>
-            {/* <p className="smr_designSetShowAll">View All</p> */}
         </div>
     );
 };
