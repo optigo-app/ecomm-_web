@@ -30,7 +30,8 @@ export default function ThemeRoutes() {
     if (data) {
       let logo = JSON.parse(data);
       setCompanyTitleLogo(logo?.companylogo)
-      
+      dt_setCompanyTitleLogo(logo?.companylogo)
+      el_setCompanyTitleLogo(logo?.companylogo)
     }
     Storeinit().then((response) => {
       if (response.status === 200) {

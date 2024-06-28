@@ -16,6 +16,9 @@
 
     .linkingLoveImage {
         width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         /* border: 1px solid; */
     }
 
@@ -80,13 +83,14 @@
     }
 
     .linkingLoveImageDesign {
-        height: 645px;
+        max-height: 645px;
         margin-top: 5px;
         width: 100%;
     }
 
     .likingLoveImages {
-        height: 400px;
+        width: 100%;
+        max-height: 400px;
         cursor: pointer;
     }
 
@@ -96,6 +100,16 @@
         font-weight: 600;
     }
 
+    .smr_BestSallerViewAll{
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize4;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: underline;
+        margin-top: 40px;
+        font-weight: 600;
+    }
 
     @media screen and (max-width: 1200px) {
        
@@ -115,6 +129,11 @@
             margin-top: 10px;
             flex-direction: column;
             margin-inline: 10px;
+        }
+
+        .linkRingLove {
+            display: flex !important;
+            justify-content: center;
         }
 
         .linkingLoveMain2 {
