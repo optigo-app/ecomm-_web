@@ -85,20 +85,25 @@
     }
 
 
-    .smr_trendingViewTopMain_div{
+    .smr_trendingViewTopMain_div {
         display: flex;
         margin-top: 50px;
         margin-inline: 90px;
     }
 
-    .smr_trendingViewTopMain_Imgdiv{
+    .smr_trendingViewTopMain_Imgdiv {
         width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    .smr_trendingViewTopMain_Sliderdiv{
+
+    .smr_trendingViewTopMain_Sliderdiv {
         width: 70%;
     }
+
     .linkingLoveImageDesign {
-        height: 645px;
+        max-height: 645px;
         margin-top: 5px;
         width: 100%;
     }
@@ -117,25 +122,26 @@
     }
 
     .likingLoveImages {
-        height: 400px;
+        max-height: 400px;
         object-fit: contain;
         cursor: pointer;
+        width: 100%;
     }
-    
+
     .linkingTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
     }
-    
+
     .linkingShopCol {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize1;
         text-align: center;
     }
-    
+
     .linkingDesc {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
@@ -167,12 +173,17 @@
             width: 100%;
         }
 
-        .smr_trendingViewTopMain_div {
+
+        .smr_trendingViewTopMain_Imgdiv {
             display: flex;
-            margin-top: 10px;
+        }
+
+        .linkingLoveImageDesign {
+            height: auto !important;
+        }
+
+        .smr_trendingViewTopMain_div {
             margin-inline: 10px !important;
-            flex-direction: column;
-            margin-inline: 10px;
         }
 
         .linkingLoveMain2 {
@@ -203,7 +214,30 @@
         .linkingLoveImageDesign {
             object-fit: contain;
             height: auto !important;
-            margin-top: 0px!important;
+            margin-top: 0px !important;
+        }
+    }
+
+    @media screen and (max-width: 750px) {
+
+        .linkingLoveImageDesign {
+            object-fit: cover;
+            height: 500px !important;
+        }
+
+        .smr_trendingViewTopMain_Imgdiv{
+            width: 100%;
+        }
+        .smr_trendingViewTopMain_div {
+            display: flex;
+            margin-top: 10px;
+            margin-inline: 10px !important;
+            flex-direction: column;
+            margin-inline: 10px;
+        }
+
+        .smr_trendingViewTopMain_Sliderdiv{
+            width: 100%;
         }
     }
 

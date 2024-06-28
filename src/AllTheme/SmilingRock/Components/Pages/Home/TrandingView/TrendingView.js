@@ -112,6 +112,7 @@ const TrendingView = () => {
     }
 
 
+
     return (
         <div className='smr_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
@@ -228,7 +229,7 @@ const TrendingView = () => {
 
                         </div>
                     </Slider>
-                    <p className='smr_TrendingViewAll'>View All</p>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation('/productlist/?T=Trending')}>View All</p>
                 </div>
             </div>
         </div>

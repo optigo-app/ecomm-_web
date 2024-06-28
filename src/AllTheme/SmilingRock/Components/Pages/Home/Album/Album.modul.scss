@@ -20,12 +20,13 @@
         margin-top: 50px;
     }
 
-    .smr_albumName{
+    .smr_albumName {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         margin: 0px 0px 10px 0px;
         text-align: center;
     }
+
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: contain;
@@ -34,5 +35,26 @@
     .smr_albumALL_div {
         display: flex;
         justify-content: center;
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin-inline: 10px !important;
+    }
+
+
+    @media screen and (max-width: 650px) {
+        .smr_albumTitle {
+            display: none;
+        }
+
+        .smr_albumALL_div{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .smr_AlbumImageMain{
+            width: 47%!important;
+        }
     }
 }
