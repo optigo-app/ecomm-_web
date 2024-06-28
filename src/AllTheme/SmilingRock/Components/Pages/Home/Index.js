@@ -11,7 +11,7 @@ import Footer from './Footer/Footer';
 import TrendingView from './TrandingView/TrendingView';
 import DesignSet from './DesignSet/DesignSet';
 import Album from './Album/Album';
-import NewArrival from './newArrival/NewArrival';
+import NewArrival from './NewArrival/NewArrival';
 import BestSellerSection from './BestSellerSection/BestSellerSection';
 
 function Home() {

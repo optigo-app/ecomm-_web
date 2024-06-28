@@ -25,6 +25,9 @@ const ProductList = () => {
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
+  let location = useLocation();
+  let navigate = useNavigate();
+
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
@@ -43,17 +46,38 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? "");
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? "");
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
 
   const [rollOverImgPd,setRolloverImgPd] = useState()
-
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  console.log("finalProductListData",finalProductListData);
+  // console.log("locationData",location);
+
+  let MergedUrl = (Arr1,Arr2) =>{
+    let mergedArray = Arr1.map((key, index) => {
+      return { [key]: Arr2[index] };
+    })
+
+    return mergedArray;
+    
+  }
+
+  useEffect(()=>{
+
+  let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
+  let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+
+  let MergedUrlArr = MergedUrl(key,val)
+
+  console.log("key1111",MergedUrlArr)
+
+  },[])
+
+  
 
   useEffect(() => {
     window.scroll({
@@ -62,11 +86,8 @@ const ProductList = () => {
     })
   }, [])
 
-  let location = useLocation();
-  let navigate = useNavigate();
-
   
-  console.log("searchVal",location?.state?.SearchVal);
+
   useEffect(()=>{
     if(location?.state?.SearchVal !== undefined){ 
       setTimeout(()=>{
@@ -226,7 +247,6 @@ const ProductList = () => {
     setFinalProductListData(finalProdWithPrice);
   }, [productListData, priceListData]);
 
-
   const ProdCardImageFunc = (pd,j) => {
     let finalprodListimg;
     let pdImgList = [];
@@ -268,8 +288,6 @@ const ProductList = () => {
     }
   }
 
-  
-
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
 
@@ -305,11 +323,10 @@ const ProductList = () => {
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    setIsOnlyProdLoading(true)
 
-   if(location?.state?.SearchVal === undefined){
+   if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
       ProductListApi(output,1,obj)
         .then((res) => {
           if (res) {
-
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
@@ -342,10 +359,8 @@ const ProductList = () => {
   }
 
   const handelPageChange = (event, value) => {
-
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
     setIsProdLoading(true)
     setCurrPage(value)
     setTimeout(() => {
@@ -477,7 +492,10 @@ const ProductList = () => {
 
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-    handelCustomCombo(obj)
+    if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+      handelCustomCombo(obj)
+    }
+
 
   }, [selectedMetalId, selectedDiaId, selectedCsId])
 
@@ -861,7 +879,7 @@ const ProductList = () => {
                                         />
                                         {/* </Button> */}
                                       </div>
-                                      
+
                                       <div className="smr_product_label">
                                         {productData?.IsInReadyStock == 1 && <span className="smr_instock">In Stock</span>}
                                         {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
