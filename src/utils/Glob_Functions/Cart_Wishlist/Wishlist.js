@@ -8,6 +8,7 @@ import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/R
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Usewishlist = () => {
   const navigate = useNavigate();
@@ -107,10 +108,9 @@ const Usewishlist = () => {
       const response = await handleWishlistToCartAPI(param, item);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
-        getWishlistData();
         setCountDataUpdated(resStatus)
         localStorage.setItem('wishUpdation', true)
-        console.log('responseWisData', resStatus);
+        toast.success('wishlist items added to cart')
       }
     } catch (error) {
       setUpdateCount(false);
@@ -129,7 +129,7 @@ const Usewishlist = () => {
         getWishlistData();
         setCountDataUpdated(resStatus)
         localStorage.setItem('wishUpdation', true)
-        console.log('All wishlist items added to cart');
+        toast.success('All wishlist items added to cart')
       }
     } catch (error) {
       setUpdateCount(false);
@@ -168,36 +168,22 @@ const Usewishlist = () => {
     }
   };
 
-  const handleMoveToDetail = (wishtData) =>{
-    debugger
-
-    console.log('wishtData',wishtData);
-
-    // let output = FilterValueWithCheckedOnly()
-
-
+  const handleMoveToDetail = (wishtData) => {
+    console.log('wishtData', wishtData);
     let obj = {
-      a:wishtData?.autocode,
-      b:wishtData?.designno,
-      m:wishtData?.metaltypeid,
-      d:`${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
-      c:`${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
-      f:{}
+      a: wishtData?.autocode,
+      b: wishtData?.designno,
+      m: wishtData?.metaltypeid,
+      d: `${wishtData?.diamondqualityid}${","}${wishtData?.diamondcolorid}`,
+      c: `${wishtData?.colorstonequalityid}${","}${wishtData?.colorstonecolorid}`,
+      f: {}
     }
-
-    console.log("wishtDataobj",obj);
-
     compressAndEncode(JSON.stringify(obj))
-
-    // decodeAndDecompress()
-
     let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-    navigate(`/productdetail/${wishtData?.TitleLine.replace(/\s+/g,`_`)}${wishtData?.TitleLine?.length > 0 ? "_" :""}${wishtData?.designno}?p=${encodeObj}`)
-
+    navigate(`/productdetail/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
-console.log("lohjshjuhajuh", isWLLoading)
+  console.log("lohjshjuhajuh", isWLLoading)
   return {
     isWLLoading,
     wishlistData,

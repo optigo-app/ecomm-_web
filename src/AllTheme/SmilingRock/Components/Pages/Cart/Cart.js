@@ -7,12 +7,13 @@ import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
 import Footer from '../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
-import { Link } from '@mui/material';
+import { Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../ConfirmationDialog.js/ConfirmationDialog';
 import { CartCount } from '../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import MobileCartDetails from "./MobileCartDetails"
 
 const CartPage = () => {
   const {
@@ -30,6 +31,8 @@ const CartPage = () => {
     CurrencyData,
     countData,
     mrpbasedPriceFlag,
+    openMobileModal,
+    handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
     handleIncrement,
@@ -59,7 +62,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
+    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);
@@ -101,6 +104,10 @@ const CartPage = () => {
     setDialogOpen(false);
   };
 
+  const isLargeScreen = useMediaQuery('(min-width:1050px)');
+
+
+  console.log('selected--', selectedItem);
   return (
     <div className='smr_MainBGDiv'>
       <div className='cartMainPageDiv'>
@@ -153,28 +160,57 @@ const CartPage = () => {
                   />
                 </div>
                 <div className="smr_cart-right-side">
-                  {selectedItem && (
-                    <CartDetails
-                      ispriceloding={ispriceloding}
-                      selectedItem={selectedItem}
-                      CartCardImageFunc={CartCardImageFunc}
-                      handleIncrement={handleIncrement}
-                      handleDecrement={handleDecrement}
-                      qtyCount={qtyCount}
-                      multiSelect={multiSelect}
-                      sizeCombo={sizeCombo}
-                      CurrencyData={CurrencyData}
-                      mrpbasedPriceFlag={mrpbasedPriceFlag}
-                      handleMetalTypeChange={handleMetalTypeChange}
-                      handleMetalColorChange={handleMetalColorChange}
-                      handleDiamondChange={handleDiamondChange}
-                      handleColorStoneChange={handleColorStoneChange}
-                      handleSizeChange={handleSizeChange}
-                      decodeEntities={decodeEntities}
-                      onUpdateCart={handleUpdateCart}
-                      handleMoveToDetail={handleMoveToDetail}
-                    />
-                  )}
+                  {isLargeScreen ? (
+                    <div className='smr_pc-cartDetail'>
+                      {selectedItem && (
+                        <CartDetails
+                          ispriceloding={ispriceloding}
+                          selectedItem={selectedItem}
+                          CartCardImageFunc={CartCardImageFunc}
+                          handleIncrement={handleIncrement}
+                          handleDecrement={handleDecrement}
+                          qtyCount={qtyCount}
+                          multiSelect={multiSelect}
+                          sizeCombo={sizeCombo}
+                          CurrencyData={CurrencyData}
+                          mrpbasedPriceFlag={mrpbasedPriceFlag}
+                          handleMetalTypeChange={handleMetalTypeChange}
+                          handleMetalColorChange={handleMetalColorChange}
+                          handleDiamondChange={handleDiamondChange}
+                          handleColorStoneChange={handleColorStoneChange}
+                          handleSizeChange={handleSizeChange}
+                          decodeEntities={decodeEntities}
+                          onUpdateCart={handleUpdateCart}
+                          handleMoveToDetail={handleMoveToDetail}
+                        />
+                      )}
+                    </div>
+                  ) :
+                    <div className='smr_mobile-cartDetails'>
+                      <MobileCartDetails
+                        open={openMobileModal}
+                        handleClose={handlecloseMobileModal}
+                        ispriceloding={ispriceloding}
+                        selectedItem={selectedItem}
+                        CartCardImageFunc={CartCardImageFunc}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                        qtyCount={qtyCount}
+                        multiSelect={multiSelect}
+                        sizeCombo={sizeCombo}
+                        CurrencyData={CurrencyData}
+                        mrpbasedPriceFlag={mrpbasedPriceFlag}
+                        handleMetalTypeChange={handleMetalTypeChange}
+                        handleMetalColorChange={handleMetalColorChange}
+                        handleDiamondChange={handleDiamondChange}
+                        handleColorStoneChange={handleColorStoneChange}
+                        handleSizeChange={handleSizeChange}
+                        decodeEntities={decodeEntities}
+                        onUpdateCart={handleUpdateCart}
+                        handleMoveToDetail={handleMoveToDetail}
+                      />
+                    </div>
+                  }
                 </div>
                 <SelectedItemsModal
                   open={openModal}

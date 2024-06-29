@@ -37,8 +37,8 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
 
 
         console.log("updatecartBody", body);
-        // const response = await CommonAPI(body);
-        // return response;
+        const response = await CommonAPI(body);
+        return response;
     } catch (error) {
         console.error("Error:", error);
         throw error;

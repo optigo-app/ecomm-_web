@@ -35,10 +35,11 @@ function Home() {
           {localData?.IsHomeAlbum === 1 && <Album />}
           {localData?.IsHomeTrending === 1 && <TrendingView />}
           {/* <DaimondEveyone /> */}
-          <ShopByCategory />
+          {/* <ShopByCategory /> */}
           {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
           {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+
           {/* <SustainAbility /> */}
           {/* <BestSaller /> */}
           <BottomBanner />
