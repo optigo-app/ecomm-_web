@@ -122,7 +122,9 @@ const Wishlist = () => {
             handleMoveToDetail={handleMoveToDetail}
           />
         ) : (
-          <SkeletonLoader />
+          <div style={{marginTop:'90px'}}>
+            <SkeletonLoader />
+          </div>
         )}
         <ConfirmationDialog
           open={dialogOpen}
