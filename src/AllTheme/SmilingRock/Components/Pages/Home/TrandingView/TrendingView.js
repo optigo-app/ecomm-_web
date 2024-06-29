@@ -115,8 +115,6 @@ const TrendingView = () => {
         return txt.value;
     }
 
-    console.log('Trending ViewTrending oddNumberObjectsoddNumberObjects', oddNumberObjects);
-    console.log('Trending ViewTrending evenNumberObjectsevenNumberObjectsevenNumberObjects', evenNumberObjects);
 
 
 
@@ -186,7 +184,7 @@ const TrendingView = () => {
                                                             storeInit?.Currencysymbol
                                                         ),
                                                     }}
-                                                /> {(data?.UnitCost).toFixed(2)}</p>
+                                                /> {(data?.UnitCost)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                         <div>
@@ -209,15 +207,13 @@ const TrendingView = () => {
                                                             storeInit?.Currencysymbol
                                                         ),
                                                     }}
-                                                /> {(datan?.UnitCost).toFixed(2)}</p>
+                                                /> {(datan?.UnitCost)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                     </div>
                                 ))
                             ))
                         }
-
-
                     </Slider>
                     <p className='smr_TrendingViewAll' onClick={() => navigation('/productlist/?T=Trending')}>View All</p>
                 </div>

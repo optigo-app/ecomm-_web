@@ -56,6 +56,8 @@ const BestSellerSection = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+
+      console.log('aaaaaaaaaaa',designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,
@@ -74,6 +76,7 @@ const BestSellerSection = () => {
         txt.innerHTML = html;
         return txt.value;
       }
+
 
   return (
     <div className='smr_bestSallerMain'>
@@ -101,7 +104,7 @@ const BestSellerSection = () => {
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[1]?.designno, bestSellerData[0]?.autocode, bestSellerData[1]?.TitleLine)}>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[1]?.designno, bestSellerData[1]?.autocode, bestSellerData[1]?.TitleLine)}>
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[1]?.designno === undefined ? '' : bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension === undefined ? '' : bestSellerData[1]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
@@ -120,7 +123,7 @@ const BestSellerSection = () => {
 
                         <div className='linkRingLove'>
                             <div>
-                                <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[2]?.designno, bestSellerData[0]?.autocode, bestSellerData[2]?.TitleLine)}>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[2]?.designno, bestSellerData[2]?.autocode, bestSellerData[2]?.TitleLine)}>
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[2]?.designno === undefined ? '' : bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension === undefined ? '' : bestSellerData[2]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
@@ -136,7 +139,7 @@ const BestSellerSection = () => {
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[3]?.designno, bestSellerData[0]?.autocode, bestSellerData[3]?.TitleLine)}>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[3]?.designno, bestSellerData[3]?.autocode, bestSellerData[3]?.TitleLine)}>
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[3]?.designno === undefined ? '' : bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension === undefined ? '' : bestSellerData[3]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
@@ -156,7 +159,7 @@ const BestSellerSection = () => {
 
                         <div className='linkRingLove'>
                             <div>
-                                <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[4]?.designno, bestSellerData[0]?.autocode, bestSellerData[4]?.TitleLine)}>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[4]?.designno, bestSellerData[4]?.autocode, bestSellerData[4]?.TitleLine)}>
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[4]?.designno === undefined ? '' : bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension === undefined ? '' : bestSellerData[4]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
@@ -172,7 +175,7 @@ const BestSellerSection = () => {
                                 </div>
                             </div>
                             <div>
-                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[5]?.designno, bestSellerData[0]?.autocode, bestSellerData[5]?.TitleLine)}>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[5]?.designno, bestSellerData[5]?.autocode, bestSellerData[5]?.TitleLine)}>
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[5]?.designno === undefined ? '' : bestSellerData[5]?.designno}_1.${bestSellerData && bestSellerData[5]?.ImageExtension === undefined ? '' : bestSellerData[5]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
