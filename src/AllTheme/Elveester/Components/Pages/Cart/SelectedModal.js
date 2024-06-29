@@ -51,7 +51,6 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
   const [sizeCombo, setSizeCombo] = useState([]);
 
   const handleCheckboxChange = (itemId, category) => {
-    console.log('category--', category);
     setCheckedItems(prevCheckedItems => ({
       ...prevCheckedItems,
       [category]: {
@@ -73,14 +72,8 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
     });
   });
 
-  console.log('filteredcheckedItems', filteredItems);
-
-  console.log('checkedItemds--', checkedItems);
-
-
   let filterArr = {}
   function getUniqueValues(array, key) {
-    console.log('filterArrrr', array);
     return [...new Set(array.map(item => item[key]))];
   }
 
