@@ -63,7 +63,7 @@
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
-    .labgrowRegister {
+    .smr_forgotBox {
         width: 420px;
         margin: 10px;
     }
@@ -94,7 +94,29 @@
         background-color: white;
     }
 
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle{
+            margin-top: -60px!important;
+        }
+    }
+
     @media screen and (max-width: 700px) {
+
+        .createBtnRegister {
+            width: 90%;
+            height: 50px !important;
+        }
+
+        .smr_forgotBox {
+            width: 90%;
+            margin: 10px;
+        }
+
         .labGrowForgot {
             width: 80%;
         }
