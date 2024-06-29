@@ -774,6 +774,50 @@ const ProductList = () => {
   }
 
 
+  const handleBreadcums = (mparams) => {
+
+    let key = Object?.keys(mparams)
+    let val = Object?.values(mparams)
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+        let keyName = `FilterKey${index === 0 ? '' : index}`;
+        KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+        let keyName = `FilterVal${index === 0 ? '' : index}`;
+        ValObj[keyName] = value;
+    });
+
+    let finalData = {...KeyObj,...ValObj}
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('&');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join('&');
+
+      const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+
+      navigate(url);
+
+    console.log("mparams",KeyObj,ValObj)
+
+  }
+
   return (
     <div id="top">
       <div className="smr_bodyContain">
@@ -788,7 +832,23 @@ const ProductList = () => {
               <>
                 <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
-                     { IsBreadCumShow && <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>}
+                    <span className="smr_breadcums_port " style={{marginLeft:'72px'}} onClick={()=>{navigate('/')}}>{'Home >'}{" "}</span>
+                     { IsBreadCumShow && <div className="smr_breadcums_port">
+                           {menuParams?.menuname && <span onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal})}>{menuParams?.menuname}</span>}
+
+                           {menuParams?.FilterVal1 && <span 
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1})}
+                           >
+                            {` > ${menuParams?.FilterVal1}`}
+                            </span>}
+
+                           {menuParams?.FilterVal2 && <span
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1,[menuParams?.FilterKey2]:menuParams?.FilterVal2})}
+                           > 
+                           {` > ${menuParams?.FilterVal2}`}
+                           </span>}
+                        </div>
+                     }
                   </div>
 
                       <div className="smr_main_sorting_div">
