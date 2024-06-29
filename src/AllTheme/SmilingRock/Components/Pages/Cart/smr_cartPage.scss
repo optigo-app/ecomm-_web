@@ -46,7 +46,7 @@ $cartUpdateBtncolor: #b1b1b1;
   .smr_cartButton-group {
     display: flex;
     gap: 1rem;
-    justify-content: start;
+    justify-content: space-between;
     margin-bottom: 2rem;
     margin-inline: 6%;
     font-family: $homePageFontFamily !important;
@@ -167,7 +167,7 @@ $cartUpdateBtncolor: #b1b1b1;
     // max-width: 450px;
   }
 
-  .smr_mobile-cartDetails{
+  .smr_mobile-cartDetails {
     display: none;
   }
 
@@ -265,7 +265,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  @media (max-width: 1399px) and (min-width: 1300px) {
+  @media (max-width: 1399px) and (min-width: 1200px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
         max-width: 260px;
@@ -276,78 +276,151 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
+    .smr_cartListCardGrid {
+      width: 50% !important;
+      max-width: 50% !important;
+      flex-basis: 50% !important;
+    }
+
     .smr_cartListImage {
-      max-width: 100px;
-      max-height: 150px;
+      max-width: 150px;
+      max-height: 180px;
     }
   }
 
- 
-    @media (max-width: 1050px) {
-      .smr_pc-cartDetail {
-        display: none!important;
+  @media (max-width: 1199px) and (min-width: 1140px) {
+    .smr_cart-right-side {
+      .smr_Cart-imageDiv {
+        max-width: 260px;
       }
 
+      .smr_Cart_R-details {
+        max-width: 330px
+      }
+    }
+
+    .smr_cartListCardGrid {
+      width: 50% !important;
+      max-width: 50% !important;
+      flex-basis: 50% !important;
+    }
+
+    .smr_cartListImage {
+      max-width: 150px;
+      max-height: 180px;
+    }
+  }
+
+  @media (max-width: 1139px) and (min-width: 1040px) {
     .smr_cart-left-side{
+      max-width: 70%;
+      width: 70%;
+    }
+    .smr_cart-right-side{
+      max-width: 30%;
+      width: 30%;
+    }
+    .smr_cart-right-side {
+      .smr_Cart-imageDiv {
+        max-width: 250px;
+      }
+
+      .smr_Cart_R-details {
+        max-width: 320px
+      }
+    }
+    .smr_RightCartList{
+      margin: 5px 10px;
+    }
+
+    .smr_cartListCardGrid {
+      width: 50% !important;
+      max-width: 50% !important;
+      flex-basis: 50% !important;
+    }
+
+    .smr_cartListImage {
+      max-width: 120px;
+      max-height: 180px;
+    }
+  }
+
+
+  @media (max-width: 1050px) {
+    .smr_pc-cartDetail {
+      display: none !important;
+    }
+
+    .smr_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
       overflow: auto;
     }
-   
-    
-    .smr_mui_CartBox{
+
+
+    .smr_mui_CartBox {
       display: flex !important;
       flex-direction: column !important;
     }
-    .smr_cartcontentData{
+
+    .smr_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
-    .smr_cartbtngroupReRm{
+
+    .smr_cartbtngroupReRm {
       margin-top: 10px !important;
     }
   }
 
   @media (max-width: 599px) {
-    .smr_cart-left-side{
+    .smr_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
       overflow: auto;
     }
+
     .smr_pc-cartDetail {
       display: none;
     }
-    .smr_mui_CartBox{
+
+    .smr_mui_CartBox {
       display: flex !important;
       flex-direction: row !important;
     }
-    .smr_cartcontentData{
+
+    .smr_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
-    .smr_cartbtngroupReRm{
+
+    .smr_cartbtngroupReRm {
       margin-top: 10px !important;
     }
   }
 
   @media (max-width: 474px) {
-    .smr_cart-left-side{
+    .smr_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
       overflow: auto;
     }
+
     .smr_pc-cartDetail {
       display: none;
     }
-    .smr_mui_CartBox{
+
+    .smr_mui_CartBox {
       display: flex !important;
       flex-direction: column !important;
     }
-    .smr_cartcontentData{
+
+    .smr_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
-    .smr_cartbtngroupReRm{
+
+    .smr_cartbtngroupReRm {
       margin-top: 10px !important;
       right: 5px;
     }
@@ -362,20 +435,22 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-@media(max-width: 1050px){
-  .smr_cartMainPage{
+@media(max-width: 1050px) {
+  .smr_cartMainPage {
     display: block !important;
   }
 }
 
 @media screen and (min-width: 1051px) {
-  .smr_mobile-cartDetails{
-    display: none!important;
+  .smr_mobile-cartDetails {
+    display: none !important;
   }
-  .smr_cart-modal{
-    display: none!important;
+
+  .smr_cart-modal {
+    display: none !important;
   }
 }
+
 // cart Details SCSS code (cart right side)
 
 .smr_cart-container {

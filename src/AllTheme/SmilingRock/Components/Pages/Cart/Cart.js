@@ -62,7 +62,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
+    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);
