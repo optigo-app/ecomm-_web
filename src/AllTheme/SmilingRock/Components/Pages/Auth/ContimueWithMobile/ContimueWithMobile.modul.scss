@@ -10,7 +10,7 @@
         background-color: white;
     }
 
-    .labGrowForgot {
+    .smr_loginmobileBox {
         width: 420px;
         margin: 10px;
     }
@@ -91,7 +91,7 @@
     }
 
     @media screen and (max-width: 700px) {
-        .labGrowForgot {
+        .smr_loginmobileBox {
             width: 90%;
         }
 
@@ -106,7 +106,7 @@
     @media screen and (max-width: 500px) {
 
         .submitBtnForgot {
-            width: 70%;
+            width: 90%;
             height: 40px !important;
         }
 

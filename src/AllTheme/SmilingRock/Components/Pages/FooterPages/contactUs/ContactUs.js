@@ -210,16 +210,15 @@ export default function ContactUs() {
                                     {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
                                 </div>
                                 <div className="address">
-                                    {activeTab === 'M1' && (
+                                    {/* {activeTab === 'M1' && (
                                         <div>
-                                            {/* <p>Head Office - Main Office Address</p> */}
                                             <p>Kayra Creation Limited</p>
                                             <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
                                             <p>Kowloon-999077, Hong Kong- China</p>
                                             <p>+852-52482000</p>
                                             <p>sales@kayracreation.com</p>
                                         </div>
-                                    )}
+                                    )} */}
                                     {/* {activeTab === 'M3' && (
                                         <div>
                                             <p>Find Us - Locate us on Map</p>
