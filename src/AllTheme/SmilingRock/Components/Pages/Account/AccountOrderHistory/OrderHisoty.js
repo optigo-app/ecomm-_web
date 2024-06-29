@@ -65,14 +65,18 @@ const OrderHistory = () => {
         Customerid: `${loginInfo?.id}`,
       };
 
-      const encodedCombinedValue2 = btoa(
+      // const encodedCombinedValue2 = btoa(
+      //   JSON.stringify(EncodeData_order_history)
+      // );
+      const encodedCombinedValue2 = (
         JSON.stringify(EncodeData_order_history)
       );
 
       const body_order_history = {
         con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORY\",\"appuserid\":\"${UserEmail}\"}`,
         f: "zen (cartcount)",
-        p: `${encodedCombinedValue2}`,
+        // p: `${encodedCombinedValue2}`,
+        dp: `${encodedCombinedValue2}`,
       };
 
       const response2 = await CommonAPI(body_order_history);
@@ -117,8 +121,9 @@ const OrderHistory = () => {
         FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
         Customerid: `${loginInfo?.id}`,
       };
-
-      const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
+      
+      // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
+      const encodedCombinedValue = (JSON.stringify(EncodeData));
 
       const body_currencycombo = {
         con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
@@ -128,28 +133,31 @@ const OrderHistory = () => {
 
       const response = await CommonAPI(body_currencycombo);
       console.log(response);
-
       const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-
+      console.log(obj);
       let EncodeData_order_history = {
         orderno: `${obj?.orderno}`,
-        isStockPrint: "1",
-        CurrencyRate: `${CurrencyRate}`,
+        // isStockPrint: "1",
+        // CurrencyRate: `${CurrencyRate}`,
         FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
         Customerid: `${loginInfo?.id}`,
       };
 
-      const encodedCombinedValue2 = btoa(
-        JSON.stringify(EncodeData_order_history)
-      );
+      // const encodedCombinedValue2 = btoa(
+      //   JSON.stringify(EncodeData_order_history)
+      // );
+      const encodedCombinedValue2 = ( JSON.stringify(EncodeData_order_history));
+      console.log(encodedCombinedValue2);
 
       const body_order_detail = {
         con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORYDETAIL\",\"appuserid\":\"${UserEmail}\"}`,
         f: "zen (cartcount)",
-        p: `${encodedCombinedValue2}`,
+        // p: `${encodedCombinedValue2}`,
+        dp: `${encodedCombinedValue2}`,
       };
 
       const response2 = await CommonAPI(body_order_detail);
+      console.log(response2);
       
       
       if (response2?.Status === '200') {
@@ -167,6 +175,7 @@ const OrderHistory = () => {
       console.log(error);
     }
   };
+  console.log(orderDetails);
 
   return (
     <div>
@@ -217,15 +226,15 @@ const OrderHistory = () => {
                           loaderOH2 ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <div className="p-4 dec_pad">
                             <div className="d-flex flex-wrap align-items-center center_price_2 d_block">
                               <div className="container">
-                                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 row-cols-xxl-4 g-4 pb-1">
+                                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 row-cols-xxl-4 g-4 pb-3">
                                   {orderDetails?.length > 0 &&
                                     orderDetails.map((el, index) => (
                                       <div key={index} className="col">
                                         {console.log(el)}
                                         <div className="card h-100">
                                           <img
-                                            src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}`}
-                                            // src={`${image_path}/${btoa(el?.autocode)}`}
+                                            src={`${image_path}${el?.imgrandomno}${(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
+                                  
                                             alt="#designimage"
                                             className="card-img-top h-100"
                                           />
