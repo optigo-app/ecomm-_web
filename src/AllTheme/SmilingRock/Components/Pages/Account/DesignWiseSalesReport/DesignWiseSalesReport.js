@@ -313,37 +313,31 @@ const DesignWiseSalesReport = () => {
                     break;
                 case "0-5":
                     if (0 <= e?.salescount && e?.salescount <= 5) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
                 case "5-10":
                     if (5 <= e?.salescount && e?.salescount <= 10) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
                 case "10-15":
                     if (10 <= e?.salescount && e?.salescount <= 15) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
                 case "15-20":
                     if (15 <= e?.salescount && e?.salescount <= 20) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
                 case "20-25":
                     if (20 <= e?.salescount && e?.salescount <= 25) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
                 case "25 above":
                     if (25 <= e?.salescount) {
-                        console.log(e?.salescount);
                         flags.purchaseCount = true;
                     }
                     break;
