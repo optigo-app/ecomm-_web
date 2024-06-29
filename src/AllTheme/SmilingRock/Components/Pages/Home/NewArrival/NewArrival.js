@@ -122,7 +122,7 @@ const NewArrival = () => {
                 </div>
                 <div className='smilingBrides'>
                     <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
-                    <button className='enagementBtn' onClick={() =>  navigation('/NewArrival/?N=NewArrival')}>NEW ARRIVAL COLLECTION</button>
+                    <button className='enagementBtn' onClick={() =>  navigation('/productlist/?N=NewArrival')}>NEW ARRIVAL COLLECTION</button>
                 </div>
             </div>
         </div>
