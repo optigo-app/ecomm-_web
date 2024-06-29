@@ -929,7 +929,7 @@ debugger;
                           ))}
                         </select>
                       </div>
-                      <div className="smr_single_prod_customize_outer">
+                      {(storeInit?.IsDiamondCustomization === 1 && diard1?.length > 0)  && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           DAIMOND :
                         </label>
@@ -945,8 +945,8 @@ debugger;
                             >{`${ele?.Quality},${ele?.color}`}</option>
                           ))}
                         </select>
-                      </div>
-                      {storeInit?.IsCsCustomization === 1 && (
+                      </div>)}
+                      {(storeInit?.IsCsCustomization === 1 &&  csrd2?.length > 0 ) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -1039,53 +1039,71 @@ debugger;
               </div>
             </div>
 
-            { SimilarBrandArr?.length > 0 && <div className="smr_stockItem_div">
-              <p className="smr_details_title"> Similar Designs</p>
-              <div className="smr_stockitem_container">
-                <div className="smr_stock_item_card">
-                  {SimilarBrandArr?.map((ele) => (
-                    <div className="smr_stockItemCard" onClick={()=>setTimeout(()=>handleMoveToDetail(ele),500)}>
-                      <img
-                        className="smr_productCard_Image"
-                        src={ 
-
-                          ele?.ImageCount > 0 ? 
-                          (storeInit?.DesignImageFol +
-                          ele?.designno +
-                          "_" +
-                          "1" +
-                          "." +
-                          ele?.ImageExtension)
-                          :
-                          imageNotFound
-                        }
-                        alt={""}
-                      />
-                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="smr_prod_designno" style={{fontSize:'14px'}}>
-                        {ele?.designno}
-                      </span>
-
-                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',fontSize:'16px'}} className="smr_stockItem_price_type_mt">
-                          <spam>
-                            <span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />
-                             </spam>
-                             <span>{ele?.UnitCost}</span>
-                      </div>
-                      </div>
-                    </div>
+            <div className="smr_material_details_portion">
+              <p className="smr_details_title"> Product Details</p>
+              {diard1?.length > 0 && (
+                <div className="smr_material_details_portion_inner">
+                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                    <li
+                      style={{ fontWeight: 600 }}
+                    >{`Diamond Detail(${diard1?.reduce(
+                      (accumulator, data) => accumulator + data.M,
+                      0
+                    )}/${diard1
+                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
+                      .toFixed(2)}ct)`}</li>
+                  </ul>
+                  <ul className="smr_mt_detail_title_ul">
+                    <li className="smr_proDeatilList">Shape</li>
+                    <li className="smr_proDeatilList">Clarity</li>
+                    <li className="smr_proDeatilList">Color</li>
+                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                  </ul>
+                  {diard1?.map((data) => (
+                    <ul className="smr_mt_detail_title_ul">
+                      <li className="smr_proDeatilList1">{data?.F}</li>
+                      <li className="smr_proDeatilList1">{data?.H}</li>
+                      <li className="smr_proDeatilList1">{data?.J}</li>
+                      <li className="smr_proDeatilList1">
+                        {data.M}/{data?.N}
+                      </li>
+                    </ul>
                   ))}
                 </div>
-              </div>
+              )}
+
+              {csrd2?.length > 0 && (
+                <div className="smr_material_details_portion_inner">
+                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                    <li
+                      style={{ fontWeight: 600 }}
+                    >{`Diamond Detail(${csrd2?.reduce(
+                      (accumulator, data) => accumulator + data.M,
+                      0
+                    )}/${csrd2
+                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
+                      .toFixed(2)}ct)`}</li>
+                  </ul>
+                  <ul className="smr_mt_detail_title_ul">
+                    <li className="smr_proDeatilList">Shape</li>
+                    <li className="smr_proDeatilList">Clarity</li>
+                    <li className="smr_proDeatilList">Color</li>
+                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                  </ul>
+                  {csrd2?.map((data) => (
+                    <ul className="smr_mt_detail_title_ul">
+                      <li className="smr_proDeatilList1">{data?.F}</li>
+                      <li className="smr_proDeatilList1">{data?.H}</li>
+                      <li className="smr_proDeatilList1">{data?.J}</li>
+                      <li className="smr_proDeatilList1">
+                        {data.M}/{data?.N}
+                      </li>
+                    </ul>
+                  ))}
+                </div>
+              )}
             </div>
-            }
+
 
             { stockItemArr?.length > 0 && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Stock Items </p>
@@ -1220,70 +1238,53 @@ debugger;
             </div>
             }
 
-            <div className="smr_material_details_portion">
-              <p className="smr_details_title"> Product Details</p>
-              {diard1?.length > 0 && (
-                <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
-                    <li
-                      style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${diard1?.reduce(
-                      (accumulator, data) => accumulator + data.M,
-                      0
-                    )}/${diard1
-                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
-                  </ul>
-                  <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList">Shape</li>
-                    <li className="smr_proDeatilList">Clarity</li>
-                    <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
-                  </ul>
-                  {diard1?.map((data) => (
-                    <ul className="smr_mt_detail_title_ul">
-                      <li className="smr_proDeatilList1">{data?.F}</li>
-                      <li className="smr_proDeatilList1">{data?.H}</li>
-                      <li className="smr_proDeatilList1">{data?.J}</li>
-                      <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
-                      </li>
-                    </ul>
-                  ))}
-                </div>
-              )}
+{ SimilarBrandArr?.length > 0 && <div className="smr_stockItem_div">
+              <p className="smr_details_title"> Similar Designs</p>
+              <div className="smr_stockitem_container">
+                <div className="smr_stock_item_card">
+                  {SimilarBrandArr?.map((ele) => (
+                    <div className="smr_stockItemCard" onClick={()=>setTimeout(()=>handleMoveToDetail(ele),500)}>
+                      <img
+                        className="smr_productCard_Image"
+                        src={ 
 
-              {csrd2?.length > 0 && (
-                <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
-                    <li
-                      style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${csrd2?.reduce(
-                      (accumulator, data) => accumulator + data.M,
-                      0
-                    )}/${csrd2
-                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
-                  </ul>
-                  <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList">Shape</li>
-                    <li className="smr_proDeatilList">Clarity</li>
-                    <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
-                  </ul>
-                  {csrd2?.map((data) => (
-                    <ul className="smr_mt_detail_title_ul">
-                      <li className="smr_proDeatilList1">{data?.F}</li>
-                      <li className="smr_proDeatilList1">{data?.H}</li>
-                      <li className="smr_proDeatilList1">{data?.J}</li>
-                      <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
-                      </li>
-                    </ul>
+                          ele?.ImageCount > 0 ? 
+                          (storeInit?.DesignImageFol +
+                          ele?.designno +
+                          "_" +
+                          "1" +
+                          "." +
+                          ele?.ImageExtension)
+                          :
+                          imageNotFound
+                        }
+                        alt={""}
+                      />
+                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
+                      <span className="smr_prod_designno" style={{fontSize:'14px'}}>
+                        {ele?.designno}
+                      </span>
+
+                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',fontSize:'16px'}} className="smr_stockItem_price_type_mt">
+                          <spam>
+                            <span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />
+                             </spam>
+                             <span>{ele?.UnitCost}</span>
+                      </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-              )}
+              </div>
             </div>
+            }
 
             <Footer />
           </div>

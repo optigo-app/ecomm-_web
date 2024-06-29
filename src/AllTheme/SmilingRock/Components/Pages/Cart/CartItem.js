@@ -6,7 +6,7 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+import { Grid, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
@@ -75,15 +75,23 @@ const CartItem = ({
       }
     }, 500)
   }
+  const isLargeScreen = useMediaQuery('(min-width:1px)');
 
   return (
-    <Grid item xs={12} sm={itemLength <= 2 ? 6 : 6} md={itemLength <= 2 ? 6 : 6} lg={itemLength <= 2 ? 6 : 4} xxl={itemLength <= 2 ? 6 : 3}>
+    <Grid
+      item
+      xs={12}
+      sm={itemLength <= 2 ? 6 : 6}
+      md={itemLength <= 2 ? 6 : 6}
+      lg={itemLength <= 2 ? 6 : 4}
+      xxl={itemLength <= 2 ? 6 : 3}
+      className='smr_cartListCardGrid'>
       <Card className='smr_cartListCard'
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'none',
           border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          // width:itemLength <= 2 && '390px'
+          width: itemLength <= 2 ? '390px' : '100%'
         }}
         onClick={() => onSelect(item)}
       >
@@ -117,7 +125,7 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box className="smr_cartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right:'5px' }}>
+              <Box className="smr_cartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
                 {item?.Remarks !== "" &&
                   <Typography variant="body2" className='smr_card-ContentData'>
                     Remark: {item?.Remarks || productRemark}

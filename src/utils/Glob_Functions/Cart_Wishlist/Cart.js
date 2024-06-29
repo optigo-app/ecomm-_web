@@ -12,6 +12,8 @@ import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import { updateCartAPI } from '../../API/CartAPI/UpdateCartAPI';
 import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const useCart = () => {
   const navigate = useNavigate();
@@ -58,10 +60,12 @@ const useCart = () => {
   const [mrpbasedPriceFlag, setmrpbasedPriceFlag] = useState(0);
   const [finalPrice, setFinalPrice] = useState();
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
+  const [handleUpdate, setHandleUpdate] = useState();
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
+  const isLargeScreen = useMediaQuery('(min-width:1050px)');
 
   useEffect(() => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -169,7 +173,7 @@ const useCart = () => {
     }
   };
 
-  const handlecloseMobileModal =() => {
+  const handlecloseMobileModal = () => {
     setOpenMobileModal(false);
   }
 
@@ -177,7 +181,9 @@ const useCart = () => {
     setMultiSelect(!multiSelect);
     setSelectedItems([]);
     if (!multiSelect && cartData.length > 0) {
-      setSelectedItem(cartData[0]);
+      if (!isLargeScreen) {
+        setSelectedItem(cartData[0]);
+      }
     }
   };
 
@@ -263,15 +269,17 @@ const useCart = () => {
   const handleUpdateCart = async (updatedItems) => {
     // setCartData(updatedItems);
     // setSelectedItem(updatedItems.length > 0 ? updatedItems[0] : null);
-    console.log('updatedItems',updatedItems);
+    console.log('updatedItems', updatedItems);
     setSelectedItems([]);
     setMultiSelect(false);
     setOpenModal(false);
     try {
       const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
-      let resStatus = response.Data.rd[0]
-      if (resStatus?.msg === "success") {
+      let resStatus = response?.Data.rd[0]
+      if (resStatus?.msg == "success") {
         setOpenMobileModal(false);
+        setHandleUpdate(resStatus)
+        toast.success('Cart Updated Successfully')
       } else {
         console.log('Failed to update product or product not found');
       }
@@ -588,7 +596,7 @@ const useCart = () => {
     }
     else {
       let percentPMU = ((pmu / 100) / curr)
-        price = (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
+      price = (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
 
       setFinalPriceWithMarkup(price);
       setIsLoading(false);
@@ -645,6 +653,11 @@ const useCart = () => {
     if (finalPrice) {
       setIsPriceLoding(false);
     }
+
+    setTimeout(() => {
+      setIsPriceLoding(false);
+    }, 1200);
+    
     setSelectedItem(prevItem => ({ ...prevItem, UnitCost: finalPrice }));
 
     console.log("FinalPrice:", qtyCount);
@@ -673,7 +686,7 @@ const useCart = () => {
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, metalID, diaIDData, colorStoneID, sizeId]);
+  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, metalID, diaIDData, colorStoneID, sizeId, qtyCount, handleUpdate]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
