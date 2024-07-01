@@ -311,7 +311,9 @@
         z-index: -500 !important;
     }
 
-
+    .srm_MobileSiderBarMain::-webkit-scrollbar {
+        display: none!important;
+    }
 
 
     .badgeColor .MuiBadge-badge {
@@ -321,6 +323,8 @@
     .badgeColorFix .MuiBadge-badge {
         background-color: white !important;
         color: #c0bbb1 !important;
+        margin-left: 10px!important;
+        
     }
 
     .smr_mobile_viewAllBtn {
@@ -396,6 +400,7 @@
 
         .nav_ul_shop_menu_Mobile {
             padding: 0px;
+            margin: 0px!important;
         }
 
         .smr_menuStaicMobile {

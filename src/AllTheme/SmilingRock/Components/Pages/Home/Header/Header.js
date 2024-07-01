@@ -382,7 +382,7 @@ const Header = () => {
                       overlap={"rectangular"}
                       color="secondary"
                       className='badgeColorFix smr_mobileHideIcone'
-                      style={{marginInline: '15px'}}
+                      style={{ marginInline: '15px' }}
                     >
                       <Tooltip title="WishList">
                         <li
@@ -411,7 +411,7 @@ const Header = () => {
                       overlap={"rectangular"}
                       color="secondary"
                       className='badgeColorFix'
-                      style={{marginInline: '15px'}}
+                      style={{ marginInline: '15px' }}
                     >
                       <Tooltip title="Cart">
                         <li
@@ -497,11 +497,15 @@ const Header = () => {
             </div>
 
             <div>
-              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }}>WishList</p>
+              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
             </div>
 
             <div>
-              <p className='smr_menuStaicMobilePageLink'>Account</p>
+              <p className='smr_menuStaicMobilePageLink'  onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
+            </div>
+
+            <div>
+              <p className='smr_menuStaicMobilePageLink'  onClick={() => { setDrawerShowOverlay(false); handleLogout(); }}>Log Out</p>
             </div>
 
             {islogin && (
