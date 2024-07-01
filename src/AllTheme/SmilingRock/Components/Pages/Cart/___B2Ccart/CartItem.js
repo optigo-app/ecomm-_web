@@ -8,9 +8,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Grid, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
-import RemarkModal from './RemarkModal';
-import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
-import { CartCount } from '../../Recoil/atom';
+// import RemarkModal from './RemarkModal';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 
 const CartItem = ({
@@ -83,10 +83,10 @@ const CartItem = ({
       xs={12}
       sm={itemLength <= 2 ? 6 : 6}
       md={itemLength <= 2 ? 6 : 6}
-      lg={itemLength <= 2 ? 6 : 4}
+      lg={itemLength <= 2 ? 6 : 3}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
-      <Card className='smr_cartListCard'
+      className='smr_B2CcartListCardGrid'>
+      <Card className='smr_B2CcartListCard'
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'none',
           border: selectedItem?.id == item?.id && '1px solid #af8238',
@@ -95,61 +95,53 @@ const CartItem = ({
         }}
         onClick={() => onSelect(item)}
       >
-        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="smr_mui_B2CCartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={CartCardImageFunc(item)}
             alt={item?.TitleLine}
-            className='smr_cartListImage'
+            className='smr_B2CcartListImage'
           />
           <div>
-            <CardContent className='smr_cartcontentData'>
-              <Typography variant="body2" className='smr_DesignNoTExt'>
+            <CardContent className='smr_B2CcartcontentData'>
+              <Typography variant="body2" className='smr_B2CDesignNoTExt'>
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{ marginBottom: '10px' }}>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_B2Ccard-ContentData'>
                     NWT: {item?.MetalWeight}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_B2Ccard-ContentData'>
                     CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
                   </Typography>
                 </div>
                 <div style={{ marginBottom: '10px' }}>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_B2Ccard-ContentData'>
                     GWT: {item?.totalGrossweight}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_B2Ccard-ContentData'>
                     DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
                   </Typography>
                 </div>
               </div>
-              <Box className="smr_cartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
+              <Box className="smr_B2CcartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
                 {item?.Remarks !== "" &&
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_B2Ccard-ContentData'>
                     Remark: {item?.Remarks || productRemark}
                   </Typography>
                 }
-                <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                <Link className='smr_B2CItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                   {item?.Remarks ? "Update Remark" : "Add Remark"}
                 </Link>
-                <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+                <Link className='smr_B2CReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
                   Remove
                 </Link>
               </Box>
             </CardContent>
           </div>
         </Box>
-        {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
       </Card>
-      <RemarkModal
-        open={open}
-        onClose={handleClose}
-        remark={remark}
-        onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}
-      />
     </Grid>
   );
 };

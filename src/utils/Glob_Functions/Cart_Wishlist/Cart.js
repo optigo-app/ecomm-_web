@@ -199,7 +199,8 @@ const useCart = () => {
   // remove
   const handleRemoveItem = async (item) => {
     let param = "Cart"
-    setCartData(cartData.filter(cartItem => cartItem.id !== item.id));
+    let cartfilter = cartData.filter(cartItem => cartItem.id !== item.id)
+    setCartData(cartfilter);
     if (selectedItem === item) {
       setSelectedItem(cartData.length > 1 ? cartData[0] : null);
     }
@@ -650,12 +651,13 @@ const useCart = () => {
     setFinalPrice(finalPrice);
 
     if (finalPrice) {
+      console.log('finalprice--', finalPrice);
       setIsPriceLoding(false);
     }
 
-    setTimeout(() => {
+    // setTimeout(() => {
       setIsPriceLoding(false);
-    }, 1200);
+    // }, 1200);
     
     setSelectedItem(prevItem => ({ ...prevItem, UnitCost: finalPrice }));
 
@@ -750,8 +752,6 @@ const useCart = () => {
     }
     console.log('hdjhsjj777--', obj);
     compressAndEncode(JSON.stringify(obj))
-
-
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
     navigate(`/d/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
