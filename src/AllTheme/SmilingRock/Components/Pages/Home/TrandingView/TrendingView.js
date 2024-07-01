@@ -171,20 +171,20 @@ const TrendingView = () => {
                                                     :
                                                     `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 } className='likingLoveImages'
-
                                                     onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                 />
                                             </div>
                                             <div className='linkLoveRing1Desc'>
                                                 <p className='ring1Desc'>{data?.TitleLine}</p>
-                                                <p className='ring1Desc'><span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            storeInit?.Currencysymbol
-                                                        ),
-                                                    }}
-                                                /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                                <p className='ring1Desc'>
+                                                    <span
+                                                        className="smr_currencyFont"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                storeInit?.Currencysymbol
+                                                            ),
+                                                        }}
+                                                    /> {(data?.UnitCost)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                         <div>

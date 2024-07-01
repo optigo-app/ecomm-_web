@@ -6,6 +6,7 @@
   position: relative;
   margin-top: 80px;
   margin-inline: 90px;
+
   .designSetTitle {
     margin: 40px 0px 10px 0px;
     color: $homePageFontColor;
@@ -14,14 +15,15 @@
     text-align: center;
   }
 
-  .smr_designSetMainDiv{
+  .smr_designSetMainDiv {
     display: flex;
   }
-  .smr_designSetDiv1{
+
+  .smr_designSetDiv1 {
     width: 50%;
   }
 
-  .smr_designSetDiv2{
+  .smr_designSetDiv2 {
     width: 50%;
     display: flex;
     flex-wrap: wrap;
@@ -30,7 +32,7 @@
   }
 
 
-  .smr_designSetImageViewAll{
+  .smr_designSetImageViewAll {
     color: $homePageFontColor;
     font-family: $homePageFontFamily;
     font-size: $fontSize4;
@@ -42,7 +44,7 @@
     width: 100%;
   }
 
-  .smr_designSetDiv1_img{
+  .smr_designSetDiv1_img {
     max-height: 550px;
     margin: 5px;
     width: 100%;
@@ -131,6 +133,43 @@
     font-weight: 500;
     color: $homePageFontColor;
     text-align: center;
+  }
+
+  @media screen and (max-width: 1000px) {
+    margin-inline: 10px !important;
+
+  }
+
+  @media screen and (max-width: 750px) {
+    .smr_designSetMainDiv{
+      display: flex!important;
+      flex-direction: column!important;
+    }
+
+    .smr_designSetDiv1{
+      width: 100%;
+    }
+
+    .smr_designSetDiv2{
+      width: 100%;
+    }
+
+    .smr_designSetDiv{
+      width: 47%!important;
+    }
+
+    .smr_designSetDiv{
+      margin: 2px!important;
+    }
+
+    .image {
+      max-width: 100%;
+      height: 100%!important;
+      margin: 0px!important;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
   }
 }
 
