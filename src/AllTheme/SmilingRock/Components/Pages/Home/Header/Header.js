@@ -218,7 +218,7 @@ const Header = () => {
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/productlist/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -299,7 +299,7 @@ const Header = () => {
  const searchDataFucn = (e) => {
   if(e.key === 'Enter'){
     if(searchText){
-      navigation(`/productlist/${searchText}/?S=${btoa(searchText)}`)
+      navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
     }
   }
  }
