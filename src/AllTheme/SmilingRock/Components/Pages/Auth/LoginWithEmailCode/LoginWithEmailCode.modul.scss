@@ -86,11 +86,20 @@
     .SmilingSignInHere:hover::before {
         width: 100%;
     }
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
 
+        .AuthScreenSubTitle{
+            margin-top: -60px!important;
+        }
+    }
 
     @media screen and (max-width: 700px) {
         .labgrowRegister {
-            width: 80%;
+            width: 90%;
             margin: 10px;
         }
 
@@ -98,5 +107,22 @@
             width: 80%;
         }
 
+        .submitBtnForgot {
+            width: 50%;
+            height: 50px !important;
+
+        }
+
+    }
+
+    
+    
+    @media screen and (max-width: 500px) {
+
+        
+        .submitBtnForgot {
+            width: 90%;
+            height: 40px !important;
+        }
     }
 }

@@ -148,7 +148,7 @@ export default function ForgotPass() {
                             label="Password"
                             type={showPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='labgrowRegister'
+                            className='smr_forgotBox'
                             style={{ margin: '15px' }}
                             value={password}
                             onChange={handlePasswordChange}
@@ -180,7 +180,7 @@ export default function ForgotPass() {
                             label="Confirm Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='labgrowRegister'
+                            className='smr_forgotBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}

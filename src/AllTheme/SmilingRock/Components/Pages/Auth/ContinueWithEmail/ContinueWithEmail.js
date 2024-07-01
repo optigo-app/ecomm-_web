@@ -135,7 +135,7 @@ export default function ContinueWithEmail() {
                             id="outlined-basic"
                             label="Email"
                             variant="outlined"
-                            className='labGrowForgot'
+                            className='smr_continuEmailBox'
                             style={{ margin: '15px' }}
                             value={email}
                             onKeyDown={(event) => {

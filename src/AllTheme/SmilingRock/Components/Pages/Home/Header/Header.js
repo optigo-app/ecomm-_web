@@ -27,7 +27,7 @@ const Header = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
   const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
 
-  const[searchText,setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("")
 
   let navigate = useNavigate();
 
@@ -344,7 +344,7 @@ const Header = () => {
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
                 className="smr_serachinputBoxOverly"
-              onKeyDown={searchDataFucn}
+                onKeyDown={searchDataFucn}
               />
               <IoClose
                 style={{
@@ -363,76 +363,82 @@ const Header = () => {
       {drawerShowOverlay && (
         <>
           <div className="srm_MobileSiderBarMain">
-            <div style={{ margin: '20px 10px 0px 10px' , display :'flex', justifyContent: 'space-between'}}>
-              <IoClose
-                style={{
-                  height: "30px",
-                  width: "30px",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-                onClick={toggleDrawerOverlay}
-              />
-
-              <div className='smiling_Top_header_div2'>
+            <div style={{ margin: '20px 10px 0px 10px', display: 'flex', justifyContent: 'space-between' }}>
+              <div className='smr_mobileHeader_top_div1'>
+                <IoClose
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                  onClick={toggleDrawerOverlay}
+                />
+              </div>
+              <div className='smr_mobileHeader_top_div2'>
                 <a href="/">
                   <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
                 </a>
               </div>
 
-              {islogin &&
-                <>
-                  <Badge
-                    badgeContent={wishCountNum}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    className='badgeColorFix smr_mobileHideIcone'
-                  >
-                    <Tooltip title="WishList">
-                      <li
-                        className="nav_li_smining_Icone"
-                        onClick={() => navigation("/myWishList")}>
-                        <PiStarThin
-                          style={{
-                            height: "20px",
-                            cursor: "pointer",
-                            width: "20px",
-                          }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                  <li
-                    className="nav_li_smining_Icone smr_mobileHideIcone"
-                    onClick={toggleOverlay} style={{}}>
-                    <IoSearchOutline
-                      style={{ height: "20px", cursor: "pointer", width: "20px" }}
-                    />
-                  </li>
-                  <Badge
-                    badgeContent={cartCountNum}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    className='badgeColorFix'
-                  >
-                    <Tooltip title="Cart">
-                      <li
-                        onClick={() => { navigate('/cartPage') }}
-                        className="nav_li_smining_Icone"
-                      >
-                        <ShoppingCartOutlinedIcon
-                          sx={{ height: '30px', width: '30px' }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                </>
-              }
-              
+              <div className='smr_mobileHeader_top_div3'>
+
+                {islogin &&
+                  <>
+                    <Badge
+                      badgeContent={wishCountNum}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      className='badgeColorFix smr_mobileHideIcone'
+                      style={{ marginInline: '15px' }}
+                    >
+                      <Tooltip title="WishList">
+                        <li
+                          className="nav_li_smining_Icone"
+                          onClick={() => navigation("/myWishList")}>
+                          <PiStarThin
+                            style={{
+                              height: "20px",
+                              cursor: "pointer",
+                              width: "20px",
+                            }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                    <li
+                      className="nav_li_smining_Icone smr_mobileHideIcone"
+                      onClick={toggleOverlay} style={{}}>
+                      <IoSearchOutline
+                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                      />
+                    </li>
+                    <Badge
+                      badgeContent={cartCountNum}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      className='badgeColorFix'
+                      style={{ marginInline: '15px' }}
+                    >
+                      <Tooltip title="Cart">
+                        <li
+                          onClick={() => { navigate('/cartPage') }}
+                          className="nav_li_smining_Icone"
+                        >
+                          <ShoppingCartOutlinedIcon
+                            sx={{ height: '30px', width: '30px' }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                  </>
+                }
+
+              </div>
             </div>
-            <div>
+            <div className='smr_mobileMenuSubDivMain'>
               <List className='smr_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
                 {menuItems.map(menuItem => (
                   <div key={menuItem.menuid}>
@@ -457,7 +463,7 @@ const Header = () => {
                             <button className="smr_mobile_viewAllBtn">View All</button>
                           </div>
                         </ButtonBase>
-                        <List>
+                        <List className='smr_mobileMenuScroll'>
                           {menuItem.param1.map(subMenuItem => (
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
@@ -500,11 +506,15 @@ const Header = () => {
             </div>
 
             <div>
-              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }}>WishList</p>
+              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
             </div>
 
             <div>
-              <p className='smr_menuStaicMobilePageLink'>Account</p>
+              <p className='smr_menuStaicMobilePageLink'  onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
+            </div>
+
+            <div>
+              <p className='smr_menuStaicMobilePageLink'  onClick={() => { setDrawerShowOverlay(false); handleLogout(); }}>Log Out</p>
             </div>
 
             {islogin && (
@@ -786,7 +796,7 @@ const Header = () => {
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
-                    // onClick={() => navigation("/LoginOption")}
+                      // onClick={() => navigation("/LoginOption")}
                       onClick={() => navigation("/account")}
                     >
                       ACCOUNT
