@@ -1,13 +1,13 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { smrMA_loginState } from '../../../Recoil/atom';
 import './PromotionBaner1.modul.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const PromotionBaner1 = () => {
 
 
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(smrMA_loginState);
 
     return (
         <div className='smrMA_PromoMain'>
