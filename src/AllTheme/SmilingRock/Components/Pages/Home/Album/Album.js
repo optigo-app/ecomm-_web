@@ -22,7 +22,7 @@ const Album = () => {
   }, []);
 
   const handleNavigate = (name) => {
-    navigation(`/productlist/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+    navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
   }
 
   return (

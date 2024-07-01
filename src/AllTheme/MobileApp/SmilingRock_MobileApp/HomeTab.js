@@ -54,7 +54,7 @@ const HomeTab = () => {
 
   return (
     <>
-      {location.pathname == '/productdetail' ?
+      {location.pathname == '/d' ?
         <>
           {/* <button
             style={{

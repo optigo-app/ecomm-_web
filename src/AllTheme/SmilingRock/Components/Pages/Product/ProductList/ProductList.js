@@ -762,7 +762,7 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -809,7 +809,7 @@ const ProductList = () => {
       .filter(Boolean)
       .join('&');
 
-      const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+      const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
       navigate(url);
 
@@ -940,7 +940,7 @@ const ProductList = () => {
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : ` Product Found: ${afterFilterCount}`}
+                                : `Product Found: ${afterFilterCount}`}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
@@ -1228,36 +1228,6 @@ const ProductList = () => {
                                           {/* </span> */}
                                         </div>
                                       </div>
-                                      {/* <div className="smr_prod_Allwt">
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updCWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                            </div> */}
                                       <div className="smr_prod_mtcolr_price">
                                         <span className="smr_prod_metal_col">
                                           {findMetalColor(

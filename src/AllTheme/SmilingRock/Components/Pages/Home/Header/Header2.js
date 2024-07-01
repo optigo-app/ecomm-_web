@@ -193,7 +193,7 @@ const Header2 = () => {
         ].join('&');
 
         console.log('otherparamsUrl--', otherparamUrl);
-        const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
+        const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
 
 
         // let d = new Date();

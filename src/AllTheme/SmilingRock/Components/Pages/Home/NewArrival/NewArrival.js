@@ -51,7 +51,7 @@ const NewArrival = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
 
@@ -122,7 +122,7 @@ const NewArrival = () => {
                 </div>
                 <div className='smilingBrides'>
                     <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
-                    <button className='enagementBtn' onClick={() =>  navigation(`/productlist/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>
+                    <button className='enagementBtn' onClick={() =>  navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>
                 </div>
             </div>
         </div>
