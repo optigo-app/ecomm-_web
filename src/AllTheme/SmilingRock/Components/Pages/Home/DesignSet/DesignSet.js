@@ -67,7 +67,7 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
-        navigation(`/productdetail/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
     };
 
     const decodeEntities = (html) => {
@@ -99,7 +99,7 @@ const DesignSet = () => {
 
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
-                    <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine)} />
+                    <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
                 </div>
                 <div className='smr_designSetDiv2'>
                     {itemsToShow?.map((slide, index) => (
@@ -109,7 +109,7 @@ const DesignSet = () => {
                                 loading="lazy"
                                 src={ProdCardImageFunc(slide)}
                                 alt={`Slide ${index}`}
-                                onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine)}
+                                onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine ? slide?.TitleLine : '')}
                             />
                             <p className="smr_designList_title">{slide?.TitleLine}</p>
                             {/* <p className="smr_designList_title">

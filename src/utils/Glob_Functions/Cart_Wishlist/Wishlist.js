@@ -180,10 +180,11 @@ const Usewishlist = () => {
     }
     compressAndEncode(JSON.stringify(obj))
     let encodeObj = compressAndEncode(JSON.stringify(obj))
-    navigate(`/productdetail/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
   console.log("lohjshjuhajuh", isWLLoading)
+  
   return {
     isWLLoading,
     wishlistData,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SmilingRock_App from './AllTheme/SmilingRock/SmilingRock_App'
 import DaimondTine_App from './AllTheme/DaimondTine/DaimondTine_App'
 import Elveester_App from './AllTheme/Elveester/Elveester_App'
-import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
+// import MobileApp_App from './AllTheme/MobileApp/MobileApp_App'
 import { Storeinit } from './utils/API/Home/Storeinit/Storeinit'
 import { CurrencyComboAPI } from './utils/API/Combo/CurrencyComboAPI'
 import { MetalColorCombo } from './utils/API/Combo/MetalColorCombo'
@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet'
 import { companyLogo } from './AllTheme/SmilingRock/Components/Recoil/atom'
 import { dt_companyLogo } from './AllTheme/DaimondTine/Components/Recoil/atom'
 import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
+import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 
 export default function ThemeRoutes() {
 
@@ -124,7 +125,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 4 && <MobileApp_App />}
+      {themeNo === 4 && <SmilingRock_MobileApp_App />}
     </>
   )
 }

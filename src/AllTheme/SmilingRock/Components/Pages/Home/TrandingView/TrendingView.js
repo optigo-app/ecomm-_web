@@ -105,7 +105,7 @@ const TrendingView = () => {
         // if(IsB2BWebsite === 1){
         //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }else{
-        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }
     }
 
@@ -171,20 +171,20 @@ const TrendingView = () => {
                                                     :
                                                     `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                 } className='likingLoveImages'
-
                                                     onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
                                                 />
                                             </div>
                                             <div className='linkLoveRing1Desc'>
                                                 <p className='ring1Desc'>{data?.TitleLine}</p>
-                                                <p className='ring1Desc'><span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            storeInit?.Currencysymbol
-                                                        ),
-                                                    }}
-                                                /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                                <p className='ring1Desc'>
+                                                    <span
+                                                        className="smr_currencyFont"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                storeInit?.Currencysymbol
+                                                            ),
+                                                        }}
+                                                    /> {(data?.UnitCost)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                         <div>
@@ -215,7 +215,7 @@ const TrendingView = () => {
                             ))
                         }
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation('/productlist/?T=Trending')}>View All</p>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
                 </div>
             </div>
         </div>

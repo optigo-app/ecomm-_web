@@ -51,7 +51,6 @@ const SmilingRock_App = () => {
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
 
     useEffect(() => {
-
         const cookieValue = Cookies.get('userLoginCookie');
         if (cookieValue) {
             LoginWithEmailAPI('', '', '', '', cookieValue).then((response) => {
@@ -95,8 +94,8 @@ const SmilingRock_App = () => {
                 <Route path="/FunFact" element={<FunFact />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
-                    <Route path="/productlist/*" element={<ProductList />} />
-                    <Route path="/productdetail/*" element={<ProductDetail />} />
+                    <Route path="/p/*" element={<ProductList />} />
+                    <Route path="/d/*" element={<ProductDetail />} />
                     <Route path="/cartPage" element={<Cart />} />
                     <Route path="/myWishList" element={<Wishlist />} />
                     <Route path="/Delivery" element={<Delivery />} />

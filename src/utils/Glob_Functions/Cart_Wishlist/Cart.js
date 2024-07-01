@@ -665,7 +665,6 @@ const useCart = () => {
   };
 
   useEffect(() => {
-    debugger;
     const timeoutId = setTimeout(() => {
       setIsPriceLoding(true);
 
@@ -754,7 +753,9 @@ const useCart = () => {
     console.log('hdjhsjj777--', obj);
     compressAndEncode(JSON.stringify(obj))
     let encodeObj = compressAndEncode(JSON.stringify(obj))
-    navigate(`/productdetail/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
+
+    navigate(`/d/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
+
   }
 
   return {

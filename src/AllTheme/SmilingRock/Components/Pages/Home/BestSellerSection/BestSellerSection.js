@@ -67,7 +67,7 @@ const BestSellerSection = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
 
@@ -193,7 +193,7 @@ const BestSellerSection = () => {
 
                         </div>
                     </Slider>
-                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation('/productlist/?B=BestSeller')}>View All</p>
+                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>View All</p>
         </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />

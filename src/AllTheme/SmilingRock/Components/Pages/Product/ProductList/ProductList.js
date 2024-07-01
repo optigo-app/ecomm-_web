@@ -246,9 +246,13 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
+
+
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let UrlVal =  location?.search.slice(1).split("/")
+
+    console.log("URLVal",UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -264,11 +268,8 @@ const ProductList = () => {
       let firstChar = ele.charAt(0);
 
       switch (firstChar) {
-        case 'V':
+        case 'M':
             MenuVal = ele;
-            break;
-        case 'K':
-            MenuKey = ele;
             break;
         case 'S':
             SearchVar = ele;
@@ -290,40 +291,38 @@ const ProductList = () => {
       }
     })
 
-    if(MenuVal && MenuKey){
-      let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
-      let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+    if(MenuVal){
+
+      let menuDecode = atob(MenuVal.split("=")[1])
+
+      let key = menuDecode.split("/")[1].split(',')
+      let val = menuDecode.split("/")[0].split(',')
 
       setIsBreadcumShow(true)
-      // let MergedUrlArr = MergedUrl(key,val);
 
       productlisttype=[key,val]
     }
 
     if(SearchVar){
       productlisttype = SearchVar
-      console.log("SearchVar",SearchVar)
     }
+
     if(TrendingVar){
-      productlisttype = TrendingVar
-      console.log("TrendingVar",TrendingVar)
+      productlisttype = TrendingVar.split("=")[1]
     }
     if(NewArrivalVar){
-      productlisttype = NewArrivalVar
-      console.log("NewArrivalVar",NewArrivalVar)
+      productlisttype = NewArrivalVar.split("=")[1]
     }
     if(BestSellerVar){
-      productlisttype = BestSellerVar
-      console.log("BestSellerVar",BestSellerVar)
+      productlisttype = BestSellerVar.split("=")[1]
     }
     if(AlbumVar){
-      productlisttype = AlbumVar
-      console.log("AlbumVar",AlbumVar)
+      productlisttype = AlbumVar.split("=")[1]
     }
     
     setIsProdLoading(true)
 
-     if(location?.state?.SearchVal === undefined){ 
+    //  if(location?.state?.SearchVal === undefined){ 
       ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
@@ -360,7 +359,7 @@ const ProductList = () => {
           setIsOnlyProdLoading(false)
         })
         .catch((err) => console.log("err", err))
-      }
+      // }
   }, [location?.key])
 
   useEffect(() => {
@@ -763,7 +762,7 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -773,6 +772,50 @@ const ProductList = () => {
     }
   }
 
+
+  const handleBreadcums = (mparams) => {
+
+    let key = Object?.keys(mparams)
+    let val = Object?.values(mparams)
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+        let keyName = `FilterKey${index === 0 ? '' : index}`;
+        KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+        let keyName = `FilterVal${index === 0 ? '' : index}`;
+        ValObj[keyName] = value;
+    });
+
+    let finalData = {...KeyObj,...ValObj}
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('&');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join('&');
+
+      const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+      navigate(url);
+
+    console.log("mparams",KeyObj,ValObj)
+
+  }
 
   return (
     <div id="top">
@@ -788,7 +831,23 @@ const ProductList = () => {
               <>
                 <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
-                     { IsBreadCumShow && <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>}
+                    <span className="smr_breadcums_port " style={{marginLeft:'72px'}} onClick={()=>{navigate('/')}}>{'Home >'}{" "}</span>
+                     { IsBreadCumShow && <div className="smr_breadcums_port">
+                           {menuParams?.menuname && <span onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal})}>{menuParams?.menuname}</span>}
+
+                           {menuParams?.FilterVal1 && <span 
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1})}
+                           >
+                            {` > ${menuParams?.FilterVal1}`}
+                            </span>}
+
+                           {menuParams?.FilterVal2 && <span
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1,[menuParams?.FilterKey2]:menuParams?.FilterVal2})}
+                           > 
+                           {` > ${menuParams?.FilterVal2}`}
+                           </span>}
+                        </div>
+                     }
                   </div>
 
                       <div className="smr_main_sorting_div">
@@ -881,7 +940,7 @@ const ProductList = () => {
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : ` Product Found: ${afterFilterCount}`}
+                                : `Product Found: ${afterFilterCount}`}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
@@ -1169,36 +1228,6 @@ const ProductList = () => {
                                           {/* </span> */}
                                         </div>
                                       </div>
-                                      {/* <div className="smr_prod_Allwt">
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updCWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                            </div> */}
                                       <div className="smr_prod_mtcolr_price">
                                         <span className="smr_prod_metal_col">
                                           {findMetalColor(
@@ -1240,7 +1269,7 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            <div
+            {( storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -1253,10 +1282,10 @@ const ProductList = () => {
                 size="large"
                 shape="circular"
                 onChange={handelPageChange}
-                showFirstButton
+                showFirstButtongit 
                 showLastButton
               />
-            </div>
+            </div>}
             <Footer fromPage={"ProdList"} />
           </div>
         </div>
