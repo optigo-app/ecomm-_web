@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import noImageFound from "../../Assets/image-not-found.jpg"
 
 const WishlistItems = (
     {
@@ -70,7 +71,7 @@ const WishlistItems = (
                 <div className='cardContent'>
                     <CardMedia
                         component="img"
-                        image={WishCardImageFunc(item)}
+                        image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
                         onClick={() => handleMoveToDetail(item)}

@@ -1,6 +1,7 @@
 import React from 'react';
 import './smr_cartPage.scss';
 import Customization from './Customization';
+import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const CartDetails = ({
   ispriceloding,
@@ -32,7 +33,12 @@ const CartDetails = ({
     <div className="smr_cart-container">
       <div className="smr_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
-        <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage'  onClick={() => handleMoveToDetail(selectedItem)}/>
+        <img 
+        src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
+        alt="image" 
+        className='smr_cartImage'  
+        onClick={() => handleMoveToDetail(selectedItem)}
+        />
       </div>
       <Customization
         ispriceloding={ispriceloding}

@@ -57,7 +57,13 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="smr_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smr_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
         <div className="smr_Cart-imageDiv">
-          <img src={CartCardImageFunc(selectedItem)} alt="Cluster Diamond" className='smr_cartImage' onClick={() => handleMoveToDetail(selectedItem)} />
+          <img 
+          src={CartCardImageFunc(selectedItem)} 
+          alt="Cluster Diamond" 
+          className='smr_cartImage' 
+          onClick={() => handleMoveToDetail(selectedItem)}
+          style={{border:'none'}} 
+          />
         </div>
         <div className="smr_Cart_R-details">
           <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
