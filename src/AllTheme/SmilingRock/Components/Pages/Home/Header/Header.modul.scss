@@ -323,9 +323,6 @@
         color: #c0bbb1 !important;
     }
 
-
-
-
     .smr_mobile_viewAllBtn {
         border: none;
         background-color: transparent;
@@ -335,7 +332,7 @@
     }
 
     .smr_mobile_subMenu {
-        margin: 0px 0px 0px 25px;
+        margin: 0px 0px 0px 15px;
         padding-block: 5px;
         color: #f6f6f6;
 
@@ -356,12 +353,37 @@
     @media screen and (max-width:1200px) {
 
 
+        .smr_mobileHeader_top_div1{
+            width: 33.33%;
+        }
+
+        .smr_mobileHeader_top_div2{
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .smr_mobileHeader_top_div3{
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
         .smiling_Top_header {
             height: 80px !important;
         }
 
+        .muilistMenutext{
+            text-decoration: none;
+        }
         .smiling_Top_header_sub {
             padding-inline: 1% !important;
+        }
+        .srm_MobileSiderBarMain{
+            height: 100%;
+            width: 100%;
+            overflow: scroll;
         }
 
         .nav_li_smining_shop {
