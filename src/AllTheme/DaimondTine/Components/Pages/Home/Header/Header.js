@@ -228,7 +228,7 @@ const Header = () => {
             `size=${finalData.size ?? 50}`
         ].join('&');
 
-        const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
+        const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
         // let d = new Date();
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
         navigation(url)

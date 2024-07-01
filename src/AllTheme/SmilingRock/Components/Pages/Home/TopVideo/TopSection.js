@@ -39,7 +39,7 @@ const TopSection = () => {
           width="500"
           autoPlay
           muted
-          controls={!videoStarted} // Show controls only if the video hasn't started playing
+          controls={!videoStarted} 
           loop
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}

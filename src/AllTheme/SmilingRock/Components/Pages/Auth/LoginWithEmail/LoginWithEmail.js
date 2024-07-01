@@ -285,7 +285,7 @@ export default function LoginWithEmail() {
                             label="Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='labgrowRegister'
+                            className='smr_loginPasswordBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}

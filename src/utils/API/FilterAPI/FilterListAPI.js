@@ -9,7 +9,7 @@ export const FilterListAPI = async(mainData) =>{
     let userEmail = localStorage.getItem("registerEmail")
 
     let MenuParams = {};
-    let serachVar = ""
+  let serachVar = ""
 
   if(Array.isArray(mainData)){
     if(mainData?.length > 0){
@@ -25,17 +25,21 @@ export const FilterListAPI = async(mainData) =>{
     }
    }else{
     if(mainData !== ""){
-      if(mainData.split("=")[0] == "AlbumName"){
-        MenuParams.FilterKey = mainData?.split("=")[0]
-        MenuParams.FilterVal = mainData?.split("=")[1]
-      }else if(mainData.split("=")[0] == "S"){
-        serachVar = mainData.split("=")[1] 
-      }else{
-        MenuParams.FilterKey = mainData?.split("=")[1]
-        MenuParams.FilterVal = mainData?.split("=")[1]
+      
+      if(atob(mainData)?.split("=")[0] == "AlbumName"){
+        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+      } 
+      else if(mainData.split("=")[0] == "S"){
+        serachVar = atob(mainData.split("=")[1])
+      }
+        else{
+        MenuParams.FilterKey = atob(mainData)
+        MenuParams.FilterVal = atob(mainData)
       }
     }
    }
+
 
     const data = {
         "PackageId":`${loginInfo?.PackageId}`,
