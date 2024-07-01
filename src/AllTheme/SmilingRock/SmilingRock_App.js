@@ -51,7 +51,6 @@ const SmilingRock_App = () => {
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
 
     useEffect(() => {
-
         const cookieValue = Cookies.get('userLoginCookie');
         if (cookieValue) {
             LoginWithEmailAPI('', '', '', '', cookieValue).then((response) => {
