@@ -76,7 +76,8 @@ const CartItem = ({
       }
     }, 500)
   }
-  const isLargeScreen = useMediaQuery('(min-width:1px)');
+  const isLargeScreen = useMediaQuery('(min-width:1800px)');
+  const ismediumScreen = useMediaQuery('(min-width:1780px)');
 
   return (
     <Grid
@@ -89,10 +90,10 @@ const CartItem = ({
       className='smr_cartListCardGrid'>
       <Card className='smr_cartListCard'
         sx={{
-          boxShadow: selectedItem?.id == item?.id && 'none',
-          border: selectedItem?.id == item?.id && '1px solid #af8238',
+          boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
+          // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          width: itemLength <= 3 ? '390px' : '100%'
+          width:isLargeScreen && itemLength <= 3 ? '390px' : '100%'
         }}
         onClick={() => onSelect(item)}
       >
