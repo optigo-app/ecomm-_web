@@ -22,8 +22,8 @@ const Album = () => {
   }, []);
 
   const handleNavigate = (name) => {
-    navigation(`/productlist/?AlbumName=${name}`);
-  };
+    navigation(`/productlist/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+  }
 
   return (
     <div className="smr_alubmMainDiv">

@@ -246,9 +246,13 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
+
+
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let UrlVal =  location?.search.slice(1).split("/")
+
+    console.log("URLVal",UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -264,11 +268,8 @@ const ProductList = () => {
       let firstChar = ele.charAt(0);
 
       switch (firstChar) {
-        case 'V':
+        case 'M':
             MenuVal = ele;
-            break;
-        case 'K':
-            MenuKey = ele;
             break;
         case 'S':
             SearchVar = ele;
@@ -290,40 +291,38 @@ const ProductList = () => {
       }
     })
 
-    if(MenuVal && MenuKey){
-      let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
-      let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+    if(MenuVal){
+
+      let menuDecode = atob(MenuVal.split("=")[1])
+
+      let key = menuDecode.split("/")[1].split(',')
+      let val = menuDecode.split("/")[0].split(',')
 
       setIsBreadcumShow(true)
-      // let MergedUrlArr = MergedUrl(key,val);
 
       productlisttype=[key,val]
     }
 
     if(SearchVar){
       productlisttype = SearchVar
-      console.log("SearchVar",SearchVar)
     }
+
     if(TrendingVar){
-      productlisttype = TrendingVar
-      console.log("TrendingVar",TrendingVar)
+      productlisttype = TrendingVar.split("=")[1]
     }
     if(NewArrivalVar){
-      productlisttype = NewArrivalVar
-      console.log("NewArrivalVar",NewArrivalVar)
+      productlisttype = NewArrivalVar.split("=")[1]
     }
     if(BestSellerVar){
-      productlisttype = BestSellerVar
-      console.log("BestSellerVar",BestSellerVar)
+      productlisttype = BestSellerVar.split("=")[1]
     }
     if(AlbumVar){
-      productlisttype = AlbumVar
-      console.log("AlbumVar",AlbumVar)
+      productlisttype = AlbumVar.split("=")[1]
     }
     
     setIsProdLoading(true)
 
-     if(location?.state?.SearchVal === undefined){ 
+    //  if(location?.state?.SearchVal === undefined){ 
       ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
@@ -360,7 +359,7 @@ const ProductList = () => {
           setIsOnlyProdLoading(false)
         })
         .catch((err) => console.log("err", err))
-      }
+      // }
   }, [location?.key])
 
   useEffect(() => {
@@ -1300,7 +1299,7 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            <div
+            {( storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -1316,7 +1315,7 @@ const ProductList = () => {
                 showFirstButton
                 showLastButton
               />
-            </div>
+            </div>}
             <Footer fromPage={"ProdList"} />
           </div>
         </div>
