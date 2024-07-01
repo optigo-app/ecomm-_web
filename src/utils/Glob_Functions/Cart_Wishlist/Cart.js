@@ -615,7 +615,6 @@ const useCart = () => {
   };
 
   const handleFinalPriceCalculate = () => {
-    debugger;
     console.log("TotalPrice--", mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice);
 
     const filteredMtData = metalPriceData?.find(item => item.C === metalID);
@@ -664,7 +663,6 @@ const useCart = () => {
   };
 
   useEffect(() => {
-    debugger;
     const timeoutId = setTimeout(() => {
       setIsPriceLoding(true);
 

@@ -18,7 +18,7 @@ import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileAp
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(4);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -48,7 +48,7 @@ export default function ThemeRoutes() {
           el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
-        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
@@ -125,7 +125,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 4 && <SmilingRock_MobileApp_App />}
+      {/* {themeNo === 4 && <SmilingRock_MobileApp_App />} */}
       {/* {themeNo === 4 && <MobileApp_App />} */}
     </>
   )

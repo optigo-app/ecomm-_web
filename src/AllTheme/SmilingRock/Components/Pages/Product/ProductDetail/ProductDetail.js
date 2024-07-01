@@ -316,7 +316,6 @@ const ProductDetail = () => {
   },[sizeData,SizeCombo])
 
   let metalUpdatedPrice = () => {
-debugger;
     if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
       
 
@@ -896,7 +895,7 @@ debugger;
                         </span>
                       </div>
                     </div>
-                    <div className="smr_single_prod_customize">
+                    { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
                       <div className="smr_single_prod_customize_metal">
                         <label className="menuItemTimeEleveDeatil">
                           METAL TYPE:
@@ -988,7 +987,7 @@ debugger;
                           ))}
                         </select>
                       </div>}
-                    </div>
+                    </div>}
 
                     { handlePrice() !== 0 && <div className="smr_price_portion">
                       {
@@ -1238,7 +1237,7 @@ debugger;
             </div>
             }
 
-{ SimilarBrandArr?.length > 0 && <div className="smr_stockItem_div">
+{ (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Similar Designs</p>
               <div className="smr_stockitem_container">
                 <div className="smr_stock_item_card">

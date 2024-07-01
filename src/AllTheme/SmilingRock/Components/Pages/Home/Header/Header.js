@@ -186,11 +186,18 @@ const Header = () => {
       "FilterVal2": param2?.value ?? ""
     }
     localStorage.setItem("menuparams", JSON.stringify(finalData))
+
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('&');
+    ].filter(Boolean).join(',');
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -200,7 +207,7 @@ const Header = () => {
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => value)
       .filter(Boolean)
-      .join('&');
+      .join(',');
 
     const paginationParam = [
       `page=${finalData.page ?? 1}`,
@@ -208,7 +215,10 @@ const Header = () => {
     ].join('&');
 
     console.log('otherparamsUrl--', otherparamUrl);
-    const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+    // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+    const url = `/productlist/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -286,14 +296,13 @@ const Header = () => {
   };
 
 
-  const searchDataFucn = (e) => {
-    if (e.key === 'Enter') {
-      if (searchText) {
-        setSerachShowOverlay(false)
-        navigation(`/productlist/?S=${searchText}`)
-      }
+ const searchDataFucn = (e) => {
+  if(e.key === 'Enter'){
+    if(searchText){
+      navigation(`/productlist/${searchText}/?S=${btoa(searchText)}`)
     }
   }
+ }
 
 
   return (
