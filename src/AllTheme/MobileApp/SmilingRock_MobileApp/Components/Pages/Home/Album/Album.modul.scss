@@ -1,11 +1,11 @@
 @import '../../../scss/variable';
 
-.smr_alubmMainDiv {
+.smrMA_alubmMainDiv {
 
-    margin-inline: 60px;
+    margin-inline: 0px;
 
     .smr_AlbumImageMain {
-        height: fit-content;
+        height: 300px;
         width: 300px;
         margin: 5px;
         cursor: pointer;
@@ -30,7 +30,7 @@
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: contain;
-        height: 300px;
+        height: 100%;
     }
 
     .smr_albumALL_div {
@@ -40,7 +40,7 @@
 
     @media screen and (max-width: 1200px) {
         .smr_AlbumImageMain_img {
-            height: auto !important;
+            // height: auto !important;
         }
     }
 

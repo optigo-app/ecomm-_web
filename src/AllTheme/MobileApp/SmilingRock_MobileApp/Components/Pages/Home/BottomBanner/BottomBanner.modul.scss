@@ -1,7 +1,7 @@
 @import '../../../scss/variable';
 
 
-.smr_BottomBannerMain {
+.smrMA_bottomMain {
     .shopifyMain {
         display: flex;
         margin-inline: 90px;
@@ -77,6 +77,7 @@
 
         .smr_shopifyImg {
             min-height: auto !important;
+            max-height: 400px !important;
         }
     }
 }
