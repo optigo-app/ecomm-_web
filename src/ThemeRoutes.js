@@ -125,8 +125,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 3 && <Elveester_App />}
 
-      {/* {themeNo === 4 && <SmilingRock_MobileApp_App />} */}
-      {/* {themeNo === 4 && <MobileApp_App />} */}
+      {themeNo === 4 && <SmilingRock_MobileApp_App />}
     </>
   )
 }

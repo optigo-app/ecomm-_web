@@ -26,7 +26,6 @@ function Home() {
 
   return (
     <div className='smiling_home_index_main'>
-
       {localData?.Blockno === 1 &&
         <div className='smiling_home_index_Submain'>
           <TopSection />
