@@ -84,13 +84,12 @@ const ProductDetail = () => {
     });
   }, []);
 
-  useEffect(()=>{
-      getSizeData(singleProd).then((res)=>{
-        console.log("Sizeres",res)
-        // localStorage.setItem("sizecombo",JSON.stringify(res?.Data))
-        getSizeCombo(res?.Data)
-      }).catch((err)=>console.log("SizeErr",err))
-  },[singleProd])
+  // useEffect(()=>{
+  //     getSizeData(singleProd).then((res)=>{
+  //       console.log("Sizeres",res)
+  //       getSizeCombo(res?.Data)
+  //     }).catch((err)=>console.log("SizeErr",err))
+  // },[singleProd])
 
 
   // useEffect(()=>{
@@ -480,24 +479,47 @@ const ProductDetail = () => {
       setDecodeUrl(decodeobj);
     }
 
-    SingleProdListAPI(decodeobj)
-      .then((res) => {
+    const FetchProductData = async() =>{
+
+      await SingleProdListAPI(decodeobj)
+      .then(async(res) => {
         if (res) {
           console.log("detailRes", res);
           setSingleProd(res?.pdList[0]);
 
-          SingleFullProdPriceAPI(decodeobj).then((res) => {
+          await SingleFullProdPriceAPI(decodeobj).then((res) => {
             setSingleProdPrice(res);
             console.log("singlePrice", res);
           });
         }
+        return res;
+      }).then(async(resp)=>{
+          if(resp){
+            await getSizeData(resp).then((res)=>{
+              console.log("Sizeres",res)
+              getSizeCombo(res?.Data)
+            }).catch((err)=>console.log("SizeErr",err))
+
+            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem").then((res)=>{
+              setStockItemArr(res?.Data?.rd)    
+            }).catch((err)=>console.log("stockItemErr",err))
+
+            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand").then((res)=>{
+              setSimilarBrandArr(res?.Data?.rd)         
+            }).catch((err)=>console.log("similarbrandErr",err))
+          }
       })
       .catch((err) => console.log("err", err));
+    }
+
+
+    FetchProductData();
 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
+
   }, [location?.key]);
 
   console.log("location", location);
@@ -663,26 +685,26 @@ const ProductDetail = () => {
     setSelectMtColor(e.target.value)
   } 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-   StockItemApi(singleProd?.autocode,"stockitem").then((res)=>{
+  //  StockItemApi(singleProd?.autocode,"stockitem").then((res)=>{
 
-    setStockItemArr(res?.Data?.rd)    
+  //   setStockItemArr(res?.Data?.rd)    
 
-  }).catch((err)=>console.log("stockItemErr",err))
+  // }).catch((err)=>console.log("stockItemErr",err))
 
-  },[singleProd])
+  // },[singleProd])
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-   StockItemApi(singleProd?.autocode,"similarbrand").then((res)=>{
+  //  StockItemApi(singleProd?.autocode,"similarbrand").then((res)=>{
 
-    setSimilarBrandArr(res?.Data?.rd)
+  //   setSimilarBrandArr(res?.Data?.rd)
 
-  }).catch((err)=>console.log("similarbrandErr",err))
+  // }).catch((err)=>console.log("similarbrandErr",err))
 
-  },[singleProd])
+  // },[singleProd])
 
   // console.log("stock",stockItemArr,SimilarBrandArr);
 
