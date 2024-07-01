@@ -21,10 +21,10 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         return <div></div>;
     }
 
-   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location.pathname)}${location?.search}`;
+   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location?.pathname)}${location?.search}`;
    
     if (isLoginStatus != true) {
-        if (location.pathname.startsWith('/productlist') || location.pathname.startsWith('/productdetail') || location.pathname.startsWith('/cartPage')) {
+        if (location.pathname.startsWith('/productlist') || location.pathname.startsWith('/productdetail') || location.pathname.startsWith('/cartPage') || location.pathname.startsWith('/myWishList')) {
                 let storeInt = JSON.parse(localStorage.getItem("storeInit"));
                 if (!storeInt) {
                     Storeinit();

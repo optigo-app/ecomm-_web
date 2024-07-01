@@ -316,7 +316,6 @@ const ProductDetail = () => {
   },[sizeData,SizeCombo])
 
   let metalUpdatedPrice = () => {
-debugger;
     if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
       
 
