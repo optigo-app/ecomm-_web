@@ -193,7 +193,7 @@ const BestSellerSection = () => {
 
                         </div>
                     </Slider>
-                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation('/productlist/?B=BestSeller')}>View All</p>
+                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/productlist/BestSeller/?B=${btoa('BestSeller')}`)}>View All</p>
         </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />

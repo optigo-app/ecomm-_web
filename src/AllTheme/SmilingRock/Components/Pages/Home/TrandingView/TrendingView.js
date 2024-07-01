@@ -215,7 +215,7 @@ const TrendingView = () => {
                             ))
                         }
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation('/productlist/?T=Trending')}>View All</p>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/productlist/Trending/?T=${btoa('Trending')}`)}>View All</p>
                 </div>
             </div>
         </div>
