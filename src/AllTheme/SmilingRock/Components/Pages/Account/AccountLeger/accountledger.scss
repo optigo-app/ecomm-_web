@@ -28,11 +28,11 @@
     padding: 5px !important;
 }
 .daybtn:hover{
-    background-color: rgb(210, 213, 213);
+    background-color: rgb(210, 213, 213) !important;
 }
-.selected {
-    border: 1px solid darkgray !important;
-}
+// .selected{
+//     border: 1px solid black !important;
+// }
 .toggleBtn{
     border: none;
     font-size: 14px;

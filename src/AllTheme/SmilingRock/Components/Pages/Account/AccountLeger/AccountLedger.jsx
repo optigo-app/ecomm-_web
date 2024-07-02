@@ -14,6 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
+import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 
 const AccountLedger = () => {
 
@@ -62,45 +63,49 @@ const AccountLedger = () => {
         const UserEmail = localStorage.getItem("userEmail");
         try {
             
-        let EncodeData = {
-            FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-            Customerid: `${loginInfo?.id}`,
-          };
+        // let EncodeData = {
+        //     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+        //     Customerid: `${loginInfo?.id}`,
+        //   };
     
-          const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
+        //   const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
     
-          const body_currencycombo = {
-            con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-            f: "m-test2.orail.co.in (getcategorysize)",
-            p: `${encodedCombinedValue}`,
-          };
+        //   const body_currencycombo = {
+        //     con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
+        //     f: "m-test2.orail.co.in (getcategorysize)",
+        //     p: `${encodedCombinedValue}`,
+        //   };
     
-          const response = await CommonAPI(body_currencycombo);
+        //   const response = await CommonAPI(body_currencycombo);
           
           
-          const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-          const CurrencySymbol = response?.Data?.rd[0]?.Currencysymbol;
+        //   const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
+        //   const CurrencySymbol = response?.Data?.rd[0]?.Currencysymbol;
 
-          setCurrencySymbol(CurrencySymbol)
+        //   setCurrencySymbol(CurrencySymbol)
 
-          const forendcode = {"CurrencyRate":`${CurrencyRate}`,"FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,"Customerid":`${loginInfo?.id}`};
+        //   const forendcode = {"CurrencyRate":`${CurrencyRate}`,"FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,"Customerid":`${loginInfo?.id}`};
 
-          const encodedCombinedValue2 = btoa(JSON.stringify(forendcode));
+        //   const encodedCombinedValue2 = btoa(JSON.stringify(forendcode));
 
-          const body = {
-                "con":"{\"id\":\"Store\",\"mode\":\"getledger\",\"appuserid\":\"nimesh@ymail.in\"}",
-                "f":"zen (cartcount)",
-                "p":`${encodedCombinedValue2}`
-            }
+        //   const body = {
+        //         "con":"{\"id\":\"Store\",\"mode\":\"getledger\",\"appuserid\":\"nimesh@ymail.in\"}",
+        //         "f":"zen (cartcount)",
+        //         "p":`${encodedCombinedValue2}`
+        //     }
             
-          const response2 = await CommonAPI(body);
-          
-          if(response2?.Status === '200'){
+        //   const response2 = await CommonAPI(body);
 
-              if(response2?.Data?.rd?.length > 0)
+            const response = await getAccountLedgerData(storeinit, loginInfo, UserEmail);
+
+            setCurrencySymbol(response?.CurrencySymbol);
+
+          if(response?.response2?.Status === '200'){
+
+              if(response?.response2?.Data?.rd?.length > 0)
                 {
 
-                    const mainData = response2?.Data?.rd;
+                    const mainData = response?.response2?.Data?.rd;
 
                     mainData?.sort((a, b) => {
                         const dateA = new Date(a?.EntryDate);
@@ -661,11 +666,13 @@ const AccountLedger = () => {
                         <Box sx={{paddingBottom: "35px", paddingRight: "15px"}} className="pad_r_acc center_acc w_all_acc">
                        
                         <div className='d-flex pt-2'>
-                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn mb-2' title='previous' 
-                            onClick={() => handlePreviousDays()}
-                            >&lt;</button>
+                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn mb-2' title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
                                 {[30, 60, 90]?.map((days) => (
-                                    <button key={days} className={`mx-1 btn border p-2 py-0 daybtn mb-2 ${selectedDays === days ? 'selected' : ''}`} title={`${days} days`} onClick={() => handleDays(days)}>{days}</button>
+                                    <button key={days} 
+                                    className={`mx-1 btn  p-2 py-0 daybtn mb-2 btnHover`} 
+                                    title={`${days} days`} 
+                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                     onClick={() => handleDays(days)}>{days}</button>
                                 ))}
                             <button className='ms-2 mx-1 btn border p-2 py-0 daybtn me-3 mb-2' title='next' 
                             onClick={() => handleNextDays()}
@@ -776,7 +783,7 @@ const AccountLedger = () => {
                                         <td className='border-end p-1 text-end pe-1'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
                                         <td className='border-end p-1 text-end pe-1'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
                               
-                                        <td className='border-end p-1 text-end pe-1' style={{minWidth:'100px'}}>{e?.IsDebit === 0 ? '' : `${e?.CurrSymbol === undefined ? '' : e?.CurrSymbol} ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
+                                        <td className='border-end p-1 text-end pe-1' style={{minWidth:'100px'}}> { e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
                                         <td className='border-end p-1 text-center'></td>
                                         <td className='border-end p-1 text-center'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
                                         <td className='border-end p-1 text-start ps-1'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
@@ -784,7 +791,7 @@ const AccountLedger = () => {
                                         <td className='border-end p-1 text-end pe-1'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
                                         <td className='border-end p-1 text-end pe-1'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
 
-                                        <td className='border-end p-1 text-end pe-1' style={{minWidth:'100px'}}>{e?.IsDebit === 0 ? `${e?.Currency === 0 ? '' : e?.CurrSymbol} ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
+                                        <td className='border-end p-1 text-end pe-1' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
       
                                         <td className=' p-1 text-center'>{doneIcon}{closeIcon}</td>
                                     </tr>

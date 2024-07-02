@@ -5,6 +5,7 @@ import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField
 import { useNavigate } from 'react-router-dom';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import './changepassword.scss'
+import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 
 export default function ChangePassword() {
 
@@ -117,29 +118,40 @@ export default function ChangePassword() {
             const hashedOldPassword = hashPasswordSHA1(oldPassword);
             const hashedPassword = hashPasswordSHA1(password);
             const hashedConfirmPassword = hashPasswordSHA1(confirmPassword);
+            console.log(oldPassword, password, confirmPassword);
+            
             setIsLoading(true);
             try {
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                const { FrontEnd_RegNo } = storeInit;
-                const combinedValue = JSON.stringify({
-                    oldpassword: `${hashedOldPassword}`, newpassword: `${hashedPassword}`, confirmpassword: `${hashedConfirmPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerID}`
-                });
-                const encodedCombinedValue = btoa(combinedValue);
-                const body = {
-                    "con": `{\"id\":\"\",\"mode\":\"CHANGEPASS\",\"appuserid\":\"${email}\"}`,
-                    "f": "Account (changePassword)",
-                    "p": encodedCombinedValue
-                }
-                const response = await CommonAPI(body);
 
-                console.log('response',response);
-                if (response.Data.rd[0].stat === 1) {
+                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+
+                const { FrontEnd_RegNo } = storeInit;
+
+                // const combinedValue = JSON.stringify({
+                //     oldpassword: `${hashedOldPassword}`, newpassword: `${hashedPassword}`, confirmpassword: `${hashedConfirmPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerID}`
+                // });
+
+                // // const encodedCombinedValue = btoa(combinedValue);
+                // const encodedCombinedValue = (combinedValue);
+                // const body = {
+                //     "con": `{\"id\":\"\",\"mode\":\"CHANGEPASS\",\"appuserid\":\"${email}\"}`,
+                //     "f": "Account (changePassword)",
+                //     "p": encodedCombinedValue
+                // }
+
+                // console.log(body);
+                // const response = await CommonAPI(body);
+
+                const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
+
+                if (response?.Data?.rd[0]?.stat === 1) {
                     localStorage.setItem('LoginUser', 'false');
                     naviagation('/')
                     window.location.reload()
                 } else {
                     setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Enter Valid Old Password' }));
                 }
+
             } catch (error) {
                 console.error('Error:', error);
             } finally {

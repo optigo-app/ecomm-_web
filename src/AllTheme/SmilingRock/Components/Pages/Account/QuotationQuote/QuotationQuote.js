@@ -22,6 +22,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
+import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
 
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -67,6 +68,7 @@ const descendingComparator = (a, b, orderBy) => {
         return 0;
     }
 }
+
 const customComparator_Col = (a, b) => {
     const regex = /([^\d]+)(\d+)/;
     const [, wordA, numA] = a?.match(regex);
@@ -77,15 +79,13 @@ const customComparator_Col = (a, b) => {
     }
     
     return parseInt(numB, 10) - parseInt(numA, 10);
-  };
-
+};
 
 const getComparator = (order, orderBy) => {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 function stableSort(array, comparator) {
     const stabilizedThis = array?.map((el, index) => [el, index]);
@@ -375,16 +375,19 @@ const QuotationQuote = () => {
             const customerid = data.id; 
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            const combinedValue = JSON.stringify({
-                CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            const body = {
-                "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.email1}\"}`,
-                "f": "zen (cartcount)",
-                p: encodedCombinedValue
-            };
-            const response = await CommonAPI(body);
+            // const combinedValue = JSON.stringify({
+            //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            // });
+            // const encodedCombinedValue = btoa(combinedValue);
+            // const body = {
+            //     "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.email1}\"}`,
+            //     "f": "zen (cartcount)",
+            //     p: encodedCombinedValue
+            // };
+            // const response = await CommonAPI(body);
+            let currencyRate = "1";
+            const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
+
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
@@ -397,6 +400,8 @@ const QuotationQuote = () => {
                 setFilterData(rows);
             } else {
                 // alert('nodata')
+                setData([]);
+                setFilterData([]);
             }
         } catch (error) {
             console.log('Error:', error);
@@ -420,13 +425,14 @@ const QuotationQuote = () => {
     const handlePrintUrl = (printUrl) => {
         window.open(printUrl)
     }
+
     const scrollToTop = () => {
         // Find the table container element and set its scrollTop property to 0
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
           tableContainer.scrollTop = 0;
         }
-      };
+    };
 
 
     return (
@@ -476,7 +482,6 @@ const QuotationQuote = () => {
                                         }
                                     
                                     }}
-
                                     className='quotationFilterDates w_q'
                                     ref={fromDateRef}
                                 />

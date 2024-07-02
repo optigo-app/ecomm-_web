@@ -3,9 +3,10 @@ import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
+import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 const ManageAddress = () => {
 
     const [defaultAdd, setDefaultAdd] = useState('female');
@@ -41,7 +42,7 @@ const ManageAddress = () => {
         return arr
     }
 
-    const handleDeleteAddress = async () => {
+    const handleDeleteAddressBtn = async () => {
         try {
             setOpenDelete(false);
             setIsLoading(true);
@@ -50,24 +51,27 @@ const ManageAddress = () => {
             const customerid = data?.id;
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            const combinedValue = JSON.stringify({
-                addrid: `${deleteId}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            });
+            // const combinedValue = JSON.stringify({
+            //     addrid: `${deleteId}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            // });
 
 
             
-            const encodedCombinedValue = btoa(combinedValue);
-            const body = {
-                "con": `{\"id\":\"\",\"mode\":\"DELADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
-                "f": "Delivery (removeFromCartList)",
-                p: encodedCombinedValue
-            };
-            const response = await CommonAPI(body);
-            console.log(response);
+            // // const encodedCombinedValue = btoa(combinedValue);
+            // const encodedCombinedValue = (combinedValue);
+            // const body = {
+            //     "con": `{\"id\":\"\",\"mode\":\"DELADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
+            //     "f": "Delivery (removeFromCartList)",
+            //     p: encodedCombinedValue
+            // };
+            // const response = await CommonAPI(body);
+            // console.log(response);
+
+            const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
-                toast.success('Delete success');
                 const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
                 setAddressData(updatedAddressData);
+                toast.success('Delete Success');
             } else {
                 toast.error('error');
             }
@@ -79,6 +83,7 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
+    
     const handleOpen = (item, addressIndex = null) => {
         setIsEditMode(addressIndex !== null);
         if (addressIndex !== null && addressData.length > addressIndex) {
@@ -163,19 +168,22 @@ const ManageAddress = () => {
                     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                     const { FrontEnd_RegNo } = storeInit;
 
-                    const combinedValue = JSON.stringify({
-                        addrid: `${editId}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-                    });
-                    // console.log('edit..... combinedValuecombinedValue...', combinedValue);
+                    // const combinedValue = JSON.stringify({
+                    //     addrid: `${editId}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+                    // });
+                    // // console.log('edit..... combinedValuecombinedValue...', combinedValue);
 
-                    const encodedCombinedValue = btoa(combinedValue);
-                    const body = {
-                        "con": `{\"id\":\"\",\"mode\":\"EDITADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
-                        "f": "Delivery (EditAddress)",
-                        p: encodedCombinedValue
-                    };
-                    const response = await CommonAPI(body);
-                    
+                    // // const encodedCombinedValue = btoa(combinedValue);
+                    // const encodedCombinedValue = (combinedValue);
+                    // const body = {
+                    //     "con": `{\"id\":\"\",\"mode\":\"EDITADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
+                    //     "f": "Delivery (EditAddress)",
+                    //     p: encodedCombinedValue
+                    // };
+                    // const response = await CommonAPI(body);
+                    // console.log(response);
+                    console.log(formData);
+                    const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
                     
                     if (response?.Data?.rd[0]?.stat === 1) {
                         toast.success('Edit success');
@@ -212,22 +220,22 @@ const ManageAddress = () => {
                     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                     const { FrontEnd_RegNo } = storeInit;
 
-                    const combinedValue = JSON.stringify({
-                        firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-                    });
+                    // const combinedValue = JSON.stringify({
+                    //     firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+                    // });
 
-                    const encodedCombinedValue = btoa(combinedValue);
-                    const body = {
-                        "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data.userid}\"}`,
-                        "f": "Delivery (addAddress)",
-                        p: encodedCombinedValue
-                    };
-                    const response = await CommonAPI(body);
+                    // const encodedCombinedValue = btoa(combinedValue);
+                    // const body = {
+                    //     "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data.userid}\"}`,
+                    //     "f": "Delivery (addAddress)",
+                    //     p: encodedCombinedValue
+                    // };
+                    // const response = await CommonAPI(body);
                     
-                    
+                    const response = await handleAddAddress(formData, FrontEnd_RegNo, customerid, storeInit, data);
+                    console.log(response);
 
-                    if (response.Data.rd[0].stat === 1) {
-                        toast.success('Add success');
+                    if (response?.Data?.rd[0]?.stat === 1) {
                         let updatedAddressData = [...addressData];
                         const newAddress = {
                             shippingfirstname: formData.firstName,
@@ -245,6 +253,7 @@ const ManageAddress = () => {
                         toast.error('error');
                     }
                     handleClose();
+                    toast.success('Add success');
                 } catch (error) {
                     console.error('Error:', error);
                 } finally {
@@ -255,6 +264,7 @@ const ManageAddress = () => {
             handleClose();
         }
     };
+
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -403,6 +413,7 @@ const ManageAddress = () => {
     };
 
     const fetchData = async () => {
+
         try {
             setIsLoading(true);
             const storedData = localStorage.getItem('loginUserDetail');
@@ -412,28 +423,30 @@ const ManageAddress = () => {
             // setUserEmail(customerEmail);
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            const combinedValue = JSON.stringify({
-                FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            const body = {
-                "con": `{\"id\":\"\",\"mode\":\"GETTBLADDRESSDATA\",\"appuserid\":\"${data.userid}\"}`,
-                "f": "Delivery (fetchData)",
-                p: encodedCombinedValue
-            };
-            const response = await CommonAPI(body);
-            
-            // console.log('response...', response);
+            // const combinedValue = JSON.stringify({
+            //     FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            // });
+            // const encodedCombinedValue = btoa(combinedValue);
+            // const body = {
+            //     "con": `{\"id\":\"\",\"mode\":\"GETTBLADDRESSDATA\",\"appuserid\":\"${data.userid}\"}`,
+            //     "f": "Delivery (fetchData)",
+            //     p: encodedCombinedValue
+            // };
+            // const response = await CommonAPI(body);
+                const response = await getAddressData(FrontEnd_RegNo, customerid, data);
+
             if (response?.Data?.rd) {
                 setAddressData(response?.Data?.rd);
             } else {
                 // alert('nodata')
+                setAddressData([]);
             }
         } catch (error) {
             console.error('Error:', error);
         } finally {
             setIsLoading(false);
         }
+
     };
 
     useEffect(() => {
@@ -441,221 +454,224 @@ const ManageAddress = () => {
     }, []);
 
     return (
-        <div>
-         <p style={{
-                textAlign: 'center',
-                padding: "15px 15px",
-                marginTop: '30px',
-                fontSize: '20px',
-                background: '#f6efe6',
-                color: "rgba(31, 25, 25, 0.7)",
-                fontFamily:"PT Sans, sans-serif",
-                fontWeight: "700",
-                opacity:'.8'
-            }} className='savedAddress'>Saved Addresses</p>
-            <Box sx={{ paddingLeft: "15px" }}>
-                <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
-            {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
-            <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={defaultAdd}
-                onChange={handleDefault}
-            >
-                {
-                    isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
-                        {
-                            addressData?.map((item, index) => {
-                                return <Box className="AddressSec" key={index}>
-                                    <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
-                                        <Box sx={{ display: "flex", flexWrap: "wrap", }}>
-                                            <Box sx={{ paddingRight: "15px", fontweight: "600", paddingBottom: "10px" }}><h6>{item?.shippingfirstname && item?.shippingfirstname}</h6></Box>
-                                            <Box sx={{ fontweight: "600" }}><h6>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6></Box>
-                                        </Box>
-                                        <Box>
-                                            <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
-                                        </Box>
-                                        <NavLink to="" style={{ textDecoration: "unset" }}>
-                                            <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
-                                                <StayPrimaryPortraitIcon />
-                                                <Typography sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography>
+        <>
+        <ToastContainer />
+            <div>
+            <p style={{
+                    textAlign: 'center',
+                    padding: "15px 15px",
+                    marginTop: '30px',
+                    fontSize: '20px',
+                    background: '#f6efe6',
+                    color: "rgba(31, 25, 25, 0.7)",
+                    fontFamily:"PT Sans, sans-serif",
+                    fontWeight: "700",
+                    opacity:'.8'
+                }} className='savedAddress'>Saved Addresses</p>
+                <Box sx={{ paddingLeft: "15px" }}>
+                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
+                {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
+                <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={defaultAdd}
+                    onChange={handleDefault}
+                >
+                    {
+                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                            {
+                                addressData?.map((item, index) => {
+                                    return <Box className="AddressSec" key={index}>
+                                        <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
+                                            <Box sx={{ display: "flex", flexWrap: "wrap", }}>
+                                                <Box sx={{ paddingRight: "15px", fontweight: "600", paddingBottom: "10px" }}><h6>{item?.shippingfirstname && item?.shippingfirstname}</h6></Box>
+                                                <Box sx={{ fontweight: "600" }}><h6>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6></Box>
                                             </Box>
-                                        </NavLink>
+                                            <Box>
+                                                <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
+                                            </Box>
+                                            <NavLink to="" style={{ textDecoration: "unset" }}>
+                                                <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
+                                                    <StayPrimaryPortraitIcon />
+                                                    <Typography sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography>
+                                                </Box>
+                                            </NavLink>
 
 
-                                        <Box sx={{ display: "flex", paddingBottom: "7px", alignItems: 'center' }}>
-                                            {/* <FormControlLabel value="Default1" control={<Radio />} /> */}
-                                            <input
-                                                type="radio"
-                                                checked={item.isdefault === 1}
-                                                onChange={() => handleDefaultSelection(item.id)}
-                                                className='manageAddressInputRadio'
-                                            />
-                                            <Typography>Default</Typography>
+                                            <Box sx={{ display: "flex", paddingBottom: "7px", alignItems: 'center' }}>
+                                                {/* <FormControlLabel value="Default1" control={<Radio />} /> */}
+                                                <input
+                                                    type="radio"
+                                                    checked={item.isdefault === 1}
+                                                    onChange={() => handleDefaultSelection(item.id)}
+                                                    className='manageAddressInputRadio'
+                                                />
+                                                <Typography>Default</Typography>
+                                            </Box>
+                                            
+                                            <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
+                                                <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
+                                                    sx={{
+                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
+                                                        maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
+                                                    }}
+                                                    onClick={() => handleOpen(item, index)}
+                                                >Edit</Button>
+                                                <Button className='muiSmilingRocksBtnManageEdit'
+                                                    variant="contained"
+                                                    sx={{
+                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
+                                                        marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
+                                                    }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>
+                                            </Box>
+
                                         </Box>
-                                        
-                                        <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
-                                            <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
-                                                sx={{
-                                                    background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
-                                                    maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
-                                                }}
-                                                onClick={() => handleOpen(item, index)}
-                                            >Edit</Button>
-                                            <Button className='muiSmilingRocksBtnManageEdit'
-                                                variant="contained"
-                                                sx={{
-                                                    background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
-                                                    marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
-                                                }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>
-                                        </Box>
-
                                     </Box>
-                                </Box>
-                            })
-                        }
-                    </Box>
-                }
+                                })
+                            }
+                        </Box>
+                    }
 
-            </RadioGroup>
-            <Dialog
-                open={openDelete}
-            >
-              <div className='smilingDeliverDelerePopu'>
-                    <p className='addresDetailsTg'  style={{ fontSize: '20px', fontWeight: 400 }}>ARE YOU SURE TO DELETE ?</p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '40px' }}>
-                        <button onClick={handleDeleteAddress} style={{
-                            height: '35px',
-                            width: '100px',
-                            backgroundColor: '#f6efe6',
-                            color:'rgba(31, 25, 25, 0.7)',
-                            fontWeight: 500,
-                            border: 'none',
-                            outline: 'none',
-                            marginInline: '5px'
-                        }}>YES</button>
-                        <button onClick={() => setOpenDelete(false)} style={{
-                            height: '35px',
-                            width: '100px',
-                            backgroundColor: '#f6efe6',
-                            color:'rgba(31, 25, 25, 0.7)',
-                            fontWeight: 500,
-                            border: 'none',
-                            outline: 'none',
-                            marginInline: '5px'
-                        }}>No</button>
-                    </div>
-                </div>
-            </Dialog>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-            >
-                <div className='smilingAddressPopupMain'>
-                    <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <TextField
-                            id="firstName"
-                            label="First Name"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.firstName}
-                            onChange={(e) => handleInputChange(e, 'firstName')}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName || ''}
-                        />
-                        <TextField
-                            id="lastName"
-                            label="Last Name"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.lastName}
-                            onChange={(e) => handleInputChange(e, 'lastName')}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName || ''}
-                        />
-                        <TextField
-                            id="address"
-                            label="Address"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.address}
-                            onChange={(e) => handleInputChange(e, 'address')}
-                            error={!!errors.address}
-                            helperText={errors.address || ''}
-                        />
-                        <TextField
-                            id="country"
-                            label="Country"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.country}
-                            onChange={(e) => handleInputChange(e, 'country')}
-                            error={!!errors.country}
-                            helperText={errors.country || ''}
-                        />
-                        <TextField
-                            id="state"
-                            label="State"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.state}
-                            onChange={(e) => handleInputChange(e, 'state')}
-                            error={!!errors.state}
-                            helperText={errors.state || ''}
-                        />
-                        <TextField
-                            id="city"
-                            label="City"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.city}
-                            onChange={(e) => handleInputChange(e, 'city')}
-                            error={!!errors.city}
-                            helperText={errors.city || ''}
-                        />
-                        <TextField
-                            id="zipCode"
-                            label="ZIP Code"
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.zipCode}
-                            onChange={(e) => handleInputChange(e, 'zipCode')}
-                            error={!!errors.zipCode}
-                            helperText={errors.zipCode || ''}
-                        />
-                        <TextField
-                            id="mobileNo"
-                            label="Mobile No."
-                            variant="outlined"
-                            className="labgrowRegister"
-                            style={{ margin: '15px' }}
-                            value={formData.mobileNo}
-                            onChange={(e) => handleInputChange(e, 'mobileNo')}
-                            error={!!errors.mobileNo}
-                            helperText={errors.mobileNo || ''}
-                        />
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                <button type="submit" className='smilingDeleveryformSaveBtn'>
-                                    {isEditMode ? 'Edit' : 'Add'}
-                                </button>
-                                <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
-                                    Cancel
-                                </button>
-                            </div>
+                </RadioGroup>
+                <Dialog
+                    open={openDelete}
+                >
+                <div className='smilingDeliverDelerePopu'>
+                        <p className='addresDetailsTg'  style={{ fontSize: '20px', fontWeight: 400 }}>ARE YOU SURE TO DELETE ?</p>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '40px' }}>
+                            <button onClick={handleDeleteAddressBtn} style={{
+                                height: '35px',
+                                width: '100px',
+                                backgroundColor: '#f6efe6',
+                                color:'rgba(31, 25, 25, 0.7)',
+                                fontWeight: 500,
+                                border: 'none',
+                                outline: 'none',
+                                marginInline: '5px'
+                            }}>YES</button>
+                            <button onClick={() => setOpenDelete(false)} style={{
+                                height: '35px',
+                                width: '100px',
+                                backgroundColor: '#f6efe6',
+                                color:'rgba(31, 25, 25, 0.7)',
+                                fontWeight: 500,
+                                border: 'none',
+                                outline: 'none',
+                                marginInline: '5px'
+                            }}>No</button>
                         </div>
-                    </form>
-                </div>
-            </Dialog>
-        </div>
+                    </div>
+                </Dialog>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <div className='smilingAddressPopupMain'>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <TextField
+                                id="firstName"
+                                label="First Name"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.firstName}
+                                onChange={(e) => handleInputChange(e, 'firstName')}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName || ''}
+                            />
+                            <TextField
+                                id="lastName"
+                                label="Last Name"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.lastName}
+                                onChange={(e) => handleInputChange(e, 'lastName')}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName || ''}
+                            />
+                            <TextField
+                                id="address"
+                                label="Address"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.address}
+                                onChange={(e) => handleInputChange(e, 'address')}
+                                error={!!errors.address}
+                                helperText={errors.address || ''}
+                            />
+                            <TextField
+                                id="country"
+                                label="Country"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.country}
+                                onChange={(e) => handleInputChange(e, 'country')}
+                                error={!!errors.country}
+                                helperText={errors.country || ''}
+                            />
+                            <TextField
+                                id="state"
+                                label="State"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.state}
+                                onChange={(e) => handleInputChange(e, 'state')}
+                                error={!!errors.state}
+                                helperText={errors.state || ''}
+                            />
+                            <TextField
+                                id="city"
+                                label="City"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.city}
+                                onChange={(e) => handleInputChange(e, 'city')}
+                                error={!!errors.city}
+                                helperText={errors.city || ''}
+                            />
+                            <TextField
+                                id="zipCode"
+                                label="ZIP Code"
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.zipCode}
+                                onChange={(e) => handleInputChange(e, 'zipCode')}
+                                error={!!errors.zipCode}
+                                helperText={errors.zipCode || ''}
+                            />
+                            <TextField
+                                id="mobileNo"
+                                label="Mobile No."
+                                variant="outlined"
+                                className="labgrowRegister"
+                                style={{ margin: '15px' }}
+                                value={formData.mobileNo}
+                                onChange={(e) => handleInputChange(e, 'mobileNo')}
+                                error={!!errors.mobileNo}
+                                helperText={errors.mobileNo || ''}
+                            />
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
+                                    <button type="submit" className='smilingDeleveryformSaveBtn'>
+                                        {isEditMode ? 'Edit' : 'Add'}
+                                    </button>
+                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </Dialog>
+            </div>                    
+        </>
     )
 }
 

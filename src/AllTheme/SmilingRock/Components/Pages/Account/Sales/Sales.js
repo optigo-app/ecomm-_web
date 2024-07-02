@@ -32,6 +32,7 @@ import moment from "moment";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
+import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
 
 const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -361,16 +362,19 @@ const Sales = () => {
 
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            const combinedValue = JSON.stringify({
-                CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            const body = {
-                "con": `{\"id\":\"Store\",\"mode\":\"getsalebill\",\"appuserid\":\"${data.email1}\"}`,
-                "f": "zen (cartcount)",
-                p: encodedCombinedValue
-            };
-            const response = await CommonAPI(body);
+            let currencyRate = "1";
+            // const combinedValue = JSON.stringify({
+            //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            // });
+            // const encodedCombinedValue = btoa(combinedValue);
+            // const body = {
+            //     "con": `{\"id\":\"Store\",\"mode\":\"getsalebill\",\"appuserid\":\"${data.email1}\"}`,
+            //     "f": "zen (cartcount)",
+            //     p: encodedCombinedValue
+            // };
+            // const response = await CommonAPI(body);
+
+            const response = await getSalesData(currencyRate, FrontEnd_RegNo, customerid, data);
             
             if (response?.Data?.rd) {
                 let rows = [];
@@ -383,6 +387,8 @@ const Sales = () => {
                 setFilterData(rows);
             } else {
                 // alert('nodata')
+                setData([]);
+                setFilterData([]);
             }
         } catch (error) {
             console.log('Error:', error);
