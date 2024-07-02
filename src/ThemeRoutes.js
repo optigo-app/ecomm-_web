@@ -127,13 +127,13 @@ export default function ThemeRoutes() {
           <link rel="manifest" href={favicon} />
         </Helmet>
       </div>
-      {themeNo === 4 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
       {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 1 && <SmilingRock_MobileApp_App />}
+      {themeNo === 4 && <SmilingRock_MobileApp_App />}
     </>
   )
 }

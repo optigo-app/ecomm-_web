@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, Grid, useMediaQuery } from '@mui/material';
-import { Link } from 'react-router-dom';
-import RemarkModal from './RemarkModalMo';
-import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
+import { smrMA_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
   item,
@@ -25,7 +21,7 @@ const CartItem = ({
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
 
   useEffect(() => {
     const isCartUpdateStatus = localStorage.getItem('cartUpdation');
