@@ -4,9 +4,13 @@
 .smrMA_bottomMain {
     .shopifyMain {
         display: flex;
-        margin-inline: 90px;
+        margin-inline: 0px;
         margin-block: 60px;
 
+    }
+
+    .smr_shopifyImg {
+        width: 100%;
     }
 
     .shopifyDesc {
@@ -43,23 +47,7 @@
 
 
     @media screen and (max-width: 1000px) {
-        .shopifyMain {
-            display: flex;
-            flex-direction: column;
-            margin-inline: 10px;
-            margin-block: 60px;
 
-        }
-
-        .shopifyDesc {
-            width: 100%;
-            order: 2;
-        }
-
-        .shopifyMainImage {
-            width: 100%;
-            order: 1;
-        }
 
         .shopifyDescription {
             color: #7d7f85 !important;
@@ -75,9 +63,27 @@
             font-size: 12px !important;
         }
 
-        .smr_shopifyImg {
-            min-height: auto !important;
-            max-height: 400px !important;
+    }
+
+    @media screen and (max-width: 750px) {
+
+        
+        .shopifyDesc {
+            width: 100%;
+            order: 2;
+        }
+
+        .shopifyMainImage {
+            width: 100%;
+            order: 1;
+        }
+        
+        .shopifyMain {
+            display: flex;
+            flex-direction: column;
+            margin-inline: 0px;
+            margin-block: 30px;
         }
     }
+
 }

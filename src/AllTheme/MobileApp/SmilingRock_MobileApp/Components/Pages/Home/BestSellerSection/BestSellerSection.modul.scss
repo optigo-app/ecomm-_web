@@ -2,12 +2,11 @@
 
 .smrMA_bestSallerMain {
 
-    margin-top: 80px;
-    
+    margin-top: 10px;
+
     .linkingLoveMain {
         display: flex;
-        margin-top: 50px;
-        margin-inline: 90px;
+        margin-inline: 0px;
     }
 
     .linkingLove {
@@ -101,7 +100,7 @@
         font-weight: 600;
     }
 
-    .smr_BestSallerViewAll{
+    .smr_BestSallerViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize4;
@@ -113,11 +112,7 @@
     }
 
     @media screen and (max-width: 1200px) {
-       
-        .linkingLoveMain{
-            margin-inline: 10px!important;
-        }
-        .likingLoveImages{
+        .likingLoveImages {
             width: 100%;
             object-fit: contain;
         }
@@ -125,12 +120,6 @@
 
     @media screen and (max-width: 1000px) {
 
-        .linkingLoveMain {
-            display: flex;
-            margin-top: 10px;
-            flex-direction: column;
-            margin-inline: 10px;
-        }
 
         .linkRingLove {
             display: flex !important;
@@ -142,23 +131,16 @@
         }
 
         .linkingLove {
-            width: 100%;
-            order: 2;
+            width: 65%;
         }
 
         .linkingLoveImage {
             width: 100%;
-            order: 1;
         }
 
         .likingLoveImages {
             width: 100%;
         }
-
-        .linkingLoveMain {
-            margin-inline: 10px !important;
-        }
-
 
         .likingLoveImages {
             height: 250px;
@@ -173,7 +155,26 @@
     @media screen and (max-width: 800px) {
         .linkingLoveImageDesign {
             object-fit: contain;
-            height: auto!important;
+            height: auto !important;
+        }
+    }
+
+
+    @media screen and (max-width: 550px) {
+
+        .linkingLoveMain {
+            display: flex;
+            flex-direction: column;
+            margin-inline: 10px;
+        }
+
+        .linkingLoveImage {
+            order: 1;
+        }
+
+        .linkingLove {
+            order: 2;
+            width: 100% !important;
         }
     }
 

@@ -38,6 +38,7 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
+
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
         if(response?.data?.Data?.rd[0]?.Themeno === 1){
