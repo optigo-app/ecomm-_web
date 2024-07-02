@@ -26,7 +26,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
-
+import { FaEye, FaFilter } from "react-icons/fa";
+import { BsFilterLeft } from "react-icons/bs";
 
 
 const ProductList = () => {
@@ -65,6 +66,7 @@ const ProductList = () => {
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
   const [rollOverImgPd,setRolloverImgPd] = useState()
+  const [activeTab, setActiveTab] = useState("/");
 
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
@@ -1547,8 +1549,65 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+
+      <div style={styles.container}>
+        <div style={styles.tab} onClick={''}>
+          <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
+          <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
+        </div>
+        <div style={styles.tab} onClick={''}>
+          <BsFilterLeft style={activeTab === "/shortBy" ? styles.activeIcon : styles.icon} />
+          <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Short By</span>
+        </div>
+
+        <div style={styles.tab} onClick={''}>
+          <FaEye style={styles.icon} />
+          <span style={styles.text}>Image View</span>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default ProductList;
+
+
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#f0f0f0',
+    height: '60px',
+    borderTop: '1px solid #ccc',
+  },
+  tab: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textDecoration: 'none',
+    flex: 1,
+    color: '#666',
+  },
+  icon: {
+    marginBottom: '5px',
+    fontSize: '20px',
+  },
+  activeIcon: {
+    color: '#0000ff78',
+    fontSize: '20px',
+  },
+  text: {
+    fontSize: '12px',
+  },
+  activeText: {
+    color: '#0000ff78',
+    fontWeight: 'bold',
+    fontSize: '14px'
+  },
+};
