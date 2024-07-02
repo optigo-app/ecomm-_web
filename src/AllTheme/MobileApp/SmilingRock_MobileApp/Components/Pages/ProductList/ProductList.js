@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
-import imageNotFound from "../../../Assets/image-not-found.jpg"
+import imageNotFound from "../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -17,7 +16,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
@@ -27,7 +25,9 @@ import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCom
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
-
+import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
+import { FaEye, FaFilter } from "react-icons/fa";
+import { BsFilterLeft } from "react-icons/bs";
 
 
 const ProductList = () => {
@@ -66,10 +66,10 @@ const ProductList = () => {
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
   const [rollOverImgPd,setRolloverImgPd] = useState()
-  const [locationKey,setLocationKey] = useState()
+  const [activeTab, setActiveTab] = useState("/");
 
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
 
 
   // useEffect(()=>{
@@ -223,6 +223,15 @@ const ProductList = () => {
     })
   }, [])
 
+  // useEffect(()=>{
+  //   if(location?.state?.SearchVal !== undefined){ 
+  //     setTimeout(()=>{
+  //       SearchProduct(location?.state?.SearchVal).then((res)=>{
+  //         console.log("search",res)
+  //       })
+  //     },500)
+  //   }
+  // },[location?.key])
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -248,8 +257,7 @@ const ProductList = () => {
 
   useEffect(() => {
 
-    const fetchData = async() =>{
-      
+
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let UrlVal =  location?.search.slice(1).split("/")
@@ -315,18 +323,17 @@ const ProductList = () => {
     if(NewArrivalVar){
       productlisttype = NewArrivalVar.split("=")[1]
     }
-
     if(BestSellerVar){
       productlisttype = BestSellerVar.split("=")[1]
     }
-
     if(AlbumVar){
       productlisttype = AlbumVar.split("=")[1]
     }
     
     setIsProdLoading(true)
+
     //  if(location?.state?.SearchVal === undefined){ 
-      await ProductListApi({},1,obj,productlisttype)
+      ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
             console.log("productList",res);
@@ -351,7 +358,7 @@ const ProductList = () => {
         }).then(async(forWardResp)=>{
           let forWardResp1;
           if(forWardResp){
-            await FilterListAPI(productlisttype).then((res)=>{
+            FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err)=>console.log("err",err))
@@ -362,17 +369,7 @@ const ProductList = () => {
           setIsOnlyProdLoading(false)
         })
         .catch((err) => console.log("err", err))
-
       // }
-      
-    }
-
-    fetchData();
-
-    if(location?.key){
-      setLocationKey(location?.key)
-    }
-
   }, [location?.key])
 
   useEffect(() => {
@@ -539,35 +536,31 @@ const ProductList = () => {
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    
   //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
-    
-  if(location?.key === locationKey){
-    setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj)
-       .then((res) => {
-         if (res) {
-           setProductListData(res?.pdList);
-           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-         }
-         return res;
-       })
-       .then( async(res) => {
-         if (res) {
-           await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-             if(resp){
-               setPriceListData(resp)  
-             }
-           })
-         }
-         return res
-       })
-       .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
-  }
+     setIsOnlyProdLoading(true)
+      ProductListApi(output,1,obj)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .then( async(res) => {
+          if (res) {
+            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+              if(resp){
+                setPriceListData(resp)  
+              }
+            })
+          }
+          return res
+        })
         // .then(async(res)=>{
         //   if(res){
         //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
         //   }
         // })
+        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
       // }
 
   }, [filterChecked])
@@ -1218,7 +1211,7 @@ const ProductList = () => {
                           <div style={{ marginTop: "12px" }}>
                             {filterData?.map((ele) => (
                               <>
-                                {(!(ele?.id)?.includes("Range") && !(ele?.id)?.includes("Price")) && (
+                                {!(ele?.id)?.includes("Range") && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
@@ -1450,12 +1443,12 @@ const ProductList = () => {
                             <div className="smr_prod_Allwt">
                               <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
-                                { (Number(productData?.updNWT.toFixed(3))  !== 0 )&& <span className="smr_prod_wt">
+                                <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
                                     {productData?.updNWT.toFixed(3)}
                                   </span>
-                                </span>}
+                                </span>
                                 { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
                                   <>
                                   <span>|</span>
@@ -1553,8 +1546,23 @@ const ProductList = () => {
                 showLastButton
               />
             </div>}
-            <Footer fromPage={"ProdList"} />
           </div>
+        </div>
+      </div>
+
+      <div style={styles.container}>
+        <div style={styles.tab} onClick={''}>
+          <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
+          <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
+        </div>
+        <div style={styles.tab} onClick={''}>
+          <BsFilterLeft style={activeTab === "/shortBy" ? styles.activeIcon : styles.icon} />
+          <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Short By</span>
+        </div>
+
+        <div style={styles.tab} onClick={''}>
+          <FaEye style={styles.icon} />
+          <span style={styles.text}>Image View</span>
         </div>
       </div>
     </div>
@@ -1562,3 +1570,44 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#f0f0f0',
+    height: '60px',
+    borderTop: '1px solid #ccc',
+  },
+  tab: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textDecoration: 'none',
+    flex: 1,
+    color: '#666',
+  },
+  icon: {
+    marginBottom: '5px',
+    fontSize: '20px',
+  },
+  activeIcon: {
+    color: '#0000ff78',
+    fontSize: '20px',
+  },
+  text: {
+    fontSize: '12px',
+  },
+  activeText: {
+    color: '#0000ff78',
+    fontWeight: 'bold',
+    fontSize: '14px'
+  },
+};

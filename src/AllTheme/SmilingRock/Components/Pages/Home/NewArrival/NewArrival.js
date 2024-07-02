@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './PromotionBanner2.modul.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
@@ -54,15 +53,11 @@ const NewArrival = () => {
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
-
-
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
       }
-
-
       
       const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -82,6 +77,8 @@ const NewArrival = () => {
     const handleMouseLeaveRing2 = () => {
         setRing2ImageChange(false)
     }
+
+    console.log('nnnnnnnnnnnnn',newArrivalData);
 
     return (
         <div className='smr_NewArrivalMain'>

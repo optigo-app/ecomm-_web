@@ -894,12 +894,13 @@ const Header = () => {
               justifyContent: 'space-between',
               marginTop: isHeaderFixed && '20px'
             }}
+            className='smr_showDropOptionMainDiv'
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
+                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
                   >

@@ -10,12 +10,15 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import Payment from './Components/Pages/OrderFlow/PaymentPage/Payment'
 import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirmation'
 import WithoutLoginCart from './Components/Pages/Cart/WithoutLoginCart'
+import ProductList from './Components/Pages/ProductList/ProductList'
+import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 
 const SmilingRock_MobileApp_App = () => {
 
   const location = useLocation();
 
 
+  console.log('locationlocation',location.pathname);
   return (
     <div>
       <ToastContainer />
@@ -30,9 +33,12 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/Confirmation" element={<Confirmation />} />
         <Route path="/myWishList" element={<Wishlist />} />
         {/* </Route> */}
+        <Route path="/p/*" element={<ProductList/>}/>
+        <Route path="/d/*" element={<ProductDetail/>}/>
+
       </Routes>
 
-      {(location.pathname === "/productpage") || (location.pathname === "/payment") ?
+      {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
         '' : <HomeTab />}
 
     </div>
