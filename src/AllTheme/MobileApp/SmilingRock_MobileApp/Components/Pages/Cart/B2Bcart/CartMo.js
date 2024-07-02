@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkeltonMo';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetailsMo"
@@ -54,35 +53,6 @@ const CartPage = () => {
     decodeEntities,
     handleMoveToDetail
   } = useCart();
-
-  const navigate = useNavigate();
-
-  const setCartCountVal = useSetRecoilState(CartCount)
-
-  const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-    console.log("TotalPriceData", cartData)
-    localStorage.setItem('TotalPriceData', priceData)
-    navigate("/Delivery")
-    window.scrollTo(0, 0);
-  }
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-
-  const [countstatus, setCountStatus] = useState();
-
-  useEffect(() => {
-    const iswishUpdateStatus = localStorage.getItem('cartUpdation');
-    setCountStatus(iswishUpdateStatus)
-  }, [handleRemoveItem, handleRemoveAll])
-
-
-  const isLargeScreen = useMediaQuery('(min-width:1050px)');
 
 
   console.log('selected--', selectedItem);

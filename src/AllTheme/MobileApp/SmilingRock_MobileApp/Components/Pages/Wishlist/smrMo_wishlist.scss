@@ -1,12 +1,11 @@
 @import '../../scss/variable.scss';
 
-.smr_WlListCard {
+.smrMo_WlListCard {
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* Ensures all cards are at least the same height */
     justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
 
     .cardContent {
         display: flex;
@@ -38,7 +37,7 @@
 
 @media(max-width:1200px) {
     .WlMainPageDiv {
-        margin-inline: 1% !important;
+        margin-inline: 0% !important;
     }
 }
 
@@ -129,11 +128,10 @@
 
 .smr_WlListData {
     padding: 60px 100px 10px 100px;
-    margin-bottom: -8%;
 }
 
-.smr_WlListCard {
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+.smrMo_WlListCard {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
     position: relative;
 
 }
@@ -276,21 +274,23 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 798px) {
     .smr_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
     }
 
     .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
         font-size: $fontSize2 !important;
     }
+    .smr_WlListData {
+        padding: 10px 10px 100px 10px;
+    }
+
 }
 
 @media (max-width: 600px) {
     .smr_WlListData {
-        padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
+        padding: 10px 10px 100px 10px;
     }
 
     .WlBtnGroupMainDiv {
@@ -344,7 +344,6 @@
 @media (max-width: 320px) {
     .smr_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
     }
 
     .WlBtnGroupMainDiv {

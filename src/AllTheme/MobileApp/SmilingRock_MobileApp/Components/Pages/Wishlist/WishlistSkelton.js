@@ -1,5 +1,5 @@
 import React from 'react';
-import './smr_wishlist.scss';
+import './smrMo_wishlist.scss';
 import { Box, Skeleton, Grid, Card, CardContent } from '@mui/material';
 
 const SkeletonLoader = () => {

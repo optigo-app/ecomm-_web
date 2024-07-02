@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
-import WishlistItems from "./WishlistItems";
-import Button from "@mui/material/Button";
-import Footer from "../Home/Footer/Footer";
-import "./smr_wishlist.scss";
+import "./smrMo_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
-import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
+import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
+import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 
 const Wishlist = () => {
   const {
@@ -30,8 +27,8 @@ const Wishlist = () => {
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setWishCountVal = useSetRecoilState(WishCount)
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
+  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [countstatus, setCountStatus] = useState();
 
   useEffect(() => {
@@ -133,27 +130,6 @@ const Wishlist = () => {
           title="Confirm Clear All"
           content="Are you sure you want to clear all items?"
         />
-
-        <Footer />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "white",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
       </div>
     </div>
   );

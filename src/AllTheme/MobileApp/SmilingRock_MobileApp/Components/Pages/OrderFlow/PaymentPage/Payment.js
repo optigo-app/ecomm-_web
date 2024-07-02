@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import "./Payment.scss";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import { useSetRecoilState } from 'recoil';
-import { CartCount } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import { Divider, Button } from '@mui/material';
+import { smrMA_CartCount } from '../../../Recoil/atom';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -21,7 +20,7 @@ const Payment = () => {
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
 
-    const setCartCountVal = useSetRecoilState(CartCount);
+    const setCartCountVal = useSetRecoilState(smrMA_CartCount);
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
