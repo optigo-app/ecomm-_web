@@ -536,7 +536,7 @@ const ManageAddress = () => {
                 <Dialog
                     open={openDelete}
                 >
-                <div className='smilingDeliverDelerePopu'>
+                <div className='smilingDeliverDelerePopu p-2'>
                         <p className='addresDetailsTg'  style={{ fontSize: '20px', fontWeight: 400 }}>ARE YOU SURE TO DELETE ?</p>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '40px' }}>
                             <button onClick={handleDeleteAddressBtn} style={{
@@ -562,10 +562,7 @@ const ManageAddress = () => {
                         </div>
                     </div>
                 </Dialog>
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                >
+                <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ChangePassword() {
 
@@ -118,7 +119,6 @@ export default function ChangePassword() {
             const hashedOldPassword = hashPasswordSHA1(oldPassword);
             const hashedPassword = hashPasswordSHA1(password);
             const hashedConfirmPassword = hashPasswordSHA1(confirmPassword);
-            console.log(oldPassword, password, confirmPassword);
             
             setIsLoading(true);
             try {
@@ -141,15 +141,20 @@ export default function ChangePassword() {
 
                 // console.log(body);
                 // const response = await CommonAPI(body);
+                if(passwordError === ''){
 
-                const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
+                    const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
+                    
+                    if (response?.Data?.rd[0]?.stat === 1) {
+                        localStorage.setItem('LoginUser', 'false');
+                        naviagation('/')
+                        window.location.reload()
+                    } else {
+                        setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Enter Valid Old Password' }));
+                    }
 
-                if (response?.Data?.rd[0]?.stat === 1) {
-                    localStorage.setItem('LoginUser', 'false');
-                    naviagation('/')
-                    window.location.reload()
-                } else {
-                    setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Enter Valid Old Password' }));
+                }else{
+                    toast.error('Password Not Updated');
                 }
 
             } catch (error) {
@@ -163,6 +168,8 @@ export default function ChangePassword() {
     };
 
     return (
+        <>
+        <ToastContainer />
         <div>
             {isLoading && (
                 <div className="loader-overlay">
@@ -254,6 +261,8 @@ export default function ChangePassword() {
                 <button className='ForgotPassBtn' onClick={handleSubmit}>Change Password</button>
             </div>
         </div>
+
+        </>
     )
 }
 
