@@ -19,7 +19,7 @@ import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Co
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(4);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -38,7 +38,8 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
-        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+
+        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
         if(response?.data?.Data?.rd[0]?.Themeno === 1){
           setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
@@ -126,13 +127,13 @@ export default function ThemeRoutes() {
           <link rel="manifest" href={favicon} />
         </Helmet>
       </div>
-      {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 4 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
       {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 4 && <SmilingRock_MobileApp_App />}
+      {themeNo === 1 && <SmilingRock_MobileApp_App />}
     </>
   )
 }

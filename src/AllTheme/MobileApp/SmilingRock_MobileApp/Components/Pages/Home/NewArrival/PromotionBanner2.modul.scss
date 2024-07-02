@@ -3,29 +3,25 @@
 
 .smrMA_NewArrivalMain {
 
-    margin-top: 100px;
-    
+    margin-top: 10px;
+
     .smilingBridesMain {
         display: flex;
-        margin-inline: 90px;
+        margin-inline: 0px;
         border: 0.5px solid #e1e1e1;
     }
 
     .enagementBtn {
-        height: 65px;
         color: white;
         border: none;
-        margin-inline: 30px;
+        width: 90% !important;
+        margin-inline: 2px;
+        margin-bottom: 10px !important;
+        height: 45px !important;
+        font-weight: 500;
+        font-size: 13px;
         background-color: #7d7f85;
     }
-
-    .enagementBtn:hover {
-        background-color: white;
-        border: 1px solid #7d7f85;
-        color: #7d7f85;
-        transition: all 0.3s ease;
-    }
-
 
     .smilingBrides {
         width: 25%;
@@ -72,6 +68,9 @@
         .smilingBridesMain {
             margin-inline: 10px;
         }
+
+
+
     }
 
 
@@ -96,7 +95,7 @@
             height: 65px;
             color: white;
             border: none;
-            margin-inline: 40px;
+            margin-inline: 25px;
             background-color: #7d7f85;
         }
 

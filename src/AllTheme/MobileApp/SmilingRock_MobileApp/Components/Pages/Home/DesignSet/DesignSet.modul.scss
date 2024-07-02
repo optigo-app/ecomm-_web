@@ -4,8 +4,8 @@
 
 .smrMA_designSetMain {
   position: relative;
-  margin-top: 80px;
-  margin-inline: 90px;
+  margin-top: 10px;
+  margin-inline: 0px;
 
   .designSetTitle {
     margin: 40px 0px 10px 0px;
@@ -27,8 +27,9 @@
     width: 50%;
     display: flex;
     flex-wrap: wrap;
-    height: 550px;
+    // height: 550px;
     overflow: auto;
+    justify-content: center;
   }
 
 
@@ -46,7 +47,6 @@
 
   .smr_designSetDiv1_img {
     max-height: 550px;
-    margin: 5px;
     width: 100%;
     cursor: pointer;
     border-radius: 8px;
@@ -79,11 +79,11 @@
 
   .smr_designSetDiv {
     flex: 0 0 auto;
-    margin: 0 10px;
-    width: 48.5%;
+    width: 200px;
+    height: auto;
     text-align: center;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
-    margin: 5px;
+    // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+    // padding: 2px;
     cursor: pointer;
   }
 
@@ -94,8 +94,7 @@
   }
 
   .image {
-    max-width: 200px;
-    margin: 5px;
+    width: 100%;
     border-radius: 8px;
     object-fit: contain;
   }
@@ -136,40 +135,44 @@
   }
 
   @media screen and (max-width: 1000px) {
-    margin-inline: 10px !important;
+    margin-inline: 0px !important;
 
   }
 
   @media screen and (max-width: 750px) {
-    .smr_designSetMainDiv{
-      display: flex!important;
-      flex-direction: column!important;
+    .smr_designSetMainDiv {
+      display: flex !important;
+      flex-direction: column !important;
     }
 
-    .smr_designSetDiv1{
+    .smr_designSetDiv1 {
       width: 100%;
     }
 
-    .smr_designSetDiv2{
+    .smr_designSetDiv2 {
       width: 100%;
     }
 
-    .smr_designSetDiv{
-      width: 47%!important;
+    .smr_designSetDiv {
+      // width: 47%!important;
     }
 
-    .smr_designSetDiv{
-      margin: 2px!important;
+    .smr_designSetDiv {
+      padding: 2px !important;
     }
 
     .image {
-      max-width: 100%;
-      height: 100%!important;
-      margin: 0px!important;
+      margin: 0px !important;
       border-radius: 8px;
       object-fit: contain;
     }
 
+  }
+
+  @media screen and (max-width: 750px) {
+    .smr_designSetDiv{
+      width: 25%!important;
+    }
   }
 }
 
