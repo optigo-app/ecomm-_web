@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import HomeTab from './HomeTab'
 import Menu from './Components/Pages/MenuPage/Menu'
+import ProductList from './Components/Pages/ProductList/ProductList'
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -18,6 +19,7 @@ const SmilingRock_MobileApp_App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Menu" element={<Menu />} />
+        <Route path="/p" element={<ProductList/>}/>
       </Routes>
 
       {(location.pathname === "/productpage") || (location.pathname === "/payment") ?
