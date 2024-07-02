@@ -20,7 +20,7 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/Menu" element={<Menu />} />
       </Routes>
 
-      {(location.pathname === "/productpage") || (location.pathname === "/Payment") ?
+      {(location.pathname === "/productpage") || (location.pathname === "/payment") ?
         '' : <HomeTab />}
 
     </div>

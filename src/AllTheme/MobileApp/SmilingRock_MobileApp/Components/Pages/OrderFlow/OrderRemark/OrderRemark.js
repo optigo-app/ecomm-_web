@@ -5,9 +5,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
-
-  
+const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
   return (
     <Modal
       open={open}
@@ -21,7 +19,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: 500,
+          width: 500,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -29,10 +27,9 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           flexDirection: 'column',
           borderRadius: '8px',
         }}
-        className="smr_remarkModalBox"
       >
-        <Typography id="remark-modal-title" variant="h6" component="h2">
-          Add The Item Remark..
+        <Typography id="remark-modal-title" className='smr_addorderRemark' variant="h6" component="h2">
+          Add The Order Remark..
         </Typography>
         <TextField
           id="remark-modal-description"
@@ -57,4 +54,4 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
   );
 };
 
-export default RemarkModal;
+export default OrderRemarkModal;
