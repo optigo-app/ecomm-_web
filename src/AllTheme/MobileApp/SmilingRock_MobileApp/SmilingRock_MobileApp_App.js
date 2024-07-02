@@ -13,6 +13,7 @@ const SmilingRock_MobileApp_App = () => {
   const location = useLocation();
 
 
+  console.log('locationlocation',location.pathname);
   return (
     <div>
       <ToastContainer />
@@ -25,7 +26,7 @@ const SmilingRock_MobileApp_App = () => {
 
       </Routes>
 
-      {(location.pathname === "/productpage") || (location.pathname === "/payment") ?
+      {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
         '' : <HomeTab />}
 
     </div>
