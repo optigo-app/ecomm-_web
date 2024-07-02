@@ -36,6 +36,7 @@ import { FaBullseye } from "react-icons/fa";
 import { NumberWithCommas, checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
 
 function createData(
   SrNo,
@@ -611,18 +612,20 @@ const SalesReport = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      const combinedValue = JSON.stringify({
-        CurrencyRate: "1",
-        FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-        Customerid: `${customerid}`,
-      });
-      const encodedCombinedValue = btoa(combinedValue);
-      const body = {
-        con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data.email1}\"}`,
-        f: "zen (cartcount)",
-        p: encodedCombinedValue,
-      };
-      const response = await CommonAPI(body);
+      let currencyRate = "1";
+      // const combinedValue = JSON.stringify({
+      //   CurrencyRate: "1",
+      //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+      //   Customerid: `${customerid}`,
+      // });
+      // const encodedCombinedValue = btoa(combinedValue);
+      // const body = {
+      //   con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data.email1}\"}`,
+      //   f: "zen (cartcount)",
+      //   p: encodedCombinedValue,
+      // };
+      // const response = await CommonAPI(body);
+      const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       if (response.Data?.rd) {
         let datass = [];
@@ -678,7 +681,11 @@ const SalesReport = () => {
         setData(datass);
         setFilterData(datass);
         setTotal(totals);
+      }else{
+        setData([]);
+        setFilterData([]);
       }
+      
     } catch (error) {
       console.log("Error:", error);
     } finally {
