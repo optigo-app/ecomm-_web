@@ -78,6 +78,8 @@ const Menu = () => {
         });
 
         setMenuItems(uniqueMenuItems);
+        handleLoginMenuClickSwipe(uniqueMenuItems[0]?.menuname, null, "iconclicked")
+
     }, [menuData]);
 
 
@@ -85,13 +87,14 @@ const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(menuItems[0]?.menuname);
     const [value, setValue] = useState(0);
 
+  
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleChangeIndex = (index) => {
         setValue(index);
-        handleLoginMenuClickSwipe(menuItems[index].menuname, null, "iconclicked")
+        handleLoginMenuClickSwipe(menuItems[index]?.menuname, null, "iconclicked")
     };
 
     const handleLoginMenuClickSwipe = (menuName, menuItem, iconclicked) => {
@@ -195,7 +198,7 @@ const Menu = () => {
                     onChangeIndex={handleChangeIndex}
                     enableMouseEvents
                     animateTransitions
-                    style={{ minHeight: '600px' }}
+                    className='smrMA_menuMainSwipe'
                 >
                     {menuItems.map(menuItem => (
                         <TabPanel value={value} index={0} style={{ marginInline: '15%', padding: '0px', marginBottom: '100px' }}>

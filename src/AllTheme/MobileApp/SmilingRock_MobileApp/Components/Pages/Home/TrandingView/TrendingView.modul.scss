@@ -87,8 +87,8 @@
 
     .smr_trendingViewTopMain_div {
         display: flex;
-        margin-top: 50px;
-        margin-inline: 90px;
+        margin-top: 5px;
+        margin-inline: 0px;
     }
 
     .smr_trendingViewTopMain_Imgdiv {
@@ -104,7 +104,7 @@
 
     .linkingLoveImageDesign {
         max-height: 645px;
-        margin-top: 5px;
+        margin-top: 0px;
         width: 100%;
     }
 
@@ -180,10 +180,6 @@
 
         .linkingLoveImageDesign {
             height: auto !important;
-        }
-
-        .smr_trendingViewTopMain_div {
-            margin-inline: 10px !important;
         }
 
         .linkingLoveMain2 {

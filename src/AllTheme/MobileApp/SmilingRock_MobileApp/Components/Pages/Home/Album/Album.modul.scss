@@ -3,13 +3,13 @@
 .smrMA_alubmMainDiv {
 
     margin-inline: 0px;
+    margin-top: -5px;
 
     .smr_AlbumImageMain {
-        height: 300px;
         width: 300px;
-        margin: 5px;
+        padding: 2px;
         cursor: pointer;
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+        // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
     }
 
     .smr_albumTitle {
@@ -45,9 +45,7 @@
     }
 
     @media screen and (max-width: 1000px) {
-        margin-inline: 10px !important;
-
-
+        // margin-inline: 10px !important;
     }
 
 
@@ -63,11 +61,11 @@
         }
 
         .smr_AlbumImageMain {
-            width: 47% !important;
+            width: 50% !important;
         }
 
         .smr_AlbumImageMain{
-            margin: 2px!important;
+            // margin: 2px!important;
         }
     }
 }
