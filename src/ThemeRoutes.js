@@ -34,7 +34,8 @@ export default function ThemeRoutes() {
       el_setCompanyTitleLogo(logo?.companylogo)
     }
     Storeinit().then((response) => {
-      if (response.status === 200) {
+      console.log(response);
+      if (response?.status === 200) {
         if(response?.data?.Data?.rd[0]?.Themeno === 1){
           setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
