@@ -55,7 +55,7 @@ export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, custome
             state: `${formData.state}`, 
             country: `${formData.country}`, 
             zip: `${formData.zipCode}`, 
-            mobile: `${formData.mobileNo}`, 
+            mobileno: `${formData.mobileNo}`, 
             FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
             Customerid: `${customerid}`
         });
