@@ -484,7 +484,7 @@ const ProductDetail = () => {
       await SingleProdListAPI(decodeobj)
       .then(async(res) => {
         if (res) {
-          console.log("detailRes", res);
+          
           setSingleProd(res?.pdList[0]);
 
           await SingleFullProdPriceAPI(decodeobj).then((res) => {
@@ -814,12 +814,7 @@ const ProductDetail = () => {
                       />
                     ) : (
                       <div
-                        style={{
-                          position: "absolute",
-                          height: "100%",
-                          width: "100%",
-                          left: "35px",
-                        }}
+                        className="smr_prod_video"
                       >
                         <video
                           src={selectedThumbImg?.link}
@@ -1098,7 +1093,7 @@ const ProductDetail = () => {
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
                     <li
                       style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${csrd2?.reduce(
+                    >{`ColorStone Detail(${csrd2?.reduce(
                       (accumulator, data) => accumulator + data.M,
                       0
                     )}/${csrd2
