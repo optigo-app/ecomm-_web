@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import useCart from '../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
-import Footer from '../Home/Footer/Footer';
+import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount } from '../../Recoil/atom';
+import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
-import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 
 const CartPage = () => {
@@ -63,6 +63,7 @@ const CartPage = () => {
 
   const handlePlaceOrder = () => {
     let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
+    console.log("TotalPriceData",cartData)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);
@@ -223,8 +224,8 @@ const CartPage = () => {
               </div>
             ) :
               <div className='smr_noWishlistData'>
-                <p className='smr_title'>No Wishlist Found!</p>
-                <p className='smr_desc'>Please First Add To Wishlist Data</p>
+                <p className='smr_title'>No Data Found!</p>
+                <p className='smr_desc'>Please First Add Data in cart</p>
                 <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
               </div>
             }

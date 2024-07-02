@@ -1,6 +1,6 @@
 import React from 'react'
 import './BottomBanner.modul.scss'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const BottomBanner = () => {
 
@@ -49,7 +49,7 @@ const BottomBanner = () => {
         },
     ]
     return (
-        <div className='smr_BottomBannerMain'>
+        <div className='smrMA_bottomMain'>
             {
                 dataJSON.map((data, i) => (
                     <div>

@@ -12,6 +12,7 @@ import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 
 const Payment = () => {
+    const [isloding, setIsloding] = useState(false);
     const navigate = useNavigate();
     const [countData, setCountData] = useState();
     const [selectedAddrData, setSelectedAddrData] = useState();
@@ -36,7 +37,7 @@ const Payment = () => {
         handleOrderRemarkFun(orderRemark);
         handleClose();
     };
-console.log('orderreamrk', orderRemark);
+    console.log('orderreamrk', orderRemark);
 
     useEffect(() => {
         const orderRemakdata = localStorage.getItem("orderRemark");
@@ -71,12 +72,14 @@ console.log('orderreamrk', orderRemark);
     }, [])
 
     const handlePay = async () => {
+        setIsloding(true);
         const paymentResponse = await handlePaymentAPI();
         console.log("paymentResponse", paymentResponse);
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             localStorage.setItem('orderNumber', num);
-            navigate('/Confirmation')
+            navigate('/Confirmation');
+            setIsloding(false);
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
@@ -206,7 +209,10 @@ console.log('orderreamrk', orderRemark);
                         </div>
                     </div>
                     <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn' onClick={handlePay}>PAY ON ACCOUNT</button>
+                        <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                            {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
+                            {isloding && <span className="loader"></span>}
+                        </button>   
                     </div>
                 </div>
                 <OrderRemarkModal
