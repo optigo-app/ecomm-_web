@@ -139,7 +139,7 @@
 
   }
 
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 800px) {
     .smr_designSetMainDiv {
       display: flex !important;
       flex-direction: column !important;
@@ -154,10 +154,6 @@
     }
 
     .smr_designSetDiv {
-      // width: 47%!important;
-    }
-
-    .smr_designSetDiv {
       padding: 2px !important;
     }
 
@@ -167,19 +163,14 @@
       object-fit: contain;
     }
 
-  }
-
-  @media screen and (max-width: 750px) {
-    .smr_designSetDiv{
-      width: 25%!important;
+    .smr_designSetDiv {
+      width: 25% !important;
     }
   }
 }
 
 
 // .smr_designSetMain {
-
-
 
 //     .App {
 //         font-family: sans-serif;

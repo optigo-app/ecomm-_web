@@ -312,8 +312,18 @@
     }
 
     .srm_MobileSiderBarMain::-webkit-scrollbar {
-        display: none!important;
+        display: none !important;
     }
+
+    .smr_showDropOptionMainDiv {
+        overflow: auto;
+    }
+
+    .smr_showDropOptionMainDiv::-webkit-scrollbar {
+        // display: none!important;
+        height: 5px !important;
+    }
+
 
 
     .badgeColor .MuiBadge-badge {
@@ -323,8 +333,8 @@
     .badgeColorFix .MuiBadge-badge {
         background-color: white !important;
         color: #c0bbb1 !important;
-        margin-left: 10px!important;
-        
+        margin-left: 10px !important;
+
     }
 
     .smr_mobile_viewAllBtn {
@@ -347,22 +357,29 @@
     }
 
 
+    @media screen and (max-width:1500px) {
+        .smr_headerOptionSingleDiv {
+            min-width: 200px !important;
+        }
+    }
+
     @media screen and (max-width:1350px) {
 
         .smiling_Top_header_div1 {
-            width: 40%!important;
+            width: 40% !important;
         }
-    
+
         .smiling_Top_header_div2 {
-            width: 20%!important;
+            width: 20% !important;
         }
-    
+
         .smiling_Top_header_div3 {
-            width: 40%!important;
+            width: 40% !important;
         }
-    
+
 
     }
+
     @media screen and (min-width:1201px) {
 
         .nav_ul_shop_menu_Mobile {
@@ -373,34 +390,37 @@
     @media screen and (max-width:1200px) {
 
 
-        .smr_mobileHeader_top_div1{
+        .smr_mobileHeader_top_div1 {
             width: 33.33%;
         }
 
-        .smr_mobileHeader_top_div2{
+        .smr_mobileHeader_top_div2 {
             width: 33.33%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .smr_mobileHeader_top_div3{
+        .smr_mobileHeader_top_div3 {
             width: 33.33%;
             display: flex;
             align-items: center;
             justify-content: flex-end;
         }
+
         .smiling_Top_header {
             height: 80px !important;
         }
 
-        .muilistMenutext{
+        .muilistMenutext {
             text-decoration: none;
         }
+
         .smiling_Top_header_sub {
             padding-inline: 1% !important;
         }
-        .srm_MobileSiderBarMain{
+
+        .srm_MobileSiderBarMain {
             height: 100%;
             width: 100%;
             overflow: scroll;
@@ -416,7 +436,7 @@
 
         .nav_ul_shop_menu_Mobile {
             padding: 0px;
-            margin: 0px!important;
+            margin: 0px !important;
         }
 
         .smr_menuStaicMobile {
