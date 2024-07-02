@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, FormControlLabel, Pagination } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -24,6 +24,10 @@ import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeCo
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+
+
 
 const ProductList = () => {
 
@@ -31,6 +35,7 @@ const ProductList = () => {
 
   let location = useLocation();
   let navigate = useNavigate();
+  let minwidth1201px = useMediaQuery('(min-width:1201px)')
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -55,7 +60,7 @@ const ProductList = () => {
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
-
+  const [isDrawerOpen,setIsDrawerOpen] = useState(false)
   const [rollOverImgPd,setRolloverImgPd] = useState()
 
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -525,7 +530,7 @@ const ProductList = () => {
    let output = FilterValueWithCheckedOnly()
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    
-   if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+  //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
      setIsOnlyProdLoading(true)
       ProductListApi(output,1,obj)
         .then((res) => {
@@ -551,7 +556,7 @@ const ProductList = () => {
         //   }
         // })
         .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
-      }
+      // }
 
   }, [filterChecked])
 
@@ -750,7 +755,7 @@ const ProductList = () => {
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: productData?.metaltypeid,
+      m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
       f: output
@@ -819,6 +824,148 @@ const ProductList = () => {
 
   return (
     <div id="top">
+      <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer" >
+      <div className="smr_mobile_filter_portion">
+                        <div className="smr_mobile_filter_portion_outter">
+                          <span className="smr_filter_text">
+                            <span>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length === 0
+                                ? "Filters"
+                                : `Product Found: ${afterFilterCount}`}
+                            </span>
+                            <span onClick={() => handelFilterClearAll()}>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0
+                                ? "Clear All"
+                                : ""}
+                            </span>
+                          </span>
+                          <div style={{ marginTop: "12px" }}>
+                            {filterData?.map((ele) => (
+                              <>
+                                {!(ele?.id)?.includes("Range") && (
+                                  <Accordion
+                                    elevation={0}
+                                    sx={{
+                                      borderBottom: "1px solid #c7c8c9",
+                                      borderRadius: 0,
+                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                                        background: "none",
+                                      },
+                                    }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                  >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                      aria-controls="panel1-content"
+                                      id="panel1-header"
+                                      sx={{
+                                        color: "#7f7d85",
+                                        borderRadius: 0,
+
+                                        "&.MuiAccordionSummary-root": {
+                                          padding: 0,
+                                        },
+
+                                      }}
+                                      className="filtercategoryLable"
+                                    >
+                                      {/* <span> */}
+                                      {ele.Name}
+                                      {/* </span> */}
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            gap: "12px",
+                                          }}
+                                          key={opt?.id}
+                                        >
+                                          {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                      <FormControlLabel
+                                      control={
+                                      <Checkbox
+                                        name={`${ele?.id}${opt?.id}`}
+                                        // checked={
+                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                        //     : false
+                                        // }
+                                        checked={
+                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                          undefined
+                                            ? false
+                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(
+                                            e,
+                                            ele?.id,
+                                            opt?.Name
+                                          )
+                                        }
+                                        size="small"
+                                        />
+                                      }
+                                      
+                                      // sx={{
+                                      //   display: "flex",
+                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                      //   width: "100%",
+                                      //   flexDirection: "row-reverse", // Align items to the right
+                                      //   fontFamily:'TT Commons Regular'
+                                      // }}
+                                      className="smr_mui_checkbox_label"
+                                      label={opt.Name}
+                                      />
+                                      
+                                    </div>
+                                  ))}
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          </>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+      </Drawer>
       <div className="smr_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
@@ -829,7 +976,17 @@ const ProductList = () => {
               <ProductListSkeleton />
             ) : (
               <>
-                <div className="smr_prodSorting">
+                { !minwidth1201px ? 
+                <div className="smr_mobile_prodSorting">
+                  <Checkbox
+                  sx={{padding:'0px 9px 0px 9px'}}
+                  icon={<FilterAltIcon fontSize="large"/>}
+                  checkedIcon={<FilterAltOffIcon fontSize="large" style={{color:'#666666'}}/>}
+                  checked={isDrawerOpen}
+                  onChange={(e)=>setIsDrawerOpen(e.target.value)}
+                />
+                </div>
+                : <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
                     <span className="smr_breadcums_port " style={{marginLeft:'72px'}} onClick={()=>{navigate('/')}}>{'Home >'}{" "}</span>
                      { IsBreadCumShow && <div className="smr_breadcums_port">
@@ -929,11 +1086,11 @@ const ProductList = () => {
                         </div>
                       </div>
 
-                    </div>
+                    </div>}
 
                     <div className="smr_mainPortion">
                       <div className="smr_filter_portion">
-                        <div style={{ padding: "21px 71px" }}>
+                        <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
                             <span>
                               {Object.values(filterChecked).filter(
@@ -1168,20 +1325,22 @@ const ProductList = () => {
                             <div className="smr_prod_Title" >
                               <span
                                 className={
-                                  productData?.TitleLine?.length > 30
-                                    ? "smr_prod_title_with_width"
-                                    : "smr_prod_title_with_no_width"
+                                  // productData?.TitleLine?.length > 30
+                                    // ? 
+                                    "smr_prod_title_with_width"
+                                    // : 
+                                    // "smr_prod_title_with_no_width"
                                 }
                               >
-                                {productData?.TitleLine}{" "}
                                 {productData?.TitleLine?.length > 0 && "-"}
+                                {productData?.TitleLine}{" "}
                               </span>
                               <span className="smr_prod_designno">
                                 {productData?.designno}
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px'}}> 
+                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>

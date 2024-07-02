@@ -7,14 +7,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useRecoilValue } from 'recoil';
 import { Badge, Button, Tooltip } from '@mui/material';
 import { IoMenuOutline } from 'react-icons/io5';
-import { CartCount, loginState } from './Components/Recoil/atom';
+import { smrMA_CartCount, smrMA_loginState } from './Components/Recoil/atom';
 
 
 
 const HomeTab = () => {
   const [activeTab, setActiveTab] = useState("/");
-  const getCartListCount = useRecoilValue(CartCount)
-  const islogin = useRecoilValue(loginState);
+  const getCartListCount = useRecoilValue(smrMA_CartCount)
+  const islogin = useRecoilValue(smrMA_loginState);
   const location = useLocation();
 
   const handleTabChange = (tab) => {
@@ -23,17 +23,17 @@ const HomeTab = () => {
 
 
   // const handleClick = async () => {
-    // if ('vibrate' in navigator) {
-    //   const didVibrate = navigator.vibrate(200); // Vibrate for 200ms
-    //   if (didVibrate) {
-    //     alert('Device is vibrating');
-    //   } else {
-    //     alert('Device did not vibrate. Check device settings.');
-    //   }
-    // } else {
-    // await Haptics.impact({ style: ImpactStyle.Heavy });
-    //   alert('not support IOS');
-    // }
+  // if ('vibrate' in navigator) {
+  //   const didVibrate = navigator.vibrate(200); // Vibrate for 200ms
+  //   if (didVibrate) {
+  //     alert('Device is vibrating');
+  //   } else {
+  //     alert('Device did not vibrate. Check device settings.');
+  //   }
+  // } else {
+  // await Haptics.impact({ style: ImpactStyle.Heavy });
+  //   alert('not support IOS');
+  // }
   //   await Haptics.vibrate();
   // };
 
@@ -141,9 +141,9 @@ const HomeTab = () => {
                   color="secondary"
                   style={{ marginInline: '10px' }}
                 > */}
-                  {/* <Tooltip title="Cart"> */}
-                    <FaShoppingCart style={activeTab === "/WithoutLoginCart" ? styles.activeIcon : styles.icon} />
-                  {/* </Tooltip> */}
+                {/* <Tooltip title="Cart"> */}
+                <FaShoppingCart style={activeTab === "/WithoutLoginCart" ? styles.activeIcon : styles.icon} />
+                {/* </Tooltip> */}
                 {/* </Badge> */}
                 <span style={activeTab === "/WithoutLoginCart" ? styles.activeText : styles.text}>Cart</span>
               </Button>

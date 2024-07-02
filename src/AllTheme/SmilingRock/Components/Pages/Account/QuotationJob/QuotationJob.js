@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Checkbox, Chip, CircularProgress, FormControl, FormControlLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import { Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import "./quotation.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import moment from 'moment';
 import SearchIcon from '@mui/icons-material/Search';
-import { useToast } from 'react-toastify';
 import PrintIcon from '@mui/icons-material/Print';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -18,15 +15,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-// import { checkMonth } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import {checkMonth, formatAmount} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 
 import Swal from 'sweetalert2';
-import axios from 'axios';
+
+import { getQuotationJobData } from '../../../../../../utils/API/AccountTabs/quotationJob';
 
 const CustomSortIcon = ({ order }) => {
   return (
@@ -450,19 +445,22 @@ const QuotationJob = () => {
 
       const storeInit = JSON.parse(localStorage.getItem('storeInit'));
       const { FrontEnd_RegNo } = storeInit;
-      const combinedValue = JSON.stringify({
-        CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-      });
-      const encodedCombinedValue = btoa(combinedValue);
-      const body = {
-        "con": `{\"id\":\"Store\",\"mode\":\"getjob\",\"appuserid\":\"${data?.email1}\"}`,
-        "f": "zen (cartcount)",
-        p: encodedCombinedValue
-      };
+      // const combinedValue = JSON.stringify({
+      //   CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+      // });
+      // const encodedCombinedValue = btoa(combinedValue);
+      // const body = {
+      //   "con": `{\"id\":\"Store\",\"mode\":\"getjob\",\"appuserid\":\"${data?.email1}\"}`,
+      //   "f": "zen (cartcount)",
+      //   p: encodedCombinedValue
+      // };
       
-      const response = await CommonAPI(body);
+      // const response = await CommonAPI(body);
+      let currencyRate = "1";
+      const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
+
       if (response.Data?.rd) {
 
         let datass = [];
@@ -511,6 +509,8 @@ const QuotationJob = () => {
         setFilterData(datass);
       } else {
         // alert('nodata')
+        setData([]);
+        setFilterData([]);
       }
     } catch (error) {
       console.log('Error:', error);

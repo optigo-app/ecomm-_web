@@ -1,0 +1,27 @@
+.smrMA_menuPageMain {
+
+    .smrMA_menuVieAllLink {
+        text-decoration: underline;
+        background-color: transparent;
+        border: none;
+    }
+
+    .tabMainSmilingMobile .MuiTabs-indicator {
+        background-color: rgb(211, 211, 209) !important;
+        color: rgb(211, 211, 209) !important;
+
+    }
+
+    .tabMainMenu {
+        margin-top: 10px;
+    }
+
+    .smrMA_menuMainSwipe {
+        height: 600px;
+        overflow: auto;
+    }
+
+    .smrMA_menuMainSwipe::-webkit-scrollbar {
+        display: none !important;
+    }
+}

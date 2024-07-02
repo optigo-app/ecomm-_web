@@ -350,3 +350,17 @@ color: $primaryfontcolor2;
     font-family: $primaryFontFamily;
 }
   
+@media screen and (max-width:1200px) {
+    .smr_prod_image_shortInfo{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .smr_prod_image_Sec{
+        width:100%
+    }
+
+    .smr_prod_shortInfo{
+        width:100%
+    }
+}

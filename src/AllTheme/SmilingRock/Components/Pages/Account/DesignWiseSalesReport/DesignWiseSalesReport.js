@@ -12,6 +12,7 @@ import ReactPaginate from 'react-paginate';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import Skeleton from '@mui/material/Skeleton';
 import Swal from 'sweetalert2';
+import { getDesignWiseSalesReport } from '../../../../../../utils/API/AccountTabs/designWiseSalesReport';
 const DesignWiseSalesReport = () => {
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
@@ -387,16 +388,18 @@ const DesignWiseSalesReport = () => {
 
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            const combinedValue = JSON.stringify({
-                CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            const body = {
-                "con": `{\"id\":\"Store\",\"mode\":\"getdesignwisesalereport\",\"appuserid\":\"${data.email1}\"}`,
-                "f": "zen (cartcount)",
-                p: encodedCombinedValue
-            };
-            const response = await CommonAPI(body);
+            let currencyRate = "1";
+            // const combinedValue = JSON.stringify({
+            //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            // });
+            // const encodedCombinedValue = btoa(combinedValue);
+            // const body = {
+            //     "con": `{\"id\":\"Store\",\"mode\":\"getdesignwisesalereport\",\"appuserid\":\"${data.email1}\"}`,
+            //     "f": "zen (cartcount)",
+            //     p: encodedCombinedValue
+            // };
+            // const response = await CommonAPI(body);
+            const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
             
             if (response?.Data?.rd) {
                 resetAllFilters();
@@ -506,6 +509,8 @@ const DesignWiseSalesReport = () => {
                 setFilterData(datass);
             } else {
                 // alert('nodata')
+                setData([]);
+                setFilterData([]);
             }
             if (response?.Data?.rd1) {
                 setDataRd2(response?.Data?.rd1)

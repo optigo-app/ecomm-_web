@@ -4,6 +4,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { Box, CircularProgress } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
+import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 
 
 const OrderHistory = () => {
@@ -36,53 +37,55 @@ const OrderHistory = () => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     const UserEmail = localStorage.getItem("registerEmail");
     setUkey(storeinit?.ukey);
-    console.log(storeinit);
     // setImagePath(storeinit?.UploadLogicalPath)
     setImagePath(storeinit?.DesignImageFolBackEnd)
 
 
     try {
-      let EncodeData = {
-        FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id}`,
-      };
+      // let EncodeData = {
+      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+      //   Customerid: `${loginInfo?.id}`,
+      // };
 
-      const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
+      // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
 
-      const body_currencycombo = {
-        con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-        f: "m-test2.orail.co.in (getcategorysize)",
-        p: `${encodedCombinedValue}`,
-      };
+      // const body_currencycombo = {
+      //   con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
+      //   f: "m-test2.orail.co.in (getcategorysize)",
+      //   p: `${encodedCombinedValue}`,
+      // };
 
-      const response = await CommonAPI(body_currencycombo);
+      // const response = await CommonAPI(body_currencycombo);
 
-      const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
+      // const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
 
-      let EncodeData_order_history = {
-        CurrencyRate: `${CurrencyRate}`,
-        FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id}`,
-      };
+      // let EncodeData_order_history = {
+      //   CurrencyRate: `${CurrencyRate}`,
+      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+      //   Customerid: `${loginInfo?.id}`,
+      // };
 
-      // const encodedCombinedValue2 = btoa(
+      // // const encodedCombinedValue2 = btoa(
+      // //   JSON.stringify(EncodeData_order_history)
+      // // );
+      // const encodedCombinedValue2 = (
       //   JSON.stringify(EncodeData_order_history)
       // );
-      const encodedCombinedValue2 = (
-        JSON.stringify(EncodeData_order_history)
-      );
 
-      const body_order_history = {
-        con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORY\",\"appuserid\":\"${UserEmail}\"}`,
-        f: "zen (cartcount)",
-        // p: `${encodedCombinedValue2}`,
-        dp: `${encodedCombinedValue2}`,
-      };
+      // const body_order_history = {
+      //   con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORY\",\"appuserid\":\"${UserEmail}\"}`,
+      //   f: "zen (cartcount)",
+      //   // p: `${encodedCombinedValue2}`,
+      //   dp: `${encodedCombinedValue2}`,
+      // };
 
-      const response2 = await CommonAPI(body_order_history);
-      if (response2?.Status === "200") {
-        if (response2?.Data?.rd) {
-          setOrderHistoryData(response2?.Data?.rd);
+      // const response2 = await CommonAPI(body_order_history);
+
+      const response = await getOrderHistory(storeinit, loginInfo, UserEmail);
+
+      if (response?.Status === "200") {
+        if (response?.Data?.rd) {
+          setOrderHistoryData(response?.Data?.rd);
           setLoaderOH(false);
         } else {
           setLoaderOH(true);
@@ -117,57 +120,58 @@ const OrderHistory = () => {
     try {
 
 
-      let EncodeData = {
-        FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id}`,
-      };
+      // let EncodeData = {
+      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+      //   Customerid: `${loginInfo?.id}`,
+      // };
       
-      // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
-      const encodedCombinedValue = (JSON.stringify(EncodeData));
+      // // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
+      // const encodedCombinedValue = (JSON.stringify(EncodeData));
 
-      const body_currencycombo = {
-        con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-        f: "m-test2.orail.co.in (getcategorysize)",
-        p: `${encodedCombinedValue}`,
-      };
+      // const body_currencycombo = {
+      //   con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
+      //   f: "m-test2.orail.co.in (getcategorysize)",
+      //   p: `${encodedCombinedValue}`,
+      // };
 
-      const response = await CommonAPI(body_currencycombo);
-      console.log(response);
-      const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-      console.log(obj);
-      let EncodeData_order_history = {
-        orderno: `${obj?.orderno}`,
-        // isStockPrint: "1",
-        // CurrencyRate: `${CurrencyRate}`,
-        FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id}`,
-      };
+      // const response = await CommonAPI(body_currencycombo);
+      // console.log(response);
+
+      // const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
+      // let EncodeData_order_history = {
+      //   orderno: `${obj?.orderno}`,
+      //   isStockPrint: "1",
+      //   CurrencyRate: `${CurrencyRate}`,
+      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+      //   Customerid: `${loginInfo?.id}`,
+      // };
 
       // const encodedCombinedValue2 = btoa(
       //   JSON.stringify(EncodeData_order_history)
       // );
-      const encodedCombinedValue2 = ( JSON.stringify(EncodeData_order_history));
-      console.log(encodedCombinedValue2);
+      // // const encodedCombinedValue2 = ( JSON.stringify(EncodeData_order_history));
 
-      const body_order_detail = {
-        con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORYDETAIL\",\"appuserid\":\"${UserEmail}\"}`,
-        f: "zen (cartcount)",
-        // p: `${encodedCombinedValue2}`,
-        dp: `${encodedCombinedValue2}`,
-      };
+      // // console.log(encodedCombinedValue2);
 
-      const response2 = await CommonAPI(body_order_detail);
-      console.log(response2);
+      // const body_order_detail = {
+      //   con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORYDETAIL\",\"appuserid\":\"${UserEmail}\"}`,
+      //   f: "zen (cartcount)",
+      //   p: `${encodedCombinedValue2}`,
+      //   // dp: `${encodedCombinedValue2}`,
+      // };
+
+      // const response2 = await CommonAPI(body_order_detail);
       
+      const response2 = await getOrderItemDetails(obj, storeinit, loginInfo, UserEmail);
       
       if (response2?.Status === '200') {
         if (response2?.Data?.rd1) {
           setOrderDetails(response2?.Data?.rd1);
-          setLoaderOH2(false)
+          setLoaderOH2(false);
 
         } else {
-          setLoaderOH2(true)
-          
+          setLoaderOH2(true);
+          setOrderDetails([]);
         }
       }
 
@@ -175,7 +179,6 @@ const OrderHistory = () => {
       console.log(error);
     }
   };
-  console.log(orderDetails);
 
   return (
     <div>
@@ -229,12 +232,16 @@ const OrderHistory = () => {
                                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 row-cols-xxl-4 g-4 pb-3">
                                   {orderDetails?.length > 0 &&
                                     orderDetails.map((el, index) => (
-                                      <div key={index} className="col">
-                                        {console.log(el)}
+                                      // <div key={index} className="col" style={{minWidth:'25% !important'}}>
+                                      <div 
+                                        key={index} 
+                                        className={`col ${orderDetails.length === 1 ? 'col-12' : 'col-1'}`} 
+                                        style={{ minWidth: orderDetails.length === 1 ? '100%' : '25%' }}
+                                      >
                                         <div className="card h-100">
                                           <img
-                                            src={`${image_path}${el?.imgrandomno}${(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
-                                  
+                                            src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
+                                            onError={(e) => handleOrderImageError(e)}
                                             alt="#designimage"
                                             className="card-img-top h-100"
                                           />
