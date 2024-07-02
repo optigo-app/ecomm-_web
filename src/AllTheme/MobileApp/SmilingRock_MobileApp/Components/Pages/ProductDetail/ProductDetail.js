@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Productdetail.scss";
-import Footer from "../../Home/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
-import imageNotFound from "../../../Assets/image-not-found.jpg";
+import imageNotFound from "../../Assets/image-not-found.jpg";
 import { Checkbox, Skeleton } from "@mui/material";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -13,7 +12,7 @@ import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Comb
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
-import { CartCount, WishCount } from "../../../Recoil/atom";
+import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
@@ -51,8 +50,8 @@ const ProductDetail = () => {
   const [sizeData,setSizeData] =  useState();
 
   
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
@@ -1301,8 +1300,6 @@ const ProductDetail = () => {
               </div>
             </div>
             }
-
-            <Footer />
           </div>
         </div>
       </div>

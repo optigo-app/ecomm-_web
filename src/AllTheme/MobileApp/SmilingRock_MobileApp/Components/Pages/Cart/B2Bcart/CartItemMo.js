@@ -6,34 +6,24 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Button, Grid, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
-import RemarkModal from './RemarkModal';
-import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import RemarkModal from './RemarkModalMo';
 import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
+import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
 
 const CartItem = ({
   item,
   CartCardImageFunc,
   onSelect,
-  isSelected,
-  selectedItem,
-  isActive,
-  multiSelect,
   onRemove,
   itemLength,
-  showRemark,
-  productRemark,
-  handleAddRemark,
-  handleRemarkChange,
-  handleSave,
-  handleCancel,
+  handleMoveToDetail
 }) => {
-  const [open, setOpen] = useState(false);
-  const [remark, setRemark] = useState(item.Remarks || '');
-  const [isSelectedItems, setIsSelectedItems] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
 
@@ -42,30 +32,12 @@ const CartItem = ({
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleRemarkChangeInternal = (e) => {
-    setRemark(e.target.value);
-    handleRemarkChange(e);
+  const handleRemoveAllDialog = () => {
+    setDialogOpen(true);
   };
 
-  const handleSaveInternal = () => {
-    handleSave(item, remark);
-    handleClose();
-  };
-
-  useEffect(() => {
-    handleIsSelected()
-  }, [isSelected])
-
-  const handleIsSelected = () => {
-    let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
-    setIsSelectedItems()
-  }
-
-  const handleRemoveItem = () => {
+  const handleConfirmRemove = () => {
+    setDialogOpen(false);
     onRemove(item)
     setTimeout(() => {
       if (countstatus) {
@@ -75,13 +47,14 @@ const CartItem = ({
         })
       }
     }, 500)
-  }
-  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
-  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+  };
 
-  const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' :
-      '100%';
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const isLargeScreen = useMediaQuery('(min-width:1800px)');
+  const ismediumScreen = useMediaQuery('(min-width:1780px)');
 
   return (
     <Grid
@@ -94,14 +67,11 @@ const CartItem = ({
       className='smr_cartListCardGrid'>
       <Card className='smr_cartListCard'
         sx={{
-          boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
-          // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          width: width
+          width: isLargeScreen && itemLength <= 3 ? '390px' : '100%'
         }}
-        onClick={() => onSelect(item)}
       >
-        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box onClick={() => handleMoveToDetail(item)} className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
@@ -113,7 +83,7 @@ const CartItem = ({
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
               </Typography>
-              <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{ marginBottom: '10px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
                     NWT: {item?.MetalWeight}
@@ -130,31 +100,35 @@ const CartItem = ({
                     DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
                   </Typography>
                 </div>
-                <Box className="smr_cartbtngroupReRm">
-                  {item?.Remarks !== "" &&
-                    <Typography variant="body2" className='smr_card-ContentData'>
-                      Remark: {item?.Remarks || productRemark}
-                    </Typography>
-                  }
-                  <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
-                    {item?.Remarks ? "Update Remark" : "Add Remark"}
-                  </Link>
-                  <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
-                    Remove
-                  </Link>
-                </Box>
               </div>
             </CardContent>
           </div>
+
         </Box>
-        {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
+        <Box className="smrMo_cartbtngroupReRm">
+          <Button
+            className='smrMo_ItemUpdatebtn'
+            fullWidth
+            onClick={() => onSelect(item)}
+          >
+            Update
+          </Button>
+          <Button
+            className='smrMO_ReomoveCartbtn'
+            onClick={() => handleRemoveAllDialog(item)}
+            fullWidth
+          >
+            Remove
+          </Button>
+        </Box>
       </Card>
-      <RemarkModal
-        open={open}
-        onClose={handleClose}
-        remark={remark}
-        onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}
+  
+      <ConfirmationDialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmRemove}
+        title="Confirm Remove All"
+        content="Are you sure you want to clear all items?"
       />
     </Grid>
   );
