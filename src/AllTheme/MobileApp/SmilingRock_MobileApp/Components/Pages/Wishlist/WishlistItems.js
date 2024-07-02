@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./smr_wishlist.scss"
+import "./smrMo_wishlist.scss"
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
-import { CartCount, WishCount } from '../../Recoil/atom';
-import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import noImageFound from "../../Assets/image-not-found.jpg"
+import { smrMA_CartCount, smrMA_WishCount } from '../../Recoil/atom';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const WishlistItems = (
     {
@@ -26,8 +26,8 @@ const WishlistItems = (
         handleMoveToDetail
     }) => {
 
-    const setWishCountVal = useSetRecoilState(WishCount)
-    const setCartCountVal = useSetRecoilState(CartCount)
+    const setWishCountVal = useSetRecoilState(smrMA_WishCount)
+    const setCartCountVal = useSetRecoilState(smrMA_CartCount)
     const [countstatus, setCountStatus] = useState();
 
 
@@ -67,7 +67,7 @@ const WishlistItems = (
 
     return (
         <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
-            <Card className='smr_WlListCard'>
+            <Card className='smrMo_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
                         component="img"
