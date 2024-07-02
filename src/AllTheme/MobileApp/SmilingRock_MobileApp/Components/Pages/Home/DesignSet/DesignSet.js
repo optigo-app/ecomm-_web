@@ -117,7 +117,7 @@ const DesignSet = () => {
                             </p> */}
                         </div>
                     ))}
-                    {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
+                    {/* {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>} */}
                 </div>
             </div>
 

@@ -80,7 +80,7 @@ const BestSellerSection = () => {
 
   return (
     <div className='smrMA_bestSallerMain'>
-    <div className='linkingLoveMain' style={{marginTop: '20px'}}>
+    <div className='linkingLoveMain'>
         <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>
             {/* <p className='linkingDesc'>Ready to share link with your loved ones!</p> */}
