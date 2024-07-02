@@ -84,13 +84,12 @@ const ProductDetail = () => {
     });
   }, []);
 
-  useEffect(()=>{
-      getSizeData(singleProd).then((res)=>{
-        console.log("Sizeres",res)
-        // localStorage.setItem("sizecombo",JSON.stringify(res?.Data))
-        getSizeCombo(res?.Data)
-      }).catch((err)=>console.log("SizeErr",err))
-  },[singleProd])
+  // useEffect(()=>{
+  //     getSizeData(singleProd).then((res)=>{
+  //       console.log("Sizeres",res)
+  //       getSizeCombo(res?.Data)
+  //     }).catch((err)=>console.log("SizeErr",err))
+  // },[singleProd])
 
 
   // useEffect(()=>{
@@ -194,7 +193,7 @@ const ProductDetail = () => {
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
       Size: singleProd?.DefaultSize,
-      Unitcost: finalprice.toFixed(2),
+      Unitcost: handlePrice(),
       markup: mtrd?.AB,
       UnitCostWithmarkup: handlePrice(),
       Remark: "",
@@ -316,13 +315,13 @@ const ProductDetail = () => {
   },[sizeData,SizeCombo])
 
   let metalUpdatedPrice = () => {
-
     if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
       
 
       let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
   
       let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
+      console.log('fpricemetal', fprice);
 
       return Number(fprice.toFixed(2))
     } else {
@@ -480,24 +479,47 @@ const ProductDetail = () => {
       setDecodeUrl(decodeobj);
     }
 
-    SingleProdListAPI(decodeobj)
-      .then((res) => {
+    const FetchProductData = async() =>{
+
+      await SingleProdListAPI(decodeobj)
+      .then(async(res) => {
         if (res) {
           console.log("detailRes", res);
           setSingleProd(res?.pdList[0]);
 
-          SingleFullProdPriceAPI(decodeobj).then((res) => {
+          await SingleFullProdPriceAPI(decodeobj).then((res) => {
             setSingleProdPrice(res);
             console.log("singlePrice", res);
           });
         }
+        return res;
+      }).then(async(resp)=>{
+          if(resp){
+            await getSizeData(resp).then((res)=>{
+              console.log("Sizeres",res)
+              getSizeCombo(res?.Data)
+            }).catch((err)=>console.log("SizeErr",err))
+
+            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem").then((res)=>{
+              setStockItemArr(res?.Data?.rd)    
+            }).catch((err)=>console.log("stockItemErr",err))
+
+            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand").then((res)=>{
+              setSimilarBrandArr(res?.Data?.rd)         
+            }).catch((err)=>console.log("similarbrandErr",err))
+          }
       })
       .catch((err) => console.log("err", err));
+    }
+
+
+    FetchProductData();
 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
+
   }, [location?.key]);
 
   console.log("location", location);
@@ -663,26 +685,26 @@ const ProductDetail = () => {
     setSelectMtColor(e.target.value)
   } 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-   StockItemApi(singleProd?.autocode,"stockitem").then((res)=>{
+  //  StockItemApi(singleProd?.autocode,"stockitem").then((res)=>{
 
-    setStockItemArr(res?.Data?.rd)    
+  //   setStockItemArr(res?.Data?.rd)    
 
-  }).catch((err)=>console.log("stockItemErr",err))
+  // }).catch((err)=>console.log("stockItemErr",err))
 
-  },[singleProd])
+  // },[singleProd])
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-   StockItemApi(singleProd?.autocode,"similarbrand").then((res)=>{
+  //  StockItemApi(singleProd?.autocode,"similarbrand").then((res)=>{
 
-    setSimilarBrandArr(res?.Data?.rd)
+  //   setSimilarBrandArr(res?.Data?.rd)
 
-  }).catch((err)=>console.log("similarbrandErr",err))
+  // }).catch((err)=>console.log("similarbrandErr",err))
 
-  },[singleProd])
+  // },[singleProd])
 
   // console.log("stock",stockItemArr,SimilarBrandArr);
 
@@ -757,7 +779,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -895,7 +917,7 @@ const ProductDetail = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="smr_single_prod_customize">
+                    { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
                       <div className="smr_single_prod_customize_metal">
                         <label className="menuItemTimeEleveDeatil">
                           METAL TYPE:
@@ -928,7 +950,7 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>
-                      <div className="smr_single_prod_customize_outer">
+                      {(storeInit?.IsDiamondCustomization === 1 && diard1?.length > 0)  && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           DAIMOND :
                         </label>
@@ -944,8 +966,8 @@ const ProductDetail = () => {
                             >{`${ele?.Quality},${ele?.color}`}</option>
                           ))}
                         </select>
-                      </div>
-                      {storeInit?.IsCsCustomization === 1 && (
+                      </div>)}
+                      {(storeInit?.IsCsCustomization === 1 &&  csrd2?.length > 0 ) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -987,7 +1009,7 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>}
-                    </div>
+                    </div>}
 
                     { handlePrice() !== 0 && <div className="smr_price_portion">
                       {
@@ -1038,53 +1060,71 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            { SimilarBrandArr?.length > 0 && <div className="smr_stockItem_div">
-              <p className="smr_details_title"> Similar Designs</p>
-              <div className="smr_stockitem_container">
-                <div className="smr_stock_item_card">
-                  {SimilarBrandArr?.map((ele) => (
-                    <div className="smr_stockItemCard" onClick={()=>setTimeout(()=>handleMoveToDetail(ele),500)}>
-                      <img
-                        className="smr_productCard_Image"
-                        src={ 
-
-                          ele?.ImageCount > 0 ? 
-                          (storeInit?.DesignImageFol +
-                          ele?.designno +
-                          "_" +
-                          "1" +
-                          "." +
-                          ele?.ImageExtension)
-                          :
-                          imageNotFound
-                        }
-                        alt={""}
-                      />
-                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="smr_prod_designno" style={{fontSize:'14px'}}>
-                        {ele?.designno}
-                      </span>
-
-                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',fontSize:'16px'}} className="smr_stockItem_price_type_mt">
-                          <spam>
-                            <span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />
-                             </spam>
-                             <span>{ele?.UnitCost}</span>
-                      </div>
-                      </div>
-                    </div>
+            <div className="smr_material_details_portion">
+              <p className="smr_details_title"> Product Details</p>
+              {diard1?.length > 0 && (
+                <div className="smr_material_details_portion_inner">
+                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                    <li
+                      style={{ fontWeight: 600 }}
+                    >{`Diamond Detail(${diard1?.reduce(
+                      (accumulator, data) => accumulator + data.M,
+                      0
+                    )}/${diard1
+                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
+                      .toFixed(2)}ct)`}</li>
+                  </ul>
+                  <ul className="smr_mt_detail_title_ul">
+                    <li className="smr_proDeatilList">Shape</li>
+                    <li className="smr_proDeatilList">Clarity</li>
+                    <li className="smr_proDeatilList">Color</li>
+                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                  </ul>
+                  {diard1?.map((data) => (
+                    <ul className="smr_mt_detail_title_ul">
+                      <li className="smr_proDeatilList1">{data?.F}</li>
+                      <li className="smr_proDeatilList1">{data?.H}</li>
+                      <li className="smr_proDeatilList1">{data?.J}</li>
+                      <li className="smr_proDeatilList1">
+                        {data.M}/{data?.N}
+                      </li>
+                    </ul>
                   ))}
                 </div>
-              </div>
+              )}
+
+              {csrd2?.length > 0 && (
+                <div className="smr_material_details_portion_inner">
+                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                    <li
+                      style={{ fontWeight: 600 }}
+                    >{`Diamond Detail(${csrd2?.reduce(
+                      (accumulator, data) => accumulator + data.M,
+                      0
+                    )}/${csrd2
+                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
+                      .toFixed(2)}ct)`}</li>
+                  </ul>
+                  <ul className="smr_mt_detail_title_ul">
+                    <li className="smr_proDeatilList">Shape</li>
+                    <li className="smr_proDeatilList">Clarity</li>
+                    <li className="smr_proDeatilList">Color</li>
+                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                  </ul>
+                  {csrd2?.map((data) => (
+                    <ul className="smr_mt_detail_title_ul">
+                      <li className="smr_proDeatilList1">{data?.F}</li>
+                      <li className="smr_proDeatilList1">{data?.H}</li>
+                      <li className="smr_proDeatilList1">{data?.J}</li>
+                      <li className="smr_proDeatilList1">
+                        {data.M}/{data?.N}
+                      </li>
+                    </ul>
+                  ))}
+                </div>
+              )}
             </div>
-            }
+
 
             { stockItemArr?.length > 0 && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Stock Items </p>
@@ -1219,70 +1259,53 @@ const ProductDetail = () => {
             </div>
             }
 
-            <div className="smr_material_details_portion">
-              <p className="smr_details_title"> Product Details</p>
-              {diard1?.length > 0 && (
-                <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
-                    <li
-                      style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${diard1?.reduce(
-                      (accumulator, data) => accumulator + data.M,
-                      0
-                    )}/${diard1
-                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
-                  </ul>
-                  <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList">Shape</li>
-                    <li className="smr_proDeatilList">Clarity</li>
-                    <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
-                  </ul>
-                  {diard1?.map((data) => (
-                    <ul className="smr_mt_detail_title_ul">
-                      <li className="smr_proDeatilList1">{data?.F}</li>
-                      <li className="smr_proDeatilList1">{data?.H}</li>
-                      <li className="smr_proDeatilList1">{data?.J}</li>
-                      <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
-                      </li>
-                    </ul>
-                  ))}
-                </div>
-              )}
+{ (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
+              <p className="smr_details_title"> Similar Designs</p>
+              <div className="smr_stockitem_container">
+                <div className="smr_stock_item_card">
+                  {SimilarBrandArr?.map((ele) => (
+                    <div className="smr_stockItemCard" onClick={()=>setTimeout(()=>handleMoveToDetail(ele),500)}>
+                      <img
+                        className="smr_productCard_Image"
+                        src={ 
 
-              {csrd2?.length > 0 && (
-                <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
-                    <li
-                      style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${csrd2?.reduce(
-                      (accumulator, data) => accumulator + data.M,
-                      0
-                    )}/${csrd2
-                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
-                  </ul>
-                  <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList">Shape</li>
-                    <li className="smr_proDeatilList">Clarity</li>
-                    <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
-                  </ul>
-                  {csrd2?.map((data) => (
-                    <ul className="smr_mt_detail_title_ul">
-                      <li className="smr_proDeatilList1">{data?.F}</li>
-                      <li className="smr_proDeatilList1">{data?.H}</li>
-                      <li className="smr_proDeatilList1">{data?.J}</li>
-                      <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
-                      </li>
-                    </ul>
+                          ele?.ImageCount > 0 ? 
+                          (storeInit?.DesignImageFol +
+                          ele?.designno +
+                          "_" +
+                          "1" +
+                          "." +
+                          ele?.ImageExtension)
+                          :
+                          imageNotFound
+                        }
+                        alt={""}
+                      />
+                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
+                      <span className="smr_prod_designno" style={{fontSize:'14px'}}>
+                        {ele?.designno}
+                      </span>
+
+                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',fontSize:'16px'}} className="smr_stockItem_price_type_mt">
+                          <spam>
+                            <span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />
+                             </spam>
+                             <span>{ele?.UnitCost}</span>
+                      </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-              )}
+              </div>
             </div>
+            }
 
             <Footer />
           </div>

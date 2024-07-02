@@ -8,7 +8,7 @@ export const StockItemApi = async(ac,type) => {
 
     let data = {
         FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`,
-        autocode: `${ac}`,
+        autocode: `${ac ?? ""}`,
         Customerid: `${loginUserDetail?.id ?? 0}`,
         Laboursetid: `${
           storeInit?.IsB2BWebsite == 0 && islogin == false

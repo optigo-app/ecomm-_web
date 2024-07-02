@@ -30,6 +30,7 @@
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: contain;
+        height: 300px;
     }
 
     .smr_albumALL_div {
@@ -37,8 +38,16 @@
         justify-content: center;
     }
 
+    @media screen and (max-width: 1200px) {
+        .smr_AlbumImageMain_img {
+            height: auto !important;
+        }
+    }
+
     @media screen and (max-width: 1000px) {
         margin-inline: 10px !important;
+
+
     }
 
 
@@ -47,14 +56,18 @@
             display: none;
         }
 
-        .smr_albumALL_div{
+        .smr_albumALL_div {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
         }
 
+        .smr_AlbumImageMain {
+            width: 47% !important;
+        }
+
         .smr_AlbumImageMain{
-            width: 47%!important;
+            margin: 2px!important;
         }
     }
 }

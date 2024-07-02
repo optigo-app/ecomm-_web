@@ -18,6 +18,7 @@
         font-weight: 600;
         margin-top: 25px;
         text-align: center;
+        color: #7d7f85,
     }
 
     .loginMail {
@@ -82,17 +83,26 @@
         }
 
     }
-}
 
 
-@media screen and (max-width: 400px) {
+    @media screen and (max-width: 500px) {
 
-    .loginMail {
-        width: 95% !important;
+        .loginMail {
+
+            margin-top: 0px !important;
+        }
     }
 
-    .loginMobile {
-        width: 95% !important;
+    @media screen and (max-width: 400px) {
+
+        .loginMail {
+            width: 100% !important;
+        }
+
+        .loginMobile {
+            width: 100% !important;
+        }
+
     }
 
 }

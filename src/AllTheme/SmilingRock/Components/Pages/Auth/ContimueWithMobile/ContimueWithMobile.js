@@ -128,7 +128,7 @@ export default function ContimueWithMobile() {
                             id="outlined-basic"
                             label="Enetr Mobile No"
                             variant="outlined"
-                            className='labgrowRegister'
+                            className='smr_loginmobileBox'
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     handleSubmit();

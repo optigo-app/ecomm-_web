@@ -12,6 +12,8 @@ const NewArrival = () => {
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const[storeInit,setStoreInit]=useState({});
+    const [ring1ImageChange, setRing1ImageChange] = useState(false);
+    const [ring2ImageChange, setRing2ImageChange] = useState(false);
 
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -49,7 +51,7 @@ const NewArrival = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
 
@@ -60,17 +62,37 @@ const NewArrival = () => {
         return txt.value;
       }
 
+
+      
+      const handleMouseEnterRing1 = (data) => {
+        if (data?.ImageCount > 1) {
+            setRing1ImageChange(true)
+        }
+    }
+    const handleMouseLeaveRing1 = () => {
+        setRing1ImageChange(false)
+    }
+
+
+    const handleMouseEnterRing2 = (data) => {
+        if (data?.ImageCount > 1) {
+            setRing2ImageChange(true)
+        }
+    }
+    const handleMouseLeaveRing2 = () => {
+        setRing2ImageChange(false)
+    }
+
     return (
         <div className='smr_NewArrivalMain'>
             <div className='smilingBridesMain'>
-                <div className='smilingBrides'>
-                    <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
-                    <button className='enagementBtn' onClick={() =>  navigation('/NewArrival/?N=NewArrival')}>NEW ARRIVAL COLLECTION</button>
-                </div>
                 <div className='smlingBridesImages'>
                     <div className='smr_newArrivaldivMain'>
                         <div className='smr_newArrialDiv1' onClick={() => handleNavigation(newArrivalData[0]?.designno, newArrivalData[0]?.autocode, newArrivalData[0]?.TitleLine)}>
-                            <img src={`${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''} />
+                            <img src={ring1ImageChange ? 
+                            `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_2.${newArrivalData && newArrivalData[0]?.ImageExtension}`
+                            :
+                            `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''}  onMouseEnter={() => handleMouseEnterRing1(newArrivalData[0])} onMouseLeave={handleMouseLeaveRing1}/>
                             <p className='smr_nwArrivalTitle'>{newArrivalData[0]?.TitleLine}</p>
                             <p className='smr_nwArrivalTitle'><span
                                   className="smr_currencyFont"
@@ -82,7 +104,10 @@ const NewArrival = () => {
                                 /> {newArrivalData[0]?.UnitCost}</p>
                         </div>
                         <div className='smr_newArrialDiv1' onClick={() => handleNavigation(newArrivalData[1]?.designno, newArrivalData[1]?.autocode, newArrivalData[1]?.TitleLine)}>
-                            <img src={`${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''} />
+                            <img src={ring2ImageChange ?
+                            `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_2.${newArrivalData && newArrivalData[1]?.ImageExtension}`
+                            :
+                            `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''}  onMouseEnter={() => handleMouseEnterRing2(newArrivalData[1])} onMouseLeave={handleMouseLeaveRing2}/>
                             <p className='smr_nwArrivalTitle'>{newArrivalData[1]?.TitleLine}</p>
                             <p className='smr_nwArrivalTitle'><span
                                   className="smr_currencyFont"
@@ -94,6 +119,10 @@ const NewArrival = () => {
                                 /> {newArrivalData[1]?.UnitCost}</p>
                         </div>
                     </div>
+                </div>
+                <div className='smilingBrides'>
+                    <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>
+                    <button className='enagementBtn' onClick={() =>  navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>
                 </div>
             </div>
         </div>

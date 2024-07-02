@@ -136,19 +136,12 @@ const Header = () => {
         if (param1Item) {
             const { param1, param2, ...cleanedParam1Item } = param1Item;
             menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
-
-            console.log('Menu Item:', cleanedMenuItem);
-            console.log('Submenu Item:', cleanedParam1Item);
-
             if (param2Item) {
                 menuDataObj = { ...menuDataObj, ...param2Item };
-                console.log('Second Submenu Item:', param2Item);
             }
         } else {
             console.log('Menu Item:', cleanedMenuItem);
         }
-
-        console.log('Menu Data Object:', menuDataObj);
 
         let finalData = {
             menuname: menuDataObj?.menuname ?? "",
@@ -159,12 +152,7 @@ const Header = () => {
             FilterKey2: menuDataObj?.param2name ?? "",
             FilterVal2: menuDataObj?.param2dataname ?? ""
         }
-
-        console.log('finalData', finalData);
         // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
-
-
-        console.log('menuData', finalData);
         localStorage.setItem('menuparams', JSON.stringify(finalData));
     };
 
@@ -240,9 +228,7 @@ const Header = () => {
             `size=${finalData.size ?? 50}`
         ].join('&');
 
-        console.log('otherparamsUrl--', otherparamUrl);
-        const url = `/productlist/${queryParameters}/${otherparamUrl}/${paginationParam}`;
-
+        const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
         // let d = new Date();
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
         navigation(url)

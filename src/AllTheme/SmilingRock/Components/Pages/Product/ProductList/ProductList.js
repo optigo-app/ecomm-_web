@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, FormControlLabel, Pagination } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -20,6 +20,14 @@ import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
+import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
+import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+
+
 
 const ProductList = () => {
 
@@ -27,6 +35,7 @@ const ProductList = () => {
 
   let location = useLocation();
   let navigate = useNavigate();
+  let minwidth1201px = useMediaQuery('(min-width:1201px)')
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -49,35 +58,158 @@ const ProductList = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? "");
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? "");
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
-
+  const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
+  const [loginInfo, setLoginInfo] = useState();
+  const [isDrawerOpen,setIsDrawerOpen] = useState(false)
   const [rollOverImgPd,setRolloverImgPd] = useState()
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
-  // console.log("locationData",location);
 
-  let MergedUrl = (Arr1,Arr2) =>{
-    let mergedArray = Arr1.map((key, index) => {
-      return { [key]: Arr2[index] };
-    })
+  // useEffect(()=>{
 
-    return mergedArray;
-    
-  }
+  //   let UrlVal =  location?.search.slice(1).split("/")
 
-  useEffect(()=>{
+  //     let MenuVal = '';
+  //     let MenuKey = '';
+  //     let SearchVar = '';
+  //     let TrendingVar = '';
+  //     let NewArrivalVar = '';
+  //     let BestSellerVar = '';
+  //     let AlbumVar = '';
 
-  let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
-  let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
+  //   UrlVal.forEach((ele)=>{
+  //     let firstChar = ele.charAt(0);
 
-  let MergedUrlArr = MergedUrl(key,val)
+  //     switch (firstChar) {
+  //       case 'V':
+  //           MenuVal = ele;
+  //           break;
+  //       case 'K':
+  //           MenuKey = ele;
+  //           break;
+  //       case 'S':
+  //           SearchVar = ele;
+  //           break;
+  //       case 'T':
+  //           TrendingVar = ele;
+  //           break;
+  //       case 'N':
+  //           NewArrivalVar = ele;
+  //           break;
+  //       case 'B':
+  //           BestSellerVar = ele;
+  //           break;
+  //       case 'AB':
+  //           AlbumVar = ele;
+  //           break;
+  //       default:
+  //           return '';
+  //     }
+  //   })
 
-  console.log("key1111",MergedUrlArr)
+  //   if(MenuVal && MenuKey){
+  //     let key = location?.search.slice(1).split("/")[1]?.slice(2).split("&")
+  //     let val = location?.search.slice(1).split("/")[0]?.slice(2).split("&")
 
-  },[])
+  //     let MergedUrlArr = MergedUrl(key,val)
 
-  
+  //     console.log("menuval",MergedUrlArr)
+  //   }
+
+  //   if(SearchVar){
+  //     console.log("SearchVar",SearchVar)
+  //   }
+  //   if(TrendingVar){
+  //     console.log("TrendingVar",TrendingVar)
+  //   }
+  //   if(NewArrivalVar){
+  //     console.log("NewArrivalVar",NewArrivalVar)
+  //   }
+  //   if(BestSellerVar){
+  //     console.log("BestSellerVar",BestSellerVar)
+  //   }
+  //   if(AlbumVar){
+  //     console.log("AlbumVar",AlbumVar)
+  //   }
+
+
+  // },[location?.key])
+
+
+  const callAllApi = () => {
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+
+    if (!mtTypeLocal || mtTypeLocal?.length === 0) {
+      MetalTypeComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            setMetalTypeCombo(data);
+
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+     else {
+      setMetalTypeCombo(mtTypeLocal);
+    }
+
+    if (!diaQcLocal || diaQcLocal?.length === 0) {
+      DiamondQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("diamondQualityColorCombo",JSON.stringify(data));
+            setDiaQcCombo(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } 
+    else {
+      setDiaQcCombo(diaQcLocal);
+    }
+
+    if (!csQcLocal || csQcLocal?.length === 0) {
+      ColorStoneQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data) );
+            setCsQcCombo(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } 
+    else {
+      setCsQcCombo(csQcLocal);
+    }
+
+    if (!mtColorLocal || mtColorLocal?.length === 0) {
+      MetalColorCombo()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    setLoginInfo(logininfo);
+  }, []);
+
+  useEffect(() => {
+    callAllApi();
+  }, [loginInfo]);
 
   useEffect(() => {
     window.scroll({
@@ -86,17 +218,15 @@ const ProductList = () => {
     })
   }, [])
 
-  
-
-  useEffect(()=>{
-    if(location?.state?.SearchVal !== undefined){ 
-      setTimeout(()=>{
-        SearchProduct(location?.state?.SearchVal).then((res)=>{
-          console.log("search",res)
-        })
-      },500)
-    }
-  },[location?.key])
+  // useEffect(()=>{
+  //   if(location?.state?.SearchVal !== undefined){ 
+  //     setTimeout(()=>{
+  //       SearchProduct(location?.state?.SearchVal).then((res)=>{
+  //         console.log("search",res)
+  //       })
+  //     },500)
+  //   }
+  // },[location?.key])
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -121,14 +251,87 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"))
+
+
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    let UrlVal =  location?.search.slice(1).split("/")
+
+    console.log("URLVal",UrlVal);
+
+      let MenuVal = '';
+      let MenuKey = '';
+      let SearchVar = '';
+      let TrendingVar = '';
+      let NewArrivalVar = '';
+      let BestSellerVar = '';
+      let AlbumVar = '';
+
+      let productlisttype;
+
+    UrlVal.forEach((ele)=>{
+      let firstChar = ele.charAt(0);
+
+      switch (firstChar) {
+        case 'M':
+            MenuVal = ele;
+            break;
+        case 'S':
+            SearchVar = ele;
+            break;
+        case 'T':
+            TrendingVar = ele;
+            break;
+        case 'N':
+            NewArrivalVar = ele;
+            break;
+        case 'B':
+            BestSellerVar = ele;
+            break;
+        case 'A':
+            AlbumVar = ele;
+            break;
+        default:
+            return '';
+      }
+    })
+
+    if(MenuVal){
+
+      let menuDecode = atob(MenuVal.split("=")[1])
+
+      let key = menuDecode.split("/")[1].split(',')
+      let val = menuDecode.split("/")[0].split(',')
+
+      setIsBreadcumShow(true)
+
+      productlisttype=[key,val]
+    }
+
+    if(SearchVar){
+      productlisttype = SearchVar
+    }
+
+    if(TrendingVar){
+      productlisttype = TrendingVar.split("=")[1]
+    }
+    if(NewArrivalVar){
+      productlisttype = NewArrivalVar.split("=")[1]
+    }
+    if(BestSellerVar){
+      productlisttype = BestSellerVar.split("=")[1]
+    }
+    if(AlbumVar){
+      productlisttype = AlbumVar.split("=")[1]
+    }
+    
     setIsProdLoading(true)
-      // ProductListApi({},currPage,obj)
-     if(location?.state?.SearchVal === undefined){ 
-      ProductListApi({},1,obj)
+
+    //  if(location?.state?.SearchVal === undefined){ 
+      ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
+            console.log("productList",res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
@@ -137,8 +340,10 @@ const ProductList = () => {
         .then( async(res) => {
           let forWardResp;
           if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
               if(resp){
+               console.log("productPriceData",resp);
+
                 setPriceListData(resp)
                 forWardResp = resp;
               }
@@ -148,15 +353,18 @@ const ProductList = () => {
         }).then(async(forWardResp)=>{
           let forWardResp1;
           if(forWardResp){
-            FilterListAPI().then((res)=>{
+            FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err)=>console.log("err",err))
           }
           return forWardResp1
-        }).finally(()=> setIsProdLoading(false))
+        }).finally(()=> {
+          setIsProdLoading(false)
+          setIsOnlyProdLoading(false)
+        })
         .catch((err) => console.log("err", err))
-      }
+      // }
   }, [location?.key])
 
   useEffect(() => {
@@ -321,9 +529,9 @@ const ProductList = () => {
   useEffect(()=>{
    let output = FilterValueWithCheckedOnly()
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
-   setIsOnlyProdLoading(true)
-
-   if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+   
+  //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+     setIsOnlyProdLoading(true)
       ProductListApi(output,1,obj)
         .then((res) => {
           if (res) {
@@ -348,7 +556,7 @@ const ProductList = () => {
         //   }
         // })
         .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
-      }
+      // }
 
   }, [filterChecked])
 
@@ -454,10 +662,10 @@ const ProductList = () => {
 
   const handelCustomCombo = (obj) => {
 
-    setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
-
+    
     if(location?.state?.SearchVal === undefined){
+      setIsOnlyProdLoading(true)
       ProductListApi(output,currPage,obj)
           .then((res) => {
             if (res) {
@@ -490,10 +698,15 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-    if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-      handelCustomCombo(obj)
+    
+    if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
+      if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+        handelCustomCombo(obj)
+      }
     }
 
 
@@ -542,7 +755,7 @@ const ProductList = () => {
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: productData?.metaltypeid,
+      m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
       f: output
@@ -554,7 +767,7 @@ const ProductList = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/productdetail/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -565,8 +778,194 @@ const ProductList = () => {
   }
 
 
+  const handleBreadcums = (mparams) => {
+
+    let key = Object?.keys(mparams)
+    let val = Object?.values(mparams)
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+        let keyName = `FilterKey${index === 0 ? '' : index}`;
+        KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+        let keyName = `FilterVal${index === 0 ? '' : index}`;
+        ValObj[keyName] = value;
+    });
+
+    let finalData = {...KeyObj,...ValObj}
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('&');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join('&');
+
+      const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+      navigate(url);
+
+    console.log("mparams",KeyObj,ValObj)
+
+  }
+
   return (
     <div id="top">
+      <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer" >
+      <div className="smr_mobile_filter_portion">
+                        <div className="smr_mobile_filter_portion_outter">
+                          <span className="smr_filter_text">
+                            <span>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length === 0
+                                ? "Filters"
+                                : `Product Found: ${afterFilterCount}`}
+                            </span>
+                            <span onClick={() => handelFilterClearAll()}>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0
+                                ? "Clear All"
+                                : ""}
+                            </span>
+                          </span>
+                          <div style={{ marginTop: "12px" }}>
+                            {filterData?.map((ele) => (
+                              <>
+                                {!(ele?.id)?.includes("Range") && (
+                                  <Accordion
+                                    elevation={0}
+                                    sx={{
+                                      borderBottom: "1px solid #c7c8c9",
+                                      borderRadius: 0,
+                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                                        background: "none",
+                                      },
+                                    }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                  >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                      aria-controls="panel1-content"
+                                      id="panel1-header"
+                                      sx={{
+                                        color: "#7f7d85",
+                                        borderRadius: 0,
+
+                                        "&.MuiAccordionSummary-root": {
+                                          padding: 0,
+                                        },
+
+                                      }}
+                                      className="filtercategoryLable"
+                                    >
+                                      {/* <span> */}
+                                      {ele.Name}
+                                      {/* </span> */}
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            gap: "12px",
+                                          }}
+                                          key={opt?.id}
+                                        >
+                                          {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                      <FormControlLabel
+                                      control={
+                                      <Checkbox
+                                        name={`${ele?.id}${opt?.id}`}
+                                        // checked={
+                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                        //     : false
+                                        // }
+                                        checked={
+                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                          undefined
+                                            ? false
+                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(
+                                            e,
+                                            ele?.id,
+                                            opt?.Name
+                                          )
+                                        }
+                                        size="small"
+                                        />
+                                      }
+                                      
+                                      // sx={{
+                                      //   display: "flex",
+                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                      //   width: "100%",
+                                      //   flexDirection: "row-reverse", // Align items to the right
+                                      //   fontFamily:'TT Commons Regular'
+                                      // }}
+                                      className="smr_mui_checkbox_label"
+                                      label={opt.Name}
+                                      />
+                                      
+                                    </div>
+                                  ))}
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          </>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+      </Drawer>
       <div className="smr_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
@@ -577,9 +976,35 @@ const ProductList = () => {
               <ProductListSkeleton />
             ) : (
               <>
-                <div className="smr_prodSorting">
+                { !minwidth1201px ? 
+                <div className="smr_mobile_prodSorting">
+                  <Checkbox
+                  sx={{padding:'0px 9px 0px 9px'}}
+                  icon={<FilterAltIcon fontSize="large"/>}
+                  checkedIcon={<FilterAltOffIcon fontSize="large" style={{color:'#666666'}}/>}
+                  checked={isDrawerOpen}
+                  onChange={(e)=>setIsDrawerOpen(e.target.value)}
+                />
+                </div>
+                : <div className="smr_prodSorting">
                   <div className="empty_sorting_div">
-                     <div className="smr_breadcums_port">{`Home > ${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div>
+                    <span className="smr_breadcums_port " style={{marginLeft:'72px'}} onClick={()=>{navigate('/')}}>{'Home >'}{" "}</span>
+                     { IsBreadCumShow && <div className="smr_breadcums_port">
+                           {menuParams?.menuname && <span onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal})}>{menuParams?.menuname}</span>}
+
+                           {menuParams?.FilterVal1 && <span 
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1})}
+                           >
+                            {` > ${menuParams?.FilterVal1}`}
+                            </span>}
+
+                           {menuParams?.FilterVal2 && <span
+                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1,[menuParams?.FilterKey2]:menuParams?.FilterVal2})}
+                           > 
+                           {` > ${menuParams?.FilterVal2}`}
+                           </span>}
+                        </div>
+                     }
                   </div>
 
                       <div className="smr_main_sorting_div">
@@ -661,18 +1086,18 @@ const ProductList = () => {
                         </div>
                       </div>
 
-                    </div>
+                    </div>}
 
                     <div className="smr_mainPortion">
                       <div className="smr_filter_portion">
-                        <div style={{ padding: "21px 71px" }}>
+                        <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
                             <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : ` Product Found: ${afterFilterCount}`}
+                                : `Product Found: ${afterFilterCount}`}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
@@ -900,20 +1325,22 @@ const ProductList = () => {
                             <div className="smr_prod_Title" >
                               <span
                                 className={
-                                  productData?.TitleLine?.length > 30
-                                    ? "smr_prod_title_with_width"
-                                    : "smr_prod_title_with_no_width"
+                                  // productData?.TitleLine?.length > 30
+                                    // ? 
+                                    "smr_prod_title_with_width"
+                                    // : 
+                                    // "smr_prod_title_with_no_width"
                                 }
                               >
-                                {productData?.TitleLine}{" "}
                                 {productData?.TitleLine?.length > 0 && "-"}
+                                {productData?.TitleLine}{" "}
                               </span>
                               <span className="smr_prod_designno">
                                 {productData?.designno}
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px'}}> 
+                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
@@ -960,36 +1387,6 @@ const ProductList = () => {
                                           {/* </span> */}
                                         </div>
                                       </div>
-                                      {/* <div className="smr_prod_Allwt">
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                              <span className="smr_por">
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}
-                                  </span>
-                                </span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updCWT.toFixed(3)}
-                                  </span>
-                                </span>
-                              </span>
-                            </div> */}
                                       <div className="smr_prod_mtcolr_price">
                                         <span className="smr_prod_metal_col">
                                           {findMetalColor(
@@ -1031,7 +1428,7 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            <div
+            {( storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -1044,10 +1441,10 @@ const ProductList = () => {
                 size="large"
                 shape="circular"
                 onChange={handelPageChange}
-                showFirstButton
+                showFirstButtongit 
                 showLastButton
               />
-            </div>
+            </div>}
             <Footer fromPage={"ProdList"} />
           </div>
         </div>

@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import noImageFound from "../../Assets/image-not-found.jpg"
 
 const WishlistItems = (
     {
@@ -29,13 +30,14 @@ const WishlistItems = (
     const setCartCountVal = useSetRecoilState(CartCount)
     const [countstatus, setCountStatus] = useState();
 
+
     useEffect(() => {
         const iswishUpdateStatus = localStorage.getItem('wishUpdation');
         setCountStatus(iswishUpdateStatus)
-    }, [handleRemoveItem,handleWishlistToCart])
+    }, [handleRemoveItem, handleWishlistToCart])
 
 
-    console.log('countstatus',countstatus);
+    console.log('countstatus', item);
 
     console.log('countDataUpdted', countDataUpdted);
     const handleWishlistToCartFun = (item) => {
@@ -64,13 +66,12 @@ const WishlistItems = (
     }
 
     return (
-        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={3}>
+        <Grid item xs={itemsLength !== 1 ? 12 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 3} lg={3}>
             <Card className='smr_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
                         component="img"
-                        // image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
-                        image={WishCardImageFunc(item)}
+                        image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
                         onClick={() => handleMoveToDetail(item)}
@@ -107,7 +108,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
                         <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {item?.IsInCart !== 1 ? "Add to cart +" : "Already in cart"}
+                            {countDataUpdted?.msg == 'success' ? "Already in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "Already in cart")}
                         </button>
 
                     </div>

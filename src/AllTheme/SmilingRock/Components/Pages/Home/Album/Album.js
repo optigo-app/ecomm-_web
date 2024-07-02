@@ -22,8 +22,8 @@ const Album = () => {
   }, []);
 
   const handleNavigate = (name) => {
-    navigation(`/productlist/?AB=${name}`);
-  };
+    navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+  }
 
   return (
     <div className="smr_alubmMainDiv">
@@ -39,7 +39,7 @@ const Album = () => {
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
               className="smr_AlbumImageMain_img"
             />
-            <p className="smr_albumName">{data?.AlbumName}</p>
+            {/* <p className="smr_albumName">{data?.AlbumName}</p> */}
           </div>
         ))}
       </div>

@@ -1,5 +1,31 @@
 @import '../../scss/variable.scss';
 
+.smr_WlListCard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ensures all cards are at least the same height */
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .smr_WlListImage {
+        width: 100%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    .cardText {
+        flex: 1;
+        padding: 10px;
+    }
+}
+
 .smr_MainWlDiv {
     background-color: $backgroundColor;
     font-family: $homePageFontFamily;
@@ -241,20 +267,44 @@
 
 .smr_addwishlistSkeltonMainBox {
     display: flex;
-    flex-direction: row;
     gap: 10px;
-    margin-bottom: 20px;
     justify-content: center;
     align-items: center;
 
     .smr_addwishlistSkelton {
-        width: 345px !important;
-        max-width: 345px !important;
+        // width: 345px !important;
+        // max-width: 345px !important;
         box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
 
         .smr_addwishlistSkelton {
             background-color: #f6f6f6 !important;
         }
+    }
+}
+
+.smr_addwishlistSkelton {
+    height: 450px !important;
+}
+
+@media(max-width:650px) {
+    .smr_addwishlistSkeltonMainBox {
+        gap: 0px !important;
+        padding: 0px 10px;
+    }
+
+    .smr_addwishlistSkelton {
+        height: 300px !important;
+    }
+}
+
+@media(max-width:942px) {
+    .smr_addwishlistSkeltonMainBox {
+        gap: 0px !important;
+        padding: 0px 10px;
+    }
+
+    .smr_addwishlistSkelton {
+        height: 300px !important;
     }
 }
 

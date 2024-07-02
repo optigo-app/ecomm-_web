@@ -20,13 +20,19 @@ import pako from "pako";
 const TrendingView = () => {
 
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const [trandingViewData, setTrandingViewData] = useState('');
+    const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
 
+    const [ring1ImageChange, setRing1ImageChange] = useState(false);
+    const [ring1ImageChangeOdd, setRing1ImageChangeOdd] = useState(false);
     const [ring3ImageChange, setRing3ImageChange] = useState(false);
     const [ring4ImageChange, setRing4ImageChange] = useState(false);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
+
+    const [oddNumberObjects, setOddNumberObjects] = useState([]);
+    const [evenNumberObjects, setEvenNumberObjects] = useState([]);
+    const isOdd = (num) => num % 2 !== 0;
 
     const settings = {
         dots: true,
@@ -39,8 +45,6 @@ const TrendingView = () => {
         // nextArrow: false,
     };
 
-
-
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         setStoreInit(storeinit)
@@ -51,24 +55,16 @@ const TrendingView = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending").then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
+
+                const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
+                const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
+
+                // Setting states with the separated objects
+                setOddNumberObjects(oddNumbers);
+                setEvenNumberObjects(evenNumbers);
             }
         }).catch((err) => console.log(err))
     }, [])
-
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
@@ -93,6 +89,9 @@ const TrendingView = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+        const { IsB2BWebsite } = storeInit;
+
         let obj = {
             a: autoCode,
             b: designNo,
@@ -102,7 +101,12 @@ const TrendingView = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+
+        // if(IsB2BWebsite === 1){
+        //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // }else{
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        // }
     }
 
     const decodeEntities = (html) => {
@@ -112,6 +116,39 @@ const TrendingView = () => {
     }
 
 
+
+
+    const handleMouseEnterRing1 = (data) => {
+        if (data?.ImageCount > 1) {
+            setRing1ImageChange(true)
+        }
+    }
+    const handleMouseLeaveRing1 = () => {
+        setRing1ImageChange(false)
+    }
+
+    const handleMouseEnterRing2 = (data) => {
+        if (data?.ImageCount > 1) {
+            setRing1ImageChangeOdd(true)
+        }
+    }
+    const handleMouseLeaveRing2 = () => {
+        setRing1ImageChangeOdd(false)
+    }
+
+    const handleMouseEnterRing3 = () => {
+        setRing3ImageChange(true)
+    }
+    const handleMouseLeaveRing3 = () => {
+        setRing3ImageChange(false)
+    }
+
+    const handleMouseEnterRing4 = () => {
+        setRing4ImageChange(true)
+    }
+    const handleMouseLeaveRing4 = () => {
+        setRing4ImageChange(false)
+    }
 
     return (
         <div className='smr_trendingViewTopMain'>
@@ -123,10 +160,85 @@ const TrendingView = () => {
                     <p className='linkingTitle'>Trending View</p>
                     <p className='linkingShopCol'>SHOP COLLECTION</p>
                     <Slider {...settings} >
-                        <div className='linkRingLove'>
+                        {
+                            oddNumberObjects?.slice(0, 2).map((data, inedx) => (
+                                evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
+                                    <div className='linkRingLove'>
+                                        <div>
+                                            <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                                <img src={ring1ImageChange ?
+                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                    :
+                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                } className='likingLoveImages'
+                                                    onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
+                                                />
+                                            </div>
+                                            <div className='linkLoveRing1Desc'>
+                                                <p className='ring1Desc'>{data?.TitleLine}</p>
+                                                <p className='ring1Desc'>
+                                                    <span
+                                                        className="smr_currencyFont"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                storeInit?.Currencysymbol
+                                                            ),
+                                                        }}
+                                                    /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
+                                                <img src={ring1ImageChangeOdd ?
+                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
+                                                    :
+                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_1.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
+                                                } className='likingLoveImages'
+
+                                                    onMouseEnter={() => handleMouseEnterRing2(datan)} onMouseLeave={handleMouseLeaveRing2}
+                                                />
+                                            </div>
+                                            <div className='linkLoveRing1Desc'>
+                                                <p className='ring1Desc'>{datan?.TitleLine}</p>
+                                                <p className='ring1Desc'><span
+                                                    className="smr_currencyFont"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: decodeEntities(
+                                                            storeInit?.Currencysymbol
+                                                        ),
+                                                    }}
+                                                /> {(datan?.UnitCost)?.toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ))
+                        }
+                    </Slider>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default TrendingView
+
+
+
+
+
+
+{/* <div className='linkRingLove'>
                             <div>
                                 <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[0]?.designno, trandingViewData[0]?.autocode, trandingViewData[0]?.TitleLine)}>
-                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`} className='likingLoveImages' />
+                                    <img src={ring1ImageChange ?
+                                        `${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_2.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`
+                                        :
+                                        `${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`} className='likingLoveImages'
+
+                                        onMouseEnter={handleMouseEnterRing1} onMouseLeave={handleMouseLeaveRing1}
+                                    />
                                 </div>
                                 <div className='linkLoveRing1Desc'>
                                     <p className='ring1Desc'>{trandingViewData[0]?.TitleLine}</p>
@@ -227,22 +339,7 @@ const TrendingView = () => {
                                 </div>
                             </div>
 
-                        </div>
-                    </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation('/productlist/?T=Trending')}>View All</p>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default TrendingView
-
-
-
-
-
-
+                        </div> */}
 
 
 

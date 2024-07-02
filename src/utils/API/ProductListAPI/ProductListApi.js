@@ -1,8 +1,39 @@
-import { findCsQcId, findDiaQcId, findMetal } from "../../Glob_Functions/GlobalFunction";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj={},page,obj={}) => {
+const ProductListApi = async (filterObj={},page,obj={},mainData = "") => {
+
+  let MenuParams = {};
+  let serachVar = ""
+
+  if(Array.isArray(mainData)){
+    if(mainData?.length > 0){
+      Object.values(mainData[0]).forEach((ele,index)=>{
+       let keyName = `FilterKey${index === 0 ? '' : index}`;
+       MenuParams[keyName] = ele.replace(/%20/g, ' ')
+      })
+  
+      Object.values(mainData[1]).forEach((ele,index)=>{
+       let keyName = `FilterVal${index === 0 ? '' : index}`;
+       MenuParams[keyName] = ele.replace(/%20/g, ' ')
+      })
+    }
+   }else{
+    if(mainData !== ""){
+      
+      if(atob(mainData)?.split("=")[0] == "AlbumName"){
+        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+      } 
+      else if(mainData.split("=")[0] == "S"){
+        serachVar = atob(mainData.split("=")[1])
+      }
+        else{
+        MenuParams.FilterKey = atob(mainData)
+        MenuParams.FilterVal = atob(mainData)
+      }
+    }
+   }
 
 
   const keyMapping = {
@@ -91,15 +122,16 @@ const ProductListApi = async (filterObj={},page,obj={}) => {
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
   let menuparam = JSON.parse(localStorage.getItem("menuparams"));
 
+  // let diaQc = findDiaQcId(obj?.dia ?? loginInfo?.cmboDiaQCid)[0]
+  // let csQc = findCsQcId(obj?.cs ?? loginInfo?.cmboCSQCid)[0]
+  // let mtiddd =  obj?.mt === undefined ? loginInfo?.cmboMetalType : obj?.mt
+  // let mtid = findMetal(loginInfo?.cmboMetalType)[0]?.Metalid
+  // console.log("diaa prod api",mtid);
+
 
   let diaQc = (obj?.dia === undefined ? loginInfo?.cmboDiaQCid : obj?.dia)
-  // let diaQc = findDiaQcId(obj?.dia ?? loginInfo?.cmboDiaQCid)[0]
   let csQc = (obj?.cs === undefined ? loginInfo?.cmboCSQCid : obj?.cs)
-  // let csQc = findCsQcId(obj?.cs ?? loginInfo?.cmboCSQCid)[0]
-  let mtiddd =  obj?.mt === undefined ? loginInfo?.cmboMetalType : obj?.mt
-  let mtid = findMetal(loginInfo?.cmboMetalType)[0]?.Metalid
-
-  // console.log("diaa prod api",mtid);
+  let mtid = (obj?.mt === undefined ? loginInfo?.MetalId : obj?.mt)
 
 
   const data = {
@@ -108,12 +140,13 @@ const ProductListApi = async (filterObj={},page,obj={}) => {
     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
     Customerid: `${loginInfo?.id}`,
     designno:'',
-    FilterKey:`${menuparam?.FilterKey}`,
-    FilterVal:`${menuparam?.FilterVal}`,
-    FilterKey1:`${menuparam?.FilterKey1}`,
-    FilterVal1:`${menuparam?.FilterVal1}`,
-    FilterKey2:`${menuparam?.FilterKey2}`,
-    FilterVal2:`${menuparam?.FilterVal2}`,
+    FilterKey:`${MenuParams?.FilterKey ?? ""}`,
+    FilterVal:`${MenuParams?.FilterVal ?? ""}`,
+    FilterKey1:`${MenuParams?.FilterKey1 ?? ""}`,
+    FilterVal1:`${MenuParams?.FilterVal1 ?? ""}`,
+    FilterKey2:`${MenuParams?.FilterKey2 ?? ""}`,
+    FilterVal2:`${MenuParams?.FilterVal2 ?? ""}`,
+    SearchKey:`${serachVar ?? ""}`,
     PageNo:`${page}`,
     PageSize:`${storeinit?.PageSize}`,
     Metalid: `${obj?.mt ?? mtid}`,
@@ -151,19 +184,9 @@ const ProductListApi = async (filterObj={},page,obj={}) => {
 
   await CommonAPI(body).then((res) => {
     if(res){
-      // let pdData = res?.Data.rd;
       pdList=res?.Data.rd;
       pdResp=res?.Data
     }
-    // pdData?.forEach((p) => {
-    //   const mergedItem = {};
-    //   for (let key in p) {
-    //     if (keyMapping[key]) {
-    //       mergedItem[keyMapping[key]] = p[key];
-    //     }
-    //   }
-    //   pdList.push(mergedItem);
-    // });
   });
 
   return {pdList,pdResp}

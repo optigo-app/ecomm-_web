@@ -26,7 +26,6 @@ function Home() {
 
   return (
     <div className='smiling_home_index_main'>
-
       {localData?.Blockno === 1 &&
         <div className='smiling_home_index_Submain'>
           <TopSection />
@@ -35,10 +34,11 @@ function Home() {
           {localData?.IsHomeAlbum === 1 && <Album />}
           {localData?.IsHomeTrending === 1 && <TrendingView />}
           {/* <DaimondEveyone /> */}
-          <ShopByCategory />
+          {/* <ShopByCategory /> */}
           {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
           {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+
           {/* <SustainAbility /> */}
           {/* <BestSaller /> */}
           <BottomBanner />

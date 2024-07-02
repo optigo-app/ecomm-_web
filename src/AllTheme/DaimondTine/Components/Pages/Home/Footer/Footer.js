@@ -23,7 +23,6 @@ export default function Footer() {
     const handleSubmitNewlater = async () => {
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
-        console.log('newsletter', newslater);
         if (email) {
             if (newslater) {
                 const requestOptions = {
