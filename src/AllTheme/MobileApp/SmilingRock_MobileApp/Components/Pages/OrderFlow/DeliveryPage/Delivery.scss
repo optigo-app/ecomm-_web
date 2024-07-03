@@ -13,7 +13,7 @@
 }
 
 .smrMo_addMainDiv {
-  margin-inline: 6%;
+  margin-inline: 1%;
 }
 
 .smrMo_getAddrMainDiv {
@@ -26,7 +26,6 @@
   color: $titleColor !important;
 }
 
-
 .smr_AddrCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   padding: 20px 20px 0px 20px !important;
@@ -38,7 +37,6 @@
   background: #f5f4f4 !important;
   position: relative;
 }
-
 
 .smr_defualt_addrSelected {
   padding: 3px 10px;
@@ -85,7 +83,7 @@
     border-radius: none !important;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1FontColor;
+    color: #000;
     background-color: rgb(192, 187, 177);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -99,7 +97,7 @@
   .smrMo_ContinueOrderbtn {
     font-family: $homePageFontFamily !important;
     background-color: #ffd814 !important;
-    color: $btn1FontColor !important;
+    color: #000 !important;
     font-size: $fontSize3 !important;
     height: 50px;
     width: 50%;
@@ -115,41 +113,43 @@
   text-align: center;
 }
 
-.smr_AddNewAddrModalbtn {
-  margin-right: 20px;
-  height: 40px;
-  width: 150px;
-  font-family: $homePageFontFamily !important;
-  font-size: $fontSize3;
-  color: $btn1hoverFontColor;
-  background-color: $btn1ActivebgColor;
-  border: 1px solid $btn1FontColor;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-
-  &:hover {
+.smrMo_AddressModalBtnGroup {
+  .smrMo_AddNewAddrModalbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
   }
-}
 
-.smr_Cancelbtn {
-  margin-right: 20px;
-  height: 40px;
-  width: 150px;
-  font-family: $homePageFontFamily !important;
-  font-size: $fontSize3;
-  color: $btn1FontColor;
-  background-color: $btn1bgColor;
-  border: 1px solid $btn1FontColor;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  .smrMo_Cancelbtn {
+    margin-right: 20px;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 
-  &:hover {
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
+    &:hover {
+      color: $btn1hoverFontColor;
+      background-color: $btn1ActivebgColor;
+    }
   }
 }
 
@@ -166,6 +166,61 @@
 
   .smr_DeleteIcon {
     font-size: 20px;
-    color: $titleColor
+    color: $titleColor;
   }
+}
+
+// Media Query for max-width: 800px
+@media (max-width: 800px) {
+  .smrMo_addrcardContent {
+    .smr_addrTypoTitle {
+      font-size: $fontSize4 !important;
+    }
+
+    p {
+      font-size: $fontSize1;
+    }
+  }
+
+  .smr_editIcon {
+    font-size: 15px !important;
+    color: $titleColor;
+  }
+
+  .smr_DeleteIcon {
+    font-size: 15px !important;
+    color: $titleColor;
+  }
+
+  .smr_defualt_addrSelected {
+    padding: 3px 10px;
+    font-size: $fontSize2;
+  }
+
+  .smr_AddrCard,
+  .smr_ActiveAddrCard {
+    padding: 5px !important;
+  }
+  .smrMo_cardActionBtn{
+    margin: 0px 10px 20px 10px;
+  .smrMo_AddressModalBtnGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    .smrMo_AddNewAddrModalbtn {
+      margin-right: 0 !important;
+      height: 35px;
+      width: 120px;
+      font-size: $fontSize2;
+    }
+  
+    .smrMo_Cancelbtn {
+      margin-right: 0 !important;
+      height: 35px;
+      width: 120px;
+      font-size: $fontSize2;
+    }
+  }
+}
 }

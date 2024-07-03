@@ -4,7 +4,7 @@ import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
+import ConfirmationDialog from "../ConfirmationMoDialog/ConfirmationMoDialog";
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";

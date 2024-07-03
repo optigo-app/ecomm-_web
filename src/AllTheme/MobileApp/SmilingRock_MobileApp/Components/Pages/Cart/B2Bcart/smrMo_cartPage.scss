@@ -30,6 +30,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 .smrMo_cartMainPage {
   display: flex;
+  padding-bottom: 150px;
 
   .smr_mui_CartBox {
     justify-content: space-around !important;
@@ -62,7 +63,7 @@ $cartUpdateBtncolor: #b1b1b1;
     justify-content: space-between;
     align-items: center;
     padding: 5px 15px;
-    z-index: 11111;
+    z-index: 11;
     background-color: white;
     border-top: 0.5px solid lightgray;
 
@@ -76,14 +77,15 @@ $cartUpdateBtncolor: #b1b1b1;
       height: 45px !important;
       border-radius: 5px !important;
       width: 150px !important;
-      font-weight: 500 !important;
+      font-weight: bold !important;
     }
   }
 
-  .smr_RightCartList {
+  .smrMo_cartcontentData {
     position: relative;
   }
-  .smrMo_GridCardComponent{
+
+  .smrMo_GridCardComponent {
     padding: 5px 15px;
   }
 
@@ -192,7 +194,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -215,7 +217,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -249,7 +251,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -280,13 +282,13 @@ $cartUpdateBtncolor: #b1b1b1;
       flex-direction: row !important;
     }
 
-    .smr_cartcontentData {
+    .smrMo_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
   }
 
   @media (max-width: 886px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -307,14 +309,14 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
   }
 
   @media (max-width: 599px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
@@ -335,7 +337,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
@@ -343,7 +345,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 474px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
@@ -364,7 +366,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
@@ -573,7 +575,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // cart list item css(left side)
 
-.smr_cartListCard {
+.smrMo_cartListCard {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
   display: flex !important;
   justify-content: space-between !important;
@@ -602,7 +604,7 @@ $cartUpdateBtncolor: #b1b1b1;
   object-fit: cover;
 }
 
-.smr_cartcontentData {
+.smrMo_cartcontentData {
   padding: 16px 0px !important;
 }
 
