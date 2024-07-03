@@ -15,6 +15,7 @@ import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 import Menu from './Components/Pages/MenuPage/Menu'
 import AccountWothoutLogin from './Components/Pages/AccountWothoutLogin'
 import Account from './Components/Pages/Account/Account';
+import SearchPage from './Components/Pages/SearchPage/SearchPage'
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -37,9 +38,10 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/ManageAddress" ||
         location.pathname === "/YourProfile" ||
         location.pathname === "/payment" ||
+        location.pathname === "/SearchPage" ||
         location.pathname === "/CartPage" ||
+        location.pathname === "/Confirmation" ||
         location.pathname === "/myWishList" ||
-        location.pathname === "/confirmation" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
       <Routes>
@@ -57,6 +59,7 @@ const SmilingRock_MobileApp_App = () => {
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/SearchPage" element={<SearchPage />} />
         <Route path="/account" element={<Account />} />
 
       </Routes>

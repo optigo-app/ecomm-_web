@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Account.css'
+import './Account.modul.scss'
 import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -100,67 +100,66 @@ export default function Account() {
     }
 
     return (
-        <div>
-            <div className='Smiling-AccountMain'>
-                <div className='titleMain'>
-                    <div style={{width :'100%'}}>
-                        <p style={{margin: '0px' , fontSize: '25px', fontWeight: 600, paddingInline: '10px'}}>{fName + ' ' + lastNamr}</p>
-                        <p style={{margin: '0px', fontSize: '15px', paddingInline: '10px' }}>+91 {userMobile}</p>
+        <div className='smr_Smiling_AccountMain'>
+            <div className='titleMain'>
+                <div style={{ width: '100%' }}>
+                    <p style={{ margin: '0px', fontSize: '25px', fontWeight: 600, paddingInline: '10px' }}>{fName + ' ' + lastNamr}</p>
+                    <p style={{ margin: '0px', fontSize: '15px', paddingInline: '10px' }}>+91 {userMobile}</p>
 
-                        <div style={{display: 'flex', justifyContent: 'space-around', width: '100%' , marginTop: '10px', paddingInline: '10px'}}>
-                            <div className='boxMainTopSection'  onClick={() => naviagation('/OrderHistory')}>
-                                <LuBox style={{marginLeft: '15px'}}/>
-                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Orders</p>
-                            </div>
-                            <div className='boxMainTopSection' style={{marginRight: '0px'}} onClick={() => naviagation('/myWishList')}>
-                                <MdFavoriteBorder style={{marginLeft: '15px'}}/>
-                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Wishlist</p>
-                            </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
+                        <div className='boxMainTopSection' onClick={() => naviagation('/OrderHistory')}>
+                            <LuBox style={{ marginLeft: '15px' }} />
+                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Orders</p>
                         </div>
-
-                        <div style={{display: 'flex', justifyContent: 'space-around', width: '100%' , marginTop: '10px', paddingInline: '10px'}}>
-                            <div className='boxMainTopSection'>
-                                <IoGiftOutline style={{marginLeft: '15px'}}/>
-                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Coupons</p>
-                            </div>
-                            <div className='boxMainTopSection' style={{marginRight: '0px'}}>
-                                <FaHeadset style={{marginLeft: '15px'}}/>
-                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Help Center</p>
-                            </div>
+                        <div className='boxMainTopSection' style={{ marginRight: '0px' }} onClick={() => naviagation('/myWishList')}>
+                            <MdFavoriteBorder style={{ marginLeft: '15px' }} />
+                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Wishlist</p>
                         </div>
                     </div>
 
+                    <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
+                        <div className='boxMainTopSection'>
+                            <IoGiftOutline style={{ marginLeft: '15px' }} />
+                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Coupons</p>
+                        </div>
+                        <div className='boxMainTopSection' style={{ marginRight: '0px' }}>
+                            <FaHeadset style={{ marginLeft: '15px' }} />
+                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Help Center</p>
+                        </div>
+                    </div>
                 </div>
-                <div className='smling-AccountTabMain'>
-                    <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
-                        <div className='menuMainAccount' onClick={() => naviagation('/YourProfile')}>
-                            <p className='menuMainAccountTitle'>Your Profile</p>
-                            <FaChevronRight />
-                        </div>
-                        <div className='menuMainAccount' onClick={() => naviagation('/OrderHistory')}>
-                            <p className='menuMainAccountTitle'>Order History</p>
-                            <FaChevronRight />
-                        </div>
-                        <div className='menuMainAccount' onClick={() => naviagation('/ManageAddress')}>
-                            <p className='menuMainAccountTitle'>Manage Address</p>
-                            <FaChevronRight />
-                        </div>
-                        {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewCompo')}>
-                            <p className='menuMainAccountTitle'>Account</p>
-                            <FaChevronRight />
-                        </div>}
-                        <div className='menuMainAccount' onClick={() => naviagation('/ChangePassword')}>
-                            <p className='menuMainAccountTitle'>Change Password</p>
-                            <FaChevronRight />
-                        </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                            <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
-                        </div>
+            </div>
+            <div className='smling-AccountTabMain'>
+                <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
+                    <div className='menuMainAccount' onClick={() => naviagation('/YourProfile')}>
+                        <p className='menuMainAccountTitle'>Your Profile</p>
+                        <FaChevronRight />
+                    </div>
+                    <div className='menuMainAccount' onClick={() => naviagation('/OrderHistory')}>
+                        <p className='menuMainAccountTitle'>Order History</p>
+                        <FaChevronRight />
+                    </div>
+                    <div className='menuMainAccount' onClick={() => naviagation('/ManageAddress')}>
+                        <p className='menuMainAccountTitle'>Manage Address</p>
+                        <FaChevronRight />
+                    </div>
+                    {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewCompo')}>
+                        <p className='menuMainAccountTitle'>Account</p>
+                        <FaChevronRight />
+                    </div>}
+                    <div className='menuMainAccount' onClick={() => naviagation('/ChangePassword')}>
+                        <p className='menuMainAccountTitle'>Change Password</p>
+                        <FaChevronRight />
                     </div>
 
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+                        <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
+                    </div>
+                </div>
 
-                    {/* <Box sx={{ width: '100%' }}>
+
+                {/* <Box sx={{ width: '100%' }}>
                         <CustomTabPanel value={value} index={0}>
                             <div>
                                 <YourProfile />
@@ -218,7 +217,6 @@ export default function Account() {
                             </div>
                         </CustomTabPanel>
                     </Box> */}
-                </div>
             </div>
         </div>
     )

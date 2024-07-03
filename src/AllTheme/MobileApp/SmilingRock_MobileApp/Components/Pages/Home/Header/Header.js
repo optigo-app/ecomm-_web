@@ -29,6 +29,7 @@ const Header = () => {
   }, []);
 
 
+  console.log('ddddddddd', location);
   return (
     <div>
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
@@ -76,6 +77,10 @@ const Header = () => {
         </div>
 
         :
+
+        (location.pathname === "CartPage") ? 
+        ""
+        :
         <div className='smrMA_HeaderMain'>
           <div className='smrMA_Top_header_sub'>
             <div className='smrMA_Div1Main'>
@@ -107,7 +112,7 @@ const Header = () => {
               </Badge>
             </div>
             <div>
-              <div className="searchBoxOnlyHeaderFiexedMain">
+              <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
                 <input
                   type="text"
                   placeholder="Search..."
@@ -130,7 +135,7 @@ const Header = () => {
           <div
             className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
           >
-            <div className="searchBoxOnlyHeaderFiexedMain">
+            <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
               <input
                 type="text"
                 placeholder="Search..."
