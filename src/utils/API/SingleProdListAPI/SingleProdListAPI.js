@@ -6,10 +6,10 @@ export const SingleProdListAPI = async(singprod) =>{
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     const data = {
-        PackageId: `${loginInfo?.PackageId }`,
+        PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId }`,
         autocode: `${singprod?.a}`,
         FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id}`,
+        Customerid: `${loginInfo?.id ?? 0}`,
         designno: `${singprod?.b}`,
         IsFromDesDet:1
       };

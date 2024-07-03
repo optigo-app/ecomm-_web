@@ -135,10 +135,10 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "") => {
 
 
   const data = {
-    PackageId: `${loginInfo?.PackageId }`,
+    PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
     autocode: '',
     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-    Customerid: `${loginInfo?.id}`,
+    Customerid: `${loginInfo?.id ?? 0}`,
     designno:'',
     FilterKey:`${MenuParams?.FilterKey ?? ""}`,
     FilterVal:`${MenuParams?.FilterVal ?? ""}`,
