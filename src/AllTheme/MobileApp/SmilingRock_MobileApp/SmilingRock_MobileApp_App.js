@@ -13,6 +13,8 @@ import WithoutLoginCart from './Components/Pages/Cart/WithoutLoginCart'
 import ProductList from './Components/Pages/ProductList/ProductList'
 import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 import Menu from './Components/Pages/MenuPage/Menu'
+import AccountWothoutLogin from './Components/Pages/AccountWothoutLogin'
+import Account from './Components/Pages/Account/Account';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -34,7 +36,7 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/OrderHistory" ||
         location.pathname === "/ManageAddress" ||
         location.pathname === "/YourProfile" ||
-        location.pathname === "/Payment" ||
+        location.pathname === "/payment" ||
         location.pathname === "/CartPage" ||
         location.pathname === "/myWishList" ||
         location.pathname === "/confirmation" ||
@@ -46,13 +48,15 @@ const SmilingRock_MobileApp_App = () => {
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={isLoginStatus} />}> */}
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/Delivery" element={<Delivery />} />
-        <Route path="/Payment" element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
         <Route path="/myWishList" element={<Wishlist />} />
         <Route path="/Menu" element={<Menu />} />
+        <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/account" element={<Account />} />
 
       </Routes>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import "./smr_confirmation.scss"
+import "./smrMo_confirmation.scss"
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,27 +8,28 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Divider } from '@mui/material';
 
-const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
+const ConfirmationMoDialog = ({ open, onClose, onConfirm, title, content }) => {
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby="alert-dialog-title-for-mobile"
+      aria-describedby="alert-dialog-title-for-description"
+      className='smrMo_dialogMainDiv'
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+      <DialogTitle className='smrMo_dialogTitle'>{title}</DialogTitle>
+      <DialogContent className='smrMo_dialogContent'>
+        <DialogContentText className='smrMo_dialogContentText'>
           {content}
         </DialogContentText>
       </DialogContent>
       <Divider/>
-      <DialogActions>
-      <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
+      <DialogActions className='smrMo_dialogAction'>
+      <Button className='smrMo_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
           Remove
         </Button>
         <Divider  orientation="vertical" flexItem/>
-        <Button  className='smr_DialogBtn' onClick={onClose}  fullWidth>
+        <Button  className='smrMo_DialogBtn' onClick={onClose}  fullWidth>
           Cancel
         </Button>
       </DialogActions>
@@ -36,4 +37,4 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
   );
 };
 
-export default ConfirmationDialog;
+export default ConfirmationMoDialog;

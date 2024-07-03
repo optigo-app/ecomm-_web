@@ -87,8 +87,28 @@
 
 .smeMASearchBoxInputDiv {
     height: 30px;
-    width: 80%;
+    width: 95%;
     outline: none;
     border: none;
     border-radius: 20px;
+}
+
+@media screen and (max-width: 700px) {
+    .smeMASearchBoxInputDiv {
+        height: 30px;
+        width: 90%!important;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .smeMASearchBoxInputDiv {
+        height: 30px;
+        width: 85%!important;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
 }

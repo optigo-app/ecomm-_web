@@ -7,7 +7,7 @@ import './smrMo_cartPage.scss';
 import { useNavigate } from 'react-router-dom';
 import { Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkeltonMo';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetailsMo"

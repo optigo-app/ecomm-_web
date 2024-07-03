@@ -2,6 +2,7 @@ import React from 'react'
 import { IoArrowBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom'
 import noData from '../../Assets/noData.png'
+import './WithoutLoginCart.modul.scss'
 
 export default function WithoutLoginCart() {
 

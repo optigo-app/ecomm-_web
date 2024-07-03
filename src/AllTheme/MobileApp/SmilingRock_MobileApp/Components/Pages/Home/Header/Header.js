@@ -33,7 +33,7 @@ const Header = () => {
     <div>
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
         <div style={{ display: 'flex', justifyContent: 'space-between', paddingInline: '10px', height: '50px', position: 'fixed', width: '100%', alignItems: 'center', padding: '0px 0px 0px 5px', borderBottom: '1px solid lightgray', backgroundColor: 'white', zIndex: '111111' }}>
-          <FiArrowLeft style={{ height: '25px', width: '25px' }} onClick={() => location.pathname == '/productdetail' ? navigation('/productpage') : navigation('/')} />
+          <FiArrowLeft style={{ height: '25px', width: '25px' }} onClick={() => navigation(-1)} />
           <ul className="mobileViewTopIconeMain" style={{ listStyle: 'none', margin: '0px', display: 'flex', padding: '0px', width: '90%' }}>
             <div className="smeMASearchBoxDiv">
               <input

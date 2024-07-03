@@ -70,23 +70,23 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
     };
 
     return (
-        <Grid item xs={12} sm={6} md={4} lg={3} style={{marginBottom:'20px'}}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
             <Card
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 className={isdefault == 1 ? 'smr_ActiveAddrCard' : 'smr_AddrCard'}
                 style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-                <CardContent onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' }}>
+                <CardContent className='smrMo_addrcardContent' onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' }}>
                     <Typography className='smr_addrTypoTitle' variant="h5" component="h2">
                         {shippingfirstname} {shippinglastname}
                     </Typography>
                     <Typography className='smr_addrTypo'>{street}</Typography>
-                    <Typography className='smr_addrTypo'>{city}-{zip}</Typography>
-                    <Typography className='smr_addrTypo'>{state}</Typography>
-                    <Typography className='smr_addrTypo'>{country}</Typography>
+                    <Typography className='smr_addrTypo'>{city}-{zip}{', '}{state}</Typography>
+                    {/* <Typography className='smr_addrTypo'>{state}</Typography> */}
+                    {/* <Typography className='smr_addrTypo'>{country}</Typography> */}
                     <Typography className='smr_addrTypo'>
-                        Mobile No: {shippingmobile}
+                        Phone : {shippingmobile}
                     </Typography>
                     <button type='button' className={isdefault == 1 ? 'smr_defualt_addrSelected' : 'smr_defualt_addrSelectedHide'}>Selected</button>
                 </CardContent>
