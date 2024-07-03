@@ -586,12 +586,13 @@ const useCart = () => {
   const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
     let price = 0;
     if (pPrice <= 0) {
+       setIsPriceLoding(false);
       return 0
     }
     else if (pmu <= 0) {
       price = (Number(pPrice + swp)).toFixed(2);
       setFinalPriceWithMarkup(price);
-      setIsLoading(false);
+      setIsPriceLoding(false);
       setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: price }));
       return price;
     }
@@ -600,7 +601,7 @@ const useCart = () => {
       price = (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
 
       setFinalPriceWithMarkup(price);
-      setIsLoading(false);
+      setIsPriceLoding(false);
       setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: price }));
       return price
     }
@@ -654,11 +655,8 @@ const useCart = () => {
       console.log('finalprice--', finalPrice);
       setIsPriceLoding(false);
     }
+    setIsPriceLoding(false);
 
-    // setTimeout(() => {
-      setIsPriceLoding(false);
-    // }, 1200);
-    
     setSelectedItem(prevItem => ({ ...prevItem, UnitCost: finalPrice }));
 
     console.log("FinalPrice:", qtyCount);
@@ -683,7 +681,7 @@ const useCart = () => {
         handleMrpBasePrice(filteredMtData);
         setmrpbasedPriceFlag(1);
       }
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(timeoutId);
   }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, metalID, diaIDData, colorStoneID, sizeId, qtyCount, handleUpdate]);
@@ -705,6 +703,12 @@ const useCart = () => {
 
     return () => clearTimeout(timeoutId);
   }, [cartData, getSinglePriceData, metalID, diaIDData, colorStoneID, sizeId]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsPriceLoding(false);
+    }, 500);
+  }, [])
 
 
   const decodeEntities = (html) => {
