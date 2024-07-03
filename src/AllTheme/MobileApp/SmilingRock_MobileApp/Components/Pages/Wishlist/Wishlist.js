@@ -119,7 +119,7 @@ const Wishlist = () => {
             handleMoveToDetail={handleMoveToDetail}
           />
         ) : (
-          <div style={{marginTop:'90px'}}>
+          <div style={{marginTop:'10px'}}>
             <SkeletonLoader />
           </div>
         )}

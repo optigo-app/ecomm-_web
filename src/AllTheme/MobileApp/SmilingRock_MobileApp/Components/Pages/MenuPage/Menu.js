@@ -24,6 +24,7 @@ const Menu = () => {
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+        setIsB2BFlaf(storeinit?.IsB2BWebsite);
         if (storeinit?.IsB2BWebsite === 0) {
             getMenuApi();
             return;
@@ -164,27 +165,64 @@ const Menu = () => {
         navigation(url)
     }
 
-    console.log('menuItemsmenuItems', menuItems);
     return (
         <div className='smrMA_menuPageMain'>
-            <TabContext value={value}>
-                {/* {islogin === true && */}
-                <div className='tabMainMenu'>
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        textColor="primary"
-                        indicatorColor="primary"
-                        centered
-                        variant='scrollable'
-                        className='tabMainSmilingMobile'
-                    >
-                        {menuItems.map((item, index) => (
-                            <Tab label={item.menuname} onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")} />
-                        ))}
-                    </Tabs>
+
+            {isB2bFlag == 1 ?
+                islogin == false &&
+                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: '200px' }}>
+                    <p style={{ margin: '0px', fontWeight: 500 }}>No Data Available</p>
+                    <button style={{
+                        height: '35px',
+                        width: '150px',
+                        backgroundColor: '#e1e1e1',
+                        border: 'none',
+                        outline: 'none',
+                        fontSize: '18px',
+                        fontWeight: 500,
+                        borderRadius: '5px',
+                        marginTop: '5px'
+                    }} onClick={() => navigation('/signin')}>Login</button>
                 </div>
-                {/* } */}
+                :
+                ''
+            }
+
+            <TabContext value={value}>
+                {isB2bFlag == 1 ?
+                    islogin == true &&
+                    <div className='tabMainMenu'>
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            textColor="primary"
+                            indicatorColor="primary"
+                            centered
+                            variant='scrollable'
+                            className='tabMainSmilingMobile'
+                        >
+                            {menuItems.map((item, index) => (
+                                <Tab label={item.menuname} onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")} />
+                            ))}
+                        </Tabs>
+                    </div>
+                    :
+                    <div className='tabMainMenu'>
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            textColor="primary"
+                            indicatorColor="primary"
+                            centered
+                            variant='scrollable'
+                            className='tabMainSmilingMobile'
+                        >
+                            {menuItems.map((item, index) => (
+                                <Tab label={item.menuname} onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")} />
+                            ))}
+                        </Tabs>
+                    </div>
+                }
 
 
 
