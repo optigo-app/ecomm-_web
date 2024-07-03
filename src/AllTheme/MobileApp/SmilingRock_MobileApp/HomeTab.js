@@ -91,7 +91,7 @@ const HomeTab = () => {
             </Button>
           </NavLink>
 
-          {islogin === 'true' ?
+          {islogin === true ?
             <NavLink to="/account" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/account")}>
               <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
                 <FaUser style={activeTab === "/account" ? styles.activeIcon : styles.icon} />
@@ -105,7 +105,7 @@ const HomeTab = () => {
               </Button>
             </NavLink>}
 
-          {islogin === 'true' ?
+          {islogin === true ?
             <NavLink to="/CartPage" style={styles.tab} activeClassName="active"
               onClick={() => {
                 handleTabChange("/CartPage");

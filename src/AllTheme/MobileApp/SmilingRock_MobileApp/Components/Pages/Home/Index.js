@@ -8,10 +8,72 @@ import BestSellerSection from './BestSellerSection/BestSellerSection';
 import DesignSet from './DesignSet/DesignSet';
 import BottomBanner from './BottomBanner/BottomBanner';
 import './Home.modul.scss'
+import { smrMA_loginState } from '../../Recoil/atom';
+import { useRecoilState } from 'recoil';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { WebLoginWithMobileToken } from '../../../../../../utils/API/Auth/WebLoginWithMobileToken';
 
 const Home = () => {
 
   const [localData, setLocalData] = useState();
+  const [islogin, setislogin] = useRecoilState(smrMA_loginState);
+  const navigation = useNavigate();
+  const location = useLocation();
+  const search = location?.search
+  const updatedSearch = search.replace('?LoginRedirect=', '');
+  const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  const cancelRedireactUrl = `/LoginOption/${search}`;
+
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const ismobile = queryParams.get('ismobile');
+    const token = queryParams.get('token');
+    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', ismobile);
+    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', islogin);
+    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', token);
+    if (ismobile === '1' && islogin === false && token !== undefined && token !== null && token !== '') {
+      handleSubmit();
+    }
+  }, [])
+
+
+  const handleSubmit = async () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const token = queryParams.get('token');
+
+    // try {
+    //   const combinedValue = JSON.stringify({
+    //     userid: '', mobileno: '', pass: '', mobiletoken: `${token}`, FrontEnd_RegNo: '' 
+    //   });
+    //   const encodedCombinedValue = btoa(combinedValue);
+    //   const body = {
+    //     "con": "{\"id\":\"\",\"mode\":\"WEBLOGINMOBILETOKEN\"}",
+    //     "f": "LoginWithEmail (handleSubmit)",
+    //     p: encodedCombinedValue
+    //   };
+    //   const response = await CommonAPI(body);
+    //   console.log('ressssssssssssssssss', response);
+    WebLoginWithMobileToken('', '', '', '', token).then((response) => {
+      console.log('mobilereeeeeeee'.response);
+      if (response.Data.rd[0].stat === 1) {
+        setislogin(true)
+        localStorage.setItem('LoginUser', true)
+        localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+        navigation('/');
+        if (redirectEmailUrl) {
+          navigation(redirectEmailUrl);
+        } else {
+          navigation('/')
+        }
+      }
+    }).catch((err) => console.log(err))
+
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // } finally {
+    // }
+  };
 
   useEffect(() => {
     let localData = JSON.parse(localStorage.getItem('storeInit'));
