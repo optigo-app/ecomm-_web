@@ -1067,7 +1067,7 @@ const ProductList = () => {
                     </div>}
                   </div>
       </Drawer>
-      <div className="smr_bodyContain">
+      <div className="smrMA_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
             {

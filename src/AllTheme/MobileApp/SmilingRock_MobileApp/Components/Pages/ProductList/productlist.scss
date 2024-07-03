@@ -1,9 +1,10 @@
 @import "../../scss/variable";
 
-.smr_bodyContain {
-  background-color: $backgroundColor;
+.smrMA_bodyContain {
+  // background-color: $backgroundColor;
   height: 100%;
   width: 100%;
+  padding-top: 60px;
 }
 
 .smr_outerContain {

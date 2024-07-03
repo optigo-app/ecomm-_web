@@ -12,17 +12,34 @@ import Confirmation from './Components/Pages/OrderFlow/ConfirmationPage/Confirma
 import WithoutLoginCart from './Components/Pages/Cart/WithoutLoginCart'
 import ProductList from './Components/Pages/ProductList/ProductList'
 import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
+import Menu from './Components/Pages/MenuPage/Menu'
 
 const SmilingRock_MobileApp_App = () => {
 
   const location = useLocation();
 
-
-  console.log('locationlocation',location.pathname);
   return (
     <div>
       <ToastContainer />
-      <Header />
+      {(location.pathname === "/accountledgertable" ||
+        location.pathname === "/accountledgerexcel" ||
+        location.pathname === "/accountledgerdebit" ||
+        location.pathname === "/accountledgercredit" ||
+        location.pathname === "/AccountWothoutLogin" ||
+        location.pathname === "/WithoutLoginCart" ||
+        location.pathname === "/account" ||
+        location.pathname === "/ChangePassword" ||
+        location.pathname === "/Delivery" ||
+        location.pathname === "/MobileViewCompo" ||
+        location.pathname === "/OrderHistory" ||
+        location.pathname === "/ManageAddress" ||
+        location.pathname === "/YourProfile" ||
+        location.pathname === "/Payment" ||
+        location.pathname === "/CartPage" ||
+        location.pathname === "/myWishList" ||
+        location.pathname === "/confirmation" ||
+        location.pathname === "/CurrentVersion") ?
+        null : <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
@@ -32,9 +49,10 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/Payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
         <Route path="/myWishList" element={<Wishlist />} />
+        <Route path="/Menu" element={<Menu />} />
         {/* </Route> */}
-        <Route path="/p/*" element={<ProductList/>}/>
-        <Route path="/d/*" element={<ProductDetail/>}/>
+        <Route path="/p/*" element={<ProductList />} />
+        <Route path="/d/*" element={<ProductDetail />} />
 
       </Routes>
 

@@ -42,6 +42,7 @@ const Menu = () => {
     }
 
 
+
     useEffect(() => {
         const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
         const uniqueMenuItems = uniqueMenuIds.map(menuid => {
@@ -79,7 +80,6 @@ const Menu = () => {
 
         setMenuItems(uniqueMenuItems);
         handleLoginMenuClickSwipe(uniqueMenuItems[0]?.menuname, null, "iconclicked")
-
     }, [menuData]);
 
 
