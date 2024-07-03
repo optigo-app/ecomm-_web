@@ -1,7 +1,7 @@
 @import "../../scss/variable";
 
-.smr_prodDetail_bodyContain{
-    background-color: $backgroundColor;
+.smrMA_prodDetail_bodyContain{
+    background-color: White;
     height: 100%;
     width: 100%;
 }
@@ -88,7 +88,7 @@
     gap: 5px;
 }
 
-.smr_prod_shortInfo_inner{
+.smrMA_prod_shortInfo_inner{
     margin: 50px 100px 0px;
     width: 60%;
     // margin-top: 100px;
@@ -241,13 +241,13 @@
     font-size: 14px;
 }
 
-.smr_material_details_portion{
+.smrMA_material_details_portion{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     flex-direction: column;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
 }
 
 .smr_stockItem_div{
@@ -399,7 +399,7 @@ color: $primaryfontcolor2;
         width:100%
     }
 
-    .smr_material_details_portion{
+    .smrMA_material_details_portion{
         margin-top: 15px;
     }
 
@@ -410,24 +410,24 @@ color: $primaryfontcolor2;
         width:100%;
     }
 
-    .smr_prod_shortInfo_inner{
+    .smrMA_prod_shortInfo_inner{
         margin: 0;
         width:80%
     }
 }
 
 @media screen and (max-width:1400px) {
-    .smr_prod_shortInfo_inner{
-        margin:70px 50px 0px;
-        width: 80%;
+    .smrMA_prod_shortInfo_inner{
+        margin:50px 20px 0px;
+        width: 100%;
     }
 }
 @media screen and (max-width:425px) {
     .smr_prod_titleLine{
         font-size: 30px;
     }
-    .smr_prod_shortInfo_inner{
+    .smrMA_prod_shortInfo_inner{
         width:100%;
-        margin:70px 20px; 
+        margin:50px 20px; 
     }
 }
