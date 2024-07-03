@@ -13,6 +13,7 @@ import WithoutLoginCart from './Components/Pages/Cart/WithoutLoginCart'
 import ProductList from './Components/Pages/ProductList/ProductList'
 import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 import Menu from './Components/Pages/MenuPage/Menu'
+import Account from './Components/Pages/Account/Account';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -53,6 +54,7 @@ const SmilingRock_MobileApp_App = () => {
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/account" element={<Account />} />
 
       </Routes>
 
