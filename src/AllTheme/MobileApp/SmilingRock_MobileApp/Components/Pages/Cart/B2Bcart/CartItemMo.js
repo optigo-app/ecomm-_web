@@ -60,8 +60,8 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
-      <Card className='smr_cartListCard'
+      className='smrMo_cartListCardGrid'>
+      <Card className='smrMo_cartListCard'
         sx={{
           maxWidth: 450,
           width: isLargeScreen && itemLength <= 3 ? '390px' : '100%'

@@ -200,7 +200,7 @@ const Payment = () => {
                             </div>
                             <div className='smrMo_paymentButtonDiv'>
                                 <button className='smrMo_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
-                                    {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
+                                    {isloding ? 'Loding...' : 'Pay On Account'}
                                     {isloding && <span className="loader"></span>}
                                 </button>
                             </div>
