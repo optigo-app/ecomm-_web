@@ -3,8 +3,9 @@ import "./accountledger.scss"
 import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { Box, Button, CircularProgress } from '@mui/material';
-import { checkMonth, formatAmount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { checkMonth, formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
@@ -13,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
-import { getAccountLedgerData } from '../../../../../../../utils/API/AccountTabs/accountLedger';
+import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 
 const AccountLedger = () => {
 
@@ -565,11 +566,11 @@ const AccountLedger = () => {
                 {
                     (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='d-flex justify-content-between align-items-center flex_col_Al mt-2'>
                     {
-                        <div className='fs_al2 p-2 d-flex justify-content-start  align-items-center flex-wrap mb-0'>
+                        <div className='fs_al2 p-2 d-flex justify-content-start  align-items-center flex-wrap mb-0 w-100'>
                             <div className='mb_acc'>
                                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
                             <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
-                            <p className='fs-6 mb-0 w_30_acc' style={{ paddingRight: "8px" }}>Date : </p>
+                            <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>Date : </p>
                             <Box className="w_70_acc">
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -606,7 +607,7 @@ const AccountLedger = () => {
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec date_margin_acc">
-                            <p className='fs-6 mb-0 w_30_acc' style={{ paddingRight: "8px" }}>To : </p>
+                            <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>To : </p>
                             <Box className="w_70_acc">
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -673,7 +674,7 @@ const AccountLedger = () => {
                                     style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
                                      onClick={() => handleDays(days)}>{days}</button>
                                 ))}
-                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn me-3 mb-2' title='next' 
+                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn me_3 mb-2' title='next' 
                             onClick={() => handleNextDays()}
                             >&gt;</button>
                         </div>
@@ -686,7 +687,7 @@ const AccountLedger = () => {
                     </div>
                 }
                 
-                <div className='text-secondary fs_al d-flex justify-content-between align-items-start p-2 my-3 mt-0'>
+                <div className='text-secondary fs_al d_flex_Acc justify-content-between align-items-start p-2 my-3 mt-0 balance_none'>
                     <div className='d-flex justify-content-start align-items-start flex-wrap'>
                         <div className='px-4 px_2_al d-flex align-items-center mb-2 ps-0 w_all_acc'><span className='w_40_acc'>Balance Gold :&nbsp;</span> <span className='bal_Amt_ac  w_60_acc end_acc'>
                             { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
@@ -704,6 +705,36 @@ const AccountLedger = () => {
                             }&nbsp;
 
                             {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
+                    </div>
+                </div>
+                <div className='text-secondary fs_al d_flex_Acc justify-content-between align-items-start p-2 my-3 mt-0 balance_not_none'>
+                    <div className='d-flex justify-content-start align-items-start flex-wrap'>
+                        <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 p-1 w-100'>
+                            <div className='w-100'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w-100 end_acc'>
+                            { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
+                            { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</div>
+                        </div>
+                        <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 w-100'>
+                            <div className='w-100'>Balance Diam. :&nbsp;</div> 
+                            <div className='bal_Amt_ac w-100 end_acc'>
+                            { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
+                            { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+                            </div>
+                        </div>
+                        <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 w-100'>
+                            <div className='w-100'>Balance Amount :&nbsp;</div> 
+                            <div className='bal_Amt_ac w-100 end_acc'>
+                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
+                            { ((formatAmount(
+                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                              ) === 'NaN' ? '0.00' : (formatAmount(
+                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                              ))
+                            }&nbsp;
+
+                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }
+                        </div>
+                        </div>
                     </div>
                 </div>
                 {
