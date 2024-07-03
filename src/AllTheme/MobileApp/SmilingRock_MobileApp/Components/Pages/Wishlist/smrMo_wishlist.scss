@@ -150,14 +150,16 @@
 }
 
 .closeWlIcon {
+    font-size: 18px !important;
+    padding: 0 !important;
     cursor: pointer;
 }
 
-.smr_Wl-CartbtnDiv {
+.smrMo_Wl-CartbtnDiv {
     text-align: center;
     margin-bottom: 10px;
 
-    .smr_Wl-Cartbtn {
+    .smrMo_Wl-Cartbtn {
         width: 150px;
         height: 30px;
         font-size: $fontSize2;
@@ -167,11 +169,6 @@
         background: none;
         text-transform: capitalize !important;
         cursor: pointer;
-
-        &:hover {
-            color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
-        }
     }
 }
 
@@ -343,7 +340,7 @@
 
 @media (max-width: 320px) {
     .smr_WlListData {
-        padding: 10px 10px 10px 10px;
+        padding: 10px 10px 100px 10px;
     }
 
     .WlBtnGroupMainDiv {
@@ -427,7 +424,7 @@
     }
 
     .smr_addwishlistSkelton {
-        height: 300px !important;
+        height: 250px !important;
     }
 }
 
@@ -438,7 +435,7 @@
     }
 
     .smr_addwishlistSkelton {
-        height: 300px !important;
+        height: 250px !important;
     }
 }
 
