@@ -198,6 +198,12 @@ const Payment = () => {
                                 <p>{selectedAddrData?.state}</p>
                                 <p>{selectedAddrData?.shippingmobile}</p>
                             </div>
+                            <div className='smrMo_paymentButtonDiv'>
+                                <button className='smrMo_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                                    {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
+                                    {isloding && <span className="loader"></span>}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -208,12 +214,6 @@ const Payment = () => {
                     onRemarkChange={handleRemarkChangeInternal}
                     onSave={handleSaveInternal}
                 />
-            </div>
-            <div className='smrMo_paymentButtonDiv'>
-                <button className='smrMo_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
-                    {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
-                    {isloding && <span className="loader"></span>}
-                </button>
             </div>
         </div>
     )
