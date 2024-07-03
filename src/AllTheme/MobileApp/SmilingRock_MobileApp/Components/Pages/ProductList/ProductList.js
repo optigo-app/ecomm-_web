@@ -1647,7 +1647,9 @@ const ProductList = () => {
                                           {findMetalColor(
                                             productData?.MetalColorid
                                           )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
+                                          {findMetalColor(
+                                            productData?.MetalColorid
+                                          )?.[0]?.metalcolorname.toUpperCase() && '-'}
                                           {
                                             findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
                                               ?.metaltype
@@ -1664,7 +1666,7 @@ const ProductList = () => {
                                             }}
                                           />
                                           <span className="smr_pricePort">
-                                            {productData?.ismrpbase === 1
+                                            {productData?.ismrpbase == 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
