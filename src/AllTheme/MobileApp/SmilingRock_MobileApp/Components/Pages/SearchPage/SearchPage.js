@@ -16,32 +16,11 @@ export default function SearchPage() {
         setSearchText('');
     };
 
-
-
-    // const setGSearch = useSetRecoilState(searchData);
-    
-    function searchDataFucn() {
-        let ProductApiData2 = JSON.parse(localStorage.getItem("allproductlist"));
-        if (ProductApiData2) {
-            let searchTextN = searchText?.toLowerCase();
-            let data = ProductApiData2.filter((pd) => {
-                for (const key in pd) {
-                    if (pd.hasOwnProperty(key) && pd[key]?.toString().toLowerCase().includes(searchTextN)) {
-                        return true;
-                    }
-                }
-                return false;
-            });
-            console.log('datadatadata',data);
-            if (data?.length > 0) {
-                // setGSearch(data);
-                navigation('/productpage');
-            } else {
-                // setGSearch(ProductApiData2);
-                navigation('/productpage');
+    const searchDataFucn = (e) => {
+        if (e.key === 'Enter') {
+            if (searchText) {
+                navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
             }
-        } else {
-            // setGSearch([]);
         }
     }
 
@@ -49,7 +28,6 @@ export default function SearchPage() {
         <div>
             <div className='HeaderMainSearch'>
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px', color: '#7d7f85' }} onClick={() => navigation(-1)} />
-
                 <div className="searchPageBoxOnlyHeaderFiexedMain">
                     <input
                         type="text"
@@ -60,7 +38,7 @@ export default function SearchPage() {
                         className="searchBoxOnlyHeaderFiexed"
                         onKeyDown={(event) => {
                             if (event.key === 'Enter') {
-                                searchDataFucn();
+                                searchDataFucn(event);
                             }
                         }}
                     />

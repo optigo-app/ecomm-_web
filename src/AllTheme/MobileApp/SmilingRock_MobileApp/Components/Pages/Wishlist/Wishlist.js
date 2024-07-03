@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./smrMo_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import ConfirmationDialog from "../ConfirmationMoDialog/ConfirmationMoDialog";
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import { IoArrowBack } from "react-icons/io5";
 
 const Wishlist = () => {
   const {
@@ -30,6 +31,7 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [countstatus, setCountStatus] = useState();
+  const navigation = useNavigate();
 
   useEffect(() => {
       const iswishUpdateStatus = localStorage.getItem('wishUpdation');
@@ -81,10 +83,13 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="smr_MainWlDiv">
+    <div className="smrMA_MainWlDiv">
+           <p className="SmiCartListTitle">
+                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
+            </p>
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
-          <div className="smr_Wl-title">My Wishlist</div>
+          {/* <div className="smr_Wl-title">My Wishlist</div> */}
           {wishlistData?.length != 0 &&
             <>
               <div className="smr_WlButton-group">
