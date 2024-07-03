@@ -1,18 +1,19 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const WebLoginWithMobileToken = async (email, mobileNo, hashedPassword, ismobiletoke, userCookie) => {
+export const WebLoginWithMobileToken = async (ismobiletoke) => {
 
     let response
     try {
         const combinedValue = JSON.stringify({
             userid: '', mobileno: '', pass: '', mobiletoken: `${ismobiletoke}`, FrontEnd_RegNo: ''
         });
+        console.log('mobilereeeeeeee combinedValue', combinedValue)
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBLOGINMOBILETOKEN\"}",
             "f": "WEBLOGINMOBILETOKEN (handleSubmit)",
-            p: encodedCombinedValue
-            // dp: combinedValue
+            p: encodedCombinedValue,
+            dp: combinedValue
         };
         response = await CommonAPI(body);
 
