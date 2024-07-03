@@ -35,7 +35,7 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/OrderHistory" ||
         location.pathname === "/ManageAddress" ||
         location.pathname === "/YourProfile" ||
-        location.pathname === "/Payment" ||
+        location.pathname === "/payment" ||
         location.pathname === "/CartPage" ||
         location.pathname === "/myWishList" ||
         location.pathname === "/confirmation" ||
@@ -47,7 +47,7 @@ const SmilingRock_MobileApp_App = () => {
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={isLoginStatus} />}> */}
         <Route path="/CartPage" element={<CartPage />} />
         <Route path="/Delivery" element={<Delivery />} />
-        <Route path="/Payment" element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
         <Route path="/myWishList" element={<Wishlist />} />
         <Route path="/Menu" element={<Menu />} />
