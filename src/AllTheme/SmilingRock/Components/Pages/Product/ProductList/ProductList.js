@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -26,6 +26,7 @@ import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Comb
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -36,6 +37,9 @@ const ProductList = () => {
   let location = useLocation();
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery('(min-width:1201px)')
+  let maxwidth1674px = useMediaQuery('(max-width:1674px)')
+  let maxwidth590px = useMediaQuery('(max-width:590px)')
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -62,6 +66,7 @@ const ProductList = () => {
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
   const [rollOverImgPd,setRolloverImgPd] = useState()
+  const [locationKey,setLocationKey] = useState()
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -218,15 +223,6 @@ const ProductList = () => {
     })
   }, [])
 
-  // useEffect(()=>{
-  //   if(location?.state?.SearchVal !== undefined){ 
-  //     setTimeout(()=>{
-  //       SearchProduct(location?.state?.SearchVal).then((res)=>{
-  //         console.log("search",res)
-  //       })
-  //     },500)
-  //   }
-  // },[location?.key])
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -252,7 +248,8 @@ const ProductList = () => {
 
   useEffect(() => {
 
-
+    const fetchData = async() =>{
+      
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let UrlVal =  location?.search.slice(1).split("/")
@@ -318,17 +315,18 @@ const ProductList = () => {
     if(NewArrivalVar){
       productlisttype = NewArrivalVar.split("=")[1]
     }
+
     if(BestSellerVar){
       productlisttype = BestSellerVar.split("=")[1]
     }
+
     if(AlbumVar){
       productlisttype = AlbumVar.split("=")[1]
     }
     
     setIsProdLoading(true)
-
     //  if(location?.state?.SearchVal === undefined){ 
-      ProductListApi({},1,obj,productlisttype)
+      await ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
             console.log("productList",res);
@@ -353,7 +351,7 @@ const ProductList = () => {
         }).then(async(forWardResp)=>{
           let forWardResp1;
           if(forWardResp){
-            FilterListAPI(productlisttype).then((res)=>{
+            await FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err)=>console.log("err",err))
@@ -364,7 +362,17 @@ const ProductList = () => {
           setIsOnlyProdLoading(false)
         })
         .catch((err) => console.log("err", err))
+
       // }
+      
+    }
+
+    fetchData();
+
+    if(location?.key){
+      setLocationKey(location?.key)
+    }
+
   }, [location?.key])
 
   useEffect(() => {
@@ -531,31 +539,35 @@ const ProductList = () => {
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    
   //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-     setIsOnlyProdLoading(true)
-      ProductListApi(output,1,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
+    console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+    
+  if(location?.key === locationKey){
+    setIsOnlyProdLoading(true)
+     ProductListApi(output,1,obj)
+       .then((res) => {
+         if (res) {
+           setProductListData(res?.pdList);
+           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+         }
+         return res;
+       })
+       .then( async(res) => {
+         if (res) {
+           await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+             if(resp){
+               setPriceListData(resp)  
+             }
+           })
+         }
+         return res
+       })
+       .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+  }
         // .then(async(res)=>{
         //   if(res){
         //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
         //   }
         // })
-        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
       // }
 
   }, [filterChecked])
@@ -825,8 +837,104 @@ const ProductList = () => {
   return (
     <div id="top">
       <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer" >
-      <div className="smr_mobile_filter_portion">
-                        <div className="smr_mobile_filter_portion_outter">
+        <div style={{display:'flex',width:'100%',alignItems:'center',justifyContent:'end',padding:'8px 8px 0px 0px'}}>
+          <CloseIcon onClick={() => {setIsDrawerOpen(false)}}/>
+        </div>
+      <div style={{marginLeft:'15px',marginBottom:'20px',display:'flex',gap:'5px',flexDirection:'column'}}>
+                    <Typography  sx={{color:'#7f7d85',fontSize:'16px',fontFamily:'TT Commons Medium',marginTop:'12px'}}>
+                      Customization
+                    </Typography>
+                    <div 
+                    // className="smr_metal_custom"
+                    
+                    >
+                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
+                        Metal:&nbsp;
+                      </Typography>
+                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}}  className="select" value={selectedMetalId} onChange={(e) => {setSelectedMetalId(e.target.value)}}>
+                        {
+                          metalTypeCombo?.map((metalele) => (
+                            <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
+                          ))
+                        }
+                      </select>
+                    </div>
+
+                    {storeInit?.IsDiamondCustomization === 1 && 
+                    <div 
+                    // className="smr_dia_custom"
+                    >
+                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
+                        Diamond:&nbsp;
+                      </Typography>
+                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
+                        {
+                          diaQcCombo?.map((diaQc) => (
+                            <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                          ))
+                        }
+                      </select>
+                    </div>}
+
+                    {storeInit?.IsCsCustomization === 1 && 
+                    <div 
+                    // className="smr_cs_custom"
+                    >
+                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
+                        color stone:&nbsp;
+                      </Typography>
+                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
+                        {
+                          csQcCombo?.map((csCombo) => (
+                            <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                          ))
+                        }
+                      </select>
+                    </div>}
+
+                    <div 
+                      // className="smr_sorting_custom"
+                      >
+                      <div
+                        // className="container"
+                        >
+                        <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
+                          Sort By:&nbsp;
+                        </Typography>
+                        <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select">
+                          <option
+                            className="option"
+                            value="Recommended"
+                          >
+                            Recommended
+                          </option>
+                          <option className="option" value="New">
+                            New
+                          </option>
+                          <option
+                            className="option"
+                            value="In Stock"
+                          >
+                            In stock
+                          </option>
+                          <option
+                            className="option"
+                            value="PRICE HIGH TO LOW"
+                          >
+                            Price High To Low
+                          </option>
+                          <option
+                            className="option"
+                            value="PRICE LOW TO HIGH"
+                          >
+                            Price Low To High
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="smr_mobile_filter_portion" >
+                        {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
                           <span className="smr_filter_text">
                             <span>
                               {Object.values(filterChecked).filter(
@@ -963,7 +1071,7 @@ const ProductList = () => {
                           </>
                         ))}
                       </div>
-                    </div>
+                    </div>}
                   </div>
       </Drawer>
       <div className="smr_bodyContain">
@@ -1021,7 +1129,7 @@ const ProductList = () => {
                           </select>
                         </div>
 
-                        <div className="smr_dia_custom">
+                        {storeInit?.IsDiamondCustomization === 1 && <div className="smr_dia_custom">
                           <label className="label">
                             Diamond:&nbsp;
                           </label>
@@ -1033,7 +1141,7 @@ const ProductList = () => {
                               ))
                             }
                           </select>
-                        </div>
+                        </div>}
 
                         {storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
                           <label className="label">
@@ -1090,7 +1198,7 @@ const ProductList = () => {
 
                     <div className="smr_mainPortion">
                       <div className="smr_filter_portion">
-                        <div className="smr_filter_portion_outter">
+                        {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
                             <span>
                               {Object.values(filterChecked).filter(
@@ -1110,7 +1218,7 @@ const ProductList = () => {
                           <div style={{ marginTop: "12px" }}>
                             {filterData?.map((ele) => (
                               <>
-                                {!(ele?.id)?.includes("Range") && (
+                                {(!(ele?.id)?.includes("Range") && !(ele?.id)?.includes("Price")) && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
@@ -1227,7 +1335,7 @@ const ProductList = () => {
                           </>
                         ))}
                       </div>
-                    </div>
+                    </div>}
                   </div>
                   {
                     filterProdListEmpty ? 
@@ -1340,14 +1448,14 @@ const ProductList = () => {
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:'1px',gap:'3px',flexWrap:'wrap'}}> 
+                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
-                                <span className="smr_prod_wt">
+                                { (Number(productData?.updNWT.toFixed(3))  !== 0 )&& <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
                                     {productData?.updNWT.toFixed(3)}
                                   </span>
-                                </span>
+                                </span>}
                                 { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
                                   <>
                                   <span>|</span>
@@ -1438,7 +1546,7 @@ const ProductList = () => {
             >
               <Pagination
                 count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                size="large"
+                size={maxwidth464px ? "small" :"large"}
                 shape="circular"
                 onChange={handelPageChange}
                 showFirstButtongit 

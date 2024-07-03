@@ -42,6 +42,7 @@ const Menu = () => {
     }
 
 
+
     useEffect(() => {
         const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
         const uniqueMenuItems = uniqueMenuIds.map(menuid => {
@@ -79,7 +80,6 @@ const Menu = () => {
 
         setMenuItems(uniqueMenuItems);
         handleLoginMenuClickSwipe(uniqueMenuItems[0]?.menuname, null, "iconclicked")
-
     }, [menuData]);
 
 
@@ -87,7 +87,7 @@ const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(menuItems[0]?.menuname);
     const [value, setValue] = useState(0);
 
-  
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -104,7 +104,6 @@ const Menu = () => {
             return;
         }
         const { param1, ...menuItemWithoutParam1 } = menuItem;
-        handleMenuClick(menuItemWithoutParam1)
     };
 
     const handleLoginMenuClickMainMenu = (menuName, menuItem, iconclicked) => {
@@ -114,67 +113,63 @@ const Menu = () => {
             return;
         }
         const { param1, ...menuItemWithoutParam1 } = menuItem;
-        handleMenuClick(menuItemWithoutParam1)
     };
 
-    const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
-
-        if (iconclicked == 'iconclicked') {
-            navigation('/productpage');
-            setSelectedMenu(prevMenu => (prevMenu === menuName ? menuName : menuName));
-            return;
-        }
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        handleMenuClick(menuItemWithoutParam1)
-    };
-
-    const handleSubMenuClick = (menuItem, subMenuName, subMenuItem, iconclicked) => {
-        navigation('/productpage');
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
-        handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2 });
-    };
-
-    const handleSubSubMenuClick = (menuItem, subMenuItem, subSubMenuName, subSubMenuItem) => {
-        navigation('/productpage');
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
-        handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
-    };
-
-
-    const handleMenuClick = async (menuItem, param1Item = null, param2Item = null) => {
-        const { param1, param2, ...cleanedMenuItem } = menuItem;
-        let menuDataObj = { ...cleanedMenuItem };
-
-        if (param1Item) {
-            const { param1, param2, ...cleanedParam1Item } = param1Item;
-            menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
-            if (param2Item) {
-                menuDataObj = { ...menuDataObj, ...param2Item };
-            }
-        } else {
-            console.log('Menu Item:', cleanedMenuItem);
-        }
+    const handelMenu = (param, param1, param2) => {
         let finalData = {
-            menuname: menuDataObj?.menuname ?? "",
-            FilterKey: menuDataObj.param0name ?? "",
-            FilterVal: menuDataObj.param0dataname ?? "",
-            FilterKey1: menuDataObj?.param1name ?? "",
-            FilterVal1: menuDataObj?.param1dataname ?? "",
-            FilterKey2: menuDataObj?.param2name ?? "",
-            FilterVal2: menuDataObj?.param2dataname ?? ""
+            "menuname": param?.menuname ?? "",
+            "FilterKey": param?.key ?? "",
+            "FilterVal": param?.value ?? "",
+            "FilterKey1": param1?.key ?? "",
+            "FilterVal1": param1?.value ?? "",
+            "FilterKey2": param2?.key ?? "",
+            "FilterVal2": param2?.value ?? ""
         }
-        navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
-        localStorage.setItem('menuparams', JSON.stringify(finalData));
-    };
+        localStorage.setItem("menuparams", JSON.stringify(finalData))
 
-    console.log('menuItemsmenuItems',menuItems);
+        const queryParameters1 = [
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ].filter(Boolean).join('/');
+
+        const queryParameters = [
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ].filter(Boolean).join(',');
+
+        const otherparamUrl = Object.entries({
+            b: finalData?.FilterKey,
+            g: finalData?.FilterKey1,
+            c: finalData?.FilterKey2,
+        })
+            .filter(([key, value]) => value !== undefined)
+            .map(([key, value]) => value)
+            .filter(Boolean)
+            .join(',');
+
+        const paginationParam = [
+            `page=${finalData.page ?? 1}`,
+            `size=${finalData.size ?? 50}`
+        ].join('&');
+
+        console.log('otherparamsUrl--', otherparamUrl);
+        let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+        // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+        const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+
+        // let d = new Date();
+        // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+        navigation(url)
+    }
+
+    console.log('menuItemsmenuItems', menuItems);
     return (
         <div className='smrMA_menuPageMain'>
             <TabContext value={value}>
                 {/* {islogin === true && */}
-                 <div className='tabMainMenu'>
+                <div className='tabMainMenu'>
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -206,7 +201,7 @@ const Menu = () => {
                                 <>
                                     <ButtonBase
                                         component="div"
-                                        onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
                                         style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                     >
                                         <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
@@ -218,7 +213,7 @@ const Menu = () => {
                                             <div key={subMenuItem.param1dataid}>
                                                 <ButtonBase
                                                     component="div"
-                                                    onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                                                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                     style={{ width: '100%' }}
                                                 >
                                                     <p style={{ margin: '0px 0px 0px 15px', width: '100%', fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
@@ -229,7 +224,7 @@ const Menu = () => {
                                                             {subMenuItem.param2.map(subSubMenuItem => (
                                                                 <ButtonBase
                                                                     component="div"
-                                                                    onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                                                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                     style={{ width: '100%', height: '30px' }}
                                                                 >
                                                                     <ListItem key={subSubMenuItem.param2dataid} style={{ paddingTop: '0px', paddingBottom: '0px' }}>

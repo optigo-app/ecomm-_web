@@ -76,8 +76,12 @@ const CartItem = ({
       }
     }, 500)
   }
-  const isLargeScreen = useMediaQuery('(min-width:1800px)');
-  const ismediumScreen = useMediaQuery('(min-width:1780px)');
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+
+  const width = isLargeScreen && itemLength <= 3 ? '390px' :
+    isMediumScreen && itemLength <= 3 ? '330px' :
+      '100%';
 
   return (
     <Grid
@@ -93,7 +97,7 @@ const CartItem = ({
           boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          width:isLargeScreen && itemLength <= 3 ? '390px' : '100%'
+          width: width
         }}
         onClick={() => onSelect(item)}
       >
@@ -109,7 +113,7 @@ const CartItem = ({
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
               </Typography>
-              <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{ marginBottom: '10px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
                     NWT: {item?.MetalWeight}
@@ -126,20 +130,20 @@ const CartItem = ({
                     DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
                   </Typography>
                 </div>
+                <Box className="smr_cartbtngroupReRm">
+                  {item?.Remarks !== "" &&
+                    <Typography variant="body2" className='smr_card-ContentData'>
+                      Remark: {item?.Remarks || productRemark}
+                    </Typography>
+                  }
+                  <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                    {item?.Remarks ? "Update Remark" : "Add Remark"}
+                  </Link>
+                  <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+                    Remove
+                  </Link>
+                </Box>
               </div>
-              <Box className="smr_cartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
-                {item?.Remarks !== "" &&
-                  <Typography variant="body2" className='smr_card-ContentData'>
-                    Remark: {item?.Remarks || productRemark}
-                  </Typography>
-                }
-                <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
-                  {item?.Remarks ? "Update Remark" : "Add Remark"}
-                </Link>
-                <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
-                  Remove
-                </Link>
-              </Box>
             </CardContent>
           </div>
         </Box>

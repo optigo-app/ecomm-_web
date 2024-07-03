@@ -66,7 +66,7 @@ const WishlistItems = (
     }
 
     return (
-        <Grid item xs={itemsLength !== 1 ? 12 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 3} lg={3}>
+        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smr_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
@@ -74,9 +74,9 @@ const WishlistItems = (
                         image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
-                        onClick={() => handleMoveToDetail(item)}
+                        onClick={() => handleMoveToDetail(item)} 
                     />
-                    <CardContent>
+                    <CardContent className='smr_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
@@ -92,15 +92,25 @@ const WishlistItems = (
                                 <span>{item?.totaldiamondweight !== "" && item?.totaldiamondweight}</span>
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
-                                {item?.metalcolorname != "" && item?.metalcolorname} - {item?.metaltypeName != "" && item?.metaltypeName} /  <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(
-                                            currency
-                                        ),
-                                    }}
-                                /> {item?.TotalUnitCost != "" && (item?.TotalUnitCost).toFixed(3)}
+                                {item?.metalcolorname !== "" && (
+                                    <span>{item.metalcolorname}</span>
+                                )}
+                                {item?.metalcolorname !== "" && item?.metaltypeName !== "" && (
+                                    <span> - </span>
+                                )}
+                                {item?.metaltypeName !== "" && (
+                                    <span>{item.metaltypeName}</span>
+                                )}
+                                {' / '}
+                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{
+                                    __html: decodeEntities(currency),
+                                }} />
+                                {' '}
+                                {item?.TotalUnitCost !== "" && (
+                                    <span>{(item.TotalUnitCost).toFixed(3)}</span>
+                                )}
                             </Typography>
+
                         </div>
                         {/* <div className='designNoWlList'>
                             <p className='smr_DesignNoTExt'>{item?.designno}</p>
@@ -108,7 +118,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
                         <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {countDataUpdted?.msg == 'success' ? "Already in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "Already in cart")}
+                            {countDataUpdted?.msg == 'success' ? "in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "in cart")}
                         </button>
 
                     </div>

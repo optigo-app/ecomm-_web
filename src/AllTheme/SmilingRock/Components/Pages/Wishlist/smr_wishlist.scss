@@ -36,6 +36,12 @@
     margin-inline: 6%;
 }
 
+@media(max-width:1200px) {
+    .WlMainPageDiv {
+        margin-inline: 1% !important;
+    }
+}
+
 .smr_WlMainPage {
     display: flex;
     gap: 30px;
@@ -60,32 +66,36 @@
 
         .smr_ReomoveAllWLbtn {
             display: flex;
-            justify-content: start;
-            align-items: start;
+            align-items: center;
             margin-inline: 6%;
+            font-size: $fontSize1;
             color: $titleColor !important;
             text-decoration-color: $titleColor !important;
         }
 
         .smr_WlAddToCartBtn {
-            height: 60px;
-            width: 180px;
+            font-family: $homePageFontFamily !important;
+            background-color: $btn1hoverColor;
+            color: $btn1hoverFontColor;
             font-size: $fontSize2;
-            color: $btn1FontColor;
-            background-color: $btn1bgColor;
-            border: 1px solid $btn1FontColor;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            border: none;
+            outline: none;
+            height: 45px;
+            border-radius: 5px;
+            width: 200px;
+            font-weight: 500;
             margin-inline: 6%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #666;
+            }
+
 
             &.smr_cartActivebtn {
                 background-color: $btn1ActivebgColor;
                 color: $btn1hoverFontColor;
-            }
-
-            &:hover {
-                color: $btn1hoverFontColor;
-                background-color: $btn1ActivebgColor;
             }
         }
     }
@@ -175,21 +185,101 @@
     padding-bottom: 6px;
 }
 
+@media (max-width: 1750px) {
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            .smr_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+    .smr_cardContent {
+        padding: 0 !important;
+
+        .smr_pipe {
+            margin: 0 5px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize1 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize1 !important;
+        }
+    }
+}
+
+@media (max-width: 1350px) {
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            .smr_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+    .smr_cardContent {
+        padding: 0 !important;
+
+        .smr_pipe {
+            margin: 0 5px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+@media (max-width: 1050px) {
+    .WlBtnGroupMainDiv {
+        .smr_WlButton-group {
+            .smr_WlAddToCartBtn {
+                width: 140px;
+                font-size: $fontSize1;
+            }
+        }
+    }
+    .smr_cardContent {
+        padding: 0 !important;
+
+        .smr_pipe {
+            margin: 0 5px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
+    }
+}
+
+
 @media (max-width: 768px) {
     .smr_WlListData {
         padding: 10px 10px 10px 10px;
         margin-bottom: -8%;
-    }
-
-    .WlBtnGroupMainDiv {
-        .smr_WlButton-group {
-            display: block;
-
-            .smr_WlBtn {
-                margin-bottom: 10px;
-                margin-left: 5px;
-            }
-        }
     }
 
     .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
@@ -205,11 +295,9 @@
 
     .WlBtnGroupMainDiv {
         .smr_WlButton-group {
-            display: block;
-
-            .smr_WlBtn {
-                margin-bottom: 10px;
-                margin-left: 5px;
+            .smr_WlAddToCartBtn {
+                width: 120px;
+                font-size: $fontSize1;
             }
         }
     }
@@ -226,6 +314,30 @@
         font-size: $fontSize1 !important;
         text-align: center;
         width: 100% !important;
+    }
+
+    .smr_cardContent {
+        padding: 0 !important;
+
+        .smr_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .smr_pipe {
+            margin: 0 5px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
     }
 }
 
@@ -237,10 +349,9 @@
 
     .WlBtnGroupMainDiv {
         .smr_WlButton-group {
-            display: block;
-
-            .smr_WlBtn {
-                margin-bottom: 10px;
+            .smr_WlAddToCartBtn {
+                width: 120px;
+                font-size: $fontSize1;
             }
         }
     }
@@ -257,6 +368,30 @@
         font-size: $fontSize1 !important;
         text-align: center;
         width: 100% !important;
+    }
+
+    .smr_cardContent {
+        padding: 0 !important;
+
+        .smr_currencyFont {
+            // margin-left: 40px;
+        }
+
+        .smr_pipe {
+            margin: 0 5px;
+        }
+
+        .cardText {
+            padding: 2px;
+        }
+
+        .cardText p {
+            font-size: $fontSize0 !important;
+        }
+
+        .cardText p span {
+            font-size: $fontSize0 !important;
+        }
     }
 }
 
