@@ -8,7 +8,7 @@ const SkeletonLoader = () => {
   return (
     <Grid container spacing={1} className="smr_addwishlistSkeltonMainBox">
       {skeletonArray.map((_, index) => (
-        <Grid item xs={12} sm={6} md={3} key={index}>
+        <Grid item xs={6} sm={6} md={3} key={index}>
           <Card className='smr_addwishlistSkelton'>
             <Skeleton
               className='smr_addwishlistSkelton'

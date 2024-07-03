@@ -104,20 +104,30 @@ const Usewishlist = () => {
   // add to cart
   const handleWishlistToCart = async (item) => {
     let param = "";
-    try {
-      const response = await handleWishlistToCartAPI(param, item);
-      let resStatus = response?.Data?.rd[0]
-      if (resStatus?.msg == "success") {
-        setCountDataUpdated(resStatus)
-        localStorage.setItem('wishUpdation', true)
-        toast.success('wishlist items added to cart')
+    if (item?.IsInCart != 1) {
+      try {
+        const response = await handleWishlistToCartAPI(param, item);
+
+        if (response?.Data?.rd[0]?.msg === "success") {
+          const updatedWishlistData = wishlistData.map(wish =>
+            wish.id == item.id ? { ...wish, IsInCart: 1 } : wish
+          );
+          console.log("updateWish", updatedWishlistData);
+          setWishlistData(updatedWishlistData);
+          setCountDataUpdated(response.Data.rd[0]);
+          toast.success('Wishlist items added to cart');
+          localStorage.setItem('wishUpdation', true);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setUpdateCount(false);
+        localStorage.setItem('wishUpdation', false);
       }
-    } catch (error) {
-      setUpdateCount(false);
-      console.error("Error:", error);
-      localStorage.setItem('wishUpdation', false)
+    }else{
+      toast.info('Already in cart');
     }
   };
+
 
   // add to cart all
   const handleAddtoCartAll = async () => {
@@ -184,7 +194,7 @@ const Usewishlist = () => {
   }
 
   console.log("lohjshjuhajuh", isWLLoading)
-  
+
   return {
     isWLLoading,
     wishlistData,

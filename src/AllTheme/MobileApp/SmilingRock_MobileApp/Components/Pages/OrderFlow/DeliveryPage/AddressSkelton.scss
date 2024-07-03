@@ -1,15 +1,11 @@
-.smr_addCardSkeltonMainBox{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 20px;
+.smrMo_addCardSkeltonMainBox{
+    width: 100%;
+    padding-bottom: 50px;
 
-.smr_addCardSkelton{
-    width: 345px !important;
-    max-width: 345px !important;
+.smrMo_addCardSkelton{
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     
-    .smr_addCardSkelton{
+    .smrMo_addCardSkelton{
         background-color: #f6f6f6 !important;
     }
 }
