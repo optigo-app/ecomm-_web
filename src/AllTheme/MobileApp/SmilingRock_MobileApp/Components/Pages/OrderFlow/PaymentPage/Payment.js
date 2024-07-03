@@ -9,6 +9,7 @@ import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import { Divider, Button } from '@mui/material';
 import { smrMA_CartCount } from '../../../Recoil/atom';
+import { IoArrowBack } from 'react-icons/io5';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -122,6 +123,9 @@ const Payment = () => {
 
     return (
         <div className='smrMo_paymentMainDiv'>
+            <p className="SmiCartListTitle">
+                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />Order Summary
+            </p>
             <div className='smrMo_paymentSecondMainDiv'>
                 <div className='smrMo_PaymentContainer'>
                     <div className='smrMo_paymentDetailMainDiv'>
