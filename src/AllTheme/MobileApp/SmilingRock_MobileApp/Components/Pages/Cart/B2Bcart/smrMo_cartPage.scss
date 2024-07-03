@@ -13,7 +13,7 @@ $cartUpdateBtncolor: #b1b1b1;
   margin-inline: 6%;
 }
 
-@media(max-width:780px) {
+@media(max-width:1200px) {
   .smrMo_cartMainPageDiv {
     margin-inline: 0%;
   }
@@ -74,9 +74,9 @@ $cartUpdateBtncolor: #b1b1b1;
       font-size: $fontSize1 !important;
       border: none !important;
       outline: none !important;
-      height: 45px !important;
+      height: 35px !important;
       border-radius: 5px !important;
-      width: 150px !important;
+      width: 120px !important;
       font-weight: bold !important;
     }
   }

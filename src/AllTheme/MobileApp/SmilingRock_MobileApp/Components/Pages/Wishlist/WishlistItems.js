@@ -66,7 +66,7 @@ const WishlistItems = (
     }
 
     return (
-        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
+        <Grid sx={{paddingLeft:'12px !important', paddingTop:'10px !important'}} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smrMo_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
