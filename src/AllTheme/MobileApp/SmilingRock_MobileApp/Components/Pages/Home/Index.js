@@ -29,11 +29,12 @@ const Home = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get('ismobile');
     const token = queryParams.get('token');
-    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', ismobile);
-    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', islogin);
-    console.log('mobilereeeeeeee aaaaaaaaaaaaaaaaaaaa', token);
+    console.log('mobilereeeeeeee ismobile', ismobile);
+    console.log('mobilereeeeeeee islogin', islogin);
+    console.log('mobilereeeeeeee token', token);
     if (ismobile === '1' && islogin === false && token !== undefined && token !== null && token !== '') {
       handleSubmit();
+      console.log('mobilereeeeeeee callllllllllllllllll', token);
     }
   }, [])
 
@@ -54,8 +55,8 @@ const Home = () => {
     //   };
     //   const response = await CommonAPI(body);
     //   console.log('ressssssssssssssssss', response);
-    WebLoginWithMobileToken('', '', '', '', token).then((response) => {
-      console.log('mobilereeeeeeee'.response);
+    WebLoginWithMobileToken(token).then((response) => {
+      console.log('mobilereeeeeeee rrrrrrrrrrrrrrrrrrrrrrrr'.response);
       if (response.Data.rd[0].stat === 1) {
         setislogin(true)
         localStorage.setItem('LoginUser', true)
