@@ -1067,9 +1067,9 @@ const ProductList = () => {
                     </div>}
                   </div>
       </Drawer>
-      <div className="smr_bodyContain">
+      <div className="smrMA_bodyContain">
         <div className="smr_outerContain">
-          <div className="smr_whiteInnerContain">
+          <div className="smrMA_whiteInnerContain ">
             {
             isProdLoading ? 
             // true ? 
@@ -1078,7 +1078,7 @@ const ProductList = () => {
             ) : (
               <>
                 { !minwidth1201px ? 
-                <div className="smr_mobile_prodSorting">
+                <div className="smrMA_mobile_prodSorting">
                   <Checkbox
                   sx={{padding:'0px 9px 0px 9px'}}
                   icon={<FilterAltIcon fontSize="large"/>}
@@ -1344,9 +1344,9 @@ const ProductList = () => {
                     ) : (
                       <div className="smr_outer_portion">
                       {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                      <div className="smr_inner_portion">
+                      <div className="smrMA_inner_portion">
                         {finalProductListData?.map((productData,i) => (
-                          <div className="smr_productCard">
+                          <div className="smrMA_productCard">
                             <div className="cart_and_wishlist_icon">
                               {/* <Button className="smr_cart-icon"> */}
                                 <Checkbox
@@ -1551,7 +1551,7 @@ const ProductList = () => {
       </div>
 
       <div style={styles.container}>
-        <div style={styles.tab} onClick={''}>
+        <div style={styles.tab} onClick={()=>setIsDrawerOpen(true)}>
           <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
         </div>
