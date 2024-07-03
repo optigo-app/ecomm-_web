@@ -1,4 +1,5 @@
 import React from 'react';
+import "./OrderRemark.scss"
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -19,7 +20,7 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 500,
+          maxWidth: 500,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -27,6 +28,7 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           flexDirection: 'column',
           borderRadius: '8px',
         }}
+        className="smr_OrderModalBox"
       >
         <Typography id="remark-modal-title" className='smr_addorderRemark' variant="h6" component="h2">
           Add The Order Remark..

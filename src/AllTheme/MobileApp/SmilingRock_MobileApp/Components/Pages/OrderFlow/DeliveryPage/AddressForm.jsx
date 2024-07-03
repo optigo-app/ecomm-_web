@@ -83,12 +83,12 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         className='smr_addressTextFields'
                     />
                 </DialogContent>
-                <DialogActions>
-                    <div className='smr_AddressBtnGroup'>
-                    <button type='submit' className='smr_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
-                    <button type='button' className='smr_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                <div className='smrMo_cardActionBtn'>
+                    <div className='smrMo_AddressModalBtnGroup'>
+                    <button type='submit' className='smrMo_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
+                    <button type='button' className='smrMo_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
-                </DialogActions>
+                </div>
             </form>
         </Dialog>
     );

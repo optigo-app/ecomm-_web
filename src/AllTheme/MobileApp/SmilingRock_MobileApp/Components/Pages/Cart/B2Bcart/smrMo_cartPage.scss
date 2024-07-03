@@ -76,7 +76,7 @@ $cartUpdateBtncolor: #b1b1b1;
       height: 45px !important;
       border-radius: 5px !important;
       width: 150px !important;
-      font-weight: 500 !important;
+      font-weight: bold !important;
     }
   }
 
@@ -192,7 +192,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -215,7 +215,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -249,7 +249,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
 
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -286,7 +286,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 886px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -314,7 +314,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 599px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
@@ -343,7 +343,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 474px) {
-    .smr_cartListCardGrid {
+    .smrMo_cartListCardGrid {
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
@@ -573,7 +573,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // cart list item css(left side)
 
-.smr_cartListCard {
+.smrMo_cartListCard {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
   display: flex !important;
   justify-content: space-between !important;
