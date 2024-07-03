@@ -14,6 +14,7 @@ import ProductList from './Components/Pages/ProductList/ProductList'
 import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 import Menu from './Components/Pages/MenuPage/Menu'
 import AccountWothoutLogin from './Components/Pages/AccountWothoutLogin'
+import Account from './Components/Pages/Account/Account'
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -46,6 +47,7 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={isLoginStatus} />}> */}
         <Route path="/CartPage" element={<CartPage />} />
+        <Route path="/Account" element={<Account />} />
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
