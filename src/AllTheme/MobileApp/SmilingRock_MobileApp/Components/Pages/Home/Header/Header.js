@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { smrMA_companyLogo } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { smrMA_CartCount, smrMA_WishCount, smrMA_companyLogo } from '../../../Recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import './Header.modul.scss'
 import { Badge, Tooltip } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchIcon from '@mui/icons-material/Search';
 import { FiArrowLeft } from "react-icons/fi";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Header = () => {
 
@@ -16,6 +17,8 @@ const Header = () => {
   const location = useLocation();
   const navigation = useNavigate();
 
+  const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +31,18 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    GetCountAPI().then((res) => {
+      if (res) {
+        setCartCountNum(res?.cartcount)
+        setWishCountNum(res?.wishcount)
+      }
+    }).catch((err) => {
+      if (err) {
+        console.log("getCountApiErr", err);
+      }
+    })
+  }, [])
 
   console.log('ddddddddd', location);
   return (
@@ -52,7 +67,7 @@ const Header = () => {
               <SearchIcon onClick={''} />
             </div>
             <Badge
-              badgeContent={'3'}
+              badgeContent={cartCountNum}
               overlap={"rectangular"}
               color="secondary"
               style={{ marginTop: '5px', marginLeft: '5px' }}
@@ -89,7 +104,8 @@ const Header = () => {
               </a>
 
               <Badge
-                badgeContent={'8'}
+                badgeContent={wishCountNum}
+
                 overlap={"rectangular"}
                 color="secondary"
                 style={{ marginInline: '6px' }}
@@ -126,7 +142,7 @@ const Header = () => {
                 //   }
                 // }}
                 />
-                <SearchIcon onClick={''} />
+                <SearchIcon  onClick={() => navigation('/SearchPage')} />
               </div>
             </div>
 
@@ -149,7 +165,7 @@ const Header = () => {
               //   }
               // }}
               />
-              <SearchIcon onClick={''} />
+              <SearchIcon  onClick={() => navigation('/SearchPage')}/>
             </div>
           </div>
         </div>
