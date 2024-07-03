@@ -43,7 +43,7 @@ const CartList = ({
   }
 
   return (
-    <div className="smr_RightCartList">
+    <div className="smrMo_RightCartList">
       <Grid container spacing={2} className='smrMo_GridCardComponent'>
         {items.map(item => (
           <CartItem

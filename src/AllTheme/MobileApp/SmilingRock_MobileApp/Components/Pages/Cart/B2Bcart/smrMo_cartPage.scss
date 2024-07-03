@@ -30,6 +30,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 .smrMo_cartMainPage {
   display: flex;
+  padding-bottom: 150px;
 
   .smr_mui_CartBox {
     justify-content: space-around !important;
@@ -62,7 +63,7 @@ $cartUpdateBtncolor: #b1b1b1;
     justify-content: space-between;
     align-items: center;
     padding: 5px 15px;
-    z-index: 11111;
+    z-index: 11;
     background-color: white;
     border-top: 0.5px solid lightgray;
 
@@ -80,10 +81,11 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_RightCartList {
+  .smrMo_cartcontentData {
     position: relative;
   }
-  .smrMo_GridCardComponent{
+
+  .smrMo_GridCardComponent {
     padding: 5px 15px;
   }
 
@@ -280,7 +282,7 @@ $cartUpdateBtncolor: #b1b1b1;
       flex-direction: row !important;
     }
 
-    .smr_cartcontentData {
+    .smrMo_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
   }
@@ -307,7 +309,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
@@ -335,7 +337,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
@@ -364,7 +366,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 180px;
     }
 
-    .smr_RightCartList {
+    .smrMo_cartcontentData {
       margin: 0;
       padding-bottom: 130px;
     }
@@ -602,7 +604,7 @@ $cartUpdateBtncolor: #b1b1b1;
   object-fit: cover;
 }
 
-.smr_cartcontentData {
+.smrMo_cartcontentData {
   padding: 16px 0px !important;
 }
 
