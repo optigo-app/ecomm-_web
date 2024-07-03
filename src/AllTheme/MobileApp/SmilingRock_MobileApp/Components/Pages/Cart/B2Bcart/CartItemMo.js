@@ -8,7 +8,7 @@ import { Button, Grid, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
-import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { smrMA_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
@@ -75,12 +75,12 @@ const CartItem = ({
             className='smr_cartListImage'
           />
           <div>
-            <CardContent className='smr_cartcontentData'>
+            <CardContent className='smrMo_cartcontentData'>
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div style={{ marginBottom: '10px' }}>
+                <div style={{ marginBottom: '10px', marginRight:'5px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
                     NWT: {item?.MetalWeight}
                   </Typography>
@@ -88,7 +88,7 @@ const CartItem = ({
                     CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
                   </Typography>
                 </div>
-                <div style={{ marginBottom: '10px' }}>
+                <div style={{ marginBottom: '10px', marginRight:'5px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
                     GWT: {item?.totalGrossweight}
                   </Typography>
