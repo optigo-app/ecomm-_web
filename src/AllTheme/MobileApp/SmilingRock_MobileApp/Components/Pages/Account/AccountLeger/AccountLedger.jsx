@@ -3,9 +3,9 @@ import "./accountledger.scss"
 import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
+
 import { Box, Button, CircularProgress } from '@mui/material';
-import { checkMonth, formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { checkMonth, formatAmount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
-import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
+import { getAccountLedgerData } from '../../../../../../../utils/API/AccountTabs/accountLedger';
 
 const AccountLedger = () => {
 
