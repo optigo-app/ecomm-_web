@@ -1,27 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import './Account.scss'
-import { Box,  Tab, Tabs,  Typography } from '@mui/material'
+import './Account.css'
+import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-// import Footer from './../Home/Footer/Footer';
-// import { loginState } from '../../../Components/Recoil/atom';
-// import { useSetRecoilState } from 'recoil';
-
-import YourProfile from './YourProfile/YourProfile';
-import ChangePassword from './changePassword/ChangePassword';
-import ManageAddress from './address/ManageAddress';
-import OrderHistory from './AccountOrderHistory/OrderHisoty';
-
-
-import AccountLedger from './AccountLeger/AccountLedger';
-import Sales from './Sales/Sales';
-import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport"
-import SalesReport from './SalesReport/SalesReport';
-import QuotationJob from './QuotationJob/QuotationJob';
-import QuotationQuote from './QuotationQuote/QuotationQuote';
-
+import { useSetRecoilState } from 'recoil';
+import { FaChevronRight } from "react-icons/fa";
+import { LuBox } from "react-icons/lu";
+import { MdFavoriteBorder } from "react-icons/md";
+import { IoGiftOutline } from "react-icons/io5";
+import { FaHeadset } from "react-icons/fa6";
+import { smrMA_loginState } from '../../Recoil/atom';
 import { accountDetailPages, accountValidation } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
-
-
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -71,15 +59,15 @@ const tabIndicator = {
 
 export default function Account() {
 
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(3);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
-    // const setIsLoginState = useSetRecoilState(loginState)
-    // const setIsLoginState = useSetRecoilState('true')
-    const setIsLoginState = true
+    const setIsLoginState = useSetRecoilState(smrMA_loginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
-
+    const [fName, setFname] = useState('');
+    const [lastNamr, setLasnane] = useState('');
+    const [userMobile, setUserMobile] = useState('');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -89,6 +77,12 @@ export default function Account() {
         setValue1(newValue);
     }
 
+    useEffect(() => {
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        setFname(loginUserDetail?.firstname);
+        setLasnane(loginUserDetail?.lastname);
+        setUserMobile(loginUserDetail?.defaddress_shippingmobile)
+    })
     const handleLogout = () => {
         setIsLoginState('false')
         localStorage.setItem('LoginUser', 'false');
@@ -101,62 +95,90 @@ export default function Account() {
         localStorage.removeItem('UploadLogicalPath');
         localStorage.removeItem('remarks');
         localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
         naviagation('/')
         window.location.reload();
     }
 
     return (
-        <div className='accountPagTabSection'>
-            <div>
-                <div className='Smiling-AccountMain'>
-                    <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
-                    <div className='smling-AccountTabMain'>
-                        <Box sx={{ width: '100%' }}>
-                            <div className='smlingAccountTabWebView'>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                        <Tab label="Your Profile" {...a11yProps(0)} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                    </Tabs>
-                                    <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p>
-                                </Box>
+        <div>
+            <div className='Smiling-AccountMain'>
+                <div className='titleMain'>
+                    <div style={{width :'100%'}}>
+                        <p style={{margin: '0px' , fontSize: '25px', fontWeight: 600, paddingInline: '10px'}}>{fName + ' ' + lastNamr}</p>
+                        <p style={{margin: '0px', fontSize: '15px', paddingInline: '10px' }}>+91 {userMobile}</p>
+
+                        <div style={{display: 'flex', justifyContent: 'space-around', width: '100%' , marginTop: '10px', paddingInline: '10px'}}>
+                            <div className='boxMainTopSection'  onClick={() => naviagation('/OrderHistory')}>
+                                <LuBox style={{marginLeft: '15px'}}/>
+                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Orders</p>
                             </div>
-                            <div className='smlingAccountTabMobileView YourAccountPageTabs'>
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
-                                        <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                    </Tabs>
-                                </Box>
-                               
+                            <div className='boxMainTopSection' style={{marginRight: '0px'}} onClick={() => naviagation('/myWishList')}>
+                                <MdFavoriteBorder style={{marginLeft: '15px'}}/>
+                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Wishlist</p>
                             </div>
+                        </div>
 
-                            <CustomTabPanel value={value} index={0}>
-                                <div>
-                                    {/* <YourProfile /> */}
-                                </div>
-                            </CustomTabPanel>
+                        <div style={{display: 'flex', justifyContent: 'space-around', width: '100%' , marginTop: '10px', paddingInline: '10px'}}>
+                            <div className='boxMainTopSection'>
+                                <IoGiftOutline style={{marginLeft: '15px'}}/>
+                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Coupons</p>
+                            </div>
+                            <div className='boxMainTopSection' style={{marginRight: '0px'}}>
+                                <FaHeadset style={{marginLeft: '15px'}}/>
+                                <p style={{margin: '0px 0px 0px 10px' , fontWeight: 600, fontSize: '15px'}}>Help Center</p>
+                            </div>
+                        </div>
+                    </div>
 
-                            <CustomTabPanel value={value} index={1}>
-                                <div>
-                                    <OrderHistory />
-                                </div>
-                            </CustomTabPanel>
-                            <CustomTabPanel value={value} index={2} className="manageAddressSec">
-                                <ManageAddress />
-                            </CustomTabPanel>
+                </div>
+                <div className='smling-AccountTabMain'>
+                    <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
+                        <div className='menuMainAccount' onClick={() => naviagation('/YourProfile')}>
+                            <p className='menuMainAccountTitle'>Your Profile</p>
+                            <FaChevronRight />
+                        </div>
+                        <div className='menuMainAccount' onClick={() => naviagation('/OrderHistory')}>
+                            <p className='menuMainAccountTitle'>Order History</p>
+                            <FaChevronRight />
+                        </div>
+                        <div className='menuMainAccount' onClick={() => naviagation('/ManageAddress')}>
+                            <p className='menuMainAccountTitle'>Manage Address</p>
+                            <FaChevronRight />
+                        </div>
+                        {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewCompo')}>
+                            <p className='menuMainAccountTitle'>Account</p>
+                            <FaChevronRight />
+                        </div>}
+                        <div className='menuMainAccount' onClick={() => naviagation('/ChangePassword')}>
+                            <p className='menuMainAccountTitle'>Change Password</p>
+                            <FaChevronRight />
+                        </div>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+                            <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
+                        </div>
+                    </div>
+
+
+                    {/* <Box sx={{ width: '100%' }}>
+                        <CustomTabPanel value={value} index={0}>
+                            <div>
+                                <YourProfile />
+                            </div>
+                        </CustomTabPanel>
+
+                        <CustomTabPanel value={value} index={1}>
+                            <div>
+                                <OrderHistory />
+                            </div>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2} className="manageAddressSec">
+                            <ManageAddress />
+                        </CustomTabPanel>
+                        {accountValidation() &&
+                            <CustomTabPanel value={value} index={3} className="accountSalesPage">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
-                                    sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
+                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
@@ -188,31 +210,16 @@ export default function Account() {
                                         </React.Fragment>
                                     })
                                 }
-                            </CustomTabPanel>}
-                            <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
-                                <div>
-                                    <ChangePassword />
-                                </div>
                             </CustomTabPanel>
-
-
-                        </Box>
-                    </div>
-
+                        }
+                        <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
+                            <div>
+                                <ChangePassword />
+                            </div>
+                        </CustomTabPanel>
+                    </Box> */}
                 </div>
             </div>
-            {/* <Footer /> */}
         </div>
     )
 }
-
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account

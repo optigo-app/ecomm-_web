@@ -47,6 +47,7 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={isLoginStatus} />}> */}
         <Route path="/CartPage" element={<CartPage />} />
+        <Route path="/Account" element={<Account />} />
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
