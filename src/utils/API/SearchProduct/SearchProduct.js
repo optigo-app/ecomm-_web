@@ -6,9 +6,9 @@ export const SearchProduct = async(searchVar) => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
   
       const data = {
-          PackageId: `${loginInfo?.PackageId }`,
+          PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
           FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-          Customerid: `${loginInfo?.id}`,
+          Customerid: `${loginInfo?.id ?? 0}`,
           SearchKey:`${searchVar}`
         };
       

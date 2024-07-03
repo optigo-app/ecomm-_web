@@ -12,25 +12,37 @@ export const SingleFullProdPriceAPI = async(obj,autocode) => {
         FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`,
         Customerid: `${loginUserDetail?.id ?? 0}`,
         Laboursetid: `${
-          storeInit?.IsB2BWebsite == 0 && islogin == false
-            ? storeInit?.pricemanagement_laboursetid
-            : loginUserDetail?.pricemanagement_laboursetid
+          loginUserDetail?.pricemanagement_laboursetid ?? storeInit?.pricemanagement_laboursetid
         }`,
         diamondpricelistname: `${
-          storeInit?.IsB2BWebsite == 0 && islogin == false
-            ? storeInit?.diamondpricelistname
-            : loginUserDetail?.diamondpricelistname
+          loginUserDetail?.diamondpricelistname ?? storeInit?.diamondpricelistname
         }`,
         colorstonepricelistname: `${
-          storeInit?.IsB2BWebsite == 0 && islogin == false
-            ? storeInit?.colorstonepricelistname
-            : loginUserDetail?.colorstonepricelistname
+           loginUserDetail?.colorstonepricelistname ?? storeInit?.colorstonepricelistname
         }`,
         SettingPriceUniqueNo: `${
-          storeInit?.IsB2BWebsite == 0 && islogin == false
-            ? storeInit?.SettingPriceUniqueNo
-            : loginUserDetail?.SettingPriceUniqueNo
+          loginUserDetail?.SettingPriceUniqueNo ?? storeInit?.SettingPriceUniqueNo
         }`,
+        // Laboursetid: `${
+        //   storeInit?.IsB2BWebsite == 0 && islogin == false
+        //     ? storeInit?.pricemanagement_laboursetid
+        //     : loginUserDetail?.pricemanagement_laboursetid
+        // }`,
+        // diamondpricelistname: `${
+        //   storeInit?.IsB2BWebsite == 0 && islogin == false
+        //     ? storeInit?.diamondpricelistname
+        //     : loginUserDetail?.diamondpricelistname
+        // }`,
+        // colorstonepricelistname: `${
+        //   storeInit?.IsB2BWebsite == 0 && islogin == false
+        //     ? storeInit?.colorstonepricelistname
+        //     : loginUserDetail?.colorstonepricelistname
+        // }`,
+        // SettingPriceUniqueNo: `${
+        //   storeInit?.IsB2BWebsite == 0 && islogin == false
+        //     ? storeInit?.SettingPriceUniqueNo
+        //     : loginUserDetail?.SettingPriceUniqueNo
+        // }`,
         designno:`${obj?.b}`,
         IsFromDesDet: 1,
         AutoCodeList: `${obj?.a}`,

@@ -784,17 +784,17 @@ const ProductDetail = () => {
 
   return (
     <>
-      <div className="smr_prodDetail_bodyContain">
+      <div className="smrMA_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
-            <div className="smr_prod_detail_main">
+            <div className="smr_prod_detail_main" style={{marginTop:'50px'}}>
               <div className="smr_prod_image_shortInfo">
                 <div className="smr_prod_image_Sec">
                   {isImageload && (
                     <Skeleton
                       sx={{
                         width: "100%",
-                        height: "800px",
+                        height: "400px",
                       }}
                       variant="rounded"
                     />
@@ -878,7 +878,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="smr_prod_shortInfo">
-                  <div className="smr_prod_shortInfo_inner">
+                  <div className="smrMA_prod_shortInfo_inner">
                     <p className="smr_prod_titleLine">
                       {singleProd?.TitleLine}
                     </p>
@@ -902,7 +902,7 @@ const ProductDetail = () => {
                         <span className="smr_prod_short_key">
                           Diamond Quality Color:{" "}
                           <span className="smr_prod_short_val">
-                            {`${selectDiaQc}`}
+                            {`${selectDiaQc?.split(",")[0] == undefined ? "" : selectDiaQc}`}
                           </span>
                         </span>
                         <span className="smr_prod_short_key">
@@ -1054,8 +1054,8 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className="smr_material_details_portion">
-              <p className="smr_details_title"> Product Details</p>
+            <div className="smrMA_material_details_portion">
+              {diard1?.length > 0 && <p className="smr_details_title"> Product Details</p>}
               {diard1?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
