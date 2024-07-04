@@ -11,21 +11,19 @@ import { DiamondQualityColorComboAPI } from './utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from './utils/API/Combo/MetalTypeComboAPI'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { Helmet } from 'react-helmet'
-import { companyLogo, loginState } from './AllTheme/SmilingRock/Components/Recoil/atom'
+import { companyLogo } from './AllTheme/SmilingRock/Components/Recoil/atom'
 import { dt_companyLogo } from './AllTheme/DaimondTine/Components/Recoil/atom'
 import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
 import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom'
-import Cookies from 'js-cookie'
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(1);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
-  const islogin = useRecoilValue(loginState)
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
@@ -40,40 +38,26 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
-        let visiterId = response?.data.Data?.rd2[0]?.VisitorId
-        const existingVisitorId = Cookies.get('visiterId');
-        if (islogin === false) {
-          if (!existingVisitorId || existingVisitorId === 'undefined') {
-            const expires = new Date(new Date().getDay() + 30); 
-            Cookies.set('visiterId', visiterId, { path: '/', expires });
-          } else {
-            const expirationDate = Cookies.getJSON('visiterId')?.expires && new Date(Cookies.getJSON('visiterId').expires);
-            if (expirationDate && expirationDate <= new Date()) {
-              Cookies.remove('visiterId', { path: '/' });
-            }
-          }
-        }
 
+        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
-        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-
-        if (response?.data?.Data?.rd[0]?.Themeno === 1) {
+        if(response?.data?.Data?.rd[0]?.Themeno === 1){
           setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
-        if (response?.data?.Data?.rd[0]?.Themeno === 2) {
+        if(response?.data?.Data?.rd[0]?.Themeno === 2){
           dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
-        if (response?.data?.Data?.rd[0]?.Themeno === 3) {
+        if(response?.data?.Data?.rd[0]?.Themeno === 3){
           el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
         // if(response?.data?.Data?.rd[0]?.Themeno === 3){
-        smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
+          smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         // }
 
-
+        
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
         localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));

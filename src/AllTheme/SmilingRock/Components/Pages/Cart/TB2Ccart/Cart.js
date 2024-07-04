@@ -147,8 +147,8 @@ const CartPage = () => {
               </div>
             ) :
               <div className='smr_noWishlistData'>
-                <p className='smr_title'>No Wishlist Found!</p>
-                <p className='smr_desc'>Please First Add To Wishlist Data</p>
+                <p className='smr_title'>No Item Found!</p>
+                <p className='smr_desc'>Please First Add To Cart Data</p>
                 <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
               </div>
             }

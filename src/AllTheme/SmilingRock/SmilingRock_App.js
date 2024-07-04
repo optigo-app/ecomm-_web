@@ -93,7 +93,7 @@ const SmilingRock_App = () => {
                 <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
                 <Route path="/FunFact" element={<FunFact />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-                <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
+                {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
                     <Route path="/p/*" element={<ProductList />} />
                     <Route path="/d/*" element={<ProductDetail />} />
                     <Route path="/cartPage" element={<Cart />} />
@@ -102,7 +102,7 @@ const SmilingRock_App = () => {
                     <Route path="/Payment" element={<Payment />} />
                     <Route path="/Confirmation" element={<Confirmation />} />
                     <Route path="/account" element={<Account />} />
-                </Route>
+                {/* </Route> */}
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
         </>
