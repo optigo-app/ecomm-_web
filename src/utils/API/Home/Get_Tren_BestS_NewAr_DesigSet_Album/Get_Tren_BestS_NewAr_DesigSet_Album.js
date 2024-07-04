@@ -1,6 +1,6 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
-export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode) => {
+export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => {
     let response;
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
@@ -10,7 +10,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode) => {
 
         const combinedValue = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-            "Customerid": `${userData?.id ?? 0}`,
+            "Customerid": `${customerID}`,
             "PackageId": `${storeInit?.PackageId}`,
             "Laboursetid": `${storeInit?.pricemanagement_laboursetid}`,
             "diamondpricelistname": `${storeInit?.diamondpricelistname}`,
@@ -23,7 +23,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode) => {
 
         const combinedValueLogin = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-            "Customerid": `${userData?.id ?? 0}`,
+            "Customerid": `${customerID}`,
             "PackageId": `${userData?.PackageId}`,
             "Laboursetid": `${userData?.pricemanagement_laboursetid}`,
             "diamondpricelistname": `${userData?._diamondpricelistname}`,

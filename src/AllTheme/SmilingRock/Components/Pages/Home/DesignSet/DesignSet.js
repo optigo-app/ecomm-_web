@@ -10,6 +10,9 @@ import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
+import Cookies from 'js-cookie';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../../../Recoil/atom';
 
 const DesignSet = () => {
     const [imageUrl, setImageUrl] = useState();
@@ -17,17 +20,29 @@ const DesignSet = () => {
     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
-
+    const islogin = useRecoilValue(loginState);
     const [swiper, setSwiper] = useState(null);
 
     useEffect(() => {
+
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
+
         let storeinit = JSON.parse(localStorage.getItem('storeInit'));
         setStoreInit(storeinit);
 
         let data = JSON.parse(localStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet')
+        Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet', finalID)
             .then((response) => {
                 if (response?.Data?.rd) {
                     setDesignSetList(response?.Data?.rd);
