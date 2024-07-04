@@ -923,7 +923,7 @@ const ProductList = () => {
               <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
                 {
                   diaQcCombo?.map((diaQc) => (
-                    <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                    <option className="option" key={diaQc.ColorId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
                   ))
                 }
               </select>
@@ -939,7 +939,7 @@ const ProductList = () => {
               <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
                 {
                   csQcCombo?.map((csCombo) => (
-                    <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                    <option className="option" key={csCombo.ColorId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
                   ))
                 }
               </select>
@@ -1190,7 +1190,7 @@ const ProductList = () => {
                               {
 
                                 diaQcCombo?.map((diaQc) => (
-                                  <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                                  <option className="option" key={diaQc.ColorId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
                                 ))
                               }
                             </select>
@@ -1203,7 +1203,7 @@ const ProductList = () => {
                             <select className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
                               {
                                 csQcCombo?.map((csCombo) => (
-                                  <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                                  <option className="option" key={csCombo.ColorId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
                                 ))
                               }
                             </select>
