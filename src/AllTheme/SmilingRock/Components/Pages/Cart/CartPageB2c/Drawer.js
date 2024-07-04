@@ -1,101 +1,54 @@
-// Cart.js
 import React, { useState } from 'react';
-import {
-  Drawer,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Typography,
-  Divider,
-  Box,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import './smr_cartPageB2c.scss';
+import QuantitySelector from './QuantitySelector';
 
-const cartItems = [
-  {
-    id: '1',
-    name: 'Drizzle 0.08ct Lab Grown Diamond Pendant',
-    code: 'P-00233WHT',
-    price: 625.00,
-    goldType: 'Rose Gold',
-    size: '18 Inches / 0.8',
-    quantity: 1,
-    imageUrl: 'link_to_image',
-  },
-  {
-    id: '2',
-    name: 'Lab Grown 0.95ctw Solitaire Stud Frame Earrings',
-    code: 'E-03734WHT',
-    price: 3398.00,
-    goldType: 'Yellow Gold',
-    size: '15.00mm / 0.95',
-    quantity: 2,
-    imageUrl: 'link_to_image',
-  },
-];
-
-const Cart = () => {
-  const [open, setOpen] = useState(false);
-
-  const toggleDrawer = (open) => () => {
-    setOpen(open);
-  };
-
-  const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-  };
+const Cart = ({ isOpen, toggleDrawer }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <div>
-      <Button onClick={toggleDrawer(true)}>Open Cart</Button>
-      <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 800, padding: 2 }}>
-          <Typography variant="h6" sx={{ marginBottom: 2 }}>Your Cart</Typography>
-          <Divider />
-          <List>
-            {cartItems.map((item) => (
-              <ListItem key={item.id} sx={{ padding: 2 }}>
-                <Box
-                  component="img"
-                  sx={{ width: 80, height: 80, marginRight: 2 }}
-                  src={item.imageUrl}
-                  alt={item.name}
-                />
-                <ListItemText
-                  primary={
-                    <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{item.name}</Typography>
-                      <Typography variant="body2" color="textSecondary">{item.goldType} / {item.size}</Typography>
-                    </Box>
-                  }
-                />
-                <ListItemSecondaryAction sx={{ textAlign: 'right' }}>
-                  <Typography variant="body1">${item.price.toFixed(2)}</Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: 1 }}>
-                    <IconButton edge="end" aria-label="remove">
-                      <RemoveIcon />
-                    </IconButton>
-                    <Typography variant="body2" sx={{ margin: '0 10px' }}>{item.quantity}</Typography>
-                    <IconButton edge="end" aria-label="add">
-                      <AddIcon />
-                    </IconButton>
-                  </Box>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <Typography variant="h6" sx={{ padding: '16px 0' }}>
-            Total: ${getTotalPrice()}
-          </Typography>
-          <Button variant="contained" color="primary" fullWidth>
-            Checkout
-          </Button>
-        </Box>
+    <div className="smr_B2cCart">
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={toggleDrawer(false)}
+        PaperProps={{
+          style: {
+            width: isMobile ? '100%' : '40%',
+          },
+        }}
+      >
+        <div className="smr_B2C-container">
+          <table className="smr_B2C-table smr_B2C-table-xs">
+            <tbody>
+              <tr className="smr_B2C-item-row">
+                <td><img src="http://placehold.it/150x150" alt="Item 1" /></td>
+                <td className='smr_b2ccartContentTd'>
+                  <p className='smr_b2ccartContentTitle'>Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT</p>
+                  <p className='smr_b2ccartContentMtDT'>Rose Gold / 18 Inches / 0.8</p>
+                  <QuantitySelector/>
+                </td>
+                <td className="smr_B2C-text-right" title="Amount">Ships in 14 days</td>
+                <td className="smr_B2C-text-right" title="Total">6.00</td>
+              </tr>
+              <tr className="smr_B2C-item-row smr_B2C-item-row-last">
+                <td><img src="http://placehold.it/150x150" alt="Item 2" /></td>
+                <td className='smr_b2ccartContentTd'>
+                  <p className='smr_b2ccartContentTitle'>Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT</p>
+                  <p className='smr_b2ccartContentMtDT'>Rose Gold / 18 Inches / 0.8</p>
+                  <QuantitySelector/>
+                </td>
+                <td className="smr_B2C-text-right" title="Amount">Ships in 14 days</td>
+                <td className="smr_B2C-text-right" title="Total">12.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </Drawer>
     </div>
   );

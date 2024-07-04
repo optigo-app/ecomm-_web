@@ -93,6 +93,7 @@ const CartItem = ({
       xxl={itemLength <= 2 ? 6 : 3}
       className='smr_cartListCardGrid'>
       <Card className='smr_cartListCard'
+        key={item?.id}
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',

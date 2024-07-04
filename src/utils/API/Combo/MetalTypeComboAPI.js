@@ -2,7 +2,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 
-export const MetalTypeComboAPI = async () => {
+export const MetalTypeComboAPI = async (finalID) => {
 
     let response;
 
@@ -13,7 +13,7 @@ export const MetalTypeComboAPI = async () => {
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${finalID}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

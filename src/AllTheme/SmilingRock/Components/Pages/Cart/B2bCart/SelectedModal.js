@@ -14,7 +14,7 @@ const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) =
         <Typography className='smr_FilterTitle'>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails className='smr_filterAccordianDetail' style={{ padding: '0' }}>
-        {items.map(item => (
+        {items?.map(item => (
           <div className='smr_filter-AccrodianDetails' key={item.id}>
             <Typography className='smr_filterAccordianDeatilTitle'>{item.name}</Typography>
             <Checkbox
@@ -149,7 +149,7 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="metalTypeMaster"
                     label="Metal Type"
                   >
-                    {metalTypeCombo.map(option => (
+                    {metalTypeCombo?.map(option => (
                       <MenuItem key={option.Metalid} value={option.metaltype}>
                         {option.metaltype}
                       </MenuItem>
@@ -165,7 +165,7 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="metalColorMaster"
                     label="Metal Color"
                   >
-                    {metalColorCombo.map(option => (
+                    {metalColorCombo?.map(option => (
                       <MenuItem key={option.id} value={option.colorname}>
                         {option.colorname}
                       </MenuItem>
@@ -181,7 +181,7 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
                     id="diamondMaster"
                     label="Diamond"
                   >
-                    {diamondQualityColorCombo.map(option => (
+                    {diamondQualityColorCombo?.map(option => (
                       <MenuItem key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality+'#'+ option?.color}>
                         {option?.Quality+'#'+ option?.color}
                       </MenuItem>

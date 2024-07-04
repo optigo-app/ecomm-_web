@@ -144,8 +144,8 @@ export default function Account() {
                         <p className='menuMainAccountTitle'>Manage Address</p>
                         <FaChevronRight />
                     </div>
-                    {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewCompo')}>
-                        <p className='menuMainAccountTitle'>Account</p>
+                    {accountValidation() && <div className='menuMainAccount' onClick={() => naviagation('/MobileViewComp')}>
+                        <p className='menuMainAccountTitle' >Account</p>
                         <FaChevronRight />
                     </div>}
                     <div className='menuMainAccount' onClick={() => naviagation('/ChangePassword')}>
