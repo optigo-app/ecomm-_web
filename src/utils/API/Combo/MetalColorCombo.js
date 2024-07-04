@@ -1,24 +1,26 @@
 
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
+export const MetalColorCombo = async (finalID) => {
 
-export const MetalColorCombo = async () => {
     let response;
+
     try {
-        const storedEmail = localStorage.getItem('registerEmail') || '';
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
         const { FrontEnd_RegNo } = storeInit;
+        const storedEmail = localStorage.getItem('registerEmail') || '';
+
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${finalID}`
         });
+
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-          "con": `{\"id\":\"\",\"mode\":\"METALCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
-          "f": "index (getSizeData)",
-          "p": encodedCombinedValue,
-          "dp": combinedValue,
+            "con": `{\"id\":\"\",\"mode\":\"METALCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
+            "f": "index (getSizeData)",
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
 
         }
 

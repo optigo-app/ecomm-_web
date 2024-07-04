@@ -6,9 +6,10 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { CartCount, loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import Cookies from "js-cookie";
 
 const CartPage = () => {
   const {
@@ -72,6 +73,8 @@ const CartPage = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
+  const visiterId = Cookies.get('visiterId');
+  const islogin = useRecoilValue(loginState)
 
   useEffect(() => {
     const iswishUpdateStatus = localStorage.getItem('cartUpdation');
@@ -87,7 +90,7 @@ const CartPage = () => {
     handleRemoveAll();
     setTimeout(() => {
       if (countstatus) {
-        GetCountAPI().then((res) => {
+        GetCountAPI(visiterId, islogin).then((res) => {
           console.log('responseCount', res);
           setCartCountVal(res?.cartcount);
         })
@@ -147,8 +150,8 @@ const CartPage = () => {
               </div>
             ) :
               <div className='smr_noWishlistData'>
-                <p className='smr_title'>No Wishlist Found!</p>
-                <p className='smr_desc'>Please First Add To Wishlist Data</p>
+                <p className='smr_title'>No Item Found!</p>
+                <p className='smr_desc'>Please First Add To Cart Data</p>
                 <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
               </div>
             }

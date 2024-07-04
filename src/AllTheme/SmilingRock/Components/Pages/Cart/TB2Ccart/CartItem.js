@@ -10,8 +10,9 @@ import { Grid, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 // import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { CartCount } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { CartCount, loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Cookies from "js-cookie";
 
 const CartItem = ({
   item,
@@ -35,6 +36,9 @@ const CartItem = ({
   const [isSelectedItems, setIsSelectedItems] = useState();
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
+
+  const visiterId = Cookies.get('visiterId');
+  const islogin = useRecoilValue(loginState)
 
   useEffect(() => {
     const isCartUpdateStatus = localStorage.getItem('cartUpdation');
@@ -68,7 +72,7 @@ const CartItem = ({
     onRemove(item)
     setTimeout(() => {
       if (countstatus) {
-        GetCountAPI().then((res) => {
+        GetCountAPI(visiterId, islogin).then((res) => {
           console.log('responseCount', res);
           setCartCountVal(res?.cartcount);
         })

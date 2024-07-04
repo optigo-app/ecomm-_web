@@ -1,18 +1,20 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const fetchWishlistDetails = async () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+export const fetchWishlistDetails = async (visiterId, islogin) => {
+    debugger;
+    let storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = localStorage.getItem("loginUserDetail");
-    const {FrontEnd_RegNo} = storeInit;
     const data = JSON.parse(storedData);
-    let customerEmail = data?.email1 ?? "";
-    const customerid = data.id;
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.email1 ?? "";
+    const {FrontEnd_RegNo} = storeInit;
+
     try {
         const combinedValue = JSON.stringify({
             PageSize: "1000",
             PageNo: "1",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-            Customerid: `${customerid ?? 0}`,
+            Customerid: `${customerId ?? 0}`,
           });
 
         const encodedCombinedValue = btoa(combinedValue);

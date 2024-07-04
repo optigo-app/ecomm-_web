@@ -29,7 +29,8 @@ const ProductDetail = () => {
   let location = useLocation();
 
   const [singleProd, setSingleProd] = useState({});
-  const [singleProdPrice, setSingleProdPrice] = useState();
+  const [singleProd1, setSingleProd1] = useState({});
+  // const [singleProdPrice, setSingleProdPrice] = useState();
   const [storeInit, setStoreInit] = useState({});
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
@@ -43,12 +44,17 @@ const ProductDetail = () => {
   const [isImageload, setIsImageLoad] = useState(true);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [decodeUrl, setDecodeUrl] = useState({});
-  const [finalprice, setFinalprice] = useState(0);
+  // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [loginInfo, setLoginInfo] = useState();
-  const [SizeCombo,getSizeCombo] = useState();
+  const [SizeCombo,setSizeCombo] = useState();
   const [sizeData,setSizeData] =  useState();
+  const [isPriceloading,setisPriceLoading] = useState(false)
+  // const [customObj,setCustomObj] =  useState({})
+
+  const [diaList,setDiaList] = useState([]);
+  const [csList,setCsList] = useState([]);
 
   
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -56,15 +62,15 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
-  const [metalFilterData, setMetalFilterData] = useState();
-  const [daimondFilterData, setDaimondFiletrData] = useState([]);
-  const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
-  const [FindingFilterData, setFindingFiletrData] = useState([]);
+  // const [metalFilterData, setMetalFilterData] = useState();
+  // const [daimondFilterData, setDaimondFiletrData] = useState([]);
+  // const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
+  // const [FindingFilterData, setFindingFiletrData] = useState([]);
 
-  const [dqcRate, setDqcRate] = useState();
-  const [dqcSettRate, setDqcSettRate] = useState()
-  const [csqcRate, setCsqcRate] = useState()
-  const [csqcSettRate, setCsqcSettRate] = useState()
+  // const [dqcRate, setDqcRate] = useState();
+  // const [dqcSettRate, setDqcSettRate] = useState()
+  // const [csqcRate, setCsqcRate] = useState()
+  // const [csqcSettRate, setCsqcSettRate] = useState()
 
   const [stockItemArr,setStockItemArr] = useState([]);
   const [SimilarBrandArr,setSimilarBrandArr] = useState([]);
@@ -72,6 +78,8 @@ const ProductDetail = () => {
   const [cartArr, setCartArr] = useState({})
 
   // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});.
+
+  console.log("sizeData",sizeData)
 
   console.log("pdVideoArr", selectedThumbImg);
 
@@ -119,7 +127,7 @@ const ProductDetail = () => {
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == singleProd?.MetalColorid
+      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
     )[0];
 
     let prodObj = {
@@ -128,10 +136,10 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: singleProd?.DefaultSize !== "" ? singleProd?.DefaultSize :sizeData ,
-      Unitcost: handlePrice(),
-      markup: mtrd?.AB,
-      UnitCostWithmarkup: handlePrice(),
+      Size: sizeData ?? singleProd?.DefaultSize ,
+      Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+      markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+      UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
@@ -183,7 +191,7 @@ const ProductDetail = () => {
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == singleProd?.MetalColorid
+      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
     )[0];
 
     let prodObj = {
@@ -192,10 +200,10 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: singleProd?.DefaultSize,
-      Unitcost: handlePrice(),
-      markup: mtrd?.AB,
-      UnitCostWithmarkup: handlePrice(),
+      Size: sizeData ?? singleProd?.DefaultSize ,
+      Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+      markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+      UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
@@ -220,60 +228,61 @@ const ProductDetail = () => {
     }
   };
 
-  const [mtrd, setMtrd] = useState([]);
-  const [diard1, setDiard1] = useState([]);
-  const [csrd2, setCsrd2] = useState([]);
+  // const [mtrd, setMtrd] = useState([]);
+  // const [diard1, setDiard1] = useState([]);
+  // const [csrd2, setCsrd2] = useState([]);
 
-  // const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
+
+  // const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
   //   if (pPrice <= 0) {
-  //     return 0;
-  //   } else if (pmu <= 0) {
-  //     return pPrice;
-  //   } else {
-  //     let percentPMU = pmu / 100 / curr;
-  //     return Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0);
+  //     return 0
   //   }
-  // };
-
-  const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
-    if (pPrice <= 0) {
-      return 0
-    }
-    else if (pmu <= 0) {
-      return (pPrice + swp).toFixed(2)
-    }
-    else {
-      let percentPMU = ((pmu / 100) / curr)
-      return (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
-    }
-  }
+  //   else if (pmu <= 0) {
+  //     return (pPrice + swp).toFixed(2)
+  //   }
+  //   else {
+  //     let percentPMU = ((pmu / 100) / curr)
+  //     return (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
+  //   }
+  // }
 
 
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
-    // const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     let decodeobj = decodeAndDecompress(navVal);
+
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+
     if (decodeUrl) {
       let metalArr =
-        metalTypeCombo?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-        metalTypeCombo[0];
+      mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+      mtTypeLocal[0];
+
       let diaArr =
-        diaQcCombo?.filter(
+      diaQcLocal?.filter(
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",") &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcCombo[0];
+        )[0] ?? diaQcLocal[0];
+
       let csArr =
-        csQcCombo?.filter(
+      csQcLocal?.filter(
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcCombo[0];
+        )[0] ?? csQcLocal[0];
+
       let mcArr =
-        metalColorCombo?.filter(
-          (ele) => ele?.id == singleProd?.MetalColorid
-        )[0] ?? metalColorCombo[0];
+      mtColorLocal?.filter(
+          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd?.MetalColorid)
+        )[0] ?? mtColorLocal[0];
 
       setSelectMtType(metalArr?.metaltype);
 
@@ -283,85 +292,89 @@ const ProductDetail = () => {
 
       setSelectMtColor(mcArr?.metalcolorname);
 
-      let InitialSize = (singleProd && singleProd.DefaultSize !== "")
-                            ? singleProd?.DefaultSize
-                            : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-      if(InitialSize){
-        setSizeData(InitialSize)
-      }
+      // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
+      //                       ? singleProd?.DefaultSize
+      //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+      // if(InitialSize){
+      //   setSizeData(InitialSize)
+      // }
+
+      // if(metalArr || diaArr || csArr || InitialSize){
+      //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
+      // }
       
-
-      console.log("default", { metalArr, diaArr, csArr ,InitialSize}, decodeobj);
+      console.log("default", { metalArr, diaArr, csArr }, decodeobj);
     }
-  }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd,SizeCombo])
+  }, [])
+  // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    let finalSize = SizeCombo?.rd1?.filter((ele)=>ele?.sizename == sizeData)
-    const filteredDataMetal = finalSize?.filter(item => item.DiamondStoneTypeName === "METAL")[0]
-    const filteredDataDaimond = finalSize?.filter(item => item.DiamondStoneTypeName === "DIAMOND")
-    const filteredDataColorStone = finalSize?.filter(item => item.DiamondStoneTypeName === "COLOR STONE")
-    const filteredDataFinding = finalSize?.filter(item => item.DiamondStoneTypeName === "FINDING")
+  //   let finalSize = SizeCombo?.rd1?.filter((ele)=>ele?.sizename == sizeData)
+  //   const filteredDataMetal = finalSize?.filter(item => item.DiamondStoneTypeName === "METAL")[0]
+  //   const filteredDataDaimond = finalSize?.filter(item => item.DiamondStoneTypeName === "DIAMOND")
+  //   const filteredDataColorStone = finalSize?.filter(item => item.DiamondStoneTypeName === "COLOR STONE")
+  //   const filteredDataFinding = finalSize?.filter(item => item.DiamondStoneTypeName === "FINDING")
 
-    setMetalFilterData(filteredDataMetal)
-    setDaimondFiletrData(filteredDataDaimond)
-    setColorStoneFiletrData(filteredDataColorStone)
-    setFindingFiletrData(filteredDataFinding)
+  //   setMetalFilterData(filteredDataMetal)
+  //   setDaimondFiletrData(filteredDataDaimond)
+  //   setColorStoneFiletrData(filteredDataColorStone)
+  //   setFindingFiletrData(filteredDataFinding)
     
 
-  },[sizeData,SizeCombo])
+  // },[sizeData,SizeCombo])
 
-  let metalUpdatedPrice = () => {
-    if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
+
+  // let metalUpdatedPrice = () => {
+  //   if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
       
 
-      let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
+  //     let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
   
-      let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
-      console.log('fpricemetal', fprice);
+  //     let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
+  //     console.log('fpricemetal', fprice);
 
-      return Number(fprice.toFixed(2))
-    } else {
-      return 0
-    }
-  }
+  //     return Number(fprice.toFixed(2))
+  //   } else {
+  //     return 0
+  //   }
+  // }
 
-  let diaUpdatedPrice = () => {
+  // let diaUpdatedPrice = () => {
 
-    if (daimondFilterData && daimondFilterData?.length && diard1[0]?.T === 1) {
-      let calcDiaWt = (mtrd?.K ?? 0) + (daimondFilterData?.Weight ?? 0)
+  //   if (daimondFilterData && daimondFilterData?.length && diard1[0]?.T === 1) {
+  //     let calcDiaWt = (mtrd?.K ?? 0) + (daimondFilterData?.Weight ?? 0)
 
-      let CalcPics = (mtrd?.J ?? 0) + (daimondFilterData?.pieces ?? 0)
+  //     let CalcPics = (mtrd?.J ?? 0) + (daimondFilterData?.pieces ?? 0)
 
-      let fpprice = ((dqcRate ?? 0) * (calcDiaWt ?? 0)) + ((dqcSettRate ?? 0) * (CalcPics ?? 0))
+  //     let fpprice = ((dqcRate ?? 0) * (calcDiaWt ?? 0)) + ((dqcSettRate ?? 0) * (CalcPics ?? 0))
 
-      return Number(fpprice.toFixed(2))
-    }
-    else {
-      return 0
-    }
-  }
+  //     return Number(fpprice.toFixed(2))
+  //   }
+  //   else {
+  //     return 0
+  //   }
+  // }
 
-  let colUpdatedPrice = () => {
+  // let colUpdatedPrice = () => {
 
-    if (colorStoneFilterData && colorStoneFilterData?.length && csrd2[0]?.T === 1) {
+  //   if (colorStoneFilterData && colorStoneFilterData?.length && csrd2[0]?.T === 1) {
 
-      let calcDiaWt = (singleProd?.totalcolorstoneweight ?? 0) + (colorStoneFilterData?.Weight ?? 0)
+  //     let calcDiaWt = (singleProd?.totalcolorstoneweight ?? 0) + (colorStoneFilterData?.Weight ?? 0)
 
-      let CalcPics = (singleProd?.totalcolorstonepcs ?? 0) + (colorStoneFilterData?.pieces ?? 0)
+  //     let CalcPics = (singleProd?.totalcolorstonepcs ?? 0) + (colorStoneFilterData?.pieces ?? 0)
 
-      let fpprice = ((csqcRate ?? 0) * (calcDiaWt ?? 0)) + ((csqcSettRate ?? 0) * (CalcPics ?? 0))
+  //     let fpprice = ((csqcRate ?? 0) * (calcDiaWt ?? 0)) + ((csqcSettRate ?? 0) * (CalcPics ?? 0))
 
-      return Number(fpprice.toFixed(2))
-    } else {
-      return 0
-    }
-  }
+  //     return Number(fpprice.toFixed(2))
+  //   } else {
+  //     return 0
+  //   }
+  // }
 
-  console.log("finalSize",colUpdatedPrice())
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
@@ -450,6 +463,7 @@ const ProductDetail = () => {
     if (storeinit) setStoreInit(storeinit);
   }, []);
 
+
   const decodeAndDecompress = (encodedString) => {
     try {
       const binaryString = atob(encodedString);
@@ -470,6 +484,8 @@ const ProductDetail = () => {
     }
   };
 
+  console.log("sizeData",sizeData);
+
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
 
@@ -479,25 +495,78 @@ const ProductDetail = () => {
       setDecodeUrl(decodeobj);
     }
 
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+
+    let metalArr = 
+      mtTypeLocal?.filter(
+        (ele) => ele?.Metalid == decodeobj?.m
+      )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+
+    let diaArr =
+      diaQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.d?.split(",")[1]
+        )[0] ?? diaQcLocal[0];
+  
+    let csArr =
+      csQcLocal?.filter(
+        (ele) =>
+          ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+          ele?.ColorId == decodeobj?.c?.split(",")[1]
+      )[0] ?? csQcLocal[0];
+
     const FetchProductData = async() =>{
 
-      await SingleProdListAPI(decodeobj)
+      let obj={
+        mt: metalArr,
+        diaQc:`${diaArr?.QualityId},${diaArr?.ColorId}`,
+        csQc:`${csArr?.QualityId},${csArr?.ColorId}`
+      }
+
+      console.log("objjj",obj)
+ 
+      setisPriceLoading(true)
+
+      await SingleProdListAPI(decodeobj,sizeData,obj)
       .then(async(res) => {
         if (res) {
           
           setSingleProd(res?.pdList[0]);
 
-          await SingleFullProdPriceAPI(decodeobj).then((res) => {
-            setSingleProdPrice(res);
-            console.log("singlePrice", res);
-          });
+          if(res?.pdList?.length > 0){
+            setisPriceLoading(false)
+          }
+
+          setDiaList(res?.pdResp?.rd3)
+          setCsList(res?.pdResp?.rd4)
+
+          let prod = res?.pdList[0]
+
+          console.log("singleprod",res?.pdResp);
+
+          let initialsize = (prod && prod.DefaultSize !== "")
+          ? prod?.DefaultSize
+          : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined 
+          ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+
+          setSizeData(initialsize)
+
+          // await SingleFullProdPriceAPI(decodeobj).then((res) => {
+          //   setSingleProdPrice(res);
+          //   console.log("singlePrice", res);
+          // });
         }
         return res;
       }).then(async(resp)=>{
           if(resp){
-            await getSizeData(resp).then((res)=>{
+            await getSizeData(resp?.pdList[0]).then((res)=>{
               console.log("Sizeres",res)
-              getSizeCombo(res?.Data)
+              setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
             await StockItemApi(resp?.pdList[0]?.autocode,"stockitem").then((res)=>{
@@ -524,99 +593,99 @@ const ProductDetail = () => {
 
   console.log("location", location);
 
-  useEffect(() => {
-    let metal = metalTypeCombo?.filter(
-      (ele) => ele?.metaltype == selectMtType
-    )[0];
-    let dia = diaQcCombo?.filter(
-      (ele) =>
-        ele?.Quality == selectDiaQc.split(",")[0] &&
-        ele?.color == selectDiaQc.split(",")[1]
-    )[0];
-    let cs = csQcCombo?.filter(
-      (ele) =>
-        ele?.Quality == selectCsQc.split(",")[0] &&
-        ele?.color == selectCsQc.split(",")[1]
-    )[0];
+  // useEffect(() => {
+  //   let metal = metalTypeCombo?.filter(
+  //     (ele) => ele?.metaltype == selectMtType
+  //   )[0];
+  //   let dia = diaQcCombo?.filter(
+  //     (ele) =>
+  //       ele?.Quality == selectDiaQc.split(",")[0] &&
+  //       ele?.color == selectDiaQc.split(",")[1]
+  //   )[0];
+  //   let cs = csQcCombo?.filter(
+  //     (ele) =>
+  //       ele?.Quality == selectCsQc.split(",")[0] &&
+  //       ele?.color == selectCsQc.split(",")[1]
+  //   )[0];
 
-    let metalPdata = singleProdPrice?.rd?.filter(
-      (ele) => ele?.C == metal?.Metalid
-    )[0];
+  //   let metalPdata = singleProdPrice?.rd?.filter(
+  //     (ele) => ele?.C == metal?.Metalid
+  //   )[0];
 
-    let diaPData = singleProdPrice?.rd1?.filter(
-      (ele) => ele?.G == dia?.QualityId && ele?.I == dia?.ColorId
-    );
+  //   let diaPData = singleProdPrice?.rd1?.filter(
+  //     (ele) => ele?.G == dia?.QualityId && ele?.I == dia?.ColorId
+  //   );
 
-    let csPData = singleProdPrice?.rd2?.filter(
-      (ele) => ele?.G == cs?.QualityId && ele?.I == cs?.ColorId
-    );
+  //   let csPData = singleProdPrice?.rd2?.filter(
+  //     (ele) => ele?.G == cs?.QualityId && ele?.I == cs?.ColorId
+  //   );
 
-    let metalPrice = 0;
-    let diamondPrice = 0;
-    let csPrice = 0;
+  //   let metalPrice = 0;
+  //   let diamondPrice = 0;
+  //   let csPrice = 0;
 
-    if (metalPdata) {
-      setMtrd(metalPdata);
-      metalPrice =
-        ((metalPdata?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
-          (metalPdata?.W ?? 0) +
-          (metalPdata?.X ?? 0) ?? 0;
-    }
+  //   if (metalPdata) {
+  //     setMtrd(metalPdata);
+  //     metalPrice =
+  //       ((metalPdata?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
+  //         (metalPdata?.W ?? 0) +
+  //         (metalPdata?.X ?? 0) ?? 0;
+  //   }
 
-    console.log("metalPdata", metalPrice);
+  //   console.log("metalPdata", metalPrice);
 
-    if (diaPData?.length > 0) {
-      setDiard1(diaPData);
-      let diasetRate = diard1?.reduce((acc, obj) => acc + obj.O, 0)
-      let diaSettRate = diard1?.reduce((acc, obj) => acc + obj.Q, 0)
-      setDqcRate(diasetRate ?? 0)
-      setDqcSettRate(diaSettRate ?? 0)
-      diamondPrice =
-        Number(diaPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-    }
+  //   if (diaPData?.length > 0) {
+  //     setDiard1(diaPData);
+  //     let diasetRate = diard1?.reduce((acc, obj) => acc + obj.O, 0)
+  //     let diaSettRate = diard1?.reduce((acc, obj) => acc + obj.Q, 0)
+  //     setDqcRate(diasetRate ?? 0)
+  //     setDqcSettRate(diaSettRate ?? 0)
+  //     diamondPrice =
+  //       Number(diaPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
+  //   }
 
-    if (csPData?.length > 0) {
-      setCsrd2(csPData);
-      let csRate = csrd2?.reduce((acc, obj) => acc + obj.O, 0)
-      let csSettRate = csrd2?.reduce((acc, obj) => acc + obj.Q, 0)
-      setCsqcRate(csRate ?? 0)
-      setCsqcSettRate(csSettRate ?? 0)
-      csPrice = Number(csPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-    }
+  //   if (csPData?.length > 0) {
+  //     setCsrd2(csPData);
+  //     let csRate = csrd2?.reduce((acc, obj) => acc + obj.O, 0)
+  //     let csSettRate = csrd2?.reduce((acc, obj) => acc + obj.Q, 0)
+  //     setCsqcRate(csRate ?? 0)
+  //     setCsqcSettRate(csSettRate ?? 0)
+  //     csPrice = Number(csPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
+  //   }
 
-    let finalPrice =
-      Number(metalPrice) + Number(diamondPrice)  + Number(csPrice);
-    console.log("pData", { metalPrice, diamondPrice, csPrice });
+  //   let finalPrice =
+  //     Number(metalPrice) + Number(diamondPrice)  + Number(csPrice);
+  //   console.log("pData", { metalPrice, diamondPrice, csPrice });
 
-    let fp = finalPrice.toFixed(2)
-    setFinalprice(fp)
-  }, [singleProd, singleProdPrice, selectMtType, selectDiaQc, selectCsQc]);
+  //   let fp = finalPrice.toFixed(2)
+  //   setFinalprice(fp)
+  // }, [singleProd, singleProdPrice, selectMtType, selectDiaQc, selectCsQc]);
 
-  const handlePrice = () =>{
+  // const handlePrice = () =>{
 
 
-    let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
+  //   let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
 
-    if(finalSize?.IsMarkUpInAmount == 1){
+  //   if(finalSize?.IsMarkUpInAmount == 1){
 
-      let ultimatePrice = (Number(finalprice)+ metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
+  //     let ultimatePrice = (Number(finalprice)+ metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
 
-      console.log("ultimatePrice",(mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ));
+  //     console.log("ultimatePrice",(mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ));
 
-      return PriceWithMarkupFunction((mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ))
+  //     return PriceWithMarkupFunction((mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ))
 
-    }else{
+  //   }else{
 
-      let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
-      const percentMarkupPlus = (mtrd?.AB ?? 0) + (finalSize?.MarkUp ?? 0)
-      let ultimatePrice = (Number(finalprice) + metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
+  //     let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
+  //     const percentMarkupPlus = (mtrd?.AB ?? 0) + (finalSize?.MarkUp ?? 0)
+  //     let ultimatePrice = (Number(finalprice) + metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
 
-      console.log("ultimatePrice",percentMarkupPlus, ultimatePrice , mtrd?.AA);
+  //     console.log("ultimatePrice",percentMarkupPlus, ultimatePrice , mtrd?.AA);
 
-      return PriceWithMarkupFunction(percentMarkupPlus, ultimatePrice , mtrd?.AA )
-    }
+  //     return PriceWithMarkupFunction(percentMarkupPlus, ultimatePrice , mtrd?.AA )
+  //   }
 
-  }
+  // }
 
   const ProdCardImageFunc = () => {
     let finalprodListimg;
@@ -783,6 +852,101 @@ const ProductDetail = () => {
 
   }
 
+  const handleCustomChange = async(e,type) =>{
+
+    let metalArr
+    let diaArr
+    let csArr
+    let size
+
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+
+    if(type === "mt"){
+      metalArr = 
+      mtTypeLocal?.filter(
+        (ele) => ele?.metaltype == e.target.value
+      )[0]?.Metalid 
+      setSelectMtType(e.target.value)
+    }
+    if(type === "dia"){
+      setSelectDiaQc(e.target.value)
+      diaArr =
+      diaQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == e.target.value?.split(",")[0] &&
+            ele?.color == e.target.value?.split(",")[1]
+        )[0]
+    }
+    if(type === "cs"){
+      setSelectCsQc(e.target.value)
+      csArr =
+      csQcLocal?.filter(
+        (ele) =>
+          ele?.Quality == e.target.value?.split(",")[0] &&
+          ele?.color == e.target.value?.split(",")[1]
+      )[0] 
+    }
+    if(type === "sz"){
+      setSizeData(e.target.value)
+      size = e.target.value
+    }
+
+    if(metalArr == undefined){
+      metalArr = 
+      mtTypeLocal?.filter(
+        (ele) => ele?.metaltype == selectMtType
+      )[0]?.Metalid 
+    }
+
+    if(diaArr == undefined){
+      diaArr =
+      diaQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == selectDiaQc?.split(",")[0] &&
+            ele?.color == selectDiaQc?.split(",")[1]
+        )[0]
+    }
+
+    if(csArr == undefined){
+      csArr =
+      csQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == selectCsQc?.split(",")[0] &&
+            ele?.color == selectCsQc?.split(",")[1]
+        )[0]
+    }
+
+    let obj = {
+      mt:metalArr,
+      diaQc:`${diaArr?.QualityId},${diaArr?.ColorId}`,
+      csQc:`${csArr?.QualityId},${csArr?.ColorId}`
+    }
+
+    let prod={
+      a:singleProd?.autocode,
+      b:singleProd?.designno
+    }
+
+    console.log("eeee",obj)
+    setisPriceLoading(true)
+    await SingleProdListAPI(prod,size,obj)
+    .then((res)=>{
+      setSingleProd1(res?.pdList[0])
+
+      if(res?.pdList?.length > 0){
+        setisPriceLoading(false)
+      }
+      setDiaList(res?.pdResp?.rd3)
+      setCsList(res?.pdResp?.rd4)
+      console.log("res123",res)
+    }).catch((err)=>{console.log("customProdDetailErr",err)})
+
+  }
+
   return (
     <>
       <div className="smr_prodDetail_bodyContain">
@@ -908,7 +1072,7 @@ const ProductDetail = () => {
                         </span>
                         <span className="smr_prod_short_key">
                           Net Wt:{" "}
-                          <span className="smr_prod_short_val">{mtrd?.I}</span>
+                          <span className="smr_prod_short_val">{(singleProd1?.Nwt ?? singleProd?.Nwt)}</span>
                         </span>
                       </div>
                     </div>
@@ -920,7 +1084,8 @@ const ProductDetail = () => {
                         <select
                           className="menuitemSelectoreMain"
                           value={selectMtType}
-                          onChange={(e) => setSelectMtType(e.target.value)}
+                          onChange={(e) => handleCustomChange(e,'mt')}
+                          // onChange={(e) => setSelectMtType(e.target.value)}
                         >
                           {metalTypeCombo.map((ele) => (
                             <option key={ele?.Metalid} value={ele?.metaltype}>
@@ -945,14 +1110,15 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>
-                      {(storeInit?.IsDiamondCustomization === 1 && diard1?.length > 0)  && (<div className="smr_single_prod_customize_outer">
+                      {(storeInit?.IsDiamondCustomization === 1)  && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           DAIMOND :
                         </label>
                         <select
                           className="menuitemSelectoreMain"
                           value={selectDiaQc}
-                          onChange={(e) => setSelectDiaQc(e.target.value)}
+                          // onChange={(e) => setSelectDiaQc(e.target.value)}
+                          onChange={(e) => handleCustomChange(e,"dia")}
                         >
                           {diaQcCombo.map((ele) => (
                             <option
@@ -962,7 +1128,7 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>)}
-                      {(storeInit?.IsCsCustomization === 1 &&  csrd2?.length > 0 ) && (
+                      {(storeInit?.IsCsCustomization === 1 ) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -970,7 +1136,8 @@ const ProductDetail = () => {
                           <select
                             className="menuitemSelectoreMain"
                             value={selectCsQc}
-                            onChange={(e) => setSelectCsQc(e.target.value)}
+                            // onChange={(e) => setSelectCsQc(e.target.value)}
+                            onChange={(e) => handleCustomChange(e,'cs')}
                           >
                             {csQcCombo.map((ele) => (
                               <option
@@ -982,14 +1149,17 @@ const ProductDetail = () => {
                         </div>
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                      {SizeCombo?.length > 0 && <div className="smr_single_prod_customize_outer">
+                      {
+                        SizeCombo?.rd?.length && 
+                      <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
                         <select
                           className="menuitemSelectoreMain"
                           value={sizeData}
-                          onChange={(e) => {
-                            setSizeData(e.target.value);
-                          }}
+                          // onChange={(e) => {
+                          //   setSizeData(e.target.value);
+                          // }}
+                          onChange={(e) => handleCustomChange(e,'sz')}
                         >
                           {SizeCombo?.rd?.map((ele) => (
                             <option
@@ -1006,21 +1176,27 @@ const ProductDetail = () => {
                       </div>}
                     </div>}
 
-                    { handlePrice() !== 0 && <div className="smr_price_portion">
+                    {<div className="smr_price_portion">
                       {
-                        <span
+                        isPriceloading ? "" : <span
                           className="smr_currencyFont"
                           dangerouslySetInnerHTML={{
                             __html: decodeEntities(storeInit?.Currencysymbol),
                           }}
-                        />
+                        /> 
                       }
                       {/* {PriceWithMarkupFunction(
                         mtrd?.AB,
                         finalprice,
                         storeInit?.CurrencyRate
                       )?.toFixed(2)} */}
-                      {handlePrice()}
+                      {
+                        isPriceloading ? 
+                        <Skeleton variant="rounded" width={140} height={30} />
+                        :
+                        (singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)
+                      }
+                      {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
                     </div>}
 
                     <div className="Smr_CartAndWish_portion">
@@ -1056,16 +1232,16 @@ const ProductDetail = () => {
             </div>
 
             <div className="smr_material_details_portion">
-              <p className="smr_details_title"> Product Details</p>
-              {diard1?.length > 0 && (
+              { diaList?.length > 0 && <p className="smr_details_title"> Product Details</p>}
+              {(diaList?.length > 0 &&
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
                     <li
                       style={{ fontWeight: 600 }}
-                    >{`Diamond Detail(${diard1?.reduce(
+                    >{`Diamond Detail(${diaList?.reduce(
                       (accumulator, data) => accumulator + data.M,
                       0
-                    )}/${diard1
+                    )}/${diaList
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
                       .toFixed(2)}ct)`}</li>
                   </ul>
@@ -1075,7 +1251,7 @@ const ProductDetail = () => {
                     <li className="smr_proDeatilList">Color</li>
                     <li className="smr_proDeatilList">Pcs/Wt</li>
                   </ul>
-                  {diard1?.map((data) => (
+                  {diaList?.map((data) => (
                     <ul className="smr_mt_detail_title_ul">
                       <li className="smr_proDeatilList1">{data?.F}</li>
                       <li className="smr_proDeatilList1">{data?.H}</li>
@@ -1088,15 +1264,15 @@ const ProductDetail = () => {
                 </div>
               )}
 
-              {csrd2?.length > 0 && (
+              {csList?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
                     <li
                       style={{ fontWeight: 600 }}
-                    >{`ColorStone Detail(${csrd2?.reduce(
+                    >{`ColorStone Detail(${csList?.reduce(
                       (accumulator, data) => accumulator + data.M,
                       0
-                    )}/${csrd2
+                    )}/${csList
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
                       .toFixed(2)}ct)`}</li>
                   </ul>
@@ -1106,7 +1282,7 @@ const ProductDetail = () => {
                     <li className="smr_proDeatilList">Color</li>
                     <li className="smr_proDeatilList">Pcs/Wt</li>
                   </ul>
-                  {csrd2?.map((data) => (
+                  {csList?.map((data) => (
                     <ul className="smr_mt_detail_title_ul">
                       <li className="smr_proDeatilList1">{data?.F}</li>
                       <li className="smr_proDeatilList1">{data?.H}</li>

@@ -1,21 +1,24 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI"
 
-export const GetCountAPI = async() =>{
+export const GetCountAPI = async(visiterId, islogin) =>{
 
 
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"))
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"))
         let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
         let userEmail = localStorage.getItem("registerEmail")
 
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
+        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.email1 ?? 0;
+
         let data = {
-            "FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
-            "Customerid":`${loginInfo?.id}`
+            "FrontEnd_RegNo":`${storeInit?.FrontEnd_RegNo}`,
+            "Customerid":`${customerId ?? 0}`
         }
 
         let stringify = JSON.stringify(data)
 
         let body ={
-            "con":`{\"id\":\"\",\"mode\":\"Getcount\",\"appuserid\":\"${userEmail}\"}`
+            "con":`{\"id\":\"\",\"mode\":\"Getcount\",\"appuserid\":\"${customerEmail ?? ""}\"}`
             ,"f":"zen (getCount)"
             ,"dp":stringify
             ,"p":btoa(stringify)
