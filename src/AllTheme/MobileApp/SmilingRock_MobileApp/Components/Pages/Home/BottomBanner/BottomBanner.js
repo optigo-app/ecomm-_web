@@ -60,7 +60,7 @@ const BottomBanner = () => {
                                 <p style={{ fontSize: '12px', fontWeight: 500, letterSpacing: '1px', color: '#7d7f85' }}>{data.Link}</p>
                             </div>
                             <div className='shopifyMainImage'>
-                                <img src={data.images} className='smr_shopifyImg'/>
+                                <img src={data.images} className='smrMA_shopifyImg'/>
                             </div>
                         </div>
                     </div>
