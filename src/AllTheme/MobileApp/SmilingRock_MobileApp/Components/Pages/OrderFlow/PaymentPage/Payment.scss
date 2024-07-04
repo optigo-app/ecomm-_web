@@ -19,7 +19,7 @@
 .smrMo_paymentDetailMainDiv {
     display: flex;
     justify-content: space-around;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     color: $titleColor;
     background-color: #fcfcfc !important;
     padding: 10px;
@@ -114,7 +114,7 @@
         width: 100%;
         height: 40px;
         // width: 180px;
-        font-family: $homePageFontFamily !important;
+        font-family: $primaryFontFamily !important;
         font-size: $fontSize3;
         color: #000 !important;
         font-weight: 600 !important;
