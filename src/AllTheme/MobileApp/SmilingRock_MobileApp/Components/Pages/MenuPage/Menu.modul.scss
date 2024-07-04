@@ -1,3 +1,6 @@
+
+@import '../../scss/variable.scss';
+
 .smrMA_menuPageMain {
 
     .smrMA_menuVieAllLink {
@@ -23,5 +26,9 @@
 
     .smrMA_menuMainSwipe::-webkit-scrollbar {
         display: none !important;
+    }
+
+    .smrMA_menuMainTitle{
+        font-family: $primaryFontFamily;
     }
 }
