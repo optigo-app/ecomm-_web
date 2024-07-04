@@ -82,7 +82,7 @@ export default function Account() {
         setFname(loginUserDetail?.firstname);
         setLasnane(loginUserDetail?.lastname);
         setUserMobile(loginUserDetail?.defaddress_shippingmobile)
-    })
+    },[])
     const handleLogout = () => {
         setIsLoginState('false')
         localStorage.setItem('LoginUser', 'false');
