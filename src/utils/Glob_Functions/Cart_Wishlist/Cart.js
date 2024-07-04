@@ -63,6 +63,7 @@ const useCart = () => {
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
   const [handleUpdate, setHandleUpdate] = useState();
 
+  const [visiterId, setVisiterId] = useState();
   const islogin = useRecoilValue(loginState)
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -70,6 +71,8 @@ const useCart = () => {
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
 
   useEffect(() => {
+    const visiterIdVal = Cookies.get('visiterId');
+    setVisiterId(visiterIdVal)
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
@@ -95,7 +98,7 @@ const useCart = () => {
   const getCartData = async () => {
     debugger
     setIsLoading(true);
-    const visiterId = Cookies.get('visiterId')
+    const visiterId = Cookies.get('visiterId');
     try {
       const response = await fetchCartDetails(visiterId, islogin);
 
@@ -138,9 +141,7 @@ const useCart = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
       getCartData();
-    }, 1000);
   }, []);
 
   // for multiselect
@@ -250,7 +251,7 @@ const useCart = () => {
 
   const handleCategorySize = async (item) => {
     try {
-      const response = await getSizeData(item);
+      const response = await getSizeData(item, visiterId, islogin);
       if (response) {
         console.log('categoryData', response);
         setSizeCombo(response?.Data)
@@ -309,7 +310,7 @@ const useCart = () => {
   const handleSave = async (data) => {
     setShowRemark(false);
     try {
-      const response = await handleProductRemark(data, productRemark);
+      const response = await handleProductRemark(data, productRemark, visiterId, islogin);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
         const updatedCartData = cartData.map(cart =>
@@ -335,7 +336,7 @@ const useCart = () => {
     let lastEnteredQuantity = qtyCount + 1
     let num = selectedItem?.id
     try {
-      const response = await updateQuantity(num, lastEnteredQuantity);
+      const response = await updateQuantity(num, lastEnteredQuantity, visiterId, islogin);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     }
@@ -348,7 +349,7 @@ const useCart = () => {
     let num = selectedItem?.id;
     if (qtyCount > 1) {
       try {
-        const response = await updateQuantity(num, updatedQtyCount);
+        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin );
       } catch (error) {
         console.error("Failed to update quantity:", error);
       }
