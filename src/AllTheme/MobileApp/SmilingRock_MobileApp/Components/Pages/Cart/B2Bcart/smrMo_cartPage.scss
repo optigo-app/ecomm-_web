@@ -5,6 +5,7 @@ $cartUpdateBtncolor: #b1b1b1;
 .smrMo_MainBGDiv {
   background-color: $backgroundColor;
   font-family: $primaryFontFamily;
+  margin-top: 10px;
 }
 
 
@@ -67,7 +68,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 130px;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
@@ -87,7 +88,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
   .smrMo_product-containerBox {
     position: fixed;
-    bottom: 60px;
+    bottom: 0px;
     width: 100%;
     display: flex;
     justify-content: space-between;

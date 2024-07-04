@@ -108,11 +108,11 @@
 
     .smrMo_payOnAccountBtn {
         position: fixed;
-        bottom: 60px;
+        bottom: 0px;
         left: 0;
         right: 0;
         width: 100%;
-        height: 40px;
+        height: 45px;
         // width: 180px;
         font-family: $primaryFontFamily !important;
         font-size: $fontSize3;
@@ -179,7 +179,7 @@
     .smrMo_payOnAccountBtn {
         width: 140px;
         position: fixed;
-        bottom: 10px;
+        bottom: 0px;
         right: 10px;
     }
 }
