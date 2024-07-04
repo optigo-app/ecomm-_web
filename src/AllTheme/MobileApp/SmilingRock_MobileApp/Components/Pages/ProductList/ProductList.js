@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -65,8 +65,18 @@ const ProductList = () => {
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
+
+  const[isSortByDrawerOpen,setIsSortByDrawerOpen] =  useState(false)
+  const[isImgViewDrawerOpen,setIsImgViewDrawerOpen] = useState(false)
+
   const [rollOverImgPd,setRolloverImgPd] = useState()
   const [activeTab, setActiveTab] = useState("/");
+
+  const[isSingleView,setIsSingleView] = useState(false);
+  const[isDoubleView,setIsDoubleView] = useState(false);
+  const [locationKey,setLocationKey] = useState()
+
+
 
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
@@ -257,7 +267,8 @@ const ProductList = () => {
 
   useEffect(() => {
 
-
+    const fetchData = async() =>{
+      
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     let UrlVal =  location?.search.slice(1).split("/")
@@ -323,17 +334,18 @@ const ProductList = () => {
     if(NewArrivalVar){
       productlisttype = NewArrivalVar.split("=")[1]
     }
+
     if(BestSellerVar){
       productlisttype = BestSellerVar.split("=")[1]
     }
+
     if(AlbumVar){
       productlisttype = AlbumVar.split("=")[1]
     }
     
     setIsProdLoading(true)
-
     //  if(location?.state?.SearchVal === undefined){ 
-      ProductListApi({},1,obj,productlisttype)
+      await ProductListApi({},1,obj,productlisttype)
         .then((res) => {
           if (res) {
             console.log("productList",res);
@@ -358,7 +370,7 @@ const ProductList = () => {
         }).then(async(forWardResp)=>{
           let forWardResp1;
           if(forWardResp){
-            FilterListAPI(productlisttype).then((res)=>{
+            await FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err)=>console.log("err",err))
@@ -369,7 +381,17 @@ const ProductList = () => {
           setIsOnlyProdLoading(false)
         })
         .catch((err) => console.log("err", err))
+
       // }
+      
+    }
+
+    fetchData();
+
+    if(location?.key){
+      setLocationKey(location?.key)
+    }
+
   }, [location?.key])
 
   useEffect(() => {
@@ -536,31 +558,33 @@ const ProductList = () => {
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
    
   //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-     setIsOnlyProdLoading(true)
-      ProductListApi(output,1,obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then( async(res) => {
-          if (res) {
-            await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-              if(resp){
-                setPriceListData(resp)  
-              }
-            })
-          }
-          return res
-        })
+    if(location?.key === locationKey){
+      setIsOnlyProdLoading(true)
+       ProductListApi(output,1,obj)
+         .then((res) => {
+           if (res) {
+             setProductListData(res?.pdList);
+             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+           }
+           return res;
+         })
+         .then( async(res) => {
+           if (res) {
+             await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+               if(resp){
+                 setPriceListData(resp)  
+               }
+             })
+           }
+           return res
+         })
+         .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+       }
         // .then(async(res)=>{
         //   if(res){
         //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
         //   }
         // })
-        .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
       // }
 
   }, [filterChecked])
@@ -827,10 +851,140 @@ const ProductList = () => {
 
   }
 
+  const Newlist = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: 'auto' }}
+      role="presentation"
+      onClick={()=>setIsSortByDrawerOpen((prev)=>!prev)}
+      onKeyDown={()=>setIsSortByDrawerOpen((prev)=>!prev)}
+    >
+      <div>
+        <label className="sortItemLabelProduct" style={{ color: '#888', paddingInline: '15px' }}>
+          SORT BY
+        </label>
+        <div style={{ paddingInline: '15px' }}>
+          <label className="sortItemLabelProduct">
+            Recommended
+            <input
+              defaultChecked
+              type="radio"
+              name="sortOption"
+              value="None"
+              // onClick={() => { handleSortChange('None'); }}
+            />
+          </label>
+
+          <label className="sortItemLabelProduct">
+            New
+            <input
+              type="radio"
+              name="sortOption"
+              value="New"
+              // onClick={() => { handleSortChange('New'); }}
+            />
+          </label>
+
+          <label className="sortItemLabelProduct">
+            In stock
+            <input
+              type="radio"
+              name="sortOption"
+              value="InStock"
+              // onClick={() => { handleSortChange('InStock'); }}
+            />
+          </label>
+
+          <label className="sortItemLabelProduct">
+            Trending                                                  
+            <input
+              type="radio"
+              name="sortOption"
+              value="InStock"
+              // onClick={() => { handleSortChange('InStock'); }}
+            />
+          </label>
+
+          <label className="sortItemLabelProduct">
+            Price High to Low
+            <input
+              type="radio"
+              name="sortOption"
+              value="PriceHighToLow"
+              // onClick={() => { handleSortChange('PRICE HIGH TO LOW'); }}
+            />
+          </label>
+
+
+          <label className="sortItemLabelProduct">
+            Price Low to High
+            <input
+              type="radio"
+              name="sortOption"
+              value="PriceLowToHigh"
+              // onClick={() => { handleSortChange('PRICE LOW TO HIGH') }}
+            // onClick={() => { handleSortChange('PRICE LOW TO HIGH'); toggleShoryBy(); }}
+            />
+          </label>
+        </div>
+      </div>
+    </Box>
+  );
+
+  const handleSingleView = () =>{
+    setIsImgViewDrawerOpen(false)
+    setIsDoubleView(false) 
+    setIsSingleView(true)
+  }
+
+  const handleDoubleView = () =>{
+    setIsImgViewDrawerOpen(false)
+    setIsSingleView(false)
+    setIsDoubleView(true) 
+  }
+
+  const NewlistImageView = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: 'auto' }}
+      role="presentation"
+      // onClick={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
+      // onKeyDown={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
+    >
+      <div>
+        <label className="sortItemLabelProduct" style={{ color: '#888', paddingInline: '15px' }}>
+          Product View
+        </label>
+        <div style={{ paddingInline: '15px' }}>
+          <label className="sortItemLabelProduct">
+            Single View
+            <input
+              checked={isSingleView}
+              type="radio"
+              name="sortOption"
+              value="single"
+              onClick={() => handleSingleView()}
+            />
+          </label>
+
+          <label className="sortItemLabelProduct">
+            Dubble View
+            <input
+              checked={isDoubleView}
+              type="radio"
+              name="sortOption"
+              value="double"
+              onClick={() => handleDoubleView()}
+            />
+          </label>
+        </div>
+      </div>
+    </Box>
+  );
+
+
   return (
     <div id="top">
-      <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer" >
-        <div style={{display:'flex',width:'100%',alignItems:'center',justifyContent:'end',padding:'8px 8px 0px 0px'}}>
+      <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer"  >
+        <div style={{display:'flex',width:'100%',alignItems:'center',justifyContent:'end',padding:'8px 8px 0px 0px',marginTop:'12px'}} >
           <CloseIcon onClick={() => {setIsDrawerOpen(false)}}/>
         </div>
       <div style={{marginLeft:'15px',marginBottom:'20px',display:'flex',gap:'5px',flexDirection:'column'}}>
@@ -1189,7 +1343,7 @@ const ProductList = () => {
 
                     </div>}
 
-                    <div className="smr_mainPortion">
+                    <div className="smr_mainPortion" style={{marginTop:'50px'}}>
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
@@ -1346,7 +1500,7 @@ const ProductList = () => {
                       {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                       <div className="smrMA_inner_portion">
                         {finalProductListData?.map((productData,i) => (
-                          <div className="smrMA_productCard">
+                          <div className="smrMA_productCard" style={{width: (isSingleView && '98%') || (isDoubleView && '49%')}}>
                             <div className="cart_and_wishlist_icon">
                               {/* <Button className="smr_cart-icon"> */}
                                 <Checkbox
@@ -1414,6 +1568,7 @@ const ProductList = () => {
                                       </div>
                                       <img
                                         className="smr_productCard_Image"
+                                        style={{height: (isSingleView && '412px') || (isDoubleView && '200px'),minHeight:(isSingleView && '412px') || (isDoubleView && '200px')}}
 
                               id={`smr_productCard_Image${productData?.autocode}`}
                               // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
@@ -1436,19 +1591,19 @@ const ProductList = () => {
                                 {productData?.TitleLine?.length > 0 && "-"}
                                 {productData?.TitleLine}{" "}
                               </span>
-                              <span className="smr_prod_designno">
+                              <span className="smrMA_prod_designno">
                                 {productData?.designno}
                               </span>
                             </div>
-                            <div className="smr_prod_Allwt">
+                            <div className="smr_prod_Allwt" >
                               <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
-                                <span className="smr_prod_wt">
+                              { (Number(productData?.updNWT.toFixed(3))  !== 0 )&& <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
                                     {productData?.updNWT.toFixed(3)}
                                   </span>
-                                </span>
+                                </span>}
                                 { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
                                   <>
                                   <span>|</span>
@@ -1473,34 +1628,35 @@ const ProductList = () => {
                                 </span>
                                </>
                                 }
-
-                                          {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">CWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
+                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
+                                  <>
+                                    <span>|</span>
+                                    <span className="smr_prod_wt">
+                                      <span className="smr_keys">CWT:</span>
+                                      <span className="smr_val">
+                                        {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
+                                      </span>
+                                    </span>
+                                  </>
+                                }
                                           {/* </span> */}
                                         </div>
                                       </div>
-                                      <div className="smr_prod_mtcolr_price">
+                                      <div className="smrMA_prod_mtcolr_price">
                                         <span className="smr_prod_metal_col">
                                           {findMetalColor(
                                             productData?.MetalColorid
                                           )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
+                                          {findMetalColor(
+                                            productData?.MetalColorid
+                                          )?.[0]?.metalcolorname.toUpperCase() && '-'}
                                           {
                                             findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
                                               ?.metaltype
                                           }
                                         </span>
                                         <span>/</span>
-                                        <span className="smr_price">
+                                        <span className="smrMA_price">
                                           <span
                                             className="smr_currencyFont"
                                             dangerouslySetInnerHTML={{
@@ -1510,7 +1666,7 @@ const ProductList = () => {
                                             }}
                                           />
                                           <span className="smr_pricePort">
-                                            {productData?.ismrpbase === 1
+                                            {productData?.ismrpbase == 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
@@ -1550,17 +1706,33 @@ const ProductList = () => {
         </div>
       </div>
 
+      <Drawer
+        anchor="bottom"
+        open={isSortByDrawerOpen}
+        onClose={()=>setIsSortByDrawerOpen(false)}
+      >
+        {Newlist("bottom")}
+      </Drawer>
+
+      <Drawer
+        anchor="bottom"
+        open={isImgViewDrawerOpen}
+        onClose={()=>setIsImgViewDrawerOpen(false)}
+      >
+        {NewlistImageView("bottom")}
+      </Drawer>
+
       <div style={styles.container}>
         <div style={styles.tab} onClick={()=>setIsDrawerOpen(true)}>
           <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
         </div>
-        <div style={styles.tab} onClick={''}>
+        <div style={styles.tab} onClick={()=>setIsSortByDrawerOpen(true)}>
           <BsFilterLeft style={activeTab === "/shortBy" ? styles.activeIcon : styles.icon} />
-          <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Short By</span>
+          <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Sort By</span>
         </div>
 
-        <div style={styles.tab} onClick={''}>
+        <div style={styles.tab} onClick={()=>setIsImgViewDrawerOpen(true)}>
           <FaEye style={styles.icon} />
           <span style={styles.text}>Image View</span>
         </div>

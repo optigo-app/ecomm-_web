@@ -19,10 +19,15 @@ import YourProfile from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/
 import OrderHistory from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/AccountOrderHistory/OrderHisoty';
 import ManageAddress from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/address/ManageAddress';
 import ChangePassword from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/changePassword/ChangePassword';
+import SearchPage from './Components/Pages/SearchPage/SearchPage'
+import { smrMA_loginState } from './Components/Recoil/atom'
+import { useRecoilValue } from 'recoil'
+import PrivateRoutes from './PrivateRoutes'
 
 const SmilingRock_MobileApp_App = () => {
 
   const location = useLocation();
+  const islogin = useRecoilValue(smrMA_loginState)
 
   return (
     <div>
@@ -41,22 +46,28 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/ManageAddress" ||
         location.pathname === "/YourProfile" ||
         location.pathname === "/payment" ||
+        location.pathname === "/SearchPage" ||
         location.pathname === "/CartPage" ||
+        location.pathname === "/Confirmation" ||
         location.pathname === "/myWishList" ||
-        location.pathname === "/confirmation" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
-        {/* <Route path='/' element={<PrivateRoutes isLoginStatus={isLoginStatus} />}> */}
-        <Route path="/CartPage" element={<CartPage />} />
-        <Route path="/Delivery" element={<Delivery />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/Confirmation" element={<Confirmation />} />
-        <Route path="/myWishList" element={<Wishlist />} />
-        <Route path="/Menu" element={<Menu />} />
-        <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
+        {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
+          <Route path="/CartPage" element={<CartPage />} />
+          <Route path="/Account" element={<Account />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
+          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/Menu" element={<Menu />} />
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/d/*" element={<ProductDetail />} />
+          <Route path="/SearchPage" element={<SearchPage />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
@@ -67,7 +78,6 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/ChangePassword" element={<ChangePassword />} />
 
       </Routes>
-
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
         '' : <HomeTab />}
 

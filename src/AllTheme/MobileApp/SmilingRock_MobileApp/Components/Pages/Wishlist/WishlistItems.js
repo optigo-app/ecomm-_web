@@ -66,7 +66,7 @@ const WishlistItems = (
     }
 
     return (
-        <Grid sx={{paddingLeft:'12px !important', paddingTop:'10px !important'}} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
+        <Grid sx={{ paddingLeft: '12px !important', paddingTop: '10px !important' }} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smrMo_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
@@ -74,7 +74,7 @@ const WishlistItems = (
                         image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
-                        onClick={() => handleMoveToDetail(item)} 
+                        onClick={() => handleMoveToDetail(item)}
                     />
                     <CardContent className='smr_cardContent'>
                         <div className='cardText'>
@@ -116,11 +116,10 @@ const WishlistItems = (
                             <p className='smr_DesignNoTExt'>{item?.designno}</p>
                         </div> */}
                     </CardContent>
-                    <div className='smr_Wl-CartbtnDiv'>
-                        <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {countDataUpdted?.msg == 'success' ? "in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "in cart")}
+                    <div className='smrMo_Wl-CartbtnDiv'>
+                        <button className='smrMo_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
+                            {item?.IsInCart !== 1 ? "Add to cart +" : "in cart"}
                         </button>
-
                     </div>
                 </div>
                 <div className='closeWlIconDiv' onClick={(e) => handleRemoveItemFun(item)}>

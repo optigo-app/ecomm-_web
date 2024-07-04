@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { smrMA_companyLogo } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { smrMA_CartCount, smrMA_WishCount, smrMA_companyLogo, smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import './Header.modul.scss'
 import { Badge, Tooltip } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchIcon from '@mui/icons-material/Search';
 import { FiArrowLeft } from "react-icons/fi";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Header = () => {
 
@@ -15,9 +16,15 @@ const Header = () => {
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const location = useLocation();
   const navigation = useNavigate();
-
+  const [isB2bFlag, setIsB2BFlaf] = useState('');
+  const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
+  const [islogin, setislogin] = useRecoilState(smrMA_loginState);
 
   useEffect(() => {
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    setIsB2BFlaf(storeinit?.IsB2BWebsite);
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsHeaderFixed(scrollPosition > 100);
@@ -28,7 +35,20 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    GetCountAPI().then((res) => {
+      if (res) {
+        setCartCountNum(res?.cartcount)
+        setWishCountNum(res?.wishcount)
+      }
+    }).catch((err) => {
+      if (err) {
+        console.log("getCountApiErr", err);
+      }
+    })
+  }, [])
 
+  console.log('ddddddddd', location);
   return (
     <div>
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
@@ -42,16 +62,16 @@ const Header = () => {
                 // value={searchText}
                 // onChange={(e) => setSearchText(e.target.value)}
                 className="smeMASearchBoxInputDiv"
-                // onKeyDown={(event) => {
-                //   if (event.key === 'Enter') {
-                //     searchDataFucn();
-                //   }
-                // }}
+              // onKeyDown={(event) => {
+              //   if (event.key === 'Enter') {
+              //     searchDataFucn();
+              //   }
+              // }}
               />
               <SearchIcon onClick={''} />
             </div>
             <Badge
-              badgeContent={'3'}
+              badgeContent={cartCountNum}
               overlap={"rectangular"}
               color="secondary"
               style={{ marginTop: '5px', marginLeft: '5px' }}
@@ -76,38 +96,93 @@ const Header = () => {
         </div>
 
         :
-        <div className='smrMA_HeaderMain'>
-          <div className='smrMA_Top_header_sub'>
-            <div className='smrMA_Div1Main'>
-              <a href="/">
-                <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
-              </a>
 
-              <Badge
-                badgeContent={'8'}
-                overlap={"rectangular"}
-                color="secondary"
-                style={{ marginInline: '6px' }}
-                className="smilingHeaderWhishlistIcon"
-              // className="smilingHeaderWhishlistIcon badge12"
-              >
-                <Tooltip title="WishList">
-                  <li style={{ listStyle: 'none' }} onClick={() => navigation("/myWishList")}>
-                    <FavoriteBorderIcon
-                      style={{
-                        height: "25px",
-                        cursor: "pointer",
-                        width: "25px",
-                        // color: "white",
-                      }}
-                      className="mobileViewSmilingTop1Icone"
-                    />
-                  </li>
-                </Tooltip>
-              </Badge>
+        (location.pathname === "CartPage") ?
+          ""
+          :
+          <div className='smrMA_HeaderMain'>
+            <div className='smrMA_Top_header_sub'>
+              <div className='smrMA_Div1Main'>
+                <a href="/">
+                  <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
+                </a>
+                {isB2bFlag == 1 ?
+                  islogin == false ?
+                    ''
+                    :
+                    <Badge
+                      badgeContent={wishCountNum}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      style={{ marginInline: '6px' }}
+                      className="smilingHeaderWhishlistIcon"
+                    // className="smilingHeaderWhishlistIcon badge12"
+                    >
+                      <Tooltip title="WishList">
+                        <li style={{ listStyle: 'none' }} onClick={() => navigation("/myWishList")}>
+                          <FavoriteBorderIcon
+                            style={{
+                              height: "25px",
+                              cursor: "pointer",
+                              width: "25px",
+                              // color: "white",
+                            }}
+                            className="mobileViewSmilingTop1Icone"
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                  :
+                  <Badge
+                    badgeContent={wishCountNum}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    style={{ marginInline: '6px' }}
+                    className="smilingHeaderWhishlistIcon"
+                  // className="smilingHeaderWhishlistIcon badge12"
+                  >
+                    <Tooltip title="WishList">
+                      <li style={{ listStyle: 'none' }} onClick={() => navigation("/myWishList")}>
+                        <FavoriteBorderIcon
+                          style={{
+                            height: "25px",
+                            cursor: "pointer",
+                            width: "25px",
+                            // color: "white",
+                          }}
+                          className="mobileViewSmilingTop1Icone"
+                        />
+                      </li>
+                    </Tooltip>
+                  </Badge>
+                }
+
+              </div>
+              <div>
+                <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    // value={searchText}
+                    // onChange={(e) => setSearchText(e.target.value)}
+                    className="searchBoxOnlyHeaderFiexed"
+                  // onKeyDown={(event) => {
+                  //   if (event.key === 'Enter') {
+                  //     searchDataFucn();
+                  //     setSerachShowOverlay(false);
+                  //   }
+                  // }}
+                  />
+                  <SearchIcon onClick={() => navigation('/SearchPage')} />
+                </div>
+              </div>
+
             </div>
-            <div>
-              <div className="searchBoxOnlyHeaderFiexedMain">
+
+            <div
+              className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
+            >
+              <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
                 <input
                   type="text"
                   placeholder="Search..."
@@ -121,33 +196,10 @@ const Header = () => {
                 //   }
                 // }}
                 />
-                <SearchIcon onClick={''} />
+                <SearchIcon onClick={() => navigation('/SearchPage')} />
               </div>
             </div>
-
           </div>
-
-          <div
-            className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
-          >
-            <div className="searchBoxOnlyHeaderFiexedMain">
-              <input
-                type="text"
-                placeholder="Search..."
-                // value={searchText}
-                // onChange={(e) => setSearchText(e.target.value)}
-                className="searchBoxOnlyHeaderFiexed"
-              // onKeyDown={(event) => {
-              //   if (event.key === 'Enter') {
-              //     searchDataFucn();
-              //     setSerachShowOverlay(false);
-              //   }
-              // }}
-              />
-              <SearchIcon onClick={''} />
-            </div>
-          </div>
-        </div>
       }
     </div>
   )

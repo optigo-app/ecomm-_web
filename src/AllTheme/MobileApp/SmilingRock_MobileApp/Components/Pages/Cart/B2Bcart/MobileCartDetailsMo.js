@@ -65,8 +65,8 @@ const MobileCartDetails = ({
           style={{border:'none'}} 
           />
         </div>
-        <div className="smr_Cart_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="smrMo_Cart_R-details">
+          <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
             <div className="smr_Cart-options">

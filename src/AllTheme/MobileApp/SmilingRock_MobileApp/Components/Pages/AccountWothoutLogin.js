@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
-import './AccountWothoutLogin.css'
+import './AccountWothoutLogin.modul.scss'
 import { FaBook } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
@@ -12,7 +12,7 @@ export default function AccountWothoutLogin() {
 
 
     return (
-        <div>
+        <div className='smrMA_WithoutloginAccountMain'>
             <div className='SmiCartListTitleAccount'>
                 <p className="SmiCartListTitleN" style={{}}>
                     <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation('/')} />Account

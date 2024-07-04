@@ -6,22 +6,23 @@ const ProductListSkeleton = ({fromPage}) => {
     const cardsArray = Array.from({ length: 6 }, (_, index) => index + 1);
     const isMobile = useMediaQuery('(max-width: 767px)');
     const isDesktop = useMediaQuery('(max-width: 1440px)');
+                            {/* <Skeleton variant="rect" width={100} height={100} style={{ marginRight: '10px' }} /> */}
+
 
     return (
-        <div className={fromPage === "Prodlist" ? "skeltonMainDiv_prodlistPage":'skeltonMainDiv'}>
+        <div className={fromPage === "Prodlist" ? "skeltonMainDiv_prodlistPage":'skeltonMainDiv'} style={{marginTop:'30px'}}>
             <Grid container spacing={2}>
-                { fromPage !== "Prodlist" && <Grid item xs={12}>
+                {/* { fromPage !== "Prodlist" && <Grid item xs={12}>
                     <Card className='skeltoncards' style={{ width: '100%' }}>
                         <CardContent style={{ display: 'flex', alignItems: 'center' }}>
                             <div style={{ flex: 1 }} className='topSkeletonMain'>
                                 <Skeleton animation="wave" variant="text" width={'80%'} height={20} style={{ marginBottom: '10px' }} />
                                 <Skeleton animation="wave" variant="text" width={'60%'} height={20} />
                             </div>
-                            {/* <Skeleton variant="rect" width={100} height={100} style={{ marginRight: '10px' }} /> */}
                         </CardContent>
                     </Card>
-                </Grid>}
-                { fromPage !== "Prodlist" && <Grid sx={{display: isDesktop ? 'none' : 'block'}}  item xs={3}>
+                </Grid>} */}
+                { fromPage !== "Prodlist" && <Grid sx={{display: isDesktop ? 'none' : 'block'}}  item xs={3} >
                     <Card className='skeltoncards'>
                         <CardContent>
                             <Skeleton animation="wave" variant="text" width={'80%'} height={20} style={{ marginBottom: '20px' }} />

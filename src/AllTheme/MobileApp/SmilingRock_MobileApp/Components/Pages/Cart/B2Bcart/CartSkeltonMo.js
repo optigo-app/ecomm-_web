@@ -1,28 +1,32 @@
 import React from 'react';
 import "./smrMo_cartSkelton.scss"
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Skeleton, useMediaQuery } from '@mui/material';
 
 const CartPageSkeleton = () => {
+  const isWideScreen = useMediaQuery('(min-width:1025px)');
+
   return (
-    <Grid container spacing={1} sx={{padding:'0px 20px'}}>
+    <Grid container spacing={1} sx={{ padding: '5px 5px' }}>
       <Grid item xs={12} md={9} className='smr_cartSkeltonListCardGrid'>
         <Grid container spacing={3}>
           {[...Array(9)].map((_, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Skeleton className='smr_CartSkelton' variant="rectangular" width="100%" height={240} animation="wave" />
+              <Skeleton className='smr_CartSkelton' variant="rectangular" width="100%" height={200} animation="wave" />
             </Grid>
           ))}
         </Grid>
       </Grid>
 
-      <Grid item xs={12} md={3}>
-        <div className='smr_cartskeltonRightSide'>
-          <Skeleton className='smr_CartSkelton' variant="rectangular" width="90%" height={500} animation="wave" />
-          <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
-          <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
-          <Skeleton className='smr_CartSkelton' variant="text" width="60%" animation="wave" />
-        </div>
-      </Grid>
+      {isWideScreen &&
+        <Grid item xs={12} md={3}>
+          <div className='smr_cartskeltonRightSide'>
+            <Skeleton className='smr_CartSkelton' variant="rectangular" width="90%" height={500} animation="wave" />
+            <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+            <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+            <Skeleton className='smr_CartSkelton' variant="text" width="60%" animation="wave" />
+          </div>
+        </Grid>
+      }
     </Grid>
   );
 };

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./smrMo_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import ConfirmationDialog from "../ConfirmationMoDialog/ConfirmationMoDialog";
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import { IoArrowBack } from "react-icons/io5";
 
 const Wishlist = () => {
   const {
@@ -30,10 +31,11 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [countstatus, setCountStatus] = useState();
+  const navigation = useNavigate();
 
   useEffect(() => {
-      const iswishUpdateStatus = localStorage.getItem('wishUpdation');
-      setCountStatus(iswishUpdateStatus)
+    const iswishUpdateStatus = localStorage.getItem('wishUpdation');
+    setCountStatus(iswishUpdateStatus)
   }, [handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
@@ -81,29 +83,32 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="smr_MainWlDiv">
-      <div className="WlMainPageDiv">
-        <div className="WlBtnGroupMainDiv">
+    <div className="smrMA_MainWlDiv">
+      <p className="SmiCartListTitle">
+        <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
+      </p>
+      <div className="smrMo_WlBtnGroupMainDiv">
+        {/* <div className="WlBtnGroupMainDiv">
           <div className="smr_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
             <>
-              <div className="smr_WlButton-group">
+              <div className="smrMo_WlButton-group">
                 <Link
-                  className="smr_ReomoveAllWLbtn"
+                  className="smrMo_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
                   CLEAR ALL
                 </Link>
-                {/* <button className='smr_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
-                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
-                {/* <button className='smr_WlBtn'>SHOW PRODUCT LIST</button> */}
+                <button className='smrMo_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button>
+                <button className="smrMo_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
+                <button className='smrMo_WlBtn'>SHOW PRODUCT LIST</button>
               </div>
             </>
           }
 
-        </div>
+        </div> */}
         {!isWLLoading ? (
           <WishlistData
             isloding={isWLLoading}
@@ -119,7 +124,7 @@ const Wishlist = () => {
             handleMoveToDetail={handleMoveToDetail}
           />
         ) : (
-          <div style={{marginTop:'90px'}}>
+          <div style={{ marginTop: '10px' }}>
             <SkeletonLoader />
           </div>
         )}
@@ -130,6 +135,12 @@ const Wishlist = () => {
           title="Confirm Clear All"
           content="Are you sure you want to clear all items?"
         />
+        {wishlistData?.length !== 0 &&
+          <div className='smrMo_WlButton-group'>
+            <button fullWidth className='smrMo_ReomoveAllWLbtn' onClick={handleRemoveAllDialog}>Clear All</button>
+            <button fullWidth className='smrMo_WlAddToCartBtn' onClick={handleAddtoCartAllfun}>Add To Cart All</button>
+          </div>
+        }
       </div>
     </div>
   );

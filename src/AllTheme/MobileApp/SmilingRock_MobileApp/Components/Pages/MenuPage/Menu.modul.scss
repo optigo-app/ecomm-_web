@@ -1,9 +1,28 @@
+
+@import '../../scss/variable.scss';
+
 .smrMA_menuPageMain {
 
     .smrMA_menuVieAllLink {
         text-decoration: underline;
         background-color: transparent;
         border: none;
+        font-family: $primaryFontFamily;
+    }
+
+    .smrMA_menuViewTitle{
+        font-family: $primaryFontFamily;
+        font-weight: 600;
+    }
+
+    .smrMA_SuMenuTitle{
+        height: 38px;
+        margin: 0px 0px 0px 15px!important;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        font-family: $primaryFontFamily;
+        margin: 0px;
     }
 
     .tabMainSmilingMobile .MuiTabs-indicator {
@@ -23,5 +42,9 @@
 
     .smrMA_menuMainSwipe::-webkit-scrollbar {
         display: none !important;
+    }
+
+    .smrMA_menuMainTitle{
+        font-family: $primaryFontFamily;
     }
 }

@@ -7,6 +7,7 @@ import DeleteDialog from './DeleteDialog';
 import { useAddress } from '../../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import { Grid, Button } from '@mui/material';
 import SkeletonLoader from './AddressSkelton';
+import { IoArrowBack } from 'react-icons/io5';
 
 const AddressManagement = () => {
     const {
@@ -40,6 +41,9 @@ const AddressManagement = () => {
 
     return (
         <div className='smrMo_DeliverMainDiv'>
+             <p className="SmiCartListTitle">
+                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />Select delivery address
+            </p>
             <div className='smrMo_secondMaindivAdd'>
                 <div className='smrMo_addMainDiv'>
                     {!isLoading ? (

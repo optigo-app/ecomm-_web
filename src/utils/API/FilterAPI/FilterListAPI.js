@@ -42,10 +42,10 @@ export const FilterListAPI = async(mainData) =>{
 
 
     const data = {
-        "PackageId":`${loginInfo?.PackageId}`,
+        "PackageId":`${loginInfo?.PackageId ?? storeinit?.PackageId}`,
         "autocode":"",
         "FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
-        "Customerid":`${loginInfo?.id}`,
+        "Customerid":`${loginInfo?.id ?? 0}`,
         "FilterKey":`${MenuParams?.FilterKey ?? ""}`,
         "FilterVal":`${MenuParams?.FilterVal ?? ""}`,
         "FilterKey1":`${MenuParams?.FilterKey1 ?? ""}`,
