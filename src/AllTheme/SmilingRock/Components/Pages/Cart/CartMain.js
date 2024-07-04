@@ -12,7 +12,7 @@ const CartMain = () => {
 
     return (
         <div>
-            {storeInitData && storeInitData.IsB2BWebsite === 1 ? (
+            {storeInitData && storeInitData.IsB2BWebsite === 0 ? (
                 <B2bCart />
             ) : (
                 <B2cCart />
