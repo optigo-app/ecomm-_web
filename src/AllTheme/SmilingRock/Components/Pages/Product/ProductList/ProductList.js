@@ -335,22 +335,23 @@ const ProductList = () => {
           }
           return res;
         })
-        .then( async(res) => {
-          let forWardResp;
-          if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
-              if(resp){
-               console.log("productPriceData",resp);
+        // .then( async(res) => {
+        //   let forWardResp;
+        //   if (res) {
+        //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
+        //       if(resp){
+        //        console.log("productPriceData",resp);
 
-                setPriceListData(resp)
-                forWardResp = resp;
-              }
-            })
-          }
-          return forWardResp
-        }).then(async(forWardResp)=>{
+        //         setPriceListData(resp)
+        //         forWardResp = resp;
+        //       }
+        //     })
+        //   }
+        //   return forWardResp
+        // })
+        .then(async(res)=>{
           let forWardResp1;
-          if(forWardResp){
+          if(res){
             await FilterListAPI(productlisttype).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
@@ -377,18 +378,6 @@ const ProductList = () => {
 
   useEffect(() => {
     const finalProdWithPrice = productListData.map((product) => {
-      const newPriceData = priceListData?.rd?.find(
-        (pda) => pda.A == product.autocode
-      );
-
-      const newPriceData1 = priceListData?.rd1
-        ?.filter((pda) => pda.A == product.autocode)
-        .reduce((acc, obj) => acc + obj.S, 0);
-
-      const newPriceData2 = priceListData?.rd2
-        ?.filter((pda) => pda.A == product.autocode)
-        .reduce((acc, obj) => acc + obj.S, 0);
-
         let pdImgList = [];
 
         if(product?.ImageCount > 0){
@@ -401,67 +390,105 @@ const ProductList = () => {
           pdImgList.push(imageNotFound)
         }
 
-      let price = 0;
-      let markup = 0;
-      let metalrd = 0;
-      let diard1 = 0;
-      let csrd2 = 0;
-      let updNWT = 0;
-      let updGWT = 0;
-      let updDWT = 0;
-      let updDPCS = 0;
-      let updCWT = 0;
-      let updCPCS = 0;
-      let ismrpbase;
-      let mrpbaseprice;
-      let images = pdImgList;
+      
+        let images = pdImgList;
 
-      if (newPriceData || newPriceData1 || newPriceData2) {
-        price =
-          ((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
-          (newPriceData?.W ?? 0) +
-          (newPriceData?.X ?? 0) +
-          (newPriceData1 ?? 0) +
-          (newPriceData2 ?? 0);
-        metalrd =
-          ((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
-          (newPriceData?.W ?? 0) +
-          (newPriceData?.X ?? 0);
-        diard1 = newPriceData1 ?? 0;
-        csrd2 = newPriceData2 ?? 0;
-        markup = newPriceData?.AB;
-        updNWT = newPriceData?.I ?? 0;
-        updGWT = newPriceData?.N ?? 0;
-        updDWT = newPriceData?.K ?? 0;
-        updDPCS = newPriceData?.J ?? 0;
-        updCWT = newPriceData?.M ?? 0;
-        updCPCS = newPriceData?.L ?? 0;
-        ismrpbase = newPriceData?.U;
-        mrpbaseprice = newPriceData?.Z;
-      }
-
-      return {
-        ...product,
-        price,
-        markup,
-        metalrd,
-        diard1,
-        csrd2,
-        updNWT,
-        updGWT,
-        updDWT,
-        updDPCS,
-        updCWT,
-        updCPCS,
-        ismrpbase,
-        mrpbaseprice,
-        images
-      };
+        return {
+          ...product,
+          images
+        };
     });
 
     // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
-  }, [productListData, priceListData]);
+  }, [productListData]);
+  // useEffect(() => {
+  //   const finalProdWithPrice = productListData.map((product) => {
+  //     const newPriceData = priceListData?.rd?.find(
+  //       (pda) => pda.A == product.autocode
+  //     );
+
+  //     const newPriceData1 = priceListData?.rd1
+  //       ?.filter((pda) => pda.A == product.autocode)
+  //       .reduce((acc, obj) => acc + obj.S, 0);
+
+  //     const newPriceData2 = priceListData?.rd2
+  //       ?.filter((pda) => pda.A == product.autocode)
+  //       .reduce((acc, obj) => acc + obj.S, 0);
+
+  //       let pdImgList = [];
+
+  //       if(product?.ImageCount > 0){
+  //         for(let i = 1; i <= product?.ImageCount; i++){
+  //           let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+  //           pdImgList.push(imgString)
+  //         }
+  //       }
+  //       else{
+  //         pdImgList.push(imageNotFound)
+  //       }
+
+  //     let price = 0;
+  //     let markup = 0;
+  //     let metalrd = 0;
+  //     let diard1 = 0;
+  //     let csrd2 = 0;
+  //     let updNWT = 0;
+  //     let updGWT = 0;
+  //     let updDWT = 0;
+  //     let updDPCS = 0;
+  //     let updCWT = 0;
+  //     let updCPCS = 0;
+  //     let ismrpbase;
+  //     let mrpbaseprice;
+  //     let images = pdImgList;
+
+  //     if (newPriceData || newPriceData1 || newPriceData2) {
+  //       price =
+  //         ((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
+  //         (newPriceData?.W ?? 0) +
+  //         (newPriceData?.X ?? 0) +
+  //         (newPriceData1 ?? 0) +
+  //         (newPriceData2 ?? 0);
+  //       metalrd =
+  //         ((newPriceData?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
+  //         (newPriceData?.W ?? 0) +
+  //         (newPriceData?.X ?? 0);
+  //       diard1 = newPriceData1 ?? 0;
+  //       csrd2 = newPriceData2 ?? 0;
+  //       markup = newPriceData?.AB;
+  //       updNWT = newPriceData?.I ?? 0;
+  //       updGWT = newPriceData?.N ?? 0;
+  //       updDWT = newPriceData?.K ?? 0;
+  //       updDPCS = newPriceData?.J ?? 0;
+  //       updCWT = newPriceData?.M ?? 0;
+  //       updCPCS = newPriceData?.L ?? 0;
+  //       ismrpbase = newPriceData?.U;
+  //       mrpbaseprice = newPriceData?.Z;
+  //     }
+
+  //     return {
+  //       ...product,
+  //       price,
+  //       markup,
+  //       metalrd,
+  //       diard1,
+  //       csrd2,
+  //       updNWT,
+  //       updGWT,
+  //       updDWT,
+  //       updDPCS,
+  //       updCWT,
+  //       updCPCS,
+  //       ismrpbase,
+  //       mrpbaseprice,
+  //       images
+  //     };
+  //   });
+
+  //   // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+  //   setFinalProductListData(finalProdWithPrice);
+  // }, [productListData, priceListData]);
 
   const ProdCardImageFunc = (pd,j) => {
     let finalprodListimg;
@@ -1450,48 +1477,47 @@ const ProductList = () => {
                             <div className="smr_prod_Allwt">
                               <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
-                                { (Number(productData?.updNWT.toFixed(3))  !== 0 )&& <span className="smr_prod_wt">
+                                { (Number(productData?.Nwt)  !== 0 )&& <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
+                                    {productData?.Nwt}
                                   </span>
                                 </span>}
-                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
+                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0) &&
                                   <>
                                   <span>|</span>
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">GWT:</span>
                                   <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
+                                    {productData?.Gwt}
                                   </span>
                                 </span>
                                 </>
                                 }
                               {/* </span> */}
                               {/* <span className="smr_por"> */}
-                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
+                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
                                <>
                                <span>|</span>
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">DWT:</span>
                                   <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
+                                    {productData?.Dwt}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
                                   </span>
                                 </span>
                                </>
                                 }
-
-                                          {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">CWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
+                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
+                                  <>
+                                    <span>|</span>
+                                    <span className="smr_prod_wt">
+                                      <span className="smr_keys">CWT:</span>
+                                      <span className="smr_val">
+                                        {productData?.CSwt}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
+                                      </span>
+                                    </span>
+                                  </>
+                                }
                                           {/* </span> */}
                                         </div>
                                       </div>
@@ -1517,13 +1543,14 @@ const ProductList = () => {
                                             }}
                                           />
                                           <span className="smr_pricePort">
-                                            {productData?.ismrpbase === 1
+                                            {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
-                                              )?.toFixed(2)}
+                                              )?.toFixed(2)} */}
+                                              {productData?.UnitCostWithMarkUp}
                                           </span>
                                         </span>
                                       </div>
