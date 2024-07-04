@@ -19,20 +19,20 @@ const BottomBanner = () => {
             Link: 'LISTEN NOW',
             images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner2.png`
         },
-        {
-            id: 2,
-            Title: 'KayraCreation with Celebrities at Red Carpet',
-            Decription: 'Celebrities and Top Influencers wearing sustainable lab-grown diamonds jewelry',
-            Link: 'DISCOVER',
-            images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner1.png`
-        },
-        {
-            id: 3,
-            Title: 'Meet The Founders',
-            Decription: 'The founders of KayraCreation have a mission to spread smiles through supporting different charity organizations.',
-            Link: 'DISCOVER',
-            images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner3.jpg`
-        },
+        // {
+        //     id: 2,
+        //     Title: 'KayraCreation with Celebrities at Red Carpet',
+        //     Decription: 'Celebrities and Top Influencers wearing sustainable lab-grown diamonds jewelry',
+        //     Link: 'DISCOVER',
+        //     images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner1.png`
+        // },
+        // {
+        //     id: 3,
+        //     Title: 'Meet The Founders',
+        //     Decription: 'The founders of KayraCreation have a mission to spread smiles through supporting different charity organizations.',
+        //     Link: 'DISCOVER',
+        //     images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner3.jpg`
+        // },
         {
             id: 4,
             Title: 'Featured In',
