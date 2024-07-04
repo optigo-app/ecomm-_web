@@ -16,6 +16,9 @@ import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEma
 import { loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
+import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
+import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
+import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -131,19 +134,42 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '','').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
-                console.log('responseresponse',response?.Data?.rd[0]?.Token);
-                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token); 
+                console.log('responseresponse', response?.Data?.rd[0]?.Token);
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 localStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-               
-                if(redirectEmailUrl){
+
+                CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        localStorage.setItem('CurrencyCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        localStorage.setItem('MetalColorCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        localStorage.setItem('metalTypeCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
 

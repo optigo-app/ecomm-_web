@@ -5,7 +5,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-export const CurrencyComboAPI = async () => {
+export const CurrencyComboAPI = async (finalID) => {
     let response;
     try {
         const storedEmail = localStorage.getItem('registerEmail') || '';
@@ -13,7 +13,7 @@ export const CurrencyComboAPI = async () => {
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${finalID}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
