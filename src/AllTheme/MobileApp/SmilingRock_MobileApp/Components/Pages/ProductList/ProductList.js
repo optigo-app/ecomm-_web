@@ -331,6 +331,7 @@ const ProductList = () => {
     if(TrendingVar){
       productlisttype = TrendingVar.split("=")[1]
     }
+    
     if(NewArrivalVar){
       productlisttype = NewArrivalVar.split("=")[1]
     }

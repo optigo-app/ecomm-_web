@@ -14,6 +14,7 @@ const Header = () => {
 
   const compnyLogo = useRecoilValue(smrMA_companyLogo);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const location = useLocation();
   const navigation = useNavigate();
   const [isB2bFlag, setIsB2BFlaf] = useState('');
@@ -48,6 +49,21 @@ const Header = () => {
     })
   }, [])
 
+
+  const searchDataFucn = (e) => {
+    if(e.key === 'Enter'){
+      if(searchText){
+        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+        console.log("searchtext",searchText);
+      }
+    }else{
+      if(searchText){
+        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+        console.log("searchtext",searchText);
+      }
+    }
+  }
+
   console.log('ddddddddd', location);
   return (
     <div>
@@ -59,16 +75,16 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                // value={searchText}
-                // onChange={(e) => setSearchText(e.target.value)}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
                 className="smeMASearchBoxInputDiv"
-              // onKeyDown={(event) => {
-              //   if (event.key === 'Enter') {
-              //     searchDataFucn();
-              //   }
-              // }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    searchDataFucn(event);
+                  }
+                }}
               />
-              <SearchIcon onClick={''} />
+              <SearchIcon onClick={(e)=>searchDataFucn(e)}  />
             </div>
             <Badge
               badgeContent={cartCountNum}
