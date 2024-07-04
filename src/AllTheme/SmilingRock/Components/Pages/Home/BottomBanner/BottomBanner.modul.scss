@@ -42,6 +42,12 @@
 
 
 
+    @media screen and (max-width: 1200px) {
+        .smr_shopifyImg {
+            min-height: auto!important;
+        }
+    }
+
     @media screen and (max-width: 1000px) {
         .shopifyMain {
             display: flex;

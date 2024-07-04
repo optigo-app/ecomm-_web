@@ -586,6 +586,15 @@ const Header = () => {
                 FUN FACT
               </li>
 
+              
+              <li
+                className="nav_li_smining nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+              >
+                LOOKBOOK
+              </li>
+
 
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
@@ -807,6 +816,14 @@ const Header = () => {
                   onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
                 >
                   FUN FACT
+                </li>
+
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                >
+                  LookBook
                 </li>
 
                 <ul className="nav_ul_shop_menu_Mobile">

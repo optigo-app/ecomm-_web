@@ -16,6 +16,9 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../../../Recoil/atom';
+import Cookies from 'js-cookie';
 
 const TrendingView = () => {
 
@@ -32,6 +35,8 @@ const TrendingView = () => {
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
+    const islogin = useRecoilValue(loginState);
+
     const isOdd = (num) => num % 2 !== 0;
 
     const settings = {
@@ -51,8 +56,19 @@ const TrendingView = () => {
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending").then((response) => {
+
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
 

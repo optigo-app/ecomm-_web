@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import "./quotation.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -22,6 +22,9 @@ import {checkMonth, formatAmount} from "../../../../../../../utils/Glob_Function
 import Swal from 'sweetalert2';
 
 import { getQuotationJobData } from '../../../../../../../utils/API/AccountTabs/quotationJob';
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const CustomSortIcon = ({ order }) => {
   return (
@@ -678,8 +681,15 @@ const scrollToTop = () => {
 };
 
   return (
+    <>
+      <MobViewHeader title="Jobs" />
     <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
-      <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+      <Accordion sx={{marginBottom:'20px'}}>
+        <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
+          More Filters
+        </AccordionSummary>
+        <AccordionDetails>
+        <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
         <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
         <Box sx={{ padding: "0 20px" }}>
           <RadioGroup
@@ -859,6 +869,8 @@ const scrollToTop = () => {
           <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
         </Box>
       </Box>
+        </AccordionDetails>
+      </Accordion>
 
       <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
         {isLoading ?
@@ -867,7 +879,7 @@ const scrollToTop = () => {
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead>
                   <TableRow>
-                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f", height:'30px'}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}
@@ -919,6 +931,8 @@ const scrollToTop = () => {
                         </TableRow>
                       );
                     })}
+
+                    
                 </TableBody>
               </Table>
             </TableContainer>
@@ -936,6 +950,7 @@ const scrollToTop = () => {
 
 
     </Box>
+    </>
   )
 }
 
