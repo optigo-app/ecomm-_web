@@ -51,22 +51,22 @@ const SmilingRock_MobileApp_App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
-        {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
+        <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
+        <Route path="/Menu" element={<Menu />} />
+        <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/CartPage" element={<CartPage />} />
           <Route path="/Account" element={<Account />} />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Menu" element={<Menu />} />
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/SearchPage" element={<SearchPage />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
-        {/* </Route> */}
+        </Route>
       </Routes>
-      {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
+      {(location.pathname.split('/')[1] === "p") || (location.pathname === "myWishList") || (location.pathname.split('/')[1] === "d") ?
         '' : <HomeTab />}
 
     </div>

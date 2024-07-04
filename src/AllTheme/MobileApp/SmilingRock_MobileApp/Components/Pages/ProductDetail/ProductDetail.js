@@ -1154,7 +1154,7 @@ const ProductDetail = () => {
 
                       </div>
                       <img
-                        className="smr_productCard_Image"
+                        className="smrMA_productCard_Image"
                         src={
                           storeInit?.DesignImageFol +
                           ele?.designno +
@@ -1260,7 +1260,7 @@ const ProductDetail = () => {
                   {SimilarBrandArr?.map((ele) => (
                     <div className="smr_stockItemCard" onClick={()=>setTimeout(()=>handleMoveToDetail(ele),500)}>
                       <img
-                        className="smr_productCard_Image"
+                        className="smrMA_productCard_Image"
                         src={ 
 
                           ele?.ImageCount > 0 ? 

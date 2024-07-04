@@ -72,7 +72,7 @@ const CartList = ({
           <Box className="smrMo_product-containerBox">
             {storeInitData?.IsPriceShow == 1 &&
               <div className="smrMo_product-price">
-                  <span>
+                  <span style={{fontWeight: 600 , fontSize: '20px'}}>
                     <span
                       className="smrMO_currencyFont"
                       dangerouslySetInnerHTML={{

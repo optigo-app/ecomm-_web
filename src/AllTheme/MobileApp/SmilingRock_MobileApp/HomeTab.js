@@ -54,7 +54,7 @@ const HomeTab = () => {
 
   return (
     <>
-      {location.pathname == '/d' ?
+      {location.pathname == '/d' || location.pathname == '/myWishList'|| location.pathname == '/CartPage'|| location.pathname == '/payment'|| location.pathname == '/Confirmation' ?
         <>
           {/* <button
             style={{

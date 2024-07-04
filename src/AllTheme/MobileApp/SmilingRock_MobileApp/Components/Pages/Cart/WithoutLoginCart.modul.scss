@@ -1,7 +1,10 @@
 
+@import '../../scss/variable.scss';
+
 .SmiCartListTitle {
     color: #7d7f85;
-    font-family: 'PT Sans', sans-serif;
+    font-family: $primaryFontFamily;
+    margin: 0px;
     display: flex;
     align-items: center;
     font-size: 18px;

@@ -54,6 +54,10 @@ const CartPage = () => {
     handleMoveToDetail
   } = useCart();
 
+  const navigate = useNavigate();
+  const handleRedirect = () => {
+    navigate('/')
+  }
 
   console.log('selected--', selectedItem);
   return (
@@ -119,10 +123,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noWishlistData'>
+              <div className='smrMo_noCartlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+                <button className='smr_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
               </div>
             }
           </>

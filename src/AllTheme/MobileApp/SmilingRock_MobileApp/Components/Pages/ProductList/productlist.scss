@@ -475,9 +475,9 @@
 @media screen and (max-width: 768px) {
   .smrMA_productCard{
     width:49%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px -2px 3px;
+    // box-shadow: rgba(0, 0, 0, 0.10) 0px -2px 3px;
     overflow: hidden;
-    border-radius: 10px;
+    // border-radius: 10px;
     background-color: white;
   }
 }
@@ -575,7 +575,7 @@
 @media screen and (max-width:900px) {
   .smr_productList{
     width:100%;
-    margin: 0px 0px 0px 13px;
+    margin: 0px 2px 0px 2px;
   }
 }
 
