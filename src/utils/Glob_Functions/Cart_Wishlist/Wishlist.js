@@ -3,12 +3,13 @@ import { fetchWishlistDetails } from '../../API/WishlistAPI/WishlistAPI';
 import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
 import { handleWishlistToCartAPI } from '../../API/WishList_Cart/WishlistToCart';
 import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image-not-found.jpg"
-import { useSetRecoilState } from 'recoil';
-import { CartCount, WishCount } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { CartCount, WishCount, loginState } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 const Usewishlist = () => {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ const Usewishlist = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [countDataUpdted, setCountDataUpdated] = useState();
+
+  const islogin = useRecoilValue(loginState)
 
 
   useEffect(() => {
@@ -37,9 +40,11 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
+    debugger
     setIsWlLoading(true);
     try {
-      const response = await fetchWishlistDetails();
+      const visiterId = Cookies.get('visiterId')
+      const response = await fetchWishlistDetails(visiterId, islogin);
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);

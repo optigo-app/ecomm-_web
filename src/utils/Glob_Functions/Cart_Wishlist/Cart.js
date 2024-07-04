@@ -6,14 +6,15 @@ import { GetSinglePriceListApi } from '../../API/CartAPI/SinglePriceListForCart'
 import { updateQuantity } from '../../API/CartAPI/QuantityAPI';
 import { getSizeData } from '../../API/CartAPI/GetCategorySizeAPI';
 import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image-not-found.jpg"
-import { useSetRecoilState } from 'recoil';
-import { CartCount, WishCount } from '../../../AllTheme/SmilingRock/Components/Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { CartCount, WishCount, loginState } from '../../../AllTheme/SmilingRock/Components/Recoil/atom';
 import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import { updateCartAPI } from '../../API/CartAPI/UpdateCartAPI';
 import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 const useCart = () => {
   const navigate = useNavigate();
@@ -62,12 +63,16 @@ const useCart = () => {
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
   const [handleUpdate, setHandleUpdate] = useState();
 
+  const [visiterId, setVisiterId] = useState();
+  const islogin = useRecoilValue(loginState)
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
 
   useEffect(() => {
+    const visiterIdVal = Cookies.get('visiterId');
+    setVisiterId(visiterIdVal)
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
@@ -91,15 +96,11 @@ const useCart = () => {
   }, [])
 
   const getCartData = async () => {
+    debugger
     setIsLoading(true);
+    const visiterId = Cookies.get('visiterId');
     try {
-      let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-      const storedData = localStorage.getItem("loginUserDetail");
-      const data = JSON.parse(storedData);
-      const customerEmail = data.id ?? 0;
-      const { FrontEnd_RegNo, ukey } = storeInit;
-
-      const response = await fetchCartDetails(customerEmail, ukey, FrontEnd_RegNo);
+      const response = await fetchCartDetails(visiterId, islogin);
 
       if (response?.Data) {
         setCartData(response?.Data?.rd);
@@ -140,7 +141,7 @@ const useCart = () => {
   };
 
   useEffect(() => {
-    getCartData();
+      getCartData();
   }, []);
 
   // for multiselect
@@ -250,7 +251,7 @@ const useCart = () => {
 
   const handleCategorySize = async (item) => {
     try {
-      const response = await getSizeData(item);
+      const response = await getSizeData(item, visiterId, islogin);
       if (response) {
         console.log('categoryData', response);
         setSizeCombo(response?.Data)
@@ -309,7 +310,7 @@ const useCart = () => {
   const handleSave = async (data) => {
     setShowRemark(false);
     try {
-      const response = await handleProductRemark(data, productRemark);
+      const response = await handleProductRemark(data, productRemark, visiterId, islogin);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
         const updatedCartData = cartData.map(cart =>
@@ -335,7 +336,7 @@ const useCart = () => {
     let lastEnteredQuantity = qtyCount + 1
     let num = selectedItem?.id
     try {
-      const response = await updateQuantity(num, lastEnteredQuantity);
+      const response = await updateQuantity(num, lastEnteredQuantity, visiterId, islogin);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     }
@@ -348,7 +349,7 @@ const useCart = () => {
     let num = selectedItem?.id;
     if (qtyCount > 1) {
       try {
-        const response = await updateQuantity(num, updatedQtyCount);
+        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin );
       } catch (error) {
         console.error("Failed to update quantity:", error);
       }
@@ -525,7 +526,7 @@ const useCart = () => {
     setIsPriceLoding(true);
     let filterSizeDiaData;
     if (sizeCombo.length != 0 && sizeCombo != undefined) {
-      filterSizeDiaData = sizeCombo?.rd1.filter((sizeMt) =>
+      filterSizeDiaData = sizeCombo?.rd1?.filter((sizeMt) =>
         sizeMt?.sizename === sizeId &&
         sizeMt?.DiamondStoneTypeName?.toLowerCase() === "diamond"
       );
@@ -553,7 +554,7 @@ const useCart = () => {
     setIsPriceLoding(true);
     let filterSizeCSlData;
     if (sizeCombo.length != 0 && sizeCombo != undefined) {
-      filterSizeCSlData = sizeCombo?.rd1.filter(
+      filterSizeCSlData = sizeCombo?.rd1?.filter(
         (sizeMt) =>
           sizeMt?.sizename === sizeId &&
           sizeMt?.DiamondStoneTypeName?.toLowerCase() === "color stone"

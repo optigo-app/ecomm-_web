@@ -560,42 +560,42 @@ const ProductList = () => {
 
     return output
   }
-
-  useEffect(() => {
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log("locationkey", location?.key !== locationKey, location?.key, locationKey);
-
-    if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true)
-      ProductListApi(output, 1, obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then(async (res) => {
-          if (res) {
-            await GetPriceListApi(1, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-              if (resp) {
-                setPriceListData(resp)
-              }
-            })
-          }
-          return res
-        })
-        .catch((err) => console.log("err", err)).finally((res) => { setIsOnlyProdLoading(false) })
-    }
-    // .then(async(res)=>{
-    //   if(res){
-    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-    //   }
-    // })
-    // }
+  
+  useEffect(()=>{
+   let output = FilterValueWithCheckedOnly()
+   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+   
+  //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+    console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+    
+  if(location?.key === locationKey){
+    setIsOnlyProdLoading(true)
+     ProductListApi(output,1,obj,"")
+       .then((res) => {
+         if (res) {
+           setProductListData(res?.pdList);
+           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+         }
+         return res;
+       })
+       .then( async(res) => {
+         if (res) {
+           await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+             if(resp){
+               setPriceListData(resp)  
+             }
+           })
+         }
+         return res
+       })
+       .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+  }
+        // .then(async(res)=>{
+        //   if(res){
+        //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+        //   }
+        // })
+      // }
 
   }, [filterChecked])
 
@@ -616,7 +616,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj)
+    ProductListApi(output, value, obj, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -624,16 +624,16 @@ const ProductList = () => {
         }
         return res;
       })
-      .then(async (res) => {
-        if (res) {
-          await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
-            }
-          })
-        }
-        return res
-      })
+      // .then(async (res) => {
+      //   if (res) {
+      //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+      //       if (resp) {
+      //         setPriceListData(resp)
+      //       }
+      //     })
+      //   }
+      //   return res
+      // })
       .catch((err) => console.log("err", err)).finally(() => {
         setTimeout(() => {
           setIsProdLoading(false)
@@ -705,31 +705,31 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output, currPage, obj)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .then(async (res) => {
-          if (res) {
-            await GetPriceListApi(currPage, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-              if (resp) {
-                setPriceListData(resp)
-              }
-            })
-          }
-          return res
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-            setIsOnlyProdLoading(false)
-          }, 100);
-        })
+      ProductListApi(output,currPage,obj,"")
+          .then((res) => {
+            if (res) {
+              setProductListData(res?.pdList);
+              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            }
+            return res;
+          })
+          // .then( async(res) => {
+          //   if (res) {
+          //     await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+          //       if(resp){
+          //         setPriceListData(resp)  
+          //       }
+          //     })
+          //   }
+          //   return res
+          // })
+          .catch((err) => console.log("err", err))
+          .finally(()=>{
+            setTimeout(() => {
+              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+              setIsOnlyProdLoading(false)
+            }, 100);
+          })
     }
   }
 
@@ -1449,75 +1449,84 @@ const ProductList = () => {
                                       <img
                                         className="smr_productCard_Image"
 
-                                        id={`smr_productCard_Image${productData?.autocode}`}
-                                        // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                        // src={ ProdCardImageFunc(productData,0)}
-                                        src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
-                                        alt=""
-                                        onClick={() => handleMoveToDetail(productData)}
-                                        onMouseEnter={() => { handleImgRollover(productData, i) }}
-                                      />
-                                      <div className="smr_prod_Title" >
-                                        <span
-                                          className={
-                                            // productData?.TitleLine?.length > 30
-                                            // ? 
-                                            "smr_prod_title_with_width"
-                                            // : 
-                                            // "smr_prod_title_with_no_width"
-                                          }
-                                        >
-                                          {productData?.TitleLine?.length > 0 && "-"}
-                                          {productData?.TitleLine}{" "}
-                                        </span>
-                                        <span className="smr_prod_designno">
-                                          {productData?.designno}
-                                        </span>
-                                      </div>
-                                      <div className="smr_prod_Allwt">
-                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
-                                          {/* <span className="smr_por"> */}
-                                          {(Number(productData?.Nwt) !== 0) && <span className="smr_prod_wt">
-                                            <span className="smr_keys">NWT:</span>
-                                            <span className="smr_val">
-                                              {productData?.Nwt}
-                                            </span>
-                                          </span>}
-                                          {(storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">GWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.Gwt}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
-                                          {/* </span> */}
-                                          {/* <span className="smr_por"> */}
-                                          {(storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">DWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.Dwt}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
-                                          {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
-                                            <>
-                                              <span>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_keys">CWT:</span>
-                                                <span className="smr_val">
-                                                  {productData?.CSwt}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
-                                                </span>
-                                              </span>
-                                            </>
-                                          }
+                              id={`smr_productCard_Image${productData?.autocode}`}
+                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                              // src={ ProdCardImageFunc(productData,0)}
+                              src={productData?.images?.length > 0 ? productData?.images[0] :  imageNotFound}
+                              alt=""
+                              onClick={()=>handleMoveToDetail(productData)}
+                              onMouseEnter={()=>{handleImgRollover(productData,i)}}
+                            />
+                            <div className="smr_prod_Title" >
+                              <span
+                                className={
+                                  // productData?.TitleLine?.length > 30
+                                    // ? 
+                                    "smr_prod_title_with_width"
+                                    // : 
+                                    // "smr_prod_title_with_no_width"
+                                }
+                              >
+                                {productData?.TitleLine?.length > 0 && "-"}
+                                {productData?.TitleLine}{" "}
+                              </span>
+                              <span className="smr_prod_designno">
+                                {productData?.designno}
+                              </span>
+                            </div>
+                            <div className="smr_prod_Allwt">
+                              <div 
+                                  style={{
+                                            display:'flex',
+                                            justifyContent:'center',
+                                            alignItems:'center',
+                                            letterSpacing:maxwidth590px ? '0px':'1px',
+                                            // gap:maxwidth1674px ? '0px':'3px',
+                                            flexWrap:'wrap'
+                                          }}
+                              > 
+                              {/* <span className="smr_por"> */}
+                                { (Number(productData?.Nwt)  !== 0 )&& <span className="smr_prod_wt">
+                                  <span className="smr_keys">NWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.Nwt}
+                                  </span>
+                                </span>}
+                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0) &&
+                                  <>
+                                  <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">GWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.Gwt}
+                                  </span>
+                                </span>
+                                </>
+                                }
+                              {/* </span> */}
+                              {/* <span className="smr_por"> */}
+                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
+                               <>
+                               <span>|</span>
+                                <span className="smr_prod_wt">
+                                  <span className="smr_keys">DWT:</span>
+                                  <span className="smr_val">
+                                    {productData?.Dwt}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
+                                  </span>
+                                </span>
+                               </>
+                                }
+                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
+                                  <>
+                                    <span>|</span>
+                                    <span className="smr_prod_wt">
+                                      <span className="smr_keys">CWT:</span>
+                                      <span className="smr_val">
+                                        {productData?.CSwt}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
+                                      </span>
+                                    </span>
+                                  </>
+                                }
                                           {/* </span> */}
                                         </div>
                                       </div>

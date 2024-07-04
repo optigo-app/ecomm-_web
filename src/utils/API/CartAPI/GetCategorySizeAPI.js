@@ -1,22 +1,22 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const getSizeData = async (item) => {
+export const getSizeData = async (item, visiterId, islogin) => {
     try {
-      const storedEmail = localStorage.getItem("registerEmail") || "";
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-
       const storedData = localStorage.getItem("loginUserDetail") || "0";
       const data = JSON.parse(storedData);
-      const customerid = data?.id;
+      const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
+      const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.email1 ?? "";
+
       const combinedValue = JSON.stringify({
         autocode: `${item?.autocode}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-        Customerid: `${customerid}`,
+        Customerid: `${customerId}`,
       });
       const encodedCombinedValue = btoa(combinedValue);
       const body = {
-        con: `{\"id\":\"\",\"mode\":\"CATEGORYSIZECOMBO\",\"appuserid\":\"${storedEmail}\"}`,
+        con: `{\"id\":\"\",\"mode\":\"CATEGORYSIZECOMBO\",\"appuserid\":\"${customerEmail}\"}`,
         f: "index (getSizeData)",
         p: encodedCombinedValue,
         dp:combinedValue

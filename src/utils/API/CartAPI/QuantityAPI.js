@@ -1,21 +1,23 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const updateQuantity = async (num, lastEnteredQuantity) => {
+export const updateQuantity = async (num, lastEnteredQuantity, visiterId, islogin) => {
   try {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const { FrontEnd_RegNo } = storeInit;
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
-    const UserEmail = localStorage.getItem("registerEmail")
+    const storedData = localStorage.getItem("loginUserDetail");
+    const data = JSON.parse(storedData);
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.email1 ?? "";
 
     const combinedValue = JSON.stringify({
       CartId: `${num}`,
       Quantity: `${lastEnteredQuantity}`,
       FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-      Customerid: `${loginUserDetail?.id ?? 0}`,
+      Customerid: `${customerId ?? 0}`,
     });
     const encodedCombinedValue = btoa(combinedValue);
     const body = {
-      con: `{\"id\":\"\",\"mode\":\"UpdateQuantity\",\"appuserid\":\"${UserEmail ?? ""}\"}`,
+      con: `{\"id\":\"\",\"mode\":\"UpdateQuantity\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
       f: "header (handleUpdateQuantity)",
       p: encodedCombinedValue,
       dp: combinedValue,

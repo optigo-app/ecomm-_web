@@ -22,17 +22,18 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Label } from "@mui/icons-material";
 import { checkMonth } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
-
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../../utils/API/AccountTabs/sales';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -418,8 +419,15 @@ const Sales = () => {
         }
       };
     return (
-        <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        <>
+            <MobViewHeader title="Sales" />
+            <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+            <Accordion sx={{marginBottom:'20px'}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    More Filters
+                </AccordionSummary>
+                <AccordionDetails>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
                 <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                     <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
@@ -499,6 +507,8 @@ const Sales = () => {
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
             </Box>
+                </AccordionDetails>
+            </Accordion>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
                     <TableContainer className='salesPartTable'>
@@ -570,7 +580,8 @@ const Sales = () => {
                     />
                 </Paper>}
 
-        </Box>
+            </Box>
+        </>
     )
 }
 
