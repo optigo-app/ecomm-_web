@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { CommonAPI } from '../../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
+import MobViewHeader from '../MobViewHeader/MobViewHeader';
 const ManageAddress = () => {
 
     const [defaultAdd, setDefaultAdd] = useState('female');
@@ -456,8 +457,9 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
+        <MobViewHeader title="Saved Address" />
             <div>
-            <p style={{
+                {/* <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
@@ -467,7 +469,7 @@ const ManageAddress = () => {
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
-                }} className='savedAddress'>Saved Addresses</p>
+                }} className='savedAddress'>Saved Addresses</p> */}
                 <Box sx={{ paddingLeft: "15px" }}>
                     <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
                 {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}

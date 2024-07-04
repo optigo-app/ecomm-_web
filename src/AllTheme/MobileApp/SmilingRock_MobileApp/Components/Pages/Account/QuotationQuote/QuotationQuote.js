@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { Button, CircularProgress, TextField } from "@mui/material";
-
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PrintIcon from '@mui/icons-material/Print';
 import { formatAmount, checkMonth } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
@@ -23,6 +23,8 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../../utils/API/AccountTabs/quotationQuote";
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
+
 
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -436,14 +438,21 @@ const QuotationQuote = () => {
 
 
     return (
-        <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
-            <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
+        <>
+        <MobViewHeader title="Quotation" />
+            <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+            <Accordion sx={{marginBottom:'20px'}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    More Filters
+                </AccordionSummary>
+                <AccordionDetails>
+                <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                     <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
                         All
                     </Button>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q d_none_q">
                     <TextField id="standard-basic" label="Search" variant="outlined" className="w_q" value={searchVal} onChange={eve => {
                         setSearchVal(eve?.target?.value);
                         handleSearch(eve, eve?.target?.value, fromDate, toDate);
@@ -524,10 +533,26 @@ const QuotationQuote = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="QuotePadSec pad_left_q">
+                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="QuotePadSec pad_left_q d_none_q_2">
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "80%" }} className="searchbox QuotePadSec w_q d_none_q_2">
+                        <TextField id="standard-basic" label="Search" variant="outlined" className="w_q" value={searchVal} onChange={eve => {
+                            setSearchVal(eve?.target?.value);
+                            handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                        }} />
+                        <Button  sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon className="searchIconPos" />
+                        </Button>
+                    </Box>
+                    <Box  sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 22px 0", maxWidth: "max-content" }}>
+                        <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                    </Box>
+                </Box>
+                <Box className="d_none_q" sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }}>
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
             </Box>
+                </AccordionDetails>
+            </Accordion>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
                     <TableContainer>
@@ -610,18 +635,9 @@ const QuotationQuote = () => {
                     />
                 </Paper>}
 
-        </Box>
+            </Box>
+        </>
     )
 }
 
 export default QuotationQuote
-
-// import React from 'react'
-
-// const QuotationQuote = () => {
-//   return (
-//     <div>QuotationQuote</div>
-//   )
-// }
-
-// export default QuotationQuote

@@ -3,11 +3,65 @@
 .smr_B2cCart {
   display: flex;
   justify-content: flex-end;
-  padding: 16px;
+  padding: 0px;
+  position: relative;
+  font-family: $primaryFontFamily;
 }
 
 .smr_B2C-container {
-  padding: 16px;
+  padding: 0px;
+}
+
+.smr_b2ccartImage {
+  max-width: 180px;
+  object-fit: cover;
+}
+
+.smr_b2cCartPageButonGp {
+  position: fixed;
+  top: 0px;
+  width: 40%;
+  padding: 5px 15px;
+  z-index: 11;
+  background-color: white;
+
+  .smr_b2ccartCloseIcon {
+    text-align: end;
+    margin-right: 20px;
+    color: $titleColor;
+    font-family: $primaryFontFamily;
+  }
+
+  .smr_cartB2cMainTitleBtn p{
+    color: $titleColor;
+    font-size: $fontSize7;
+    text-align: center;
+    font-family: $primaryFontFamily;
+  }
+}
+
+.smr_B2cCheckoutBtnDiv {
+  position: fixed;
+  bottom: 0px;
+  width: 40%;
+  padding: 0px;
+  z-index: 11;
+  background-color: white;
+  font-family: $primaryFontFamily;
+  font-size: $fontSize3;
+
+  .smr_B2cCheckoutBtn {
+    border: none;
+    background-color: #7d7f85;
+    padding: 10px 0px;
+    color: white;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.smr_b2cCartTb {
+  margin-top: 100px;
 }
 
 .smr_B2C-table {
@@ -23,36 +77,38 @@
   vertical-align: top;
 }
 
-.smr_b2ccartContentTd{
+.smr_b2ccartContentTd {
   max-width: 300px;
 }
 
 
 .smr_B2C-text-right {
   text-align: center;
+  font-size: $fontSize2;
+  color: $titleColor;
+  font-family: $primaryFontFamily;
 }
 
 .smr_b2ccartContentTd {
   display: flex;
   flex-direction: column;
+  font-family: $primaryFontFamily;
 }
 
 .smr_b2ccartContentTitle {
-  font-size: 14px;
-  font-weight: bold;
   word-break: break-word;
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
   white-space: normal;
+  color: $titleColor;
+  font-size: $fontSize2;
+  font-family: $primaryFontFamily;
 }
 
 .smr_b2ccartContentMtDT {
-  font-size: 12px;
+  font-size: $fontSize2;
+  color: $titleColor;
+  font-family: $primaryFontFamily;
 }
-
-h1 {
-  text-align: center;
-}
-
 
 
 // for quantity
@@ -62,6 +118,7 @@ h1 {
   width: 130px;
   height: 45px;
   border: 1px solid #ccc;
+  font-family: $primaryFontFamily;
 
   .input {
     width: calc(100px * 0.5);
@@ -69,6 +126,7 @@ h1 {
     margin: 0;
     text-align: center;
     border: none;
+    font-family: $primaryFontFamily;
   }
 
   a.bttn,
@@ -82,5 +140,6 @@ h1 {
     font-size: 24px;
     cursor: pointer;
     border: none;
+    font-family: $primaryFontFamily;
   }
 }

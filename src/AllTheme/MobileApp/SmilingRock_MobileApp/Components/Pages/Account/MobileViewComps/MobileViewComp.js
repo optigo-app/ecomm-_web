@@ -10,6 +10,7 @@ import { IoGiftOutline } from "react-icons/io5";
 import { FaHeadset } from "react-icons/fa6";
 import { smrMA_loginState } from '../../../Recoil/atom';
 import { useEffect } from 'react';
+import MobViewHeader from '../MobViewHeader/MobViewHeader';
 
 const MobileViewComp = () => {
 
@@ -45,8 +46,9 @@ const MobileViewComp = () => {
 
   return (
     <>
+            <MobViewHeader title="My Account" />
         <div style={{marginBottom:'100px'}} className='smr_Smiling_AccountMain'>
-            <div className='titleMain'>
+            {/* <div className='titleMain'>
                 <div style={{ width: '100%' }}>
                     <p style={{ margin: '0px', fontSize: '25px', fontWeight: 600, paddingInline: '10px' }}>{fName + ' ' + lastNamr}</p>
                     <p style={{ margin: '0px', fontSize: '15px', paddingInline: '10px' }}>+91 {userMobile}</p>
@@ -74,7 +76,8 @@ const MobileViewComp = () => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
+            
             <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
                 <div className='menuMainAccount' onClick={() => naviagation('/QuotationQuote')}>
                     <p className='menuMainAccountTitle'>Quote</p>

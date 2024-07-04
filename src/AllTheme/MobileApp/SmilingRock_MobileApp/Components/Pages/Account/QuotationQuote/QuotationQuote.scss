@@ -70,7 +70,14 @@
 .AllQuoteBtn {
     padding-bottom: 35px;
 }
-
+.d_none_q_2{
+    display: none !important;
+}
+// .searchIconPos{
+//     top: 50% !important;
+//     position: absolute !important;
+//     right: 10% !important;
+// }d_none_q_2
 @media(max-width: 768px) {
     .QuotePadSec {
         padding-bottom: 15px !important;
@@ -110,6 +117,14 @@
         padding-right: 0;
         padding-left: 0;
     }
+    .d_none_q_2{
+        display: none !important;
+    }
+    // .searchIconPos{
+    //     top: 50% !important;
+    //     position: absolute !important;
+    //     right: 10% !important;
+    // }
 }
 
 @media(max-width: 576px) {
@@ -173,4 +188,43 @@
     .pad_left_q{
         margin-left: 3px !important;
     }
+    .d_none_q{
+        display: none !important;
+    }
+       .searchIconPos{
+        top: 50% !important;
+        position: absolute !important;
+        right: 10% !important;
+    }
+    // .css-bb83az {
+    //     display: -webkit-box;
+    //     display: -webkit-flex;
+    //     display: -ms-flexbox;
+    //     display: flex;
+    //     -webkit-align-items: center;
+    //     -webkit-box-align: center;
+    //     -ms-flex-align: center;
+    //     align-items: center;
+    //     position: relative;
+    //     padding: 0 15px 15px 0;
+    //     max-width: -webkit-max-content;
+    //     max-width: -moz-max-content;
+    //     max-width: max-content;
+    // }
+
+}
+
+@media (max-width:320px), (max-width:360px), (max-width:390px), (max-width:430px),(max-width:500px),(max-width:575px){
+    .d_none_q{
+        display: none !important;
+    }
+    .d_none_q_2{
+        display: flex !important;
+    }
+    .w_q{
+        width: 100% !important;
+    }
+   .smrMA_HeaderMain{
+    display: none;
+   }
 }

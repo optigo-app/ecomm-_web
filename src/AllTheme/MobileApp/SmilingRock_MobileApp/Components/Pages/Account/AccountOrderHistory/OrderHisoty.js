@@ -6,6 +6,7 @@ import { formatAmount } from "../../../../../../../utils/Glob_Functions/AccountP
 
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import MobViewHeader from "../MobViewHeader/MobViewHeader";
 
 
 const OrderHistory = () => {
@@ -183,7 +184,11 @@ const OrderHistory = () => {
 
   return (
     <div>
-    
+
+        <MobViewHeader title="Order History" />
+
+        {/* <div className="comptitle fw-bold">Order History</div> */}
+
       {loaderOH ? (
         <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box>
       ) : (
