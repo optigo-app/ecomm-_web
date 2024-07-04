@@ -11,11 +11,12 @@ import { DiamondQualityColorComboAPI } from './utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from './utils/API/Combo/MetalTypeComboAPI'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { Helmet } from 'react-helmet'
-import { companyLogo } from './AllTheme/SmilingRock/Components/Recoil/atom'
+import { companyLogo, loginState } from './AllTheme/SmilingRock/Components/Recoil/atom'
 import { dt_companyLogo } from './AllTheme/DaimondTine/Components/Recoil/atom'
 import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
 import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom'
+import Cookies from "js-cookie";
 
 export default function ThemeRoutes() {
 
@@ -27,6 +28,7 @@ export default function ThemeRoutes() {
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
+  const islogin = useRecoilValue(loginState);
 
   useEffect(() => {
     let data = localStorage.getItem('storeInit');

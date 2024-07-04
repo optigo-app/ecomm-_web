@@ -40,6 +40,7 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
+    debugger
     setIsWlLoading(true);
     try {
       const visiterId = Cookies.get('visiterId')

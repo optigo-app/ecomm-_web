@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import B2bCart from "./B2bCart/Cart";
-import B2cCart from "./TB2Ccart/Cart";
+import B2cCart from "./CartPageB2c/Cart";
 
 const CartMain = () => {
     const [storeInitData, setStoreInitData] = useState(null);

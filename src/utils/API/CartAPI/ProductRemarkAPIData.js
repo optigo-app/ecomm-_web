@@ -1,19 +1,20 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handleProductRemark = async (data, remarks) => {
+export const handleProductRemark = async (data, remarks, visiterId, islogin) => {
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
         const { FrontEnd_RegNo } = storeInit;
 
-        let customerEmail = loginUserDetail?.email1
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
+        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
 
         const combinedValue = {
             CartId: `${data?.id}`,
             autocode: data.autocode,
             remarks: remarks,
             FrontEnd_RegNo: FrontEnd_RegNo,
-            Customerid: loginUserDetail?.id ?? 0,
+            Customerid: customerId ?? 0,
         };
 
         const encodedCombinedValue = btoa(JSON.stringify(combinedValue));

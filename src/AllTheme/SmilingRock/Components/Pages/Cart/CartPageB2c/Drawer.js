@@ -1,46 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import './smr_cartPageB2c.scss';
+import QuantitySelector from './QuantitySelector';
 
-export default function Basket({ isOpen, toggleDrawer }) {
+const Cart = ({ isOpen, toggleDrawer }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <Drawer
-      anchor="right"
-      open={isOpen}
-      onClose={toggleDrawer(false)}
-      sx={{ width: '40%', flexShrink: 0, '& .MuiDrawer-paper': { width: '40%' } }}
-    >
-      <div className="basket">
-        <div className="basket-header">
-          <IconButton onClick={toggleDrawer(false)}>
-            <CloseIcon />
-          </IconButton>
+    <div className="smr_B2cCart">
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={toggleDrawer(false)}
+        PaperProps={{
+          style: {
+            width: isMobile ? '100%' : '40%',
+          },
+        }}
+      >
+        <div className="smr_B2C-container">
+          <table className="smr_B2C-table smr_B2C-table-xs">
+            <tbody>
+              <tr className="smr_B2C-item-row">
+                <td><img src="http://placehold.it/150x150" alt="Item 1" /></td>
+                <td className='smr_b2ccartContentTd'>
+                  <p className='smr_b2ccartContentTitle'>Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT</p>
+                  <p className='smr_b2ccartContentMtDT'>Rose Gold / 18 Inches / 0.8</p>
+                  <QuantitySelector/>
+                </td>
+                <td className="smr_B2C-text-right" title="Amount">Ships in 14 days</td>
+                <td className="smr_B2C-text-right" title="Total">6.00</td>
+              </tr>
+              <tr className="smr_B2C-item-row smr_B2C-item-row-last">
+                <td><img src="http://placehold.it/150x150" alt="Item 2" /></td>
+                <td className='smr_b2ccartContentTd'>
+                  <p className='smr_b2ccartContentTitle'>Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT</p>
+                  <p className='smr_b2ccartContentMtDT'>Rose Gold / 18 Inches / 0.8</p>
+                  <QuantitySelector/>
+                </td>
+                <td className="smr_B2C-text-right" title="Amount">Ships in 14 days</td>
+                <td className="smr_B2C-text-right" title="Total">12.00</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div className="basket-product">
-          <div className="item">
-            <div className="product-image">
-              <img src="http://placehold.it/120x166" alt="Placeholder Image 2" className="product-frame" />
-            </div>
-            <div className="product-details">
-              <h1><strong><span className="item-quantity">1</span> x Whistles</strong> Amella Lace Midi Dress</h1>
-              <p><strong>Navy, Size 10</strong></p>
-              <p>Product Code - 232321939</p>
-              <div className="smr_btngroupInRm">
-                <div className="quantity">
-                  <input type="number" value="1" min="1" className="quantity-field" />
-                </div>
-                <div className="remove">
-                  <button>Remove</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="price">26.00</div>
-          <div className="subtotal">26.00</div>
-        </div>
-      </div>
-    </Drawer>
+      </Drawer>
+    </div>
   );
-}
+};
+
+export default Cart;
