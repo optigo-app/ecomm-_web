@@ -25,6 +25,8 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
+import Cookies from 'js-cookie'
+
 const ProductDetail = () => {
   let location = useLocation();
 
@@ -76,6 +78,9 @@ const ProductDetail = () => {
   const [SimilarBrandArr,setSimilarBrandArr] = useState([]);
 
   const [cartArr, setCartArr] = useState({})
+
+  
+  let cookie = Cookies.get('visiterId')
 
   // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});.
 
@@ -144,7 +149,7 @@ const ProductDetail = () => {
     };
 
     if (cartflag) {
-      CartAndWishListAPI("Cart", prodObj)
+      CartAndWishListAPI("Cart", prodObj,cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -157,7 +162,7 @@ const ProductDetail = () => {
           setAddToCartFlag(cartflag);
         });
     } else {
-      RemoveCartAndWishAPI("Cart", singleProd?.autocode)
+      RemoveCartAndWishAPI("Cart", singleProd?.autocode,cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -208,7 +213,7 @@ const ProductDetail = () => {
     };
 
     if (e?.target?.checked == true) {
-      CartAndWishListAPI("Wish", prodObj)
+      CartAndWishListAPI("Wish", prodObj,cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -217,7 +222,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err));
     } else {
-      RemoveCartAndWishAPI("Wish", singleProd?.autocode)
+      RemoveCartAndWishAPI("Wish", singleProd?.autocode,cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -387,7 +392,7 @@ const ProductDetail = () => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
-      MetalTypeComboAPI()
+      MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
@@ -435,7 +440,7 @@ const ProductDetail = () => {
     }
 
     if (!mtColorLocal || mtColorLocal?.length === 0) {
-      MetalColorCombo()
+      MetalColorCombo(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
@@ -532,7 +537,7 @@ const ProductDetail = () => {
  
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj,sizeData,obj)
+      await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
       .then(async(res) => {
         if (res) {
           
@@ -564,16 +569,16 @@ const ProductDetail = () => {
         return res;
       }).then(async(resp)=>{
           if(resp){
-            await getSizeData(resp?.pdList[0]).then((res)=>{
+            await getSizeData(resp?.pdList[0],cookie).then((res)=>{
               console.log("Sizeres",res)
               setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem").then((res)=>{
+            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
               setStockItemArr(res?.Data?.rd)    
             }).catch((err)=>console.log("stockItemErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand").then((res)=>{
+            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",cookie).then((res)=>{
               setSimilarBrandArr(res?.Data?.rd)         
             }).catch((err)=>console.log("similarbrandErr",err))
           }
@@ -795,14 +800,14 @@ const ProductDetail = () => {
     }
 
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj).then((res) => {
+      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
         setCartCountVal(cartC);
       }).catch((err) => console.log("err", err))
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode).then((res) => {
+      RemoveCartAndWishAPI(type, ele?.autocode,cookie).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
@@ -933,7 +938,7 @@ const ProductDetail = () => {
 
     console.log("eeee",obj)
     setisPriceLoading(true)
-    await SingleProdListAPI(prod,size,obj)
+    await SingleProdListAPI(prod,size,obj,cookie)
     .then((res)=>{
       setSingleProd1(res?.pdList[0])
 

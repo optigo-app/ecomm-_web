@@ -1,23 +1,27 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const RemoveCartAndWishAPI = async(type,autocode) => {
+export const RemoveCartAndWishAPI = async(type,autocode,visiterId) => {
 
     const UserEmail = localStorage.getItem("registerEmail");
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
+    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.email1 ?? "";
+
   let removeApiObj = {
     "ForEvt": `${type}`,
     "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-    "Customerid": `${loginUserDetail?.id ?? 0}`,
+    "Customerid": `${customerId ?? 0}`,
     "autocode": `${autocode}`,
     "Cartidlist": "",
     "isdelete_all": 0,
-        
   };
 
   let body = {
-    con: `{\"id\":\"Store\",\"mode\":\"removeFromCartList\",\"appuserid\":\"${UserEmail}\"}`,
+    con: `{\"id\":\"Store\",\"mode\":\"removeFromCartList\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
     f: " (removeFromCartList)",
     p: btoa(removeApiObj),
     dp: JSON.stringify(removeApiObj),

@@ -27,12 +27,28 @@ import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCom
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
+import Cookies from 'js-cookie'
+
 
 
 
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+  useEffect(() => {
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeinit)
+
+    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    setMetalTypeCombo(mtCombo)
+
+    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    setDiaQcCombo(diaQcCombo)
+
+    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    setCsQcCombo(CsQcCombo)
+  }, [])
 
   let location = useLocation();
   let navigate = useNavigate();
@@ -59,10 +75,10 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? "");
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? "");
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
-  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+  const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [rollOverImgPd, setRolloverImgPd] = useState()
@@ -70,6 +86,26 @@ const ProductList = () => {
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
+
+
+  let cookie = Cookies.get('visiterId')
+
+
+  useEffect(()=>{
+    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
+    setSelectedMetalId(mtid);
+
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
+    setSelectedDiaId(diaid)
+
+    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    setSelectedCsId(csid)
+
+  },[])
+
+  console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
+
+
 
 
   // useEffect(()=>{
@@ -150,7 +186,7 @@ const ProductList = () => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
-      MetalTypeComboAPI()
+      MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
@@ -224,19 +260,7 @@ const ProductList = () => {
   }, [])
 
 
-  useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    setStoreInit(storeinit)
-
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    setMetalTypeCombo(mtCombo)
-
-    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    setDiaQcCombo(diaQcCombo)
-
-    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
-    setCsQcCombo(CsQcCombo)
-  }, [])
+  
 
   useEffect(() => {
     let param = JSON.parse(localStorage.getItem("menuparams"))
@@ -320,13 +344,13 @@ const ProductList = () => {
         productlisttype = BestSellerVar.split("=")[1]
       }
 
-      if (AlbumVar) {
-        productlisttype = AlbumVar.split("=")[1]
-      }
-
-      setIsProdLoading(true)
-      //  if(location?.state?.SearchVal === undefined){ 
-      await ProductListApi({}, 1, obj, productlisttype)
+    if(AlbumVar){
+      productlisttype = AlbumVar.split("=")[1]
+    }
+    
+    setIsProdLoading(true)
+    //  if(location?.state?.SearchVal === undefined){ 
+      await ProductListApi({},1,obj,productlisttype,cookie)
         .then((res) => {
           if (res) {
             console.log("productList", res);
@@ -351,8 +375,8 @@ const ProductList = () => {
         // })
         .then(async (res) => {
           let forWardResp1;
-          if (res) {
-            await FilterListAPI(productlisttype).then((res) => {
+          if(res){
+            await FilterListAPI(productlisttype,cookie).then((res)=>{
               setFilterData(res)
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
@@ -570,7 +594,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,"")
+     ProductListApi(output,1,obj,"",cookie)
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -616,7 +640,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj, "")
+    ProductListApi(output, value, obj, "",cookie)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -652,21 +676,23 @@ const ProductList = () => {
       "DiaQCid": loginInfo?.cmboDiaQCid,
       "CsQCid": loginInfo?.cmboCSQCid,
       "Size": ele?.DefaultSize,
-      "Unitcost": ele?.price,
-      "markup": ele?.markup,
-      "UnitCostWithmarkup": PriceWithMarkupFunction(ele?.markup, ele?.price, storeInit?.CurrencyRate),
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
       "Remark": ""
     }
 
+    
+
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj).then((res) => {
+      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
         setCartCountVal(cartC);
       }).catch((err) => console.log("err", err))
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode).then((res) => {
+      RemoveCartAndWishAPI(type, ele?.autocode,cookie).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
@@ -705,7 +731,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,"")
+      ProductListApi(output,currPage,obj,"",cookie)
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
