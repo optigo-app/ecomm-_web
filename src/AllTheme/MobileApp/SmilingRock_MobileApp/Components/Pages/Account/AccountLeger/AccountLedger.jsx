@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress } from '@mui/material';
 import { checkMonth, formatAmount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../../utils/API/AccountTabs/accountLedger';
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 const AccountLedger = () => {
 
@@ -42,6 +45,7 @@ const AccountLedger = () => {
     const [showEndDate, setShowEndDate] = useState();
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
+
 
 
     useEffect(() => {
@@ -554,6 +558,7 @@ const AccountLedger = () => {
 
   return (
     <div>
+        <MobViewHeader title="Ledger" />
         <div>
             <div className='border'>
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p-2 ps-4 border-bottom fs_Al_mq' style={{letterSpacing:'1px'}}>
@@ -564,8 +569,14 @@ const AccountLedger = () => {
 
                 
                 {
-                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='d-flex justify-content-between align-items-center flex_col_Al mt-2'>
+                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : 
+                    <div className='d-flex justify-content-between align-items-center flex_col_Al mt-2'>
                     {
+                       <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            More Filters
+                        </AccordionSummary>
+                        <AccordionDetails>
                         <div className='fs_al2 p-2 d-flex justify-content-start  align-items-center flex-wrap mb-0 w-100'>
                             <div className='mb_acc'>
                                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
@@ -644,10 +655,9 @@ const AccountLedger = () => {
                                 </LocalizationProvider>
                             </Box>
                         </Box>
-                        </Box>
+                                </Box>
                             </div>
-                            <div>
-             
+                            <div>         
                                 <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
         
                                 <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
@@ -682,7 +692,9 @@ const AccountLedger = () => {
     
                         <div className='mx-1 ms-4 mb-2'>
                         </div>
-                    </div>
+                        </div>                                                        
+                        </AccordionDetails>
+                       </Accordion>
                     }
                     </div>
                 }

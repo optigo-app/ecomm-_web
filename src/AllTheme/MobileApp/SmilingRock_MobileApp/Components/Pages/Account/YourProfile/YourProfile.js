@@ -3,6 +3,7 @@ import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../../utils/API/AccountTabs/YourProfile';
+import MobViewHeader from '../MobViewHeader/MobViewHeader';
 
 export default function YourProfile() {
     const [userData, setUserData] = useState(null);
@@ -97,7 +98,12 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+
+            <MobViewHeader title="Your Profile" />
+
+                {/* <div className='comptitle fw-bold'>Your Profile</div> */}
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px', padding:'10px' }}>
                 <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>
@@ -161,15 +167,12 @@ export default function YourProfile() {
                         </>
                     )}
                 </div>
-                <div>
+                <div className='btnPaddingYP'>
                     <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                 </div>
             </div>
 
-            <Modal
-                open={editMode}
-                onClose={handleClose}
-            >
+            <Modal open={editMode} onClose={handleClose} style={{padding:'10px'}} >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                     <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
@@ -218,7 +221,7 @@ export default function YourProfile() {
                             </>
                         )}
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px',padding:'10px' }}>
                         <button onClick={handleSave} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
                         <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>

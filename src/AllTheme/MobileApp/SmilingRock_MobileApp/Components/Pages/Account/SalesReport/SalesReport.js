@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./SalesReport.scss";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   CircularProgress,
@@ -31,12 +34,13 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
 import { FaBullseye } from "react-icons/fa";
 import { NumberWithCommas, checkMonth } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../../utils/API/AccountTabs/salesReport";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function createData(
   SrNo,
@@ -715,6 +719,8 @@ const SalesReport = () => {
   };
 
   return (
+    <>
+       <MobViewHeader title="Sales Report" />
     <Box>
       <Box
         sx={{
@@ -722,6 +728,7 @@ const SalesReport = () => {
           alignItems: "center",
           flexWrap: "wrap",
           justifyContent: "space-between",
+          marginTop:'10px'
         }}
       >
         <Box
@@ -788,7 +795,7 @@ const SalesReport = () => {
             </tbody>
           </table>
         </Box>
-        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+        <Box sx={{ paddingBottom: "20px", paddingRight: "15px", padding:'20px' }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
@@ -801,6 +808,7 @@ const SalesReport = () => {
             height: "135px",
             paddingBottom: "20px",
             overflow: "hidden",
+            padding:'10px'
           }}
         >
           <Box
@@ -825,7 +833,12 @@ const SalesReport = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+      <Accordion sx={{marginBottom:'20px'}}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          More FIlters
+        </AccordionSummary>
+        <AccordionDetails>
+        <Box className="pad_10_ds" sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <Box
           sx={{
             paddingBottom: "15px",
@@ -1015,6 +1028,8 @@ const SalesReport = () => {
           </Button>
         </Box>
       </Box>
+        </AccordionDetails>
+      </Accordion>
       {isLoading ? (
         <Box
           sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
@@ -1097,6 +1112,7 @@ const SalesReport = () => {
         </>
       )}
     </Box>
+    </>
   );
 };
 
