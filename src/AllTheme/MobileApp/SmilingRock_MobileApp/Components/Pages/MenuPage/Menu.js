@@ -232,7 +232,7 @@ const Menu = () => {
                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                             style={{ width: '100%' }}
                                                         >
-                                                            <p style={{ margin: '0px 0px 0px 15px', width: '100%', fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                            <p className='smrMA_menuViewTitle' style={{ margin: '0px 0px 0px 15px', width: '100%', height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
                                                         </ButtonBase>
                                                         {selectedMenu === menuItem.menuname && (
                                                             <>
@@ -243,9 +243,9 @@ const Menu = () => {
                                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                             style={{ width: '100%', height: '30px' }}
                                                                         >
-                                                                            <ListItem key={subSubMenuItem.param2dataid} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                                                                <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" style={{ height: '38px', display: 'flex', alignItems: 'center' }} />
-                                                                            </ListItem>
+                                                                                <p className="smrMA_SuMenuTitle">
+                                                                                    {subSubMenuItem.param2dataname}
+                                                                                </p>
                                                                         </ButtonBase>
                                                                     ))}
                                                                 </List>
