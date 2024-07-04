@@ -1,36 +1,19 @@
-import { useRecoilValue } from "recoil";
 import { CommonAPI } from "../CommonAPI/CommonAPI";
-import { loginState } from "../../../AllTheme/SmilingRock/Components/Recoil/atom";
-import Cookies from "js-cookie";
 
 
 
-export const MetalTypeComboAPI = async () => {
+export const MetalTypeComboAPI = async (finalID) => {
 
     let response;
-    const islogin = useRecoilValue(loginState)
 
     try {
-        const loginUserDetail = (JSON.parse(localStorage.getItem('loginUserDetail')) || '0');
         const storedEmail = localStorage.getItem('registerEmail') || '';
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
-
-        const visiterId = Cookies.get('visiterId');
-        const CustomerID = IsB2BWebsite == 0 ?
-            islogin == false ?
-                visiterId
-                :
-                loginUserDetail?.id || '0'
-            :
-            loginUserDetail?.id || '0'
-
-            console.log('CustomerIDCustomerIDCustomerID', CustomerID);
-
-
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
+        const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${finalID}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
