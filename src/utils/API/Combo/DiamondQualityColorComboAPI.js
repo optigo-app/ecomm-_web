@@ -14,12 +14,12 @@ export const DiamondQualityColorComboAPI = async (finalID) => {
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, diamondpricelistname: `${loginUserDetail?.diamondpricelistname}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, diamondpricelistname: `${loginUserDetail?.diamondpricelistname ?? storeInit?.diamondpricelistname}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"DIAQUALITYCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"DIAQUALITYCOLORCOMBO\",\"appuserid\":\"${storedEmail ?? ""}\"}`,
             "f": "header (getQualityColor)",
             "p": encodedCombinedValue,
             "dp": combinedValue,

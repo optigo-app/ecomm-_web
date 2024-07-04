@@ -1,27 +1,33 @@
 
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const MetalColorCombo = async (finalID) => {
+export const MetalColorCombo = async (visiterId) => {
 
     let response;
 
-    try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo } = storeInit;
-        const storedEmail = localStorage.getItem('registerEmail') || '';
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const { FrontEnd_RegNo } = storeInit;
+    const storedEmail = localStorage.getItem('registerEmail') || '';
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
 
+    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.email1 ?? "";
+
+    try {
+       
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${finalID}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerId}`
         });
 
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"METALCOLORCOMBO\",\"appuserid\":\"${storedEmail}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"METALCOLORCOMBO\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
             "f": "index (getSizeData)",
             "p": encodedCombinedValue,
             "dp": combinedValue,
-
         }
 
         response = await CommonAPI(body);

@@ -1,10 +1,13 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const SingleProdListAPI = async(singprod,size="",obj={}) =>{
+export const SingleProdListAPI = async(singprod,size="",obj={},visiterId) =>{
 
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const islogin = JSON.parse(localStorage.getItem("LoginUser"));
+  const islogin = JSON.parse(localStorage.getItem("LoginUser")) ??  false;
+
+  const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
+    const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.email1 ?? "";
 
     // const data = {
     //     PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId }`,
@@ -20,7 +23,7 @@ export const SingleProdListAPI = async(singprod,size="",obj={}) =>{
         PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
         autocode:  `${singprod?.a}`,
         FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        Customerid: `${loginInfo?.id ?? 0}`,
+        Customerid: `${customerId ?? 0}`,
         designno:`${singprod?.b}`,
         // FilterKey:`${MenuParams?.FilterKey ?? ""}`,
         // FilterVal:`${MenuParams?.FilterVal ?? ""}`,
@@ -79,7 +82,7 @@ export const SingleProdListAPI = async(singprod,size="",obj={}) =>{
       let encData = JSON.stringify(data)
     
       let body = {
-        con: `{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${loginInfo?.userid ?? ""}\"}`,
+        con: `{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
         f: "(singleProdList)",
         p:btoa(encData),
         dp: encData,

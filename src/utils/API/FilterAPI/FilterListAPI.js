@@ -1,15 +1,21 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI"
 
 
-export const FilterListAPI = async(mainData) =>{
+export const FilterListAPI = async(mainData,visiterId) =>{
 
     let storeinit = JSON.parse(localStorage.getItem("storeInit"))
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
     let menuparams = JSON.parse(localStorage.getItem("menuparams"))
     let userEmail = localStorage.getItem("registerEmail")
 
+    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+
+    const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
+    const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.email1 ?? "";
+
     let MenuParams = {};
-  let serachVar = ""
+
+    let serachVar = ""
 
   if(Array.isArray(mainData)){
     if(mainData?.length > 0){
@@ -45,7 +51,7 @@ export const FilterListAPI = async(mainData) =>{
         "PackageId":`${loginInfo?.PackageId ?? storeinit?.PackageId}`,
         "autocode":"",
         "FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
-        "Customerid":`${loginInfo?.id ?? 0}`,
+        "Customerid":`${customerId ?? 0}`,
         "FilterKey":`${MenuParams?.FilterKey ?? ""}`,
         "FilterVal":`${MenuParams?.FilterVal ?? ""}`,
         "FilterKey1":`${MenuParams?.FilterKey1 ?? ""}`,
@@ -57,7 +63,7 @@ export const FilterListAPI = async(mainData) =>{
       let encData =  btoa(JSON.stringify(data))
 
       let body = {
-        "con":`{\"id\":\"\",\"mode\":\"GETFILTERLIST\",\"appuserid\":\"${userEmail}\"}`,
+        "con":`{\"id\":\"\",\"mode\":\"GETFILTERLIST\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
         "f":"onClickofMenuList (GETFILTERLIST)",
         "dp":JSON.stringify(data),
         "p":encData

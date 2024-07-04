@@ -9,6 +9,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { FiArrowLeft } from "react-icons/fi";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
+import Cookies from 'js-cookie'
+
+
 
 const Header = () => {
 
@@ -21,6 +24,8 @@ const Header = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
   const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
   const [islogin, setislogin] = useRecoilState(smrMA_loginState);
+
+  let cookie = Cookies.get('visiterId')
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -36,8 +41,10 @@ const Header = () => {
     };
   }, []);
 
+  
+
   useEffect(() => {
-    GetCountAPI().then((res) => {
+    GetCountAPI(cookie).then((res) => {
       if (res) {
         setCartCountNum(res?.cartcount)
         setWishCountNum(res?.wishcount)
