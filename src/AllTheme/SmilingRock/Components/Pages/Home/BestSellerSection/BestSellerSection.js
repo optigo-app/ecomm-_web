@@ -7,6 +7,9 @@ import Slider from 'react-slick';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
+import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
+import Cookies from 'js-cookie';
 
 const BestSellerSection = () => {
 
@@ -16,6 +19,8 @@ const BestSellerSection = () => {
 
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const islogin = useRecoilValue(loginState);
+
 
     const settings = {
         dots: true,
@@ -29,13 +34,25 @@ const BestSellerSection = () => {
     };
 
     useEffect(() => {
+
+      const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+      const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      const { IsB2BWebsite } = storeInit;
+      const visiterID = Cookies.get('visiterId');
+      let finalID;
+      if (IsB2BWebsite == 0) {
+          finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      } else {
+          finalID = loginUserDetail?.id || '0';
+      }
+
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller").then((response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID).then((response) => {
             if (response?.Data?.rd) {
                 setBestSellerData(response?.Data?.rd);
             }

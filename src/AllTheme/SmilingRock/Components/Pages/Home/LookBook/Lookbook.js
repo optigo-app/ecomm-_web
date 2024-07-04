@@ -5,12 +5,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocation } from 'react-router-dom';
 import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductListApi';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+import Cookies from 'js-cookie';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../../../Recoil/atom';
 
 const Lookbook = () => {
 
     let location = useLocation();
+    const [imageUrl, setImageUrl] = useState();
 
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const [designSetLstData, setDesignSetListData] = useState();
     const [filterData, setFilterData] = useState([])
     const [filterChecked, setFilterChecked] = useState({})
     const [afterFilterCount, setAfterFilterCount] = useState();
@@ -19,6 +25,33 @@ const Lookbook = () => {
     const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
     const [productListData, setProductListData] = useState([]);
     const [locationKey, setLocationKey] = useState()
+    const islogin = useRecoilValue(loginState);
+
+    useEffect(() => {
+        let data = JSON.parse(localStorage.getItem('storeInit'));
+        setImageUrl(data?.DesignSetImageFol);
+
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
+
+        Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet_List', finalID)
+            .then((response) => {
+                if (response?.Data?.rd) {
+                    setDesignSetListData(response?.Data?.rd);
+                }
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    console.log('designSetLstDatadesignSetLstDatadesignSetLstData', designSetLstData);
 
     useEffect(() => {
 
