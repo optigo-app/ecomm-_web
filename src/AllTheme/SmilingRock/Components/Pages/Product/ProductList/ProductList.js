@@ -570,7 +570,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj)
+     ProductListApi(output,1,obj,"")
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -616,7 +616,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj)
+    ProductListApi(output, value, obj, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -624,16 +624,16 @@ const ProductList = () => {
         }
         return res;
       })
-      .then(async (res) => {
-        if (res) {
-          await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
-            }
-          })
-        }
-        return res
-      })
+      // .then(async (res) => {
+      //   if (res) {
+      //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+      //       if (resp) {
+      //         setPriceListData(resp)
+      //       }
+      //     })
+      //   }
+      //   return res
+      // })
       .catch((err) => console.log("err", err)).finally(() => {
         setTimeout(() => {
           setIsProdLoading(false)
@@ -705,7 +705,7 @@ const ProductList = () => {
     
     if(location?.state?.SearchVal === undefined){
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj)
+      ProductListApi(output,currPage,obj,"")
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
@@ -713,16 +713,16 @@ const ProductList = () => {
             }
             return res;
           })
-          .then( async(res) => {
-            if (res) {
-              await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-                if(resp){
-                  setPriceListData(resp)  
-                }
-              })
-            }
-            return res
-          })
+          // .then( async(res) => {
+          //   if (res) {
+          //     await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+          //       if(resp){
+          //         setPriceListData(resp)  
+          //       }
+          //     })
+          //   }
+          //   return res
+          // })
           .catch((err) => console.log("err", err))
           .finally(()=>{
             setTimeout(() => {
@@ -1475,7 +1475,16 @@ const ProductList = () => {
                               </span>
                             </div>
                             <div className="smr_prod_Allwt">
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
+                              <div 
+                                  style={{
+                                            display:'flex',
+                                            justifyContent:'center',
+                                            alignItems:'center',
+                                            letterSpacing:maxwidth590px ? '0px':'1px',
+                                            // gap:maxwidth1674px ? '0px':'3px',
+                                            flexWrap:'wrap'
+                                          }}
+                              > 
                               {/* <span className="smr_por"> */}
                                 { (Number(productData?.Nwt)  !== 0 )&& <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
