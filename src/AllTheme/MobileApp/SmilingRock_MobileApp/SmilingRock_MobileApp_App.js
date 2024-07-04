@@ -15,6 +15,10 @@ import ProductDetail from './Components/Pages/ProductDetail/ProductDetail'
 import Menu from './Components/Pages/MenuPage/Menu'
 import AccountWothoutLogin from './Components/Pages/AccountWothoutLogin'
 import Account from './Components/Pages/Account/Account';
+import YourProfile from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/YourProfile/YourProfile';
+import OrderHistory from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/AccountOrderHistory/OrderHisoty';
+import ManageAddress from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/address/ManageAddress';
+import ChangePassword from '../../MobileApp/SmilingRock_MobileApp/Components/Pages/Account/changePassword/ChangePassword';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -57,6 +61,10 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/YourProfile" element={<YourProfile />} />
+        <Route path="/OrderHistory" element={<OrderHistory />} />
+        <Route path="/ManageAddress" element={<ManageAddress />} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
 
       </Routes>
 
