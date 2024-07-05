@@ -9,10 +9,11 @@ import noImageFound from "../../../Assets/image-not-found.jpg";
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
+import CartTableData from "./CartTableData"
 
 const Cart = ({
   isOpen,
-  toggleDrawer,
+  closeDrawer,
   items,
   CartCardImageFunc,
   onSelect,
@@ -68,7 +69,7 @@ const Cart = ({
       <Drawer
         anchor="right"
         open={isOpen}
-        onClose={toggleDrawer(false)}
+        onClose={closeDrawer}
         PaperProps={{
           style: {
             width: isMobile ? '100%' : '40%',
@@ -77,7 +78,7 @@ const Cart = ({
       >
         <div className="smr_B2C-container">
           <div className='smr_b2cCartPageButonGp'>
-            <div className='smr_b2ccartCloseIcon'>
+            <div className='smr_b2ccartCloseIcon' onClick={closeDrawer}>
               <CloseIcon />
             </div>
             <div className='smr_cartB2cMainTitleBtn' >
@@ -85,22 +86,11 @@ const Cart = ({
             </div>
           </div>
           <div className='smr_b2cCartTb'>
-            <table className="smr_B2C-table smr_B2C-table-xs">
-              <tbody>
-                {dummyData.map((item) => (
-                  <tr key={item.id} className="smr_B2C-item-row">
-                    <td><img className='smr_b2ccartImage' src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt={`Item images`} /></td>
-                    <td className='smr_b2ccartContentTd'>
-                      <p className='smr_b2ccartContentTitle'>{item.title}</p>
-                      <p className='smr_b2ccartContentMtDT'>{item.description}</p>
-                      <QuantitySelector />
-                    </td>
-                    <td className="smr_B2C-text-right" title="Amount">{item.shippingInfo}</td>
-                    <td className="smr_B2C-text-right" title="Total">{item.total}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <CartTableData
+              dummyData={dummyData}
+              CartCardImageFunc={CartCardImageFunc}
+              noImageFound={noImageFound}
+            />
           </div>
           <div>
 
