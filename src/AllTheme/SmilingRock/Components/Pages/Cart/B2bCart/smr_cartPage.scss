@@ -180,6 +180,11 @@ $cartUpdateBtncolor: #b1b1b1;
     display: none;
   }
 
+  .smr_currencyFontPrice{
+    color: $titleColor !important;
+    font-weight: bold;
+  }
+
   @media (min-width: 1440px) {
     .smr_mui_CartBox {
       display: flex;
@@ -187,7 +192,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_cartListImage {
-      max-width: 200px;
+      max-width: 180px;
       max-height: 200px;
     }
   }

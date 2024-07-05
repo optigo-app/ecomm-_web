@@ -1,7 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const fetchWishlistDetails = async (visiterId, islogin) => {
-    debugger;
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = localStorage.getItem("loginUserDetail");
     const data = JSON.parse(storedData);
