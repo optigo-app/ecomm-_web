@@ -9,6 +9,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 
 const Lookbook = () => {
 
@@ -199,6 +200,18 @@ const Lookbook = () => {
         }))
     }
 
+
+
+    const ProdCardImageFunc = (pd) => {
+        let finalprodListimg;
+        if (pd?.DefaultImageName) {
+            finalprodListimg = imageUrl + pd?.designsetno + '/' + pd?.DefaultImageName;
+        } else {
+            finalprodListimg = imageNotFound;
+        }
+        return finalprodListimg;
+    };
+
     return (
         <div className='smr_LookBookMain'>
             <div className='smr_LookBookSubMainDiv'>
@@ -345,7 +358,17 @@ const Lookbook = () => {
                 </div>
 
                 <div>
-
+                    {designSetLstData?.map((slide, index) => (
+                        <div className="smr_designSetDiv" key={index}>
+                            <img
+                                className="image"
+                                loading="lazy"
+                                src={ProdCardImageFunc(slide)}
+                                alt={`Slide ${index}`}
+                            />
+                            <p className="smr_designList_title">{slide?.TitleLine}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
 
