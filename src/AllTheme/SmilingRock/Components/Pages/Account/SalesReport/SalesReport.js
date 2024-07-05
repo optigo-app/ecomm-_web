@@ -86,15 +86,115 @@ function createData(
   };
 }
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
+// function descendingComparator(a, b, orderBy) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
+function parseCustomDate(dateString) {
+  const months = {
+    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+  };
+  const parts = dateString?.split(' ');
+  if (parts?.length !== 3) {
+    throw new Error('Invalid date format');
   }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
+  const day = parseInt(parts[0]);
+  const month = months[parts[1].substring(0, 3)]; // Extract the first three characters of the month name
+  const year = parseInt(parts[2]);
+  if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    throw new Error('Invalid date format');
   }
-  return 0;
+  return new Date(year, month, day);
 }
+function descendingComparator(a, b, orderBy) {
+  if (!orderBy) return 0; // Add null check for orderBy
+  
+  if (orderBy === 'EntryDate') {
+      try {
+        const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
+        const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
+
+        if (dateB < dateA) {
+            return -1;
+        }
+        if (dateB > dateA) {
+            return 1;
+        }
+        return 0;
+          // const dateA = parseCustomDate(a[orderBy]);
+          // const dateB = parseCustomDate(b[orderBy]);
+
+          // if (dateB < dateA) {
+          //     return -1;
+          // }
+          // if (dateB > dateA) {
+          //     return 1;
+          // }
+          // return 0;
+      } catch (error) {
+          console.error('Error parsing date:', error.message);
+          return 0;
+      }
+    
+  } else if(orderBy === 'MetalAmount' || 
+            orderBy === "Unit Cost" ||
+            orderBy === 'DiamondAmount' || 
+            orderBy === 'ColorStoneAmount' || 
+            orderBy === 'LabourAmount' || 
+            orderBy === 'OtherAmount' ||
+            orderBy === 'GrossWt' ||
+            orderBy === 'NetWt' ||
+            orderBy === 'DiaPcs' ||
+            orderBy === 'DiaWt' ||
+            orderBy === 'CsPcs' ||
+            orderBy === 'CsWt'
+            ){
+    
+    const valueA = parseFloat(a[orderBy]) || 0;
+    const valueB = parseFloat(b[orderBy]) || 0;
+
+    if (valueB < valueA) {
+        return -1;
+    }
+    if (valueB > valueA) {
+        return 1;
+    }
+
+    return 0;
+
+  }else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
+    // Handle sorting for SKU# column
+    return customComparator_Col(a[orderBy], b[orderBy]);
+}  else {
+      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+
+      if (valueB < valueA) {
+          return -1;
+      }
+      if (valueB > valueA) {
+          return 1;
+      }
+      return 0;
+  }
+}
+const customComparator_Col = (a, b) => {
+const regex = /([^\d]+)(\d+)/;
+const [, wordA, numA] = a?.match(regex);
+const [, wordB, numB] = b?.match(regex);
+
+if (wordA !== wordB) {
+    return wordA?.localeCompare(wordB);
+}
+
+return parseInt(numB, 10) - parseInt(numA, 10);
+};
 
 function getComparator(order, orderBy) {
   return order === "desc"
