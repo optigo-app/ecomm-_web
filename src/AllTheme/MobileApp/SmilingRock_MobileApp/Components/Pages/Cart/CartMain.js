@@ -18,7 +18,7 @@ const CartMain = () => {
             <p className="SmiCartListTitle">
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Cart
             </p>
-            {storeInitData && storeInitData.IsB2BWebsite === 1 ? (
+            {storeInitData && storeInitData.IsB2BWebsite === 0 ? (
                 <B2bCart />
             ) : (
                 <B2cCart />

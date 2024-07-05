@@ -54,7 +54,8 @@ const CartPage = () => {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
   const navigate = useNavigate();
@@ -228,7 +229,7 @@ const CartPage = () => {
               <div className='smr_noWishlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
