@@ -47,7 +47,6 @@ export default function ThemeRoutes() {
         let visiterId = response?.data.Data?.rd2[0]?.VisitorId
         const existingVisitorId = Cookies.get('visiterId');
         callAllApi();
-
         if (islogin == false) {
           if (!existingVisitorId) {
             Cookies.set('visiterId', visiterId, { path: '/', expires: 30 });
