@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Basket from './Drawer';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { cartB2CDrawer } from '../../../Recoil/atom';
 
-function Cart() {
+function Cart(props) {
   const {
     isloding,
     ispriceloding,
@@ -44,18 +46,21 @@ function Cart() {
     handleMoveToDetail
   } = useCart();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpen = useRecoilValue(cartB2CDrawer)
+  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
 
-  const toggleDrawer = (open) => (event) => {
-    setIsOpen(open);
-  };
+  console.log('khdkjhaskd', isOpen);
+
+  const handleCloseDrawer = () => {
+    setCartOpenState(false)
+  }
+
 
   return (
     <div className="smr_CartPageMainB2cDiv">
-      <button onClick={toggleDrawer(true)}>Open Basket</button>
       <Basket
         isOpen={isOpen}
-        toggleDrawer={toggleDrawer}
+        closeDrawer={handleCloseDrawer}
         items={cartData}
         CartCardImageFunc={CartCardImageFunc}
         showRemark={showRemark}
