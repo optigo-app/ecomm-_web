@@ -44,7 +44,8 @@ function Cart(props) {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
   const navigate = useNavigate();
@@ -82,6 +83,7 @@ function Cart(props) {
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         decodeEntities={decodeEntities}
+        handelMenu={handelMenu}
       />
     </div>
   );

@@ -197,7 +197,42 @@ const Usewishlist = () => {
     navigate(`/d/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
-  console.log("lohjshjuhajuh", isWLLoading)
+//browse our collection
+
+  const handelMenu = () => {
+    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    console.log('otherparamsUrl--', menudata);
+    const queryParameters1 = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const queryParameters = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join(',');
+
+    const otherparamUrl = Object.entries({
+      b: menudata?.FilterKey,
+      g: menudata?.FilterKey1,
+      c: menudata?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(',');
+
+    const paginationParam = [
+      `page=${menudata.page ?? 1}`,
+      `size=${menudata.size ?? 50}`
+    ].join('&');
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    navigate(url)
+  }
 
   return {
     isWLLoading,
@@ -213,7 +248,8 @@ const Usewishlist = () => {
     handleRemoveAll,
     handleWishlistToCart,
     handleAddtoCartAll,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   };
 };
 

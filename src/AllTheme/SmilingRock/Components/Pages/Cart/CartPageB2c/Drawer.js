@@ -31,7 +31,8 @@ const Cart = ({
   handleCancel,
   decodeEntities,
   handleDecrement,
-  handleIncrement
+  handleIncrement,
+  handelMenu
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -70,6 +71,7 @@ const Cart = ({
 
   const handleBrowse = () => {
     closeDrawer();
+    handelMenu();
   }
 
   return (
