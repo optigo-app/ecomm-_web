@@ -3,6 +3,9 @@ import './PromotionBanner2.modul.scss'
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+import Cookies from 'js-cookie';
+import { useRecoilValue } from 'recoil';
+import { smrMA_loginState } from '../../../Recoil/atom';
 
 const NewArrival = () => {
 
@@ -13,15 +16,26 @@ const NewArrival = () => {
     const[storeInit,setStoreInit]=useState({});
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
+    const islogin = useRecoilValue(smrMA_loginState);
 
     useEffect(() => {
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival").then((response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
             }

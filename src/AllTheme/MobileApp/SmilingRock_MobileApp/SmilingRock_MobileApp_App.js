@@ -59,6 +59,7 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/myWishList" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
+        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
