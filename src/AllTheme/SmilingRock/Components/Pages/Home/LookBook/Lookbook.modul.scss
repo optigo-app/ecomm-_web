@@ -1,12 +1,48 @@
-
-
 @import "../../../scss/variable";
 
 .smr_LookBookMain {
   background-color: $backgroundColor;
-}
 
-.smr_LookBookSubMainDiv{
+
+  .smr_lookbookFilterMain{
+    width: 25%;
+  }
+
+  .smr_lookBookImgDivMain{
+    width: 75%;
+  }
+  .smr_LookBookSubMainDiv {
     margin-inline: 6%;
     background-color: white;
+  }
+
+  .smr_LookBookSubMainDiv{
+    display: flex;
+    min-height: 800px;
+  }
+
+  .smr_lookBookSubImgMain{
+  }
+
+  .smr_designSetDiv{
+    display: flex;
+    border: 1px solid lightgray;
+    margin: 5px;
+  }
+
+  .smr_lookBookImgDivMain{
+    margin-top: 80px;
+  }
+
+  .smr_lookBookImg{
+    height: 200px;
+    width: 200px;
+  }
+
+  .smr_lookBookSubImage{
+    height: 100px;
+    width: 100px;
+    margin: 5px;
+    box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
+  }
 }

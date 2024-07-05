@@ -1,4 +1,4 @@
-import "./QuotationQuote.scss";
+import "./QuotationQuoteMA.scss";
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -440,7 +440,7 @@ const QuotationQuote = () => {
     return (
         <>
         <MobViewHeader title="Quotation" />
-            <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+            <Box className='smilingSavedAddressMain salesApiSectionQMA headSetQMAMain' sx={{ padding: "20px", }}>
             <Accordion sx={{marginBottom:'20px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     More Filters
@@ -554,10 +554,11 @@ const QuotationQuote = () => {
                 </AccordionDetails>
             </Accordion>
             {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer>
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQMA">
+                    <TableContainer style={{maxHeight:580, overflowX:'auto', overflowY:'auto'}}>
                         <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowX:'auto' }}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
                         >

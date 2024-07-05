@@ -2,7 +2,7 @@
     padding: 9.5px 15px;
 }
 
-.salesReporttable table {
+.salesReporttableWeb table {
     border-collapse: collapse;
 }
 
@@ -14,28 +14,28 @@
     font-size: 20px !important;
 }
 
-.salesReporttable table tr td,
-.salesReporttable table tr th {
+.salesReporttableWeb table tr td,
+.salesReporttableWeb table tr th {
     border: 1px solid #d6d6d6;
 }
 
-.salesReporttable table td,
-.salesReporttable table tr th {
+.salesReporttableWeb table td,
+.salesReporttableWeb table tr th {
     font-size: 12px;
     padding: 5px 10px;
     text-align: center;
 }
 
-.salesReporttable table td.fw_bold {
+.salesReporttableWeb table td.fw_bold {
     font-weight: 600;
 }
 
 
-.salesReporttable table tr:first-child td {
+.salesReporttableWeb table tr:first-child td {
     font-weight: normal;
 }
 
-.salesReporttable {
+.salesReporttableWeb {
     overflow-y: auto;
 }
 
@@ -44,7 +44,7 @@
     padding-right: 0;
 }
 
-.salesReportTableSec table thead tr:first-child {
+.salesReportTableSecWeb table thead tr:first-child {
     background: #eaeaeb;
 }
 
@@ -96,80 +96,163 @@
     }
 }
 
+// @media(max-width: 576px) {
+
+//     .salesReporttable {
+//         border-collapse: collapse;
+//         padding-right: 0 !important;
+//         padding-bottom: 15px !important;
+//     }
+
+//     .salesReporttable,
+//     .salesReporttable table {
+//         width: 100%;
+//         border-collapse: collapse;
+//     }
+
+//     .salesReporttable table tbody {
+//         display: flex;
+//         flex-wrap: wrap;
+//     }
+
+//     .salesReporttable table tbody tr {
+//         display: flex;
+//         flex-direction: column;
+//         width: 50%;
+//     }
+
+//     .salesReporttable table tbody tr td{
+//         text-align: start !important;
+//     }
+
+//     .salesReportTableSec table thead tr {
+//         display: flex;
+//         flex-direction: column;
+//     }
+
+//     .salesReportTableSec>div>table {
+//         min-width: 100%;
+//         display: flex;
+//         position: static !important;
+//         flex-direction: column;
+//         border: unset;
+//     }
+
+//     .salesReportTableSec>div>table>thead>tr>th,
+//     .salesReportTableSec>div>table>tbody>tr>td {
+//         text-align: start !important;
+//         padding: 5px 10px !important;
+//     }
+
+//     .salesReportTableSec>div>table>thead>tr>th svg {
+//         position: absolute;
+//         right: -30px;
+//     }
+
+//     .salesReportTableSec>div>table>tbody>tr {
+//         width: 100%;
+//         display: flex;
+//         flex-direction: column;
+//     }
+
+//     .salesReportTableSec>div>table>tbody>tr>td:last-child {
+//         border-bottom: 1px solid #9b978f !important;
+//     }
+
+//     .salesReportTableSec>div>table>tbody>tr>td {
+//         min-height: 31.02px;
+//     }
+
+//     .salesReportTableSec>div>table>tbody>tr:first-child>td:first-child {
+//         border-top: 1px solid #9b978f !important;
+//     }
+
+//     .salesReportTableSec>div>table>thead>tr>th:last-child,
+//     .salesReportTableSec>div>table>thead>tr>th:first-child,
+//     .salesReportTableSec>div>table>thead>tr {
+//         border-radius: 0 !important;
+//     }
+
+// }
 @media(max-width: 576px) {
 
-    .salesReporttable {
+    .salesReporttableWeb {
         border-collapse: collapse;
         padding-right: 0 !important;
         padding-bottom: 15px !important;
     }
 
-    .salesReporttable,
-    .salesReporttable table {
+    .salesReporttableWeb,
+    .salesReporttableWeb table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .salesReporttable table tbody {
-        display: flex;
-        flex-wrap: wrap;
+    .salesReporttableWeb table tbody {
+        overflow: auto !important;
+        // display: flex;
+        // flex-wrap: wrap;
     }
 
-    .salesReporttable table tbody tr {
-        display: flex;
-        flex-direction: column;
-        width: 50%;
+    .salesReporttableWeb table tbody tr {
+        // display: flex;
+        // flex-direction: column;
+        // width: 50%;
+        width: 100% !important;
+        overflow: auto !important;
     }
 
-    .salesReporttable table tbody tr td{
+    .salesReporttableWeb table tbody tr td{
         text-align: start !important;
     }
 
-    .salesReportTableSec table thead tr {
-        display: flex;
-        flex-direction: column;
+    .salesReportTableSecWeb table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto !important;
     }
 
-    .salesReportTableSec>div>table {
+    .salesReportTableSecWeb>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
-    .salesReportTableSec>div>table>thead>tr>th,
-    .salesReportTableSec>div>table>tbody>tr>td {
+    .salesReportTableSecWeb>div>table>thead>tr>th,
+    .salesReportTableSecWeb>div>table>tbody>tr>td {
         text-align: start !important;
         padding: 5px 10px !important;
     }
 
-    .salesReportTableSec>div>table>thead>tr>th svg {
+    .salesReportTableSecWeb>div>table>thead>tr>th svg {
         position: absolute;
         right: -30px;
     }
 
-    .salesReportTableSec>div>table>tbody>tr {
+    .salesReportTableSecWeb>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        overflow: auto !important;
+        // display: flex;
+        // flex-direction: column;
     }
 
-    .salesReportTableSec>div>table>tbody>tr>td:last-child {
+    .salesReportTableSecWeb>div>table>tbody>tr>td:last-child {
         border-bottom: 1px solid #9b978f !important;
     }
 
-    .salesReportTableSec>div>table>tbody>tr>td {
+    .salesReportTableSecWeb>div>table>tbody>tr>td {
         min-height: 31.02px;
     }
 
-    .salesReportTableSec>div>table>tbody>tr:first-child>td:first-child {
+    .salesReportTableSecWeb>div>table>tbody>tr:first-child>td:first-child {
         border-top: 1px solid #9b978f !important;
     }
 
-    .salesReportTableSec>div>table>thead>tr>th:last-child,
-    .salesReportTableSec>div>table>thead>tr>th:first-child,
-    .salesReportTableSec>div>table>thead>tr {
+    .salesReportTableSecWeb>div>table>thead>tr>th:last-child,
+    .salesReportTableSecWeb>div>table>thead>tr>th:first-child,
+    .salesReportTableSecWeb>div>table>thead>tr {
         border-radius: 0 !important;
     }
 

@@ -10,11 +10,13 @@ import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
+import { LookBookAPI } from '../../../../../../utils/API/FilterAPI/LookBookAPI';
 
 const Lookbook = () => {
 
     let location = useLocation();
     const [imageUrl, setImageUrl] = useState();
+    const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
 
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const [designSetLstData, setDesignSetListData] = useState();
@@ -29,8 +31,10 @@ const Lookbook = () => {
     const islogin = useRecoilValue(loginState);
 
     useEffect(() => {
+        
         let data = JSON.parse(localStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
+        setImageUrlDesignSet(data?.DesignImageFol);
 
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
@@ -57,133 +61,17 @@ const Lookbook = () => {
     useEffect(() => {
 
         const fetchData = async () => {
-
-            let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-            let UrlVal = location?.search.slice(1).split("/")
-
-            console.log("URLVal", UrlVal);
-
-            let MenuVal = '';
-            let MenuKey = '';
-            let SearchVar = '';
-            let TrendingVar = '';
-            let NewArrivalVar = '';
-            let BestSellerVar = '';
-            let AlbumVar = '';
-
-            let productlisttype;
-
-            UrlVal.forEach((ele) => {
-                let firstChar = ele.charAt(0);
-
-                switch (firstChar) {
-                    case 'M':
-                        MenuVal = ele;
-                        break;
-                    case 'S':
-                        SearchVar = ele;
-                        break;
-                    case 'T':
-                        TrendingVar = ele;
-                        break;
-                    case 'N':
-                        NewArrivalVar = ele;
-                        break;
-                    case 'B':
-                        BestSellerVar = ele;
-                        break;
-                    case 'A':
-                        AlbumVar = ele;
-                        break;
-                    default:
-                        return '';
-                }
-            })
-
-            if (MenuVal) {
-
-                let menuDecode = atob(MenuVal.split("=")[1])
-
-                let key = menuDecode.split("/")[1].split(',')
-                let val = menuDecode.split("/")[0].split(',')
-
-                // setIsBreadcumShow(true)
-
-                productlisttype = [key, val]
+            let productlisttype = {
+                FilterKey: 'GETDesignSet_List',
+                FilterVal: 'GETDesignSet_List'
             }
 
-            if (SearchVar) {
-                productlisttype = SearchVar
-            }
-
-            if (TrendingVar) {
-                productlisttype = TrendingVar.split("=")[1]
-            }
-            if (NewArrivalVar) {
-                productlisttype = NewArrivalVar.split("=")[1]
-            }
-
-            if (BestSellerVar) {
-                productlisttype = BestSellerVar.split("=")[1]
-            }
-
-            if (AlbumVar) {
-                productlisttype = AlbumVar.split("=")[1]
-            }
-
-            // setIsProdLoading(true)
-            //  if(location?.state?.SearchVal === undefined){ 
-            await ProductListApi({}, 1, obj, productlisttype)
-                .then((res) => {
-                    if (res) {
-                        setProductListData(res?.pdList);
-                        setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-                    }
-                    return res;
-                })
-                // .then( async(res) => {
-                //   let forWardResp;
-                //   if (res) {
-                //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
-                //       if(resp){
-                //        console.log("productPriceData",resp);
-
-                //         setPriceListData(resp)
-                //         forWardResp = resp;
-                //       }
-                //     })
-                //   }
-                //   return forWardResp
-                // })
-                .then(async (res) => {
-                    let forWardResp1;
-                    if (res) {
-                        await FilterListAPI(productlisttype).then((res) => {
-                            setFilterData(res)
-                            console.log("productListaaaaaaaa", res);
-
-                            forWardResp1 = res
-                        }).catch((err) => console.log("err", err))
-                    }
-                    return forWardResp1
-                }).finally(() => {
-                    // setIsProdLoading(false)
-                    // setIsOnlyProdLoading(false)
-                })
-                .catch((err) => console.log("err", err))
-
-            // }
-
+            await LookBookAPI(productlisttype).then((res) => {
+                setFilterData(res)
+            }).catch((err) => console.log("err", err))
         }
-
         fetchData();
-
-        if (location?.key) {
-            setLocationKey(location?.key)
-        }
-
-    }, [location?.key])
+    }, [])
 
     const handelFilterClearAll = () => {
         if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
@@ -200,23 +88,30 @@ const Lookbook = () => {
         }))
     }
 
-
-
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
         if (pd?.DefaultImageName) {
-            finalprodListimg = imageUrl + pd?.designsetno + '/' + pd?.DefaultImageName;
+            finalprodListimg = imageUrl + pd?.designsetuniqueno + '/' + pd?.DefaultImageName;
         } else {
             finalprodListimg = imageNotFound;
         }
         return finalprodListimg;
     };
 
+    const parseDesignDetails = (details) => {
+        try {
+            return JSON.parse(details);
+        } catch (error) {
+            console.error("Error parsing design details:", error);
+            return [];
+        }
+    }
+
     return (
         <div className='smr_LookBookMain'>
             <div className='smr_LookBookSubMainDiv'>
 
-                <div className="smr_filter_portion">
+                <div className="smr_lookbookFilterMain">
                     {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                         <span className="smr_filter_text">
                             <span>
@@ -357,21 +252,48 @@ const Lookbook = () => {
                     </div>}
                 </div>
 
-                <div>
+                <div className='smr_lookBookImgDivMain'>
                     {designSetLstData?.map((slide, index) => (
                         <div className="smr_designSetDiv" key={index}>
-                            <img
-                                className="image"
-                                loading="lazy"
-                                src={ProdCardImageFunc(slide)}
-                                alt={`Slide ${index}`}
-                            />
-                            <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            <div style={{display: 'flex'}}>
+                                <img
+                                    className="smr_lookBookImg"
+                                    loading="lazy"
+                                    src={ProdCardImageFunc(slide)}
+                                    alt={`Slide ${index}`}
+                                />
+                                <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            </div>
+                            <div className='smr_lookBookSubImgMain'>
+                                {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
+                                    <img
+                                        key={subIndex}
+                                        className="smr_lookBookSubImage"
+                                        loading="lazy"
+                                        src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                        alt={`Sub image ${subIndex} for slide ${index}`}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
-
+            <div>
+                <p style={{
+                    paddingBlock: '30px',
+                    margin: '0px',
+                    textAlign: 'center',
+                    color: 'white',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    letterSpacing: '1px'
+                }} onClick={() => window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                })}>BACK TO TOP</p>
+            </div>
         </div>
     )
 }
