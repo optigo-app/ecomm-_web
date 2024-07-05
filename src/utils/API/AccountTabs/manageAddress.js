@@ -61,7 +61,6 @@ export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, custome
         });
 
         const encodedCombinedValue = (combinedValue);
-
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"EDITADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
             "f": "Delivery (EditAddress)",

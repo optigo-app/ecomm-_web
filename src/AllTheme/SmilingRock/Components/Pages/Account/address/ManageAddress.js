@@ -182,7 +182,6 @@ const ManageAddress = () => {
                     // };
                     // const response = await CommonAPI(body);
                     // console.log(response);
-                    console.log(formData);
                     const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
                     
                     if (response?.Data?.rd[0]?.stat === 1) {
