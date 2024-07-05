@@ -421,15 +421,15 @@ const Sales = () => {
     return (
         <>
             <MobViewHeader title="Sales" />
-            <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+            <Box className='smilingSavedAddressMain salesApiSectionMob' sx={{ padding: "20px", marginBottom:'3rem'}}>
             <Accordion sx={{marginBottom:'20px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     More Filters
                 </AccordionSummary>
                 <AccordionDetails>
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
-                <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
+                <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtnMob"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
+                <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtnMob">
                     <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
                         setSearchVal(eve?.target?.value);
                         handleSearch(eve, eve?.target?.value, fromDate, toDate);
@@ -438,7 +438,7 @@ const Sales = () => {
                         onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
-                    <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
+                    <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtnMob date_from_sal">
                         <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>Date: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -470,7 +470,7 @@ const Sales = () => {
                             </LocalizationProvider>
                         </Box>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
+                    <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtnMob">
                         <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>To: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -503,17 +503,18 @@ const Sales = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
+                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtnMob salePageBtnAlignMob">
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
             </Box>
                 </AccordionDetails>
             </Accordion>
             {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer className='salesPartTable'>
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableMob">
+                    <TableContainer className='salesPartTableMob' sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
                         <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto' }}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
 

@@ -114,15 +114,16 @@
 
 @media(max-width: 576px) {
     .salesApiTable table thead tr {
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
     }
 
     .salesApiTable>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
@@ -139,8 +140,8 @@
 
     .salesApiTable>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .salesApiTable>div>table>tbody>tr>td:last-child {

@@ -821,7 +821,7 @@ const SalesReport = () => {
   return (
     <>
        <MobViewHeader title="Sales Report" />
-    <Box>
+    <Box style={{marginBottom:'5rem'}}>
       <Box
         sx={{
           display: "flex",
