@@ -2,17 +2,32 @@ import React, { useEffect, useState } from "react";
 import "./Album.modul.scss";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { loginState } from "../../../Recoil/atom";
+import { useRecoilValue } from "recoil";
 
 const Album = () => {
   const [albumData, setAlbumData] = useState();
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
+  const islogin = useRecoilValue(loginState);
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum")
+    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const { IsB2BWebsite } = storeInit;
+    const visiterID = Cookies.get('visiterId');
+    let finalID;
+    if (IsB2BWebsite == 0) {
+        finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    } else {
+        finalID = loginUserDetail?.id || '0';
+    }
+
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum" , finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response?.Data?.rd);

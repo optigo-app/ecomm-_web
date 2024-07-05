@@ -37,6 +37,7 @@ import Header2 from './Components/Pages/Home/Header/Header2'
 import Account from './Components/Pages/Account/Account';
 import Cookies from 'js-cookie'
 import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
+import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 
 
 const SmilingRock_App = () => {
@@ -92,6 +93,7 @@ const SmilingRock_App = () => {
                 <Route path="/servicePolicy" element={<ServicePolicy />} />
                 <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
                 <Route path="/FunFact" element={<FunFact />} />
+                <Route path="/Lookbook" element={<Lookbook />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
                 {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
                     <Route path="/p/*" element={<ProductList />} />

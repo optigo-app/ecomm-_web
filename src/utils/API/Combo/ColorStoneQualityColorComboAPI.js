@@ -13,7 +13,7 @@ export const ColorStoneQualityColorComboAPI = async () => {
         
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`, colorstonepricelistname: `${loginUserDetail?.colorstonepricelistname}`
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, colorstonepricelistname: `${loginUserDetail?.colorstonepricelistname ?? storeInit?.colorstonepricelistname}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
