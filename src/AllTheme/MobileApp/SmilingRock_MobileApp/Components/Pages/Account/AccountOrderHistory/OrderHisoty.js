@@ -7,6 +7,8 @@ import { formatAmount } from "../../../../../../../utils/Glob_Functions/AccountP
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import MobViewHeader from "../MobViewHeader/MobViewHeader";
+import Pako from "pako";
+import { useNavigate } from "react-router-dom";
 
 
 const OrderHistory = () => {
@@ -17,6 +19,7 @@ const OrderHistory = () => {
   const [orderInfo, setOrderInfo] = useState(false);
   const [ukey, setUkey] = useState('');
   const [image_path, setImagePath] = useState('');
+  const navigate = useNavigate();
 
 
   const getStatusColor = (orderType) => {
@@ -182,6 +185,38 @@ const OrderHistory = () => {
     }
   };
 
+  const handleMoveToDetail = (productData) => {
+
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {}
+    }
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+
+  }
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
   return (
     <div>
 
@@ -330,7 +365,7 @@ const OrderHistory = () => {
                             lg={orderDetails?.length === 1 ? 12 : 3}
                             xl={orderDetails?.length === 1 ? 12 : 3}
                           >
-                          <Card className="h-100">
+                          <Card className="h-100" onClick={() => handleMoveToDetail(el)}>
                             <Card.Img
                               variant="top"
                               src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
