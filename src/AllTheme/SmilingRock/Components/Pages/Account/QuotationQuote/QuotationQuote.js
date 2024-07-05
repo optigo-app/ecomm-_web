@@ -529,10 +529,11 @@ const QuotationQuote = () => {
                 </Box>
             </Box>
             {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer>
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
+                    <TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
                         <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
                         >

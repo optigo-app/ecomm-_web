@@ -825,7 +825,7 @@ const SalesReport = () => {
         }}
       >
         <Box
-          className="salesReporttable"
+          className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
           <table>
@@ -1123,8 +1123,8 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSec">
-            <TableContainer sx={{ maxHeight: 580 }}>
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
