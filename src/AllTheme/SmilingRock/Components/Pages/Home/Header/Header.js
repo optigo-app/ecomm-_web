@@ -835,7 +835,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
                 >
-                  LookBook
+                  LOOKBOOK
                 </li>
 
                 <ul className="nav_ul_shop_menu_Mobile">
