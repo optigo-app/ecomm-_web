@@ -51,12 +51,12 @@ const CartPage = () => {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
-  const navigate = useNavigate();
   const handleRedirect = () => {
-    navigate('/')
+    handelMenu();
   }
 
   console.log('selected--', selectedItem);

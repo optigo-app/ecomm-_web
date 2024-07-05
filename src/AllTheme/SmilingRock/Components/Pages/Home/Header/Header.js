@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, companyLogo, loginState } from '../../../Recoil/atom';
+import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -13,10 +13,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
+import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 
 const Header = () => {
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
@@ -39,7 +41,8 @@ const Header = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    GetCountAPI(cookie).then((res) => {
+    const visiterID = Cookies.get('visiterId');
+    GetCountAPI(visiterID).then((res) => {
       if (res) {
         setCartCountNum(res?.cartcount)
         setWishCountNum(res?.wishcount)
@@ -174,6 +177,7 @@ const Header = () => {
   const handleDropdownOpen = () => {
     setIsDropdownOpen(true);
   };
+
 
 
   const handleDropdownClose = () => {
@@ -325,6 +329,17 @@ const Header = () => {
   }
 
 
+  // for cart drawer
+
+  const toggleCartDrawer = () => {
+    setIsCartOpen(prevState => !prevState);
+    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
+    setCartOpenState(prevState => !prevState);
+  };
+  
+
+
   return (
     <div className='smr_headerMain_div'>
 
@@ -443,6 +458,7 @@ const Header = () => {
                       style={{ marginInline: '15px' }}
                     >
                       <Tooltip title="Cart">
+
                         <li
                           onClick={() => { navigate('/cartPage') }}
                           className="nav_li_smining_Icone"
@@ -624,7 +640,7 @@ const Header = () => {
                 FUN FACT
               </li>
 
-              
+
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
@@ -737,7 +753,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={() => { navigate('/cartPage') }}
+                          onClick={toggleCartDrawer}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -861,7 +877,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
                 >
-                  LookBook
+                  LOOKBOOK
                 </li>
 
                 <ul className="nav_ul_shop_menu_Mobile">
@@ -1113,8 +1129,6 @@ const Header = () => {
                       ))}
                       <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                     </List>
-
-
                   </>
                 </div>
               ))}
@@ -1122,6 +1136,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <CartDrawer open={isCartOpen} />
     </div>
   )
 }

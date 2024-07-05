@@ -1,55 +1,57 @@
-.AcountSales>div {
-    padding-left: 0;
-    padding-right: 0;
-}
+// .AcountSales>div {
+//     padding-left: 0;
+//     padding-right: 0;
+// }
+.headSetQMAMain{
 
-.salesApiTable thead tr th:first-child {
+
+.salesApiTableQMA thead tr th:first-child {
     border-top-left-radius: 4px;
 }
 
-.salesApiTable thead tr th:last-child {
+.salesApiTableQMA thead tr th:last-child {
     border-top-right-radius: 4px;
 }
 
-.salesApiTable tbody tr:last-child th:first-child {
+.salesApiTableQMA tbody tr:last-child th:first-child {
     border-bottom-left-radius: 4px;
 }
 
-.salesApiTable tbody tr:last-child th:last-child {
+.salesApiTableQMA tbody tr:last-child th:last-child {
     border-bottom-right-radius: 4px;
 }
 
-.salesApiTable .MuiTablePagination-root {
+.salesApiTableQMA .MuiTablePagination-root {
     border-left: 1px solid rgba(224, 224, 224, 1);
     border-right: 1px solid rgba(224, 224, 224, 1);
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
-.salesApiTable .MuiTablePagination-selectLabel,
-.salesApiTable .MuiTablePagination-displayedRows {
+.salesApiTableQMA .MuiTablePagination-selectLabel,
+.salesApiTableQMA .MuiTablePagination-displayedRows {
     margin-bottom: 0;
 }
 
-.salesApiTable>.MuiTableContainer-root {
+.salesApiTableQMA>.MuiTableContainer-root {
     max-height: 590px;
 }
 
-.salesApiTable>div>table {
+.salesApiTableQMA>div>table {
     position: relative;
 }
 
-.salesApiTable thead>tr:first-child {
+.salesApiTableQMA thead>tr:first-child {
     position: sticky;
     top: 0;
     background-color: rgb(235, 235, 235);
 }
 
-.salesApiSection svg {
+.salesApiSectionQMA svg {
     font-size: 20px !important;
     color: #7d7f85;
 }
 
-.salesApiSection * {
+.salesApiSectionQMA * {
     font-size: 14px !important;
     line-height: 120%;
 }
@@ -83,37 +85,37 @@
         padding-bottom: 15px !important;
     }
 
-    .AcountSales>div>p>div {
-        padding: 15px 10px;
-    }
+    // .AcountSales>div>p>div {
+    //     padding: 15px 10px;
+    // }
 
 
 
-    .salesApiTable .MuiTablePagination-root {
+    .salesApiTableQMA .MuiTablePagination-root {
         padding-bottom: 0 !important;
         max-height: 50px;
         overflow: hidden;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-toolbar {
+    .salesApiTableQMA .MuiTablePagination-root .MuiTablePagination-toolbar {
         padding: 0 5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
+    .salesApiTableQMA .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
         margin-right: 5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
+    .salesApiTableQMA .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
         padding-left: 0;
         margin-left: -5px;
         padding-right: 20px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-actions {
+    .salesApiTableQMA .MuiTablePagination-root .MuiTablePagination-actions {
         margin-left: 5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-actions button {
+    .salesApiTableQMA .MuiTablePagination-root .MuiTablePagination-actions button {
         padding-right: 0;
         padding-left: 0;
     }
@@ -128,48 +130,51 @@
 }
 
 @media(max-width: 576px) {
-    .salesApiTable table thead tr {
-        display: flex;
-        flex-direction: column;
+    .salesApiTableQMA table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        width: 100%;
+        overflow: auto;
     }
 
-    .salesApiTable>div>table {
+    .salesApiTableQMA>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
-    .salesApiTable>div>table>thead>tr>th,
-    .salesApiTable>div>table>tbody>tr>td {
+    .salesApiTableQMA>div>table>thead>tr>th,
+    .salesApiTableQMA>div>table>tbody>tr>td {
         text-align: start !important;
         padding: 5px 10px !important;
     }
 
-    .salesApiTable>div>table>thead>tr>th svg {
+    .salesApiTableQMA>div>table>thead>tr>th svg {
         position: absolute;
         right: -30px;
     }
 
-    .salesApiTable>div>table>tbody>tr {
+    .salesApiTableQMA>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
     }
 
-    .salesApiTable>div>table>tbody>tr>td:last-child {
-        border-bottom: 1px solid #9b978f !important;
+    .salesApiTableQMA>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
     }
 
-    .salesApiTable>div>table>tbody>tr>td {
+    .salesApiTableQMA>div>table>tbody>tr>td {
         min-height: 31.02px;
     }
 
-    .salesApiTable>div>table>tbody>tr:first-child>td:first-child {
+    .salesApiTableQMA>div>table>tbody>tr:first-child>td:first-child {
         border-top: 1px solid #9b978f !important;
     }
-    .salesApiTable>div>table>thead>tr>th:last-child, .salesApiTable>div>table>thead>tr>th:first-child,.salesApiTable>div>table>thead>tr {
+    .salesApiTableQMA>div>table>thead>tr>th:last-child, .salesApiTableQMA>div>table>thead>tr>th:first-child,.salesApiTableQMA>div>table>thead>tr {
         border-radius: 0 !important;
     }
     .d_flex_quote{
@@ -211,7 +216,10 @@
     //     max-width: -moz-max-content;
     //     max-width: max-content;
     // }
-
+    .salesApiSectionQMA * {
+        font-size: 12px !important;
+        line-height: 120%;
+    }
 }
 
 @media (max-width:320px), (max-width:360px), (max-width:390px), (max-width:430px),(max-width:500px),(max-width:575px){
@@ -224,7 +232,16 @@
     .w_q{
         width: 100% !important;
     }
-   .smrMA_HeaderMain{
-    display: none;
-   }
+ 
+   .salesApiSectionQMA * {
+        font-size: 10px !important;
+        line-height: 120%;
+    }
+    .salesApiTableQMA .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
+        padding-left: 0;
+        margin-left: -5px;
+        padding-right: 20px;
+        padding-bottom: 0px;
+    }
+}
 }

@@ -61,15 +61,16 @@
     }
 
     .salesApiTable table thead tr {
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
     }
 
     .salesApiTable>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
@@ -86,12 +87,12 @@
 
     .salesApiTable>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .salesApiTable>div>table>tbody>tr>td:last-child {
-        border-bottom: 1px solid #9b978f !important;
+        // border-bottom: 1px solid #9b978f !important;
     }
 
     .salesApiTable>div>table>tbody>tr>td {
@@ -114,8 +115,8 @@
     .sal_flexcol{
         display: flex !important;
         justify-content: center;
-        align-items: flex-start !important;
         flex-direction: column;
+        align-items: flex-start !important;
         width: 100%;
     }
     .date_from_sal{

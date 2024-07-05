@@ -14,7 +14,8 @@ const WishlistData = ({
   handleRemoveItem,
   handleWishlistToCart,
   WishCardImageFunc,
-  handleMoveToDetail
+  handleMoveToDetail,
+  handelMenu
 }) => {
 
   console.log('itemLength', items?.length);
@@ -44,7 +45,7 @@ const WishlistData = ({
           <div className='smr_noWishlistData'>
             <p className='smr_title'>No Wishlist Found!</p>
             <p className='smr_desc'>Please First Add To Wishlist Data</p>
-            <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+            <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }
       </>

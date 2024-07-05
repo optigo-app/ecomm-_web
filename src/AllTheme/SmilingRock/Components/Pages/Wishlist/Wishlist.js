@@ -26,7 +26,8 @@ const Wishlist = () => {
     handleRemoveAll,
     handleWishlistToCart,
     handleAddtoCartAll,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -120,6 +121,7 @@ const Wishlist = () => {
             handleRemoveItem={handleRemoveItem}
             handleWishlistToCart={handleWishlistToCart}
             handleMoveToDetail={handleMoveToDetail}
+            handelMenu={handelMenu}
           />
         ) : (
           <div style={{marginTop:'90px'}}>

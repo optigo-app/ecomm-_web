@@ -436,7 +436,7 @@ const QuotationQuote = () => {
 
 
     return (
-        <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+        <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
             <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                     <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
@@ -529,10 +529,11 @@ const QuotationQuote = () => {
                 </Box>
             </Box>
             {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer>
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
+                    <TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
                         <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
                         >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -9,12 +9,15 @@ import noImageFound from "../../../Assets/image-not-found.jpg";
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
+import CartTableData from "./CartTableData"
 
 const Cart = ({
   isOpen,
-  toggleDrawer,
+  closeDrawer,
   items,
+  qtyCount,
   CartCardImageFunc,
+  CurrencyData,
   onSelect,
   selectedItem,
   selectedItems,
@@ -26,49 +29,57 @@ const Cart = ({
   handleRemarkChange,
   handleSave,
   handleCancel,
+  decodeEntities,
+  handleDecrement,
+  handleIncrement,
+  handelMenu
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
-  const islogin = useRecoilValue(loginState)
+  const islogin = useRecoilValue(loginState);
+  const [totalPrice, setTotalPrice] = useState();
+  const [storeInitData, setStoreInitData] = useState();
+
+  useEffect(() => {
+    debugger
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      let priceData = items.reduce((total, item) => total + item?.UnitCostWithmarkup, 0)?.toFixed(2)
+      setTotalPrice(priceData)
+    }, 300);
+  })
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate('/LoginOption')
+      closeDrawer();
     } else {
       // let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
       // console.log("TotalPriceData", cartData)
       // localStorage.setItem('TotalPriceData', priceData)
       // navigate("/Delivery")
+      closeDrawer();
     }
     window.scrollTo(0, 0);
   }
 
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+  const handleBrowse = () => {
+    closeDrawer();
+    handelMenu();
   }
-
-  const dummyData = [
-    {
-      id: 1,
-      imageUrl: "http://placehold.it/150x150",
-      title: "Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT",
-      description: "Rose Gold / 18 Inches / 0.8",
-      shippingInfo: "Ships in 14 days",
-      total: "6.00"
-    }
-  ];
 
   return (
     <div className="smr_B2cCart">
       <Drawer
         anchor="right"
         open={isOpen}
-        onClose={toggleDrawer(false)}
+        onClose={closeDrawer}
         PaperProps={{
           style: {
             width: isMobile ? '100%' : '40%',
@@ -77,7 +88,7 @@ const Cart = ({
       >
         <div className="smr_B2C-container">
           <div className='smr_b2cCartPageButonGp'>
-            <div className='smr_b2ccartCloseIcon'>
+            <div className='smr_b2ccartCloseIcon' onClick={closeDrawer}>
               <CloseIcon />
             </div>
             <div className='smr_cartB2cMainTitleBtn' >
@@ -85,29 +96,47 @@ const Cart = ({
             </div>
           </div>
           <div className='smr_b2cCartTb'>
-            <table className="smr_B2C-table smr_B2C-table-xs">
-              <tbody>
-                {dummyData.map((item) => (
-                  <tr key={item.id} className="smr_B2C-item-row">
-                    <td><img className='smr_b2ccartImage' src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt={`Item images`} /></td>
-                    <td className='smr_b2ccartContentTd'>
-                      <p className='smr_b2ccartContentTitle'>{item.title}</p>
-                      <p className='smr_b2ccartContentMtDT'>{item.description}</p>
-                      <QuantitySelector />
-                    </td>
-                    <td className="smr_B2C-text-right" title="Amount">{item.shippingInfo}</td>
-                    <td className="smr_B2C-text-right" title="Total">{item.total}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {items?.length != 0 ? (
+              <CartTableData
+                cartData={items}
+                qtyCount={qtyCount}
+                CurrencyData={CurrencyData}
+                CartCardImageFunc={CartCardImageFunc}
+                noImageFound={noImageFound}
+                decodeEntities={decodeEntities}
+                handleIncrement={handleIncrement}
+                handleDecrement={handleDecrement}
+                onRemove={onRemove}
+              />
+            ) :
+              <div className='smr_noB2CcartData'>
+                <p className='smr_title'>No Data Found!</p>
+                <p className='smr_desc'>Please First Add Data in cart</p>
+                <button className='smr_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
+              </div>
+            }
           </div>
           <div>
 
           </div>
-          <div className='smr_B2cCheckoutBtnDiv'>
-            <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>{'83784738'}-CHECKOUT</button>
-          </div>
+          {items?.length != 0 &&
+            <div className='smr_B2cCheckoutBtnDiv'>
+              <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>
+                {storeInitData?.IsPriceShow == 1 &&
+                  <span>
+                    <span
+                      className="smr_currencyFont"
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(
+                          CurrencyData?.Currencysymbol
+                        ),
+                      }}
+                    />
+                    {totalPrice}
+                  </span>
+                }{' - '}CHECKOUT</button>
+            </div>
+          }
         </div>
       </Drawer>
     </div>

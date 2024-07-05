@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Basket from './Drawer';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { cartB2CDrawer } from '../../../Recoil/atom';
+import { useNavigate } from 'react-router-dom';
 
-function Cart() {
+function Cart(props) {
   const {
     isloding,
     ispriceloding,
@@ -41,22 +44,30 @@ function Cart() {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const isOpen = useRecoilValue(cartB2CDrawer)
+  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
 
-  const toggleDrawer = (open) => (event) => {
-    setIsOpen(open);
-  };
+  console.log('khdkjhaskd', props);
+
+  const handleCloseDrawer = () => {
+    setCartOpenState(false)
+    // navigate(-1)
+  }
+
 
   return (
     <div className="smr_CartPageMainB2cDiv">
-      <button onClick={toggleDrawer(true)}>Open Basket</button>
       <Basket
         isOpen={isOpen}
-        toggleDrawer={toggleDrawer}
+        closeDrawer={handleCloseDrawer}
         items={cartData}
+        qtyCount={qtyCount}
+        CurrencyData={CurrencyData}
         CartCardImageFunc={CartCardImageFunc}
         showRemark={showRemark}
         productRemark={productRemark}
@@ -69,6 +80,10 @@ function Cart() {
         handleRemarkChange={handleRemarkChange}
         handleSave={handleSave}
         handleCancel={handleCancel}
+        handleIncrement={handleIncrement}
+        handleDecrement={handleDecrement}
+        decodeEntities={decodeEntities}
+        handelMenu={handelMenu}
       />
     </div>
   );

@@ -69,6 +69,7 @@ const useCart = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  const cartStatus = localStorage.getItem('isCartDrawer')
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
@@ -96,7 +97,6 @@ const useCart = () => {
   }, [])
 
   const getCartData = async () => {
-    debugger
     setIsLoading(true);
     const visiterId = Cookies.get('visiterId');
     try {
@@ -141,8 +141,8 @@ const useCart = () => {
   };
 
   useEffect(() => {
-      getCartData();
-  }, []);
+    getCartData();
+  }, [cartStatus]);
 
   // for multiselect
   const handleSelectItem = async (item) => {
@@ -330,7 +330,15 @@ const useCart = () => {
   };
 
   // for quantity
-  const handleIncrement = async () => {
+  const handleIncrement = async (item) => {
+    console.log('itemjhsjdhjshaj', item);
+    if (storeInit?.IsB2BWebsite == 0) {
+      const updatedQtytData = cartData?.map(cart =>
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity + 1 } : cart
+      );
+      console.log(updatedQtytData);
+      setCartData(updatedQtytData)
+    }
     setIsPriceLoding(true);
     setQtyCount(prevCount => prevCount + 1);
     let lastEnteredQuantity = qtyCount + 1
@@ -342,14 +350,20 @@ const useCart = () => {
     }
   };
 
-  const handleDecrement = async () => {
+  const handleDecrement = async (item) => {
     setIsPriceLoding(true);
+    if (storeInit?.IsB2BWebsite == 0) {
+      const updatedQtytData = cartData?.map(cart =>
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1 } : cart
+      );
+      setCartData(updatedQtytData)
+    }
     setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
     let num = selectedItem?.id;
     if (qtyCount > 1) {
       try {
-        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin );
+        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin);
       } catch (error) {
         console.error("Failed to update quantity:", error);
       }
@@ -587,7 +601,7 @@ const useCart = () => {
   const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
     let price = 0;
     if (pPrice <= 0) {
-       setIsPriceLoding(false);
+      setIsPriceLoding(false);
       return 0
     }
     else if (pmu <= 0) {
@@ -760,7 +774,42 @@ const useCart = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
     navigate(`/d/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
+  }
 
+  // browse our collection
+  const handelMenu = () => {
+    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    console.log('otherparamsUrl--', menudata);
+    const queryParameters1 = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const queryParameters = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join(',');
+
+    const otherparamUrl = Object.entries({
+      b: menudata?.FilterKey,
+      g: menudata?.FilterKey1,
+      c: menudata?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(',');
+
+    const paginationParam = [
+      `page=${menudata.page ?? 1}`,
+      `size=${menudata.size ?? 50}`
+    ].join('&');
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    navigate(url)
   }
 
   return {
@@ -801,7 +850,8 @@ const useCart = () => {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   };
 };
 

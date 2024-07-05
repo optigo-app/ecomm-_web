@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
-import "./quotation.scss";
+import "./quotationJobMA.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment';
@@ -674,7 +674,7 @@ const handleCheckboxChange = (event, rowIndex) => {
 
 const scrollToTop = () => {
   // Find the table container element and set its scrollTop property to 0
-  const tableContainer = document.querySelector('.quotationJobSec');
+  const tableContainer = document.querySelector('.quotationJobSecJMA');
   if (tableContainer) {
     tableContainer.scrollTop = 0;
   }
@@ -683,7 +683,7 @@ const scrollToTop = () => {
   return (
     <>
       <MobViewHeader title="Jobs" />
-    <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
+    <Box className='smilingSavedAddressMain quotationFiltersText headSetINQMAMain' sx={{ padding: "20px", }}>
       <Accordion sx={{marginBottom:'20px'}}>
         <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
           More Filters
@@ -874,8 +874,9 @@ const scrollToTop = () => {
 
       <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
         {isLoading ?
-          <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
-            <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
+          <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+          <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtableJMA'>
+            <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSecJMA'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead>
                   <TableRow>
@@ -919,6 +920,7 @@ const scrollToTop = () => {
                                 column?.id === 'checkbox' ? 
                                   <Checkbox 
                                     checked={row?.isJobSelected} 
+                                    className='br_bottom_0_JMA'
                                     onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
                                   /> 
                                   : 
