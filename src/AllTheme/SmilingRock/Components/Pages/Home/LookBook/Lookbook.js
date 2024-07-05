@@ -16,6 +16,7 @@ const Lookbook = () => {
 
     let location = useLocation();
     const [imageUrl, setImageUrl] = useState();
+    const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
 
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const [designSetLstData, setDesignSetListData] = useState();
@@ -30,8 +31,10 @@ const Lookbook = () => {
     const islogin = useRecoilValue(loginState);
 
     useEffect(() => {
+        
         let data = JSON.parse(localStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
+        setImageUrlDesignSet(data?.DesignImageFol);
 
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
@@ -95,11 +98,20 @@ const Lookbook = () => {
         return finalprodListimg;
     };
 
+    const parseDesignDetails = (details) => {
+        try {
+            return JSON.parse(details);
+        } catch (error) {
+            console.error("Error parsing design details:", error);
+            return [];
+        }
+    }
+
     return (
         <div className='smr_LookBookMain'>
             <div className='smr_LookBookSubMainDiv'>
 
-                <div className="smr_filter_portion">
+                <div className="smr_lookbookFilterMain">
                     {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                         <span className="smr_filter_text">
                             <span>
@@ -243,13 +255,26 @@ const Lookbook = () => {
                 <div className='smr_lookBookImgDivMain'>
                     {designSetLstData?.map((slide, index) => (
                         <div className="smr_designSetDiv" key={index}>
-                            <img
-                                className="smr_lookBookImg"
-                                loading="lazy"
-                                src={ProdCardImageFunc(slide)}
-                                alt={`Slide ${index}`}
-                            />
-                            <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            <div style={{display: 'flex'}}>
+                                <img
+                                    className="smr_lookBookImg"
+                                    loading="lazy"
+                                    src={ProdCardImageFunc(slide)}
+                                    alt={`Slide ${index}`}
+                                />
+                                <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            </div>
+                            <div className='smr_lookBookSubImgMain'>
+                                {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
+                                    <img
+                                        key={subIndex}
+                                        className="smr_lookBookSubImage"
+                                        loading="lazy"
+                                        src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                        alt={`Sub image ${subIndex} for slide ${index}`}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     ))}
                 </div>
