@@ -149,6 +149,8 @@ const CartPage = () => {
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}
+                    CurrencyData={CurrencyData}
+                    decodeEntities={decodeEntities}
                     onSelect={handleSelectItem}
                     selectedItem={selectedItem}
                     selectedItems={selectedItems}

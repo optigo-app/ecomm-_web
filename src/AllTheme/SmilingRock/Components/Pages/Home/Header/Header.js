@@ -39,7 +39,8 @@ const Header = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    GetCountAPI().then((res) => {
+    const visiterID = Cookies.get('visiterId');
+    GetCountAPI(visiterID).then((res) => {
       if (res) {
         setCartCountNum(res?.cartcount)
         setWishCountNum(res?.wishcount)
@@ -294,8 +295,11 @@ const Header = () => {
 
   const toggleCartDrawer = () => {
     setIsCartOpen(prevState => !prevState);
+    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
     setCartOpenState(prevState => !prevState);
   };
+  
 
 
   return (
