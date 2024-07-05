@@ -1,12 +1,24 @@
-
-
 @import "../../../scss/variable";
 
 .smr_LookBookMain {
   background-color: $backgroundColor;
-}
 
-.smr_LookBookSubMainDiv{
+  .smr_LookBookSubMainDiv {
     margin-inline: 6%;
     background-color: white;
+  }
+
+  .smr_LookBookSubMainDiv{
+    display: flex;
+    min-height: 800px;
+  }
+
+  .smr_lookBookImgDivMain{
+    margin-top: 80px;
+  }
+
+  .smr_lookBookImg{
+    height: 200px;
+    width: 200px;
+  }
 }
