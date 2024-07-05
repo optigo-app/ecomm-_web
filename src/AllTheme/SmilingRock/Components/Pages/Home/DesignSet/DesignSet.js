@@ -107,7 +107,7 @@ const DesignSet = () => {
     };
 
     // Determine the items to show
-    const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 5);
+    const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
 
     return (
         <div className="smr_designSetMain">
