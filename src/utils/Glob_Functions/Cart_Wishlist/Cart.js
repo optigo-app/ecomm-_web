@@ -69,6 +69,7 @@ const useCart = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  const cartStatus = localStorage.getItem('isCartDrawer')
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
@@ -140,8 +141,8 @@ const useCart = () => {
   };
 
   useEffect(() => {
-      getCartData();
-  }, []);
+    getCartData();
+  }, [cartStatus]);
 
   // for multiselect
   const handleSelectItem = async (item) => {
@@ -329,7 +330,15 @@ const useCart = () => {
   };
 
   // for quantity
-  const handleIncrement = async () => {
+  const handleIncrement = async (item) => {
+    console.log('itemjhsjdhjshaj', item);
+    if (storeInit?.IsB2BWebsite == 0) {
+      const updatedQtytData = cartData?.map(cart =>
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity + 1 } : cart
+      );
+      console.log(updatedQtytData);
+      setCartData(updatedQtytData)
+    }
     setIsPriceLoding(true);
     setQtyCount(prevCount => prevCount + 1);
     let lastEnteredQuantity = qtyCount + 1
@@ -341,14 +350,20 @@ const useCart = () => {
     }
   };
 
-  const handleDecrement = async () => {
+  const handleDecrement = async (item) => {
     setIsPriceLoding(true);
+    if (storeInit?.IsB2BWebsite == 0) {
+      const updatedQtytData = cartData?.map(cart =>
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1 } : cart
+      );
+      setCartData(updatedQtytData)
+    }
     setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
     let num = selectedItem?.id;
     if (qtyCount > 1) {
       try {
-        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin );
+        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin);
       } catch (error) {
         console.error("Failed to update quantity:", error);
       }
@@ -586,7 +601,7 @@ const useCart = () => {
   const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
     let price = 0;
     if (pPrice <= 0) {
-       setIsPriceLoding(false);
+      setIsPriceLoding(false);
       return 0
     }
     else if (pmu <= 0) {

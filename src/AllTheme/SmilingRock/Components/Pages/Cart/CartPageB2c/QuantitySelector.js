@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import './smr_cartPageB2c.scss';
 
-const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, }) => {
+const QuantitySelector = ({ cartData, qtyCount, handleIncrement, handleDecrement, }) => {
 
   return (
     <div className="smr_cartB2c-quantity">
-      <button className="bttn bttn-left" onClick={handleDecrement}>
-        <span>-</span> 
+      <button className="bttn bttn-left" onClick={() => handleDecrement(cartData)}>
+        <span>-</span>
       </button>
       <input
         type="number"
         className="input"
         id="input"
-        defaultValue={selectedItem?.Quantity}
-        value={qtyCount}
+        defaultValue={cartData?.Quantity}
+        value={cartData?.Quantity}
         readOnly
       />
-      <button className="bttn bttn-right" onClick={handleIncrement}>
+      <button className="bttn bttn-right" onClick={() => handleIncrement(cartData)}>
         <span>+</span>
       </button>
     </div>
