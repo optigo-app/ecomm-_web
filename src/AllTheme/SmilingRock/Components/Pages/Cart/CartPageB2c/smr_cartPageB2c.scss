@@ -17,6 +17,10 @@
   object-fit: cover;
 }
 
+.smr_b2cCartImagetd {
+  max-width: 150px;
+}
+
 .smr_b2cCartPageButonGp {
   position: fixed;
   top: 0px;
@@ -30,14 +34,30 @@
     margin-right: 20px;
     color: $titleColor;
     font-family: $primaryFontFamily;
+    cursor: pointer;
   }
 
-  .smr_cartB2cMainTitleBtn p{
+  .smr_cartB2cMainTitleBtn p {
     color: $titleColor;
     font-size: $fontSize7;
     text-align: center;
     font-family: $primaryFontFamily;
   }
+}
+
+.smr_b2cCartQTRm {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+
+  .smr_b2cCartRmBtn {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: $titleColor;
+    cursor: pointer;
+  }
+
 }
 
 .smr_B2cCheckoutBtnDiv {
@@ -62,6 +82,7 @@
 
 .smr_b2cCartTb {
   margin-top: 100px;
+  padding: 20px;
 }
 
 .smr_B2C-table {
@@ -78,7 +99,7 @@
 }
 
 .smr_b2ccartContentTd {
-  max-width: 300px;
+  max-width: 240px;
 }
 
 
@@ -108,6 +129,35 @@
   font-size: $fontSize2;
   color: $titleColor;
   font-family: $primaryFontFamily;
+}
+
+.smr_noB2CcartData {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  .smr_title {
+    color: $titleColor;
+    font-size: $fontSize5;
+  }
+
+  .smr_desc {
+    color: $titleColor;
+    font-size: $fontSize2;
+  }
+
+  .smr_browseOurCollectionbtn {
+    background-color: #7d7f85;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    height: 40px;
+    outline: none;
+    width: 180px;
+  }
 }
 
 
@@ -141,5 +191,11 @@
     cursor: pointer;
     border: none;
     font-family: $primaryFontFamily;
+  }
+}
+
+@media(max-width:1540px) {
+  .smr_B2ccartDrawer {
+    width: 50% !important;
   }
 }

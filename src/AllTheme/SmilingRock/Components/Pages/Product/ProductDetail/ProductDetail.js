@@ -53,7 +53,10 @@ const ProductDetail = () => {
   const [SizeCombo,setSizeCombo] = useState();
   const [sizeData,setSizeData] =  useState();
   const [isPriceloading,setisPriceLoading] = useState(false)
-  // const [customObj,setCustomObj] =  useState({})
+  const [isDataFound,setIsDataFound]=useState(false)
+  const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
+
+  const [thumbImgIndex,setThumbImgIndex] = useState()
 
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
@@ -82,7 +85,7 @@ const ProductDetail = () => {
   
   let cookie = Cookies.get('visiterId')
 
-  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});.
+  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
 
   console.log("sizeData",sizeData)
 
@@ -263,54 +266,79 @@ const ProductDetail = () => {
 
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
+
+    setTimeout(()=>{
+      if (decodeUrl) {
+        let metalArr
+        let diaArr
+        let csArr
+        
+  
+        if(mtTypeLocal?.length){
+          metalArr =
+          mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+          mtTypeLocal[0];
+        }
+  
+        if(diaQcLocal?.length){
+          diaArr =
+          diaQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.d?.split(",")[1]
+            )[0] ?? diaQcLocal[0];
+        }
+  
+        if(csQcLocal?.length){
+          csArr =
+          csQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.c?.split(",")[1]
+            )[0] ?? csQcLocal[0];
+        }
+  
+          
+  
+        setSelectMtType(metalArr?.metaltype);
+  
+        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
+  
+        setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
+  
+        
+  
+        // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
+        //                       ? singleProd?.DefaultSize
+        //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+        // if(InitialSize){
+        //   setSizeData(InitialSize)
+        // }
+  
+        // if(metalArr || diaArr || csArr || InitialSize){
+        //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
+        // }
+        
+        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+      }
+    },500)
+  }, [singleProd,singleProd1])
+
+
+  useEffect(()=>{
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
 
-    if (decodeUrl) {
-      let metalArr =
-      mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-      mtTypeLocal[0];
-
-      let diaArr =
-      diaQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.d?.split(",") &&
-            ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
-
-      let csArr =
-      csQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-            ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
-
-      let mcArr =
+    if(mtColorLocal?.length){
+      mcArr =
       mtColorLocal?.filter(
-          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd?.MetalColorid)
-        )[0] ?? mtColorLocal[0];
-
-      setSelectMtType(metalArr?.metaltype);
-
-      setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
-
-      setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
-
-      setSelectMtColor(mcArr?.metalcolorname);
-
-      // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
-      //                       ? singleProd?.DefaultSize
-      //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-      // if(InitialSize){
-      //   setSizeData(InitialSize)
-      // }
-
-      // if(metalArr || diaArr || csArr || InitialSize){
-      //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
-      // }
-      
-      console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
+        )[0]
     }
-  }, [])
+
+    setSelectMtColor(mcArr?.metalcolorname);
+    
+  },[singleProd,singleProd1])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
@@ -461,7 +489,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     callAllApi();
-  }, [loginInfo]);
+  }, [storeInit]);
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -506,24 +534,35 @@ const ProductDetail = () => {
 
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
-    let metalArr = 
+    let metalArr;
+    let diaArr;
+    let csArr;
+
+    if(mtTypeLocal?.length){
+      metalArr = 
       mtTypeLocal?.filter(
         (ele) => ele?.Metalid == decodeobj?.m
       )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+    }
 
-    let diaArr =
+    if(diaQcLocal){
+      diaArr =
       diaQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-            ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        (ele) =>
+          ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+        ele?.ColorId == decodeobj?.d?.split(",")[1]
+      )[0] ?? diaQcLocal[0];
+    }
   
-    let csArr =
+    if(csQcLocal){
+      csArr =
       csQcLocal?.filter(
         (ele) =>
           ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-          ele?.ColorId == decodeobj?.c?.split(",")[1]
+        ele?.ColorId == decodeobj?.c?.split(",")[1]
       )[0] ?? csQcLocal[0];
+    }
+
 
     const FetchProductData = async() =>{
 
@@ -547,12 +586,16 @@ const ProductDetail = () => {
             setisPriceLoading(false)
           }
 
+          if(!res?.pdList[0]){
+            console.log("singleprod",res?.pdList[0]);
+            setisPriceLoading(false)
+            setIsDataFound(true)
+          }
+
           setDiaList(res?.pdResp?.rd3)
           setCsList(res?.pdResp?.rd4)
 
           let prod = res?.pdList[0]
-
-          console.log("singleprod",res?.pdResp);
 
           let initialsize = (prod && prod.DefaultSize !== "")
           ? prod?.DefaultSize
@@ -734,6 +777,7 @@ const ProductDetail = () => {
       finalprodListimg = pdImgList[0];
       setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
       setPdThumbImg(pdImgList);
+      setThumbImgIndex(0)
     }
 
     if (pdvideoList?.length > 0) {
@@ -755,8 +799,45 @@ const ProductDetail = () => {
     return txt.value;
   };
 
-  const handleMetalWiseColorImg = (e) => {
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const handleMetalWiseColorImg = async(e) => {
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if(mtColorLocal?.length){
+      mcArr =
+      mtColorLocal?.filter(
+          (ele) => ele?.metalcolorname == e.target.value
+        )[0]
+    }
+
     setSelectMtColor(e.target.value)
+
+    let imgLink = storeInit?.DesignImageFol +
+    (singleProd ?? singleProd1)?.designno +
+    "_" +
+    (thumbImgIndex+1) +"_"+ mcArr?.colorname +
+    "." +
+    (singleProd ?? singleProd1)?.ImageExtension;
+
+    setMetalWiseColorImg(imgLink)
+
+    let isImg = await checkImageAvailability(imgLink)
+
+    if(isImg){
+      setMetalWiseColorImg(imgLink)
+    }else{
+      setMetalWiseColorImg()
+    }
   } 
 
   // useEffect(()=>{
@@ -957,6 +1038,11 @@ const ProductDetail = () => {
       <div className="smr_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
+            {isDataFound ? 
+            (<div style={{height:'90vh',justifyContent:'center',display:'flex',alignItems:'center'}} className="smr_prodd_datanotfound">
+              Data not Found!!
+            </div>) : 
+            <>
             <div className="smr_prod_detail_main">
               <div className="smr_prod_image_shortInfo">
                 <div className="smr_prod_image_Sec">
@@ -976,7 +1062,7 @@ const ProductDetail = () => {
                   >
                     {selectedThumbImg?.type == "img" ? (
                       <img
-                        src={selectedThumbImg?.link}
+                        src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                         alt={""}
                         onLoad={() => setIsImageLoad(false)}
                         className="smr_prod_img"
@@ -1001,15 +1087,16 @@ const ProductDetail = () => {
                     )}
 
                     <div className="smr_thumb_prod_img">
-                      { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
+                      { pdThumbImg?.length > 1 && pdThumbImg?.map((ele,i) => (
                         <img
                           src={ele}
                           alt={""}
                           onLoad={() => setIsImageLoad(false)}
                           className="smr_prod_thumb_img"
-                          onClick={() =>
-                            setSelectedThumbImg({ link: ele, type: "img" })
-                          }
+                          onClick={() =>{
+                            setSelectedThumbImg({ link: ele, type: "img" });
+                            setThumbImgIndex(i)
+                          }}
                         />
                       ))}
                       {pdVideoArr?.map((data) => (
@@ -1081,7 +1168,7 @@ const ProductDetail = () => {
                         </span>
                       </div>
                     </div>
-                    { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
+                    { (storeInit?.IsProductWebCustomization == 1 && metalTypeCombo?.length > 0) && <div className="smr_single_prod_customize">
                       <div className="smr_single_prod_customize_metal">
                         <label className="menuItemTimeEleveDeatil">
                           METAL TYPE:
@@ -1099,7 +1186,7 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>
-                      <div className="smr_single_prod_customize_outer">
+                      { ( metalColorCombo?.length > 0 )&&  <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           METAL COLOR:
                         </label>
@@ -1114,8 +1201,8 @@ const ProductDetail = () => {
                             </option>
                           ))}
                         </select>
-                      </div>
-                      {(storeInit?.IsDiamondCustomization === 1)  && (<div className="smr_single_prod_customize_outer">
+                      </div>}
+                      {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 )   && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           DAIMOND :
                         </label>
@@ -1133,7 +1220,7 @@ const ProductDetail = () => {
                           ))}
                         </select>
                       </div>)}
-                      {(storeInit?.IsCsCustomization === 1 ) && (
+                      {(storeInit?.IsCsCustomization === 1 && selectCsQc?.length > 0) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -1155,8 +1242,8 @@ const ProductDetail = () => {
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                       {
-                        SizeCombo?.rd?.length && 
-                      <div className="smr_single_prod_customize_outer">
+                       (SizeCombo?.rd?.length?.length > 0 ) && 
+                      (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
                         <select
                           className="menuitemSelectoreMain"
@@ -1178,7 +1265,7 @@ const ProductDetail = () => {
                             </option>
                           ))}
                         </select>
-                      </div>}
+                      </div>)}
                     </div>}
 
                     {<div className="smr_price_portion">
@@ -1271,7 +1358,7 @@ const ProductDetail = () => {
 
               {csList?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                  <ul style={{ margin: "10px 0px 3px 0px" }}>
                     <li
                       style={{ fontWeight: 600 }}
                     >{`ColorStone Detail(${csList?.reduce(
@@ -1435,7 +1522,7 @@ const ProductDetail = () => {
             </div>
             }
 
-{ (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
+            { (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Similar Designs</p>
               <div className="smr_stockitem_container">
                 <div className="smr_stock_item_card">
@@ -1482,7 +1569,8 @@ const ProductDetail = () => {
               </div>
             </div>
             }
-
+            </>
+            }
             <Footer />
           </div>
         </div>

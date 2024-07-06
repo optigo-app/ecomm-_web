@@ -81,11 +81,15 @@ const ProductList = () => {
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [rollOverImgPd, setRolloverImgPd] = useState()
+  const [rollOverImgPd, setRolloverImgPd] = useState({})
   const [locationKey, setLocationKey] = useState()
+  const [prodListType,setprodListType] = useState();
+
+  const [sortBySelect,setSortBySelect] = useState();
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
+
 
 
   let cookie = Cookies.get('visiterId')
@@ -101,10 +105,11 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  },[])
+  },[productListData])
 
   console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
+  console.log("rollOverImgPd",rollOverImgPd)
 
 
 
@@ -317,12 +322,11 @@ const ProductList = () => {
         }
       })
 
-      if (MenuVal) {
+      if (MenuVal?.length > 0) {
+        let menuDecode = atob(MenuVal?.split("=")[1])
 
-        let menuDecode = atob(MenuVal.split("=")[1])
-
-        let key = menuDecode.split("/")[1].split(',')
-        let val = menuDecode.split("/")[0].split(',')
+        let key = menuDecode?.split("/")[1].split(',')
+        let val = menuDecode?.split("/")[0].split(',')
 
         setIsBreadcumShow(true)
 
@@ -350,6 +354,7 @@ const ProductList = () => {
     
     setIsProdLoading(true)
     //  if(location?.state?.SearchVal === undefined){ 
+      setprodListType(productlisttype)
       await ProductListApi({},1,obj,productlisttype,cookie)
         .then((res) => {
           if (res) {
@@ -594,7 +599,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,"",cookie)
+     ProductListApi(output,1,obj,prodListType,cookie)
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -602,17 +607,17 @@ const ProductList = () => {
          }
          return res;
        })
-       .then( async(res) => {
-         if (res) {
-           await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-             if(resp){
-               setPriceListData(resp)  
-             }
-           })
-         }
-         return res
-       })
-       .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
+      //  .then( async(res) => {
+      //    if (res) {
+      //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+      //        if(resp){
+      //          setPriceListData(resp)  
+      //        }
+      //      })
+      //    }
+      //    return res
+      //  })
+       .catch((err) => console.log("err", err)).finally(()=>{setIsOnlyProdLoading(false)})
   }
         // .then(async(res)=>{
         //   if(res){
@@ -640,7 +645,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj, "",cookie)
+    ProductListApi(output, value, obj,prodListType,cookie)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -731,7 +736,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,"",cookie)
+      ProductListApi(output,currPage,obj,prodListType,cookie)
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
@@ -739,16 +744,6 @@ const ProductList = () => {
             }
             return res;
           })
-          // .then( async(res) => {
-          //   if (res) {
-          //     await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-          //       if(resp){
-          //         setPriceListData(resp)  
-          //       }
-          //     })
-          //   }
-          //   return res
-          // })
           .catch((err) => console.log("err", err))
           .finally(()=>{
             setTimeout(() => {
@@ -838,7 +833,15 @@ const ProductList = () => {
 
   const handleImgRollover = (pd, i) => {
     if (pd?.images?.length >= 1) {
-      setRolloverImgPd((prev) => { return { ...prev, [i]: pd?.images[1] } })
+      // setRolloverImgPd((prev) => pd?.images[1])
+      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
+    }
+  }
+
+  const handleLeaveImgRolloverImg = (pd,i) =>{
+    if(pd?.images?.length > 0){
+      // setRolloverImgPd((prev) => pd?.images[0] )
+      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
     }
   }
 
@@ -887,63 +890,249 @@ const ProductList = () => {
 
   }
 
+
+  const handleSortby = async(e) =>{
+    setSortBySelect(e.target?.value)
+
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    setIsOnlyProdLoading(true)
+
+    let sortby = e.target?.value
+
+    await ProductListApi(output,currPage,obj,prodListType,cookie,sortby)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(()=>{
+            setIsOnlyProdLoading(false)
+        })
+  }
+
+  // const showBreadCumsValue = () =>{
+
+  //   let UrlVal = location?.search.slice(1).split("/")[0]?.charAt(0)
+
+  //   let Compo;
+
+  //   if(UrlVal == "M"){
+  //     Compo = (
+  //       <div className="smr_breadcums_port">
+  //                         {menuParams?.menuname && (
+  //                           <span
+  //                             onClick={() =>
+  //                               handleBreadcums({
+  //                                 [menuParams?.FilterKey]:
+  //                                   menuParams?.FilterVal,
+  //                               })
+  //                             }
+  //                           >
+  //                             {menuParams?.menuname}
+  //                           </span>
+  //                         )}
+
+  //                         {menuParams?.FilterVal1 && (
+  //                           <span
+  //                             onClick={() =>
+  //                               handleBreadcums({
+  //                                 [menuParams?.FilterKey]:
+  //                                   menuParams?.FilterVal,
+  //                                 [menuParams?.FilterKey1]:
+  //                                   menuParams?.FilterVal1,
+  //                               })
+  //                             }
+  //                           >
+  //                             {` > ${menuParams?.FilterVal1}`}
+  //                           </span>
+  //                         )}
+
+  //                         {menuParams?.FilterVal2 && (
+  //                           <span
+  //                             onClick={() =>
+  //                               handleBreadcums({
+  //                                 [menuParams?.FilterKey]:
+  //                                   menuParams?.FilterVal,
+  //                                 [menuParams?.FilterKey1]:
+  //                                   menuParams?.FilterVal1,
+  //                                 [menuParams?.FilterKey2]:
+  //                                   menuParams?.FilterVal2,
+  //                               })
+  //                             }
+  //                           >
+  //                             {` > ${menuParams?.FilterVal2}`}
+  //                           </span>
+  //                         )}
+  //                       </div>
+  //     )
+  //   }
+  //   if()
+
+    
+  // }
+
+  // console.log("showBreadCumsValue",showBreadCumsValue())
+
   return (
     <div id="top">
-      <Drawer open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }} className="smr_filterDrawer" >
-        <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end', padding: '8px 8px 0px 0px' }}>
-          <CloseIcon onClick={() => { setIsDrawerOpen(false) }} />
+      <Drawer
+        open={isDrawerOpen}
+        onClose={() => {
+          setIsDrawerOpen(false);
+        }}
+        className="smr_filterDrawer"
+      >
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "8px 8px 0px 0px",
+          }}
+        >
+          <CloseIcon
+            onClick={() => {
+              setIsDrawerOpen(false);
+            }}
+          />
         </div>
-        <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
-          <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
+        <div
+          style={{
+            marginLeft: "15px",
+            marginBottom: "20px",
+            display: "flex",
+            gap: "5px",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            sx={{
+              color: "#7f7d85",
+              fontSize: "16px",
+              fontFamily: "TT Commons Medium",
+              marginTop: "12px",
+            }}
+          >
             Customization
           </Typography>
           <div
           // className="smr_metal_custom"
-
           >
-            <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+            <Typography
+              className="label"
+              sx={{
+                color: "#7f7d85",
+                fontSize: "14px",
+                fontFamily: "TT Commons Regular",
+              }}
+            >
               Metal:&nbsp;
             </Typography>
-            <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedMetalId} onChange={(e) => { setSelectedMetalId(e.target.value) }}>
-              {
-                metalTypeCombo?.map((metalele) => (
-                  <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
-                ))
-              }
+            <select
+              style={{
+                border: "1px solid #e1e1e1",
+                borderRadius: "8px",
+                minWidth: "270px",
+              }}
+              className="select"
+              value={selectedMetalId}
+              onChange={(e) => {
+                setSelectedMetalId(e.target.value);
+              }}
+            >
+              {metalTypeCombo?.map((metalele) => (
+                <option
+                  className="option"
+                  key={metalele?.Metalid}
+                  value={metalele?.Metalid}
+                >
+                  {metalele?.metaltype.toUpperCase()}
+                </option>
+              ))}
             </select>
           </div>
 
-          {storeInit?.IsDiamondCustomization === 1 &&
+          {storeInit?.IsDiamondCustomization === 1 && (
             <div
             // className="smr_dia_custom"
             >
-              <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+              <Typography
+                className="label"
+                sx={{
+                  color: "#7f7d85",
+                  fontSize: "14px",
+                  fontFamily: "TT Commons Regular",
+                }}
+              >
                 Diamond:&nbsp;
               </Typography>
-              <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
-                {
-                  diaQcCombo?.map((diaQc) => (
-                    <option className="option" key={diaQc.ColorId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
-                  ))
-                }
+              <select
+                style={{
+                  border: "1px solid #e1e1e1",
+                  borderRadius: "8px",
+                  minWidth: "270px",
+                }}
+                className="select"
+                value={selectedDiaId}
+                onChange={(e) => setSelectedDiaId(e.target.value)}
+              >
+                {diaQcCombo?.map((diaQc) => (
+                  <option
+                    className="option"
+                    key={diaQc?.QualityId}
+                    value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                  >
+                    {" "}
+                    {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                  </option>
+                ))}
               </select>
-            </div>}
+            </div>
+          )}
 
-          {storeInit?.IsCsCustomization === 1 &&
+          {storeInit?.IsCsCustomization === 1 && (
             <div
             // className="smr_cs_custom"
             >
-              <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+              <Typography
+                className="label"
+                sx={{
+                  color: "#7f7d85",
+                  fontSize: "14px",
+                  fontFamily: "TT Commons Regular",
+                }}
+              >
                 color stone:&nbsp;
               </Typography>
-              <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
-                {
-                  csQcCombo?.map((csCombo) => (
-                    <option className="option" key={csCombo.ColorId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
-                  ))
-                }
+              <select
+                style={{
+                  border: "1px solid #e1e1e1",
+                  borderRadius: "8px",
+                  minWidth: "270px",
+                }}
+                className="select"
+                value={selectedCsId}
+                onChange={(e) => setSelectedCsId(e.target.value)}
+              >
+                {csQcCombo?.map((csCombo) => (
+                  <option
+                    className="option"
+                    key={csCombo?.QualityId}
+                    value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                  >
+                    {" "}
+                    {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                  </option>
+                ))}
               </select>
-            </div>}
+            </div>
+          )}
 
           <div
           // className="smr_sorting_custom"
@@ -951,122 +1140,124 @@ const ProductList = () => {
             <div
             // className="container"
             >
-              <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+              <Typography
+                className="label"
+                sx={{
+                  color: "#7f7d85",
+                  fontSize: "14px",
+                  fontFamily: "TT Commons Regular",
+                }}
+              >
                 Sort By:&nbsp;
               </Typography>
-              <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select">
-                <option
-                  className="option"
-                  value="Recommended"
-                >
+              <select
+                style={{
+                  border: "1px solid #e1e1e1",
+                  borderRadius: "8px",
+                  minWidth: "270px",
+                }}
+                className="select"
+                value={sortBySelect}
+                onChange={(e)=>handleSortby(e)}
+              >
+                <option className="option" value="Recommended">
                   Recommended
                 </option>
                 <option className="option" value="New">
                   New
                 </option>
-                <option
-                  className="option"
-                  value="In Stock"
-                >
+                <option className="option" value="Trending">
+                  Trending
+                </option>
+                <option className="option" value="In Stock">
                   In stock
                 </option>
-                <option
-                  className="option"
-                  value="PRICE HIGH TO LOW"
-                >
+                <option className="option" value="PRICE HIGH TO LOW">
                   Price High To Low
                 </option>
-                <option
-                  className="option"
-                  value="PRICE LOW TO HIGH"
-                >
+                <option className="option" value="PRICE LOW TO HIGH">
                   Price Low To High
                 </option>
               </select>
             </div>
           </div>
         </div>
-        <div className="smr_mobile_filter_portion" >
-          {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
-            <span className="smr_filter_text">
-              <span>
-                {Object.values(filterChecked).filter(
-                  (ele) => ele.checked
-                )?.length === 0
-                  ? "Filters"
-                  : `Product Found: ${afterFilterCount}`}
+        <div className="smr_mobile_filter_portion">
+          {filterData?.length > 0 && (
+            <div className="smr_mobile_filter_portion_outter">
+              <span className="smr_filter_text">
+                <span>
+                  {Object.values(filterChecked).filter((ele) => ele.checked)
+                    ?.length === 0
+                    ? "Filters"
+                    : `Product Found: ${afterFilterCount}`}
+                </span>
+                <span onClick={() => handelFilterClearAll()}>
+                  {Object.values(filterChecked).filter((ele) => ele.checked)
+                    ?.length > 0
+                    ? "Clear All"
+                    : ""}
+                </span>
               </span>
-              <span onClick={() => handelFilterClearAll()}>
-                {Object.values(filterChecked).filter(
-                  (ele) => ele.checked
-                )?.length > 0
-                  ? "Clear All"
-                  : ""}
-              </span>
-            </span>
-            <div style={{ marginTop: "12px" }}>
-              {filterData?.map((ele) => (
-                <>
-                  {!(ele?.id)?.includes("Range") && (
-                    <Accordion
-                      elevation={0}
-                      sx={{
-                        borderBottom: "1px solid #c7c8c9",
-                        borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                        {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
-                        "&.MuiPaper-root.MuiAccordion-root:before": {
-                          background: "none",
-                        },
-                      }}
-                    // expanded={accExpanded}
-                    // defaultExpanded={}
-                    >
-                      <AccordionSummary
-                        expandIcon={
-                          <ExpandMoreIcon sx={{ width: "20px" }} />
-                        }
-                        aria-controls="panel1-content"
-                        id="panel1-header"
+              <div style={{ marginTop: "12px" }}>
+                {filterData?.map((ele) => (
+                  <>
+                    {!ele?.id?.includes("Range") && (
+                      <Accordion
+                        elevation={0}
                         sx={{
-                          color: "#7f7d85",
+                          borderBottom: "1px solid #c7c8c9",
                           borderRadius: 0,
-
-                          "&.MuiAccordionSummary-root": {
-                            padding: 0,
+                          "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                            borderBottomLeftRadius: "0px",
+                            borderBottomRightRadius: "0px",
                           },
+                          "&.MuiPaper-root.MuiAccordion-root:before": {
+                            background: "none",
+                          },
+                        }}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
+                      >
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                          aria-controls="panel1-content"
+                          id="panel1-header"
+                          sx={{
+                            color: "#7f7d85",
+                            borderRadius: 0,
 
-                        }}
-                        className="filtercategoryLable"
-                      >
-                        {/* <span> */}
-                        {ele.Name}
-                        {/* </span> */}
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {(JSON.parse(ele?.options) ?? []).map((opt) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              gap: "12px",
-                            }}
-                            key={opt?.id}
-                          >
-                            {/* <small
+                            "&.MuiAccordionSummary-root": {
+                              padding: 0,
+                            },
+                          }}
+                          className="filtercategoryLable"
+                        >
+                          {/* <span> */}
+                          {ele.Name}
+                          {/* </span> */}
+                        </AccordionSummary>
+                        <AccordionDetails
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "4px",
+                            minHeight: "fit-content",
+                            maxHeight: "300px",
+                            overflow: "auto",
+                          }}
+                        >
+                          {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: "12px",
+                              }}
+                              key={opt?.id}
+                            >
+                              {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1074,224 +1265,294 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  name={`${ele?.id}${opt?.id}`}
-                                  // checked={
-                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                  //     : false
-                                  // }
-                                  checked={
-                                    filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                      undefined
-                                      ? false
-                                      : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                  }
-                                  style={{
-                                    color: "#7f7d85",
-                                    padding: 0,
-                                    width: "10px",
-                                  }}
-                                  onClick={(e) =>
-                                    handleCheckboxChange(
-                                      e,
-                                      ele?.id,
-                                      opt?.Name
-                                    )
-                                  }
-                                  size="small"
-                                />
-                              }
-
-                              // sx={{
-                              //   display: "flex",
-                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                              //   width: "100%",
-                              //   flexDirection: "row-reverse", // Align items to the right
-                              //   fontFamily:'TT Commons Regular'
-                              // }}
-                              className="smr_mui_checkbox_label"
-                              label={opt.Name}
-                            />
-
-                          </div>
-                        ))}
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                </>
-              ))}
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    name={`${ele?.id}${opt?.id}`}
+                                    // checked={
+                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                    //     : false
+                                    // }
+                                    checked={
+                                      filterChecked[`${ele?.id}${opt?.id}`]
+                                        ?.checked === undefined
+                                        ? false
+                                        : filterChecked[`${ele?.id}${opt?.id}`]
+                                            ?.checked
+                                    }
+                                    style={{
+                                      color: "#7f7d85",
+                                      padding: 0,
+                                      width: "10px",
+                                    }}
+                                    onClick={(e) =>
+                                      handleCheckboxChange(
+                                        e,
+                                        ele?.id,
+                                        opt?.Name
+                                      )
+                                    }
+                                    size="small"
+                                  />
+                                }
+                                // sx={{
+                                //   display: "flex",
+                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                //   width: "100%",
+                                //   flexDirection: "row-reverse", // Align items to the right
+                                //   fontFamily:'TT Commons Regular'
+                                // }}
+                                className="smr_mui_checkbox_label"
+                                label={opt.Name}
+                              />
+                            </div>
+                          ))}
+                        </AccordionDetails>
+                      </Accordion>
+                    )}
+                  </>
+                ))}
+              </div>
             </div>
-          </div>}
+          )}
         </div>
       </Drawer>
       <div className="smr_bodyContain">
         <div className="smr_outerContain">
           <div className="smr_whiteInnerContain">
-            {
-              isProdLoading ?
-                // true ? 
-                (
-                  <ProductListSkeleton />
-                ) : (
-                  <>
-                    {!minwidth1201px ?
-                      <div className="smr_mobile_prodSorting">
-                        <Checkbox
-                          sx={{ padding: '0px 9px 0px 9px' }}
-                          icon={<FilterAltIcon fontSize="large" />}
-                          checkedIcon={<FilterAltOffIcon fontSize="large" style={{ color: '#666666' }} />}
-                          checked={isDrawerOpen}
-                          onChange={(e) => setIsDrawerOpen(e.target.value)}
+            {isProdLoading ? (
+              // true ?
+              <ProductListSkeleton />
+            ) : (
+              <>
+                {!minwidth1201px ? (
+                  <div className="smr_mobile_prodSorting">
+                    <Checkbox
+                      sx={{ padding: "0px 9px 0px 9px" }}
+                      icon={<FilterAltIcon fontSize="large" />}
+                      checkedIcon={
+                        <FilterAltOffIcon
+                          fontSize="large"
+                          style={{ color: "#666666" }}
                         />
-                      </div>
-                      : <div className="smr_prodSorting">
-                        <div className="empty_sorting_div">
-                          <span className="smr_breadcums_port " style={{ marginLeft: '72px' }} onClick={() => { navigate('/') }}>{'Home >'}{" "}</span>
-                          {IsBreadCumShow && <div className="smr_breadcums_port">
-                            {menuParams?.menuname && <span onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal })}>{menuParams?.menuname}</span>}
+                      }
+                      checked={isDrawerOpen}
+                      onChange={(e) => setIsDrawerOpen(e.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <div className="smr_prodSorting">
+                    <div className="empty_sorting_div">
+                      <span
+                        className="smr_breadcums_port "
+                        style={{ marginLeft: "72px" }}
+                        onClick={() => {
+                          navigate("/");
+                        }}
+                      >
+                        {"Home >"}{" "}
+                      </span>
+                      {IsBreadCumShow && (
+                        <div className="smr_breadcums_port">
+                          {menuParams?.menuname && (
+                            <span
+                              onClick={() =>
+                                handleBreadcums({
+                                  [menuParams?.FilterKey]:
+                                    menuParams?.FilterVal,
+                                })
+                              }
+                            >
+                              {menuParams?.menuname}
+                            </span>
+                          )}
 
-                            {menuParams?.FilterVal1 && <span
-                              onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal, [menuParams?.FilterKey1]: menuParams?.FilterVal1 })}
+                          {menuParams?.FilterVal1 && (
+                            <span
+                              onClick={() =>
+                                handleBreadcums({
+                                  [menuParams?.FilterKey]:
+                                    menuParams?.FilterVal,
+                                  [menuParams?.FilterKey1]:
+                                    menuParams?.FilterVal1,
+                                })
+                              }
                             >
                               {` > ${menuParams?.FilterVal1}`}
-                            </span>}
+                            </span>
+                          )}
 
-                            {menuParams?.FilterVal2 && <span
-                              onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal, [menuParams?.FilterKey1]: menuParams?.FilterVal1, [menuParams?.FilterKey2]: menuParams?.FilterVal2 })}
+                          {menuParams?.FilterVal2 && (
+                            <span
+                              onClick={() =>
+                                handleBreadcums({
+                                  [menuParams?.FilterKey]:
+                                    menuParams?.FilterVal,
+                                  [menuParams?.FilterKey1]:
+                                    menuParams?.FilterVal1,
+                                  [menuParams?.FilterKey2]:
+                                    menuParams?.FilterVal2,
+                                })
+                              }
                             >
                               {` > ${menuParams?.FilterVal2}`}
-                            </span>}
-                          </div>
-                          }
-                        </div>
-
-                        <div className="smr_main_sorting_div">
-                          <div className="smr_metal_custom">
-                            <label className="label">
-                              Metal:&nbsp;
-                            </label>
-                            <select className="select" value={selectedMetalId} onChange={(e) => setSelectedMetalId(e.target.value)}>
-                              {
-                                metalTypeCombo?.map((metalele) => (
-                                  <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
-                                ))
-                              }
-                            </select>
-                          </div>
-
-                          {storeInit?.IsDiamondCustomization === 1 && <div className="smr_dia_custom">
-                            <label className="label">
-                              Diamond:&nbsp;
-                            </label>
-                            <select className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
-                              {
-
-                                diaQcCombo?.map((diaQc) => (
-                                  <option className="option" key={diaQc.ColorId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
-                                ))
-                              }
-                            </select>
-                          </div>}
-
-                          {storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
-                            <label className="label">
-                              color stone:&nbsp;
-                            </label>
-                            <select className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
-                              {
-                                csQcCombo?.map((csCombo) => (
-                                  <option className="option" key={csCombo.ColorId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
-                                ))
-                              }
-                            </select>
-                          </div>}
-
-                          <div className="smr_sorting_custom">
-                            <div className="container">
-                              <label className="label">
-                                Sort By:&nbsp;
-                              </label>
-                              <select className="select">
-                                <option
-                                  className="option"
-                                  value="Recommended"
-                                >
-                                  Recommended
-                                </option>
-                                <option className="option" value="New">
-                                  New
-                                </option>
-                                <option
-                                  className="option"
-                                  value="In Stock"
-                                >
-                                  In stock
-                                </option>
-                                <option
-                                  className="option"
-                                  value="PRICE HIGH TO LOW"
-                                >
-                                  Price High To Low
-                                </option>
-                                <option
-                                  className="option"
-                                  value="PRICE LOW TO HIGH"
-                                >
-                                  Price Low To High
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>}
-
-                    <div className="smr_mainPortion">
-                      <div className="smr_filter_portion">
-                        {filterData?.length > 0 && <div className="smr_filter_portion_outter">
-                          <span className="smr_filter_text">
-                            <span>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length === 0
-                                ? "Filters"
-                                : `Product Found: ${afterFilterCount}`}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0
-                                ? "Clear All"
-                                : ""}
-                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="smr_main_sorting_div">
+                      <div className="smr_metal_custom">
+                        <label className="label">Metal:&nbsp;</label>
+                        <select
+                          className="select"
+                          value={selectedMetalId}
+                          onChange={(e) => setSelectedMetalId(e.target.value)}
+                        >
+                          {metalTypeCombo?.map((metalele, i) => (
+                            <option
+                              className="option"
+                              key={i}
+                              value={metalele?.Metalid}
+                            >
+                              {metalele?.metaltype.toUpperCase()}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {storeInit?.IsDiamondCustomization === 1 && (
+                        <div className="smr_dia_custom">
+                          <label className="label">Diamond:&nbsp;</label>
+                          <select
+                            className="select"
+                            value={selectedDiaId}
+                            onChange={(e) => setSelectedDiaId(e.target.value)}
+                          >
+                            {diaQcCombo?.map((diaQc, i) => (
+                              <option
+                                className="option"
+                                key={i}
+                                value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                              >
+                                {" "}
+                                {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      {storeInit?.IsCsCustomization === 1 && (
+                        <div className="smr_cs_custom">
+                          <label className="label">color stone:&nbsp;</label>
+                          <select
+                            className="select"
+                            value={selectedCsId}
+                            onChange={(e) => setSelectedCsId(e.target.value)}
+                          >
+                            {csQcCombo?.map((csCombo, i) => (
+                              <option
+                                className="option"
+                                key={i}
+                                value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                              >
+                                {" "}
+                                {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      <div className="smr_sorting_custom">
+                        <div className="container">
+                          <label className="label">Sort By:&nbsp;</label>
+                          <select className="select" 
+                           value={sortBySelect}
+                            onChange={(e)=>handleSortby(e)}
+                             >
+                            <option className="option" value="Recommended">
+                              Recommended
+                            </option>
+                            <option className="option" value="New">
+                              New
+                            </option>
+                            <option className="option" value="Trending">
+                              Trending
+                            </option>
+                            <option className="option" value="In Stock">
+                              In stock
+                            </option>
+                            <option
+                              className="option"
+                              value="PRICE HIGH TO LOW"
+                            >
+                              Price High To Low
+                            </option>
+                            <option
+                              className="option"
+                              value="PRICE LOW TO HIGH"
+                            >
+                              Price Low To High
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="smr_mainPortion">
+                  <div className="smr_filter_portion">
+                    {filterData?.length > 0 && (
+                      <div className="smr_filter_portion_outter">
+                        <span className="smr_filter_text">
+                          <span>
+                            {Object.values(filterChecked).filter(
+                              (ele) => ele.checked
+                            )?.length === 0
+                              ? "Filters"
+                              : `Product Found: ${afterFilterCount}`}
                           </span>
-                          <div style={{ marginTop: "12px" }}>
-                            {filterData?.map((ele) => (
-                              <>
-                                {(!(ele?.id)?.includes("Range") && !(ele?.id)?.includes("Price")) && (
+                          <span onClick={() => handelFilterClearAll()}>
+                            {Object.values(filterChecked).filter(
+                              (ele) => ele.checked
+                            )?.length > 0
+                              ? "Clear All"
+                              : ""}
+                          </span>
+                        </span>
+                        <div style={{ marginTop: "12px" }}>
+                          {filterData?.map((ele) => (
+                            <>
+                              {!ele?.id?.includes("Range") &&
+                                !ele?.id?.includes("Price") && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                                        background: "none",
-                                      },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
+                                      "&.MuiPaper-root.MuiAccordion-root:before":
+                                        {
+                                          background: "none",
+                                        },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
                                       }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
@@ -1302,7 +1563,6 @@ const ProductList = () => {
                                         "&.MuiAccordionSummary-root": {
                                           padding: 0,
                                         },
-
                                       }}
                                       className="filtercategoryLable"
                                     >
@@ -1320,17 +1580,18 @@ const ProductList = () => {
                                         overflow: "auto",
                                       }}
                                     >
-                                      {(JSON.parse(ele?.options) ?? []).map((opt) => (
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            gap: "12px",
-                                          }}
-                                          key={opt?.id}
-                                        >
-                                          {/* <small
+                                      {(JSON.parse(ele?.options) ?? []).map(
+                                        (opt) => (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              gap: "12px",
+                                            }}
+                                            key={opt?.id}
+                                          >
+                                            {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1338,283 +1599,357 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                          <FormControlLabel
-                                            control={
-                                              <Checkbox
-                                                name={`${ele?.id}${opt?.id}`}
-                                                // checked={
-                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                //     : false
-                                                // }
-                                                checked={
-                                                  filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                                    undefined
-                                                    ? false
-                                                    : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                                }
-                                                style={{
-                                                  color: "#7f7d85",
-                                                  padding: 0,
-                                                  width: "10px",
-                                                }}
-                                                onClick={(e) =>
-                                                  handleCheckboxChange(
-                                                    e,
-                                                    ele?.id,
-                                                    opt?.Name
-                                                  )
-                                                }
-                                                size="small"
-                                              />
-                                            }
-
-                                            // sx={{
-                                            //   display: "flex",
-                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                            //   width: "100%",
-                                            //   flexDirection: "row-reverse", // Align items to the right
-                                            //   fontFamily:'TT Commons Regular'
-                                            // }}
-                                            className="smr_mui_checkbox_label"
-                                            label={opt.Name}
-                                          />
-
-                                        </div>
-                                      ))}
+                                            <FormControlLabel
+                                              control={
+                                                <Checkbox
+                                                  name={`${ele?.id}${opt?.id}`}
+                                                  // checked={
+                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                  //     : false
+                                                  // }
+                                                  checked={
+                                                    filterChecked[
+                                                      `${ele?.id}${opt?.id}`
+                                                    ]?.checked === undefined
+                                                      ? false
+                                                      : filterChecked[
+                                                          `${ele?.id}${opt?.id}`
+                                                        ]?.checked
+                                                  }
+                                                  style={{
+                                                    color: "#7f7d85",
+                                                    padding: 0,
+                                                    width: "10px",
+                                                  }}
+                                                  onClick={(e) =>
+                                                    handleCheckboxChange(
+                                                      e,
+                                                      ele?.id,
+                                                      opt?.Name
+                                                    )
+                                                  }
+                                                  size="small"
+                                                />
+                                              }
+                                              // sx={{
+                                              //   display: "flex",
+                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                              //   width: "100%",
+                                              //   flexDirection: "row-reverse", // Align items to the right
+                                              //   fontFamily:'TT Commons Regular'
+                                              // }}
+                                              className="smr_mui_checkbox_label"
+                                              label={opt.Name}
+                                            />
+                                          </div>
+                                        )
+                                      )}
                                     </AccordionDetails>
                                   </Accordion>
                                 )}
-                              </>
-                            ))}
-                          </div>
-                        </div>}
+                            </>
+                          ))}
+                        </div>
                       </div>
-                      {
-                        filterProdListEmpty ?
-                          <div style={{ display: 'flex', justifyContent: 'center', width: '75%', alignItems: 'center', height: '500px' }}>
-                            <span className="smr_prod_datanotfound">
-                              Products Not found !!!
-                            </span>
-                          </div>
-                          :
-                          <div className="smr_productList">
-                            {isOnlyProdLoading ? (
-                              <ProductListSkeleton fromPage={"Prodlist"} />
-                            ) : (
-                              <div className="smr_outer_portion">
-                                {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                                <div className="smr_inner_portion">
-                                  {finalProductListData?.map((productData, i) => (
-                                    <div className="smr_productCard">
-                                      <div className="cart_and_wishlist_icon">
-                                        {/* <Button className="smr_cart-icon"> */}
-                                        <Checkbox
-                                          icon={
-                                            <LocalMallOutlinedIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#7d7f85",
-                                                opacity: ".7",
-                                              }}
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <LocalMallIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#009500",
-                                              }}
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px" }}
+                    )}
+                  </div>
+                  {filterProdListEmpty ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "75%",
+                        alignItems: "center",
+                        height: "500px",
+                      }}
+                    >
+                      <span className="smr_prod_datanotfound">
+                        Products Not found !!!
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="smr_productList">
+                      {isOnlyProdLoading ? (
+                        <ProductListSkeleton fromPage={"Prodlist"} />
+                      ) : (
+                        <div className="smr_outer_portion">
+                          {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
+                          <div className="smr_inner_portion">
+                            {finalProductListData?.map((productData, i) => (
+                              <div className="smr_productCard">
+                                <div className="cart_and_wishlist_icon">
+                                  {/* <Button className="smr_cart-icon"> */}
+                                  <Checkbox
+                                    icon={
+                                      <LocalMallOutlinedIcon
+                                        sx={{
+                                          fontSize: "22px",
+                                          color: "#7d7f85",
+                                          opacity: ".7",
+                                        }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <LocalMallIcon
+                                        sx={{
+                                          fontSize: "22px",
+                                          color: "#009500",
+                                        }}
+                                      />
+                                    }
+                                    disableRipple={false}
+                                    sx={{ padding: "10px" }}
+                                    onChange={(e) =>
+                                      handleCartandWish(e, productData, "Cart")
+                                    }
+                                    checked={
+                                      cartArr[productData?.autocode] ??
+                                      productData?.IsInCart === 1
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                  {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                  {/* </Button> */}
+                                  {/* <Button className="smr_wish-icon"> */}
+                                  <Checkbox
+                                    icon={
+                                      <FavoriteBorderIcon
+                                        sx={{
+                                          fontSize: "22px",
+                                          color: "#7d7f85",
+                                          opacity: ".7",
+                                        }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <FavoriteIcon
+                                        sx={{
+                                          fontSize: "22px",
+                                          color: "#e31b23",
+                                        }}
+                                      />
+                                    }
+                                    disableRipple={false}
+                                    sx={{ padding: "10px" }}
+                                    onChange={(e) =>
+                                      handleCartandWish(e, productData, "Wish")
+                                    }
+                                    // checked={productData?.IsInWish}
+                                    checked={
+                                      wishArr[productData?.autocode] ??
+                                      productData?.IsInWish === 1
+                                        ? true
+                                        : false
+                                    }
+                                    // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                    // onChange={(e) => handelWishList(e, products)}
+                                  />
+                                  {/* </Button> */}
+                                </div>
 
-                                          onChange={(e) => handleCartandWish(e, productData, "Cart")}
-                                          checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1 ? true : false}
-                                        />
-                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                        {/* </Button> */}
-                                        {/* <Button className="smr_wish-icon"> */}
-                                        <Checkbox
-                                          icon={
-                                            <FavoriteBorderIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#7d7f85",
-                                                opacity: ".7",
-                                              }}
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <FavoriteIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#e31b23",
-                                              }}
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px" }}
-
-                                          onChange={(e) => handleCartandWish(e, productData, "Wish")}
-                                          // checked={productData?.IsInWish}
-                                          checked={wishArr[productData?.autocode] ?? productData?.IsInWish === 1 ? true : false}
-                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                        // onChange={(e) => handelWishList(e, products)}
-                                        />
-                                        {/* </Button> */}
-                                      </div>
-
-                                      <div className="smr_product_label">
-                                        {productData?.IsInReadyStock == 1 && <span className="smr_instock">In Stock</span>}
-                                        {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
-                                      </div>
-                                      <img
-                                        className="smr_productCard_Image"
-
-                              id={`smr_productCard_Image${productData?.autocode}`}
-                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                              // src={ ProdCardImageFunc(productData,0)}
-                              src={productData?.images?.length > 0 ? productData?.images[0] :  imageNotFound}
-                              alt=""
-                              onClick={()=>handleMoveToDetail(productData)}
-                              onMouseEnter={()=>{handleImgRollover(productData,i)}}
-                            />
-                            <div className="smr_prod_Title" >
-                              <span
-                                className={
-                                  // productData?.TitleLine?.length > 30
-                                    // ? 
-                                    "smr_prod_title_with_width"
-                                    // : 
-                                    // "smr_prod_title_with_no_width"
-                                }
-                              >
-                                {productData?.TitleLine?.length > 0 && "-"}
-                                {productData?.TitleLine}{" "}
-                              </span>
-                              <span className="smr_prod_designno">
-                                {productData?.designno}
-                              </span>
-                            </div>
-                            <div className="smr_prod_Allwt">
-                              <div 
-                                  style={{
-                                            display:'flex',
-                                            justifyContent:'center',
-                                            alignItems:'center',
-                                            letterSpacing:maxwidth590px ? '0px':'1px',
-                                            // gap:maxwidth1674px ? '0px':'3px',
-                                            flexWrap:'wrap'
-                                          }}
-                              > 
-                              {/* <span className="smr_por"> */}
-                                { (Number(productData?.Nwt)  !== 0 )&& <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.Nwt}
-                                  </span>
-                                </span>}
-                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0) &&
-                                  <>
-                                  <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.Gwt}
-                                  </span>
-                                </span>
-                                </>
-                                }
-                              {/* </span> */}
-                              {/* <span className="smr_por"> */}
-                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
-                               <>
-                               <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.Dwt}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
-                                  </span>
-                                </span>
-                               </>
-                                }
-                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
-                                  <>
-                                    <span>|</span>
-                                    <span className="smr_prod_wt">
-                                      <span className="smr_keys">CWT:</span>
-                                      <span className="smr_val">
-                                        {productData?.CSwt}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
-                                      </span>
+                                <div className="smr_product_label">
+                                  {productData?.IsInReadyStock == 1 && (
+                                    <span className="smr_instock">
+                                      In Stock
                                     </span>
-                                  </>
-                                }
-                                          {/* </span> */}
-                                        </div>
-                                      </div>
-                                      <div className="smr_prod_mtcolr_price">
-                                        <span className="smr_prod_metal_col">
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
-                                          {
-                                            findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
-                                              ?.metaltype
-                                          }
+                                  )}
+                                  {productData?.IsBestSeller == 1 && (
+                                    <span className="smr_bestSeller">
+                                      Best Seller
+                                    </span>
+                                  )}
+                                  {productData?.IsTrending == 1 && (
+                                    <span className="smr_intrending">
+                                      Trending
+                                    </span>
+                                  )}
+                                  {productData?.IsNewArrival == 1 && (
+                                    <span className="smr_newarrival">
+                                      New Arrival
+                                    </span>
+                                  )}
+                                </div>
+                                <img
+                                  className="smr_productCard_Image"
+                                  id={`smr_productCard_Image${productData?.autocode}`}
+                                  // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                  // src={ ProdCardImageFunc(productData,0)}
+                                  src={
+                                    rollOverImgPd[productData?.autocode] ? rollOverImgPd[productData?.autocode] :
+                                    (productData?.images?.length > 0
+                                      ? productData?.images[0]
+                                      : imageNotFound)
+                                  }
+                                  alt=""
+                                  onClick={() =>
+                                    handleMoveToDetail(productData)
+                                  }
+                                  onMouseEnter={() => {
+                                    handleImgRollover(productData);
+                                  }}
+                                  onMouseLeave={()=>{
+                                    handleLeaveImgRolloverImg(productData, i)
+                                  }}
+                                />
+                                <div className="smr_prod_Title">
+                                  <span
+                                    className={
+                                      // productData?.TitleLine?.length > 30
+                                      // ?
+                                      "smr_prod_title_with_width"
+                                      // :
+                                      // "smr_prod_title_with_no_width"
+                                    }
+                                  >
+                                    {productData?.TitleLine?.length > 0 && "-"}
+                                    {productData?.TitleLine}{" "}
+                                  </span>
+                                  <span className="smr_prod_designno">
+                                    {productData?.designno}
+                                  </span>
+                                </div>
+                                <div className="smr_prod_Allwt">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      letterSpacing: maxwidth590px
+                                        ? "0px"
+                                        : "1px",
+                                      // gap:maxwidth1674px ? '0px':'3px',
+                                      flexWrap: "wrap",
+                                    }}
+                                  >
+                                    {/* <span className="smr_por"> */}
+                                    {Number(productData?.Nwt) !== 0 && (
+                                      <span className="smr_prod_wt">
+                                        <span className="smr_keys">NWT:</span>
+                                        <span className="smr_val">
+                                          {productData?.Nwt}
                                         </span>
-                                        <span>/</span>
-                                        <span className="smr_price">
-                                          <span
-                                            className="smr_currencyFont"
-                                            dangerouslySetInnerHTML={{
-                                              __html: decodeEntities(
-                                                storeInit?.Currencysymbol
-                                              ),
-                                            }}
-                                          />
-                                          <span className="smr_pricePort">
-                                            {/* {productData?.ismrpbase === 1
+                                      </span>
+                                    )}
+                                    {storeInit?.IsGrossWeight == 1 &&
+                                      Number(productData?.Gwt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_keys">
+                                              GWT:
+                                            </span>
+                                            <span className="smr_val">
+                                              {productData?.Gwt}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    {/* </span> */}
+                                    {/* <span className="smr_por"> */}
+                                    {storeInit?.IsDiamondWeight == 1 &&
+                                      Number(productData?.Dwt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_keys">
+                                              DWT:
+                                            </span>
+                                            <span className="smr_val">
+                                              {productData?.Dwt}
+                                              {storeInit?.IsDiamondPcs === 1
+                                                ? `/${productData?.Dpcs}`
+                                                : null}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    {storeInit?.IsStoneWeight == 1 &&
+                                      Number(productData?.CSwt) !== 0 && (
+                                        <>
+                                          <span>|</span>
+                                          <span className="smr_prod_wt">
+                                            <span className="smr_keys">
+                                              CWT:
+                                            </span>
+                                            <span className="smr_val">
+                                              {productData?.CSwt}
+                                              {storeInit?.IsStonePcs === 1
+                                                ? `/${productData?.CSpcs}`
+                                                : null}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    {/* </span> */}
+                                  </div>
+                                </div>
+                                <div className="smr_prod_mtcolr_price">
+                                  <span className="smr_prod_metal_col">
+                                    {findMetalColor(
+                                      productData?.MetalColorid
+                                    )?.[0]?.metalcolorname.toUpperCase()}
+                                    -
+                                    {
+                                      findMetalType(
+                                        selectedMetalId ??
+                                          productData?.MetalPurityid
+                                      )[0]?.metaltype
+                                    }
+                                  </span>
+                                  <span>/</span>
+                                  <span className="smr_price">
+                                    <span
+                                      className="smr_currencyFont"
+                                      dangerouslySetInnerHTML={{
+                                        __html: decodeEntities(
+                                          storeInit?.Currencysymbol
+                                        ),
+                                      }}
+                                    />
+                                    <span className="smr_pricePort">
+                                      {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {productData?.UnitCostWithMarkUp}
-                                          </span>
-                                        </span>
-                                      </div>
-                                    </div>
-                                  ))}
+                                      {productData?.UnitCostWithMarkUp}
+                                    </span>
+                                  </span>
                                 </div>
                               </div>
-                            )}
-                          </div>}
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </>
-                )}
-            {(storeInit?.IsProductListPagination == 1 && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "5%",
-              }}
-              className="smr_pagination_portion"
-            >
-              <Pagination
-                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                size={maxwidth464px ? "small" : "large"}
-                shape="circular"
-                onChange={handelPageChange}
-                showFirstButtongit
-                showLastButton
-              />
-            </div>}
+                  )}
+                </div>
+              </>
+            )}
+            {storeInit?.IsProductListPagination == 1 &&
+              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "5%",
+                  }}
+                  className="smr_pagination_portion"
+                >
+                  <Pagination
+                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                    size={maxwidth464px ? "small" : "large"}
+                    shape="circular"
+                    onChange={handelPageChange}
+                    showFirstButtongit
+                    showLastButton
+                  />
+                </div>
+              )}
             <Footer fromPage={"ProdList"} />
           </div>
         </div>

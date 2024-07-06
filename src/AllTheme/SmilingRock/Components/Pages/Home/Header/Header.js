@@ -12,6 +12,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
+import pako from "pako";
 import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 
@@ -34,12 +35,14 @@ const Header = () => {
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
   let navigate = useNavigate();
+  let cookie = Cookies.get('visiterId')
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
   useEffect(() => {
-    GetCountAPI().then((res) => {
+    const visiterID = Cookies.get('visiterId');
+    GetCountAPI(visiterID).then((res) => {
       if (res) {
         setCartCountNum(res?.cartcount)
         setWishCountNum(res?.wishcount)
@@ -281,10 +284,46 @@ const Header = () => {
     handleMenuClick(menuItemWithoutParam1)
   };
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
   const searchDataFucn = (e) => {
     if (e.key === 'Enter') {
       if (searchText) {
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+          let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+          let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+      
+          let obj = {
+            a: "",
+            b: searchText,
+            m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+            d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+            c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+            f: {}
+          }
+      
+          let encodeObj = compressAndEncode(JSON.stringify(obj))
+      
+          navigate(`/d/${searchText}?p=${encodeObj}`)
+          toggleOverlay();
+          // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+      
+        // }
       }
     }
   }
@@ -294,8 +333,11 @@ const Header = () => {
 
   const toggleCartDrawer = () => {
     setIsCartOpen(prevState => !prevState);
+    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
     setCartOpenState(prevState => !prevState);
   };
+  
 
 
   return (

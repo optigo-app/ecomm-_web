@@ -6,6 +6,8 @@ const CartList = ({
   items,
   CartCardImageFunc,
   onSelect,
+  CurrencyData,
+  decodeEntities,
   selectedItem,
   selectedItems,
   multiSelect,
@@ -26,6 +28,8 @@ const CartList = ({
             key={item.id}
             item={item}
             CartCardImageFunc={CartCardImageFunc}
+            CurrencyData={CurrencyData}
+            decodeEntities={decodeEntities}
             onSelect={onSelect}
             selectedItem={selectedItem}
             isActive={selectedItems.includes(item)}

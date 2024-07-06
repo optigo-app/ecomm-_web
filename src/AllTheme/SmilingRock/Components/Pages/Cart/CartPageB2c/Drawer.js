@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -15,7 +15,9 @@ const Cart = ({
   isOpen,
   closeDrawer,
   items,
+  qtyCount,
   CartCardImageFunc,
+  CurrencyData,
   onSelect,
   selectedItem,
   selectedItems,
@@ -27,42 +29,49 @@ const Cart = ({
   handleRemarkChange,
   handleSave,
   handleCancel,
+  decodeEntities,
+  handleDecrement,
+  handleIncrement,
+  handelMenu
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
-  const islogin = useRecoilValue(loginState)
+  const islogin = useRecoilValue(loginState);
+  const [totalPrice, setTotalPrice] = useState();
+  const [storeInitData, setStoreInitData] = useState();
+
+  useEffect(() => {
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      let priceData = items.reduce((total, item) => total + item?.FinalCost, 0)?.toFixed(2)
+      setTotalPrice(priceData)
+    }, 300);
+  })
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate('/LoginOption')
+      closeDrawer();
     } else {
       // let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
       // console.log("TotalPriceData", cartData)
       // localStorage.setItem('TotalPriceData', priceData)
       // navigate("/Delivery")
+      closeDrawer();
     }
     window.scrollTo(0, 0);
   }
 
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+  const handleBrowse = () => {
+    closeDrawer();
+    handelMenu();
   }
-
-  const dummyData = [
-    {
-      id: 1,
-      imageUrl: "http://placehold.it/150x150",
-      title: "Drizzle 0.08ct Lab Grown Diamond Pendant P-00233WHT",
-      description: "Rose Gold / 18 Inches / 0.8",
-      shippingInfo: "Ships in 14 days",
-      total: "6.00"
-    }
-  ];
 
   return (
     <div className="smr_B2cCart">
@@ -75,6 +84,7 @@ const Cart = ({
             width: isMobile ? '100%' : '40%',
           },
         }}
+        className='smr_B2ccartDrawer'
       >
         <div className="smr_B2C-container">
           <div className='smr_b2cCartPageButonGp'>
@@ -86,18 +96,51 @@ const Cart = ({
             </div>
           </div>
           <div className='smr_b2cCartTb'>
-            <CartTableData
-              dummyData={dummyData}
-              CartCardImageFunc={CartCardImageFunc}
-              noImageFound={noImageFound}
-            />
+            {items.length !== 0 ? (
+              items.map((item, index) => (
+                <CartTableData
+                  key={index}
+                  cartData={item}
+                  qtyCount={qtyCount} 
+                  CurrencyData={CurrencyData}
+                  CartCardImageFunc={CartCardImageFunc}
+                  noImageFound={noImageFound}
+                  decodeEntities={decodeEntities}
+                  handleIncrement={handleIncrement}
+                  handleDecrement={handleDecrement}
+                  onRemove={onRemove}
+                />
+              ))
+            ) : (
+              <div className='smr_noB2CcartData'>
+                <p className='smr_title'>No Data Found!</p>
+                <p className='smr_desc'>Please First Add Data in cart</p>
+                <button className='smr_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
+              </div>
+            )}
+
           </div>
           <div>
 
           </div>
-          <div className='smr_B2cCheckoutBtnDiv'>
-            <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>{'83784738'}-CHECKOUT</button>
-          </div>
+          {items?.length != 0 &&
+            <div className='smr_B2cCheckoutBtnDiv'>
+              <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>
+                {storeInitData?.IsPriceShow == 1 &&
+                  <span>
+                    <span
+                      className="smr_currencyFont"
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(
+                          CurrencyData?.Currencysymbol
+                        ),
+                      }}
+                    />
+                    {totalPrice}
+                  </span>
+                }{' - '}CHECKOUT</button>
+            </div>
+          }
         </div>
       </Drawer>
     </div>

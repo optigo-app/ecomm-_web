@@ -117,7 +117,7 @@ const Customization = ({
           {sizeCombo?.rd?.length !== 0 &&
             <div className="option">
               <label htmlFor="size">Size:</label>
-              <select id="size" defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
+              <select id="size" defaultValue={selectedItem?.Size} value={selectedItem?.size} onChange={handleSizeChange}>
                 {mrpbasedPriceFlag == 1 ? (
                   <option value={selectedItem?.size}>{selectedItem?.size}</option>
                 ) :
@@ -146,7 +146,7 @@ const Customization = ({
                     ),
                   }}
                 />
-                {(selectedItem?.UnitCostWithmarkup)}
+                {(selectedItem?.FinalCost)}
               </span>
             ) :
               <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />

@@ -357,6 +357,12 @@ color: $primaryfontcolor2;
     font-size: 14px;
     font-family: $primaryFontFamily;
 }
+
+.smr_prodd_datanotfound {
+    font-family: $primaryFontFamilyMedium;
+    color: $primaryfontcolor;
+    font-size: 42px;
+  }
   
 @media screen and (max-width:1200px) {
     .smr_prod_image_shortInfo{

@@ -18,6 +18,8 @@ const CartItem = ({
   item,
   CartCardImageFunc,
   onSelect,
+  CurrencyData,
+  decodeEntities,
   isSelected,
   selectedItem,
   isActive,
@@ -36,8 +38,11 @@ const CartItem = ({
   const [isSelectedItems, setIsSelectedItems] = useState();
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
+  const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
     const isCartUpdateStatus = localStorage.getItem('cartUpdation');
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
@@ -115,37 +120,52 @@ const CartItem = ({
                 {item?.designno}
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div style={{ marginBottom: '10px' }}>
+                <div>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    NWT: {item?.MetalWeight}
+                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
-                  </Typography>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <Typography variant="body2" className='smr_card-ContentData'>
-                    GWT: {item?.totalGrossweight}
-                  </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
-                    DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
+                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
-                <Box className="smr_cartbtngroupReRm">
-                  {item?.Remarks !== "" &&
-                    <Typography variant="body2" className='smr_card-ContentData'>
-                      Remark: {item?.Remarks || productRemark}
-                    </Typography>
-                  }
-                  <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
-                    {item?.Remarks ? "Update Remark" : "Add Remark"}
-                  </Link>
-                  <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
-                    Remove
-                  </Link>
-                </Box>
+                <div>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
+                  </Typography>
+                  <Typography variant="body2" className='smr_card-ContentData'>
+                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
+                  </Typography>
+                </div>
               </div>
+              <Box>
+                {storeInitData?.IsPriceShow == 1 &&
+                  <span className='smr_currencyFontPrice'>
+                    <span
+                      className="smr_currencyFont"
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(
+                          CurrencyData?.Currencysymbol
+                        ),
+                      }}
+                    />
+                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                  </span>
+                }
+              </Box>
             </CardContent>
+            <Box className="smr_cartbtngroupReRm">
+              {item?.Remarks !== "" &&
+                <Typography variant="body2" className='smr_card-ContentData'>
+                  Remark: {item?.Remarks || productRemark}
+                </Typography>
+              }
+              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                {item?.Remarks ? "Update Remark" : "Add Remark"}
+              </Link>
+              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+                Remove
+              </Link>
+            </Box>
           </div>
         </Box>
         {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}

@@ -5,7 +5,7 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
 
   return (
     <div className="smr_cart-quantity">
-      <button className="bttn bttn-left" onClick={handleDecrement}>
+      <button className="bttn bttn-left" onClick={() => handleDecrement(selectedItem)}>
         <span>-</span> 
       </button>
       <input
@@ -16,7 +16,7 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
         value={qtyCount}
         readOnly
       />
-      <button className="bttn bttn-right" onClick={handleIncrement}>
+      <button className="bttn bttn-right" onClick={() => handleIncrement(selectedItem)}>
         <span>+</span>
       </button>
     </div>

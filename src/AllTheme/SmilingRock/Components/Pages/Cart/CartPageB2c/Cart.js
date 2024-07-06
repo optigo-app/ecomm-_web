@@ -3,6 +3,7 @@ import Basket from './Drawer';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { cartB2CDrawer } from '../../../Recoil/atom';
+import { useNavigate } from 'react-router-dom';
 
 function Cart(props) {
   const {
@@ -43,16 +44,19 @@ function Cart(props) {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
+  const navigate = useNavigate();
   const isOpen = useRecoilValue(cartB2CDrawer)
   const setCartOpenState = useSetRecoilState(cartB2CDrawer);
 
-  console.log('khdkjhaskd', isOpen);
+  console.log('khdkjhaskd', props);
 
   const handleCloseDrawer = () => {
     setCartOpenState(false)
+    // navigate(-1)
   }
 
 
@@ -62,6 +66,8 @@ function Cart(props) {
         isOpen={isOpen}
         closeDrawer={handleCloseDrawer}
         items={cartData}
+        qtyCount={qtyCount}
+        CurrencyData={CurrencyData}
         CartCardImageFunc={CartCardImageFunc}
         showRemark={showRemark}
         productRemark={productRemark}
@@ -74,6 +80,10 @@ function Cart(props) {
         handleRemarkChange={handleRemarkChange}
         handleSave={handleSave}
         handleCancel={handleCancel}
+        handleIncrement={handleIncrement}
+        handleDecrement={handleDecrement}
+        decodeEntities={decodeEntities}
+        handelMenu={handelMenu}
       />
     </div>
   );

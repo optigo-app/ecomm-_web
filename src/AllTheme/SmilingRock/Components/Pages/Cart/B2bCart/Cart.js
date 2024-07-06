@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 
+
 const CartPage = () => {
   const {
     isloding,
@@ -54,7 +55,8 @@ const CartPage = () => {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
   const navigate = useNavigate();
@@ -149,6 +151,8 @@ const CartPage = () => {
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}
+                    CurrencyData={CurrencyData}
+                    decodeEntities={decodeEntities}
                     onSelect={handleSelectItem}
                     selectedItem={selectedItem}
                     selectedItems={selectedItems}
@@ -226,7 +230,7 @@ const CartPage = () => {
               <div className='smr_noWishlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
@@ -238,8 +242,8 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Remove All"
-          content="Are you sure you want to clear all items?"
+          title="Remove Item"
+          content="Are you sure you want to remove all Item?"
         />
 
         <Footer />
