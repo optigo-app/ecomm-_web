@@ -40,9 +40,9 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
+    const visiterId = Cookies.get('visiterId');
     setIsWlLoading(true);
     try {
-      const visiterId = Cookies.get('visiterId')
       const response = await fetchWishlistDetails(visiterId, islogin);
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
@@ -62,6 +62,7 @@ const Usewishlist = () => {
 
   // remove
   const handleRemoveItem = async (item) => {
+    const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
     if (selectedItem === item) {
@@ -70,7 +71,7 @@ const Usewishlist = () => {
     setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
 
     try {
-      const response = await removeFromCartList(item, param);
+      const response = await removeFromCartList(item, param, visiterId, islogin);
       console.log('response--', response);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
@@ -87,9 +88,10 @@ const Usewishlist = () => {
   };
 
   const handleRemoveAll = async () => {
+    const visiterId = Cookies.get('visiterId');
     let param = "wish";
     try {
-      const response = await removeFromCartList('IsDeleteAll', param);
+      const response = await removeFromCartList('IsDeleteAll', param, visiterId, islogin);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
         setWishlistData([]);
@@ -107,10 +109,11 @@ const Usewishlist = () => {
 
   // add to cart
   const handleWishlistToCart = async (item) => {
+    const visiterId = Cookies.get('visiterId');
     let param = "";
     if (item?.IsInCart != 1) {
       try {
-        const response = await handleWishlistToCartAPI(param, item);
+        const response = await handleWishlistToCartAPI(param, item, visiterId, islogin);
 
         if (response?.Data?.rd[0]?.msg === "success") {
           const updatedWishlistData = wishlistData.map(wish =>
@@ -135,9 +138,10 @@ const Usewishlist = () => {
 
   // add to cart all
   const handleAddtoCartAll = async () => {
+    const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     try {
-      const response = await handleWishlistToCartAPI(param);
+      const response = await handleWishlistToCartAPI(param, visiterId, islogin);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();

@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 
+
 const CartPage = () => {
   const {
     isloding,

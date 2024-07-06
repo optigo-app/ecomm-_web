@@ -457,6 +457,275 @@ const useCart = () => {
   }
 
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~for price calculation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  const diaUpdatedPrice = () => {
+    setIsPriceLoding(true);
+    if (getSinglePriceData?.rd1) {
+      let parts = diaIDData?.split(',');
+      let filteredDiaData;
+      let sum;
+      if (filteredDiaData?.length !== 0) {
+        filteredDiaData = diamondPriceData?.filter(item => item.G == parts[0] && item.I == parts[1]);
+        sum = filteredDiaData?.reduce((accumulator, currentValue) => accumulator + currentValue?.S, 0);
+      } else {
+        filteredDiaData = 0.00;
+      }
+      setDiaPrice(sum);
+      console.log('filteredDiaData', sum);
+    }
+  }
+
+  const metalUpdatedPrice = () => {
+    setIsPriceLoding(true);
+    if (getSinglePriceData?.rd) {
+      let filteredMtData = metalPriceData?.filter(item => item.C == metalID);
+      let metalPriceCalData;
+      setSelectedMetalData(filteredMtData)
+      if (filteredMtData?.length !== 0) {
+        metalPriceCalData = ((filteredMtData[0].V / filteredMtData[0].AA) + filteredMtData[0].W + filteredMtData[0].X);
+      } else {
+        metalPriceCalData = 0.00;
+      }
+      setMtPrice(metalPriceCalData);
+      setFilterMetalPriceData(filteredMtData);
+      console.log('metalPriceData--', metalPriceCalData);
+    }
+
+  }
+
+  const colUpdatedPrice = () => {
+    setIsPriceLoding(true);
+    if (getSinglePriceData?.rd2) {
+      let parts = colorStoneID?.split(',');
+      let filteredCSData;
+      let sum;
+      if (filteredCSData?.length !== 0) {
+        filteredCSData = colorStonePriceData?.filter(item => item.G == parts[0] && item.I == parts[1]);
+        sum = filteredCSData?.reduce((accumulator, currentValue) => accumulator + currentValue?.S, 0);
+      } else {
+        filteredCSData = 0.00;
+      }
+      setCSPrice(sum);
+      console.log('filteredCSData', sum);
+    }
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sizewise price calculation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const handleSizeWiseMetalPrice = () => {
+    setIsPriceLoding(true);
+    let filterSizeMetalData
+    if (sizeCombo && sizeCombo != undefined) {
+      filterSizeMetalData = sizeCombo?.rd1?.filter((sizeMt) =>
+        sizeMt?.sizename === sizeId &&
+        sizeMt?.DiamondStoneTypeName?.toLowerCase() === "metal"
+      );
+    }
+    let CalcNetwt;
+    let fprice = 0;
+    if (filterSizeMetalData?.length !== 0 && filterSizeMetalData != undefined) {
+      CalcNetwt = ((selectedItem?.MetalWeight ?? 0) + (filterSizeMetalData[0]?.Weight ?? 0) ?? 0)
+      if (selectedMetalData) {
+        fprice = ((selectedMetalData[0]?.AD ?? 0) * CalcNetwt) + ((selectedMetalData[0]?.AC ?? 0) * CalcNetwt) ?? 0;
+      }
+      setMtSizePrice(fprice);
+    } else {
+      fprice = 0;
+      setMtSizePrice(fprice);
+    }
+    console.log('filterSizeMetalData--', fprice);
+  }
+
+  const handleSizeWiseDiaPrice = () => {
+    setIsPriceLoding(true);
+    let filterSizeDiaData;
+    if (sizeCombo.length != 0 && sizeCombo != undefined) {
+      filterSizeDiaData = sizeCombo?.rd1?.filter((sizeMt) =>
+        sizeMt?.sizename === sizeId &&
+        sizeMt?.DiamondStoneTypeName?.toLowerCase() === "diamond"
+      );
+    }
+    let calcDiaWt;
+    let CalcPics;
+    let fpprice = 0;
+
+
+    if (filterSizeDiaData?.length !== 0 && filterSizeDiaData != undefined) {
+      let diaRate = diamondPriceData?.reduce((acc, obj) => acc + obj.O, 0)
+      let diaSettRate = diamondPriceData?.reduce((acc, obj) => acc + obj.Q, 0)
+
+      calcDiaWt = (selectedItem?.totalDiaWt ?? 0) + (filterSizeDiaData?.Weight ?? 0)
+
+      CalcPics = (selectedItem?.totaldiamondpcs ?? 0) + (filterSizeDiaData?.pieces ?? 0)
+
+      fpprice = ((diaRate ?? 0) * (calcDiaWt ?? 0)) + ((diaSettRate ?? 0) * (CalcPics ?? 0))
+    }
+    setDiaSizePrice(fpprice);
+    console.log('filterSizeDiaData--', fpprice);
+  }
+
+  const handleSizeWiseCSPrice = () => {
+    setIsPriceLoding(true);
+    let filterSizeCSlData;
+    if (sizeCombo.length != 0 && sizeCombo != undefined) {
+      filterSizeCSlData = sizeCombo?.rd1?.filter(
+        (sizeMt) =>
+          sizeMt?.sizename === sizeId &&
+          sizeMt?.DiamondStoneTypeName?.toLowerCase() === "color stone"
+      );
+    }
+
+    let calcDiaWt;
+    let CalcPics;
+    let fpprice = 0;
+
+
+    if (filterSizeCSlData?.length !== 0 && filterSizeCSlData != undefined) {
+      let csqcRate = colorStonePriceData?.reduce((acc, obj) => acc + obj.O, 0);
+      let csqcSettRate = colorStonePriceData?.reduce((acc, obj) => acc + obj.Q, 0);
+
+      calcDiaWt = (selectedItem?.totalCSWt ?? 0) + (filterSizeCSlData[0]?.Weight ?? 0);
+      CalcPics = (selectedItem?.totalcolorstonepcs ?? 0) + (filterSizeCSlData[0]?.pieces ?? 0);
+
+      fpprice = ((csqcRate ?? 0) * (calcDiaWt ?? 0)) + ((csqcSettRate ?? 0) * (CalcPics ?? 0));
+    }
+    setCsSizePrice(fpprice);
+    console.log('filterSizeCSlData--', fpprice);
+  };
+
+
+  const handleSizeWiseFinding = () => {
+
+  }
+
+  const PriceWithMarkupFunction = (pmu, pPrice, curr, swp = 0) => {
+    let price = 0;
+    if (pPrice <= 0) {
+      setIsPriceLoding(false);
+      return 0
+    }
+    else if (pmu <= 0) {
+      price = (Number(pPrice + swp)).toFixed(2);
+      setFinalPriceWithMarkup(price);
+      setIsPriceLoding(false);
+      setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: price }));
+      return price;
+    }
+    else {
+      let percentPMU = ((pmu / 100) / curr)
+      price = (Number(pPrice * percentPMU ?? 0) + Number(pPrice ?? 0) + (swp ?? 0)).toFixed(2)
+
+      setFinalPriceWithMarkup(price);
+      setIsPriceLoding(false);
+      setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: price }));
+      return price
+    }
+  }
+
+  const handleMrpBasePrice = (mprice) => {
+    const mrpprice = mprice?.Z;
+    if (mrpprice) {
+      setFinalPriceWithMarkup(mrpprice);
+      setIsPriceLoding(false);
+      setSelectedItem(prevItem => ({ ...prevItem, UnitCostWithmarkup: mrpprice }));
+    }
+  };
+
+  const handleFinalPriceCalculate = () => {
+    console.log("TotalPrice--", mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice);
+
+    const filteredMtData = metalPriceData?.find(item => item.C === metalID);
+    if (filteredMtData) setMarkUpData(filteredMtData?.AB);
+
+    let sizeWisePrice;
+
+    const formattedMtSizeprice = mtSizeprice?.toFixed(3);
+    const formattedDiaSizeprice = diaSizeprice?.toFixed(3);
+    const formattedCsSizeprice = csSizeprice?.toFixed(3);
+    // sizeWisePrice = parseFloat(formattedMtSizeprice) + parseFloat(formattedDiaSizeprice) + parseFloat(formattedCsSizeprice);
+    const formattedMtprice = mtprice?.toFixed(3);
+    const formattedDiaprice = diaprice?.toFixed(3);
+    const formattedCsprice = csprice?.toFixed(3);
+    sizeWisePrice = parseFloat(formattedMtprice) + parseFloat(formattedDiaprice) + parseFloat(formattedCsprice)
+      + parseFloat(formattedMtSizeprice) + parseFloat(formattedDiaSizeprice) + parseFloat(formattedCsSizeprice);
+
+
+    let finalPrice = (sizeWisePrice * qtyCount).toFixed(2);
+
+    if (sizeChangeData) {
+      let markup = sizeChangeData[0]?.MarkUp;
+      if (sizeChangeData[0]?.IsMarkUpInAmount == 1) {
+        const designMarkUp = filteredMtData?.AB ?? 0;
+        PriceWithMarkupFunction(designMarkUp, finalPrice, CurrencyData?.CurrencyRate, markup);
+      }
+      else {
+        const percentMarkupPlus = (filteredMtData?.AB ?? 0) + (sizeChangeData?.length != 0 ? sizeChangeData[0]?.MarkUp : 0);
+        PriceWithMarkupFunction(percentMarkupPlus, finalPrice, CurrencyData?.CurrencyRate, markup);
+      }
+    }
+
+    setFinalPrice(finalPrice);
+
+    if (finalPrice) {
+      console.log('finalprice--', finalPrice);
+      setIsPriceLoding(false);
+    }
+    setIsPriceLoding(false);
+
+    setSelectedItem(prevItem => ({ ...prevItem, UnitCost: finalPrice }));
+
+    console.log("FinalPrice:", qtyCount);
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsPriceLoding(true);
+
+      const filteredMtData = metalPriceData?.find(item => item.C === metalID);
+      if (filteredMtData && filteredMtData.U != 1) {
+        if (sizeId) {
+          if ([mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice].every(price => price !== undefined)) {
+            handleFinalPriceCalculate();
+          }
+        } else {
+          if ([mtprice, diaprice, csprice].every(price => price !== undefined)) {
+            handleFinalPriceCalculate();
+          }
+        }
+      } else {
+        handleMrpBasePrice(filteredMtData);
+        setmrpbasedPriceFlag(1);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [mtprice, diaprice, csprice, mtSizeprice, diaSizeprice, csSizeprice, metalID, diaIDData, colorStoneID, sizeId, qtyCount, handleUpdate]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (getSinglePriceData && getSinglePriceData?.rd?.length !== 0) {
+        metalUpdatedPrice();
+        diaUpdatedPrice();
+        colUpdatedPrice();
+
+        if (storeInit?.IsProductWebCustomization === 1) {
+          if (storeInit?.IsMetalCustomization === 1) handleSizeWiseDiaPrice();
+          if (storeInit?.IsCsCustomization === 1) handleSizeWiseCSPrice();
+          if (storeInit?.IsDiamondCustomization === 1) handleSizeWiseMetalPrice();
+        }
+      }
+    }, 200);
+
+    return () => clearTimeout(timeoutId);
+  }, [cartData, getSinglePriceData, metalID, diaIDData, colorStoneID, sizeId]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsPriceLoding(false);
+    }, 500);
+  }, [])
+
+
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;

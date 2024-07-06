@@ -30,12 +30,12 @@ const CartList = ({
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    let priceData = items.reduce((total, item) => total + item.UnitCostWithmarkup, 0)?.toFixed(2)
+    let priceData = items.reduce((total, item) => total + item.FinalCost, 0)?.toFixed(2)
     setTotalPrice(priceData)
   },[])
 
   const handlePlaceOrder = () => {
-    let priceData = items.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
+    let priceData = items.reduce((total, item) => total + item.FinalCost, 0).toFixed(2)
     console.log("TotalPriceData",items)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/payment")
@@ -49,6 +49,8 @@ const CartList = ({
           <CartItem
             key={item.id}
             item={item}
+            CurrencyData={CurrencyData}
+            decodeEntities={decodeEntities}
             CartCardImageFunc={CartCardImageFunc}
             onSelect={onSelect}
             selectedItem={selectedItem}
