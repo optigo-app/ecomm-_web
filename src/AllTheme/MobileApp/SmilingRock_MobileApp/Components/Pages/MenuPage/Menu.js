@@ -12,6 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { toast } from 'react-toastify';
 import { smrMA_loginState } from '../../Recoil/atom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
+import Cookies from 'js-cookie';
 
 const Menu = () => {
 
@@ -37,7 +38,18 @@ const Menu = () => {
     }, [islogin]);
 
     const getMenuApi = async () => {
-        await GetMenuAPI().then((response) => {
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
+
+        await GetMenuAPI(finalID).then((response) => {
             setMenuData(response?.Data?.rd)
         }).catch((err) => console.log(err))
     }
@@ -212,7 +224,7 @@ const Menu = () => {
                             className='smrMA_menuMainSwipe'
                         >
                             {menuItems.map(menuItem => (
-                                <TabPanel value={value} index={0} style={{ marginInline: '15%', padding: '0px', marginBottom: '100px' }}>
+                                <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
                                     {selectedMenu === menuItem.menuname && (
                                         <>
                                             <ButtonBase
@@ -243,9 +255,9 @@ const Menu = () => {
                                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                             style={{ width: '100%', height: '30px' }}
                                                                         >
-                                                                                <p className="smrMA_SuMenuTitle">
-                                                                                    {subSubMenuItem.param2dataname}
-                                                                                </p>
+                                                                            <p className="smrMA_SuMenuTitle">
+                                                                                {subSubMenuItem.param2dataname}
+                                                                            </p>
                                                                         </ButtonBase>
                                                                     ))}
                                                                 </List>
@@ -296,7 +308,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: '15%', padding: '0px', marginBottom: '100px' }}>
+                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase
@@ -327,9 +339,9 @@ const Menu = () => {
                                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                         style={{ width: '100%', height: '30px' }}
                                                                     >
-                                                                        <ListItem key={subSubMenuItem.param2dataid} style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                                                            <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" style={{ height: '38px', display: 'flex', alignItems: 'center' }} />
-                                                                        </ListItem>
+                                                                        <p className="smrMA_SuMenuTitle">
+                                                                            {subSubMenuItem.param2dataname}
+                                                                        </p>
                                                                     </ButtonBase>
                                                                 ))}
                                                             </List>

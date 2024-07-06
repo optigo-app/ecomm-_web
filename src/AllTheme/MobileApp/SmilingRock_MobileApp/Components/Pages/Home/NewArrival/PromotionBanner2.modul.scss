@@ -69,12 +69,11 @@
             margin-inline: 10px;
         }
 
-
-
     }
 
 
     @media screen and (max-width: 900px) {
+
         .smilingBridesMain {
             display: flex;
             flex-direction: column;
@@ -123,6 +122,8 @@
 
     @media screen and (max-width: 500px) {
 
+        margin-top: 0px !important;
+
         .smilingBridesMain {
             margin-top: 0px !important;
             border: none !important;
@@ -133,13 +134,17 @@
         }
 
         .smilingBridesMainTitle {
-            font-size: 22px !important;
+            font-size: 20px !important;
             margin: 5px;
+        }
+
+        .smilingBridesMain {
+            margin-inline: 5px;
         }
 
 
         .enagementBtn {
-            width: 100% !important;
+            width: 98% !important;
             margin-inline: 2px;
             height: 45px !important;
             font-weight: 500;
