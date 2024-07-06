@@ -242,8 +242,8 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Remove All"
-          content="Are you sure you want to clear all items?"
+          title="Remove Item"
+          content="Are you sure you want to remove all Item?"
         />
 
         <Footer />
