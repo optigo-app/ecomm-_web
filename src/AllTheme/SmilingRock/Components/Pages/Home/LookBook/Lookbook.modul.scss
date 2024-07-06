@@ -5,12 +5,13 @@
 
 
   .smr_lookbookFilterMain{
-    width: 25%;
+    width: 20%;
   }
 
-  .smr_lookBookImgDivMain{
-    width: 75%;
+  .smr_LookBookFilterSub{
+    margin: 50px 10px 0px 10px;
   }
+
   .smr_LookBookSubMainDiv {
     margin-inline: 6%;
     background-color: white;
@@ -21,28 +22,74 @@
     min-height: 800px;
   }
 
-  .smr_lookBookSubImgMain{
+  .smr_lookBookImgDiv{
+    margin-top: 80px;
+    width: 80%;
   }
-
   .smr_designSetDiv{
-    display: flex;
     border: 1px solid lightgray;
     margin: 5px;
+    width: 49%;
   }
 
   .smr_lookBookImgDivMain{
-    margin-top: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
   }
 
   .smr_lookBookImg{
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
   }
 
-  .smr_lookBookSubImage{
-    height: 100px;
-    width: 100px;
+  .smr_lookBookSubImgMain{
+    display: flex;
+    overflow: auto;
+  }
+
+  .smr_lookBookSubImgMain::-webkit-scrollbar {
+    height: 4px !important;
+    cursor: pointer;
+  }
+
+  .smr_lookBookSubImageDiv{
+    width: 31%;
+    // box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
     margin: 5px;
-    box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
+ 
+  }
+  .smr_lookBookSubImage{
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .smr_lookBookBuyBtn{
+    height: 30px;
+    width: 100px;
+    background-color: lightgray;
+    font-size: 15px;
+    border: none;
+    font-weight: 600;
+  }
+
+  .smr_lookBookAddtoCartBtn{
+    height: 30px;
+    width: 150px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+
+  .smr_lookBookINCartBtn{
+    height: 30px;
+    width: 150px;
+    cursor: context-menu;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #cfffcf;
   }
 }

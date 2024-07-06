@@ -103,11 +103,11 @@
     .smr_BestSallerViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize4;
+        font-size: $fontSize1;
         cursor: pointer;
         text-align: center;
         text-decoration: underline;
-        margin-top: 40px;
+        margin-top: 32px;
         font-weight: 600;
     }
 
@@ -162,10 +162,15 @@
 
     @media screen and (max-width: 550px) {
 
+
+        .linkingTitle {
+            margin: 0px;
+        }
+
         .linkingLoveMain {
             display: flex;
             flex-direction: column;
-            margin-inline: 10px;
+            margin-inline: 0px !important;
         }
 
         .linkingLoveImage {

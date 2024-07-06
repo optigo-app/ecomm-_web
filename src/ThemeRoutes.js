@@ -21,6 +21,7 @@ import Cookies from "js-cookie";
 export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -41,6 +42,7 @@ export default function ThemeRoutes() {
     Storeinit().then((response) => {
       if (response.status === 200) {
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
         localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));

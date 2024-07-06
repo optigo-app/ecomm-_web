@@ -168,7 +168,6 @@ const TrendingView = () => {
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
-                    <p className='linkingShopCol'>SHOP COLLECTION</p>
                     <Slider {...settings} >
                         {
                             oddNumberObjects?.slice(0, 2).map((data, inedx) => (
@@ -225,7 +224,7 @@ const TrendingView = () => {
                             ))
                         }
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
                 </div>
             </div>
         </div>
