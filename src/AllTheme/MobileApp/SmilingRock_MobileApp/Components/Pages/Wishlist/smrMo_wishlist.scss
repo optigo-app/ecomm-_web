@@ -274,22 +274,22 @@
 
 @media (max-width: 798px) {
     .smr_WlListData {
-        padding: 10px 10px 50px 10px;
+        padding: 20px 10px 60px 10px;
     }
 
     .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
         font-size: $fontSize2 !important;
     }
 
-    .smr_WlListData {
-        padding: 10px 10px 120px 10px;
-    }
+    // .smr_WlListData {
+    //     padding: 10px 10px 120px 10px;
+    // }
 
 }
 
 @media (max-width: 600px) {
     .smr_WlListData {
-        padding: 10px 10px 120px 10px;
+        padding: 20px 10px 60px 10px;
     }
 
     // .WlBtnGroupMainDiv {
@@ -342,7 +342,7 @@
 
 @media (max-width: 320px) {
     .smr_WlListData {
-        padding: 10px 10px 120px 10px;
+        padding: 20px 10px 60px 10px;
     }
 
     // .WlBtnGroupMainDiv {

@@ -25,7 +25,8 @@ export const fetchCartDetails = async (visiterId, islogin) => {
             Laboursetid:laboursetid,
             diamondpricelistname:diamondpricelistname,
             colorstonepricelistname:colorstonepricelistname,
-            SettingPriceUniqueNo:SettingPriceUniqueNo
+            SettingPriceUniqueNo:SettingPriceUniqueNo,
+            IsWishList:0
         });
 
         const encodedCombinedValue = btoa(combinedValue);

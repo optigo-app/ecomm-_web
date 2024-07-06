@@ -76,7 +76,7 @@ const WishlistItems = (
                         image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
                         className='smr_WlListImage'
-                        onClick={() => handleMoveToDetail(item)} 
+                        onClick={() => handleMoveToDetail(item)}
                     />
                     <CardContent className='smr_cardContent'>
                         <div className='cardText'>
@@ -85,13 +85,16 @@ const WishlistItems = (
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 <span className='smr_wishDT'>NWT : </span>
-                                <span className='smr_wishDT'>{item?.TotalNwt !== "" && item?.TotalNwt}</span>
+                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                 <span className='smr_pipe'> | </span>
                                 <span className='smr_wishDT'>GWT: </span>
-                                <span className='smr_wishDT'>{item?.ActualGrossweight !== "" && item?.ActualGrossweight}</span>
+                                <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
                                 <span className='smr_pipe'> | </span>
                                 <span className='smr_wishDT'>DWT: </span>
-                                <span>{item?.totaldiamondweight !== "" && item?.totaldiamondweight}</span>
+                                <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                <span className='smr_pipe'> | </span>
+                                <span className='smr_wishDT'>CWT: </span>
+                                <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 {item?.metalcolorname !== "" && (
@@ -108,8 +111,8 @@ const WishlistItems = (
                                     __html: decodeEntities(currency),
                                 }} />
                                 {' '}
-                                {item?.TotalUnitCost !== "" && (
-                                    <span>{(item.TotalUnitCost).toFixed(3)}</span>
+                                {item?.UnitCost !== "" && (
+                                    <span>{(item?.UnitCost).toFixed(3)}</span>
                                 )}
                             </Typography>
 
