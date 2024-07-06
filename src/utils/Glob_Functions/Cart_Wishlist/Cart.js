@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
+import { SingleProdListAPI } from '../../API/SingleProdListAPI/SingleProdListAPI';
+import { fetchSingleProdDT } from '../../API/CartAPI/SingleProdDtAPI';
 
 const useCart = () => {
   const navigate = useNavigate();
@@ -106,17 +108,6 @@ const useCart = () => {
         setCartData(response?.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
-          let item = response?.Data?.rd[0]
-          handleCategorySize(item);
-          setMetalID(response?.Data?.rd[0]?.metaltypeid)
-          setMetalCOLORID(response?.Data?.rd[0]?.metalcolorid)
-          setdiaID(response?.Data?.rd[0]?.diamondqualityid + ',' + response?.Data?.rd[0]?.diamondcolorid)
-          setColorStoneID(response?.Data?.rd[0]?.colorstonequalityid + ',' + response?.Data?.rd[0]?.colorstonecolorid)
-
-          GetCountAPI().then((res) => {
-            setCountData(res)
-          })
-
           try {
             await GetSinglePriceListApi(response?.Data?.rd[0]).then((resp) => {
               if (resp) {
@@ -269,8 +260,6 @@ const useCart = () => {
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
-    // setCartData(updatedItems);
-    // setSelectedItem(updatedItems.length > 0 ? updatedItems[0] : null);
     console.log('updatedItems', updatedItems);
     setSelectedItems([]);
     setMultiSelect(false);
@@ -429,7 +418,7 @@ const useCart = () => {
     const sizeChangeData = sizeCombo?.rd.filter((size) => {
       return size.sizename === sizedata;
     });
-
+    handlePrice();
     setSizeChangeData(sizeChangeData)
     console.log("sizeChangeData", sizeChangeData);
   };
@@ -454,6 +443,19 @@ const useCart = () => {
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
+  }
+
+  // for price api
+
+  const handlePrice = async() => {
+    try {
+      const response = await fetchSingleProdDT(selectedItem, visiterId, islogin );
+      if(response){
+        console.log('priceRes--', response)
+      }
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
   }
 
 
