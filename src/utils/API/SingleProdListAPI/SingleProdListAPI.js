@@ -21,7 +21,7 @@ export const SingleProdListAPI = async(singprod,size="",obj={},visiterId) =>{
 
       const data = {
         PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
-        autocode:  `${singprod?.a}`,
+        autocode:  `${singprod?.a ?? ""}`,
         FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
         Customerid: `${customerId ?? 0}`,
         designno:`${singprod?.b}`,
@@ -34,9 +34,9 @@ export const SingleProdListAPI = async(singprod,size="",obj={},visiterId) =>{
         // SearchKey:`${serachVar ?? ""}`,
         // PageNo:`${page}`,
         // PageSize:`${storeinit?.PageSize}`,
-        Metalid: `${obj?.mt}`,
-        DiaQCid: `${obj?.diaQc}`,
-        CsQCid: `${obj?.csQc}`,
+        Metalid: `${obj?.mt == undefined ? (loginInfo?.MetalId  ??  storeinit?.MetalId) : obj?.mt}`,
+        DiaQCid: `${obj?.diaQc == undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.diaQc}`,
+        CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc}`,
         // Collectionid: `${filterObj?.collection ?? ""}`,
         // Categoryid: `${filterObj?.category ?? ""}`,
         // SubCategoryid: `${filterObj?.subcategory ?? ""}`,

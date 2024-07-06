@@ -1,12 +1,12 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId) => {
-
-  console.log("mainData",mainData);
+const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="") => {
 
   let MenuParams = {};
   let serachVar = ""
+
+  
 
   if(Array.isArray(mainData)){
     if(mainData?.length > 0){
@@ -22,20 +22,25 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId) 
     }
    }else{
     if(mainData !== ""){
-      
-      if(atob(mainData)?.split("=")[0] == "AlbumName"){
-        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
-        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-      } 
-      else if(mainData.split("=")[0] == "S"){
-        serachVar = atob(mainData.split("=")[1])
-      }
-        else{
+       console.log("mainData",mainData);
+
+      // if(mainData?.split("=")[0] == "AlbumName"){
+      //   MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+      //   MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+      //   return;
+      // } 
+
+      if(mainData?.split("=")[0] == "S"){
+        serachVar = JSON.parse(atob(mainData.split("=")[1]))
+        console.log("serachVar",JSON.parse(atob(mainData.split("=")[1])))
+      }else{
         MenuParams.FilterKey = atob(mainData)
         MenuParams.FilterVal = atob(mainData)
       }
     }
    }
+
+   console.log("serachVar",serachVar);
 
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -76,9 +81,9 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId) 
 // }
 
 
-  let diaQc = (obj?.dia === undefined ? loginInfo?.cmboDiaQCid : obj?.dia)
-  let csQc = (obj?.cs === undefined ? loginInfo?.cmboCSQCid : obj?.cs)
-  let mtid = (obj?.mt === undefined ? loginInfo?.MetalId : obj?.mt)
+  let diaQc = (obj?.dia === undefined ?(loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid): obj?.dia)
+  let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
+  let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId  ??  storeinit?.MetalId): obj?.mt)
 
 
   const data = {
@@ -116,7 +121,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId) 
     Max_Price: '',
     Min_Price: '',
 
-    SortBy: "",
+    SortBy: `${sortby ?? ""}`,
     Laboursetid: `${
       storeinit?.IsB2BWebsite == 0 && islogin == false
         ? storeinit?.pricemanagement_laboursetid
