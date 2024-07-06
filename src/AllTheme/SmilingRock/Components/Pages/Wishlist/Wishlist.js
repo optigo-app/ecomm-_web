@@ -11,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
+import Cookies from "js-cookie";
 
 const Wishlist = () => {
   const {
@@ -34,6 +35,7 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
   const setCartCountVal = useSetRecoilState(CartCount)
   const [countstatus, setCountStatus] = useState();
+  const visiterId = Cookies.get('visiterId');
 
   useEffect(() => {
       const iswishUpdateStatus = localStorage.getItem('wishUpdation');
@@ -50,7 +52,7 @@ const Wishlist = () => {
     handleRemoveAll();
     setTimeout(() => {
       if (countstatus) {
-        GetCountAPI().then((res) => {
+        GetCountAPI(visiterId).then((res) => {
           console.log('responseCount', res);
           setWishCountVal(res?.wishcount);
         })
@@ -67,7 +69,7 @@ const Wishlist = () => {
     handleAddtoCartAll();
     setTimeout(() => {
       if (countstatus) {
-        GetCountAPI().then((res) => {
+        GetCountAPI(visiterId).then((res) => {
           console.log('responseCount', res);
           setCartCountVal(res?.cartcount);
         })

@@ -168,7 +168,7 @@ const MobileCartDetails = ({
                         ),
                       }}
                     />
-                    {selectedItem?.UnitCostWithmarkup}
+                    {selectedItem?.FinalCost}
                   </span>
                 ) : (
                   <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />

@@ -112,6 +112,10 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
+  .smrMo_currencyFontPrice{
+    color: $titleColor;
+  }
+
   .smrMo_cartcontentData {
     position: relative;
   }
@@ -229,6 +233,8 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
     }
 
     .smr_cartListImage {
@@ -252,6 +258,8 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
     }
 
     .smr_cartListImage {
@@ -286,6 +294,8 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
     }
 
     .smr_cartListImage {
@@ -323,6 +333,12 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
+    }
+    
+    .smrMo_cartListCard{
+      width: 370px !important;
     }
 
     .smr_mui_CartBox {
@@ -356,6 +372,8 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
     }
 
     .smr_mui_CartBox {
@@ -389,6 +407,12 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100% !important;
       max-width: 100% !important;
       flex-basis: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+    }
+
+    .smrMo_cartListCard{
+      width: 370px !important;
     }
 
     .smr_mui_CartBox {
@@ -419,6 +443,40 @@ $cartUpdateBtncolor: #b1b1b1;
     .smrMo_cart-Titleline {
       font-size: $fontSize4 !important;
     }
+  }
+  @media (max-width: 699px) {
+    .smrMo_cartListCard{
+      width: 370px !important;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .smrMo_cartListCard{
+      width: 370px !important;
+    }
+  }
+
+  @media (max-width: 445px) {
+    .smrMo_cartListCard{
+      width: 350px !important;
+    }
+  }
+  @media (max-width: 400px) {
+    .smrMo_cartListCard{
+      width: 320px !important;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .smrMo_cartListCard{
+      width: 310px !important;
+    }
+  }
+
+  @media (max-width: 330px) {
+  .smrMo_cartListCard{
+    width: 290px !important;
+  }
   }
 }
 

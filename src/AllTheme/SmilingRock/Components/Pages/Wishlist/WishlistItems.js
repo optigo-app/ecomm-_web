@@ -10,6 +10,7 @@ import { useSetRecoilState } from 'recoil';
 import { CartCount, WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import noImageFound from "../../Assets/image-not-found.jpg"
+import Cookies from "js-cookie";
 
 const WishlistItems = (
     {
@@ -29,6 +30,7 @@ const WishlistItems = (
     const setWishCountVal = useSetRecoilState(WishCount)
     const setCartCountVal = useSetRecoilState(CartCount)
     const [countstatus, setCountStatus] = useState();
+    const visiterId = Cookies.get('visiterId');
 
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const WishlistItems = (
     const handleWishlistToCartFun = (item) => {
         handleWishlistToCart(item);
         if (countstatus) {
-            GetCountAPI().then((res) => {
+            GetCountAPI(visiterId).then((res) => {
                 console.log('responseCount', res);
                 setCartCountVal(res?.cartcount);
             })
@@ -57,7 +59,7 @@ const WishlistItems = (
         handleRemoveItem(item);
         setTimeout(() => {
             if (countstatus) {
-                GetCountAPI().then((res) => {
+                GetCountAPI(visiterId).then((res) => {
                     console.log('responseCount', res);
                     setWishCountVal(res?.wishcount);
                 })

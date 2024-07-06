@@ -42,14 +42,13 @@ const Cart = ({
   const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
-    debugger
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
   useEffect(() => {
     setTimeout(() => {
-      let priceData = items.reduce((total, item) => total + item?.UnitCostWithmarkup, 0)?.toFixed(2)
+      let priceData = items.reduce((total, item) => total + item?.FinalCost, 0)?.toFixed(2)
       setTotalPrice(priceData)
     }, 300);
   })
@@ -85,6 +84,7 @@ const Cart = ({
             width: isMobile ? '100%' : '40%',
           },
         }}
+        className='smr_B2ccartDrawer'
       >
         <div className="smr_B2C-container">
           <div className='smr_b2cCartPageButonGp'>
@@ -96,25 +96,29 @@ const Cart = ({
             </div>
           </div>
           <div className='smr_b2cCartTb'>
-            {items?.length != 0 ? (
-              <CartTableData
-                cartData={items}
-                qtyCount={qtyCount}
-                CurrencyData={CurrencyData}
-                CartCardImageFunc={CartCardImageFunc}
-                noImageFound={noImageFound}
-                decodeEntities={decodeEntities}
-                handleIncrement={handleIncrement}
-                handleDecrement={handleDecrement}
-                onRemove={onRemove}
-              />
-            ) :
+            {items.length !== 0 ? (
+              items.map((item, index) => (
+                <CartTableData
+                  key={index}
+                  cartData={item}
+                  qtyCount={qtyCount} 
+                  CurrencyData={CurrencyData}
+                  CartCardImageFunc={CartCardImageFunc}
+                  noImageFound={noImageFound}
+                  decodeEntities={decodeEntities}
+                  handleIncrement={handleIncrement}
+                  handleDecrement={handleDecrement}
+                  onRemove={onRemove}
+                />
+              ))
+            ) : (
               <div className='smr_noB2CcartData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
               </div>
-            }
+            )}
+
           </div>
           <div>
 
