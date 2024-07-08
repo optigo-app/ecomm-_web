@@ -185,10 +185,18 @@ $cartUpdateBtncolor: #b1b1b1;
     font-weight: bold;
   }
 
+  .smr_remarktext{
+    font-size: $fontSize0 !important;
+    color: $titleColor !important;
+    max-width: 160px !important;
+    word-wrap: break-word !important;
+    margin-bottom: 20px !important;
+  }
+
   @media (min-width: 1440px) {
     .smr_mui_CartBox {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-evenly;
     }
 
     .smr_cartListImage {
@@ -493,6 +501,11 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 200px !important;
     }
 
+    .smr_ItemRemarkbtn,
+    .smr_ReomoveCartbtn {
+      font-size: $fontSize0 !important;
+    }
+
   }
 
   .smr_cartListCard {
@@ -722,6 +735,7 @@ $cartUpdateBtncolor: #b1b1b1;
   display: flex !important;
   justify-content: space-between !important;
   flex-direction: column !important;
+  position: relative;
 
   .smr_DesignNoTExt {
     color: $titleColor;
@@ -736,7 +750,7 @@ $cartUpdateBtncolor: #b1b1b1;
     font-family: $homePageFontFamily;
     display: flex !important;
     justify-content: start I !important;
-    padding-right: 5px !important;
+    margin-right: 5px !important;
   }
 }
 

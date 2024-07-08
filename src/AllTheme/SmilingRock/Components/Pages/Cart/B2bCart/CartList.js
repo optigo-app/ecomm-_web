@@ -4,6 +4,7 @@ import CartItem from './CartItem';
 
 const CartList = ({
   items,
+  setOpenMobileModal,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
