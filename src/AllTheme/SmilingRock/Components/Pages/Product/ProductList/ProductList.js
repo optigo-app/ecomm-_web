@@ -107,10 +107,9 @@ const ProductList = () => {
 
   },[])
 
-  console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
+  // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
-  console.log("rollOverImgPd",rollOverImgPd)
-
+  // console.log("rollOverImgPd",rollOverImgPd).
 
 
   // useEffect(()=>{
@@ -565,6 +564,8 @@ const ProductList = () => {
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
 
+    // console.log("output filterCheckedVal",e, listname, val);
+
     setFilterChecked((prev) => ({
       ...prev,
       [name]: { checked, type: listname, id: name?.replace(/[a-zA-Z]/g, ''), value: val }
@@ -572,7 +573,13 @@ const ProductList = () => {
   }
 
   const FilterValueWithCheckedOnly = () => {
+    debugger
     let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
+
+   const priceValues = onlyTrueFilterValue
+    .filter(item => item.type === "Price")
+    .map(item => item.value);
+
 
     const output = {};
 
@@ -580,12 +587,22 @@ const ProductList = () => {
       if (!output[item.type]) {
         output[item.type] = '';
       }
+
+      if(item.type == 'Price'){
+        output['Price'] = priceValues
+        return;
+      }
+
       output[item.type] += `${item.id}, `;
     });
 
     for (const key in output) {
-      output[key] = output[key].slice(0, -2);
+      if(key !== 'Price'){
+        output[key] = output[key].slice(0, -2);
+      }
     }
+
+    // if 
 
     return output
   }
@@ -593,7 +610,7 @@ const ProductList = () => {
   useEffect(()=>{
    let output = FilterValueWithCheckedOnly()
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
-   
+
   //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
     
@@ -866,11 +883,17 @@ const ProductList = () => {
 
     let finalData = { ...KeyObj, ...ValObj }
 
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('&');
+    ].filter(Boolean).join(',');
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -880,9 +903,12 @@ const ProductList = () => {
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => value)
       .filter(Boolean)
-      .join('&');
+      .join(',');
+    
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-    const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
     navigate(url);
 
@@ -1351,10 +1377,43 @@ const ProductList = () => {
                           navigate("/");
                         }}
                       >
-                        {"Home >"}{" "}
+                        {"Home >"} {" "}
                       </span>
+
+                      {location?.search.charAt(1) == "A" && (
+                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
+                            <span>
+                              {"Album"}
+                            </span>
+                        </div>
+                      )}
+
+                      {location?.search.charAt(1) == "T" && (
+                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
+                            <span>
+                              {"Trending"}
+                            </span>
+                        </div>
+                      )}
+
+                      {location?.search.charAt(1) == "B" && (
+                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
+                            <span>
+                              {"Best Seller"}
+                            </span>
+                        </div>
+                      )}
+
+                      {location?.search.charAt(1) == "N" && (
+                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
+                            <span>
+                              {"New Arrival"}
+                            </span>
+                        </div>
+                      )}
+                      
                       {IsBreadCumShow && (
-                        <div className="smr_breadcums_port">
+                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
                           {menuParams?.menuname && (
                             <span
                               onClick={() =>
@@ -1648,6 +1707,127 @@ const ProductList = () => {
                                     </AccordionDetails>
                                   </Accordion>
                                 )}
+                                {
+                                  ele?.id?.includes("Price") && (
+                                    <Accordion
+                                    elevation={0}
+                                    sx={{
+                                      borderBottom: "1px solid #c7c8c9",
+                                      borderRadius: 0,
+                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
+                                      "&.MuiPaper-root.MuiAccordion-root:before":
+                                        {
+                                          background: "none",
+                                        },
+                                    }}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
+                                  >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
+                                      }
+                                      aria-controls="panel1-content"
+                                      id="panel1-header"
+                                      sx={{
+                                        color: "#7f7d85",
+                                        borderRadius: 0,
+
+                                        "&.MuiAccordionSummary-root": {
+                                          padding: 0,
+                                        },
+                                      }}
+                                      className="filtercategoryLable"
+                                    >
+                                      {/* <span> */}
+                                      {ele.Name}
+                                      {/* </span> */}
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(ele?.options) ?? []).map(
+                                        (opt,i) => (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              gap: "12px",
+                                            }}
+                                            key={i}
+                                          >
+                                            {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                            <FormControlLabel
+                                              control={
+                                                <Checkbox
+                                                  name={`Price${i}${i}`}
+                                                  // checked={
+                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                  //     : false
+                                                  // }
+                                                  checked={
+                                                    filterChecked[
+                                                      `Price${i}${i}`
+                                                    ]?.checked === undefined
+                                                      ? false
+                                                      : filterChecked[
+                                                          `Price${i}${i}`
+                                                        ]?.checked
+                                                  }
+                                                  style={{
+                                                    color: "#7f7d85",
+                                                    padding: 0,
+                                                    width: "10px",
+                                                  }}
+                                                  onClick={(e) =>
+                                                    handleCheckboxChange(
+                                                      e,
+                                                      ele?.id,
+                                                      opt
+                                                    )
+                                                  }
+                                                  size="small"
+                                                />
+                                              }
+                                              // sx={{
+                                              //   display: "flex",
+                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                              //   width: "100%",
+                                              //   flexDirection: "row-reverse", // Align items to the right
+                                              //   fontFamily:'TT Commons Regular'
+                                              // }}
+                                              className="smr_mui_checkbox_label"
+                                              label={ opt?.Minval == 0 ?(`Under ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Maxval}`) : (opt?.Maxval == 0 ? `Over ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Minval}` : `${decodeEntities(storeInit?.Currencysymbol)}${opt?.Minval} - ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Maxval}`)}
+                                            />
+                                          </div>
+                                        )
+                                      )}
+                                    </AccordionDetails>
+                                  </Accordion>
+                                  )
+                                }
                             </>
                           ))}
                         </div>
