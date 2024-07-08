@@ -93,7 +93,7 @@ const ExampleComponent = ({
                                         ),
                                     }}
                                 />
-                                {(cartData?.FinalCost)}
+                                {(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
                         </td>
@@ -110,7 +110,7 @@ const ExampleComponent = ({
                                         ),
                                     }}
                                 />
-                                {(cartData?.FinalCost)}
+                                {(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
                         </td>
