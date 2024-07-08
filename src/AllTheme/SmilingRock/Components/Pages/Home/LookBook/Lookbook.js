@@ -37,6 +37,7 @@ const Lookbook = () => {
     const islogin = useRecoilValue(loginState);
     const setCartCountVal = useSetRecoilState(CartCount)
     const [storeInit, setStoreInit] = useState({});
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -61,10 +62,19 @@ const Lookbook = () => {
             .then((response) => {
                 if (response?.Data?.rd) {
                     setDesignSetListData(response?.Data?.rd);
+
+                    const initialCartItems = response?.Data?.rd.flatMap(slide =>
+                        parseDesignDetails(slide?.Designdetail)
+                            .filter(detail => detail?.IsInCart === 1)
+                            .map(detail => detail.autocode)
+                    );
+                    setCartItems(prevCartItems => [...new Set([...prevCartItems, ...initialCartItems])]); // Use Set to avoid duplicates
                 }
             })
             .catch((err) => console.log(err));
     }, []);
+
+    console.log('cartItemscartItemscartItems', cartItems);
 
     useEffect(() => {
 
@@ -116,7 +126,6 @@ const Lookbook = () => {
     }
 
     const [selectedCategory, setSelectedCategory] = useState('Ring');
-    const [cartItems, setCartItems] = useState([]);
     let cookie = Cookies.get('visiterId')
 
     const handleAddToCart = (ele, type) => {
@@ -124,7 +133,7 @@ const Lookbook = () => {
 
         let prodObj = {
             "autocode": ele?.autocode,
-            "Metalid": loginInfo?.MetalPurityid,
+            "Metalid": loginInfo?.MetalId,
             "MetalColorId": ele?.MetalColorid,
             "DiaQCid": loginInfo?.cmboDiaQCid,
             "CsQCid": loginInfo?.cmboCSQCid,
@@ -135,44 +144,34 @@ const Lookbook = () => {
             "Remark": ""
         }
 
-        setCartItems([...cartItems, ele?.autocode]);
+        setCartItems(prevCartItems => [...prevCartItems, ele?.autocode]);
 
         CartAndWishListAPI(type, prodObj, cookie).then((res) => {
             let cartC = res?.Data?.rd[0]?.Cartlistcount
             setCartCountVal(cartC);
         }).catch((err) => console.log("err", err))
-
-
     }
 
-    const handleRemoveCart = (ele, type) => {
-        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-
-        let prodObj = {
-            "autocode": ele?.autocode,
-            "Metalid": loginInfo?.MetalPurityid,
-            "MetalColorId": ele?.MetalColorid,
-            "DiaQCid": loginInfo?.cmboDiaQCid,
-            "CsQCid": loginInfo?.cmboCSQCid,
-            "Size": ele?.DefaultSize,
-            "Unitcost": ele?.UnitCost,
-            "markup": ele?.DesignMarkUp,
-            "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
-            "Remark": ""
-        }
-
-        setCartItems(cartItems.filter(item => item !== ele?.autocode));
-
-        RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res) => {
-            let cartC = res?.Data?.rd[0]?.Cartlistcount
+    const handleRemoveCart = async (ele) => {
+        try {
+            const res = await RemoveCartAndWishAPI("Cart", ele?.autocode, cookie);
+            let cartC = res?.Data?.rd[0]?.Cartlistcount;
             setCartCountVal(cartC);
-        }).catch((err) => console.log("err", err))
-
-    }
-
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
+    
+            // Use a callback to update the state
+            setCartItems(prevCartItems => {
+                const updatedCartItems = prevCartItems.filter(item => item !== ele?.autocode);
+                console.log("Updated cartItems inside setState callback:", updatedCartItems);
+                return updatedCartItems;
+            });
+        } catch (err) {
+            console.log("Error removing from cart", err);
+        }
     };
+
+    // const handleCategoryChange = (e) => {
+    //     setSelectedCategory(e.target.value);
+    // };
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -183,7 +182,7 @@ const Lookbook = () => {
     const createProdObj = (ele, loginInfo) => {
         return {
             "autocode": ele?.autocode,
-            "Metalid": loginInfo?.MetalPurityid,
+            "Metalid": loginInfo?.MetalId ?? '',
             "MetalColorId": ele?.MetalColorid,
             "DiaQCid": loginInfo?.cmboDiaQCid,
             "CsQCid": loginInfo?.cmboCSQCid,
@@ -197,12 +196,9 @@ const Lookbook = () => {
 
 
     const handleByCombo = (data) => {
-
         let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
         let prodObjs = data.map(detail => createProdObj(detail, loginInfo));
-
         setCartItems(prevItems => [...prevItems, ...data.map(detail => detail.autocode)]);
-
         CartAndWishListAPI("Cart", prodObjs, cookie, "look").then((res) => {
             let cartC = res?.Data?.rd[0]?.Cartlistcount
             setCartCountVal(cartC);
@@ -248,8 +244,6 @@ const Lookbook = () => {
                                                     background: "none",
                                                 },
                                             }}
-                                        // expanded={accExpanded}
-                                        // defaultExpanded={}
                                         >
                                             <AccordionSummary
                                                 expandIcon={
@@ -268,9 +262,7 @@ const Lookbook = () => {
                                                 }}
                                                 className="filtercategoryLable"
                                             >
-                                                {/* <span> */}
                                                 {ele.Name}
-                                                {/* </span> */}
                                             </AccordionSummary>
                                             <AccordionDetails
                                                 sx={{
@@ -292,23 +284,11 @@ const Lookbook = () => {
                                                         }}
                                                         key={opt?.id}
                                                     >
-                                                        {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
+                                                       
                                                         <FormControlLabel
                                                             control={
                                                                 <Checkbox
                                                                     name={`${ele?.id}${opt?.id}`}
-                                                                    // checked={
-                                                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                                    //     : false
-                                                                    // }
                                                                     checked={
                                                                         filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
                                                                             undefined
@@ -330,14 +310,6 @@ const Lookbook = () => {
                                                                     size="small"
                                                                 />
                                                             }
-
-                                                            // sx={{
-                                                            //   display: "flex",
-                                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                                            //   width: "100%",
-                                                            //   flexDirection: "row-reverse", // Align items to the right
-                                                            //   fontFamily:'TT Commons Regular'
-                                                            // }}
                                                             className="smr_mui_checkbox_label"
                                                             label={opt.Name}
                                                         />
@@ -354,10 +326,6 @@ const Lookbook = () => {
                 </div>
 
                 <div className='smr_lookBookImgDiv'>
-                    {/* <select value={selectedCategory} onChange={handleCategoryChange}>
-                        <option value="Ring">Ring</option>
-                        <option value="Mangalsutra">Mangalsutra</option>
-                    </select> */}
                     <div className='smr_lookBookImgDivMain'>
                         {designSetLstData?.map((slide, index) => (
                             <div className="smr_designSetDiv" key={index}>
@@ -380,7 +348,7 @@ const Lookbook = () => {
                                                     storeInit?.Currencysymbol
                                                 ),
                                             }}
-                                        /> {slide?.UnitCost}</p>
+                                        /> {slide?.UnitCostWithMarkUp}</p>
                                         <button className='smr_lookBookBuyBtn' onClick={() => handleByCombo(parseDesignDetails(slide?.Designdetail, "Cart"))}>
                                             Buy Combo
                                         </button>
@@ -430,12 +398,11 @@ const Lookbook = () => {
                                                         alt={`Sub image ${subIndex} for slide ${index}`}
                                                     />
                                                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
-                                                        {
-                                                            cartItems.includes(detail?.autocode) || detail?.IsInCart == 1 ?
-                                                                <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail, "Cart")}>REMOVE CART</button>
-                                                                :
-                                                                <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail, "Cart")}>ADD TO CART</button>
-                                                        }
+                                                    {cartItems.includes(detail?.autocode) ? (
+                                                    <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail)}>REMOVE CART</button>
+                                                ) : (
+                                                    <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail)}>ADD TO CART</button>
+                                                )}
                                                     </div>
                                                 </SwiperSlide>
                                             </div>
