@@ -16,6 +16,7 @@ import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const CartItem = ({
   item,
+  index,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
@@ -81,6 +82,8 @@ const CartItem = ({
       }
     }, 500)
   }
+
+
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
 
@@ -162,7 +165,7 @@ const CartItem = ({
               <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>
