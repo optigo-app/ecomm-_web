@@ -75,9 +75,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? storeInit?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -97,7 +97,7 @@ const ProductList = () => {
 
   useEffect(()=>{
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
-    setSelectedMetalId(mtid);
+    setSelectedMetalId(mtid)
 
     let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
     setSelectedDiaId(diaid)
@@ -105,7 +105,7 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  },[productListData])
+  },[])
 
   console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
