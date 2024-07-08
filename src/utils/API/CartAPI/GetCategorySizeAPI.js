@@ -9,7 +9,7 @@ export const getSizeData = async (item, visiterId, islogin) => {
       const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
 
       const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
-      const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.email1 ?? "";
+      const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.userid ?? "";
 
       const combinedValue = JSON.stringify({
         autocode: `${item?.autocode}`,

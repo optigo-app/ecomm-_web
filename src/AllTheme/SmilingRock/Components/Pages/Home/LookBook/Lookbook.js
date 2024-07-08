@@ -7,10 +7,15 @@ import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Cookies from 'js-cookie';
-import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { CartCount, loginState } from '../../../Recoil/atom';
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import { LookBookAPI } from '../../../../../../utils/API/FilterAPI/LookBookAPI';
+import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 
 const Lookbook = () => {
 
@@ -29,9 +34,13 @@ const Lookbook = () => {
     const [productListData, setProductListData] = useState([]);
     const [locationKey, setLocationKey] = useState()
     const islogin = useRecoilValue(loginState);
+    const setCartCountVal = useSetRecoilState(CartCount)
+    const [storeInit, setStoreInit] = useState({});
 
     useEffect(() => {
-        
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        setStoreInit(storeinit)
+
         let data = JSON.parse(localStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
         setImageUrlDesignSet(data?.DesignImageFol);
@@ -107,12 +116,80 @@ const Lookbook = () => {
         }
     }
 
+    const [selectedCategory, setSelectedCategory] = useState('Ring');
+    const [cartItems, setCartItems] = useState([]);
+    let cookie = Cookies.get('visiterId')
+
+    const handleAddToCart = (ele, type) => {
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+        let prodObj = {
+            "autocode": ele?.autocode,
+            "Metalid": loginInfo?.MetalPurityid,
+            "MetalColorId": ele?.MetalColorid,
+            "DiaQCid": loginInfo?.cmboDiaQCid,
+            "CsQCid": loginInfo?.cmboCSQCid,
+            "Size": ele?.DefaultSize,
+            "Unitcost": ele?.UnitCost,
+            "markup": ele?.DesignMarkUp,
+            "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+            "Remark": ""
+        }
+
+        setCartItems([...cartItems, ele?.autocode]);
+
+        CartAndWishListAPI(type, prodObj, cookie).then((res) => {
+            let cartC = res?.Data?.rd[0]?.Cartlistcount
+            setCartCountVal(cartC);
+        }).catch((err) => console.log("err", err))
+
+
+    }
+
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+    };
+
+    const decodeEntities = (html) => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    const createProdObj = (ele, loginInfo) => {
+        return {
+            "autocode": ele?.autocode,
+            "Metalid": loginInfo?.MetalPurityid,
+            "MetalColorId": ele?.MetalColorid,
+            "DiaQCid": loginInfo?.cmboDiaQCid,
+            "CsQCid": loginInfo?.cmboCSQCid,
+            "Size": ele?.DefaultSize,
+            "Unitcost": ele?.UnitCost,
+            "markup": ele?.DesignMarkUp,
+            "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+            "Remark": ""
+        };
+    }
+
+
+    const handleByCombo = (data, type) => {
+
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let prodObjs = data.map(detail => createProdObj(detail, loginInfo));
+
+        setCartItems(prevItems => [...prevItems, ...data.map(detail => detail.autocode)]);
+
+        CartAndWishListAPI(type, prodObjs, cookie).then((res) => {
+            let cartC = res?.Data?.rd[0]?.Cartlistcount
+            setCartCountVal(cartC);
+        }).catch((err) => console.log("err", err))
+    }
+
     return (
         <div className='smr_LookBookMain'>
             <div className='smr_LookBookSubMainDiv'>
-
                 <div className="smr_lookbookFilterMain">
-                    {filterData?.length > 0 && <div className="smr_filter_portion_outter">
+                    {filterData?.length > 0 && <div className="smr_LookBookFilterSub">
                         <span className="smr_filter_text">
                             <span>
                                 {Object.values(filterChecked).filter(
@@ -252,31 +329,95 @@ const Lookbook = () => {
                     </div>}
                 </div>
 
-                <div className='smr_lookBookImgDivMain'>
-                    {designSetLstData?.map((slide, index) => (
-                        <div className="smr_designSetDiv" key={index}>
-                            <div style={{display: 'flex'}}>
-                                <img
-                                    className="smr_lookBookImg"
-                                    loading="lazy"
-                                    src={ProdCardImageFunc(slide)}
-                                    alt={`Slide ${index}`}
-                                />
-                                <p className="smr_designList_title">{slide?.TitleLine}</p>
-                            </div>
-                            <div className='smr_lookBookSubImgMain'>
-                                {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
+                <div className='smr_lookBookImgDiv'>
+                    {/* <select value={selectedCategory} onChange={handleCategoryChange}>
+                        <option value="Ring">Ring</option>
+                        <option value="Mangalsutra">Mangalsutra</option>
+                    </select> */}
+                    <div className='smr_lookBookImgDivMain'>
+                        {designSetLstData?.map((slide, index) => (
+                            <div className="smr_designSetDiv" key={index}>
+                                <div style={{ display: 'flex' }}>
                                     <img
-                                        key={subIndex}
-                                        className="smr_lookBookSubImage"
+                                        className="smr_lookBookImg"
                                         loading="lazy"
-                                        src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                        alt={`Sub image ${subIndex} for slide ${index}`}
+                                        src={ProdCardImageFunc(slide)}
+                                        alt={`Slide ${index}`}
                                     />
-                                ))}
+                                    <p className="smr_designList_title">{slide?.TitleLine}</p>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px' }}>
+                                    <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{slide?.Dwt} | GWT:{slide?.Gwt}| NWT:{slide?.Nwt}</p>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <p style={{ margin: '0px 10px 0px 0px', fontSize: '15px', fontWeight: 600 }}>  <span
+                                            className="smr_currencyFont"
+                                            dangerouslySetInnerHTML={{
+                                                __html: decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                ),
+                                            }}
+                                        /> {slide?.UnitCost}</p>
+                                        <button className='smr_lookBookBuyBtn' onClick={() => handleByCombo(parseDesignDetails(slide?.Designdetail, "Cart"))}>
+                                            Buy Combo
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className='smr_lookBookSubImgMain'>
+                                    <Swiper
+                                        slidesPerView={1}
+                                        spaceBetween={10}
+                                        navigation={true}
+                                        // pagination={{ clickable: true }}
+                                        loop={true}
+                                        breakpoints={{
+                                            640: {
+                                                slidesPerView: 2,
+                                                spaceBetween: 0,
+                                            },
+                                            768: {
+                                                slidesPerView: 4,
+                                                spaceBetween: 0,
+                                            },
+                                            1024: {
+                                                slidesPerView: 5,
+                                                spaceBetween: 0,
+                                            },
+                                            1240: {
+                                                slidesPerView: 4,
+                                                spaceBetween: 0,
+                                            },
+                                        }}
+                                        modules={[Pagination, Navigation]}
+                                        className="smr_LookBookmySwiper"
+                                    >
+                                        {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
+                                            <div className='smr_lookBookSubImageDiv'>
+                                                <SwiperSlide key={subIndex} style={{ marginRight: '0px' }}>
+                                                    <img
+                                                        key={subIndex}
+                                                        className="smr_lookBookSubImage"
+                                                        loading="lazy"
+                                                        src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                                        alt={`Sub image ${subIndex} for slide ${index}`}
+                                                    />
+                                                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
+                                                        {
+                                                            cartItems.includes(detail?.autocode) || detail?.IsInCart == 1 ?
+                                                                <button className='smr_lookBookINCartBtn'>IN CART</button>
+                                                                :
+                                                                <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail, "Cart")}>ADD TO CART</button>
+                                                        }
+                                                    </div>
+                                                </SwiperSlide>
+                                            </div>
+
+                                        )
+                                        )}
+                                    </Swiper>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
             <div>

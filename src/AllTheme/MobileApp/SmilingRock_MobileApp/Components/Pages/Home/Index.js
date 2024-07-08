@@ -87,10 +87,10 @@ const Home = () => {
       <TopSection />
       {localData?.IsHomeAlbum === 1 && <Album />}
       <PromotionBaner1 />
-      {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeNewArrival === 1 && < NewArrival />}
-      {localData?.IsHomeBestSeller === 1 && < BestSellerSection />}
+      {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && < DesignSet />}
+      {localData?.IsHomeBestSeller === 1 && < BestSellerSection />}
       <BottomBanner />
     </div>
   )

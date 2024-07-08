@@ -13,7 +13,7 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
         className="input"
         id="input"
         defaultValue={selectedItem?.Quantity}
-        value={qtyCount}
+        value={selectedItem?.Quantity}
         readOnly
       />
       <button className="bttn bttn-right" onClick={() => handleIncrement(selectedItem)}>

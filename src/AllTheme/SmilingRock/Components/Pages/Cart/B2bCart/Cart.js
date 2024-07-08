@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 
+
 const CartPage = () => {
   const {
     isloding,
@@ -241,8 +242,8 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Remove All"
-          content="Are you sure you want to clear all items?"
+          title="Remove Item"
+          content="Are you sure you want to remove all Item?"
         />
 
         <Footer />

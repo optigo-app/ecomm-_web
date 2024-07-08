@@ -6,8 +6,8 @@ export const handleProductRemark = async (data, remarks, visiterId, islogin) => 
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
         const { FrontEnd_RegNo } = storeInit;
 
-        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
-        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.id ?? 0;
+        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.userid ?? 0;
 
         const combinedValue = {
             CartId: `${data?.id}`,

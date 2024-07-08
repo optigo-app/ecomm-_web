@@ -17,11 +17,11 @@
     .smr_TrendingViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize4;
+        font-size: $fontSize1;
         cursor: pointer;
         text-align: center;
         text-decoration: underline;
-        margin-top: 40px;
+        margin-top: 32px;
         font-weight: 600;
     }
 
@@ -173,6 +173,15 @@
             width: 100%;
         }
 
+        .linkingTitle{
+            margin: 0px;
+            font-size: 20px;
+        }
+
+        .linkingShopCol{
+            margin: 0px;
+            font-size: 11px;
+        }
 
         .smr_trendingViewTopMain_Imgdiv {
             display: flex;
@@ -235,6 +244,12 @@
         .smr_trendingViewTopMain_Sliderdiv{
             width: 100%;
         }
+
+        
+        .linkingTitle{
+            margin: 10px 0px 0px 0px!important;
+        }
+
     }
 
     @media screen and (max-width: 420px) {
