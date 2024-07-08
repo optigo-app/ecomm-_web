@@ -139,7 +139,7 @@ const CartItem = ({
         onClose={handleCloseDialog}
         onConfirm={handleConfirmRemove}
         title="Remove Item"
-        content="Are you sure you want to clear all Item?"
+        content="Are you sure you want to clear this Item?"
       />
     </Grid>
   );

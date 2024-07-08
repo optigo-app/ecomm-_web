@@ -4,11 +4,11 @@
   background-color: $backgroundColor;
 
 
-  .smr_lookbookFilterMain{
+  .smr_lookbookFilterMain {
     width: 20%;
   }
 
-  .smr_LookBookFilterSub{
+  .smr_LookBookFilterSub {
     margin: 50px 10px 0px 10px;
   }
 
@@ -17,36 +17,37 @@
     background-color: white;
   }
 
-  .smr_LookBookSubMainDiv{
+  .smr_LookBookSubMainDiv {
     display: flex;
     min-height: 800px;
   }
 
-  .smr_lookBookImgDiv{
+  .smr_lookBookImgDiv {
     margin-top: 80px;
     width: 80%;
   }
-  .smr_designSetDiv{
+
+  .smr_designSetDiv {
     border: 1px solid lightgray;
     margin: 5px;
     width: 49%;
   }
 
-  .smr_lookBookImgDivMain{
+  .smr_lookBookImgDivMain {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
   }
 
-  .smr_lookBookImg{
+  .smr_lookBookImg {
     height: 250px;
     width: 100%;
     object-fit: cover;
   }
 
-  .smr_lookBookSubImgMain{
+  .smr_lookBookSubImgMain {
     display: flex;
-    overflow: auto;
+    // overflow: auto;
   }
 
   .smr_lookBookSubImgMain::-webkit-scrollbar {
@@ -54,18 +55,22 @@
     cursor: pointer;
   }
 
-  .smr_lookBookSubImageDiv{
-    width: 31%;
+  .smr_LookBookmySwiper {
+    width: 100% !important;
+  }
+
+  .smr_lookBookSubImageDiv {
+    width: 33%;
     // box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
     margin: 5px;
- 
   }
-  .smr_lookBookSubImage{
+
+  .smr_lookBookSubImage {
     width: 100%;
     object-fit: contain;
   }
 
-  .smr_lookBookBuyBtn{
+  .smr_lookBookBuyBtn {
     height: 30px;
     width: 100px;
     background-color: lightgray;
@@ -74,7 +79,7 @@
     font-weight: 600;
   }
 
-  .smr_lookBookAddtoCartBtn{
+  .smr_lookBookAddtoCartBtn {
     height: 30px;
     width: 150px;
     border: none;
@@ -83,7 +88,7 @@
   }
 
 
-  .smr_lookBookINCartBtn{
+  .smr_lookBookINCartBtn {
     height: 30px;
     width: 150px;
     cursor: context-menu;
@@ -92,4 +97,59 @@
     font-weight: 600;
     background-color: #cfffcf;
   }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: gray !important;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 15px;
+    height: 15px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 25px;
+  }
+
+  @media screen and (max-width:1450px) {
+
+    .smr_lookbookFilterMain {
+      display: none;
+    }
+
+    .smr_lookBookImgDiv {
+      width: 100% !important;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+    .smr_LookBookSubMainDiv {
+      margin-inline: 1% !important;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+
+    .smr_designSetDiv {
+      width: 48% !important;
+    }
+
+    .smr_lookBookImgDiv {
+      margin-top: 0px !important;
+    }
+
+  }
+
+
+  @media screen and (max-width:600px) {
+
+    .smr_designSetDiv {
+      width: 98% !important;
+    }
+
+  }
+
 }
