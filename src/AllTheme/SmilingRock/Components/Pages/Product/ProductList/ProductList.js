@@ -1457,6 +1457,21 @@ const ProductList = () => {
                               {` > ${menuParams?.FilterVal2}`}
                             </span>
                           )}
+
+                          {/* {
+                            decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
+                                (i !== 2 && <span
+                                  onClick={() =>
+                                    handleBreadcums({
+                                      [menuParams?.FilterKey]:
+                                        menuParams?.FilterVal,
+                                    })
+                                  }
+                                >
+                                  {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
+                                </span>)
+                            ))
+                          } */}
                         </div>
                       )}
                     </div>
@@ -1972,99 +1987,100 @@ const ProductList = () => {
                                     handleLeaveImgRolloverImg(productData, i)
                                   }}
                                 />
-                                <div className="smr_prod_Title">
-                                  <span
-                                    className={
-                                      // productData?.TitleLine?.length > 30
-                                      // ?
-                                      "smr_prod_title_with_width"
-                                      // :
-                                      // "smr_prod_title_with_no_width"
-                                    }
-                                  >
-                                    {productData?.TitleLine?.length > 0 && "-"}
-                                    {productData?.TitleLine}{" "}
-                                  </span>
-                                  <span className="smr_prod_designno">
-                                    {productData?.designno}
-                                  </span>
-                                </div>
-                                <div className="smr_prod_Allwt">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      letterSpacing: maxwidth590px
-                                        ? "0px"
-                                        : "1px",
-                                      // gap:maxwidth1674px ? '0px':'3px',
-                                      flexWrap: "wrap",
-                                    }}
-                                  >
-                                    {/* <span className="smr_por"> */}
-                                    {Number(productData?.Nwt) !== 0 && (
-                                      <span className="smr_prod_wt">
-                                        <span className="smr_keys">NWT:</span>
-                                        <span className="smr_val">
-                                          {productData?.Nwt}
-                                        </span>
-                                      </span>
-                                    )}
-                                    {storeInit?.IsGrossWeight == 1 &&
-                                      Number(productData?.Gwt) !== 0 && (
-                                        <>
-                                          <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_keys">
-                                              GWT:
-                                            </span>
-                                            <span className="smr_val">
-                                              {productData?.Gwt}
-                                            </span>
-                                          </span>
-                                        </>
-                                      )}
-                                    {/* </span> */}
-                                    {/* <span className="smr_por"> */}
-                                    {storeInit?.IsDiamondWeight == 1 &&
-                                      Number(productData?.Dwt) !== 0 && (
-                                        <>
-                                          <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_keys">
-                                              DWT:
-                                            </span>
-                                            <span className="smr_val">
-                                              {productData?.Dwt}
-                                              {storeInit?.IsDiamondPcs === 1
-                                                ? `/${productData?.Dpcs}`
-                                                : null}
-                                            </span>
-                                          </span>
-                                        </>
-                                      )}
-                                    {storeInit?.IsStoneWeight == 1 &&
-                                      Number(productData?.CSwt) !== 0 && (
-                                        <>
-                                          <span>|</span>
-                                          <span className="smr_prod_wt">
-                                            <span className="smr_keys">
-                                              CWT:
-                                            </span>
-                                            <span className="smr_val">
-                                              {productData?.CSwt}
-                                              {storeInit?.IsStonePcs === 1
-                                                ? `/${productData?.CSpcs}`
-                                                : null}
-                                            </span>
-                                          </span>
-                                        </>
-                                      )}
-                                    {/* </span> */}
+                                <div className="smr_prod_card_info">
+                                  <div className="smr_prod_Title">
+                                    <span
+                                      className={
+                                        // productData?.TitleLine?.length > 30
+                                        // ?
+                                        "smr_prod_title_with_width"
+                                        // :
+                                        // "smr_prod_title_with_no_width"
+                                      }
+                                    >
+                                      {productData?.TitleLine?.length > 0 && "-"}
+                                      {productData?.TitleLine}{" "}
+                                    </span>
+                                    <span className="smr_prod_designno">
+                                      {productData?.designno}
+                                    </span>
                                   </div>
-                                </div>
-                                <div className="smr_prod_mtcolr_price">
+                                  <div className="smr_prod_Allwt">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        letterSpacing: maxwidth590px
+                                          ? "0px"
+                                          : "1px",
+                                        // gap:maxwidth1674px ? '0px':'3px',
+                                        flexWrap: "wrap",
+                                      }}
+                                    >
+                                      {/* <span className="smr_por"> */}
+                                      {Number(productData?.Nwt) !== 0 && (
+                                        <span className="smr_prod_wt">
+                                          <span className="smr_keys">NWT:</span>
+                                          <span className="smr_val">
+                                            {productData?.Nwt}
+                                          </span>
+                                        </span>
+                                      )}
+                                      {storeInit?.IsGrossWeight == 1 &&
+                                        Number(productData?.Gwt) !== 0 && (
+                                          <>
+                                            <span>|</span>
+                                            <span className="smr_prod_wt">
+                                              <span className="smr_keys">
+                                                GWT:
+                                              </span>
+                                              <span className="smr_val">
+                                                {productData?.Gwt}
+                                              </span>
+                                            </span>
+                                          </>
+                                        )}
+                                      {/* </span> */}
+                                      {/* <span className="smr_por"> */}
+                                      {storeInit?.IsDiamondWeight == 1 &&
+                                        Number(productData?.Dwt) !== 0 && (
+                                          <>
+                                            <span>|</span>
+                                            <span className="smr_prod_wt">
+                                              <span className="smr_keys">
+                                                DWT:
+                                              </span>
+                                              <span className="smr_val">
+                                                {productData?.Dwt}
+                                                {storeInit?.IsDiamondPcs === 1
+                                                  ? `/${productData?.Dpcs}`
+                                                  : null}
+                                              </span>
+                                            </span>
+                                          </>
+                                        )}
+                                      {storeInit?.IsStoneWeight == 1 &&
+                                        Number(productData?.CSwt) !== 0 && (
+                                          <>
+                                            <span>|</span>
+                                            <span className="smr_prod_wt">
+                                              <span className="smr_keys">
+                                                CWT:
+                                              </span>
+                                              <span className="smr_val">
+                                                {productData?.CSwt}
+                                                {storeInit?.IsStonePcs === 1
+                                                  ? `/${productData?.CSpcs}`
+                                                  : null}
+                                              </span>
+                                            </span>
+                                          </>
+                                        )}
+                                      {/* </span> */}
+                                    </div>
+                                  </div>
+                                  <div className="smr_prod_mtcolr_price">
                                   <span className="smr_prod_metal_col">
                                     {findMetalColor(
                                       productData?.MetalColorid
@@ -2098,6 +2114,7 @@ const ProductList = () => {
                                       {productData?.UnitCostWithMarkUp}
                                     </span>
                                   </span>
+                                </div>
                                 </div>
                               </div>
                             ))}
