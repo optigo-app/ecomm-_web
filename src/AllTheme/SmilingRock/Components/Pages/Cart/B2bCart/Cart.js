@@ -33,6 +33,7 @@ const CartPage = () => {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    setOpenMobileModal,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -64,8 +65,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-    console.log("TotalPriceData",cartData)
+    let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);

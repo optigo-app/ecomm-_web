@@ -40,6 +40,10 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -84,11 +88,9 @@ const CartItem = ({
   }
 
 
-  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
-  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
 
   const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' :
+    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
   return (
@@ -108,7 +110,7 @@ const CartItem = ({
           maxWidth: 450,
           width: width
         }}
-        onClick={() => onSelect(item)}
+        
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
@@ -116,9 +118,10 @@ const CartItem = ({
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
             alt={item?.TitleLine}
             className='smr_cartListImage'
+            onClick={() => onSelect(item)}
           />
           <div>
-            <CardContent className='smr_cartcontentData'>
+            <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
               </Typography>
@@ -140,7 +143,7 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box>
+              <Box className="smr_PriceBox">
                 {storeInitData?.IsPriceShow == 1 &&
                   <span className='smr_currencyFontPrice'>
                     <span
@@ -151,17 +154,17 @@ const CartItem = ({
                         ),
                       }}
                     />
-                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                    {(item?.UnitCostWithMarkUp).toFixed(3)?.replace(/\.?0+$/, '')}
                   </span>
                 }
               </Box>
-            </CardContent>
-            <Box className="smr_cartbtngroupReRm">
               {item?.Remarks !== "" &&
-                <Typography variant="body2" className='smr_card-ContentData'>
+                <Typography variant="body2" className='smr_remarktext'>
                   Remark: {item?.Remarks || productRemark}
                 </Typography>
               }
+            </CardContent>
+            <Box className="smr_cartbtngroupReRm">
               <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
@@ -178,7 +181,7 @@ const CartItem = ({
         onClose={handleClose}
         remark={remark}
         onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}
+        onSave={handleSaveInternal}       
       />
     </Grid>
   );
