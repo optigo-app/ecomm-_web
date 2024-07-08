@@ -22,15 +22,13 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     }
    }else{
     if(mainData !== ""){
-       console.log("mainData",mainData);
+       console.log("mainData",atob(mainData)?.split("=")[0]);
 
-      // if(mainData?.split("=")[0] == "AlbumName"){
-      //   MenuParams.FilterKey = atob(mainData)?.split("=")[0]
-      //   MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-      //   return;
-      // } 
-
-      if(mainData?.split("=")[0] == "S"){
+       if(atob(mainData)?.split("=")[0] == "AlbumName"){
+        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+       }
+       else if(mainData?.split("=")[0] == "S"){
         serachVar = JSON.parse(atob(mainData.split("=")[1]))
         console.log("serachVar",JSON.parse(atob(mainData.split("=")[1])))
       }else{
@@ -118,8 +116,9 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     Max_GrossWeight: '',
     Max_NetWt: '',
     Min_NetWt: '',
-    Max_Price: '',
-    Min_Price: '',
+    FilPrice:filterObj?.Price,
+    // Max_Price: '',
+    // Min_Price: '',
 
     SortBy: `${sortby ?? ""}`,
     Laboursetid: `${
