@@ -110,7 +110,7 @@ const CartItem = ({
           maxWidth: 450,
           width: width
         }}
-        onClick={() => onSelect(item)}
+        
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
@@ -118,9 +118,10 @@ const CartItem = ({
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
             alt={item?.TitleLine}
             className='smr_cartListImage'
+            onClick={() => onSelect(item)}
           />
           <div>
-            <CardContent className='smr_cartcontentData'>
+            <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
               </Typography>
@@ -157,13 +158,13 @@ const CartItem = ({
                   </span>
                 }
               </Box>
-            </CardContent>
-            <Box className="smr_cartbtngroupReRm">
               {item?.Remarks !== "" &&
-                <Typography variant="body2" className='smr_card-ContentData'>
+                <Typography variant="body2" className='smr_remarktext'>
                   Remark: {item?.Remarks || productRemark}
                 </Typography>
               }
+            </CardContent>
+            <Box className="smr_cartbtngroupReRm">
               <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
@@ -180,7 +181,7 @@ const CartItem = ({
         onClose={handleClose}
         remark={remark}
         onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}
+        onSave={handleSaveInternal}       
       />
     </Grid>
   );

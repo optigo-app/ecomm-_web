@@ -68,6 +68,7 @@ const useCart = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
   const cartStatus = localStorage.getItem('isCartDrawer')
 
   useEffect(() => {
@@ -165,30 +166,33 @@ const useCart = () => {
   };
 
   // remove
-  const handleRemoveItem = async (item) => {
-    let param = "Cart"
-    let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id)
-    setCartData(cartfilter);
-    setTimeout(() => {
-      if(cartfilter){
-        setSelectedItem(cartfilter[0])
-      }
-    }, 2);
-    try {
-      const response = await removeFromCartList(item, param, visiterId, islogin);
-      let resStatus = response.Data.rd[0]
-      if (resStatus?.msg === "success") {
-        localStorage.setItem('cartUpdation', true)
-      } else {
-        console.log('Failed to remove product or product not found');
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      localStorage.setItem('cartUpdation', false)
-    } finally {
+const handleRemoveItem = async (item) => {
+  let param = "Cart";
+  let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
+  setCartData(cartfilter);
 
+  setTimeout(() => {
+    if (cartfilter && isMaxWidth1050) {
+      setSelectedItem(null);
+    } else if (cartfilter) {
+      setSelectedItem(cartfilter[0]);
     }
-  };
+  }, 2);
+
+  try {
+    const response = await removeFromCartList(item, param, visiterId, islogin);
+    let resStatus = response.Data.rd[0];
+    if (resStatus?.msg === "success") {
+      localStorage.setItem('cartUpdation', true);
+    } else {
+      console.log('Failed to remove product or product not found');
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    localStorage.setItem('cartUpdation', false);
+  }
+};
+
 
 
 
