@@ -41,7 +41,6 @@ export default function ThemeRoutes() {
     Storeinit().then((response) => {
       if (response.status === 200) {
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-        
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
         localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));

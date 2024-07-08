@@ -546,6 +546,10 @@ const Header = () => {
             </div>
 
             <div>
+              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}>Lookbook</p>
+            </div>
+
+            <div>
               <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
             </div>
 
