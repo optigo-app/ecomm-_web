@@ -180,7 +180,7 @@ $cartUpdateBtncolor: #b1b1b1;
     display: none;
   }
 
-  .smr_currencyFontPrice{
+  .smr_currencyFontPrice {
     color: $titleColor !important;
     font-weight: bold;
   }
@@ -389,7 +389,8 @@ $cartUpdateBtncolor: #b1b1b1;
       margin-top: 10px !important;
       right: 0 !important;
     }
-    .smr_ReomoveCartbtn{
+
+    .smr_ReomoveCartbtn {
       margin-right: 8px;
     }
   }
@@ -494,8 +495,14 @@ $cartUpdateBtncolor: #b1b1b1;
 
   }
 
-  .smr_card-ContentData {
-    padding: 2px 0px 2px 0px !important;
+  .smr_cartListCard {
+    .smr_card-ContentData {
+      padding: 2px 0px 2px 0px !important;
+      font-size: 9px !important;
+    }
+  }
+  .smr_PriceBox{
+    margin-bottom: 10px !important;
   }
 }
 

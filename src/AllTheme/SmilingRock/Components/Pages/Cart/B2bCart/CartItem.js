@@ -40,6 +40,10 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -84,11 +88,9 @@ const CartItem = ({
   }
 
 
-  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
-  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
 
   const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' :
+    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
   return (
@@ -140,7 +142,7 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box>
+              <Box className="smr_PriceBox">
                 {storeInitData?.IsPriceShow == 1 &&
                   <span className='smr_currencyFontPrice'>
                     <span
@@ -151,7 +153,7 @@ const CartItem = ({
                         ),
                       }}
                     />
-                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                    {(item?.UnitCostWithMarkUp).toFixed(3)?.replace(/\.?0+$/, '')}
                   </span>
                 }
               </Box>
