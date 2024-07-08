@@ -19,6 +19,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => 
             "Metalid": `${storeInit?.MetalId}`,
             "DiaQCid": `${storeInit?.cmboDiaQCid}`,
             "CsQCid": `${storeInit?.cmboCSQCid}`,
+            "IsStockWebsite":`${storeInit?.IsStockWebsite}`
         })
 
         const combinedValueLogin = JSON.stringify({
@@ -32,6 +33,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => 
             "Metalid": `${userData?.MetalId}`,
             "DiaQCid": `${userData?.cmboDiaQCid}`,
             "CsQCid": `${userData?.cmboCSQCid}`,
+            "IsStockWebsite":`${storeInit?.IsStockWebsite}`
         })
 
 
