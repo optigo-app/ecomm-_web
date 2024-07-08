@@ -80,8 +80,9 @@ const Cart = ({
         open={isOpen}
         onClose={closeDrawer}
         PaperProps={{
+          className: "smr_B2ccartPaperDrawer",
           style: {
-            width: isMobile ? '100%' : '40%',
+            width: '40%',
           },
         }}
         className='smr_B2ccartDrawer'

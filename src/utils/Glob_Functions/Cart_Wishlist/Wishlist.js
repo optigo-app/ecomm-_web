@@ -77,6 +77,9 @@ const Usewishlist = () => {
       if (resStatus?.msg === "success") {
         setCountDataUpdated(resStatus)
         localStorage.setItem('wishUpdation', true)
+        setTimeout(() => {
+          localStorage.removeItem('wishUpdation');
+        }, 1000);
       } else {
         console.log('Failed to remove product or product not found');
         localStorage.setItem('wishUpdation', false)

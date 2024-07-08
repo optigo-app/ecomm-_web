@@ -993,7 +993,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={() => { navigate('/cartPage') }}
+                            onClick={toggleCartDrawer}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon

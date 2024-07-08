@@ -23,17 +23,18 @@ const CartList = ({
   return (
     <div className="smr_RightCartList">
       <Grid container spacing={2}>
-        {items.map(item => (
+        {items.map((item, index) => (
           <CartItem
             key={item.id}
             item={item}
+            index={index}
             CartCardImageFunc={CartCardImageFunc}
             CurrencyData={CurrencyData}
             decodeEntities={decodeEntities}
             onSelect={onSelect}
             selectedItem={selectedItem}
-            isActive={selectedItems.includes(item)}
-            isSelected={multiSelect ? selectedItems.includes(item) : selectedItem === item}
+            isActive={selectedItems?.includes(item)}
+            isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
             multiSelect={multiSelect}
             onRemove={onRemove}
             itemLength={items?.length}
