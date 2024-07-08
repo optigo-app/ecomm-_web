@@ -77,6 +77,9 @@ const Usewishlist = () => {
       if (resStatus?.msg === "success") {
         setCountDataUpdated(resStatus)
         localStorage.setItem('wishUpdation', true)
+        setTimeout(() => {
+          localStorage.removeItem('wishUpdation');
+        }, 1000);
       } else {
         console.log('Failed to remove product or product not found');
         localStorage.setItem('wishUpdation', false)
@@ -109,7 +112,6 @@ const Usewishlist = () => {
 
   // add to cart
   const handleWishlistToCart = async (item) => {
-    debugger
     const visiterId = Cookies.get('visiterId');
     let param = "";
     if (item?.IsInCart != 1) {

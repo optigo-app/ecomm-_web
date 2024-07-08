@@ -30,7 +30,7 @@ const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) =
 };
 
 const generateFilterAccordions = (filters, checkedItems, handleCheckboxChange) => {
-  return Object.entries(filters).map(([category, items]) => (
+  return Object.entries(filters)?.map(([category, items]) => (
     <FilterAccordion
       key={category}
       title={category}
@@ -64,8 +64,8 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
   };
 
 
-  const filteredItems = selectedItems.filter(item => {
-    return Object.keys(checkedItems).every(key => {
+  const filteredItems = selectedItems?.filter(item => {
+    return Object.keys(checkedItems)?.every(key => {
       const filter = checkedItems[key];
       if (!filter.checked) return true;
       return item[filter.type] === filter.value;
@@ -76,25 +76,25 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   let filterArr = {}
   function getUniqueValues(array, key) {
-    return [...new Set(array.map(item => item[key]))];
+    return [...new Set(array?.map(item => item[key]))];
   }
 
-  const categories = getUniqueValues(selectedItems, 'CategoryName').map(category => ({
+  const categories = getUniqueValues(selectedItems, 'CategoryName')?.map(category => ({
     id: selectedItems.find(item => item.CategoryName === category).Categoryid,
     name: category
   }));
 
-  const collections = getUniqueValues(selectedItems, 'CollectionName').map(collection => ({
+  const collections = getUniqueValues(selectedItems, 'CollectionName')?.map(collection => ({
     id: selectedItems.find(item => item.CollectionName === collection).Collectionid,
     name: collection
   }));
 
-  const subcategories = getUniqueValues(selectedItems, 'SubCategoryName').map(subcategory => ({
+  const subcategories = getUniqueValues(selectedItems, 'SubCategoryName')?.map(subcategory => ({
     id: selectedItems.find(item => item.SubCategoryName === subcategory).SubCategoryid,
     name: subcategory
   }));
 
-  const genders = getUniqueValues(selectedItems, 'GenderName').map(gender => ({
+  const genders = getUniqueValues(selectedItems, 'GenderName')?.map(gender => ({
     id: selectedItems.find(item => item.GenderName === gender).Genderid,
     name: gender
   }));

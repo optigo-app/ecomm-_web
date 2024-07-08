@@ -16,6 +16,7 @@ import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const CartItem = ({
   item,
+  index,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
@@ -39,6 +40,10 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -81,11 +86,11 @@ const CartItem = ({
       }
     }, 500)
   }
-  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
-  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+
+
 
   const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' :
+    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
   return (
@@ -137,7 +142,7 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box>
+              <Box className="smr_PriceBox">
                 {storeInitData?.IsPriceShow == 1 &&
                   <span className='smr_currencyFontPrice'>
                     <span
@@ -148,7 +153,7 @@ const CartItem = ({
                         ),
                       }}
                     />
-                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                    {(item?.UnitCostWithMarkUp).toFixed(3)?.replace(/\.?0+$/, '')}
                   </span>
                 }
               </Box>
@@ -162,7 +167,7 @@ const CartItem = ({
               <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>

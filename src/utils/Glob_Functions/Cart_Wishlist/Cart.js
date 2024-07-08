@@ -167,13 +167,13 @@ const useCart = () => {
   // remove
   const handleRemoveItem = async (item) => {
     let param = "Cart"
-    let cartfilter = cartData.filter(cartItem => cartItem.id !== item.id)
+    let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id)
     setCartData(cartfilter);
-    if (selectedItem === item) {
-      setSelectedItem(cartData.length > 1 ? cartData[0] : null);
-    }
-    setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
-
+    setTimeout(() => {
+      if(cartfilter){
+        setSelectedItem(cartfilter[0])
+      }
+    }, 2);
     try {
       const response = await removeFromCartList(item, param, visiterId, islogin);
       let resStatus = response.Data.rd[0]
@@ -188,8 +188,9 @@ const useCart = () => {
     } finally {
 
     }
-
   };
+
+
 
   const handleRemoveAll = async () => {
     let param = "Cart"
@@ -202,7 +203,7 @@ const useCart = () => {
         setSelectedItem([]);
         getCartData();
         setCartData([]);
-        selectedItems([]);
+        setSelectedItem([]);
         localStorage.setItem('cartUpdation', true)
       } else {
         console.log('Failed to remove product or product not found');
@@ -304,7 +305,7 @@ const useCart = () => {
       );
       setCartData(updatedCartData);
     } else {
-      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty).toFixed(3)} : selectedItem;
+      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty)} : selectedItem;
 
       setSelectedItem(updatedSelectedItem);
     }
@@ -324,11 +325,11 @@ const useCart = () => {
     let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity - 1);
     if (storeInit?.IsB2BWebsite === 0) {
       const updatedQtytData = cartData?.map(cart =>
-        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty).toFixed(3) } : cart
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
       );
       setCartData(updatedQtytData);
     } else {
-      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty).toFixed(3)} : selectedItem;
+      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty)} : selectedItem;
 
       setSelectedItem(updatedSelectedItem);
     }
@@ -357,7 +358,6 @@ const useCart = () => {
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalID(selectedMetalId);
       handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId)
-
     }
   };
 
@@ -443,8 +443,9 @@ const useCart = () => {
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
       if (response?.Message == "Success") {
         let resData = response?.Data?.rd[0];
-        setSelectedItem(prevItem => ({ ...prevItem, FinalCost: resData?.UnitCostWithMarkUp, UnitCostWithMarkUp: resData?.UnitCostWithMarkUp }));
-        console.log('priceRes--', response)
+        let finalPrice = resData?.UnitCostWithMarkUp * qtyCount
+        setSelectedItem(prevItem => ({ ...prevItem, FinalCost: finalPrice, UnitCostWithMarkUp: resData?.UnitCostWithMarkUp }));
+        console.log('priceRes--', finalPrice)
       }
     } catch (error) {
       console.error("Failed to update quantity:", error);
