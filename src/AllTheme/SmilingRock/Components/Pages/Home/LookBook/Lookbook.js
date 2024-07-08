@@ -16,6 +16,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 
 const Lookbook = () => {
 
@@ -64,8 +65,6 @@ const Lookbook = () => {
             })
             .catch((err) => console.log(err));
     }, []);
-
-    console.log('designSetLstDatadesignSetLstDatadesignSetLstData', designSetLstData);
 
     useEffect(() => {
 
@@ -146,6 +145,31 @@ const Lookbook = () => {
 
     }
 
+    const handleRemoveCart = (ele, type) => {
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+        let prodObj = {
+            "autocode": ele?.autocode,
+            "Metalid": loginInfo?.MetalPurityid,
+            "MetalColorId": ele?.MetalColorid,
+            "DiaQCid": loginInfo?.cmboDiaQCid,
+            "CsQCid": loginInfo?.cmboCSQCid,
+            "Size": ele?.DefaultSize,
+            "Unitcost": ele?.UnitCost,
+            "markup": ele?.DesignMarkUp,
+            "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+            "Remark": ""
+        }
+
+        setCartItems(cartItems.filter(item => item !== ele?.autocode));
+
+        RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res) => {
+            let cartC = res?.Data?.rd[0]?.Cartlistcount
+            setCartCountVal(cartC);
+        }).catch((err) => console.log("err", err))
+
+    }
+
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
@@ -172,14 +196,14 @@ const Lookbook = () => {
     }
 
 
-    const handleByCombo = (data, type) => {
+    const handleByCombo = (data) => {
 
         let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
         let prodObjs = data.map(detail => createProdObj(detail, loginInfo));
 
         setCartItems(prevItems => [...prevItems, ...data.map(detail => detail.autocode)]);
 
-        CartAndWishListAPI(type, prodObjs, cookie).then((res) => {
+        CartAndWishListAPI("Cart", prodObjs, cookie, "look").then((res) => {
             let cartC = res?.Data?.rd[0]?.Cartlistcount
             setCartCountVal(cartC);
         }).catch((err) => console.log("err", err))
@@ -392,7 +416,12 @@ const Lookbook = () => {
                                     >
                                         {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                             <div className='smr_lookBookSubImageDiv'>
-                                                <SwiperSlide key={subIndex} style={{ marginRight: '0px' }}>
+                                                <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px' }}>
+                                                    {detail?.IsInReadyStock == 1 && (
+                                                        <span className="smr_LookBookinstock">
+                                                            In Stock
+                                                        </span>
+                                                    )}
                                                     <img
                                                         key={subIndex}
                                                         className="smr_lookBookSubImage"
@@ -403,7 +432,7 @@ const Lookbook = () => {
                                                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
                                                         {
                                                             cartItems.includes(detail?.autocode) || detail?.IsInCart == 1 ?
-                                                                <button className='smr_lookBookINCartBtn'>IN CART</button>
+                                                                <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail, "Cart")}>REMOVE CART</button>
                                                                 :
                                                                 <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail, "Cart")}>ADD TO CART</button>
                                                         }
