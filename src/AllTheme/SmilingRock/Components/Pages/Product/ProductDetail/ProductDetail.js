@@ -322,7 +322,7 @@ const ProductDetail = () => {
         console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     },500)
-  }, [singleProd,singleProd1])
+  }, [singleProd])
 
 
   useEffect(()=>{
