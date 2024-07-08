@@ -112,7 +112,6 @@ const Usewishlist = () => {
 
   // add to cart
   const handleWishlistToCart = async (item) => {
-    debugger
     const visiterId = Cookies.get('visiterId');
     let param = "";
     if (item?.IsInCart != 1) {

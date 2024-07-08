@@ -21,7 +21,6 @@ export const fetchSingleProdDT = async (selectedItem, sizedata, diaId, csQid, se
 
 
     try {
-        debugger
         const combinedValue = JSON.stringify({
             PageNo: "1",
             PageSize: "1000",
