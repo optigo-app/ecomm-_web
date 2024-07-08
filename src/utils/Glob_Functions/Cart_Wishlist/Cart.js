@@ -2,20 +2,17 @@ import { useState, useEffect } from 'react';
 import { fetchCartDetails } from '../../API/CartAPI/CartApi';
 import { handleProductRemark } from '../../API/CartAPI/ProductRemarkAPIData';
 import { removeFromCartList } from '../../API/RemoveCartAPI/RemoveCartAPI';
-import { GetSinglePriceListApi } from '../../API/CartAPI/SinglePriceListForCart';
 import { updateQuantity } from '../../API/CartAPI/QuantityAPI';
 import { getSizeData } from '../../API/CartAPI/GetCategorySizeAPI';
 import imageNotFound from "../../../AllTheme/SmilingRock/Components/Assets/image-not-found.jpg"
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartCount, WishCount, loginState } from '../../../AllTheme/SmilingRock/Components/Recoil/atom';
-import { GetCountAPI } from '../../API/GetCount/GetCountAPI';
 import { updateCartAPI } from '../../API/CartAPI/UpdateCartAPI';
 import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
-import { SingleProdListAPI } from '../../API/SingleProdListAPI/SingleProdListAPI';
 import { fetchSingleProdDT } from '../../API/CartAPI/SingleProdDtAPI';
 
 const useCart = () => {
@@ -108,20 +105,12 @@ const useCart = () => {
         setCartData(response?.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
-          try {
-            await GetSinglePriceListApi(response?.Data?.rd[0]).then((resp) => {
-              if (resp) {
-                setGetSinglePriceData(resp);
-                setMetalPriceData(resp?.rd)
-                setDiamondPriceData(resp?.rd1)
-                setColorStonePriceData(resp?.rd2)
-                setQtyCount(response?.Data?.rd[0]?.Quantity)
-                setIsLoading(false);
-              }
-            });
-          } catch (error) {
-            console.error('Error fetching price list:', error);
-          }
+          let item = response?.Data?.rd[0]
+          handleCategorySize(item);
+          setMetalID(response?.Data?.rd[0]?.metaltypeid)
+          setMetalCOLORID(response?.Data?.rd[0]?.metalcolorid)
+          setdiaID(response?.Data?.rd[0]?.diamondqualityid + ',' + response?.Data?.rd[0]?.diamondcolorid)
+          setColorStoneID(response?.Data?.rd[0]?.colorstonequalityid + ',' + response?.Data?.rd[0]?.colorstonecolorid)
         }
       }
     } catch (error) {
@@ -149,19 +138,6 @@ const useCart = () => {
       setQtyCount(item?.Quantity)
       handleCategorySize(item);
       setOpenMobileModal(true);
-      try {
-        await GetSinglePriceListApi(item).then((resp) => {
-          if (resp) {
-            setGetSinglePriceData(resp);
-            setMetalPriceData(resp?.rd)
-            setDiamondPriceData(resp?.rd1)
-            setColorStonePriceData(resp?.rd2)
-          }
-        });
-      } catch (error) {
-        console.error('Error fetching price list:', error);
-      }
-
     }
   };
 
@@ -246,10 +222,10 @@ const useCart = () => {
       if (response) {
         console.log('categoryData', response);
         setSizeCombo(response?.Data)
-        setSizeId(item?.Mastermanagement_CategorySize)
+        setSizeId(item?.Size)
 
         const sizeChangeData = response?.Data?.rd.filter((size) => {
-          return size.sizename === item?.Mastermanagement_CategorySize;
+          return size.sizename === item?.Size;
         });
 
         setSizeChangeData(sizeChangeData)
@@ -320,32 +296,41 @@ const useCart = () => {
 
   // for quantity
   const handleIncrement = async (item) => {
-    console.log('itemjhsjdhjshaj', item);
-    if (storeInit?.IsB2BWebsite == 0) {
-      const updatedQtytData = cartData?.map(cart =>
-        cart.id == item.id ? { ...cart, Quantity: item?.Quantity + 1 } : cart
+    let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity + 1);
+    console.log('priceQty:', priceQty);
+    if (storeInit?.IsB2BWebsite === 0) {
+      const updatedCartData = cartData.map(cart =>
+        cart.id === item.id ? { ...cart, Quantity: (item?.Quantity || 0) + 1, FinalCost: priceQty } : cart
       );
-      console.log(updatedQtytData);
-      setCartData(updatedQtytData)
+      setCartData(updatedCartData);
+    } else {
+      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty).toFixed(3)} : selectedItem;
+
+      setSelectedItem(updatedSelectedItem);
     }
-    setIsPriceLoding(true);
     setQtyCount(prevCount => prevCount + 1);
-    let lastEnteredQuantity = qtyCount + 1
-    let num = selectedItem?.id
+    let lastEnteredQuantity = qtyCount + 1;
+    let num = item?.id;
     try {
       const response = await updateQuantity(num, lastEnteredQuantity, visiterId, islogin);
+      console.log("Quantity updated successfully:", response);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     }
   };
 
+
   const handleDecrement = async (item) => {
-    setIsPriceLoding(true);
-    if (storeInit?.IsB2BWebsite == 0) {
+    let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity - 1);
+    if (storeInit?.IsB2BWebsite === 0) {
       const updatedQtytData = cartData?.map(cart =>
-        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1 } : cart
+        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty).toFixed(3) } : cart
       );
-      setCartData(updatedQtytData)
+      setCartData(updatedQtytData);
+    } else {
+      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty).toFixed(3)} : selectedItem;
+
+      setSelectedItem(updatedSelectedItem);
     }
     setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
@@ -371,6 +356,8 @@ const useCart = () => {
       const selectedMetalId = selectedMetal.Metalid;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalID(selectedMetalId);
+      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId)
+
     }
   };
 
@@ -404,21 +391,23 @@ const useCart = () => {
     if (selectedDia) {
       const selectedDiaQId = selectedDia?.QualityId;
       const selectedDiaCId = selectedDia?.ColorId;
-      console.log('Selected Metalid:', selectedDiaQId, selectedDiaCId);
+      let diaId = `${selectedDiaQId},${selectedDiaCId}`;
+      console.log('Selected Metalid:', diaId);
       setdiaID(selectedDiaQId + "," + selectedDiaCId)
+      handlePrice(sizeId, diaId)
     }
   };
 
   const handleSizeChange = (event) => {
     let sizedata = event?.target?.value;
-    setSelectedItem(prevItem => ({ ...prevItem, size: sizedata }));
+    setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));
     setSizeId(sizedata);
     console.log("sizeIdkdnk", sizedata);
 
     const sizeChangeData = sizeCombo?.rd.filter((size) => {
       return size.sizename === sizedata;
     });
-    handlePrice();
+    handlePrice(sizedata);
     setSizeChangeData(sizeChangeData)
     console.log("sizeChangeData", sizeChangeData);
   };
@@ -438,8 +427,10 @@ const useCart = () => {
     if (selectedCS) {
       const selectedCSQId = selectedCS?.QualityId;
       const selectedCSCId = selectedCS?.ColorId;
+      let csQid = `${selectedCSQId},${selectedCSCId}`;
       console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
       setColorStoneID(selectedCSQId + "," + selectedCSCId)
+      handlePrice(sizeId, diaIDData, csQid)
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
@@ -447,10 +438,12 @@ const useCart = () => {
 
   // for price api
 
-  const handlePrice = async() => {
+  const handlePrice = async (sizedata, diaId, csQid, selectedMetalId) => {
     try {
-      const response = await fetchSingleProdDT(selectedItem, visiterId, islogin );
-      if(response){
+      const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
+      if (response?.Message == "Success") {
+        let resData = response?.Data?.rd[0];
+        setSelectedItem(prevItem => ({ ...prevItem, FinalCost: resData?.UnitCostWithMarkUp, UnitCostWithMarkUp: resData?.UnitCostWithMarkUp }));
         console.log('priceRes--', response)
       }
     } catch (error) {

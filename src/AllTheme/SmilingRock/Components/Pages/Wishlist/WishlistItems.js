@@ -123,7 +123,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
                         <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {countDataUpdted?.msg == 'success' ? "in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "in cart")}
+                            {(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}
                         </button>
 
                     </div>
