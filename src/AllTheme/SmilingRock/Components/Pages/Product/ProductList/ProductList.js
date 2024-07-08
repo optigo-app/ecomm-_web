@@ -573,7 +573,6 @@ const ProductList = () => {
   }
 
   const FilterValueWithCheckedOnly = () => {
-    debugger
     let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
 
    const priceValues = onlyTrueFilterValue
