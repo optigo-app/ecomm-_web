@@ -349,7 +349,7 @@ const Header = () => {
   };
 
   return (
-    <div className='smr_headerMain_div'>
+    <div className='ProCat_headerMain_div'>
 
       {serachsShowOverlay && (
         <>
@@ -608,69 +608,6 @@ const Header = () => {
 
       <div className='smiling_Top_header'>
         <div className='smiling_Top_header_sub'>
-          <div className='smiling_Top_header_div1'>
-            <ul className="nav_ul_shop">
-
-              <li
-                className="nav_li_smining nav_li_smining_shop"
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-              >
-                <span
-                  className="nav_li_smining"
-                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-                >
-                  SHOP
-                  <RiArrowDropDownLine
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                </span>
-              </li>
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
-              >
-                {/* IMPACT */}
-                SERVICE POLICY
-              </li>
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
-              >
-                EXPERT ADVICE
-              </li>
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
-              >
-                FUN FACT
-              </li>
-
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-              >
-                LOOKBOOK
-              </li>
-
-
-            </ul>
-            <ul className="nav_ul_shop_menu_Mobile">
-              <MenuIcon
-                style={{ fontSize: "35px", color: "white" }}
-                className="muIconeMobileHeader"
-                onClick={toggleDrawerOverlay}
-              />
-            </ul>
-          </div>
           <div className='smiling_Top_header_div2'>
             <a href="/">
               <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
@@ -836,72 +773,6 @@ const Header = () => {
           className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""}  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
-            <div className='smiling_Top_header_div1'>
-              <ul className="nav_ul_shop">
-                {/* {islogin && */}
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_shop"
-                  onMouseEnter={handleDropdownOpen}
-                  onMouseLeave={handleDropdownClose}
-                >
-                  <span
-                    className="nav-li-smining"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontWeight: 500,
-                      cursor: 'pointer'
-                    }}
-                  >
-                    SHOP
-                    <RiArrowDropDownLine
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                  </span>
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
-                >
-                  SERVICE POLICY
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
-                >
-                  EXPERT ADVICE
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
-                >
-                  FUN FACT
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-                >
-                  LOOKBOOK
-                </li>
-
-                <ul className="nav_ul_shop_menu_Mobile">
-                  <MenuIcon
-                    style={{ fontSize: "35px", color: "#7d7f85" }}
-                    className="muIconeMobileHeader"
-                    onClick={toggleDrawerOverlay}
-                  />
-                </ul>
-                {/* } */}
-              </ul>
-            </div>
             <div className='smiling_Top_header_div2'>
               <a href="/">
                 <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />

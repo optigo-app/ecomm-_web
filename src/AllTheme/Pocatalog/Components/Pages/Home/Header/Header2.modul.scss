@@ -1,9 +1,9 @@
 @import '../../../scss/variable';
 
-.smr_headerMain_div {
+.smr_header2_mainDiv {
 
     .smiling_Top_header {
-        height: 110px;
+        height: 80px;
         background-color: $backgroundColor;
     }
 
@@ -14,16 +14,14 @@
     }
 
     .smiling_Top_header_div1 {
-        width: 33.33%;
+        width: 50%;
         display: flex;
         align-items: center;
     }
 
     .smiling_Top_header_div2 {
-        width: 33.33%;
+        width: 7%;
         display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .smr_logo_header {
@@ -32,7 +30,7 @@
     }
 
     .smiling_Top_header_div3 {
-        width: 33.33%;
+        width: 42%;
         justify-content: flex-end;
         display: flex;
         align-items: center;
@@ -170,7 +168,7 @@
         z-index: 111111;
         width: 88%;
         margin-left: 6%;
-        margin-top: 37px;
+        margin-top: 5px;
         transition: all 0.5s ease;
     }
 
@@ -194,8 +192,6 @@
     .smr_menuSubTitle {
         font-size: 13px;
         text-decoration: none;
-        color: #9b978f;
-        // color: rgb(192 187 184);
     }
 
     .muilist2ndSubMenutext {
@@ -218,7 +214,6 @@
         width: 80px;
         height: 25px;
         margin-top: 15px;
-        font-size: 13px;
     }
 
     .smr_listMain {
@@ -314,18 +309,6 @@
         z-index: -500 !important;
     }
 
-    .srm_MobileSiderBarMain::-webkit-scrollbar {
-        display: none !important;
-    }
-
-    .smr_showDropOptionMainDiv {
-        overflow: auto;
-    }
-
-    .smr_showDropOptionMainDiv::-webkit-scrollbar {
-        // display: none!important;
-        height: 5px !important;
-    }
 
 
 
@@ -336,51 +319,6 @@
     .badgeColorFix .MuiBadge-badge {
         background-color: white !important;
         color: #c0bbb1 !important;
-        margin-left: 10px !important;
-
-    }
-
-    .smr_mobile_viewAllBtn {
-        border: none;
-        background-color: transparent;
-        color: white;
-        text-decoration: underline;
-        font-size: 15px;
-    }
-
-    .smr_mobile_subMenu {
-        margin: 0px 0px 0px 15px;
-        padding-block: 5px;
-        color: #f6f6f6;
-
-    }
-
-    .mobileSideBarSearch::placeholder {
-        color: white;
-    }
-
-
-    @media screen and (max-width:1500px) {
-        .smr_headerOptionSingleDiv {
-            min-width: 200px !important;
-        }
-    }
-
-    @media screen and (max-width:1700px) {
-
-        .smiling_Top_header_div1 {
-            width: 40% !important;
-        }
-
-        .smiling_Top_header_div2 {
-            width: 20% !important;
-        }
-
-        .smiling_Top_header_div3 {
-            width: 40% !important;
-        }
-
-
     }
 
     @media screen and (min-width:1201px) {
@@ -393,40 +331,8 @@
     @media screen and (max-width:1200px) {
 
 
-        .smr_mobileHeader_top_div1 {
-            width: 33.33%;
-        }
-
-        .smr_mobileHeader_top_div2 {
-            width: 33.33%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .smr_mobileHeader_top_div3 {
-            width: 33.33%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .smiling_Top_header {
-            height: 80px !important;
-        }
-
-        .muilistMenutext {
-            text-decoration: none;
-        }
-
         .smiling_Top_header_sub {
             padding-inline: 1% !important;
-        }
-
-        .srm_MobileSiderBarMain {
-            height: 100%;
-            width: 100%;
-            overflow: scroll;
         }
 
         .nav_li_smining_shop {
@@ -439,7 +345,6 @@
 
         .nav_ul_shop_menu_Mobile {
             padding: 0px;
-            margin: 0px !important;
         }
 
         .smr_menuStaicMobile {
@@ -466,16 +371,5 @@
             margin-top: 0px !important;
         }
 
-        .smiling_Top_header_div3 {
-            padding-right: 5px;
-        }
-
-    }
-
-
-    @media screen and (max-width: 600px) {
-        .smr_mobileHideIcone {
-            display: none !important;
-        }
     }
 }
