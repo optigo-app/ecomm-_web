@@ -33,6 +33,19 @@
     width: 49%;
   }
 
+  .smr_lookBookSelectViewBtn{
+    height: 35px;
+    width: 150px;
+    border: none;
+    background-color: lightgray;
+    font-weight: 500;
+    border-radius: 3px;
+  }
+
+  .smr_lookBookFilterSubDiv {
+    margin: 70px 10px 0px 10px;
+  }
+
   .smr_lookBookImgDivMain {
     display: flex;
     flex-wrap: wrap;
