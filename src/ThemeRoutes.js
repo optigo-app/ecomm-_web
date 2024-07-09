@@ -34,7 +34,7 @@ export default function ThemeRoutes() {
   useEffect(() => {
     let data = localStorage.getItem('storeInit');
     if (data) {
-      let logo = JSON.parse(data);
+      let logo = JSON?.parse(data);
       setCompanyTitleLogo(logo?.companylogo)
       dt_setCompanyTitleLogo(logo?.companylogo)
       el_setCompanyTitleLogo(logo?.companylogo)

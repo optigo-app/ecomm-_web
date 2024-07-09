@@ -67,6 +67,9 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
+
+  console.log("SizeCombo",SizeCombo);
+
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
   // const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
@@ -1244,7 +1247,7 @@ const ProductDetail = () => {
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                       {
-                       (SizeCombo?.rd?.length?.length > 0 ) && 
+                       (SizeCombo?.rd?.length > 0 ) && 
                       (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
                         <select

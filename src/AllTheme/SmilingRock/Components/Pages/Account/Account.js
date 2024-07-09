@@ -20,6 +20,7 @@ import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import Plm from './PLM/Plm';
 
 // import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
 
@@ -80,6 +81,7 @@ export default function Account() {
 
 
     const handleChange = (event, newValue) => {
+        console.log(newValue);
         setValue(newValue);
     };
 
@@ -119,6 +121,8 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        <Tab label="PLM" {...a11yProps(1)} />
                                     </Tabs>
                                     <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p>
                                 </Box>
@@ -131,6 +135,8 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        <Tab label="PLM" {...a11yProps(1)} />
                                     </Tabs>
                                 </Box>
                                
@@ -187,9 +193,15 @@ export default function Account() {
                                     })
                                 }
                             </CustomTabPanel>}
+                            
                             <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
                                 <div>
                                     <ChangePassword />
+                                </div>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={5}>
+                                <div>
+                                    <Plm />
                                 </div>
                             </CustomTabPanel>
 
