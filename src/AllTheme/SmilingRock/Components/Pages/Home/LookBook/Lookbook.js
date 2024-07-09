@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Lookbook.modul.scss'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, FormControlLabel, Modal, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductListApi';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -18,6 +18,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import ProductListSkeleton from '../../Product/ProductList/productlist_skeleton/ProductListSkeleton';
+import Pako from 'pako';
 
 const Lookbook = () => {
 
@@ -40,6 +41,7 @@ const Lookbook = () => {
     const [storeInit, setStoreInit] = useState({});
     const [cartItems, setCartItems] = useState([]);
     const [isProdLoading, setIsProdLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -81,22 +83,29 @@ const Lookbook = () => {
 
     }, []);
 
-    console.log('cartItemscartItemscartItems', cartItems);
 
     useEffect(() => {
-
-        const fetchData = async () => {
-            let productlisttype = {
-                FilterKey: 'GETDesignSet_List',
-                FilterVal: 'GETDesignSet_List'
-            }
-
-            await LookBookAPI(productlisttype).then((res) => {
-                setFilterData(res)
-            }).catch((err) => console.log("err", err))
+        console.log('cartItemscartItemscartItems', filterData);
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
         }
-        fetchData();
-    }, [])
+
+        let productlisttype = {
+            FilterKey: 'GETDesignSet_List',
+            FilterVal: 'GETDesignSet_List'
+        }
+        LookBookAPI(productlisttype, finalID).then((res) => (
+            setFilterData(res)
+
+        )).catch((err) => console.log("err", err))
+    }, [designSetLstData])
 
     const handelFilterClearAll = () => {
         if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
@@ -174,10 +183,10 @@ const Lookbook = () => {
                     }
                 })
                 .catch((err) => console.log(err));
-            console.log('FilterValueWithCheckedOnly', FilterValueWithCheckedOnly());
         }
 
     }, [filterChecked]);
+    console.log('FilterValueWithCheckedOnly', designSetLstData);
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
@@ -283,6 +292,34 @@ const Lookbook = () => {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+
+    
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId ?? storeInit?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+            f: {},
+        };
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    };
+
 
 
     return (
@@ -404,7 +441,7 @@ const Lookbook = () => {
 
                         </>
                     ))}
-                    <button onClick={handleClose} className='smr_lookSubCtSaveBtn' style={{height: '35px', width: '120px',border:'none', color: 'black',fontWeight:500 ,backgroundColor: 'lightgray'}}>Save</button>
+                    <button onClick={handleClose} className='smr_lookSubCtSaveBtn' style={{ height: '35px', width: '120px', border: 'none', color: 'black', fontWeight: 500, backgroundColor: 'lightgray' }}>Save</button>
                 </Box>
             </Modal>
             {isProdLoading ? (
@@ -692,7 +729,7 @@ const Lookbook = () => {
                     </div>
 
                     <div className='smr_lookBookImgDiv'>
-                        <div style={{display: 'flex', justifyContent: 'flex-end', marginRight: '10px'}}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '10px' }}>
                             <button onClick={handleOpen} className='smr_lookBookSelectViewBtn'>Select View</button>
                         </div>
                         <div className='smr_lookBookImgDivMain'>
@@ -753,7 +790,7 @@ const Lookbook = () => {
                                         >
                                             {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                                 <div className='smr_lookBookSubImageDiv'>
-                                                    <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px' }}>
+                                                    <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px' , cursor: 'pointer'}} onClick={() => handleNavigation(detail?.designno, detail?.autocode, detail?.TitleLine ? detail?.TitleLine : '')}>
                                                         {detail?.IsInReadyStock == 1 && (
                                                             <span className="smr_LookBookinstock">
                                                                 In Stock

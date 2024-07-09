@@ -96,6 +96,8 @@ const BestSellerSection = () => {
 
 
   return (
+    <div>
+              {bestSellerData?.length != 0 &&
     <div className='smr_bestSallerMain'>
     <div className='linkingLoveMain' style={{marginTop: '20px'}}>
         <div className='linkingLove'>
@@ -217,6 +219,9 @@ const BestSellerSection = () => {
         </div>
     </div>
     </div>
+}
+    </div>
+
   )
 }
 

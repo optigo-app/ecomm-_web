@@ -76,9 +76,9 @@ const DesignSet = () => {
         let obj = {
             a: autoCode,
             b: designNo,
-            m: loginUserDetail?.MetalId,
-            d: loginUserDetail?.cmboDiaQCid,
-            c: loginUserDetail?.cmboCSQCid,
+            m: loginUserDetail?.MetalId ?? storeInit?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -137,7 +137,7 @@ const DesignSet = () => {
                             </p> */}
                         </div>
                     ))}
-                    {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
+                    {!showAll && itemsToShow?.length > 6 && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
                 </div>
             </div>
 
