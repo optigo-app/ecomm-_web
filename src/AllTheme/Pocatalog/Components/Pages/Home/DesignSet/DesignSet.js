@@ -110,7 +110,7 @@ const DesignSet = () => {
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
 
     return (
-        <div className="smr_designSetMain">
+        <div className="proCat_designSetMain">
 
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
