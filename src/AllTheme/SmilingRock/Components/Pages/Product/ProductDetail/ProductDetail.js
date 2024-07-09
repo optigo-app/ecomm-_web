@@ -1087,7 +1087,9 @@ const ProductDetail = () => {
                     )}
 
                     <div className="smr_thumb_prod_img">
-                      { pdThumbImg?.length > 1 && pdThumbImg?.map((ele,i) => (
+                      { 
+                      (pdThumbImg?.length > 1  || pdVideoArr?.length > 0) && 
+                      pdThumbImg?.map((ele,i) => (
                         <img
                           src={ele}
                           alt={""}
