@@ -1,6 +1,6 @@
 @import '../../../scss/variable';
 
-.smr_headerMain_div {
+.ProCat_headerMain_div {
 
     .smiling_Top_header {
         height: 110px;
@@ -20,9 +20,8 @@
     }
 
     .smiling_Top_header_div2 {
-        width: 33.33%;
+        width: 50%;
         display: flex;
-        justify-content: center;
         align-items: center;
     }
 
@@ -32,7 +31,7 @@
     }
 
     .smiling_Top_header_div3 {
-        width: 33.33%;
+        width: 50%;
         justify-content: flex-end;
         display: flex;
         align-items: center;

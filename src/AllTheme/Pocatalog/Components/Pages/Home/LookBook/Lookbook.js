@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Lookbook.modul.scss'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, FormControlLabel, Modal, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocation } from 'react-router-dom';
 import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductListApi';
@@ -157,7 +157,7 @@ const Lookbook = () => {
             const res = await RemoveCartAndWishAPI("Cart", ele?.autocode, cookie);
             let cartC = res?.Data?.rd[0]?.Cartlistcount;
             setCartCountVal(cartC);
-
+    
             // Use a callback to update the state
             setCartItems(prevCartItems => {
                 const updatedCartItems = prevCartItems.filter(item => item !== ele?.autocode);
@@ -205,45 +205,8 @@ const Lookbook = () => {
         }).catch((err) => console.log("err", err))
     }
 
-
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-
     return (
         <div className='smr_LookBookMain'>
-
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        border: '2px solid #000',
-                        boxShadow: 24,
-                        p: 4,
-                    }}
-                >
-                    <Typography id="modal-title" variant="h6" component="h2">
-                        Modal Title
-                    </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
-                        This is the modal content.
-                    </Typography>
-                    <Button onClick={handleClose}>Close</Button>
-                </Box>
-            </Modal>
-
             <div className='smr_LookBookSubMainDiv'>
                 <div className="smr_lookbookFilterMain">
                     {filterData?.length > 0 && <div className="smr_LookBookFilterSub">
@@ -321,7 +284,7 @@ const Lookbook = () => {
                                                         }}
                                                         key={opt?.id}
                                                     >
-
+                                                       
                                                         <FormControlLabel
                                                             control={
                                                                 <Checkbox
@@ -363,7 +326,6 @@ const Lookbook = () => {
                 </div>
 
                 <div className='smr_lookBookImgDiv'>
-                    <button onClick={handleOpen}>Select View</button>
                     <div className='smr_lookBookImgDivMain'>
                         {designSetLstData?.map((slide, index) => (
                             <div className="smr_designSetDiv" key={index}>
@@ -436,11 +398,11 @@ const Lookbook = () => {
                                                         alt={`Sub image ${subIndex} for slide ${index}`}
                                                     />
                                                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
-                                                        {cartItems.includes(detail?.autocode) ? (
-                                                            <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail)}>REMOVE CART</button>
-                                                        ) : (
-                                                            <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail)}>ADD TO CART</button>
-                                                        )}
+                                                    {cartItems.includes(detail?.autocode) ? (
+                                                    <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail)}>REMOVE CART</button>
+                                                ) : (
+                                                    <button className='smr_lookBookAddtoCartBtn' onClick={() => handleAddToCart(detail)}>ADD TO CART</button>
+                                                )}
                                                     </div>
                                                 </SwiperSlide>
                                             </div>

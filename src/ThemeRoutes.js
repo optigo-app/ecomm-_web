@@ -17,6 +17,7 @@ import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
 import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom'
 import Cookies from "js-cookie";
+import Procatalog_App from './AllTheme/Pocatalog/Procatalog_App'
 
 export default function ThemeRoutes() {
 
@@ -155,6 +156,8 @@ export default function ThemeRoutes() {
       {themeNo === 3 && <Elveester_App />}
 
       {themeNo === 4 && <SmilingRock_MobileApp_App />}
+
+      {themeNo === 5 && <Procatalog_App />}
     </>
   )
 }
