@@ -18,6 +18,8 @@ import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport
 import SalesReport from './SalesReport/SalesReport';
 import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
+import PendingMemo from './PendingMemo/PendingMemo';
+
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
@@ -163,6 +165,7 @@ export default function Account() {
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
+                                                console.log(e);
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
                                             })
                                         }
@@ -189,6 +192,9 @@ export default function Account() {
                                             {e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
                                                 <AccountLedger />
                                             </CustomTabPanel>}
+                                            {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                                                <PendingMemo />
+                                            </CustomTabPanel>} */}
                                         </React.Fragment>
                                     })
                                 }
@@ -215,14 +221,3 @@ export default function Account() {
         </div>
     )
 }
-
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account
