@@ -355,11 +355,11 @@ const OrderHistory = () => {
                       orderDetails.map((el, index) => (
                         <Col key={index} xs={12}
                         // <Col key={index} xs={12} sm={6} md={4} lg={3} xl={3} className="col">
-                            sm={orderDetails?.length === 1 ? 12 : 6}
-                            md={orderDetails?.length === 1 ? 12 : 4}
-                            lg={orderDetails?.length === 1 ? 12 : 3}
-                            xl={orderDetails?.length === 1 ? 12 : 3}
-                          >
+                        sm={orderDetails?.length === 1 ? 12 : 6}
+                        md={orderDetails?.length === 1 ? 12 : 4}
+                        lg={orderDetails?.length === 1 ? 12 : 3}
+                        xl={orderDetails?.length === 1 ? 12 : 3}
+                        >
                           <Card className="h-100" onClick={() => handleMoveToDetail(el)}>
                             <Card.Img
                               variant="top"

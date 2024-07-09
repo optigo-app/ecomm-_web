@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
@@ -33,6 +33,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState("")
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+  const location = useLocation();
 
   let navigate = useNavigate();
   let cookie = Cookies.get('visiterId')
@@ -305,24 +306,24 @@ const Header = () => {
 
         // const handleMoveToDetail = () => {
 
-          let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-          let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-      
-          let obj = {
-            a: "",
-            b: searchText,
-            m: (loginInfo?.MetalId ?? storeInit?.MetalId),
-            d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
-            c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
-            f: {}
-          }
-      
-          let encodeObj = compressAndEncode(JSON.stringify(obj))
-      
-          navigate(`/d/${searchText}?p=${encodeObj}`)
-          toggleOverlay();
-          // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-      
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+          f: {}
+        }
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+        navigate(`/d/${searchText}?p=${encodeObj}`)
+        toggleOverlay();
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
         // }
       }
     }
@@ -337,8 +338,15 @@ const Header = () => {
     localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
     setCartOpenState(prevState => !prevState);
   };
-  
 
+  const handleContextMenu = (e) => {
+  };
+
+  const handleMouseDown = (e) => {
+    console.log('rrrrrrrrrrrrrrrrrrr', e);
+    if (e.button === 1) {
+    }
+  };
 
   return (
     <div className='smr_headerMain_div'>
@@ -1085,6 +1093,7 @@ const Header = () => {
                 <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
+                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
                   >
                     <ListItem style={{ padding: '0px 5px 0px 5px' }}>
                       <p className="muilistMenutext">{menuItem.menuname}</p>
@@ -1105,12 +1114,17 @@ const Header = () => {
                           <ButtonBase
                             component="div"
                             style={{ width: '100%', display: 'flex', justifyContent: 'start', height: '25px' }}
-                            onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                          // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
-                            {/* <a href='/productlist' onContextMenu={handleContextMenu}> */}
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                            {/* </a> */}
+                            <a
+                              href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`)}`}
+                              className='smr_menuSubTitle'
+                            >
+                              <p style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>
+                                {subMenuItem.param1dataname}
+                              </p>
+                            </a>
                             {/* </a> */}
                           </ButtonBase>
                           <>
@@ -1119,12 +1133,17 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: '100%' }}
-                                  onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
+                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
-                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
-                                    <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
-                                  </ListItem>
+                                  <a
+                                    href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`)}`}
+                                    className='smr_menuSubTitle'
+                                  >
+                                    {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
+                                      <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
+                                    {/* </ListItem> */}
+                                  </a>
                                 </div>
                               ))}
                             </List>
@@ -1141,7 +1160,7 @@ const Header = () => {
         </div>
       </div>
       <CartDrawer open={isCartOpen} />
-    </div>
+    </div >
   )
 }
 
