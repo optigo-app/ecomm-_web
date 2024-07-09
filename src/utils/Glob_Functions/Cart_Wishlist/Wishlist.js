@@ -40,9 +40,9 @@ const Usewishlist = () => {
 
 
   const getWishlistData = async () => {
+    const visiterId = Cookies.get('visiterId');
     setIsWlLoading(true);
     try {
-      const visiterId = Cookies.get('visiterId')
       const response = await fetchWishlistDetails(visiterId, islogin);
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
@@ -62,6 +62,7 @@ const Usewishlist = () => {
 
   // remove
   const handleRemoveItem = async (item) => {
+    const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
     if (selectedItem === item) {
@@ -70,12 +71,15 @@ const Usewishlist = () => {
     setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
 
     try {
-      const response = await removeFromCartList(item, param);
+      const response = await removeFromCartList(item, param, visiterId, islogin);
       console.log('response--', response);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
         setCountDataUpdated(resStatus)
         localStorage.setItem('wishUpdation', true)
+        setTimeout(() => {
+          localStorage.removeItem('wishUpdation');
+        }, 1000);
       } else {
         console.log('Failed to remove product or product not found');
         localStorage.setItem('wishUpdation', false)
@@ -87,9 +91,10 @@ const Usewishlist = () => {
   };
 
   const handleRemoveAll = async () => {
+    const visiterId = Cookies.get('visiterId');
     let param = "wish";
     try {
-      const response = await removeFromCartList('IsDeleteAll', param);
+      const response = await removeFromCartList('IsDeleteAll', param, visiterId, islogin);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
         setWishlistData([]);
@@ -107,10 +112,11 @@ const Usewishlist = () => {
 
   // add to cart
   const handleWishlistToCart = async (item) => {
+    const visiterId = Cookies.get('visiterId');
     let param = "";
     if (item?.IsInCart != 1) {
       try {
-        const response = await handleWishlistToCartAPI(param, item);
+        const response = await handleWishlistToCartAPI(param, item, visiterId, islogin);
 
         if (response?.Data?.rd[0]?.msg === "success") {
           const updatedWishlistData = wishlistData.map(wish =>
@@ -135,9 +141,10 @@ const Usewishlist = () => {
 
   // add to cart all
   const handleAddtoCartAll = async () => {
+    const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     try {
-      const response = await handleWishlistToCartAPI(param);
+      const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
@@ -197,7 +204,42 @@ const Usewishlist = () => {
     navigate(`/d/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
-  console.log("lohjshjuhajuh", isWLLoading)
+//browse our collection
+
+  const handelMenu = () => {
+    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    console.log('otherparamsUrl--', menudata);
+    const queryParameters1 = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const queryParameters = [
+      menudata?.FilterKey && `${menudata?.FilterVal}`,
+      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+    ].filter(Boolean).join(',');
+
+    const otherparamUrl = Object.entries({
+      b: menudata?.FilterKey,
+      g: menudata?.FilterKey1,
+      c: menudata?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(',');
+
+    const paginationParam = [
+      `page=${menudata.page ?? 1}`,
+      `size=${menudata.size ?? 50}`
+    ].join('&');
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    navigate(url)
+  }
 
   return {
     isWLLoading,
@@ -213,7 +255,8 @@ const Usewishlist = () => {
     handleRemoveAll,
     handleWishlistToCart,
     handleAddtoCartAll,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   };
 };
 

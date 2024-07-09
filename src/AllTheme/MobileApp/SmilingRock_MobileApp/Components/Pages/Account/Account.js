@@ -100,7 +100,7 @@ export default function Account() {
     }
 
     return (
-        <div className='smr_Smiling_AccountMain'>
+        <div className='smrMA_Smiling_AccountMain'>
             <div className='titleMain'>
                 <div style={{ width: '100%' }}>
                     <p style={{ margin: '0px', fontSize: '25px', fontWeight: 600, paddingInline: '10px' }}>{fName + ' ' + lastNamr}</p>

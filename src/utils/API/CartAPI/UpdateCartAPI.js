@@ -8,7 +8,7 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
         const UserEmail = localStorage.getItem("registerEmail")
 
         console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
-
+        
         const combinedValue = JSON.stringify({
             ForEvt: "Cart",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -22,12 +22,13 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "DiaQCid": `${diaIDData}` ?? "0,0",
                     "CsQCid": `${colorStoneID}` ?? "0,0",
                     "Size": `${sizeId ?? 0}`,
-                    "Unitcost": `${finalPrice ?? 0}`,
-                    "markup": `${markupData ?? 0}`,
-                    "UnitCostWithmarkup": `${finalPriceWithMarkup ?? 0}`
+                    "Unitcost": `${updatedItems?.FinalCost ?? 0}`,
+                    "markup": `${updatedItems?.SizeMarkUp ?? 0}`,
+                    "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`
                 }]
         });
         const encodedCombinedValue = btoa(combinedValue);
+        console.log('combinedValue',combinedValue);
         const body = {
             con: `{\"id\":\"\",\"mode\":\"CartCustomize\",\"appuserid\":\"${UserEmail ?? ""}\"}`,
             f: "header (handleUpdateCart)",

@@ -15,12 +15,12 @@ const WishlistData = ({
   handleRemoveItem,
   handleWishlistToCart,
   WishCardImageFunc,
-  handleMoveToDetail
+  handleMoveToDetail,
+  handelMenu
 }) => {
 
-  const navigate = useNavigate();
   const handleRedirect = () => {
-    navigate('/')
+    handelMenu();
   }
 
   console.log('itemLength', items?.length);

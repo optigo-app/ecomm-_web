@@ -159,12 +159,16 @@
 
     .image {
       margin: 0px !important;
-      border-radius: 8px;
+      border-radius: 0px;
       object-fit: contain;
     }
 
     .smr_designSetDiv {
       width: 25% !important;
+    }
+
+    .smr_designSetDiv1_img{
+      border-radius: 0px;
     }
   }
 }

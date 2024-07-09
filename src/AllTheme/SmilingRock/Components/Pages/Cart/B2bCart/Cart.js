@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 
+
 const CartPage = () => {
   const {
     isloding,
@@ -32,6 +33,7 @@ const CartPage = () => {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    setOpenMobileModal,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -54,7 +56,8 @@ const CartPage = () => {
     handleColorStoneChange,
     handleSizeChange,
     decodeEntities,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = useCart();
 
   const navigate = useNavigate();
@@ -62,8 +65,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-    console.log("TotalPriceData",cartData)
+    let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);
@@ -228,7 +230,7 @@ const CartPage = () => {
               <div className='smr_noWishlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
@@ -240,8 +242,8 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Remove All"
-          content="Are you sure you want to clear all items?"
+          title="Remove Item"
+          content="Are you sure you want to remove all Item?"
         />
 
         <Footer />

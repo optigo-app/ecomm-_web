@@ -24,7 +24,8 @@ const Wishlist = () => {
     handleRemoveAll,
     handleWishlistToCart,
     handleAddtoCartAll,
-    handleMoveToDetail
+    handleMoveToDetail,
+    handelMenu
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -122,6 +123,7 @@ const Wishlist = () => {
             handleRemoveItem={handleRemoveItem}
             handleWishlistToCart={handleWishlistToCart}
             handleMoveToDetail={handleMoveToDetail}
+            handelMenu={handelMenu}
           />
         ) : (
           <div style={{ marginTop: '10px' }}>
@@ -132,8 +134,8 @@ const Wishlist = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Confirm Clear All"
-          content="Are you sure you want to clear all items?"
+          title="Remove Item"
+          content="Are you sure you want to remove all Item?"
         />
         {wishlistData?.length !== 0 &&
           <div className='smrMo_WlButton-group'>

@@ -180,15 +180,23 @@ $cartUpdateBtncolor: #b1b1b1;
     display: none;
   }
 
-  .smr_currencyFontPrice{
+  .smr_currencyFontPrice {
     color: $titleColor !important;
     font-weight: bold;
+  }
+
+  .smr_remarktext{
+    font-size: $fontSize0 !important;
+    color: $titleColor !important;
+    max-width: 160px !important;
+    word-wrap: break-word !important;
+    margin-bottom: 20px !important;
   }
 
   @media (min-width: 1440px) {
     .smr_mui_CartBox {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-evenly;
     }
 
     .smr_cartListImage {
@@ -389,7 +397,8 @@ $cartUpdateBtncolor: #b1b1b1;
       margin-top: 10px !important;
       right: 0 !important;
     }
-    .smr_ReomoveCartbtn{
+
+    .smr_ReomoveCartbtn {
       margin-right: 8px;
     }
   }
@@ -492,10 +501,21 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 200px !important;
     }
 
+    .smr_ItemRemarkbtn,
+    .smr_ReomoveCartbtn {
+      font-size: $fontSize0 !important;
+    }
+
   }
 
-  .smr_card-ContentData {
-    padding: 2px 0px 2px 0px !important;
+  .smr_cartListCard {
+    .smr_card-ContentData {
+      padding: 2px 0px 2px 0px !important;
+      font-size: 9px !important;
+    }
+  }
+  .smr_PriceBox{
+    margin-bottom: 10px !important;
   }
 }
 
@@ -715,6 +735,7 @@ $cartUpdateBtncolor: #b1b1b1;
   display: flex !important;
   justify-content: space-between !important;
   flex-direction: column !important;
+  position: relative;
 
   .smr_DesignNoTExt {
     color: $titleColor;
@@ -729,7 +750,7 @@ $cartUpdateBtncolor: #b1b1b1;
     font-family: $homePageFontFamily;
     display: flex !important;
     justify-content: start I !important;
-    padding-right: 10px;
+    margin-right: 5px !important;
   }
 }
 
