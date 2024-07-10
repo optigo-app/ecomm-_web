@@ -112,7 +112,7 @@ const WishlistItems = (
                                 }} />
                                 {' '}
                                 {item?.UnitCost !== "" && (
-                                    <span>{(item?.UnitCost).toFixed(3)}</span>
+                                    <span>{(item?.FinalCost)}</span>
                                 )}
                             </Typography>
 
