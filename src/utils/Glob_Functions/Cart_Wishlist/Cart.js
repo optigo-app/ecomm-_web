@@ -385,7 +385,7 @@ const useCart = () => {
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
-    const [quality, color] = value.split('#');
+    const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
       ...prevItem,
@@ -421,7 +421,7 @@ const useCart = () => {
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
-    const [quality, color] = value.split('#');
+    const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
       ...prevItem,

@@ -122,15 +122,29 @@ const CartPage = () => {
                 {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
                 {/* <button className='smr_cartBtn'>Image View</button> */}
                 {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='smr_ReomoveAllCartbtn' variant="body2" onClick={handleRemoveAllDialog} >
-                  Clear All
-                </Link>
+                <div>
+                  <Link
+                    className='smr_ReomoveAllCartbtn'
+                    variant="body2"
+                    onClick={handleRemoveAllDialog}
+                  >
+                    Clear All
+                  </Link>
+                  {/* <Link
+                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
+                    variant="body2"
+                    onClick={handleMultiSelectToggle}
+                  >
+                    {multiSelect ? 'Disable MultiSelect' : 'Select All'}
+                  </Link> */}
+                </div>
+
                 {/* <button className='smr_cartBtn'>Show ProductList</button> */}
 
                 {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
-                {multiSelect && selectedItems.length != 0 &&
+                {/* {multiSelect && selectedItems.length != 0 &&
                   <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                }
+                } */}
                 <div className='smr_placeOrderMobileMainbtnDiv'>
                   <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
@@ -162,6 +176,7 @@ const CartPage = () => {
                     handleRemarkChange={handleRemarkChange}
                     handleSave={handleSave}
                     handleCancel={handleCancel}
+                    openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
                 <div className="smr_cart-right-side">

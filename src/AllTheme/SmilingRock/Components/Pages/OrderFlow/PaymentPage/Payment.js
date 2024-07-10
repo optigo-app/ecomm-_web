@@ -144,7 +144,7 @@ const Payment = () => {
                     <div className='smr_paymentDetailMainDiv'>
                         <div className='smr_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
-                            <div className='billingAddress'>
+                            <div className='smr_billingAddress'>
                                 <h3>Billing Address</h3>
                                 <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>Address : {selectedAddrData?.street}</p>
@@ -170,7 +170,7 @@ const Payment = () => {
                                             ),
                                         }}
                                     />
-                                    {totalprice}
+                                    <span>{totalprice}</span>
                                 </p>
                             </div>
                             <div className='smr_paymenttotalpricesummary'>
@@ -184,7 +184,7 @@ const Payment = () => {
                                             ),
                                         }}
                                     />
-                                    {totalpriceText}
+                                    <span>{totalpriceText}</span>
                                 </p>
                             </div>
                             <div className='smr_paymenttotalpricesummary'>
@@ -198,10 +198,10 @@ const Payment = () => {
                                             ),
                                         }}
                                     />
-                                    {finalTotal}
+                                    <span>{finalTotal}</span>
                                 </p>
                             </div>
-                            <div className='shippingAddress'>
+                            <div className='smr_shippingAddress'>
                                 <h3>Shipping Address</h3>
                                 <p className='smr_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>{selectedAddrData?.street}</p>

@@ -22,13 +22,13 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
           {content}
         </DialogContentText>
       </DialogContent>
-      <Divider/>
+      <Divider />
       <DialogActions>
-      <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
+        <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
           Remove
         </Button>
-        <Divider  orientation="vertical" flexItem/>
-        <Button  className='smr_DialogBtn' onClick={onClose}  fullWidth>
+        <Divider orientation="vertical" flexItem />
+        <Button className='smr_DialogBtn' onClick={onClose} autoFocus fullWidth>
           Cancel
         </Button>
       </DialogActions>

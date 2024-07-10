@@ -62,6 +62,10 @@ $cartUpdateBtncolor: #b1b1b1;
       text-transform: capitalize !important;
       color: $titleColor !important;
       text-decoration-color: $titleColor !important;
+      cursor: pointer;
+    }
+    .smr_ReomoveAllCartbtn{
+      margin-left: 20px;
     }
 
     .smr_cartBtn {
@@ -143,24 +147,24 @@ $cartUpdateBtncolor: #b1b1b1;
   margin-bottom: 327px;
 
   .smr_title {
-      color: $titleColor;
-      font-size: $fontSize6;
+    color: $titleColor;
+    font-size: $fontSize6;
   }
 
   .smr_desc {
-      color: $titleColor;
-      font-size: $fontSize4;
+    color: $titleColor;
+    font-size: $fontSize4;
   }
 
   .smr_browseOurCollectionbtn {
-      background-color: #7d7f85;
-      border: none;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      outline: none;
-      width: 220px;
+    background-color: #7d7f85;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    height: 50px;
+    outline: none;
+    width: 220px;
   }
 }
 
@@ -212,7 +216,7 @@ $cartUpdateBtncolor: #b1b1b1;
     font-weight: bold;
   }
 
-  .smr_remarktext{
+  .smr_remarktext {
     font-size: $fontSize0 !important;
     color: $titleColor !important;
     max-width: 160px !important;
@@ -223,7 +227,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (min-width: 1440px) {
     .smr_mui_CartBox {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-evenly !important;
     }
 
     .smr_cartListImage {
@@ -382,7 +386,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_RightCartList {
-      margin: 5px 6px;
+      margin: 5px 20px !important;
     }
 
     .smr_cartListCardGrid {
@@ -437,6 +441,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-height: 100%;
       overflow: auto;
     }
+
     .smr_cartListCardGrid {
       width: 33.33333333333333% !important;
       max-width: 33.33333333333333% !important;
@@ -458,18 +463,19 @@ $cartUpdateBtncolor: #b1b1b1;
       left: 0;
       text-align: center;
     }
+
     .smr_cartListCard {
       display: flex;
       flex-direction: column;
       height: 100%;
     }
-    
+
     .smr_cartcontentData {
       flex-grow: 1;
       padding: 5px;
       overflow: hidden;
     }
-    
+
     .smr_PriceBox {
       margin-top: auto;
     }
@@ -482,16 +488,17 @@ $cartUpdateBtncolor: #b1b1b1;
       flex-direction: column;
       height: 100%;
     }
-    
+
     .smr_cartcontentData {
       flex-grow: 1;
       padding: 5px;
       overflow: hidden;
     }
-    
+
     .smr_PriceBox {
       margin-top: auto;
     }
+
     .smr_cart-left-sides {
       width: 100%;
       max-width: 100%;
@@ -578,7 +585,8 @@ $cartUpdateBtncolor: #b1b1b1;
       font-size: 9px !important;
     }
   }
-  .smr_PriceBox{
+
+  .smr_PriceBox {
     margin-bottom: 10px !important;
   }
 }
@@ -658,9 +666,9 @@ $cartUpdateBtncolor: #b1b1b1;
   max-width: 600px;
 
   .smr_cart-Titleline {
-    font-size: $fontSize6;
-    margin-bottom: 20px;
+    font-size: $fontSize5;
     color: $titleColor;
+    margin: 10px;
     text-align: center;
   }
 
@@ -789,7 +797,7 @@ $cartUpdateBtncolor: #b1b1b1;
   // display: flex;
   // justify-content: center;
   // align-items: center;
-  margin: 5px 6px;
+  margin: 5px 20px !important;
 }
 
 // cart list item css(left side)
