@@ -24,3 +24,8 @@ export const cartB2CDrawer = atom({
   key: 'cartB2CDrawer',
   default: false
 })
+
+export const DiamondRangeArr = atom({
+  key: 'DiamondRangeArr',
+  default: []
+})
