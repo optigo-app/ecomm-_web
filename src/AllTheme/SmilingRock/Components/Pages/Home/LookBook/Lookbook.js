@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Lookbook.modul.scss'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, FormControlLabel, Modal, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductListApi';
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
@@ -18,6 +18,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import ProductListSkeleton from '../../Product/ProductList/productlist_skeleton/ProductListSkeleton';
+import Pako from 'pako';
+import { IoClose } from "react-icons/io5";
 
 const Lookbook = () => {
 
@@ -40,6 +42,7 @@ const Lookbook = () => {
     const [storeInit, setStoreInit] = useState({});
     const [cartItems, setCartItems] = useState([]);
     const [isProdLoading, setIsProdLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -81,22 +84,29 @@ const Lookbook = () => {
 
     }, []);
 
-    console.log('cartItemscartItemscartItems', cartItems);
 
     useEffect(() => {
-
-        const fetchData = async () => {
-            let productlisttype = {
-                FilterKey: 'GETDesignSet_List',
-                FilterVal: 'GETDesignSet_List'
-            }
-
-            await LookBookAPI(productlisttype).then((res) => {
-                setFilterData(res)
-            }).catch((err) => console.log("err", err))
+        console.log('cartItemscartItemscartItems', filterData);
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
         }
-        fetchData();
-    }, [])
+
+        let productlisttype = {
+            FilterKey: 'GETDesignSet_List',
+            FilterVal: 'GETDesignSet_List'
+        }
+        LookBookAPI(productlisttype, finalID).then((res) => (
+            setFilterData(res)
+
+        )).catch((err) => console.log("err", err))
+    }, [designSetLstData])
 
     const handelFilterClearAll = () => {
         if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
@@ -174,7 +184,6 @@ const Lookbook = () => {
                     }
                 })
                 .catch((err) => console.log(err));
-            console.log('FilterValueWithCheckedOnly', FilterValueWithCheckedOnly());
         }
 
     }, [filterChecked]);
@@ -285,14 +294,112 @@ const Lookbook = () => {
     const handleClose = () => setOpen(false);
 
 
+
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId ?? storeInit?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+            f: {},
+        };
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+    };
+
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    useEffect(() => {
+        const categoryOptions = JSON.parse(filterData.find(item => item.id === 'category')?.options ?? '[]');
+        const categoryNames = categoryOptions.map(opt => opt.Name);
+        setSelectedCategories(categoryNames);
+    }, [filterData]);
+
+    const handleCheckboxChangeNew = (e, categoryId) => {
+
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setSelectedCategories((prevSelected) => [...prevSelected, categoryId]);
+        } else {
+            setSelectedCategories((prevSelected) =>
+                prevSelected.filter((id) => id !== categoryId)
+            );
+        }
+    };
+
+
+    const filterDesignSetsByCategory = (designSetLstData, selectedCategories) => {
+
+        if (selectedCategories.length === 0) return designSetLstData;
+
+        return designSetLstData?.map(set => ({
+            ...set,
+            Designdetail: JSON.stringify(
+                JSON.parse(set.Designdetail).filter(detail =>
+                    selectedCategories.includes(detail.CategoryName)
+                )
+            )
+        })).filter(set => JSON.parse(set.Designdetail).length > 0);
+    };
+
+
+    const filteredDesignSetLstData = filterDesignSetsByCategory(designSetLstData, selectedCategories);
+
+    console.log('filteredDesignSetLstDatafilteredDesignSetLstData selectedCategoriesselectedCategories', filteredDesignSetLstData);
+
+    const calculateTotalUnitCostWithMarkUp = (details) => {
+        let total = 0;
+        details.forEach((detail) => {
+            total += detail.UnitCostWithMarkUp;
+        });
+        return total;
+    };
+
+    const calculateTotalUnitCostWithMarkUpGWt = (details) => {
+        let total = 0;
+        details.forEach((detail) => {
+            total += detail.Gwt;
+        });
+        return total;
+    };
+
+    const calculateTotalUnitCostWithMarkUpNwt = (details) => {
+        let total = 0;
+        details.forEach((detail) => {
+            total += detail.Nwt;
+        });
+        return total;
+    };
+
+    const calculateTotalUnitCostWithMarkUpDwt = (details) => {
+        let total = 0;
+        details.forEach((detail) => {
+            total += detail.Dwt;
+        });
+        return total;
+    };
+
     return (
         <div className='smr_LookBookMain'>
-
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
+                className='smrlookBookPopuMain'
             >
                 <Box
                     sx={{
@@ -302,47 +409,34 @@ const Lookbook = () => {
                         transform: 'translate(-50%, -50%)',
                         width: 400,
                         bgcolor: 'background.paper',
-                        border: '2px solid #000',
                         boxShadow: 24,
-                        p: 4,
+                        p: 2,
                     }}
                 >
+                    <div onClick={handleClose} className='smr_lookSubCtSaveBtn'>
+                        <IoClose style={{height: '25px' , width: '25px' , color: '#000000ab'}}/>
+                    </div>
+
                     {filterData?.map((ele) => (
-                        <>
-                            {ele?.id?.includes("subcategory") && (
+                        <React.Fragment key={ele.id}>
+                            {ele?.id === "category" && (
                                 <Accordion
                                     elevation={0}
                                     sx={{
-                                        borderBottom: "1px solid #c7c8c9",
                                         borderRadius: 0,
-                                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
+                                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                                             borderBottomLeftRadius: "0px",
                                             borderBottomRightRadius: "0px",
                                         },
-                                        "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
+                                        "&.MuiPaper-root.MuiAccordion-root:before": {
                                             background: "none",
                                         },
                                     }}
                                     expanded={true}
                                 >
-                                    <AccordionSummary
-                                        expandIcon={null}
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                        sx={{
-                                            color: "#7f7d85",
-                                            borderRadius: 0,
-
-                                            "&.MuiAccordionSummary-root": {
-                                                padding: 0,
-                                            },
-                                        }}
-                                        className="filtercategoryLable"
-                                    >
+                                    <p style={{ color: '#7f7d85', textAlign: 'center', fontWeight: 500 }}>
                                         {ele.Name}
-                                    </AccordionSummary>
+                                    </p>
                                     <AccordionDetails
                                         sx={{
                                             display: "flex",
@@ -368,27 +462,13 @@ const Lookbook = () => {
                                                         control={
                                                             <Checkbox
                                                                 name={`${ele?.id}${opt?.id}`}
-                                                                checked={
-                                                                    filterChecked[
-                                                                        `${ele?.id}${opt?.id}`
-                                                                    ]?.checked === undefined
-                                                                        ? false
-                                                                        : filterChecked[
-                                                                            `${ele?.id}${opt?.id}`
-                                                                        ]?.checked
-                                                                }
+                                                                checked={selectedCategories.includes(opt?.Name)}
                                                                 style={{
                                                                     color: "#7f7d85",
                                                                     padding: 0,
                                                                     width: "10px",
                                                                 }}
-                                                                onClick={(e) =>
-                                                                    handleCheckboxChange(
-                                                                        e,
-                                                                        ele?.id,
-                                                                        opt?.Name
-                                                                    )
-                                                                }
+                                                                onClick={(e) => handleCheckboxChangeNew(e, opt?.Name)}
                                                                 size="small"
                                                             />
                                                         }
@@ -401,10 +481,8 @@ const Lookbook = () => {
                                     </AccordionDetails>
                                 </Accordion>
                             )}
-
-                        </>
+                        </React.Fragment>
                     ))}
-                    <button onClick={handleClose} className='smr_lookSubCtSaveBtn' style={{height: '35px', width: '120px',border:'none', color: 'black',fontWeight:500 ,backgroundColor: 'lightgray'}}>Save</button>
                 </Box>
             </Modal>
             {isProdLoading ? (
@@ -690,13 +768,12 @@ const Lookbook = () => {
                             </div>
                         )}
                     </div>
-
                     <div className='smr_lookBookImgDiv'>
-                        <div style={{display: 'flex', justifyContent: 'flex-end', marginRight: '10px'}}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '10px' }}>
                             <button onClick={handleOpen} className='smr_lookBookSelectViewBtn'>Select View</button>
                         </div>
                         <div className='smr_lookBookImgDivMain'>
-                            {designSetLstData?.map((slide, index) => (
+                            {filteredDesignSetLstData?.map((slide, index) => (
                                 <div className="smr_designSetDiv" key={index}>
                                     <div style={{ display: 'flex' }}>
                                         <img
@@ -708,7 +785,7 @@ const Lookbook = () => {
                                         <p className="smr_designList_title">{slide?.TitleLine}</p>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px' }}>
-                                        <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{slide?.Dwt} | GWT:{slide?.Gwt}| NWT:{slide?.Nwt}</p>
+                                        <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{calculateTotalUnitCostWithMarkUpDwt(JSON.parse(slide.Designdetail))} | GWT:{calculateTotalUnitCostWithMarkUpGWt(JSON.parse(slide.Designdetail))} | NWT:{calculateTotalUnitCostWithMarkUpNwt(JSON.parse(slide.Designdetail))} </p>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <p style={{ margin: '0px 10px 0px 0px', fontSize: '15px', fontWeight: 600 }}>  <span
                                                 className="smr_currencyFont"
@@ -717,7 +794,7 @@ const Lookbook = () => {
                                                         storeInit?.Currencysymbol
                                                     ),
                                                 }}
-                                            /> {slide?.UnitCostWithMarkUp}</p>
+                                            /> {calculateTotalUnitCostWithMarkUp(JSON.parse(slide.Designdetail))}</p>
                                             <button className='smr_lookBookBuyBtn' onClick={() => handleByCombo(parseDesignDetails(slide?.Designdetail, "Cart"))}>
                                                 Buy Combo
                                             </button>
@@ -753,7 +830,7 @@ const Lookbook = () => {
                                         >
                                             {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                                 <div className='smr_lookBookSubImageDiv'>
-                                                    <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px' }}>
+                                                    <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px', cursor: 'pointer' }} onClick={() => handleNavigation(detail?.designno, detail?.autocode, detail?.TitleLine ? detail?.TitleLine : '')}>
                                                         {detail?.IsInReadyStock == 1 && (
                                                             <span className="smr_LookBookinstock">
                                                                 In Stock
@@ -766,6 +843,7 @@ const Lookbook = () => {
                                                             src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
                                                             alt={`Sub image ${subIndex} for slide ${index}`}
                                                         />
+                                                        <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p>
                                                         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
                                                             {cartItems.includes(detail?.autocode) ? (
                                                                 <button className='smr_lookBookINCartBtn' onClick={() => handleRemoveCart(detail)}>REMOVE CART</button>

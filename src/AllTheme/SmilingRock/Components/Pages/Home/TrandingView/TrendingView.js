@@ -166,74 +166,81 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
-    return (
-        <div className='smr_trendingViewTopMain'>
-            <div className='smr_trendingViewTopMain_div'>
-                <div className='smr_trendingViewTopMain_Imgdiv'>
-                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
-                </div>
-                <div className='smr_trendingViewTopMain_Sliderdiv'>
-                    <p className='linkingTitle'>Trending View</p>
-                    <p className='linkingShopCol'>SHOP COLLECTION</p>
-                    <Slider {...settings} >
-                        {
-                            oddNumberObjects?.slice(0, 2).map((data, inedx) => (
-                                evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
-                                    <div className='linkRingLove'>
-                                        <div>
-                                            <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                <img src={ring1ImageChange ?
-                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                    :
-                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                } className='likingLoveImages'
-                                                    onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
-                                                />
-                                            </div>
-                                            <div className='linkLoveRing1Desc'>
-                                                <p className='ring1Desc'>{data?.TitleLine}</p>
-                                                <p className='ring1Desc'>
-                                                    <span
-                                                        className="smr_currencyFont"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                storeInit?.Currencysymbol
-                                                            ),
-                                                        }}
-                                                    /> {(data?.UnitCost)?.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
-                                                <img src={ring1ImageChangeOdd ?
-                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
-                                                    :
-                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_1.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
-                                                } className='likingLoveImages'
+    console.log('nnnnnnnnnnnnn', trandingViewData?.length);
 
-                                                    onMouseEnter={() => handleMouseEnterRing2(datan)} onMouseLeave={handleMouseLeaveRing2}
-                                                />
+
+    return (
+        <div>
+            {trandingViewData?.length != 0 &&
+                <div className='smr_trendingViewTopMain'>
+                    <div className='smr_trendingViewTopMain_div'>
+                        <div className='smr_trendingViewTopMain_Imgdiv'>
+                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
+                        </div>
+                        <div className='smr_trendingViewTopMain_Sliderdiv'>
+                            <p className='linkingTitle'>Trending View</p>
+                            <p className='linkingShopCol'>SHOP COLLECTION</p>
+                            <Slider {...settings} >
+                                {
+                                    oddNumberObjects?.slice(0, 2).map((data, inedx) => (
+                                        evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
+                                            <div className='linkRingLove'>
+                                                <div>
+                                                    <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                                        <img src={ring1ImageChange ?
+                                                            `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                            :
+                                                            `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                        } className='likingLoveImages'
+                                                            onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
+                                                        />
+                                                    </div>
+                                                    <div className='linkLoveRing1Desc'>
+                                                        <p className='ring1Desc'>{data?.TitleLine}</p>
+                                                        <p className='ring1Desc'>
+                                                            <span
+                                                                className="smr_currencyFont"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: decodeEntities(
+                                                                        storeInit?.Currencysymbol
+                                                                    ),
+                                                                }}
+                                                            /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
+                                                        <img src={ring1ImageChangeOdd ?
+                                                            `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
+                                                            :
+                                                            `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_1.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
+                                                        } className='likingLoveImages'
+
+                                                            onMouseEnter={() => handleMouseEnterRing2(datan)} onMouseLeave={handleMouseLeaveRing2}
+                                                        />
+                                                    </div>
+                                                    <div className='linkLoveRing1Desc'>
+                                                        <p className='ring1Desc'>{datan?.TitleLine}</p>
+                                                        <p className='ring1Desc'><span
+                                                            className="smr_currencyFont"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    storeInit?.Currencysymbol
+                                                                ),
+                                                            }}
+                                                        /> {(datan?.UnitCost)?.toFixed(2)}</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className='linkLoveRing1Desc'>
-                                                <p className='ring1Desc'>{datan?.TitleLine}</p>
-                                                <p className='ring1Desc'><span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            storeInit?.Currencysymbol
-                                                        ),
-                                                    }}
-                                                /> {(datan?.UnitCost)?.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            ))
-                        }
-                    </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
+                                        ))
+                                    ))
+                                }
+                            </Slider>
+                            <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

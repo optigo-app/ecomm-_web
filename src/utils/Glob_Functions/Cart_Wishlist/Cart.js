@@ -166,32 +166,32 @@ const useCart = () => {
   };
 
   // remove
-const handleRemoveItem = async (item) => {
-  let param = "Cart";
-  let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
-  setCartData(cartfilter);
+  const handleRemoveItem = async (item) => {
+    let param = "Cart";
+    let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
+    setCartData(cartfilter);
 
-  setTimeout(() => {
-    if (cartfilter && isMaxWidth1050) {
-      setSelectedItem(null);
-    } else if (cartfilter) {
-      setSelectedItem(cartfilter[0]);
-    }
-  }, 2);
+    setTimeout(() => {
+      if (cartfilter && isMaxWidth1050) {
+        setSelectedItem(null);
+      } else if (cartfilter) {
+        setSelectedItem(cartfilter[0]);
+      }
+    }, 2);
 
-  try {
-    const response = await removeFromCartList(item, param, visiterId, islogin);
-    let resStatus = response.Data.rd[0];
-    if (resStatus?.msg === "success") {
-      localStorage.setItem('cartUpdation', true);
-    } else {
-      console.log('Failed to remove product or product not found');
+    try {
+      const response = await removeFromCartList(item, param, visiterId, islogin);
+      let resStatus = response.Data.rd[0];
+      if (resStatus?.msg === "success") {
+        localStorage.setItem('cartUpdation', true);
+      } else {
+        console.log('Failed to remove product or product not found');
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      localStorage.setItem('cartUpdation', false);
     }
-  } catch (error) {
-    console.error("Error:", error);
-    localStorage.setItem('cartUpdation', false);
-  }
-};
+  };
 
 
 
@@ -309,7 +309,7 @@ const handleRemoveItem = async (item) => {
       );
       setCartData(updatedCartData);
     } else {
-      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty)} : selectedItem;
+      const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty) } : selectedItem;
 
       setSelectedItem(updatedSelectedItem);
     }
@@ -326,25 +326,27 @@ const handleRemoveItem = async (item) => {
 
 
   const handleDecrement = async (item) => {
-    let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity - 1);
-    if (storeInit?.IsB2BWebsite === 0) {
-      const updatedQtytData = cartData?.map(cart =>
-        cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
-      );
-      setCartData(updatedQtytData);
-    } else {
-      const updatedSelectedItem = selectedItem.id === item.id ? {...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty)} : selectedItem;
+    if (item?.Quantity != 1) {
+      let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity - 1);
+      if (storeInit?.IsB2BWebsite === 0) {
+        const updatedQtytData = cartData?.map(cart =>
+          cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
+        );
+        setCartData(updatedQtytData);
+      } else {
+        const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : selectedItem;
 
-      setSelectedItem(updatedSelectedItem);
-    }
-    setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
-    const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
-    let num = selectedItem?.id;
-    if (qtyCount > 1) {
-      try {
-        const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin);
-      } catch (error) {
-        console.error("Failed to update quantity:", error);
+        setSelectedItem(updatedSelectedItem);
+      }
+      setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
+      const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
+      let num = selectedItem?.id;
+      if (qtyCount > 1) {
+        try {
+          const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin);
+        } catch (error) {
+          console.error("Failed to update quantity:", error);
+        }
       }
     }
   };
@@ -383,7 +385,7 @@ const handleRemoveItem = async (item) => {
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
-    const [quality, color] = value.split('#');
+    const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
       ...prevItem,
@@ -419,7 +421,7 @@ const handleRemoveItem = async (item) => {
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
-    const [quality, color] = value.split('#');
+    const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
       ...prevItem,

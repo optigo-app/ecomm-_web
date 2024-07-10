@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { TextField,  Grid } from "@mui/material";
+import { TextField,  Grid, IconButton } from "@mui/material";
 import "./Plm.scss";
-import Dropzone from "react-dropzone";
-
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Plm = () => {
 
@@ -11,7 +10,10 @@ const Plm = () => {
     labelName: "",
     logo: null,
     markUp: 0,
+    logoPreview:null
   });
+
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,26 +24,51 @@ const Plm = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      logo: e.target.files[0],
-    });
-  };
+    const file = e.target.files[0];
+    if(file){
+      const fileUrl = URL.createObjectURL(file);
+      console.log(fileUrl);
+      setFormData({
+        ...formData,
+        logo: file,
+        logoPreview: fileUrl,
+      });
+    }
+    };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    
+
+    const data = new FormData();
+    data.append('labelName', formData?.labelName);
+    data.append('file', formData?.logo);
+    data.append('fileUrl', formData?.logoPreview);
+    data.append('markUp', formData?.markUp);
+
+    console.log(data);
+
+    for (let [key, value] of data.entries()) {
+      console.log(key, value);
+    }
+
+  };
+
+  const togglePreview = () => {
+    setShowPreview(!showPreview);
   };
 
   return (
+    <>
     <div className="plm_container">
+    <div className="plm_width">
       <div className="w-100 text-center plm_title" style={{cursor:'pointer'}}>
         Private Label Setup
       </div>
-      <div>
+      <div className="fieldContainer">
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} className="center_plm margin_plm"> 
+            <Grid item xs={12} className=" margin_plm"> 
               <TextField
                 id="labelName"
                 name="labelName"
@@ -49,35 +76,77 @@ const Plm = () => {
                 variant="outlined"
                 value={formData.labelName}
                 onChange={handleChange}
-                style={{ minWidth: "400px", maxWidth: "400px" }}
+                // style={{ minWidth: "400px", maxWidth: "400px" }}
+                className="FieldWidthPLM"
                 required
               />
             </Grid>
-            <Grid item xs={12} sm={8} className="center_plm margin_plm">
-              <Dropzone
-                id="logo"
-                name="logo"
-                acceptedFiles={['image/*']} // Limit to image files only
-                dropzoneText="Drag and drop an image here or click"
-                onChange={handleFileChange}
-                filesLimit={1} // Limit to one file
-                style={{ minWidth: "400px", maxWidth: "400px" }}
-              />
-              {/* <TextField
+            <Grid item xs={12} className="margin_plm">
+              <Grid container spacing={2} alignItems="center" style={{display: 'flex'}}>
+                <Grid item xs={10} style={{width:'70%'}}>
+                  <TextField
+                    type="file"
+                    id="logo"
+                    name="logo"
+                    label="Upload Logo"
+                    onChange={handleFileChange}
+                    required
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton onClick={togglePreview}>
+                          {showPreview ? <VisibilityOff titleAccess="Hide" /> : <Visibility titleAccess="Show" />}
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                </Grid>
+                {formData.logoPreview && (
+                  <Grid item xs={2} style={{ width: '20%' }}>
+                    {showPreview ? (
+                      <img
+                        src={formData.logoPreview}
+                        alt="Logo Preview"
+                        className="smr_plmPreviewImgage"
+                      />
+                    ) : <span style={{minWidth:'100%'}}></span> }
+                  </Grid>
+                )}
+              </Grid>
+          </Grid>
+            {/* <Grid item xs={12}  className=" margin_plm">
+              <TextField
                 type="file"
                 id="logo"
                 name="logo"
                 label="Upload Logo"
                 onChange={handleFileChange}
                 required
-                style={{ minWidth: "400px", maxWidth: "400px" }}
+                className="FieldWidthPLM"
                 InputLabelProps={{
                   shrink: true,
                 }}
                 variant="outlined"
-              /> */}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={togglePreview}>
+                      {showPreview ? <VisibilityOff titleAccess="Hide" /> : <Visibility titleAccess="Show" />}
+                    </IconButton>
+                  ),
+                }}
+              />
+
             </Grid>
-            <Grid item xs={12} className="center_plm margin_plm">
+             {(formData.logoPreview) && (
+            <Grid item xs={12} className="margin_plm d-flex justify-content-center align-items-center ">
+              {showPreview && <img src={formData.logoPreview} alt="Logo Preview" style={{ maxWidth: '100%' }} />}
+            </Grid>
+            )} */}
+            <Grid item xs={12} className=" margin_plm">
               <TextField
                 type="number"
                 id="markUp"
@@ -87,7 +156,8 @@ const Plm = () => {
                 value={formData.markUp}
                 onChange={handleChange}
                 required
-                style={{ minWidth: "400px", maxWidth: "400px" }}
+                // style={{ minWidth: "400px", maxWidth: "400px" }}
+                className="FieldWidthPLM"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -103,8 +173,9 @@ const Plm = () => {
           </Grid>
         </form>
       </div>
-
     </div>
+    </div>
+    </>
   );
 };
 

@@ -553,9 +553,28 @@ const Header = () => {
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
             </div>
 
-            <div>
-              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}>Lookbook</p>
-            </div>
+            {IsB2BWebsiteChek === 1 ? (
+              islogin === true ? (
+                <p
+                  className='smr_menuStaicMobilePageLink'
+                  style={{ marginTop: '10px' }}
+                  onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+                >
+                  Lookbook
+                </p>
+              ) : (
+                ''
+              )
+            ) : (
+              <p
+                className='smr_menuStaicMobilePageLink'
+                style={{ marginTop: '10px' }}
+                onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+              >
+                Lookbook
+              </p>
+            )}
+
 
             <div>
               <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
@@ -653,13 +672,29 @@ const Header = () => {
               </li>
 
 
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-              >
-                LOOKBOOK
-              </li>
+              {IsB2BWebsiteChek === 1 ? (
+                islogin === true ? (
+                  <li
+                    className="nav_li_smining nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                  >
+                    LOOKBOOK
+                  </li>
+                ) : (
+                  ''
+                )
+              ) : (
+                <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                >
+                  LOOKBOOK
+                </li>
+              )}
+
+
 
 
             </ul>
@@ -884,13 +919,28 @@ const Header = () => {
                   FUN FACT
                 </li>
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-                >
-                  LOOKBOOK
-                </li>
+
+                {IsB2BWebsiteChek === 1 ? (
+                  islogin === true ? (
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                    >
+                      LOOKBOOK
+                    </li>
+                  ) : (
+                    ''
+                  )
+                ) : (
+                  <li
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                  >
+                    LOOKBOOK
+                  </li>
+                )}
 
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
@@ -1133,7 +1183,7 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: '100%' }}
-                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
+                                  onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
                                   <a
@@ -1141,7 +1191,7 @@ const Header = () => {
                                     className='smr_menuSubTitle'
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                      <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
+                                    <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
                                     {/* </ListItem> */}
                                   </a>
                                 </div>

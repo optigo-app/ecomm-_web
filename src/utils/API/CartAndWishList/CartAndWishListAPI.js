@@ -15,6 +15,7 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "") => {
         "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
         "userid": `${customerEmail}`,
         "Customerid": `${customerId ?? 0}`,
+        "IsPLW": `${storeInit?.IsPLW}`,
         "AddCartDetail": type2 ? obj : [obj]
     }
 

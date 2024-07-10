@@ -49,7 +49,12 @@
 
 .smr_paymenttotalpricesummary p {
     padding: 0;
-    margin: 8px;
+    margin-bottom: 5px !important;
+    font-size: $fontSize2 !important;
+}
+
+.smr_paymenttotalpricesummary p span{
+   font-weight: bold !important;
 }
 
 .smr_paymentUserName {
@@ -130,4 +135,13 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+.smr_billingAddress p {
+    margin-bottom: 5px;
+    font-size: $fontSize2 !important;
+}
+
+.smr_shippingAddress p{
+    margin-bottom: 0px;
 }

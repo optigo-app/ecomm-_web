@@ -1,5 +1,22 @@
 @import "../../../scss/variable";
 
+
+
+.smr_lookSubCtSaveBtn{
+  height: 30px;
+  width: 30px;
+  border: 1px solid lightgray;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -14px;
+  right: -8px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
 .smr_LookBookMain {
   background-color: $backgroundColor;
 
@@ -27,11 +44,16 @@
     width: 80%;
   }
 
+  .smrlookBookPopuMain .MuiBox-root{
+    padding: 10px!important;
+  }
+
   .smr_designSetDiv {
     border: 1px solid lightgray;
     margin: 5px;
     width: 49%;
   }
+
 
   .smr_lookBookSelectViewBtn{
     height: 35px;

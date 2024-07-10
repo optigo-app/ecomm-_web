@@ -1,31 +1,38 @@
 .plm_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .plm_width{
+    width: 500px;
+  }
 
   .plm_title{
     color: #989898 !important;
     font-size: 20px;
     margin: 20px 0 20px 0 !important;
   }
-
-  .center_plm{
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
+  
   .margin_plm{
     margin: 10px;
   }
+  
+  .fieldContainer{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  .FieldWidthPLM{
+    max-width: 400px;
+    min-width: 100%;
+  }
 
-  .custom-dropzone {
-    border: 2px dashed #aaaaaa;
-    background-color: #f8f8f8;
-    padding: 20px;
-    cursor: pointer;
+  .smr_plmPreviewImgage{
+    width: 100%;
+    max-height: 55px;
   }
   
-  .custom-dropzone-text {
-    margin-top: 20px;
-    color: #666666;
-  }
   
 }

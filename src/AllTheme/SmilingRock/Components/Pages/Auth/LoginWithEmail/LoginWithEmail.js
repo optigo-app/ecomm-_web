@@ -149,6 +149,7 @@ export default function LoginWithEmail() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                
 
                 GetCountAPI(visiterID).then((res) => {
                     if (res) {
