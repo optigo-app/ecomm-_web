@@ -206,7 +206,7 @@ const Lookbook = () => {
     }
 
     return (
-        <div className='smr_LookBookMain'>
+        <div className='ProCat_LookBookMain'>
             <div className='smr_LookBookSubMainDiv'>
                 <div className="smr_lookbookFilterMain">
                     {filterData?.length > 0 && <div className="smr_LookBookFilterSub">

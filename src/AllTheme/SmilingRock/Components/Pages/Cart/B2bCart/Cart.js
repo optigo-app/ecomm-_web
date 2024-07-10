@@ -122,7 +122,7 @@ const CartPage = () => {
                 {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
                 {/* <button className='smr_cartBtn'>Image View</button> */}
                 {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='smr_ReomoveAllCartbtn' href="" variant="body2" onClick={handleRemoveAllDialog} >
+                <Link className='smr_ReomoveAllCartbtn' variant="body2" onClick={handleRemoveAllDialog} >
                   Clear All
                 </Link>
                 {/* <button className='smr_cartBtn'>Show ProductList</button> */}

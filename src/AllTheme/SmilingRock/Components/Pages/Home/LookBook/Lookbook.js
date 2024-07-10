@@ -392,6 +392,10 @@ const Lookbook = () => {
         return total;
     };
 
+    const sortDesignDetailsBySrNo = (details) => {
+        return details.sort((a, b) => a.SrNo - b.SrNo);
+    }
+    
     return (
         <div className='smr_LookBookMain'>
             <Modal
@@ -414,7 +418,7 @@ const Lookbook = () => {
                     }}
                 >
                     <div onClick={handleClose} className='smr_lookSubCtSaveBtn'>
-                        <IoClose style={{height: '25px' , width: '25px' , color: '#000000ab'}}/>
+                        <IoClose style={{ height: '25px', width: '25px', color: '#000000ab' }} />
                     </div>
 
                     {filterData?.map((ele) => (
@@ -785,7 +789,7 @@ const Lookbook = () => {
                                         <p className="smr_designList_title">{slide?.TitleLine}</p>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px' }}>
-                                        <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{calculateTotalUnitCostWithMarkUpDwt(JSON.parse(slide.Designdetail))} | GWT:{calculateTotalUnitCostWithMarkUpGWt(JSON.parse(slide.Designdetail))} | NWT:{calculateTotalUnitCostWithMarkUpNwt(JSON.parse(slide.Designdetail))} </p>
+                                        <p style={{ fontSize: '13px', margin: '2px' }}>DWT:{calculateTotalUnitCostWithMarkUpDwt(JSON.parse(slide.Designdetail)).toFixed(3)} | GWT:{calculateTotalUnitCostWithMarkUpGWt(JSON.parse(slide.Designdetail)).toFixed(3)} | NWT:{calculateTotalUnitCostWithMarkUpNwt(JSON.parse(slide.Designdetail)).toFixed(3)} </p>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <p style={{ margin: '0px 10px 0px 0px', fontSize: '15px', fontWeight: 600 }}>  <span
                                                 className="smr_currencyFont"
@@ -828,20 +832,20 @@ const Lookbook = () => {
                                             modules={[Pagination, Navigation]}
                                             className="smr_LookBookmySwiper"
                                         >
-                                            {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
-                                                <div className='smr_lookBookSubImageDiv'>
-                                                    <SwiperSlide key={subIndex} className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px', cursor: 'pointer' }} onClick={() => handleNavigation(detail?.designno, detail?.autocode, detail?.TitleLine ? detail?.TitleLine : '')}>
+                                            {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => (
+                                                <div className='smr_lookBookSubImageDiv' key={subIndex}>
+                                                    <SwiperSlide className='smr_lookBookSliderSubDiv' style={{ marginRight: '0px', cursor: 'pointer' }}>
                                                         {detail?.IsInReadyStock == 1 && (
                                                             <span className="smr_LookBookinstock">
                                                                 In Stock
                                                             </span>
                                                         )}
                                                         <img
-                                                            key={subIndex}
                                                             className="smr_lookBookSubImage"
                                                             loading="lazy"
                                                             src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
                                                             alt={`Sub image ${subIndex} for slide ${index}`}
+                                                            onClick={() => handleNavigation(detail?.designno, detail?.autocode, detail?.TitleLine ? detail?.TitleLine : '')}
                                                         />
                                                         <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p>
                                                         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px' }}>
@@ -853,9 +857,7 @@ const Lookbook = () => {
                                                         </div>
                                                     </SwiperSlide>
                                                 </div>
-
-                                            )
-                                            )}
+                                            ))}
                                         </Swiper>
                                     </div>
                                 </div>
