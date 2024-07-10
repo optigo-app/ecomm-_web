@@ -63,7 +63,7 @@ export default function LoginWithMobileCode() {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login').then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '').then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('LoginUser', true)
                 setIsLoginState(true)
