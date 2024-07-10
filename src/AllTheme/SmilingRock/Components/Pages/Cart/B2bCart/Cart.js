@@ -227,7 +227,7 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noWishlistData'>
+              <div className='smr_noCartlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
