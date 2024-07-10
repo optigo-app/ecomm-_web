@@ -85,13 +85,13 @@ const Customization = ({
           {storeInitData?.IsDiamondCustomization == 1 &&
             <div className="option">
               <label htmlFor="diamond">Diamond:</label>
-              <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+              <select id="diamond" value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
                 {selectedItem?.StockId != 0 ? (
-                  <option value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}</option>
+                  <option value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}</option>
                 ) :
                   <>
                     {diamondQualityColorCombo?.map(option => (
-                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
+                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}> {option?.Quality + ',' + option?.color}</option>
                     ))}
                   </>
                 }
@@ -101,13 +101,13 @@ const Customization = ({
           {storeInitData?.IsCsCustomization == 1 &&
             <div className="option">
               <label htmlFor="diamond">Color Stone:</label>
-              <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+              <select id="diamond" value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
                 {selectedItem?.StockId != 0 ? (
-                  <option value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}</option>
+                  <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
                 ) :
                   <>
                     {ColorStoneCombo?.map(option => (
-                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + '#' + option?.color}</option>
+                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + ',' + option?.color}</option>
                     ))}
                   </>
                 }
