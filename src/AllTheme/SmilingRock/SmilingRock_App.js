@@ -50,6 +50,20 @@ const SmilingRock_App = () => {
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+
+    useEffect(() => {
+        let data = localStorage.getItem('storeInit');
+        let Logindata = JSON.parse(localStorage.getItem('loginUserDetail'));
+        let logo = JSON?.parse(data);
+        if (Logindata) {
+            if (Logindata?.IsPLWOn == 1) {
+                setCompanyTitleLogo(Logindata?.Private_label_logo)
+            }
+        } else {
+            setCompanyTitleLogo(logo?.companylogo)
+        }
+    })
 
     useEffect(() => {
         const cookieValue = Cookies.get('userLoginCookie');
@@ -96,14 +110,14 @@ const SmilingRock_App = () => {
                 <Route path="/Lookbook" element={<Lookbook />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
                 {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-                    <Route path="/p/*" element={<ProductList />} />
-                    <Route path="/d/*" element={<ProductDetail />} />
-                    <Route path="/cartPage" element={<Cart />} />
-                    <Route path="/myWishList" element={<Wishlist />} />
-                    <Route path="/Delivery" element={<Delivery />} />
-                    <Route path="/Payment" element={<Payment />} />
-                    <Route path="/Confirmation" element={<Confirmation />} />
-                    <Route path="/account" element={<Account />} />
+                <Route path="/p/*" element={<ProductList />} />
+                <Route path="/d/*" element={<ProductDetail />} />
+                <Route path="/cartPage" element={<Cart />} />
+                <Route path="/myWishList" element={<Wishlist />} />
+                <Route path="/Delivery" element={<Delivery />} />
+                <Route path="/Payment" element={<Payment />} />
+                <Route path="/Confirmation" element={<Confirmation />} />
+                <Route path="/account" element={<Account />} />
                 {/* </Route> */}
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
