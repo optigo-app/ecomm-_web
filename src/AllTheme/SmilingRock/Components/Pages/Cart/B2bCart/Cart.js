@@ -122,7 +122,7 @@ const CartPage = () => {
                 {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
                 {/* <button className='smr_cartBtn'>Image View</button> */}
                 {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='smr_ReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
+                <Link className='smr_ReomoveAllCartbtn' href="" variant="body2" onClick={handleRemoveAllDialog} >
                   Clear All
                 </Link>
                 {/* <button className='smr_cartBtn'>Show ProductList</button> */}
@@ -145,7 +145,7 @@ const CartPage = () => {
           <>
             {cartData.length !== 0 ? (
               <div className="smr_cartMainPage">
-                <div className="smr_cart-left-side">
+                <div className="smr_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -227,7 +227,7 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noWishlistData'>
+              <div className='smr_noCartlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
