@@ -31,7 +31,7 @@ const TopSection = () => {
 
 
   return (
-    <div>
+    <div style={{minHeight: '550px'}}>
 
       {localData?.Blockno === 1 &&
         <video
