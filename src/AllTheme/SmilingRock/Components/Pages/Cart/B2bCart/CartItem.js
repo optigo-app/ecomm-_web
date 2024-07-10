@@ -93,6 +93,7 @@ const CartItem = ({
     isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
+
   return (
     <Grid
       item
@@ -105,7 +106,7 @@ const CartItem = ({
       <Card className='smr_cartListCard'
         key={item?.id}
         sx={{
-          boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
+          boxShadow: !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
           width: width
@@ -127,18 +128,18 @@ const CartItem = ({
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
