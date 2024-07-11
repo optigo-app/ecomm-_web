@@ -89,6 +89,8 @@ const ProductList = () => {
 
   const [sortBySelect,setSortBySelect] = useState();
 
+  const [totalProductCount,setTotalProductCount]= useState();
+
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
   const [diaFilterRange, setDiaFilterRange] = useState({})
@@ -1538,7 +1540,7 @@ const ProductList = () => {
                 <span>
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length === 0
-                    // ? <span><span>{"Filters"}</span> <span>{"product"}</span></span>
+                    // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                     ? "Filters"
                     : `Product Found: ${afterFilterCount}`}
                 </span>
@@ -1921,6 +1923,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length === 0
                               ? "Filters"
+                              // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                               : `Product Found: ${afterFilterCount}`}
                           </span>
                           <span onClick={() => handelFilterClearAll()}>
@@ -1928,7 +1931,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length > 0
                               ? "Clear All"
-                              : ""}
+                              : <span>{`Total Products: ${afterFilterCount}`}</span>}
                           </span>
                         </span>
                         <div style={{ marginTop: "12px" }}>
@@ -2606,8 +2609,7 @@ const ProductList = () => {
                                       -
                                       {
                                         findMetalType(
-                                          selectedMetalId ??
-                                            productData?.MetalPurityid
+                                          productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
                                         )[0]?.metaltype
                                       }
                                     </span>
