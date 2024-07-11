@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 
 export default function YourProfile() {
+    
     const [userData, setUserData] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [editedUserData, setEditedUserData] = useState(null);
@@ -39,28 +40,6 @@ export default function YourProfile() {
             const data = JSON.parse(storedData);
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-
-            // const combinedValue = JSON.stringify({
-            //     firstname: `${editedUserData.defaddress_shippingfirstname}`, 
-            //     lastname: `${editedUserData.defaddress_shippinglastname}`, 
-            //     street: `${editedUserData.defaddress_state}`, 
-            //     addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
-            //     city: `${editedUserData.city}`, 
-            //     state: `${editedUserData.state}`, 
-            //     country: `${userData.defaddress_country}`, 
-            //     zip: `${userData.defaddress_zip}`, 
-            //     mobile: `${userData.defaddress_shippingmobile}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${editedUserData.id}`
-            // });
-
-            // const encodedCombinedValue = btoa(combinedValue);
-
-            // const body = {
-            //     "con": `{\"id\":\"\",\"mode\":\"EDITPROFILE\",\"appuserid\":\"${data.userid}\"}`,
-            //     "f": "YourProfile (EditProfile)",
-            //     p: encodedCombinedValue
-            // };
-
-            // const response = await CommonAPI(body);
 
             const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, userData);
             
@@ -227,13 +206,3 @@ export default function YourProfile() {
         </div>
     );
 }
-
-// import React from 'react'
-
-// const YourProfile = () => {
-//   return (
-//     <div>YourProfile</div>
-//   )
-// }
-
-// export default YourProfile

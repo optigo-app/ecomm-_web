@@ -33,7 +33,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -86,15 +86,6 @@ function createData(
   };
 }
 
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
 function parseCustomDate(dateString) {
   const months = {
     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
@@ -184,17 +175,6 @@ function descendingComparator(a, b, orderBy) {
       return 0;
   }
 }
-const customComparator_Col = (a, b) => {
-const regex = /([^\d]+)(\d+)/;
-const [, wordA, numA] = a?.match(regex);
-const [, wordB, numB] = b?.match(regex);
-
-if (wordA !== wordB) {
-    return wordA?.localeCompare(wordB);
-}
-
-return parseInt(numB, 10) - parseInt(numA, 10);
-};
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -202,17 +182,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+
 
 const headCells = [
   {
