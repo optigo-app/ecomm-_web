@@ -6,12 +6,12 @@ const SkeletonLoader = () => {
   const skeletonArray = new Array(4).fill(0);
 
   return (
-    <Grid container spacing={1} className="smr_addwishlistSkeltonMainBox">
+    <Grid container spacing={1} className="smrMo_addwishlistSkeltonMainBox">
       {skeletonArray.map((_, index) => (
         <Grid item xs={6} sm={6} md={3} key={index}>
-          <Card className='smr_addwishlistSkelton'>
+          <Card className='smrMo_addwishlistSkelton'>
             <Skeleton
-              className='smr_addwishlistSkelton'
+              className='smrMo_addwishlistSkelton'
               variant="rectangular"
               width="100%"
               animation="wave" />

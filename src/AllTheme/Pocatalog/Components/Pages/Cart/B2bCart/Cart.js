@@ -131,8 +131,8 @@ const CartPage = () => {
                 {multiSelect && selectedItems.length != 0 &&
                   <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
-                <div className='smr_placeOrderMobileMainbtnDiv'>
-                  <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='smrProcat_placeOrderMobileMainbtnDiv'>
+                  <button className="smrProcat_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
               <div className='smr_placeOrderMainbtnDiv'>
