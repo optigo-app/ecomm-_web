@@ -225,6 +225,7 @@
         display: flex;
         flex-flow: column wrap;
         height: 350px;
+        width: 100%;
         margin-right: 20px !important;
     }
 
@@ -324,7 +325,7 @@
 
     .smr_showDropOptionMainDiv::-webkit-scrollbar {
         // display: none!important;
-        height: 5px !important;
+        height: 10px !important;
     }
 
 

@@ -2,7 +2,7 @@
 
 
 
-.smr_lookSubCtSaveBtn{
+.smr_lookSubCtSaveBtn {
   height: 30px;
   width: 30px;
   border: 1px solid lightgray;
@@ -44,8 +44,8 @@
     width: 80%;
   }
 
-  .smrlookBookPopuMain .MuiBox-root{
-    padding: 10px!important;
+  .smrlookBookPopuMain .MuiBox-root {
+    padding: 10px !important;
   }
 
   .smr_designSetDiv {
@@ -55,7 +55,7 @@
   }
 
 
-  .smr_lookBookSelectViewBtn{
+  .smr_lookBookSelectViewBtn {
     height: 35px;
     width: 150px;
     border: none;
@@ -108,6 +108,8 @@
   .smr_lookBookSubImage {
     width: 100%;
     object-fit: contain;
+    height: 200px;
+    padding: 5px;
   }
 
   .smr_lookBookBuyBtn {
@@ -165,12 +167,20 @@
   }
 
   @media screen and (max-width:1450px) {
-    .smr_designSetDiv{
-      width: 48%!important;
+    .smr_designSetDiv {
+      width: 48% !important;
     }
   }
-    @media screen and (max-width:1200px) {
-    
+
+
+  @media screen and (min-width:1201px) {
+    .smr_lookBookMobileFilter {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+
     .smr_lookbookFilterMain {
       display: none;
     }
@@ -182,20 +192,25 @@
     .smr_LookBookSubMainDiv {
       margin-inline: 1% !important;
     }
-  }
-
-  @media screen and (max-width:1200px) {
 
     .smr_designSetDiv {
-      width: 48% !important;
+      width: 48.8% !important;
     }
 
     .smr_lookBookImgDiv {
       margin-top: 0px !important;
     }
 
+    .smr_lookBookMobileTopLine {
+      margin-top: 10px !important;
+    }
   }
 
+  @media screen and (max-width:900px) {
+    .smr_designSetDiv {
+      width: 99% !important;
+    }
+  }
 
   @media screen and (max-width:600px) {
 
@@ -203,6 +218,30 @@
       width: 98% !important;
     }
 
+    .smr_lookBookSliderSubDiv {
+      width: 50% !important;
+    }
   }
 
+  @media screen and (max-width: 450px) {
+    .smr_lookBookImgDeatil {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .smr_lookBookImgDeatilSub {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .smr_lookBookCategoryPoupuBox {
+      width: 90% !important;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .smr_lookBookCategoryPoupuBox {
+    width: 90% !important;
+  }
 }
