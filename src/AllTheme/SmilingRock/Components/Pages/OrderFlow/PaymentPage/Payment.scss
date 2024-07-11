@@ -49,12 +49,12 @@
 
 .smr_paymenttotalpricesummary p {
     padding: 0;
-    margin-bottom: 5px !important;
-    font-size: $fontSize2 !important;
+    margin-bottom: 5px;
+    font-size: $fontSize2;
 }
 
-.smr_paymenttotalpricesummary p span{
-   font-weight: bold !important;
+.smr_paymenttotalpricesummary p span {
+    font-weight: bold !important;
 }
 
 .smr_paymentUserName {
@@ -109,9 +109,50 @@
         display: block;
     }
 
+    .smr_paymentDetailLeftSideContent {
+        h2 {
+            font-size: $fontSize5 !important;
+        }
+    }
+
+    .smr_paymenttotalpricesummary p {
+        margin: 3px !important;
+    }
+
+    .smr_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+        }
+    }
+
     .smr_paymentButtonDiv {
         .smr_payOnAccountBtn {
             width: 100%;
+        }
+    }
+
+    .smr_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        border-top: 1px solid #cccdce;
+
+        h3{
+            font-size: $fontSize4 !important;
+        }
+        p{
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important; 
+        }
+    }
+
+    .smr_paymentBackbtnDiv {
+        .smr_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
         }
     }
 }
@@ -139,9 +180,9 @@
 
 .smr_billingAddress p {
     margin-bottom: 5px;
-    font-size: $fontSize2 !important;
+    font-size: $fontSize2;
 }
 
-.smr_shippingAddress p{
+.smr_shippingAddress p {
     margin-bottom: 0px;
 }

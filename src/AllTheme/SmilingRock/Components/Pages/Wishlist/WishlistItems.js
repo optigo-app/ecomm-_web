@@ -29,43 +29,27 @@ const WishlistItems = (
 
     const setWishCountVal = useSetRecoilState(WishCount)
     const setCartCountVal = useSetRecoilState(CartCount)
-    const [countstatus, setCountStatus] = useState();
     const visiterId = Cookies.get('visiterId');
 
 
-    useEffect(() => {
-        const iswishUpdateStatus = localStorage.getItem('wishUpdation');
-        setCountStatus(iswishUpdateStatus)
-    }, [handleRemoveItem, handleWishlistToCart])
 
-
-    console.log('countstatus', item);
-
-    console.log('countDataUpdted', countDataUpdted);
-    const handleWishlistToCartFun = (item) => {
-        handleWishlistToCart(item);
-        if (countstatus) {
+    const handleWishlistToCartFun = async (item) => {
+        const returnValue = await handleWishlistToCart(item);
+        if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
-                console.log('responseCount', res);
                 setCartCountVal(res?.cartcount);
             })
         }
-        setTimeout(() => {
-        }, 500)
-    }
+      };
 
-
-    const handleRemoveItemFun = () => {
-        handleRemoveItem(item);
-        setTimeout(() => {
-            if (countstatus) {
-                GetCountAPI(visiterId).then((res) => {
-                    console.log('responseCount', res);
-                    setWishCountVal(res?.wishcount);
-                })
-            }
-        }, 500)
-    }
+    const handleRemoveItemFun = async (item) => {
+        const returnValue = await handleRemoveItem(item);
+        if (returnValue?.msg == "success") {
+            GetCountAPI(visiterId).then((res) => {
+                setWishCountVal(res?.wishcount);
+            })
+        }
+    };
 
     return (
         <Grid item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>

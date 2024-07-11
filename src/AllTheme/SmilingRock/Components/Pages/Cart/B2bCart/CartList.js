@@ -24,7 +24,7 @@ const CartList = ({
   console.log('itemgsgdhas-', selectedItem);
   return (
     <div className="smr_RightCartList">
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {items.map((item, index) => (
           <CartItem
             key={item.id}
@@ -35,6 +35,7 @@ const CartList = ({
             decodeEntities={decodeEntities}
             onSelect={onSelect}
             selectedItem={selectedItem}
+            selectedItemsLength={selectedItems?.length}
             isActive={selectedItems?.includes(item)}
             isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
             multiSelect={multiSelect}
