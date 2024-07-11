@@ -28,12 +28,6 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
-import { useDefaultDates } from "@mui/x-date-pickers/internals";
-import { RangeSlider } from "rsuite";
-import 'rsuite/RangeSlider/styles/index.css';
-import RangeFilter from "../RangeFilter/RangeFilter";
-
-
 
 
 const ProductList = () => {
