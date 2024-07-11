@@ -13,7 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
-import { formatAmount, checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { formatAmount, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
 import { addYears, subYears } from 'date-fns';
 import moment from 'moment';
@@ -69,17 +69,7 @@ const descendingComparator = (a, b, orderBy) => {
     }
 }
 
-const customComparator_Col = (a, b) => {
-    const regex = /([^\d]+)(\d+)/;
-    const [, wordA, numA] = a?.match(regex);
-    const [, wordB, numB] = b?.match(regex);
-    
-    if (wordA !== wordB) {
-        return wordA?.localeCompare(wordB);
-    }
-    
-    return parseInt(numB, 10) - parseInt(numA, 10);
-};
+
 
 const getComparator = (order, orderBy) => {
     return order === 'desc'
@@ -87,17 +77,6 @@ const getComparator = (order, orderBy) => {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort(array, comparator) {
-    const stabilizedThis = array?.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
 
 const headCells = [
     {
@@ -105,42 +84,48 @@ const headCells = [
         numeric: true,
         disablePadding: false,
         label: 'Sr#',
-        align: "center"
+        align: "center",
+        sortable:false
     },
     {
         id: 'Date',
         numeric: false,
         disablePadding: false,
         label: 'Date',
-        align: "center"
+        align: "center",
+        sortable:true
     },
     {
         id: 'SKUNo',
         numeric: false,
         disablePadding: false,
         label: 'SKU No',
-        align: "center"
+        align: "center",
+        sortable:true
     },
     {
         id: 'TotalDesign',
         numeric: true,
         disablePadding: false,
         label: 'Total Design',
-        align: "center"
+        align: "center",
+        sortable:true
     },
     {
         id: 'Amount',
         numeric: true,
         disablePadding: false,
         label: 'Total Amount',
-        align: "right"
+        align: "right",
+        sortable:true
     },
     {
         id: 'Print',
         numeric: false,
         disablePadding: false,
         label: 'Print',
-        align: "center"
+        align: "center",
+        sortable:false
     },
 ];
 
@@ -150,7 +135,6 @@ function EnhancedTableHead(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-
     EnhancedTableHead.propTypes = {
         numSelected: PropTypes.number.isRequired,
         onRequestSort: PropTypes.func.isRequired,
@@ -164,25 +148,35 @@ function EnhancedTableHead(props) {
         <TableHead>
             <TableRow>
                 {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.align}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
+                    <>
+                        <TableCell
+                            key={headCell.id}
+                            align={headCell.align}
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            sortDirection={orderBy === headCell.id ? order : false}
                         >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
+                            
+                            {
+                                ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ?
+                                `${headCell?.id}`
+                                 : 
+                                <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
+                                {orderBy === headCell.id ? (
+                                    <>
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                    </>
+                                ) : null}
+                            </TableSortLabel>
+                            }
+                        </TableCell>
+                    </>
                 ))}
             </TableRow>
         </TableHead>
@@ -209,10 +203,13 @@ const QuotationQuote = () => {
     const toDateRef = useRef(null);
 
     const handleRequestSort = (event, property) => {
-        console.log('property--', property);
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
+        if(property?.toLowerCase() === 'srno') return null;
+        else{
+
+            const isAsc = orderBy === property && order === 'asc';
+            setOrder(isAsc ? 'desc' : 'asc');
+            setOrderBy(property);
+        }
     };
 
 
@@ -541,7 +538,6 @@ const QuotationQuote = () => {
                                 numSelected={selected.length}
                                 order={order}
                                 orderBy={orderBy}
-                              
                                 onRequestSort={handleRequestSort}
                                 rowCount={filterData.length}
                             />

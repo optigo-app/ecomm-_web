@@ -630,21 +630,42 @@ const Header = () => {
           <div className='smiling_Top_header_div1'>
             <ul className="nav_ul_shop">
 
-              <li
-                className="nav_li_smining nav_li_smining_shop"
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-              >
-                <span
-                  className="nav_li_smining"
-                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              {IsB2BWebsiteChek == 1 ?
+                islogin == true ?
+                  <li
+                    className="nav_li_smining nav_li_smining_shop"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
+                  >
+                    <span
+                      className="nav_li_smining"
+                      style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                    >
+                      SHOP
+                      <RiArrowDropDownLine
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </span>
+                  </li>
+                  :
+                  ""
+                :
+                <li
+                  className="nav_li_smining nav_li_smining_shop"
+                  onMouseEnter={handleDropdownOpen}
+                  onMouseLeave={handleDropdownClose}
                 >
-                  SHOP
-                  <RiArrowDropDownLine
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                </span>
-              </li>
+                  <span
+                    className="nav_li_smining"
+                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                  >
+                    SHOP
+                    <RiArrowDropDownLine
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </span>
+                </li>
+              }
 
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
@@ -874,26 +895,50 @@ const Header = () => {
             <div className='smiling_Top_header_div1'>
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_shop"
-                  onMouseEnter={handleDropdownOpen}
-                  onMouseLeave={handleDropdownClose}
-                >
-                  <span
-                    className="nav-li-smining"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontWeight: 500,
-                      cursor: 'pointer'
-                    }}
+                {IsB2BWebsiteChek == 1 ?
+                  islogin == true ?
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_shop"
+                      onMouseEnter={handleDropdownOpen}
+                      onMouseLeave={handleDropdownClose}
+                    >
+                      <span
+                        className="nav-li-smining"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontWeight: 500,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        SHOP
+                        <RiArrowDropDownLine
+                          style={{ width: "20px", height: "20px" }}
+                        />
+                      </span>
+                    </li>
+                    : ""
+                  : <li
+                    className="nav_li_smining_Fixed nav_li_smining_shop"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
                   >
-                    SHOP
-                    <RiArrowDropDownLine
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                  </span>
-                </li>
+                    <span
+                      className="nav-li-smining"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      SHOP
+                      <RiArrowDropDownLine
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </span>
+                  </li>
+                }
 
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
@@ -1140,7 +1185,7 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
+                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: 'fitContent', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
                     onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}

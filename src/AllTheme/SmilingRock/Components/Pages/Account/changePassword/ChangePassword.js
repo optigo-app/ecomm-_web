@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';

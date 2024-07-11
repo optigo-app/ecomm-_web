@@ -1,5 +1,4 @@
 
-
 export const accountDetailPages = () => {
     let arr = [
         { id: 1163, tabLabel: "Quote", tabComp: "QuotationQuote", compPath: "./QuotationQuote/QuotationQuote" },
@@ -110,3 +109,28 @@ export const NumberWithCommas = (value, val) => {
     formattedString = formattedString.replace(/^,+/, '');
     return formattedString;
 };
+
+export const customComparator_Col = (a, b) => {
+    const regex = /([^\d]+)(\d+)/;
+    const [, wordA, numA] = a?.match(regex);
+    const [, wordB, numB] = b?.match(regex);
+    
+    if (wordA !== wordB) {
+        return wordA?.localeCompare(wordB);
+    }
+    
+    return parseInt(numB, 10) - parseInt(numA, 10);
+};
+
+export function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
+  

@@ -3,7 +3,6 @@ import "./orderhistory.scss";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Box, CircularProgress } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -417,13 +416,3 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
-
-// import React from 'react'
-
-// const OrderHisoty = () => {
-//   return (
-//     <div>OrderHisoty</div>
-//   )
-// }
-
-// export default OrderHisoty
