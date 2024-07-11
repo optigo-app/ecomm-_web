@@ -24,6 +24,7 @@ const CartItem = ({
   decodeEntities,
   isSelected,
   selectedItem,
+  selectedItemsLength,
   isActive,
   multiSelect,
   onRemove,
@@ -42,7 +43,6 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
-  const [isHovered, setIsHovered] = useState(false);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -90,26 +90,20 @@ const CartItem = ({
     }, 500)
   }
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);
 
   const handlePress = (action) => {
     return () => {
+      if (!multiSelect && selectedItemsLength === 0) return;
+      else if (multiSelect && selectedItemsLength === 0) return;
       pressTimer.current = setTimeout(() => {
-        alert("Long press detected");
+        openHandleUpdateCartModal();
+        console.log('selectedItemsssssss', selectedItemsLength);
       }, 1000);
       setPressing(action === 'start');
     };
-  };
+  }
 
   const cancelPress = () => {
     clearTimeout(pressTimer.current);
@@ -134,13 +128,11 @@ const CartItem = ({
       <Card className='smr_cartListCard'
         key={item?.id}
         sx={{
-          boxShadow: !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
+          boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
           width: width
         }}
-        // onMouseEnter={handleMouseEnter}
-        // onMouseLeave={handleMouseLeave}
         // onDoubleClick={openHandleUpdateCartModal}
 
         onMouseDown={handlePress('start')}
@@ -191,7 +183,7 @@ const CartItem = ({
                         ),
                       }}
                     />
-                    {(item?.UnitCostWithMarkUp).toFixed(3)?.replace(/\.?0+$/, '')}
+                    {(item?.UnitCostWithMarkUp)}
                   </span>
                 }
               </Box>
@@ -217,7 +209,7 @@ const CartItem = ({
               checked={multiSelect && isSelected}
               onChange={() => onSelect(item)}
               sx={{
-                color: green[500],
+                color: "rgba(125, 127, 133, 0.4) !important",
                 position: 'absolute',
                 top: 0,
                 left: 2

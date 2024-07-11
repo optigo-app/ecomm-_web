@@ -7,13 +7,14 @@ import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
-import { Link, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
+import { green } from '@mui/material/colors';
 
 
 const CartPage = () => {
@@ -34,6 +35,8 @@ const CartPage = () => {
     mrpbasedPriceFlag,
     openMobileModal,
     setOpenMobileModal,
+    isSelectedAll,
+    handleSelectAll,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -135,7 +138,7 @@ const CartPage = () => {
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
-                    {multiSelect ? 'Disable MultiSelect' : 'Select All'}
+                    {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
                   </Link> */}
                 </div>
 
@@ -157,6 +160,23 @@ const CartPage = () => {
         </div>
         {!isloding ? (
           <>
+            <div style={{ marginLeft: '35px' }}>
+              {multiSelect &&
+                <FormControlLabel
+                  control={<Checkbox 
+                    sx={{
+                      color: "rgba(125, 127, 133, 0.4) !important",
+                    }}
+                  />}
+                  label="Select All"
+                  checked={isSelectedAll()}
+                  onChange={handleSelectAll}
+                  sx={{
+                    color: "rgba(125, 127, 133, 0.4)",
+                  }}
+                />
+              }
+            </div>
             {cartData.length !== 0 ? (
               <div className="smr_cartMainPage">
                 <div className="smr_cart-left-sides">

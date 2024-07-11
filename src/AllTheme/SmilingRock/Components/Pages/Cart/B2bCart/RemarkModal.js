@@ -4,10 +4,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import './smr_RemarkModal.scss';
 
 const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
-
-  
   return (
     <Modal
       open={open}
@@ -43,6 +42,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           value={remark}
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
+          className='smr_RemarkMoalInput'
         />
         <div className="smr_projectRemarkBtn-group">
           <Button className="smr_remarksave-btn" onClick={onSave}>

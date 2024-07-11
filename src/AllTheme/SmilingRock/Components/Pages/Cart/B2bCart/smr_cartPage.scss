@@ -64,7 +64,8 @@ $cartUpdateBtncolor: #b1b1b1;
       text-decoration-color: $titleColor !important;
       cursor: pointer;
     }
-    .smr_ReomoveAllCartbtn{
+
+    .smr_ReomoveAllCartbtn {
       margin-left: 20px;
     }
 
@@ -223,7 +224,11 @@ $cartUpdateBtncolor: #b1b1b1;
     word-wrap: break-word !important;
     margin-bottom: 20px !important;
   }
-
+  .smr_mui_CartBox {
+    display: flex;
+    justify-content: space-evenly !important;
+  }
+  
   @media (min-width: 1440px) {
     .smr_mui_CartBox {
       display: flex;
@@ -232,7 +237,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 180px;
-      max-height: 200px;
+      max-height: 180px;
+      height: 180px;
     }
   }
 
@@ -240,6 +246,7 @@ $cartUpdateBtncolor: #b1b1b1;
     .smr_cartListImage {
       max-width: 180px;
       max-height: 180px;
+      height: 180px;
     }
   }
 
@@ -247,6 +254,7 @@ $cartUpdateBtncolor: #b1b1b1;
     .smr_cartListImage {
       max-width: 170px;
       max-height: 170px;
+      height: 170px;
     }
   }
 
@@ -264,6 +272,7 @@ $cartUpdateBtncolor: #b1b1b1;
     .smr_cartListImage {
       max-width: 160px;
       max-height: 160px;
+      height: 160px;
     }
   }
 
@@ -280,7 +289,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 150px;
-      max-height: 160px;
+      max-height: 150px;
+      height: 150px;
     }
   }
 
@@ -297,7 +307,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 130px;
-      max-height: 160px;
+      max-height: 130px;
+      height: 130px;
     }
   }
 
@@ -314,7 +325,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 125px;
-      max-height: 160px;
+      max-height: 125px;
+      height: 125px;
     }
   }
 
@@ -337,7 +349,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 150px;
-      max-height: 180px;
+      max-height: 150px;
+      height: 150px;
     }
   }
 
@@ -360,28 +373,29 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 150px;
-      max-height: 180px;
+      max-height: 150px;
+      height: 150px;
     }
   }
 
   @media (max-width: 1139px) and (min-width: 1040px) {
     .smr_cart-left-sides {
-      max-width: 70%;
-      width: 70%;
+      max-width: 72%;
+      width: 72%;
     }
 
     .smr_cart-right-side {
-      max-width: 30%;
-      width: 30%;
+      max-width: 28%;
+      width: 28%;
     }
 
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        max-width: 250px;
+        max-width: 260px;
       }
 
       .smr_CartCusto_R-details {
-        max-width: 320px
+        max-width: 300px
       }
     }
 
@@ -396,10 +410,12 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_cartListImage {
-      max-width: 120px;
-      max-height: 180px;
+      max-width: 140px;
+      max-height: 140px;
+      height: 140px;
     }
   }
+
 
 
   @media (max-width: 1039px) and (min-width: 887px) {
@@ -455,7 +471,9 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cartListImage {
       max-width: 100%;
-      object-fit: contain;
+      max-height: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .smr_cartbtngroupReRm {
@@ -532,6 +550,11 @@ $cartUpdateBtncolor: #b1b1b1;
       text-align: center;
     }
 
+    .smr_RightCartList {
+      margin: 5px 5px !important;
+    }
+
+
   }
 
   @media (max-width: 474px) {
@@ -607,7 +630,9 @@ $cartUpdateBtncolor: #b1b1b1;
 
 @media(max-width: 474px) {
   .smr_place-order-btnMobile {
-    width: 130px;
+    width: 120px;
+    font-size: $fontSize2;
+    height: 35px;
   }
 }
 
@@ -829,6 +854,7 @@ $cartUpdateBtncolor: #b1b1b1;
 .smr_cartListImage {
   max-width: 200px;
   max-height: 200px;
+  height: 200px;
   object-fit: cover;
 }
 
@@ -1023,38 +1049,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_projectRemarkBtn-group {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
 
-  .smr_remarksave-btn {
-    background-color: $cartUpdateBtncolor;
-    color: $btn1hoverFontColor;
-
-    &:hover {
-      background-color: $btn1hoverColor;
-    }
-  }
-
-  .smr_remarkcancel-btn {
-    background-color: $btn1bgColor;
-    color: $btn1FontColor;
-    border: 1px solid $titleColor;
-
-    &:hover {
-      background-color: #f3f4f6;
-    }
-  }
-}
 
 .smr_projectUpdateCartBtn-group {
   display: flex !important;
@@ -1106,5 +1102,17 @@ $cartUpdateBtncolor: #b1b1b1;
     width: 95%;
     max-width: 100%;
     min-width: 0;
+  }
+
+  .smr_Cart_R-details {
+    .smr_cart-Titleline {
+      font-size: $fontSize3 !important;
+      margin-bottom: 20px;
+      color: #7d7f85;
+      text-align: center;
+    }
+  }
+  .smr_Cart_R-details{
+    padding: 0 !important;
   }
 }

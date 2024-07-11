@@ -156,6 +156,19 @@ const useCart = () => {
     }
   };
 
+  const isSelectedAll = () => {
+    return cartData.length > 0 && selectedItems.length === cartData.length;
+  };
+  
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      setSelectedItems([...cartData]);
+    } else {
+      setSelectedItems([]);
+    }
+  };
+  
+
   // for updation modal
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -560,6 +573,8 @@ const useCart = () => {
     CurrencyData,
     countData,
     openMobileModal,
+    isSelectedAll,
+    handleSelectAll,
     handlecloseMobileModal,
     setmrpbasedPriceFlag,
     CartCardImageFunc,

@@ -23,7 +23,7 @@ const WishlistData = ({
   return (
     <div className="smr_WlListData">
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {items.map(item => (
             <WishlistItems
               key={item.id}
