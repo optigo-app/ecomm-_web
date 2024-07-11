@@ -72,7 +72,7 @@ const CartItem = ({
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
             alt={item?.TitleLine}
-            className='smr_cartListImage'
+            className='smrMo_cartListImage'
           />
           <div>
             <CardContent className='smrMo_cartcontentData'>

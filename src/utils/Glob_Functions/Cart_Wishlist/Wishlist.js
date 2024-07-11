@@ -65,24 +65,13 @@ const Usewishlist = () => {
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
-    if (selectedItem === item) {
-      setSelectedItem(wishlistData.length > 1 ? wishlistData[0] : null);
-    }
-    setSelectedItems(selectedItems.filter(selected => selected.id !== item.id));
-
     try {
       const response = await removeFromCartList(item, param, visiterId, islogin);
-      console.log('response--', response);
       let resStatus = response.Data.rd[0];
-      if (resStatus?.msg === "success") {
-        setCountDataUpdated(resStatus)
-        localStorage.setItem('wishUpdation', true)
-        setTimeout(() => {
-          localStorage.removeItem('wishUpdation');
-        }, 1000);
+      if (resStatus?.msg == "success") {
+        return resStatus;
       } else {
         console.log('Failed to remove product or product not found');
-        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -96,16 +85,13 @@ const Usewishlist = () => {
     try {
       const response = await removeFromCartList('IsDeleteAll', param, visiterId, islogin);
       let resStatus = response.Data.rd[0];
-      if (resStatus?.msg === "success") {
+      if (resStatus?.msg == "success") {
         setWishlistData([]);
-        setCountDataUpdated(resStatus)
-        localStorage.setItem('wishUpdation', true)
+        return resStatus;
       } else {
         console.log('Failed to remove all products or products not found');
-        localStorage.setItem('wishUpdation', false)
       }
     } catch (error) {
-      setUpdateCount(false);
       console.error("Error:", error);
     }
   };
@@ -114,26 +100,23 @@ const Usewishlist = () => {
   const handleWishlistToCart = async (item) => {
     const visiterId = Cookies.get('visiterId');
     let param = "";
-    if (item?.IsInCart != 1) {
+    if (item?.IsInCart !== 1) {
       try {
         const response = await handleWishlistToCartAPI(param, item, visiterId, islogin);
-
-        if (response?.Data?.rd[0]?.msg === "success") {
+        let resStatus = response?.Data?.rd[0];
+        
+        if (resStatus?.msg === "success") {
           const updatedWishlistData = wishlistData.map(wish =>
-            wish.id == item.id ? { ...wish, IsInCart: 1 } : wish
+            wish.id === item.id ? { ...wish, IsInCart: 1 } : wish
           );
-          console.log("updateWish", updatedWishlistData);
           setWishlistData(updatedWishlistData);
-          setCountDataUpdated(response.Data.rd[0]);
           toast.success('Wishlist items added to cart');
-          localStorage.setItem('wishUpdation', true);
         }
+        return resStatus;
       } catch (error) {
         console.error("Error:", error);
-        setUpdateCount(false);
-        localStorage.setItem('wishUpdation', false);
       }
-    }else{
+    } else {
       toast.info('Already in cart');
     }
   };
@@ -148,14 +131,12 @@ const Usewishlist = () => {
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.msg == "success") {
         getWishlistData();
-        setCountDataUpdated(resStatus)
-        localStorage.setItem('wishUpdation', true)
         toast.success('All wishlist items added to cart')
       }
+      return resStatus
     } catch (error) {
       setUpdateCount(false);
       console.error("Error:", error);
-      localStorage.setItem('wishUpdation', false)
     }
   };
 
@@ -204,7 +185,7 @@ const Usewishlist = () => {
     navigate(`/d/${wishtData?.TitleLine.replace(/\s+/g, `_`)}${wishtData?.TitleLine?.length > 0 ? "_" : ""}${wishtData?.designno}?p=${encodeObj}`)
   }
 
-//browse our collection
+  //browse our collection
 
   const handelMenu = () => {
     let menudata = JSON.parse(localStorage.getItem('menuparams'));

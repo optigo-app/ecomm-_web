@@ -34,47 +34,37 @@ const Wishlist = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const setWishCountVal = useSetRecoilState(WishCount)
   const setCartCountVal = useSetRecoilState(CartCount)
-  const [countstatus, setCountStatus] = useState();
   const visiterId = Cookies.get('visiterId');
 
-  useEffect(() => {
-      const iswishUpdateStatus = localStorage.getItem('wishUpdation');
-      setCountStatus(iswishUpdateStatus)
-  }, [handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
 
 
-  const handleConfirmRemoveAll = () => {
+  const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    handleRemoveAll();
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI(visiterId).then((res) => {
-          console.log('responseCount', res);
-          setWishCountVal(res?.wishcount);
-        })
-      }
-    }, 500)
+    const returnValue = await handleRemoveAll();
+    if(returnValue?.msg == "success"){
+      GetCountAPI(visiterId).then((res) => {
+        setWishCountVal(res?.wishcount);
+      })
+    }
   };
+
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
 
 
-  const handleAddtoCartAllfun = () => {
-    handleAddtoCartAll();
-    setTimeout(() => {
-      if (countstatus) {
+  const handleAddtoCartAllfun = async() => {
+    const returnValue = await handleAddtoCartAll();
+      if(returnValue?.msg == "success"){
         GetCountAPI(visiterId).then((res) => {
-          console.log('responseCount', res);
           setCartCountVal(res?.cartcount);
         })
       }
-    }, 500)
   }
 
   function scrollToTop() {
@@ -89,7 +79,7 @@ const Wishlist = () => {
   return (
     <div className="smr_MainWlDiv">
       <div className="WlMainPageDiv">
-        <div className="WlBtnGroupMainDiv">
+        <div className="smrProcat_WlBtnGroupMainDiv">
           <div className="smr_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
             <>
