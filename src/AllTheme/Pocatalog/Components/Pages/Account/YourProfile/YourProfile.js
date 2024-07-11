@@ -89,7 +89,7 @@ export default function YourProfile() {
 
 
     return (
-        <div>
+        <div className='proCate_profileMain'>
             <ToastContainer />
 
             {isLoading && (

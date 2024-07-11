@@ -26,7 +26,7 @@ function Home() {
 
   return (
     <div className='smiling_home_index_main'>
-      <div style={{minHeight: '700px'}}>
+      <div style={{ minHeight: '700px' }}>
         {localData?.Blockno === 1 &&
           <div className='smiling_home_index_Submain'>
             <TopSection />
@@ -48,7 +48,7 @@ function Home() {
         }
       </div>
 
-      <div style={{minHeight: '700px'}}>
+      <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
         {localData?.Blockno === 2 &&
           <div className='smiling_home_index_Submain'>
             <TopSection />

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 
 export default function YourProfile() {
+    
     const [userData, setUserData] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [editedUserData, setEditedUserData] = useState(null);
@@ -40,28 +41,6 @@ export default function YourProfile() {
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
 
-            // const combinedValue = JSON.stringify({
-            //     firstname: `${editedUserData.defaddress_shippingfirstname}`, 
-            //     lastname: `${editedUserData.defaddress_shippinglastname}`, 
-            //     street: `${editedUserData.defaddress_state}`, 
-            //     addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
-            //     city: `${editedUserData.city}`, 
-            //     state: `${editedUserData.state}`, 
-            //     country: `${userData.defaddress_country}`, 
-            //     zip: `${userData.defaddress_zip}`, 
-            //     mobile: `${userData.defaddress_shippingmobile}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${editedUserData.id}`
-            // });
-
-            // const encodedCombinedValue = btoa(combinedValue);
-
-            // const body = {
-            //     "con": `{\"id\":\"\",\"mode\":\"EDITPROFILE\",\"appuserid\":\"${data.userid}\"}`,
-            //     "f": "YourProfile (EditProfile)",
-            //     p: encodedCombinedValue
-            // };
-
-            // const response = await CommonAPI(body);
-
             const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, userData);
             
             if (response?.Data?.rd[0]?.stat === 1) {
@@ -89,7 +68,7 @@ export default function YourProfile() {
 
 
     return (
-        <div>
+        <div className='smr_yourProfile'>
             <ToastContainer />
 
             {isLoading && (
@@ -219,21 +198,11 @@ export default function YourProfile() {
                         )}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button onClick={handleSave} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                 </div>
             </Modal>
         </div>
     );
 }
-
-// import React from 'react'
-
-// const YourProfile = () => {
-//   return (
-//     <div>YourProfile</div>
-//   )
-// }
-
-// export default YourProfile

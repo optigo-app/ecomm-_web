@@ -1185,7 +1185,7 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
+                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: 'fitContent', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
                     onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
