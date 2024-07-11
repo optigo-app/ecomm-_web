@@ -165,7 +165,12 @@
   }
 
   @media screen and (max-width:1450px) {
-
+    .smr_designSetDiv{
+      width: 48%!important;
+    }
+  }
+    @media screen and (max-width:1200px) {
+    
     .smr_lookbookFilterMain {
       display: none;
     }
@@ -173,9 +178,7 @@
     .smr_lookBookImgDiv {
       width: 100% !important;
     }
-  }
 
-  @media screen and (max-width:1200px) {
     .smr_LookBookSubMainDiv {
       margin-inline: 1% !important;
     }
