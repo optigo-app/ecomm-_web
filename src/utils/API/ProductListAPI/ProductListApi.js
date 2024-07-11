@@ -1,7 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="",diaRange={}) => {
+const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="",diaRange={},netWt={},gross={}) => {
 
   let MenuParams = {};
   let serachVar = ""
@@ -110,12 +110,12 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     Ocassionid: `${filterObj?.ocassion ?? ""}`,
     Themeid: `${filterObj?.theme ?? ""}`,
     Producttypeid: `${filterObj?.producttype ?? ""}`,
-    Min_DiaWeight: `${diaRange?.DiaMin}`,
-    Max_DiaWeight: `${diaRange?.DiaMax}`,
+    Min_DiaWeight: `${diaRange[0] ?? ""}`,
+    Max_DiaWeight: `${diaRange[1] ?? ""}`,
     Min_GrossWeight: '',
     Max_GrossWeight: '',
-    Max_NetWt: '',
-    Min_NetWt: '',
+    Min_NetWt: `${netWt[0] ?? ""}`,
+    Max_NetWt:`${netWt[1] ?? ""}`,
     FilPrice:filterObj?.Price,
     // Max_Price: '',
     // Min_Price: '',

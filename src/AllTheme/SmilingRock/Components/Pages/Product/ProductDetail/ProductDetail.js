@@ -1209,7 +1209,7 @@ const ProductDetail = () => {
                       </div>}
                       {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 )   && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
-                          DAIMOND :
+                          DIAMOND :
                         </label>
                         <select
                           className="menuitemSelectoreMain"
