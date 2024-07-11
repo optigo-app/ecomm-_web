@@ -68,7 +68,7 @@ export default function YourProfile() {
 
 
     return (
-        <div>
+        <div className='smr_yourProfile'>
             <ToastContainer />
 
             {isLoading && (
@@ -198,8 +198,8 @@ export default function YourProfile() {
                         )}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button onClick={handleSave} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                 </div>
             </Modal>

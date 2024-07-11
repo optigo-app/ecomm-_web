@@ -5,6 +5,7 @@ import CartItem from './CartItem';
 const CartList = ({
   items,
   setOpenMobileModal,
+  openHandleUpdateCartModal,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
@@ -45,6 +46,7 @@ const CartList = ({
             handleRemarkChange={handleRemarkChange}
             handleSave={handleSave}
             handleCancel={handleCancel}
+            openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
         ))}
       </Grid>

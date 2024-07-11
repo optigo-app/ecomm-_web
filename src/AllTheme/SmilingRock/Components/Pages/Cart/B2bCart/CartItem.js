@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -6,13 +6,14 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { FormControl } from 'react-bootstrap';
 
 const CartItem = ({
   item,
@@ -33,6 +34,7 @@ const CartItem = ({
   handleRemarkChange,
   handleSave,
   handleCancel,
+  openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
@@ -40,7 +42,8 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
-  
+  const [isHovered, setIsHovered] = useState(false);
+
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
@@ -87,11 +90,37 @@ const CartItem = ({
     }, 500)
   }
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+
+  const [pressing, setPressing] = useState(false);
+  const pressTimer = useRef(null);
+
+  const handlePress = (action) => {
+    return () => {
+      pressTimer.current = setTimeout(() => {
+        alert("Long press detected");
+      }, 1000);
+      setPressing(action === 'start');
+    };
+  };
+
+  const cancelPress = () => {
+    clearTimeout(pressTimer.current);
+    setPressing(false);
+  };
 
 
   const width = isLargeScreen && itemLength <= 3 ? '390px' :
     isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
+
 
   return (
     <Grid
@@ -105,12 +134,20 @@ const CartItem = ({
       <Card className='smr_cartListCard'
         key={item?.id}
         sx={{
-          boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
+          boxShadow: !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
           width: width
         }}
-        
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
+        // onDoubleClick={openHandleUpdateCartModal}
+
+        onMouseDown={handlePress('start')}
+        onMouseUp={cancelPress}
+        onMouseLeave={cancelPress}
+        onTouchStart={handlePress('start')}
+        onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
@@ -127,18 +164,18 @@ const CartItem = ({
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
                     DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
@@ -174,14 +211,28 @@ const CartItem = ({
             </Box>
           </div>
         </Box>
-        {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
+        <div>
+          {multiSelect &&
+            <Checkbox
+              checked={multiSelect && isSelected}
+              onChange={() => onSelect(item)}
+              sx={{
+                color: green[500],
+                position: 'absolute',
+                top: 0,
+                left: 2
+              }}
+            />
+          }
+        </div>
+        {/* {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />} */}
       </Card>
       <RemarkModal
         open={open}
         onClose={handleClose}
         remark={remark}
         onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}       
+        onSave={handleSaveInternal}
       />
     </Grid>
   );

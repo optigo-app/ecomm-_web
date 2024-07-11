@@ -36,6 +36,7 @@ const Footer = ({ fromPage }) => {
   }, [])
 
 
+  console.log('socialMediaDatasocialMediaDatasocialMediaData',socialMediaData);
   return (
     <div>
 
@@ -45,7 +46,7 @@ const Footer = ({ fromPage }) => {
             <div className='footerIconMain'>
               {socialMediaData?.map((social, index) => (
                 <div className='footerSocialIcon'>
-                  <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                  <a key={index} href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
                     <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                       onError={(e) => { e.target.style.display = 'none'; }} />
                   </a>
