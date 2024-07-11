@@ -97,7 +97,8 @@ const DesignWiseSalesReport = () => {
     };
 
     const handleNetWtSliderCustom = (val) => (event) => {
-        let vals = event.target.value;
+        
+        let vals = (event.target.value);
         let min = 0;
         let max = 0;
         const newValue = [...netWtSlider];
@@ -389,16 +390,7 @@ const DesignWiseSalesReport = () => {
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             let currencyRate = "1";
-            // const combinedValue = JSON.stringify({
-            //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            // });
-            // const encodedCombinedValue = btoa(combinedValue);
-            // const body = {
-            //     "con": `{\"id\":\"Store\",\"mode\":\"getdesignwisesalereport\",\"appuserid\":\"${data.email1}\"}`,
-            //     "f": "zen (cartcount)",
-            //     p: encodedCombinedValue
-            // };
-            // const response = await CommonAPI(body);
+  
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
             
             if (response?.Data?.rd) {
@@ -426,10 +418,10 @@ const DesignWiseSalesReport = () => {
                     }, 0);
 
                     if (minNetWt === 0 || minNetWt > e?.DesignNetWt) {
-                        minNetWt = e?.DesignNetWt;
+                        minNetWt = ((e?.DesignNetWt + 0.000));
                     }
                     if (maxNetWt === 0 || maxNetWt < e?.DesignNetWt) {
-                        maxNetWt = e?.DesignNetWt;
+                        maxNetWt = (e?.DesignNetWt + 0.000);
                     }
 
                     if (minGrossWt === 0 || minGrossWt > e?.["GrossWt"]) {
@@ -605,7 +597,7 @@ const DesignWiseSalesReport = () => {
                         <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
 
-                <Box sx={{ marginRight: "35px", paddingBottom: "10px", width: 170 }}>
+                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
                     <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                     <Slider
                         className='netWtSecSlider'
@@ -615,21 +607,21 @@ const DesignWiseSalesReport = () => {
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
                         disableSwap
-                        min={netWtLimit?.min}
-                        max={netWtLimit?.max}
+                        min={(netWtLimit?.min)}
+                        max={(netWtLimit?.max)}
                     />
-
+                    
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={netWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                            <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 onChange={handleNetWtSliderCustom(0)}
                                 onBlur={handleBlurNetWt(0)}
                                 inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
                             />
                         </Typography>
                         <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={netWtSlider[1]}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                            <TextField type="number" value={(netWtSlider[1])}
+                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                 onChange={handleNetWtSliderCustom(1)}
                                 onBlur={handleBlurNetWt(1)}
@@ -638,7 +630,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
                 </Box>
 
-                <Box sx={{ marginRight: "35px", paddingBottom: "10px", width: 170 }}>
+                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
                     <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
                     <Slider
                         className='netWtSecSlider'
@@ -652,7 +644,7 @@ const DesignWiseSalesReport = () => {
                     />
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                            <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 onChange={handleGrossWtSliderCustom(0)}
                                 onBlur={handleBlurGrossWt(0)}
                                 inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
@@ -660,7 +652,7 @@ const DesignWiseSalesReport = () => {
                         </Typography>
                         <Typography sx={{ maxWidth: "50px" }}>
                             <TextField type="number" value={grossWtSlider[1]}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                 onChange={handleGrossWtSliderCustom(1)}
                                 onBlur={handleBlurGrossWt(1)}
@@ -829,7 +821,7 @@ const DesignWiseSalesReport = () => {
                                         textAlign: "start"
                                     }}
                                 >
-                                    NetWt: {products?.DesignNetWt}
+                                    NetWt: {products?.DesignNetWt?.toFixed(3)}
                                 </Typography>
                             </Box>
                             <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
@@ -871,13 +863,3 @@ const DesignWiseSalesReport = () => {
 }
 
 export default DesignWiseSalesReport
-
-// import React from 'react'
-
-// const DesignWiseSalesReport = () => {
-//   return (
-//     <div>DesignWiseSalesReport</div>
-//   )
-// }
-
-// export default DesignWiseSalesReport

@@ -83,7 +83,6 @@ export default function Account() {
     const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
-        console.log(newValue);
         setValue(newValue);
     };
 
@@ -165,7 +164,6 @@ export default function Account() {
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
-                                                console.log(e);
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
                                             })
                                         }
