@@ -32,6 +32,7 @@ import { useDefaultDates } from "@mui/x-date-pickers/internals";
 import { RangeSlider } from "rsuite";
 import 'rsuite/RangeSlider/styles/index.css';
 import RangeFilter from "../RangeFilter/RangeFilter";
+import { scrollTop } from "rsuite/esm/DOMHelper";
 
 
 
@@ -412,6 +413,10 @@ const ProductList = () => {
         }).finally(() => {
           setIsProdLoading(false)
           setIsOnlyProdLoading(false)
+          window.scroll({
+            top: 0,
+            behavior: 'smooth'
+          })
         })
         .catch((err) => console.log("err", err))
 
@@ -959,8 +964,24 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(()=>{
             setIsOnlyProdLoading(false)
+            
+            // if(element)
+            //   {
+            //     element.scrollIntoView({ behavior: "smooth", block: "start" })
+            //   }
+            // window.scroll({
+            //   top: 0,
+            //   behavior: 'smooth'
+            // })
         })
   }
+
+  // useEffect(()=>{
+    // let element =  document.getElementById("smr_outer_portion")
+    // if(element){
+    //   console.log("scroll",element)
+    // }
+  // },[])
 
   // const showBreadCumsValue = () =>{
 
@@ -1520,6 +1541,7 @@ const ProductList = () => {
                 <span>
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length === 0
+                    // ? <span><span>{"Filters"}</span> <span>{"product"}</span></span>
                     ? "Filters"
                     : `Product Found: ${afterFilterCount}`}
                 </span>
@@ -2364,7 +2386,7 @@ const ProductList = () => {
                       {isOnlyProdLoading ? (
                         <ProductListSkeleton fromPage={"Prodlist"} />
                       ) : (
-                        <div className="smr_outer_portion">
+                        <div className="smr_outer_portion" id="smr_outer_portion">
                           {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                           <div className="smr_inner_portion">
                             {finalProductListData?.map((productData, i) => (

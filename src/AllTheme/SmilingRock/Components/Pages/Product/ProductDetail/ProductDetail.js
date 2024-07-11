@@ -183,7 +183,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleWishList = (e) => {
+  const handleWishList = (e,ele) => {
     setWishListFlag(e?.target?.checked);
 
     let metal =
@@ -902,7 +902,7 @@ const ProductDetail = () => {
     if (type === "Cart") {
       setCartArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
+        [ele?.StockId]: e.target.checked
       }))
     }
 
@@ -1318,8 +1318,8 @@ const ProductDetail = () => {
                             />
                           }
                           disableRipple={true}
-                          checked={wishListFlag ?? singleProd?.IsInWish}
-                          onChange={(e) => handleWishList(e)}
+                          checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                          onChange={(e) => handleWishList(e,singleProd)}
                         />
                       </div>
                     </div>
@@ -1423,7 +1423,7 @@ const ProductDetail = () => {
                           sx={{ padding: "10px" }}
 
                           onChange={(e) => handleCartandWish(e, ele, "Cart")}
-                          checked={cartArr[ele?.autocode] ?? ele?.IsInCart === 1 ? true : false}
+                          checked={cartArr[ele?.StockId] ?? ele?.IsInCart === 1 ? true : false}
                         />
 
                       </div>
