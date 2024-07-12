@@ -85,12 +85,12 @@ const Home = () => {
   return (
     <div className='smrMA_Home_main'>
       <TopSection />
+      {localData?.IsHomeBestSeller === 1 && < BestSellerSection />}
       {localData?.IsHomeAlbum === 1 && <Album />}
       <PromotionBaner1 />
       {localData?.IsHomeNewArrival === 1 && < NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && < DesignSet />}
-      {localData?.IsHomeBestSeller === 1 && < BestSellerSection />}
       <BottomBanner />
     </div>
   )
