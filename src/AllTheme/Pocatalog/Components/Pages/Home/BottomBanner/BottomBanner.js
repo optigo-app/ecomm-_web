@@ -49,7 +49,7 @@ const BottomBanner = () => {
         },
     ]
     return (
-        <div className='smr_BottomBannerMain'>
+        <div className='proCat_BottomBannerMain'>
             {
                 dataJSON.map((data, i) => (
                     <div>

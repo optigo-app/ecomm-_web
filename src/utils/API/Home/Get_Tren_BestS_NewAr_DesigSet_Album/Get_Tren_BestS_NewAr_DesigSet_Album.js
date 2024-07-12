@@ -35,6 +35,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             Max_NetWt: '',
             Min_NetWt: '',
             FilPrice: filterObj?.Price,
+            IsPLW: storeInit?.IsPLW
         })
 
         const combinedValueLogin = JSON.stringify({
@@ -64,6 +65,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             Max_NetWt: '',
             Min_NetWt: '',
             FilPrice: filterObj?.Price,
+            IsPLW: storeInit?.IsPLW
         })
 
 

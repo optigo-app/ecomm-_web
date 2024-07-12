@@ -12,7 +12,8 @@ export const GetCountAPI = async (visiterId) => {
 
     let data = {
         "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-        "Customerid": `${customerId ?? 0}`
+        "Customerid": `${customerId ?? 0}`,
+        IsPLW: storeInit?.IsPLW
     }
 
     let stringify = JSON.stringify(data)

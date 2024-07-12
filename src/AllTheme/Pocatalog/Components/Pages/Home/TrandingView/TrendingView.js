@@ -167,7 +167,7 @@ const TrendingView = () => {
     }
 
     return (
-        <div className='smr_trendingViewTopMain'>
+        <div className='proCat_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
                     <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
