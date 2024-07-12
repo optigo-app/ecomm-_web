@@ -17,7 +17,8 @@ export const ResetPasswordAPI = async ( email, hashedPassword) => {
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"resetpassword\",\"appuserid\":\"${email}\"}`,
             "f": "ForgotPassword (handleSubmit)",
-            "p": encodedCombinedValue
+            "p": encodedCombinedValue,
+            "dp": combinedValue,
         }
         response = await CommonAPI(body);
     } catch (error) {

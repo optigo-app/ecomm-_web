@@ -1,0 +1,42 @@
+@import '../../scss/variable';
+
+$generalColor : lightgray;
+
+.Submain {
+    background-color: $generalColor;
+}
+
+.smiling_home_index_main {
+    background-color: $backgroundColor;
+    padding-inline: 6%;
+}
+
+.smiling_home_index_Submain {
+    background-color: white;
+}
+
+
+.authFlowBakcColor {
+    background-color: $backgroundColor;
+}
+
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+@media screen and (max-width:1200px) {
+
+    .smiling_home_index_main {
+        padding-inline: 1% !important;
+    }
+}

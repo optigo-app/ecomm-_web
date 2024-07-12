@@ -76,9 +76,9 @@ const DesignSet = () => {
         let obj = {
             a: autoCode,
             b: designNo,
-            m: loginUserDetail?.MetalId,
-            d: loginUserDetail?.cmboDiaQCid,
-            c: loginUserDetail?.cmboCSQCid,
+            m: loginUserDetail?.MetalId ?? storeInit?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -112,6 +112,7 @@ const DesignSet = () => {
     return (
         <div className="smr_designSetMain">
 
+            <p className='smr_desognSetTitle'>Complete Our Look</p>
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
@@ -137,7 +138,7 @@ const DesignSet = () => {
                             </p> */}
                         </div>
                     ))}
-                    {!showAll && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
+                    {!showAll && itemsToShow?.length > 6 && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
                 </div>
             </div>
 

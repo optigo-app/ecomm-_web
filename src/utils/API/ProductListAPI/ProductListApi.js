@@ -1,7 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="") => {
+const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="",diaRange={},netWt={},gross={}) => {
 
   let MenuParams = {};
   let serachVar = ""
@@ -22,15 +22,13 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     }
    }else{
     if(mainData !== ""){
-       console.log("mainData",mainData);
+       console.log("mainData",atob(mainData)?.split("=")[0]);
 
-      // if(mainData?.split("=")[0] == "AlbumName"){
-      //   MenuParams.FilterKey = atob(mainData)?.split("=")[0]
-      //   MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-      //   return;
-      // } 
-
-      if(mainData?.split("=")[0] == "S"){
+       if(atob(mainData)?.split("=")[0] == "AlbumName"){
+        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+       }
+       else if(mainData?.split("=")[0] == "S"){
         serachVar = JSON.parse(atob(mainData.split("=")[1]))
         console.log("serachVar",JSON.parse(atob(mainData.split("=")[1])))
       }else{
@@ -112,14 +110,15 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     Ocassionid: `${filterObj?.ocassion ?? ""}`,
     Themeid: `${filterObj?.theme ?? ""}`,
     Producttypeid: `${filterObj?.producttype ?? ""}`,
-    Min_DiaWeight: '',
-    Max_DiaWeight: '',
+    Min_DiaWeight: `${diaRange[0] ?? ""}`,
+    Max_DiaWeight: `${diaRange[1] ?? ""}`,
     Min_GrossWeight: '',
     Max_GrossWeight: '',
-    Max_NetWt: '',
-    Min_NetWt: '',
-    Max_Price: '',
-    Min_Price: '',
+    Min_NetWt: `${netWt[0] ?? ""}`,
+    Max_NetWt:`${netWt[1] ?? ""}`,
+    FilPrice:filterObj?.Price,
+    // Max_Price: '',
+    // Min_Price: '',
 
     SortBy: `${sortby ?? ""}`,
     Laboursetid: `${
@@ -145,6 +144,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
     Size: "",
     IsFromDesDet: "",
+    IsPLW: storeinit?.IsPLW
 
   };
 

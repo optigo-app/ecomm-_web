@@ -4,6 +4,8 @@ import CartItem from './CartItem';
 
 const CartList = ({
   items,
+  setOpenMobileModal,
+  openHandleUpdateCartModal,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
@@ -22,18 +24,20 @@ const CartList = ({
   console.log('itemgsgdhas-', selectedItem);
   return (
     <div className="smr_RightCartList">
-      <Grid container spacing={2}>
-        {items.map(item => (
+      <Grid container spacing={1}>
+        {items.map((item, index) => (
           <CartItem
             key={item.id}
             item={item}
+            index={index}
             CartCardImageFunc={CartCardImageFunc}
             CurrencyData={CurrencyData}
             decodeEntities={decodeEntities}
             onSelect={onSelect}
             selectedItem={selectedItem}
-            isActive={selectedItems.includes(item)}
-            isSelected={multiSelect ? selectedItems.includes(item) : selectedItem === item}
+            selectedItemsLength={selectedItems?.length}
+            isActive={selectedItems?.includes(item)}
+            isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
             multiSelect={multiSelect}
             onRemove={onRemove}
             itemLength={items?.length}
@@ -43,6 +47,7 @@ const CartList = ({
             handleRemarkChange={handleRemarkChange}
             handleSave={handleSave}
             handleCancel={handleCancel}
+            openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
         ))}
       </Grid>

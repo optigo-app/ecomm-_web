@@ -26,49 +26,47 @@ function Home() {
 
   return (
     <div className='smiling_home_index_main'>
-      {localData?.Blockno === 1 &&
-        <div className='smiling_home_index_Submain'>
-          <TopSection />
-          <TheDifference />
-          <PromotionBaner1 />
-          {localData?.IsHomeAlbum === 1 && <Album />}
-          {localData?.IsHomeTrending === 1 && <TrendingView />}
-          {/* <DaimondEveyone /> */}
-          {/* <ShopByCategory /> */}
-          {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-          {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+      <div style={{ minHeight: '700px' }}>
+        {localData?.Blockno === 1 &&
+          <div className='smiling_home_index_Submain'>
+            <TopSection />
+            <TheDifference />
+            <PromotionBaner1 />
+            {localData?.IsHomeAlbum === 1 && <Album />}
+            {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+            {/* <DaimondEveyone /> */}
+            {/* <ShopByCategory /> */}
+            {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+            {localData?.IsHomeTrending === 1 && <TrendingView />}
+            {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+            {/* <SustainAbility /> */}
+            {/* <BestSaller /> */}
+            <BottomBanner />
+            <Footer />
+          </div>
+        }
+      </div>
 
-          {/* <SustainAbility /> */}
-          {/* <BestSaller /> */}
-          <BottomBanner />
-          <Footer />
-        </div>
-      }
-
-      {localData?.Blockno === 2 &&
-        <div className='smiling_home_index_Submain'>
-          <TopSection />
-          <TheDifference />
-          <PromotionBaner1 />
-          {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
-
-          {localData?.IsHomeAlbum === 1 && <Album />}
-          {/* <DaimondEveyone /> */}
-          <ShopByCategory />
-          {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-          {localData?.IsHomeTrending === 1 && <TrendingView />}
-
-          {/* <SustainAbility /> */}
-          {/* <BestSaller /> */}
-          <BottomBanner />
-          <Footer />
-        </div>
-      }
-
-
-
+      <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
+        {localData?.Blockno === 2 &&
+          <div className='smiling_home_index_Submain'>
+            <TopSection />
+            <TheDifference />
+            <PromotionBaner1 />
+            {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
+            {localData?.IsHomeAlbum === 1 && <Album />}
+            {/* <DaimondEveyone /> */}
+            <ShopByCategory />
+            {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+            {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+            {localData?.IsHomeTrending === 1 && <TrendingView />}
+            {/* <SustainAbility /> */}
+            {/* <BestSaller /> */}
+            <BottomBanner />
+            <Footer />
+          </div>
+        }
+      </div>
       <div>
         <p style={{
           paddingBlock: '30px',

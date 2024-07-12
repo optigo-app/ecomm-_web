@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, formatAmount} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 
 import Swal from 'sweetalert2';
 
@@ -309,14 +309,17 @@ const QuotationJob = () => {
 
 
   const handleRequestSort = (property) => {
-    let isAsc = ((orderBy === property) && (order === 'asc'));
-    if(isAsc){
-      setOrder('desc');
-    }else{
-      setOrder('asc');
-    }
+    if(property?.toLowerCase() === 'sr#') return null
+    else{
 
-    setOrderBy(property);
+      let isAsc = ((orderBy === property) && (order === 'asc'));
+      if(isAsc){
+        setOrder('desc');
+      }else{
+        setOrder('asc');
+      }
+      
+      setOrderBy(property);
     const sortedData = stableSort(data, getComparator(order, property));
     setData(sortedData); // Update the data array with sorted data
   
@@ -324,19 +327,11 @@ const QuotationJob = () => {
     const sortedFilterData = stableSort(filterData, getComparator(order, property));
     // setPage(0);
     setFilterData(sortedFilterData);
-
+    
+  }
      
   };
 
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
 
   function getComparator(order, orderBy) {
     return order === 'desc'
@@ -425,17 +420,7 @@ const QuotationJob = () => {
         return 0;
     }
 }
-  const customComparator_Col = (a, b) => {
-  const regex = /([^\d]+)(\d+)/;
-  const [, wordA, numA] = a?.match(regex);
-  const [, wordB, numB] = b?.match(regex);
-  
-  if (wordA !== wordB) {
-      return wordA?.localeCompare(wordB);
-  }
-  
-  return parseInt(numB, 10) - parseInt(numA, 10);
-};
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -866,7 +851,7 @@ const scrollToTop = () => {
           <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
-                <TableHead>
+                <TableHead className='user-select-none'>
                   <TableRow>
                   <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
                     <Checkbox

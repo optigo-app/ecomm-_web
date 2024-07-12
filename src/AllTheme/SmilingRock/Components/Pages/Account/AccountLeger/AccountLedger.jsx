@@ -22,11 +22,10 @@ const AccountLedger = () => {
     const [currencySymbol, setCurrencySymbol] = useState('');
     const [filterArray, setFilterArray] = useState([]);
     const [loaderAC, setLoaderAC] = useState(false);
-    const [filterVisible, setFilterVisible] = useState(false);
     const [userName, setUserName] = useState('');
     const [selectedDays, setSelectedDays] = useState(null); 
     const [resultTotal, setResultTotal] = useState(null);
-    const [openingBalanceTotal, setOpeningBalanceTotal] = useState(null);
+
     const [debit_dia_diff, setDebit_dia_diff] = useState(0);
     const [debit_mg_diff, setDebit_mg_diff] = useState(0);
     const [debit_amt_diff, setDebit_amt_diff] = useState(0);
@@ -62,39 +61,6 @@ const AccountLedger = () => {
         let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
         const UserEmail = localStorage.getItem("userEmail");
         try {
-            
-        // let EncodeData = {
-        //     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-        //     Customerid: `${loginInfo?.id}`,
-        //   };
-    
-        //   const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
-    
-        //   const body_currencycombo = {
-        //     con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-        //     f: "m-test2.orail.co.in (getcategorysize)",
-        //     p: `${encodedCombinedValue}`,
-        //   };
-    
-        //   const response = await CommonAPI(body_currencycombo);
-          
-          
-        //   const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-        //   const CurrencySymbol = response?.Data?.rd[0]?.Currencysymbol;
-
-        //   setCurrencySymbol(CurrencySymbol)
-
-        //   const forendcode = {"CurrencyRate":`${CurrencyRate}`,"FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,"Customerid":`${loginInfo?.id}`};
-
-        //   const encodedCombinedValue2 = btoa(JSON.stringify(forendcode));
-
-        //   const body = {
-        //         "con":"{\"id\":\"Store\",\"mode\":\"getledger\",\"appuserid\":\"nimesh@ymail.in\"}",
-        //         "f":"zen (cartcount)",
-        //         "p":`${encodedCombinedValue2}`
-        //     }
-            
-        //   const response2 = await CommonAPI(body);
 
             const response = await getAccountLedgerData(storeinit, loginInfo, UserEmail);
 
@@ -270,38 +236,7 @@ const AccountLedger = () => {
         // Update the fromDate state
         setFromDate(fromDateCopy);
         handleSearchBtn('', newStartDate, newEndDate, days)
-        // let newStartDate = null;
-        // let newEndDate = null;
-    
-        // if (days === 30) {
-        //     // Subtract 1 month from the current start date to get the new start date
-        //     newStartDate = fromDate.subtract(1, 'month');
-        //     // Set the end date as the last day of the previous month
-        //     newEndDate = newStartDate.endOf('month');
-        // } else if (days === 60) {
-        //     // Subtract 2 months from the current start date to get the new start date
-        //     newStartDate = fromDate.subtract(2, 'month');
-        //     // Set the end date as the last day of the previous month
-        //     newEndDate = newStartDate.endOf('month');
-        // } else if (days === 90) {
-        //     // Subtract 3 months from the current start date to get the new start date
-        //     newStartDate = fromDate.subtract(3, 'month');
-        //     // Set the end date as the last day of the previous month
-        //     newEndDate = newStartDate.endOf('month');
-        // }
-        // console.log(days);
-        // // Calculate the new end date (which is the current end date)
-        // const newEndDate = toDate.subtract(days, 'day');
-        
-        // // Calculate the new start date based on the new end date and selected number of days
-        // const newStartDate = newEndDate.subtract(days - 1, 'day'); // Subtract one less day to maintain the selected number of days
-        
-        // Update the state with the new start and end dates
-        // setFromDate(newStartDate);
-        // setToDate(newEndDate);
-    
-        // Filter the data based on the new date range
-        // filterData();
+  
     }
 
     const handleNextDays = () => {
@@ -407,7 +342,6 @@ const AccountLedger = () => {
         setDebit_curr_diff(deb_result_curr_amt);
 
         
-        setOpeningBalanceTotal(credit_debit)
     }
     
     const handleSearchBtn = (eve, fromDatess, todatess, days) => {
@@ -689,13 +623,27 @@ const AccountLedger = () => {
                 
                 <div className='text-secondary fs_al d_flex_Acc justify-content-between align-items-start p-2 my-3 mt-0 balance_none'>
                     <div className='d-flex justify-content-start align-items-start flex-wrap'>
-                        <div className='px-4 px_2_al d-flex align-items-center mb-2 ps-0 w_all_acc'><span className='w_40_acc'>Balance Gold :&nbsp;</span> <span className='bal_Amt_ac  w_60_acc end_acc'>
-                            { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
-                            { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</span></div>
-                        <div className='px-4 px_2_al d-flex align-items-center mb-2 w_all_acc'><span className='w_40_acc'>Balance Diam. :&nbsp;</span> <span className='bal_Amt_ac w_60_acc end_acc'>
-                            { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
-                            { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }</span></div>
-                        <div className='px-4 px_2_al d-flex align-items-center mb-2 w_all_acc'><span className='w_40_acc'>Balance Amount :&nbsp;</span> <span className='bal_Amt_ac w_60_acc end_acc'>
+                        <div className='px-4 px_2_al d-flex align-items-center mb-2 ps-0 w_all_acc'>
+                            <span className='w_40_acc'>Balance Gold :&nbsp;</span> 
+                            <span className='bal_Amt_ac  w_60_acc end_acc'>
+                                {   ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - 
+                                    ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  
+                                    (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))
+                                }
+                                { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }
+                            </span>
+                            </div>
+                        <div className='px-4 px_2_al d-flex align-items-center mb-2 w_all_acc'>
+                            <span className='w_40_acc'>Balance Diam. :&nbsp;</span> 
+                                <span className='bal_Amt_ac w_60_acc end_acc'>
+                                    { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
+                                     : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
+                                    { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+                                </span>
+                        </div>
+                        <div className='px-4 px_2_al d-flex align-items-center mb-2 w_all_acc'>
+                            <span className='w_40_acc'>Balance Amount :&nbsp;</span> 
+                            <span className='bal_Amt_ac w_60_acc end_acc'>
                             <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
                             { ((formatAmount(
                                 (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
@@ -865,12 +813,3 @@ const AccountLedger = () => {
 }
 
 export default AccountLedger
-// import React from 'react'
-
-// const AccountLedger = () => {
-//   return (
-//     <div>AccountLedger</div>
-//   )
-// }
-
-// export default AccountLedger

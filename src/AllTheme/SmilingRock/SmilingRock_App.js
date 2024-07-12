@@ -50,6 +50,22 @@ const SmilingRock_App = () => {
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+
+    useEffect(() => {
+        let data = localStorage.getItem('storeInit');
+        let Logindata = JSON.parse(localStorage.getItem('loginUserDetail'));
+        let logo = JSON?.parse(data);
+        if (Logindata) {
+            if (Logindata?.IsPLWOn == 1) {
+                setCompanyTitleLogo(Logindata?.Private_label_logo)
+            }else {
+                setCompanyTitleLogo(logo?.companylogo)
+            }
+        } else {
+            setCompanyTitleLogo(logo?.companylogo)
+        }
+    })
 
     useEffect(() => {
         const cookieValue = Cookies.get('userLoginCookie');
@@ -93,9 +109,8 @@ const SmilingRock_App = () => {
                 <Route path="/servicePolicy" element={<ServicePolicy />} />
                 <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
                 <Route path="/FunFact" element={<FunFact />} />
-                <Route path="/Lookbook" element={<Lookbook />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-                {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
+                <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
                     <Route path="/p/*" element={<ProductList />} />
                     <Route path="/d/*" element={<ProductDetail />} />
                     <Route path="/cartPage" element={<Cart />} />
@@ -104,7 +119,8 @@ const SmilingRock_App = () => {
                     <Route path="/Payment" element={<Payment />} />
                     <Route path="/Confirmation" element={<Confirmation />} />
                     <Route path="/account" element={<Account />} />
-                {/* </Route> */}
+                    <Route path="/Lookbook" element={<Lookbook />} />
+                </Route>
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
             

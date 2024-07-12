@@ -7,13 +7,14 @@ import Button from '@mui/material/Button';
 import './smr_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
-import { Link, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
+import { green } from '@mui/material/colors';
 
 
 const CartPage = () => {
@@ -33,6 +34,9 @@ const CartPage = () => {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    setOpenMobileModal,
+    isSelectedAll,
+    handleSelectAll,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -64,8 +68,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-    console.log("TotalPriceData",cartData)
+    let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/Delivery")
     window.scrollTo(0, 0);
@@ -122,15 +125,29 @@ const CartPage = () => {
                 {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
                 {/* <button className='smr_cartBtn'>Image View</button> */}
                 {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='smr_ReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
-                  Clear All
-                </Link>
+                <div>
+                  <Link
+                    className='smr_ReomoveAllCartbtn'
+                    variant="body2"
+                    onClick={handleRemoveAllDialog}
+                  >
+                    Clear All
+                  </Link>
+                  {/* <Link
+                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
+                    variant="body2"
+                    onClick={handleMultiSelectToggle}
+                  >
+                    {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
+                  </Link> */}
+                </div>
+
                 {/* <button className='smr_cartBtn'>Show ProductList</button> */}
 
                 {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
-                {multiSelect && selectedItems.length != 0 &&
+                {/* {multiSelect && selectedItems.length != 0 &&
                   <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                }
+                } */}
                 <div className='smr_placeOrderMobileMainbtnDiv'>
                   <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
@@ -143,9 +160,26 @@ const CartPage = () => {
         </div>
         {!isloding ? (
           <>
+            <div style={{ marginLeft: '35px' }}>
+              {multiSelect &&
+                <FormControlLabel
+                  control={<Checkbox 
+                    sx={{
+                      color: "rgba(125, 127, 133, 0.4) !important",
+                    }}
+                  />}
+                  label="Select All"
+                  checked={isSelectedAll()}
+                  onChange={handleSelectAll}
+                  sx={{
+                    color: "rgba(125, 127, 133, 0.4)",
+                  }}
+                />
+              }
+            </div>
             {cartData.length !== 0 ? (
               <div className="smr_cartMainPage">
-                <div className="smr_cart-left-side">
+                <div className="smr_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -162,6 +196,7 @@ const CartPage = () => {
                     handleRemarkChange={handleRemarkChange}
                     handleSave={handleSave}
                     handleCancel={handleCancel}
+                    openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
                 <div className="smr_cart-right-side">
@@ -227,7 +262,7 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noWishlistData'>
+              <div className='smr_noCartlistData'>
                 <p className='smr_title'>No Data Found!</p>
                 <p className='smr_desc'>Please First Add Data in cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>

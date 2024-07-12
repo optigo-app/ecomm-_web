@@ -29,46 +29,30 @@ const WishlistItems = (
 
     const setWishCountVal = useSetRecoilState(WishCount)
     const setCartCountVal = useSetRecoilState(CartCount)
-    const [countstatus, setCountStatus] = useState();
     const visiterId = Cookies.get('visiterId');
 
 
-    useEffect(() => {
-        const iswishUpdateStatus = localStorage.getItem('wishUpdation');
-        setCountStatus(iswishUpdateStatus)
-    }, [handleRemoveItem, handleWishlistToCart])
 
-
-    console.log('countstatus', item);
-
-    console.log('countDataUpdted', countDataUpdted);
-    const handleWishlistToCartFun = (item) => {
-        handleWishlistToCart(item);
-        if (countstatus) {
+    const handleWishlistToCartFun = async (item) => {
+        const returnValue = await handleWishlistToCart(item);
+        if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
-                console.log('responseCount', res);
                 setCartCountVal(res?.cartcount);
             })
         }
-        setTimeout(() => {
-        }, 500)
-    }
+      };
 
-
-    const handleRemoveItemFun = () => {
-        handleRemoveItem(item);
-        setTimeout(() => {
-            if (countstatus) {
-                GetCountAPI(visiterId).then((res) => {
-                    console.log('responseCount', res);
-                    setWishCountVal(res?.wishcount);
-                })
-            }
-        }, 500)
-    }
+    const handleRemoveItemFun = async (item) => {
+        const returnValue = await handleRemoveItem(item);
+        if (returnValue?.msg == "success") {
+            GetCountAPI(visiterId).then((res) => {
+                setWishCountVal(res?.wishcount);
+            })
+        }
+    };
 
     return (
-        <Grid item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
+        <Grid item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
             <Card className='smr_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
@@ -112,7 +96,7 @@ const WishlistItems = (
                                 }} />
                                 {' '}
                                 {item?.UnitCost !== "" && (
-                                    <span>{(item?.UnitCost).toFixed(3)}</span>
+                                    <span>{(item?.FinalCost)}</span>
                                 )}
                             </Typography>
 
@@ -123,7 +107,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='smr_Wl-CartbtnDiv'>
                         <button className='smr_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {countDataUpdted?.msg == 'success' ? "in cart" : (item?.IsInCart !== 1 ? "Add to cart +" : "in cart")}
+                            {(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}
                         </button>
 
                     </div>

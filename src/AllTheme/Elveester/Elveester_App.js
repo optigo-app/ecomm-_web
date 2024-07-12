@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import CartDetails from './Components/Pages/Cart/Cart'
 import Header from './Components/Pages/Home/Header.js/Header'
@@ -13,14 +13,30 @@ import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmai
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
 import Register from './Components/Pages/Auth/Registretion/Register'
+import ProductList from './Components/Pages/Product/ProductList/ProductList'
 
 const SmilingRock_App = () => {
 
+    const location = useLocation();
     const islogin = useRecoilValue(el_loginState)
+    const [showHeader, setShowHeader] = useState(true);
+    const [showFooter, setShowFooter] = useState(true);
+
+    useEffect(() => {
+        if (
+          location?.pathname === '/menu'
+        ) {
+          setShowHeader(false);
+          setShowFooter(false);
+        } else {
+          setShowHeader(true);
+          setShowFooter(true);
+        }
+      }, [location?.pathname]);
 
     return (
         <div>
-            <Header />
+            {showHeader && <Header />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/LoginOption" element={<LoginOption />} />
@@ -31,8 +47,10 @@ const SmilingRock_App = () => {
                 <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/cartPage" element={<CartDetails />} />
+                <Route path="/productpage" element={<ProductList />} />
+                {/* <Route path="/menu" element={<Menubar />} /> */}
             </Routes>
-            <Footer />
+            {showFooter && <Footer />}
         </div>
     )
 }

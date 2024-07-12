@@ -1,36 +1,36 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const CartAndWishListAPI = async(type,obj,visiterId) =>{
+export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "") => {
 
-    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ??  false;
+    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
     const UserEmail = localStorage.getItem("registerEmail");
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.email1 ?? "";
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail.email1 ?? "";
 
     let FinalObj = {
         "ForEvt": `${type}`,
         "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-        "userid":`${customerEmail}`,
-        "Customerid": `${customerId?? 0}`,
-        "AddCartDetail":[obj]
+        "userid": `${customerEmail}`,
+        "Customerid": `${customerId ?? 0}`,
+        "IsPLW": `${storeInit?.IsPLW}`,
+        "AddCartDetail": type2 ? obj : [obj]
     }
-
 
     let body = {
         con: `{\"id\":\"Store\",\"mode\":\"ADDTOCART\",\"appuserid\":\"${customerEmail}\"}`,
         f: "onloadFirstTime (getdesignpricelist)",
         p: btoa(FinalObj),
         dp: JSON.stringify(FinalObj),
-      };
+    };
 
-    
+
 
     let cartAndWishResp;
     await CommonAPI(body).then((res) => {
-        cartAndWishResp =  res;
+        cartAndWishResp = res;
     });
 
     return cartAndWishResp;

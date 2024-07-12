@@ -1,11 +1,11 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const fetchSingleProdDT= async (selectedItem, visiterId, islogin) => {
+export const fetchSingleProdDT = async (selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin) => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const storedData = localStorage.getItem("loginUserDetail");
     const data = JSON.parse(storedData);
-    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.email1 ?? "";
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data?.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data?.userid ?? "";
     const { FrontEnd_RegNo } = storeInit;
 
     let packageId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.PackageId : data?.PackageId ?? 0
@@ -13,6 +13,12 @@ export const fetchSingleProdDT= async (selectedItem, visiterId, islogin) => {
     let diamondpricelistname = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.diamondpricelistname : data?.diamondpricelistname ?? ""
     let colorstonepricelistname = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.colorstonepricelistname : data?.colorstonepricelistname ?? ""
     let SettingPriceUniqueNo = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.SettingPriceUniqueNo : data?.SettingPriceUniqueNo ?? ""
+
+    let mtID = selectedMetalId !== undefined && selectedMetalId !== null ? selectedMetalId : selectedItem?.metaltypeid;
+    let diaID = diaId !== undefined && diaId !== null ? diaId : `${selectedItem?.diamondqualityid},${selectedItem?.diamondcolorid}`;
+    let csQID = csQid !== undefined && csQid !== null ? csQid : `${selectedItem?.colorstonequalityid},${selectedItem?.colorstonecolorid}`;
+    let size = sizedata !== undefined && sizedata !== null ? sizedata : "";
+
 
     try {
         const combinedValue = JSON.stringify({
@@ -28,10 +34,10 @@ export const fetchSingleProdDT= async (selectedItem, visiterId, islogin) => {
             diamondpricelistname: diamondpricelistname,
             colorstonepricelistname: colorstonepricelistname,
             SettingPriceUniqueNo: SettingPriceUniqueNo,
-            Metalid: `${selectedItem?.metaltypeid}`,
-            DiaQCid: `${selectedItem?.diamondqualityid},${selectedItem?.diamondcolorid}`,
-            CsQCid: `${selectedItem?.colorstonequalityid},${selectedItem?.colorstonecolorid}`,
-            Size: `${selectedItem?.Size}`,
+            Metalid: mtID,
+            DiaQCid: diaID,
+            CsQCid: csQID,
+            Size: size,
             IsFromDesDet: "1",
         });
 
@@ -45,9 +51,8 @@ export const fetchSingleProdDT= async (selectedItem, visiterId, islogin) => {
             dp: combinedValue
         };
 
-        // const response = await CommonAPI(body);
-
-        // return response;
+        const response = await CommonAPI(body);
+        return response;
     } catch (error) {
         console.error("Error fetching cart details:", error);
         throw error;

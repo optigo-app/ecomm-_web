@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue } from 'recoil';
+import Cookies from 'js-cookie';
 import { el_companyLogo, el_loginState } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
@@ -10,6 +11,7 @@ import { GoHeart } from 'react-icons/go';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { FaPowerOff } from 'react-icons/fa';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import Menubar from '../MenuBar/Menubar';
 
 const Header = () => {
 
@@ -17,6 +19,8 @@ const Header = () => {
   const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const navigation = useNavigate();
   const [islogin, setislogin] = useRecoilState(el_loginState);
+  const [burgerMenu, setBurgerMenu] = useState(false);
+  const [chnageBG, setChnageBG] = useState(false);
 
   useEffect(() => {
     const value = JSON.parse(localStorage.getItem('LoginUser'));
@@ -24,6 +28,7 @@ const Header = () => {
 
     if (titleImg) {
       const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      console.log('storeInit: ', storeInit);
       setCompanyTitleLogo(storeInit?.companylogo);
     }
     setTimeout(() => {
@@ -105,7 +110,19 @@ const Header = () => {
   }, [menuData]);
 
   const getMenuApi = async () => {
-    await GetMenuAPI().then((response) => {
+    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const { IsB2BWebsite } = storeInit;
+    const visiterID = Cookies.get('visiterId')
+    let finalId;
+    if(IsB2BWebsite === 0) {
+      finalId = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    }
+    else{
+      finalId = loginUserDetail?.id || '0'
+    }
+
+    await GetMenuAPI(finalId).then((response) => {
       setMenuData(response?.Data?.rd)
     }).catch((err) => console.log(err))
   }
@@ -158,6 +175,22 @@ const Header = () => {
     navigation('/')
     window.location.reload();
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+        if (window.innerWidth <= 1400) {
+            setBurgerMenu(true);
+        } else {
+            setBurgerMenu(false);
+        }
+    };
+
+    handleResize(); // Initial check on component mount
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+}, []);
 
   return (
     <div className='el_header_main'>
@@ -226,12 +259,15 @@ const Header = () => {
           </ul>
         </div>
         :
-        <div className="el_login_header_main">
+        <div className={`${burgerMenu ? 'elv_login_header_main_bg_active' : 'el_login_header_main'}`}>
+
+          {!burgerMenu ? (
+              <>
           <div className="el_login_header_main_div1">
             <a href="/" style={{display: 'flex', justifyContent: 'center', alignItems :'center'}}>
               {titleImg && <img src={titleImg} alt="Title" className="el_login_header_main_div1_logo" />}
             </a>
-            <ul className="el_login_header_main_div1_ul">
+                 <ul className="el_login_header_main_div1_ul">
               {menuItems.map((item, index) => (
                 <li
                   className="el_Login_header_li"
@@ -244,54 +280,73 @@ const Header = () => {
                   }}
                   onClick={() => handleMenuClick(item)}
                 >
-                  {item.menuname}<IoCaretDownSharp style={{ height: '24px', width: '20px', marginLeft: '3px' }} />
+                  {item.menuname}
                 </li>
               ))}
             </ul>
           </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <Menubar />
+                </div>
+              </>
+            )}
+              {burgerMenu && (
+                <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  {titleImg && <img src={titleImg} alt="Title" className='el_login_header_main_div1_logo'/>}
+                </a>
+              )}
 
           <ul className="el_login_header_main_div2">
             <>
-              <Badge
-                badgeContent={'3'}
-                max={1000}
-                overlap={"rectangular"}
-                color="secondary"
-                className='el_login_header_main_div2_li'
-              >
-                <Tooltip title="WishList">
-                  <li 
-                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
-                    <GoHeart color="#7D7F85" fontSize='25px' />
-                  </li>
-                </Tooltip>
-              </Badge>
-              <Badge
-                badgeContent={'3'}
-                max={1000}
-                overlap={"rectangular"}
-                color="secondary"
-                className='el_login_header_main_div2_li'
-              >
-                <Tooltip title="Cart">
-                  <li
-                    onClick={() => navigation('/CartPage')}
-                    style={{
-                      cursor: "pointer",
-                      marginTop: "0px",
-                    }}
-                  >
-                    <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
-                  </li>
-                </Tooltip>
-              </Badge></>
+            {!burgerMenu && (
+              <>
+               <Badge
+               badgeContent={'3'}
+               max={1000}
+               overlap={"rectangular"}
+               color="secondary"
+               className='el_login_header_main_div2_li'
+             >
+               <Tooltip title="WishList">
+                 <li 
+                   style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                   <GoHeart className='elv_heart_icon' color="#7D7F85" fontSize='25px' />
+                 </li>
+               </Tooltip>
+             </Badge>
+             <Badge
+               badgeContent={'3'}
+               max={1000}
+               overlap={"rectangular"}
+               color="secondary"
+               className='el_login_header_main_div2_li'
+             >
+               <Tooltip title="Cart">
+                 <li
+                   onClick={() => navigation('/CartPage')}
+                   style={{
+                     cursor: "pointer",
+                     marginTop: "0px",
+                   }}
+                 >
+                   <HiOutlineShoppingBag className='elv_shopping_icon' color="#7D7F85" fontSize='25px' />
+                 </li>
+               </Tooltip>
+             </Badge>
+             </>
+            )}
+             
+              </>
             <Tooltip title="Account">
               <li
                 className="el_login_header_main_div2_li"
                 style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
                 onClick={() => navigation("/account")}
               >
-                <IoPersonOutline color="#7D7F85" fontSize='25px' />
+                <IoPersonOutline className='elv_person_icon' color="#7D7F85" fontSize='25px' />
               </li>
             </Tooltip>
             <li
@@ -299,7 +354,7 @@ const Header = () => {
               style={{ cursor: "pointer", marginTop: "0" }}
               onClick={handleLogout}
             >
-              <FaPowerOff style={{ fontSize: '25px', color: '#AF8238' }} />
+              <FaPowerOff className='elv_power_icon' style={{ fontSize: '25px', color: '#AF8238' }} />
             </li>
           </ul>
         </div>
@@ -322,11 +377,11 @@ const Header = () => {
             <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
               {selectedData?.param1?.map((param1Item, param1Index) => (
                 <div key={param1Index}>
-                  <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif',color:'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                  <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif',color:'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} > <span onClick={() => navigation('/productpage')}>{param1Item?.param1dataname}</span></span>
                   <div style={{ height: '300px', display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
                     {param1Item?.param2?.map((param2Item, param2Index) => (
                       <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                        {param2Item?.param2dataname}
+                        <span onClick={() => navigation('/productpage')}>{param2Item?.param2dataname}</span>
                       </p>
                     ))}
                   </div>

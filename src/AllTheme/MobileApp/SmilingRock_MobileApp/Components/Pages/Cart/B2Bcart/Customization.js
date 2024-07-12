@@ -43,7 +43,7 @@ const Customization = ({
   }, [])
 
   return (
-    <div className="smr_Cart_R-details">
+    <div className="smrMo_Cart_R-details">
       <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
       <Divider />
       {storeInitData?.IsProductWebCustomization == 1 &&

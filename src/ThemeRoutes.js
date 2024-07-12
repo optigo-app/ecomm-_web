@@ -17,6 +17,8 @@ import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
 import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom'
 import Cookies from "js-cookie";
+import HemratnaProcatalog_App from './AllTheme/hemratnaProcatalog/HemratnaProcatalog_App'
+import Procatalog_App from './AllTheme/Pocatalog/Procatalog_App'
 import HouseOfQuadri_App from './AllTheme/HouseOfQuadri/HouseOfQuadri_App'
 
 export default function ThemeRoutes() {
@@ -33,9 +35,19 @@ export default function ThemeRoutes() {
 
   useEffect(() => {
     let data = localStorage.getItem('storeInit');
+    let Logindata = JSON.parse(localStorage.getItem('storeInit'));
+    let logo = JSON?.parse(data);
+
     if (data) {
-      let logo = JSON.parse(data);
-      setCompanyTitleLogo(logo?.companylogo)
+
+      if (Logindata) {
+        if (Logindata?.IsPLWOn == 1) {
+          alert('dopne')
+          setCompanyTitleLogo(Logindata?.Private_label_logo)
+        }
+      } else {
+        setCompanyTitleLogo(logo?.companylogo)
+      }
       dt_setCompanyTitleLogo(logo?.companylogo)
       el_setCompanyTitleLogo(logo?.companylogo)
     }
@@ -62,20 +74,20 @@ export default function ThemeRoutes() {
 
 
 
-        if(response?.data?.Data?.rd[0]?.Themeno === 1){
+        if (response?.data?.Data?.rd[0]?.Themeno === 1) {
           setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
-        if(response?.data?.Data?.rd[0]?.Themeno === 2){
+        if (response?.data?.Data?.rd[0]?.Themeno === 2) {
           dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
-        if(response?.data?.Data?.rd[0]?.Themeno === 3){
+        if (response?.data?.Data?.rd[0]?.Themeno === 3) {
           el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         }
 
         // if(response?.data?.Data?.rd[0]?.Themeno === 3){
-          smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
+        smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo)
         // }
 
 
@@ -101,9 +113,9 @@ export default function ThemeRoutes() {
     const visiterID = Cookies.get('visiterId');
     let finalID;
     if (IsB2BWebsite == 0) {
-        finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
-        finalID = loginUserDetail?.id || '0';
+      finalID = loginUserDetail?.id || '0';
     }
 
     MetalTypeComboAPI(finalID).then((response) => {
@@ -161,6 +173,10 @@ export default function ThemeRoutes() {
       {themeNo === 7 && <HouseOfQuadri_App />}
 
 
+
+      {themeNo === 5 && <HemratnaProcatalog_App />}
+
+      {themeNo === 6 && <Procatalog_App />}
     </>
   )
 }
