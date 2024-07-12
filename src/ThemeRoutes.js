@@ -17,11 +17,11 @@ import { el_companyLogo } from './AllTheme/Elveester/Components/Recoil/atom'
 import SmilingRock_MobileApp_App from './AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App'
 import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom'
 import Cookies from "js-cookie";
+import HouseOfQuadri_App from './AllTheme/HouseOfQuadri/HouseOfQuadri_App'
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(6);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -41,7 +41,7 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
-        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
@@ -157,6 +157,10 @@ export default function ThemeRoutes() {
       {themeNo === 3 && <Elveester_App />}
 
       {themeNo === 4 && <SmilingRock_MobileApp_App />}
+      
+      {themeNo === 7 && <HouseOfQuadri_App />}
+
+
     </>
   )
 }
