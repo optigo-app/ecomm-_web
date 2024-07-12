@@ -1,0 +1,32 @@
+export const ScrollImageList = [
+  {
+    img: "https://houseofquadri.com/cdn/shop/files/why_quality_matters_1_2400x.png?v=1709531003",
+    title: "Why Quality Matters",
+    desc: `Experience the excellence of HOQ’s dedication to precision. Meticulously chosen diamonds combined with intricate designs and high quality craftsmanship.`,
+    align: "right",
+    btn_des: "READ MORE",
+    top: "55px",
+    isborder: true,
+  },
+  {
+    head: "CUSTOMISATION",
+    title: "Your Diamond, Your Way.",
+    img: "https://houseofquadri.com/cdn/shop/files/Untitled_design_7_0e37221f-7d23-4023-8310-fe6d6b7e574c_2400x.png?v=1713957257",
+    desc: `Gifting a piece of custom fine jewelry allows you the opportunity to tell your story and share your love.`,
+    align: "left",
+    btn_des: "CUSTOMISE NOW",
+    top: "15px",
+    isborder: false,
+  },
+  {
+    title: "Schedule an Appointment",
+    subtitle: "",
+    img: "https://houseofquadri.com/cdn/shop/files/Untitled_design_21_2400x.png?v=1682141477",
+    desc: `House of Quadri: 7, Kitab Mahal, 1st Flr, 192 Dr DN Rd, Mumbai 1.  `,
+    desc2: "Mon - Fri, 10:00am - 6:00pm",
+    align: "right",
+    btn_des: "CALL US",
+    top: "55px",
+    isborder: true,
+  },
+];

@@ -123,6 +123,7 @@ const SmilingRock_App = () => {
                 </Route>
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
+            
         </>
     )
 }
