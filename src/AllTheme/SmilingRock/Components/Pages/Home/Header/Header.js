@@ -678,8 +678,9 @@ const Header = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
               >
-                {/* IMPACT */}
+                {/* <a href={`${navigation('/servicePolicy')}`}> */}
                 SERVICE POLICY
+                {/* </a> */}
               </li>
 
               <li

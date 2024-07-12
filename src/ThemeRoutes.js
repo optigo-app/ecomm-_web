@@ -19,6 +19,7 @@ import { smrMA_companyLogo } from './AllTheme/MobileApp/SmilingRock_MobileApp/Co
 import Cookies from "js-cookie";
 import HemratnaProcatalog_App from './AllTheme/hemratnaProcatalog/HemratnaProcatalog_App'
 import Procatalog_App from './AllTheme/Pocatalog/Procatalog_App'
+import HouseOfQuadri_App from './AllTheme/HouseOfQuadri/HouseOfQuadri_App'
 
 export default function ThemeRoutes() {
 
@@ -52,7 +53,9 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
+
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
         localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
@@ -167,6 +170,8 @@ export default function ThemeRoutes() {
       {themeNo === 3 && <Elveester_App />}
 
       {themeNo === 4 && <SmilingRock_MobileApp_App />}
+      
+      {themeNo === 7 && <HouseOfQuadri_App />}
 
       {themeNo === 5 && <HemratnaProcatalog_App />}
 
