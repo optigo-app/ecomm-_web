@@ -119,10 +119,6 @@
     color: #7d7f85 !important;
 }
 
-.smrMA_HeaderMain{
-    display: none;
-}
-
 @media(max-width: 768px) {
     .QuotationJobAllBtn  {
         margin-bottom: 20px !important;
@@ -168,7 +164,6 @@
         padding: 10px 7px;
     } 
 }
-
 @media (max-width: 576px) {
 
     .quotationJobSec {
@@ -176,15 +171,17 @@
     }
 
     .QuoteJobtable table thead tr {
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        width: 100%;
+        overflow: auto;
     }
 
     .QuoteJobtable>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
@@ -194,19 +191,78 @@
         padding: 5px 10px !important;
     }
 
-    .QuoteJobtable>div>table>thead>tr>th svg {
-        position: absolute;
-        right: -30px;
-    }
+    // .QuoteJobtable>div>table>thead>tr>th svg {
+    //     position: absolute;
+    //     right: -30px;
+    // }
 
     .QuoteJobtable>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .QuoteJobtable>div>table>tbody>tr>td:last-child {
-        border-bottom: 1px solid #9b978f !important;
+        // border-bottom: 1px solid #9b978f !important;
+    }
+
+    .QuoteJobtable>div>table>tbody>tr>td {
+        min-height: 31.02px;
+    }
+
+    .QuoteJobtable>div>table>tbody>tr:first-child>td:first-child {
+        border-top: 1px solid #9b978f !important;
+    }
+
+    .QuoteJobtable>div>table>thead>tr>th:last-child,
+    .QuoteJobtable>div>table>thead>tr>th:first-child,
+    .QuoteJobtable>div>table>thead>tr {
+        border-radius: 0 !important;
+    }
+
+
+
+}
+@media (max-width: 320px) {
+
+    .quotationJobSec {
+        max-height: 450px !important;
+    }
+
+    .QuoteJobtable table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        width: 100%;
+        overflow: auto;
+    }
+
+    .QuoteJobtable>div>table {
+        min-width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        position: static !important;
+        border: unset;
+    }
+
+    .QuoteJobtable>div>table>thead>tr>th,
+    .QuoteJobtable>div>table>tbody>tr>td {
+        text-align: start !important;
+        padding: 5px 10px !important;
+    }
+
+    // .QuoteJobtable>div>table>thead>tr>th svg {
+    //     position: absolute;
+    //     right: 5%;
+    // }
+
+    .QuoteJobtable>div>table>tbody>tr {
+        width: 100%;
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .QuoteJobtable>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
     }
 
     .QuoteJobtable>div>table>tbody>tr>td {

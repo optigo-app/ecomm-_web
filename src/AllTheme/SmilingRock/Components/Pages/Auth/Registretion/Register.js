@@ -151,8 +151,6 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     const errors = {};
     if (!firstName.trim()) {
       errors.firstName = 'First Name is required';

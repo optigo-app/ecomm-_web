@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, companyLogo, loginState } from '../../../Recoil/atom';
-import { useNavigate } from 'react-router-dom';
+import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
@@ -12,10 +12,13 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
+import pako from "pako";
+import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 
 const Header = () => {
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
@@ -30,14 +33,17 @@ const Header = () => {
   const [searchText, setSearchText] = useState("")
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+  const location = useLocation();
 
   let navigate = useNavigate();
+  let cookie = Cookies.get('visiterId')
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
   useEffect(() => {
-    GetCountAPI().then((res) => {
+    const visiterID = Cookies.get('visiterId');
+    GetCountAPI(visiterID).then((res) => {
       if (res) {
         setCartCountNum(res?.cartcount)
         setWishCountNum(res?.wishcount)
@@ -174,6 +180,7 @@ const Header = () => {
   };
 
 
+
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
   };
@@ -232,7 +239,7 @@ const Header = () => {
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -278,14 +285,68 @@ const Header = () => {
     handleMenuClick(menuItemWithoutParam1)
   };
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
   const searchDataFucn = (e) => {
     if (e.key === 'Enter') {
       if (searchText) {
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+          f: {}
+        }
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+        navigate(`/d/${searchText}?p=${encodeObj}`)
+        toggleOverlay();
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+        // }
       }
     }
   }
 
+
+  // for cart drawer
+
+  const toggleCartDrawer = () => {
+    setIsCartOpen(prevState => !prevState);
+    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
+    setCartOpenState(prevState => !prevState);
+  };
+
+  const handleContextMenu = (e) => {
+  };
+
+  const handleMouseDown = (e) => {
+    console.log('rrrrrrrrrrrrrrrrrrr', e);
+    if (e.button === 1) {
+    }
+  };
 
   return (
     <div className='smr_headerMain_div'>
@@ -405,6 +466,7 @@ const Header = () => {
                       style={{ marginInline: '15px' }}
                     >
                       <Tooltip title="Cart">
+
                         <li
                           onClick={() => { navigate('/cartPage') }}
                           className="nav_li_smining_Icone"
@@ -491,6 +553,29 @@ const Header = () => {
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
             </div>
 
+            {IsB2BWebsiteChek === 1 ? (
+              islogin === true ? (
+                <p
+                  className='smr_menuStaicMobilePageLink'
+                  style={{ marginTop: '10px' }}
+                  onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+                >
+                  Lookbook
+                </p>
+              ) : (
+                ''
+              )
+            ) : (
+              <p
+                className='smr_menuStaicMobilePageLink'
+                style={{ marginTop: '10px' }}
+                onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+              >
+                Lookbook
+              </p>
+            )}
+
+
             <div>
               <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
             </div>
@@ -545,21 +630,42 @@ const Header = () => {
           <div className='smiling_Top_header_div1'>
             <ul className="nav_ul_shop">
 
-              <li
-                className="nav_li_smining nav_li_smining_shop"
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-              >
-                <span
-                  className="nav_li_smining"
-                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              {IsB2BWebsiteChek == 1 ?
+                islogin == true ?
+                  <li
+                    className="nav_li_smining nav_li_smining_shop"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
+                  >
+                    <span
+                      className="nav_li_smining"
+                      style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                    >
+                      SHOP
+                      <RiArrowDropDownLine
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </span>
+                  </li>
+                  :
+                  ""
+                :
+                <li
+                  className="nav_li_smining nav_li_smining_shop"
+                  onMouseEnter={handleDropdownOpen}
+                  onMouseLeave={handleDropdownClose}
                 >
-                  SHOP
-                  <RiArrowDropDownLine
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                </span>
-              </li>
+                  <span
+                    className="nav_li_smining"
+                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                  >
+                    SHOP
+                    <RiArrowDropDownLine
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </span>
+                </li>
+              }
 
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
@@ -586,14 +692,30 @@ const Header = () => {
                 FUN FACT
               </li>
 
-              
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-              >
-                LOOKBOOK
-              </li>
+
+              {IsB2BWebsiteChek === 1 ? (
+                islogin === true ? (
+                  <li
+                    className="nav_li_smining nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                  >
+                    LOOKBOOK
+                  </li>
+                ) : (
+                  ''
+                )
+              ) : (
+                <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                >
+                  LOOKBOOK
+                </li>
+              )}
+
+
 
 
             </ul>
@@ -699,7 +821,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={() => { navigate('/cartPage') }}
+                          onClick={toggleCartDrawer}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -773,26 +895,50 @@ const Header = () => {
             <div className='smiling_Top_header_div1'>
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_shop"
-                  onMouseEnter={handleDropdownOpen}
-                  onMouseLeave={handleDropdownClose}
-                >
-                  <span
-                    className="nav-li-smining"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      fontWeight: 500,
-                      cursor: 'pointer'
-                    }}
+                {IsB2BWebsiteChek == 1 ?
+                  islogin == true ?
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_shop"
+                      onMouseEnter={handleDropdownOpen}
+                      onMouseLeave={handleDropdownClose}
+                    >
+                      <span
+                        className="nav-li-smining"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontWeight: 500,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        SHOP
+                        <RiArrowDropDownLine
+                          style={{ width: "20px", height: "20px" }}
+                        />
+                      </span>
+                    </li>
+                    : ""
+                  : <li
+                    className="nav_li_smining_Fixed nav_li_smining_shop"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
                   >
-                    SHOP
-                    <RiArrowDropDownLine
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                  </span>
-                </li>
+                    <span
+                      className="nav-li-smining"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      SHOP
+                      <RiArrowDropDownLine
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </span>
+                  </li>
+                }
 
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
@@ -818,13 +964,28 @@ const Header = () => {
                   FUN FACT
                 </li>
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
-                >
-                  LookBook
-                </li>
+
+                {IsB2BWebsiteChek === 1 ? (
+                  islogin === true ? (
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                    >
+                      LOOKBOOK
+                    </li>
+                  ) : (
+                    ''
+                  )
+                ) : (
+                  <li
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                  >
+                    LOOKBOOK
+                  </li>
+                )}
 
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
@@ -935,7 +1096,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={() => { navigate('/cartPage') }}
+                            onClick={toggleCartDrawer}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1024,9 +1185,10 @@ const Header = () => {
           >
             <div style={{ display: 'flex' }}>
               {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: '150px', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
+                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: 'fitContent', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
                   <ButtonBase
                     component="div"
+                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
                   >
                     <ListItem style={{ padding: '0px 5px 0px 5px' }}>
                       <p className="muilistMenutext">{menuItem.menuname}</p>
@@ -1047,12 +1209,17 @@ const Header = () => {
                           <ButtonBase
                             component="div"
                             style={{ width: '100%', display: 'flex', justifyContent: 'start', height: '25px' }}
-                            onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                          // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
-                            {/* <a href='/productlist' onContextMenu={handleContextMenu}> */}
-                            <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
-                            {/* </a> */}
+                            <a
+                              href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`)}`}
+                              className='smr_menuSubTitle'
+                            >
+                              <p style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>
+                                {subMenuItem.param1dataname}
+                              </p>
+                            </a>
                             {/* </a> */}
                           </ButtonBase>
                           <>
@@ -1064,9 +1231,14 @@ const Header = () => {
                                   onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
-                                  <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                  <a
+                                    href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`)}`}
+                                    className='smr_menuSubTitle'
+                                  >
+                                    {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                                     <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
-                                  </ListItem>
+                                    {/* </ListItem> */}
+                                  </a>
                                 </div>
                               ))}
                             </List>
@@ -1075,8 +1247,6 @@ const Header = () => {
                       ))}
                       <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                     </List>
-
-
                   </>
                 </div>
               ))}
@@ -1084,7 +1254,8 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </div>
+      <CartDrawer open={isCartOpen} />
+    </div >
   )
 }
 

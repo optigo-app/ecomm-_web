@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
+import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 const ManageAddress = () => {
 
     const [defaultAdd, setDefaultAdd] = useState('female');
@@ -182,7 +183,6 @@ const ManageAddress = () => {
                     // };
                     // const response = await CommonAPI(body);
                     // console.log(response);
-                    console.log(formData);
                     const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
                     
                     if (response?.Data?.rd[0]?.stat === 1) {
@@ -233,7 +233,6 @@ const ManageAddress = () => {
                     // const response = await CommonAPI(body);
                     
                     const response = await handleAddAddress(formData, FrontEnd_RegNo, customerid, storeInit, data);
-                    console.log(response);
 
                     if (response?.Data?.rd[0]?.stat === 1) {
                         let updatedAddressData = [...addressData];
@@ -453,6 +452,10 @@ const ManageAddress = () => {
         fetchData();
     }, []);
 
+    const handleCloseDialog = () => {
+        setOpenDelete(false);
+    }
+
     return (
         <>
         <ToastContainer />
@@ -533,7 +536,7 @@ const ManageAddress = () => {
                     }
 
                 </RadioGroup>
-                <Dialog
+                {/* <Dialog
                     open={openDelete}
                 >
                 <div className='smilingDeliverDelerePopu p-2'>
@@ -561,7 +564,14 @@ const ManageAddress = () => {
                             }}>No</button>
                         </div>
                     </div>
-                </Dialog>
+                </Dialog> */}
+                <ConfirmationDialog
+                    open={openDelete}
+                    onClose={handleCloseDialog}
+                    onConfirm={handleDeleteAddressBtn}
+                    title="Delete Address"
+                    content="Are you sure you want to delete address?"
+                />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
@@ -673,14 +683,3 @@ const ManageAddress = () => {
 }
 
 export default ManageAddress
-
-// import React from 'react'
-// import "./manageaddress.scss"
-
-// const ManageAddress = () => {
-//   return (
-//     <div>ManageAddress</div>
-//   )
-// }
-
-// export default ManageAddress

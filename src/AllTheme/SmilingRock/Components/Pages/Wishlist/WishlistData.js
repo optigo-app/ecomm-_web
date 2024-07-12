@@ -14,7 +14,8 @@ const WishlistData = ({
   handleRemoveItem,
   handleWishlistToCart,
   WishCardImageFunc,
-  handleMoveToDetail
+  handleMoveToDetail,
+  handelMenu
 }) => {
 
   console.log('itemLength', items?.length);
@@ -22,7 +23,7 @@ const WishlistData = ({
   return (
     <div className="smr_WlListData">
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {items.map(item => (
             <WishlistItems
               key={item.id}
@@ -44,7 +45,7 @@ const WishlistData = ({
           <div className='smr_noWishlistData'>
             <p className='smr_title'>No Wishlist Found!</p>
             <p className='smr_desc'>Please First Add To Wishlist Data</p>
-            <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+            <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }
       </>

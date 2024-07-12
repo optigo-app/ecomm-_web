@@ -52,6 +52,12 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/OrderHistory" ||
         location.pathname === "/ManageAddress" ||
         location.pathname === "/YourProfile" ||
+        location.pathname === "/QuotationQuote" ||
+        location.pathname === "/QuotationJob" ||
+        location.pathname === "/AccountLedger" ||
+        location.pathname === "/Sales" ||
+        location.pathname === "/SalesReport" ||
+        location.pathname === "/DesignWiseSalesReport" ||
         location.pathname === "/payment" ||
         location.pathname === "/SearchPage" ||
         location.pathname === "/CartPage" ||
@@ -59,12 +65,13 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/myWishList" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
+        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
         <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
         <Route path="/Menu" element={<Menu />} />
-        <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}>
+        {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
           <Route path="/CartPage" element={<CartPage />} />
           <Route path="/Account" element={<Account />} />
           <Route path="/Delivery" element={<Delivery />} />
@@ -86,7 +93,7 @@ const SmilingRock_MobileApp_App = () => {
           <Route path="/ManageAddress" element={<ManageAddress />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/MobileViewComp" element={<MobileViewComp />} />
-        </Route>
+        {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />
 

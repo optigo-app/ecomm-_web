@@ -53,7 +53,10 @@ const ProductDetail = () => {
   const [SizeCombo,setSizeCombo] = useState();
   const [sizeData,setSizeData] =  useState();
   const [isPriceloading,setisPriceLoading] = useState(false)
-  // const [customObj,setCustomObj] =  useState({})
+  const [isDataFound,setIsDataFound]=useState(false)
+  const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
+
+  const [thumbImgIndex,setThumbImgIndex] = useState()
 
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
@@ -63,6 +66,9 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
+
+
+  console.log("SizeCombo",SizeCombo);
 
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
@@ -82,7 +88,7 @@ const ProductDetail = () => {
   
   let cookie = Cookies.get('visiterId')
 
-  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});.
+  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
 
   console.log("sizeData",sizeData)
 
@@ -177,7 +183,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleWishList = (e) => {
+  const handleWishList = (e,ele) => {
     setWishListFlag(e?.target?.checked);
 
     let metal =
@@ -263,54 +269,79 @@ const ProductDetail = () => {
 
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
+
+    setTimeout(()=>{
+      if (decodeUrl) {
+        let metalArr
+        let diaArr
+        let csArr
+        
+  
+        if(mtTypeLocal?.length){
+          metalArr =
+          mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+          mtTypeLocal[0];
+        }
+  
+        if(diaQcLocal?.length){
+          diaArr =
+          diaQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.d?.split(",")[1]
+            )[0] ?? diaQcLocal[0];
+        }
+  
+        if(csQcLocal?.length){
+          csArr =
+          csQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.c?.split(",")[1]
+            )[0] ?? csQcLocal[0];
+        }
+  
+          
+  
+        setSelectMtType(metalArr?.metaltype);
+  
+        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
+  
+        setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
+  
+        
+  
+        // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
+        //                       ? singleProd?.DefaultSize
+        //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+        // if(InitialSize){
+        //   setSizeData(InitialSize)
+        // }
+  
+        // if(metalArr || diaArr || csArr || InitialSize){
+        //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
+        // }
+        
+        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+      }
+    },500)
+  }, [singleProd])
+
+
+  useEffect(()=>{
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
 
-    if (decodeUrl) {
-      let metalArr =
-      mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-      mtTypeLocal[0];
-
-      let diaArr =
-      diaQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.d?.split(",") &&
-            ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
-
-      let csArr =
-      csQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-            ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
-
-      let mcArr =
+    if(mtColorLocal?.length){
+      mcArr =
       mtColorLocal?.filter(
-          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd?.MetalColorid)
-        )[0] ?? mtColorLocal[0];
-
-      setSelectMtType(metalArr?.metaltype);
-
-      setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
-
-      setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
-
-      setSelectMtColor(mcArr?.metalcolorname);
-
-      // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
-      //                       ? singleProd?.DefaultSize
-      //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-      // if(InitialSize){
-      //   setSizeData(InitialSize)
-      // }
-
-      // if(metalArr || diaArr || csArr || InitialSize){
-      //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
-      // }
-      
-      console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
+        )[0]
     }
-  }, [])
+
+    setSelectMtColor(mcArr?.metalcolorname);
+    
+  },[singleProd,singleProd1])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
@@ -461,7 +492,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     callAllApi();
-  }, [loginInfo]);
+  }, [storeInit]);
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -506,24 +537,35 @@ const ProductDetail = () => {
 
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
-    let metalArr = 
+    let metalArr;
+    let diaArr;
+    let csArr;
+
+    if(mtTypeLocal?.length){
+      metalArr = 
       mtTypeLocal?.filter(
         (ele) => ele?.Metalid == decodeobj?.m
       )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+    }
 
-    let diaArr =
+    if(diaQcLocal){
+      diaArr =
       diaQcLocal?.filter(
-          (ele) =>
-            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-            ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        (ele) =>
+          ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+        ele?.ColorId == decodeobj?.d?.split(",")[1]
+      )[0] ?? diaQcLocal[0];
+    }
   
-    let csArr =
+    if(csQcLocal){
+      csArr =
       csQcLocal?.filter(
         (ele) =>
           ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-          ele?.ColorId == decodeobj?.c?.split(",")[1]
+        ele?.ColorId == decodeobj?.c?.split(",")[1]
       )[0] ?? csQcLocal[0];
+    }
+
 
     const FetchProductData = async() =>{
 
@@ -547,12 +589,16 @@ const ProductDetail = () => {
             setisPriceLoading(false)
           }
 
+          if(!res?.pdList[0]){
+            console.log("singleprod",res?.pdList[0]);
+            setisPriceLoading(false)
+            setIsDataFound(true)
+          }
+
           setDiaList(res?.pdResp?.rd3)
           setCsList(res?.pdResp?.rd4)
 
           let prod = res?.pdList[0]
-
-          console.log("singleprod",res?.pdResp);
 
           let initialsize = (prod && prod.DefaultSize !== "")
           ? prod?.DefaultSize
@@ -734,6 +780,7 @@ const ProductDetail = () => {
       finalprodListimg = pdImgList[0];
       setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
       setPdThumbImg(pdImgList);
+      setThumbImgIndex(0)
     }
 
     if (pdvideoList?.length > 0) {
@@ -755,8 +802,45 @@ const ProductDetail = () => {
     return txt.value;
   };
 
-  const handleMetalWiseColorImg = (e) => {
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const handleMetalWiseColorImg = async(e) => {
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if(mtColorLocal?.length){
+      mcArr =
+      mtColorLocal?.filter(
+          (ele) => ele?.metalcolorname == e.target.value
+        )[0]
+    }
+
     setSelectMtColor(e.target.value)
+
+    let imgLink = storeInit?.DesignImageFol +
+    (singleProd ?? singleProd1)?.designno +
+    "_" +
+    (thumbImgIndex+1) +"_"+ mcArr?.colorname +
+    "." +
+    (singleProd ?? singleProd1)?.ImageExtension;
+
+    setMetalWiseColorImg(imgLink)
+
+    let isImg = await checkImageAvailability(imgLink)
+
+    if(isImg){
+      setMetalWiseColorImg(imgLink)
+    }else{
+      setMetalWiseColorImg()
+    }
   } 
 
   // useEffect(()=>{
@@ -818,7 +902,7 @@ const ProductDetail = () => {
     if (type === "Cart") {
       setCartArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
+        [ele?.StockId]: e.target.checked
       }))
     }
 
@@ -957,6 +1041,11 @@ const ProductDetail = () => {
       <div className="smr_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
+            {isDataFound ? 
+            (<div style={{height:'90vh',justifyContent:'center',display:'flex',alignItems:'center'}} className="smr_prodd_datanotfound">
+              Data not Found!!
+            </div>) : 
+            <>
             <div className="smr_prod_detail_main">
               <div className="smr_prod_image_shortInfo">
                 <div className="smr_prod_image_Sec">
@@ -976,7 +1065,7 @@ const ProductDetail = () => {
                   >
                     {selectedThumbImg?.type == "img" ? (
                       <img
-                        src={selectedThumbImg?.link}
+                        src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                         alt={""}
                         onLoad={() => setIsImageLoad(false)}
                         className="smr_prod_img"
@@ -1001,15 +1090,18 @@ const ProductDetail = () => {
                     )}
 
                     <div className="smr_thumb_prod_img">
-                      { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
+                      { 
+                      (pdThumbImg?.length > 1  || pdVideoArr?.length > 0) && 
+                      pdThumbImg?.map((ele,i) => (
                         <img
                           src={ele}
                           alt={""}
                           onLoad={() => setIsImageLoad(false)}
                           className="smr_prod_thumb_img"
-                          onClick={() =>
-                            setSelectedThumbImg({ link: ele, type: "img" })
-                          }
+                          onClick={() =>{
+                            setSelectedThumbImg({ link: ele, type: "img" });
+                            setThumbImgIndex(i)
+                          }}
                         />
                       ))}
                       {pdVideoArr?.map((data) => (
@@ -1081,11 +1173,16 @@ const ProductDetail = () => {
                         </span>
                       </div>
                     </div>
-                    { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
+                    { (storeInit?.IsProductWebCustomization == 1 && metalTypeCombo?.length > 0) && <div className="smr_single_prod_customize">
                       <div className="smr_single_prod_customize_metal">
                         <label className="menuItemTimeEleveDeatil">
                           METAL TYPE:
                         </label>
+                        { singleProd?.IsMrpBase == 1 ?
+                        <span className="menuitemSelectoreMain">
+                            {metalTypeCombo?.filter((ele)=>ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                        </span>
+                        :
                         <select
                           className="menuitemSelectoreMain"
                           value={selectMtType}
@@ -1097,12 +1194,17 @@ const ProductDetail = () => {
                               {ele?.metaltype}
                             </option>
                           ))}
-                        </select>
+                        </select>}
                       </div>
-                      <div className="smr_single_prod_customize_outer">
+                      { ( metalColorCombo?.length > 0 )&&  <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           METAL COLOR:
                         </label>
+                        {singleProd?.IsMrpBase == 1 ? 
+                         <span className="menuitemSelectoreMain">
+                          {metalColorCombo?.filter((ele)=>ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                         </span>
+                        :
                         <select
                           className="menuitemSelectoreMain"
                           value={selectMtColor}
@@ -1113,27 +1215,27 @@ const ProductDetail = () => {
                               {ele?.metalcolorname}
                             </option>
                           ))}
-                        </select>
-                      </div>
-                      {(storeInit?.IsDiamondCustomization === 1)  && (<div className="smr_single_prod_customize_outer">
+                        </select>}
+                      </div>}
+                      {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 )   && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
-                          DAIMOND :
+                          DIAMOND :
                         </label>
-                        <select
+                        {<select
                           className="menuitemSelectoreMain"
                           value={selectDiaQc}
                           // onChange={(e) => setSelectDiaQc(e.target.value)}
                           onChange={(e) => handleCustomChange(e,"dia")}
-                        >
+                          >
                           {diaQcCombo.map((ele) => (
                             <option
                               key={ele?.QualityId}
                               value={`${ele?.Quality},${ele?.color}`}
                             >{`${ele?.Quality},${ele?.color}`}</option>
                           ))}
-                        </select>
+                        </select>}
                       </div>)}
-                      {(storeInit?.IsCsCustomization === 1 ) && (
+                      {(storeInit?.IsCsCustomization === 1 && selectCsQc?.length > 0) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -1155,10 +1257,14 @@ const ProductDetail = () => {
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                       {
-                        SizeCombo?.rd?.length && 
-                      <div className="smr_single_prod_customize_outer">
+                       (SizeCombo?.rd?.length > 0 ) && 
+                      (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
-                        <select
+                        { singleProd?.IsMrpBase == 1  ? 
+                          <span className="menuitemSelectoreMain">
+                            {singleProd?.DefaultSize}
+                          </span>
+                        : <select
                           className="menuitemSelectoreMain"
                           value={sizeData}
                           // onChange={(e) => {
@@ -1177,8 +1283,8 @@ const ProductDetail = () => {
                               {ele?.sizename}
                             </option>
                           ))}
-                        </select>
-                      </div>}
+                        </select>}
+                      </div>)}
                     </div>}
 
                     {<div className="smr_price_portion">
@@ -1206,10 +1312,10 @@ const ProductDetail = () => {
 
                     <div className="Smr_CartAndWish_portion">
                       <button
-                        className="smr_AddToCart_btn"
+                        className= {!addToCartFlag ? "smr_AddToCart_btn" : "smr_AddToCart_btn_afterCart" }
                         onClick={() => handleCart(!addToCartFlag)}
                       >
-                        <span className="smr_addtocart_btn_txt">
+                        <span className="smr_addtocart_btn_txt" style={{color:!addToCartFlag ? "": "white"}}>
                           {!addToCartFlag ? "ADD TO CART" : "REMOVE FROM CART"}
                         </span>
                       </button>
@@ -1226,8 +1332,8 @@ const ProductDetail = () => {
                             />
                           }
                           disableRipple={true}
-                          checked={wishListFlag ?? singleProd?.IsInWish}
-                          onChange={(e) => handleWishList(e)}
+                          checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                          onChange={(e) => handleWishList(e,singleProd)}
                         />
                       </div>
                     </div>
@@ -1271,7 +1377,7 @@ const ProductDetail = () => {
 
               {csList?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
-                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                  <ul style={{ margin: "10px 0px 3px 0px" }}>
                     <li
                       style={{ fontWeight: 600 }}
                     >{`ColorStone Detail(${csList?.reduce(
@@ -1305,7 +1411,7 @@ const ProductDetail = () => {
             { stockItemArr?.length > 0 && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Stock Items </p>
               <div className="smr_stockitem_container">
-                <div className="smr_stock_item_card">
+                {/* <div className="smr_stock_item_card">
                   {stockItemArr?.map((ele) => (
                     <div className="smr_stockItemCard">
                       <div className="cart_and_wishlist_icon">
@@ -1331,7 +1437,7 @@ const ProductDetail = () => {
                           sx={{ padding: "10px" }}
 
                           onChange={(e) => handleCartandWish(e, ele, "Cart")}
-                          checked={cartArr[ele?.autocode] ?? ele?.IsInCart === 1 ? true : false}
+                          checked={cartArr[ele?.StockId] ?? ele?.IsInCart === 1 ? true : false}
                         />
 
                       </div>
@@ -1362,8 +1468,8 @@ const ProductDetail = () => {
                           }}
                         >
                           <span className="smr_prod_wt">
-                            <span className="smr_keys">NWT:</span>
-                            <span className="smr_val">{ele?.NetWt}</span>
+                            <span className="smr_d_keys">NWT:</span>
+                            <span className="smr_d_val">{ele?.NetWt}</span>
                           </span>
 
                           {storeInit?.IsGrossWeight == 1 &&
@@ -1371,8 +1477,8 @@ const ProductDetail = () => {
                               <>
                                 <span>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
+                                  <span className="smr_d_keys">GWT:</span>
+                                  <span className="smr_d_val">
                                     {ele?.GrossWt}
                                   </span>
                                 </span>
@@ -1383,8 +1489,8 @@ const ProductDetail = () => {
                               <>
                                 <span>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
+                                  <span className="smr_d_keys">DWT:</span>
+                                  <span className="smr_d_val">
                                     {ele?.DiaWt}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -1399,8 +1505,8 @@ const ProductDetail = () => {
                               <>
                                 <span >|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
+                                  <span className="smr_d_keys">CWT:</span>
+                                  <span className="smr_d_val">
                                     {ele?.CsWt}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -1413,7 +1519,7 @@ const ProductDetail = () => {
                       </div>
 
                       <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
-                          <spam>
+                          <span>
                             {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
                             <span
@@ -1424,18 +1530,158 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />
-                             </spam>
+                             </span>
                              <span>{" "}{ele?.Amount}</span>
                       </div>
                       </div>
                     </div>
                   ))}
-                </div>
+                </div> */}
+                <table className="Smr_stockItem_table">
+                  <tr className="Smr_stockItem_table_tr">
+                    <th className="Smr_stockItem_table_td" style={{textAlign:'center'}}>SrNo</th>
+                    <th style={{textAlign:'center'}}>Design No</th>
+                    <th style={{textAlign:'center'}}>Stock Id</th>
+                    <th style={{textAlign:'center'}}>Job No</th>
+                    <th style={{textAlign:'center'}}>Net Wt/Gross Wt/Dia Wt/CS Wt</th>
+                    <th style={{textAlign:'center'}}>Metal Color/Purity/Type/Price</th>
+                    <th style={{textAlign:'center'}}>Add To Cart</th>
+                  </tr>
+                  {stockItemArr?.map((ele,i) => (
+                    <tr className="Smr_stockItem_table_tr">
+                      <td className="Smr_stockItem_table_td"> 
+                         <span className="smr_prod_designno">
+                          {ele?.SrNo}
+                         </span>
+                      </td>
+                      <td className="Smr_stockItem_table_td">
+                        <span className="smr_prod_designno">
+                        {ele?.designno}
+                        </span>
+                      </td>
+                      <td className="Smr_stockItem_table_td">
+                        <span className="smr_prod_designno">
+                        {ele?.StockId}
+                        </span>
+                      </td>
+                      <td className="Smr_stockItem_table_td">
+                        <span className="smr_prod_designno">
+                        {ele?.JobNo}
+                        </span>
+                      </td>
+                      <td className="Smr_stockItem_table_td">
+                        <div className="smr_prod_Allwt">
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              letterSpacing: "1px",
+                              gap: "3px",
+                            }}
+                          >
+                            <span className="smr_prod_wt">
+                              <span className="smr_d_keys">NWT:</span>
+                              <span className="smr_d_val">{ele?.NetWt}</span>
+                            </span>
+
+                            {storeInit?.IsGrossWeight == 1 &&
+                              Number(ele?.GrossWt) !== 0 && (
+                                <>
+                                  <span>|</span>
+                                  <span className="smr_prod_wt">
+                                    <span className="smr_d_keys">GWT:</span>
+                                    <span className="smr_d_val">
+                                      {ele?.GrossWt}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+                            {storeInit?.IsDiamondWeight == 1 &&
+                              Number(ele?.DiaWt) !== 0 && (
+                                <>
+                                  <span>|</span>
+                                  <span className="smr_prod_wt">
+                                    <span className="smr_d_keys">DWT:</span>
+                                    <span className="smr_d_val">
+                                      {ele?.DiaWt}
+                                      {storeInit?.IsDiamondPcs === 1
+                                        ? `/${ele?.DiaPcs}`
+                                        : null}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+
+                            {storeInit?.IsStoneWeight == 1 &&
+                              Number(ele?.CsWt) !== 0 && (
+                                <>
+                                  <span >|</span>
+                                  <span className="smr_prod_wt">
+                                    <span className="smr_d_keys">CWT:</span>
+                                    <span className="smr_d_val">
+                                      {ele?.CsWt}
+                                      {storeInit?.IsStonePcs === 1
+                                        ? `/${ele?.CsPcs}`
+                                        : null}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="Smr_stockItem_table_td" >
+                        <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
+                            <span>
+                              {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
+                              {" "}/{" "}
+                              <span
+                                  className="smr_currencyFont"
+                                  dangerouslySetInnerHTML={{
+                                    __html: decodeEntities(
+                                      storeInit?.Currencysymbol
+                                    ),
+                                  }}
+                                />
+                              </span>
+                              <span>{" "}{ele?.Amount}</span>
+                        </div>
+                      </td>
+                      <td className="Smr_stockItem_table_td" style={{display:'flex',justifyContent:'center'}}>
+                        <Checkbox
+                            icon={
+                              <LocalMallOutlinedIcon
+                                sx={{
+                                  fontSize: "22px",
+                                  color: "#7d7f85",
+                                  opacity: ".7",
+                                }}
+                              />
+                            }
+                            checkedIcon={
+                              <LocalMallIcon
+                                sx={{
+                                  fontSize: "22px",
+                                  color: "#009500",
+                                }}
+                              />
+                            }
+                            disableRipple={false}
+                            sx={{ padding: "10px" }}
+
+                            onChange={(e) => handleCartandWish(e, ele, "Cart")}
+                            checked={cartArr[ele?.StockId] ?? ele?.IsInCart === 1 ? true : false}
+                          />
+                      </td>
+                    </tr>
+                  ))}
+                </table>
               </div>
             </div>
             }
 
-{ (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
+            { (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
               <p className="smr_details_title"> Similar Designs</p>
               <div className="smr_stockitem_container">
                 <div className="smr_stock_item_card">
@@ -1482,7 +1728,8 @@ const ProductDetail = () => {
               </div>
             </div>
             }
-
+            </>
+            }
             <Footer />
           </div>
         </div>

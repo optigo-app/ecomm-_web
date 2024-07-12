@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import Cookies from 'js-cookie';
+import { smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const BestSellerSection = () => {
 
@@ -16,6 +19,7 @@ const BestSellerSection = () => {
 
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const islogin = useRecoilValue(smrMA_loginState);
 
     const settings = {
         dots: true,
@@ -29,13 +33,24 @@ const BestSellerSection = () => {
     };
 
     useEffect(() => {
+      const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+      const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      const { IsB2BWebsite } = storeInit;
+      const visiterID = Cookies.get('visiterId');
+      let finalID;
+      if (IsB2BWebsite == 0) {
+          finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      } else {
+          finalID = loginUserDetail?.id || '0';
+      }
+
         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller").then((response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID).then((response) => {
             if (response?.Data?.rd) {
                 setBestSellerData(response?.Data?.rd);
             }
@@ -84,7 +99,6 @@ const BestSellerSection = () => {
         <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>
             {/* <p className='linkingDesc'>Ready to share link with your loved ones!</p> */}
-            <p className='linkingShopCol'>SHOP COLLECTION</p>
             <Slider {...settings} >
                         <div className='linkRingLove'>
                             <div>
@@ -193,7 +207,8 @@ const BestSellerSection = () => {
 
                         </div>
                     </Slider>
-                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>View All</p>
+
+            <p className='smr_BestSallerViewAll'  onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
         </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />

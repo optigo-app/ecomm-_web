@@ -19,3 +19,13 @@ export const WishCount = atom({
   key: 'WishCount',
   default: 0
 })
+
+export const cartB2CDrawer = atom({
+  key: 'cartB2CDrawer',
+  default: false
+})
+
+export const DiamondRangeArr = atom({
+  key: 'DiamondRangeArr',
+  default: []
+})

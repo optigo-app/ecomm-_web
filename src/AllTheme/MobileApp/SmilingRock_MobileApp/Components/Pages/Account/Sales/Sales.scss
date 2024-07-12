@@ -1,46 +1,46 @@
-.salesPagePagBtn:has(.muiSmilingRocksBtn) {
+.salesPagePagBtnMob:has(.muiSmilingRocksBtn) {
     padding-bottom: 20px !important;
     margin-top: -3px;
 }
 
-.salePageBtnAlign {
+.salePageBtnAlignMob {
     align-items: baseline !important;
     margin-top: 0 !important;
 }
 
 @media(max-width: 768px) {
-    .salesApiSection {
+    .salesApiSectionMob {
         padding: 15px 7px !important;
     }
 
-    .salesPagePagBtn {
+    .salesPagePagBtnMob {
         padding-bottom: 20px !important;
     }
 
 
-    .salesApiTable .MuiTablePagination-root {
+    .salesPartTableMob .MuiTablePagination-root {
         padding-bottom: 0 !important;
         max-height: 50px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-toolbar {
+    .salesPartTableMob .MuiTablePagination-root .MuiTablePagination-toolbar {
         padding: 0 10px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
+    .salesPartTableMob .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input {
         margin-right: 5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
+    .salesPartTableMob .MuiTablePagination-root .MuiInputBase-colorPrimary.MuiTablePagination-input div[role="combobox"] {
         padding-left: 0;
         margin-left: -5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-actions {
+    .salesPartTableMob .MuiTablePagination-root .MuiTablePagination-actions {
         margin-left: 5px;
     }
 
-    .salesApiTable .MuiTablePagination-root .MuiTablePagination-actions button {
+    .salesPartTableMob .MuiTablePagination-root .MuiTablePagination-actions button {
         padding-right: 0;
     }
 
@@ -55,56 +55,57 @@
         width: 100%;
     }
 
-    div[role="tabpanel"]>div.MuiBox-root:has(.salesApiSection) {
+    div[role="tabpanel"]>div.MuiBox-root:has(.salesApiSectionMob) {
         padding-left: 0;
         padding-right: 0;
     }
 
-    .salesApiTable table thead tr {
-        display: flex;
-        flex-direction: column;
+    .salesPartTableMob table thead tr {
+        overflow: auto !important;
+        // display: flex;
+        // flex-direction: column;
     }
 
-    .salesApiTable>div>table {
+    .salesPartTableMob>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
-    .salesApiTable>div>table>thead>tr>th,
-    .salesApiTable>div>table>tbody>tr>td {
+    .salesPartTableMob>div>table>thead>tr>th,
+    .salesPartTableMob>div>table>tbody>tr>td {
         text-align: start !important;
         padding: 5px 10px !important;
     }
 
-    .salesApiTable>div>table>thead>tr>th svg {
+    .salesPartTableMob>div>table>thead>tr>th svg {
         position: absolute;
         right: -30px;
     }
 
-    .salesApiTable>div>table>tbody>tr {
+    .salesPartTableMob>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
     }
 
-    .salesApiTable>div>table>tbody>tr>td:last-child {
+    .salesPartTableMob>div>table>tbody>tr>td:last-child {
         border-bottom: 1px solid #9b978f !important;
     }
 
-    .salesApiTable>div>table>tbody>tr>td {
+    .salesPartTableMob>div>table>tbody>tr>td {
         min-height: 31.02px;
     }
 
-    .salesApiTable>div>table>tbody>tr:first-child>td:first-child {
+    .salesPartTableMob>div>table>tbody>tr:first-child>td:first-child {
         border-top: 1px solid #9b978f !important;
     }
 
-    .salesApiTable>div>table>thead>tr>th:last-child,
-    .salesApiTable>div>table>thead>tr>th:first-child,
-    .salesApiTable>div>table>thead>tr {
+    .salesPartTableMob>div>table>thead>tr>th:last-child,
+    .salesPartTableMob>div>table>thead>tr>th:first-child,
+    .salesPartTableMob>div>table>thead>tr {
         border-radius: 0 !important;
     }
 
@@ -112,10 +113,10 @@
         max-height: 450px !important;
     }
     .sal_flexcol{
-        display: flex !important;
-        justify-content: center;
-        align-items: flex-start !important;
-        flex-direction: column;
+        // display: flex !important;
+        // flex-direction: column;
+        // justify-content: center;
+        // align-items: flex-start !important;
         width: 100%;
     }
     .date_from_sal{

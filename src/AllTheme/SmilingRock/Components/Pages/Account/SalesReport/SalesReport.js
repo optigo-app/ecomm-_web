@@ -10,9 +10,9 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Label } from "@mui/icons-material";
+
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,19 +21,10 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
+
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
-import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -86,32 +77,101 @@ function createData(
   };
 }
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
+function parseCustomDate(dateString) {
+  const months = {
+    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+  };
+  const parts = dateString?.split(' ');
+  if (parts?.length !== 3) {
+    throw new Error('Invalid date format');
   }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
+  const day = parseInt(parts[0]);
+  const month = months[parts[1].substring(0, 3)]; // Extract the first three characters of the month name
+  const year = parseInt(parts[2]);
+  if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    throw new Error('Invalid date format');
   }
-  return 0;
+  return new Date(year, month, day);
 }
+function descendingComparator(a, b, orderBy) {
+  if (!orderBy) return 0; // Add null check for orderBy
+  
+  if (orderBy === 'EntryDate') {
+      try {
+        const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
+        const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
+
+        if (dateB < dateA) {
+            return -1;
+        }
+        if (dateB > dateA) {
+            return 1;
+        }
+        return 0;
+          // const dateA = parseCustomDate(a[orderBy]);
+          // const dateB = parseCustomDate(b[orderBy]);
+
+          // if (dateB < dateA) {
+          //     return -1;
+          // }
+          // if (dateB > dateA) {
+          //     return 1;
+          // }
+          // return 0;
+      } catch (error) {
+          console.error('Error parsing date:', error.message);
+          return 0;
+      }
+    
+  } else if(orderBy === 'MetalAmount' || 
+            orderBy === "Unit Cost" ||
+            orderBy === 'DiamondAmount' || 
+            orderBy === 'ColorStoneAmount' || 
+            orderBy === 'LabourAmount' || 
+            orderBy === 'OtherAmount' ||
+            orderBy === 'GrossWt' ||
+            orderBy === 'NetWt' ||
+            orderBy === 'DiaPcs' ||
+            orderBy === 'DiaWt' ||
+            orderBy === 'CsPcs' ||
+            orderBy === 'CsWt'
+            ){
+    
+    const valueA = parseFloat(a[orderBy]) || 0;
+    const valueB = parseFloat(b[orderBy]) || 0;
+
+    if (valueB < valueA) {
+        return -1;
+    }
+    if (valueB > valueA) {
+        return 1;
+    }
+
+    return 0;
+
+  }else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
+    // Handle sorting for SKU# column
+    return customComparator_Col(a[orderBy], b[orderBy]);
+}  else {
+      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+
+      if (valueB < valueA) {
+          return -1;
+      }
+      if (valueB > valueA) {
+          return 1;
+      }
+      return 0;
+  }
+}
+
 
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
@@ -296,19 +356,22 @@ function EnhancedTableHead(props) {
               textAlign: headCell?.align || "left",
             }}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-              sx={{ textAlign: "center" }}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+         {
+          (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' : 
+          <TableSortLabel
+          active={orderBy === headCell.id}
+          direction={orderBy === headCell.id ? order : "asc"}
+          onClick={createSortHandler(headCell.id)}
+          sx={{ textAlign: "center" }}
+        >
+          {headCell.label}
+          {orderBy === headCell.id ? (
+            <Box component="span" sx={visuallyHidden}>
+              {order === "desc" ? "sorted descending" : "sorted ascending"}
+            </Box>
+          ) : null}
+        </TableSortLabel>
+         }
           </TableCell>
         ))}
       </TableRow>
@@ -375,24 +438,6 @@ const SalesReport = () => {
     }
     setSelected([]);
   };
-
-  // const handleClick = (event, id) => {
-  //     const selectedIndex = selected.indexOf(id);
-  //     let newSelected = [];
-  //     if (selectedIndex === -1) {
-  //         newSelected = newSelected.concat(selected, id);
-  //     } else if (selectedIndex === 0) {
-  //         newSelected = newSelected.concat(selected.slice(1));
-  //     } else if (selectedIndex === selected.length - 1) {
-  //         newSelected = newSelected.concat(selected.slice(0, -1));
-  //     } else if (selectedIndex > 0) {
-  //         newSelected = newSelected.concat(
-  //             selected.slice(0, selectedIndex),
-  //             selected.slice(selectedIndex + 1),
-  //         );
-  //     }
-  //     setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -613,18 +658,7 @@ const SalesReport = () => {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
       let currencyRate = "1";
-      // const combinedValue = JSON.stringify({
-      //   CurrencyRate: "1",
-      //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-      //   Customerid: `${customerid}`,
-      // });
-      // const encodedCombinedValue = btoa(combinedValue);
-      // const body = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data.email1}\"}`,
-      //   f: "zen (cartcount)",
-      //   p: encodedCombinedValue,
-      // };
-      // const response = await CommonAPI(body);
+
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       if (response.Data?.rd) {
@@ -725,7 +759,7 @@ const SalesReport = () => {
         }}
       >
         <Box
-          className="salesReporttable"
+          className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
           <table>
@@ -1023,8 +1057,8 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSec">
-            <TableContainer sx={{ maxHeight: 580 }}>
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
@@ -1061,16 +1095,16 @@ const SalesReport = () => {
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{row.MetalAmount}</TableCell>
+                        <TableCell align="center">{formatAmount(row.MetalAmount)}</TableCell>
                         <TableCell align="center">
-                          {row.DiamondAmount}
+                          {formatAmount(row.DiamondAmount)}
                         </TableCell>
                         <TableCell align="center">
-                          {row.ColorStoneAmount}
+                          {formatAmount(row.ColorStoneAmount)}
                         </TableCell>
-                        <TableCell align="center">{row.LabourAmount}</TableCell>
-                        <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell>
+                        <TableCell align="center">{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center">{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center">{formatAmount(row.UnitCost)}</TableCell>
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>
@@ -1102,12 +1136,3 @@ const SalesReport = () => {
 
 export default SalesReport;
 
-// import React from 'react'
-
-// const SalesReport = () => {
-//   return (
-//     <div>SalesReport</div>
-//   )
-// }
-
-// export default SalesReport

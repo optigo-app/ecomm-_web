@@ -69,6 +69,17 @@
     margin-bottom: 20px !important;
 }
 
+
+
+.css-levciy-MuiTablePagination-displayedRows{
+    margin-bottom: 0px !important;
+}
+
+.css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
+}
+
+
 @media(max-width: 768px){
     .salesReport .MuiTablePagination-root{
         padding-bottom: 0 !important;
@@ -111,14 +122,17 @@
     }
 
     .salesReporttable table tbody {
-        display: flex;
-        flex-wrap: wrap;
+        // display: flex;
+        // flex-wrap: wrap;
+        overflow: auto;
     }
 
     .salesReporttable table tbody tr {
-        display: flex;
-        flex-direction: column;
-        width: 50%;
+        // display: flex;
+        // flex-direction: column;
+        // width: 50%;
+        overflow: auto;
+        width: 100%;
     }
 
     .salesReporttable table tbody tr td{
@@ -126,15 +140,16 @@
     }
 
     .salesReportTableSec table thead tr {
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
     }
 
     .salesReportTableSec>div>table {
         min-width: 100%;
-        display: flex;
+        // display: flex;
+        // flex-direction: column;
         position: static !important;
-        flex-direction: column;
         border: unset;
     }
 
@@ -151,12 +166,12 @@
 
     .salesReportTableSec>div>table>tbody>tr {
         width: 100%;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .salesReportTableSec>div>table>tbody>tr>td:last-child {
-        border-bottom: 1px solid #9b978f !important;
+        // border-bottom: 1px solid #9b978f !important;
     }
 
     .salesReportTableSec>div>table>tbody>tr>td {
@@ -179,4 +194,105 @@
     .pad_10_ds{
         padding: 10px !important;
     }
+    .mb_0_sp_mob{
+        margin-bottom: 0px !important;
+    }
+
+
+
+
+    .css-levciy-MuiTablePagination-displayedRows{
+        margin-bottom: 0px !important;
+    }
+
+    .css-pdct74-MuiTablePagination-selectLabel{
+        margin-bottom: 0px !important;
+    }
+
+
+
+
+
+
+
+    .salesReporttable {
+        border-collapse: collapse;
+        padding-right: 0 !important;
+        padding-bottom: 15px !important;
+    }
+
+
+    .salesReporttable,
+    .salesReporttable table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .salesReporttable table tbody {
+        // display: flex;
+        // flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    .salesReporttable table tbody tr {
+        // display: flex;
+        // flex-direction: column;
+        // width: 50%;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .salesReporttable table tbody tr td{
+        text-align: start !important;
+    }
+
+    .salesReportTableSec table thead tr {
+        // display: flex;
+        // flex-direction: column;
+        overflow: auto;
+    }
+
+    .salesReportTableSec>div>table {
+        min-width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        position: static !important;
+        border: unset;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th,
+    .salesReportTableSec>div>table>tbody>tr>td {
+        text-align: start !important;
+        padding: 5px 10px !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th svg {
+        position: absolute;
+        right: -30px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr {
+        width: 100%;
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td:last-child {
+        // border-bottom: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr>td {
+        min-height: 31.02px;
+    }
+
+    .salesReportTableSec>div>table>tbody>tr:first-child>td:first-child {
+        border-top: 1px solid #9b978f !important;
+    }
+
+    .salesReportTableSec>div>table>thead>tr>th:last-child,
+    .salesReportTableSec>div>table>thead>tr>th:first-child,
+    .salesReportTableSec>div>table>thead>tr {
+        border-radius: 0 !important;
+    }
+
 }

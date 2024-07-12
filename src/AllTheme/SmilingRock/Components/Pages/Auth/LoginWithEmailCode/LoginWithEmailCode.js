@@ -88,7 +88,7 @@ export default function LoginWithEmailCode() {
 
     const handleSubmit = async () => {
         if (!mobileNo.trim()) {
-            errors.mobileNo = 'Password is required';
+            errors.mobileNo = 'Code is required';
             return;
         }
 
@@ -108,16 +108,16 @@ export default function LoginWithEmailCode() {
         // };
         // const response = await CommonAPI(body);
 
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
+        LoginWithEmailAPI(email, '', mobileNo, 'otp_email_login', '').then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
-                if(redirectEmailUrl){
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
             } else {

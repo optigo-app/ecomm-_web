@@ -3,7 +3,7 @@ import { Button, CircularProgress, IconButton, InputAdornment, TextField } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 // import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import './LoginWithEmail.modul.scss'
@@ -13,12 +13,13 @@ import './LoginWithEmail.modul.scss'
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { loginState } from '../../../Recoil/atom';
+import { CartCount, WishCount, loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -28,6 +29,9 @@ export default function LoginWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+
+    const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
 
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
@@ -137,12 +141,26 @@ export default function LoginWithEmail() {
         LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
+                const visiterID = Cookies.get('visiterId');
+
                 console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 localStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                
+
+                GetCountAPI(visiterID).then((res) => {
+                    if (res) {
+                        setCartCountNum(res?.cartcount)
+                        setWishCountNum(res?.wishcount)
+                    }
+                }).catch((err) => {
+                    if (err) {
+                        console.log("getCountApiErr", err);
+                    }
+                })
 
                 CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {

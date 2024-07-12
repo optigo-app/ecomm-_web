@@ -1,6 +1,6 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
-export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => {
+export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}) => {
     let response;
     try {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
@@ -19,6 +19,23 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => 
             "Metalid": `${storeInit?.MetalId}`,
             "DiaQCid": `${storeInit?.cmboDiaQCid}`,
             "CsQCid": `${storeInit?.cmboCSQCid}`,
+            "IsStockWebsite": `${storeInit?.IsStockWebsite}`,
+            Collectionid: `${filterObj?.collection ?? ""}`,
+            Categoryid: `${filterObj?.category ?? ""}`,
+            SubCategoryid: `${filterObj?.subcategory ?? ""}`,
+            Brandid: `${filterObj?.brand ?? ""}`,
+            Genderid: `${filterObj?.gender ?? ""}`,
+            Ocassionid: `${filterObj?.ocassion ?? ""}`,
+            Themeid: `${filterObj?.theme ?? ""}`,
+            Producttypeid: `${filterObj?.producttype ?? ""}`,
+            Min_DiaWeight: '',
+            Max_DiaWeight: '',
+            Min_GrossWeight: '',
+            Max_GrossWeight: '',
+            Max_NetWt: '',
+            Min_NetWt: '',
+            FilPrice: filterObj?.Price,
+            IsPLW: storeInit?.IsPLW
         })
 
         const combinedValueLogin = JSON.stringify({
@@ -32,6 +49,23 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode , customerID) => 
             "Metalid": `${userData?.MetalId}`,
             "DiaQCid": `${userData?.cmboDiaQCid}`,
             "CsQCid": `${userData?.cmboCSQCid}`,
+            "IsStockWebsite": `${storeInit?.IsStockWebsite}`,
+            Collectionid: `${filterObj?.collection ?? ""}`,
+            Categoryid: `${filterObj?.category ?? ""}`,
+            SubCategoryid: `${filterObj?.subcategory ?? ""}`,
+            Brandid: `${filterObj?.brand ?? ""}`,
+            Genderid: `${filterObj?.gender ?? ""}`,
+            Ocassionid: `${filterObj?.ocassion ?? ""}`,
+            Themeid: `${filterObj?.theme ?? ""}`,
+            Producttypeid: `${filterObj?.producttype ?? ""}`,
+            Min_DiaWeight: '',
+            Max_DiaWeight: '',
+            Min_GrossWeight: '',
+            Max_GrossWeight: '',
+            Max_NetWt: '',
+            Min_NetWt: '',
+            FilPrice: filterObj?.Price,
+            IsPLW: storeInit?.IsPLW
         })
 
 

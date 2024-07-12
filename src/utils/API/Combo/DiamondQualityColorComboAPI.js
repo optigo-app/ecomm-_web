@@ -4,7 +4,6 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const DiamondQualityColorComboAPI = async (finalID) => {
 
-
     let response;
 
     try {

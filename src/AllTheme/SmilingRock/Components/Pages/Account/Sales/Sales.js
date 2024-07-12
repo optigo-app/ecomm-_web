@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./Sales.scss";
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,25 +10,14 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { Button, CircularProgress, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Label } from "@mui/icons-material";
-import { checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { checkMonth, customComparator_Col, formatAmount, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
@@ -44,7 +32,6 @@ const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) 
         PrintUrl
     };
 }
-
 
 const descendingComparator = (a, b, orderBy) => {
     if (orderBy === 'Date') {
@@ -75,34 +62,11 @@ const descendingComparator = (a, b, orderBy) => {
         return 0;
     }
 }
-const customComparator_Col = (a, b) => {
-    const regex = /([^\d]+)(\d+)/;
-    const [, wordA, numA] = a?.match(regex);
-    const [, wordB, numB] = b?.match(regex);
-    
-    if (wordA !== wordB) {
-        return wordA?.localeCompare(wordB);
-    }
-    
-    return parseInt(numB, 10) - parseInt(numA, 10);
-  };
 
 const getComparator = (order, orderBy) => {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
@@ -169,7 +133,10 @@ function EnhancedTableHead(props) {
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        <TableSortLabel
+                        {
+                            ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ? `${headCell?.label}` 
+                            : 
+                            <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
@@ -181,12 +148,14 @@ function EnhancedTableHead(props) {
                                 </Box>
                             ) : null}
                         </TableSortLabel>
+                        }
                     </TableCell>
                 ))}
             </TableRow>
         </TableHead>
     );
 }
+
 const Sales = () => {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
@@ -302,7 +271,6 @@ const Sales = () => {
                     let todat = moment(todates);
                     let cutDat = moment(cutDate);
                     if(moment(fromdat).isSameOrBefore(todat)){
-                        console.log("in if");
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
                             flags.dateTo = true;
@@ -408,15 +376,18 @@ const Sales = () => {
             inputTo.placeholder = 'Date To';
         }
     }, []);
+
     const handlePrintUrl = (printUrl) => {
         window.open(printUrl)
     }
+
     const scrollToTop = () => {
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
           tableContainer.scrollTop = 0;
         }
-      };
+    };
+
     return (
         <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
@@ -540,7 +511,7 @@ const Sales = () => {
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right">{row.Amount}</TableCell>
+                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon   />
                                                         </div></TableCell>
@@ -575,13 +546,3 @@ const Sales = () => {
 }
 
 export default Sales
-
-// import React from 'react'
-
-// const Sales = () => {
-//   return (
-//     <div>Sales</div>
-//   )
-// }
-
-// export default Sales

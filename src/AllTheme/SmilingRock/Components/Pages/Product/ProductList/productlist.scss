@@ -17,6 +17,10 @@
   background-color: #fff;
   margin-inline: 6%;
   width: 100%;
+  position: sticky;
+  position: -webkit-sticky;
+  top:0;
+
 }
 
 .smr_prodSorting {
@@ -130,6 +134,17 @@
   align-items: baseline;
   margin: 20px 50px 0px 0px;
   flex-direction: column;
+  position: sticky;
+  top: 50px;
+  overflow-y: scroll;
+  height: 100vh;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.smr_productList::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Webkit browsers */
 }
 
 .smr_outer_portion {
@@ -160,7 +175,7 @@
 }
 
 .smr_productCard {
-  width: 32.8%;
+  width: 33%;
   border: 1px solid $primaryBorderColor;
   text-align: center;
   color: $primaryfontcolor;
@@ -184,6 +199,10 @@
   height: 412px;
   min-height: 412px;
   width: 100%;
+}
+
+.smr_prod_card_info{
+  height: 90px;
 }
 
 .smr_prod_Title {

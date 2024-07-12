@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import './TopSection.modul.scss'
 
 const TopSection = () => {
 
@@ -31,15 +32,14 @@ const TopSection = () => {
 
 
   return (
-    <div>
-
+    <div className='smr_topVideoMain' style={{ minHeight: '550px' }}>
       {localData?.Blockno === 1 &&
         <video
           ref={videoRef}
           width="500"
           autoPlay
           muted
-          controls={!videoStarted} 
+          controls={!videoStarted}
           loop
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}

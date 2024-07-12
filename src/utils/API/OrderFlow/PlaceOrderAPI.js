@@ -1,34 +1,51 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handlePaymentAPI = async () => {
+export const handlePaymentAPI = async (visiterId, islogin) => {
     try {
-        const storedData = localStorage.getItem('loginUserDetail');
         const selectedAddressId = localStorage.getItem('selectedAddressId');
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const storedData = localStorage.getItem("loginUserDetail");
         const selctedid = JSON.parse(selectedAddressId);
-
-
         const data = JSON.parse(storedData);
-        const customerid = data?.id;
         const currencyId = data?.CurrencyCodeid
-
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.id ?? 0;
+        const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data.email1 ?? "";
         const { FrontEnd_RegNo } = storeInit;
 
+        let packageId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.PackageId : data?.PackageId ?? 0
+        let laboursetid = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.pricemanagement_laboursetid : data?.pricemanagement_laboursetid ?? 0
+        let diamondpricelistname = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.diamondpricelistname : data?.diamondpricelistname ?? ""
+        let colorstonepricelistname = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.colorstonepricelistname : data?.colorstonepricelistname ?? ""
+        let SettingPriceUniqueNo = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.SettingPriceUniqueNo : data?.SettingPriceUniqueNo ?? ""
+
         const combinedValue = JSON.stringify({
-            addrid: `${selctedid.id}`, PaymentMethod: 'Cash on Delivery', Istempaddress: '', addrType: 'select', OrderPlacedFrom: "1", CurrencyId: `${currencyId}`, orderRemarks: '', FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+            addrid: `${selctedid.id}`,
+            PaymentMethod: 'Cash on Delivery',
+            Istempaddress: '',
+            addrType: 'select',
+            OrderPlacedFrom: "1",
+            CurrencyId: `${currencyId}`,
+            orderRemarks: '',
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+            Customerid: `${customerId}`,
+            Laboursetid: laboursetid,
+            diamondpricelistname: diamondpricelistname,
+            colorstonepricelistname: colorstonepricelistname,
+            SettingPriceUniqueNo: SettingPriceUniqueNo,
+            IsPLW: storeInit?.IsPLW
         });
 
         console.log('combinedValuecombinedValue...', combinedValue);
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"Store\",\"mode\":\"PlaceOrder\",\"appuserid\":\"${data.userid}\"}`,
+            "con": `{\"id\":\"Store\",\"mode\":\"PlaceOrder\",\"appuserid\":\"${customerEmail}\"}`,
             "f": "m-test2.orail.co.in (PlaceOrder)",
             "p": encodedCombinedValue,
             "dp": combinedValue
         };
 
-        const response = await CommonAPI(body); 
+        const response = await CommonAPI(body);
 
         return response;
     } catch (error) {

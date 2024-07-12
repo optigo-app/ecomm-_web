@@ -13,6 +13,8 @@ import { smrMA_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
   item,
+  CurrencyData,
+  decodeEntities,
   CartCardImageFunc,
   onSelect,
   onRemove,
@@ -22,8 +24,11 @@ const CartItem = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
     const isCartUpdateStatus = localStorage.getItem('cartUpdation');
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
@@ -49,30 +54,25 @@ const CartItem = ({
     setDialogOpen(false);
   };
 
-  const isLargeScreen = useMediaQuery('(min-width:1800px)');
+  const isLargeScreen = useMediaQuery('(max-width:890px)');
   const ismediumScreen = useMediaQuery('(min-width:1780px)');
 
   return (
     <Grid
       item
       xs={12}
-      sm={itemLength <= 2 ? 6 : 6}
+      sm={itemLength <= 2 ? 12 : 12}
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
       className='smrMo_cartListCardGrid'>
-      <Card className='smrMo_cartListCard'
-        sx={{
-          maxWidth: 450,
-          width: isLargeScreen && itemLength <= 3 ? '390px' : '100%'
-        }}
-      >
+      <Card className='smrMo_cartListCard' >
         <Box onClick={() => handleMoveToDetail(item)} className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
             alt={item?.TitleLine}
-            className='smr_cartListImage'
+            className='smrMo_cartListImage'
           />
           <div>
             <CardContent className='smrMo_cartcontentData'>
@@ -80,23 +80,38 @@ const CartItem = ({
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div style={{ marginBottom: '10px', marginRight:'5px' }}>
+                <div style={{marginRight: '5px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    NWT: {item?.MetalWeight}
+                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
+                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
-                <div style={{ marginBottom: '10px', marginRight:'5px' }}>
+                <div style={{marginRight: '5px' }}>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    GWT: {item?.totalGrossweight}
+                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                   <Typography variant="body2" className='smr_card-ContentData'>
-                    DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
+                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
               </div>
+              <Box>
+                {storeInitData?.IsPriceShow == 1 &&
+                  <span className='smrMo_currencyFontPrice'>
+                    <span
+                      className="smr_currencyFont"
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(
+                          CurrencyData?.Currencysymbol
+                        ),
+                      }}
+                    />
+                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                  </span>
+                }
+              </Box>
             </CardContent>
           </div>
 
@@ -118,13 +133,13 @@ const CartItem = ({
           </Button>
         </Box>
       </Card>
-  
+
       <ConfirmationDialog
         open={dialogOpen}
         onClose={handleCloseDialog}
         onConfirm={handleConfirmRemove}
-        title="Confirm Remove All"
-        content="Are you sure you want to clear all items?"
+        title="Remove Item"
+        content="Are you sure you want to clear this Item?"
       />
     </Grid>
   );

@@ -57,7 +57,7 @@ const BottomBanner = () => {
                             <div className='shopifyDesc'>
                                 <p className='shopifyTitle'>{data.Title}</p>
                                 <p className='shopifyDescription'>{data.Decription}</p>
-                                <p style={{ fontSize: '12px', fontWeight: 500, letterSpacing: '1px', color: '#7d7f85' }}>{data.Link}</p>
+                                {/* <p style={{ fontSize: '12px', fontWeight: 500, letterSpacing: '1px', color: '#7d7f85' }}>{data.Link}</p> */}
                             </div>
                             <div className='shopifyMainImage'>
                                 <img src={data.images} style={{ height: '100%', width: '100%', minHeight: '500px' }} className='smr_shopifyImg'/>

@@ -18,10 +18,12 @@ import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport
 import SalesReport from './SalesReport/SalesReport';
 import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
+import PendingMemo from './PendingMemo/PendingMemo';
+
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import Plm from './PLM/Plm';
 
-// import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -77,7 +79,7 @@ export default function Account() {
     const setIsLoginState = useSetRecoilState(loginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
-
+    const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -119,6 +121,8 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
                                     </Tabs>
                                     <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p>
                                 </Box>
@@ -131,6 +135,8 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
                                     </Tabs>
                                 </Box>
                                
@@ -183,13 +189,22 @@ export default function Account() {
                                             {e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
                                                 <AccountLedger />
                                             </CustomTabPanel>}
+                                            {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                                                <PendingMemo />
+                                            </CustomTabPanel>} */}
                                         </React.Fragment>
                                     })
                                 }
                             </CustomTabPanel>}
+                            
                             <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
                                 <div>
                                     <ChangePassword />
+                                </div>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={5}>
+                                <div>
+                                    <Plm />
                                 </div>
                             </CustomTabPanel>
 
@@ -203,14 +218,3 @@ export default function Account() {
         </div>
     )
 }
-
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account

@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import Cookies from 'js-cookie';
+import { useRecoilValue } from 'recoil';
+import { smrMA_loginState } from '../../../Recoil/atom';
 
 const TrendingView = () => {
 
@@ -25,7 +28,7 @@ const TrendingView = () => {
     const [ring4ImageChange, setRing4ImageChange] = useState(false);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
-
+    const islogin = useRecoilValue(smrMA_loginState);
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
     const isOdd = (num) => num % 2 !== 0;
@@ -47,8 +50,19 @@ const TrendingView = () => {
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
+        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending").then((response) => {
+
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
 
@@ -154,7 +168,6 @@ const TrendingView = () => {
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
-                    <p className='linkingShopCol'>SHOP COLLECTION</p>
                     <Slider {...settings} >
                         {
                             oddNumberObjects?.slice(0, 2).map((data, inedx) => (
@@ -211,7 +224,7 @@ const TrendingView = () => {
                             ))
                         }
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>View All</p>
+                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
                 </div>
             </div>
         </div>

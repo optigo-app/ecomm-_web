@@ -3,9 +3,10 @@ import "./orderhistory.scss";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Box, CircularProgress } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Pako from "pako";
 
 
 const OrderHistory = () => {
@@ -16,6 +17,7 @@ const OrderHistory = () => {
   const [orderInfo, setOrderInfo] = useState(false);
   const [ukey, setUkey] = useState('');
   const [image_path, setImagePath] = useState('');
+  const navigate = useNavigate();
 
 
   const getStatusColor = (orderType) => {
@@ -181,6 +183,38 @@ const OrderHistory = () => {
     }
   };
 
+  const handleMoveToDetail = (productData) => {
+
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {}
+    }
+    let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+
+  }
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
   return (
     <div>
     
@@ -320,12 +354,12 @@ const OrderHistory = () => {
                       orderDetails.map((el, index) => (
                         <Col key={index} xs={12}
                         // <Col key={index} xs={12} sm={6} md={4} lg={3} xl={3} className="col">
-                            sm={orderDetails?.length === 1 ? 12 : 6}
-                            md={orderDetails?.length === 1 ? 12 : 4}
-                            lg={orderDetails?.length === 1 ? 12 : 3}
-                            xl={orderDetails?.length === 1 ? 12 : 3}
-                          >
-                          <Card className="h-100">
+                        sm={orderDetails?.length === 1 ? 12 : 6}
+                        md={orderDetails?.length === 1 ? 12 : 4}
+                        lg={orderDetails?.length === 1 ? 12 : 3}
+                        xl={orderDetails?.length === 1 ? 12 : 3}
+                        >
+                          <Card className="h-100" onClick={() => handleMoveToDetail(el)}>
                             <Card.Img
                               variant="top"
                               src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
@@ -382,13 +416,3 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
-
-// import React from 'react'
-
-// const OrderHisoty = () => {
-//   return (
-//     <div>OrderHisoty</div>
-//   )
-// }
-
-// export default OrderHisoty
