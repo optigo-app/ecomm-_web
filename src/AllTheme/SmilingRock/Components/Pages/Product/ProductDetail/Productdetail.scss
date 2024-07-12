@@ -380,14 +380,14 @@ color: $primaryfontcolor2;
 }
 
 .Smr_stockItem_table_tr,.Smr_stockItem_table_td{
-//    border: 1px solid #dddddd;
-   text-align: left;
+   border: 1px solid #dddddd;
+   text-align: center;
    padding: 8px;
 }
 
-.Smr_stockItem_table_tr:nth-child(even){
-    background-color: #dddddd;
-}
+// .Smr_stockItem_table_tr:nth-child(even){
+//     background-color: #dddddd;
+// }
 
 .Smr_stockItem_table{
     border-collapse: collapse;
