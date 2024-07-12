@@ -28,11 +28,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
-import { useDefaultDates } from "@mui/x-date-pickers/internals";
-import { RangeSlider } from "rsuite";
-import 'rsuite/RangeSlider/styles/index.css';
-import RangeFilter from "../RangeFilter/RangeFilter";
-import { scrollTop } from "rsuite/esm/DOMHelper";
+
+
 
 
 
@@ -91,6 +88,8 @@ const ProductList = () => {
   const [prodListType,setprodListType] = useState();
 
   const [sortBySelect,setSortBySelect] = useState();
+
+  const [totalProductCount,setTotalProductCount]= useState();
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -1541,7 +1540,7 @@ const ProductList = () => {
                 <span>
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length === 0
-                    // ? <span><span>{"Filters"}</span> <span>{"product"}</span></span>
+                    // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                     ? "Filters"
                     : `Product Found: ${afterFilterCount}`}
                 </span>
@@ -1924,6 +1923,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length === 0
                               ? "Filters"
+                              // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                               : `Product Found: ${afterFilterCount}`}
                           </span>
                           <span onClick={() => handelFilterClearAll()}>
@@ -1931,7 +1931,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length > 0
                               ? "Clear All"
-                              : ""}
+                              : <span>{`Total Products: ${afterFilterCount}`}</span>}
                           </span>
                         </span>
                         <div style={{ marginTop: "12px" }}>
@@ -2609,8 +2609,7 @@ const ProductList = () => {
                                       -
                                       {
                                         findMetalType(
-                                          selectedMetalId ??
-                                            productData?.MetalPurityid
+                                          productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
                                         )[0]?.metaltype
                                       }
                                     </span>

@@ -271,7 +271,6 @@ const Sales = () => {
                     let todat = moment(todates);
                     let cutDat = moment(cutDate);
                     if(moment(fromdat).isSameOrBefore(todat)){
-                        console.log("in if");
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
                             flags.dateTo = true;

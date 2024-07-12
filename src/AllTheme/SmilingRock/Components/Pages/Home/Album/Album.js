@@ -22,12 +22,12 @@ const Album = () => {
     const visiterID = Cookies.get('visiterId');
     let finalID;
     if (IsB2BWebsite == 0) {
-        finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
-        finalID = loginUserDetail?.id || '0';
+      finalID = loginUserDetail?.id || '0';
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum" , finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response?.Data?.rd);
@@ -40,11 +40,13 @@ const Album = () => {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
   }
 
+  console.log('albumDataalbumData', albumData);
+
   return (
     <div className="smr_alubmMainDiv">
       <p className="smr_albumTitle">ALBUM</p>
       <div className="smr_albumALL_div">
-        {albumData?.slice(0, 4).map((data, index) => (
+        {albumData?.slice(0, 5).map((data, index) => (
           <div
             key={index}
             className="smr_AlbumImageMain"
@@ -58,6 +60,9 @@ const Album = () => {
           </div>
         ))}
       </div>
+      {albumData?.length > 5 && <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <p className="smr_albumViveAll">View All</p>
+      </div>}
     </div>
   );
 };
