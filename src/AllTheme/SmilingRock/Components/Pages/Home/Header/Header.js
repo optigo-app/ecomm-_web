@@ -676,10 +676,11 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+                // onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
               >
-                {/* IMPACT */}
+                <a href={`${navigation('/servicePolicy')}`}>
                 SERVICE POLICY
+                </a>
               </li>
 
               <li
