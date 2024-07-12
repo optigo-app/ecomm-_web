@@ -179,12 +179,14 @@ const OrderHistory = () => {
   };
 
   const getStatusColor2 = (status) => {
-    if(status === 'Approved'){
-      return "text-success";
-    }else if(status === 'Rejected') {
-      return "text-danger"
-    }else{
+    if(status?.toLowerCase() === 'approved'){
+      return "bg-success text-white";
+    }else if(status?.toLowerCase() === 'rejected') {
+      return "bg-danger text-white"
+    }else if(status?.toLowerCase() === 'approval pending'){
       return "_color3"
+    }else{
+      return null
     }
   };
 
@@ -250,7 +252,7 @@ const OrderHistory = () => {
                     </div>
                     </div>
                     <div className="w-50 d-flex flex-column justify-content-around  w-50 ">
-                      { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex justify-content-end pe-4" onClick={() => openList(e?.id)}><MenuIcon className="_color2 " /></div> : <div>&nbsp;</div> }
+                      { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex justify-content-end pe-4" ><MenuIcon className="_color2 " onClick={() => openList(e?.id)} /></div> : <div>&nbsp;</div> }
                       {
                         openListStatus === e?.id && <div className="p-1 border-black border rounded position-absolute mt-1 bg-white" style={{width : '10%',zIndex:'1000', top: '30%', right: '-1%'}}>
                             <div className="text-success w-100 text-center" onClick={() => handleApproveReject(e, 'approve')}>Approve</div>
@@ -258,10 +260,9 @@ const OrderHistory = () => {
                         </div> 
                       }
                       <div className="py-1 w-100 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none d-flex align-items-center justify-content-end">
-                          { e?.OrderStatusId === 1 ? <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)}`}>{e?.OrderStatusName}</div>
-                           : <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} `}>{e?.OrderStatusName}</div>}
+                          { e?.OrderStatusId === 1 ? <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>
+                           : <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
                       </div>
-                           {console.log(e?.OrderStatusName)}
                       <div className="py-1 w-50 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none">
                           <div dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{" "}
                           <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
