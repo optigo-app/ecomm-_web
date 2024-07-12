@@ -17,7 +17,7 @@
     .smr_TrendingViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize4;
+        font-size: $fontSize1;
         cursor: pointer;
         text-align: center;
         text-decoration: underline;
@@ -87,8 +87,8 @@
 
     .smr_trendingViewTopMain_div {
         display: flex;
-        margin-top: 50px;
-        margin-inline: 90px;
+        margin-top: 0px;
+        margin-inline: 0px;
     }
 
     .smr_trendingViewTopMain_Imgdiv {
