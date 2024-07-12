@@ -1539,13 +1539,13 @@ const ProductDetail = () => {
                 </div> */}
                 <table className="Smr_stockItem_table">
                   <tr className="Smr_stockItem_table_tr">
-                    <th className="Smr_stockItem_table_td" style={{textAlign:'center'}}>SrNo</th>
-                    <th style={{textAlign:'center'}}>Design No</th>
-                    <th style={{textAlign:'center'}}>Stock Id</th>
-                    <th style={{textAlign:'center'}}>Job No</th>
-                    <th style={{textAlign:'center'}}>Net Wt/Gross Wt/Dia Wt/CS Wt</th>
-                    <th style={{textAlign:'center'}}>Metal Color/Purity/Type/Price</th>
-                    <th style={{textAlign:'center'}}>Add To Cart</th>
+                    <th className="Smr_stockItem_table_td" >SrNo</th>
+                    <th className="Smr_stockItem_table_td" >Design No</th>
+                    <th className="Smr_stockItem_table_td" >Stock Id</th>
+                    <th className="Smr_stockItem_table_td" >Job No</th>
+                    <th className="Smr_stockItem_table_td" >Net Wt/Gross Wt/Dia Wt/CS Wt</th>
+                    <th className="Smr_stockItem_table_td" >Metal Color/Purity/Type/Price</th>
+                    <th className="Smr_stockItem_table_td" >Add To Cart</th>
                   </tr>
                   {stockItemArr?.map((ele,i) => (
                     <tr className="Smr_stockItem_table_tr">
