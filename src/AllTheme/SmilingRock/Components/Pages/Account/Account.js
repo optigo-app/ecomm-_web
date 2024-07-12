@@ -23,6 +23,7 @@ import PendingMemo from './PendingMemo/PendingMemo';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
+import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 
 
 function CustomTabPanel(props) {
@@ -151,6 +152,7 @@ export default function Account() {
                             <CustomTabPanel value={value} index={1}>
                                 <div>
                                     <OrderHistory />
+                                    {/* <OrderHistoryGroup /> */}
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
