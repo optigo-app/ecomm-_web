@@ -211,13 +211,17 @@ const CartItem = ({
               sx={{
                 color: "rgba(125, 127, 133, 0.4) !important",
                 position: 'absolute',
-                top: 0,
+                bottom: 0,
                 left: 2
               }}
             />
           }
         </div>
-        {/* {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />} */}
+        {item?.StockId != 0 &&
+          <div className="smr_inStockbadgeDiv">
+            <span className="smr_inStockbadgeSpan">In Stock</span>
+          </div>
+        }
       </Card>
       <RemarkModal
         open={open}
