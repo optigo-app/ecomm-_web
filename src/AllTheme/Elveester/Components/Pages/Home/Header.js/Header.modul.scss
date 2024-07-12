@@ -63,6 +63,13 @@
         justify-content: space-between;
     }
 
+    .elv_login_header_main_bg_active{
+        background: #E1E1E1;
+        display: flex;
+        height: 80px;
+        justify-content: space-between;
+    }
+
     .el_login_header_main_div1_logo {
         max-width: 150px;
     }
@@ -123,6 +130,39 @@
         cursor: pointer;
         text-transform: uppercase;
         margin-inline: 20px;
+    }
+
+    .elv_login_header_logo_center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: sticky;
+        right: 0;
+    }
+
+    @media screen and (max-width: 425px) {
+        .el_login_header_main_div1_logo {
+            width: 100px;
+        }
+    }
+
+    @media screen and (max-width: 375px) {
+        .el_login_header_main_div1_logo {
+            width: 75px;
+        }
+
+        .elv_person_icon{
+            font-size: 20px;
+        }
+        .elv_shopping_icon{
+            font-size: 20px;
+        }
+        .elv_heart_icon{
+            font-size: 20px;
+        }
+        .elv_power_icon{
+            font-size: 20px;
+        }
     }
 
 }

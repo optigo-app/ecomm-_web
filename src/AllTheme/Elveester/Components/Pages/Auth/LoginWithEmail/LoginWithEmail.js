@@ -60,7 +60,7 @@ export default function LoginWithEmail() {
 
         const hashedPassword = hashPasswordSHA1(confirmPassword);
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('registerEmail', email)
