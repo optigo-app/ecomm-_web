@@ -27,7 +27,6 @@ const Plm = () => {
     const file = e.target.files[0];
     if(file){
       const fileUrl = URL.createObjectURL(file);
-      console.log(fileUrl);
       setFormData({
         ...formData,
         logo: file,
@@ -46,11 +45,8 @@ const Plm = () => {
     data.append('fileUrl', formData?.logoPreview);
     data.append('markUp', formData?.markUp);
 
-    console.log(data);
 
-    for (let [key, value] of data.entries()) {
-      console.log(key, value);
-    }
+    
 
   };
 

@@ -28,10 +28,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
-import { useDefaultDates } from "@mui/x-date-pickers/internals";
-import { RangeSlider } from "rsuite";
-import 'rsuite/RangeSlider/styles/index.css';
-import RangeFilter from "../RangeFilter/RangeFilter";
+
+
 
 
 
@@ -90,6 +88,8 @@ const ProductList = () => {
   const [prodListType,setprodListType] = useState();
 
   const [sortBySelect,setSortBySelect] = useState();
+
+  const [totalProductCount,setTotalProductCount]= useState();
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -412,6 +412,10 @@ const ProductList = () => {
         }).finally(() => {
           setIsProdLoading(false)
           setIsOnlyProdLoading(false)
+          window.scroll({
+            top: 0,
+            behavior: 'smooth'
+          })
         })
         .catch((err) => console.log("err", err))
 
@@ -959,8 +963,24 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(()=>{
             setIsOnlyProdLoading(false)
+            
+            // if(element)
+            //   {
+            //     element.scrollIntoView({ behavior: "smooth", block: "start" })
+            //   }
+            // window.scroll({
+            //   top: 0,
+            //   behavior: 'smooth'
+            // })
         })
   }
+
+  // useEffect(()=>{
+    // let element =  document.getElementById("smr_outer_portion")
+    // if(element){
+    //   console.log("scroll",element)
+    // }
+  // },[])
 
   // const showBreadCumsValue = () =>{
 
@@ -1520,6 +1540,7 @@ const ProductList = () => {
                 <span>
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length === 0
+                    // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                     ? "Filters"
                     : `Product Found: ${afterFilterCount}`}
                 </span>
@@ -1902,6 +1923,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length === 0
                               ? "Filters"
+                              // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                               : `Product Found: ${afterFilterCount}`}
                           </span>
                           <span onClick={() => handelFilterClearAll()}>
@@ -1909,7 +1931,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length > 0
                               ? "Clear All"
-                              : ""}
+                              : <span>{`Total Products: ${afterFilterCount}`}</span>}
                           </span>
                         </span>
                         <div style={{ marginTop: "12px" }}>
@@ -2364,7 +2386,7 @@ const ProductList = () => {
                       {isOnlyProdLoading ? (
                         <ProductListSkeleton fromPage={"Prodlist"} />
                       ) : (
-                        <div className="smr_outer_portion">
+                        <div className="smr_outer_portion" id="smr_outer_portion">
                           {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                           <div className="smr_inner_portion">
                             {finalProductListData?.map((productData, i) => (
@@ -2587,8 +2609,7 @@ const ProductList = () => {
                                       -
                                       {
                                         findMetalType(
-                                          selectedMetalId ??
-                                            productData?.MetalPurityid
+                                          productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
                                         )[0]?.metaltype
                                       }
                                     </span>

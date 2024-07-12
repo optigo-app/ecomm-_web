@@ -48,7 +48,7 @@
     margin-bottom: -8%;
 }
 
-.WlBtnGroupMainDiv {
+.smrProcat_WlBtnGroupMainDiv {
     text-align: center;
     padding-top: 40px;
 
@@ -186,7 +186,7 @@
 }
 
 @media (max-width: 1750px) {
-    .WlBtnGroupMainDiv {
+    .smrProcat_WlBtnGroupMainDiv {
         .smr_WlButton-group {
             .smr_WlAddToCartBtn {
                 width: 140px;
@@ -216,7 +216,7 @@
 }
 
 @media (max-width: 1350px) {
-    .WlBtnGroupMainDiv {
+    .smrProcat_WlBtnGroupMainDiv {
         .smr_WlButton-group {
             .smr_WlAddToCartBtn {
                 width: 140px;
@@ -246,7 +246,7 @@
 }
 
 @media (max-width: 1050px) {
-    .WlBtnGroupMainDiv {
+    .smrProcat_WlBtnGroupMainDiv {
         .smr_WlButton-group {
             .smr_WlAddToCartBtn {
                 width: 140px;
@@ -293,7 +293,7 @@
         margin-bottom: -8%;
     }
 
-    .WlBtnGroupMainDiv {
+    .smrProcat_WlBtnGroupMainDiv {
         .smr_WlButton-group {
             .smr_WlAddToCartBtn {
                 width: 120px;
@@ -347,7 +347,7 @@
         margin-bottom: -8%;
     }
 
-    .WlBtnGroupMainDiv {
+    .smrProcat_WlBtnGroupMainDiv {
         .smr_WlButton-group {
             .smr_WlAddToCartBtn {
                 width: 120px;
@@ -400,46 +400,25 @@
 
 // skelton scss
 
-.smr_addwishlistSkeltonMainBox {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+.smrProCat_addwishlistSkeltonMainBox {
+    padding: 0px 60px;
+    .smrProCat_addwishlistSkelton {
+        height: 450px;
+        box-shadow: none !important;
 
-    .smr_addwishlistSkelton {
-        // width: 345px !important;
-        // max-width: 345px !important;
-        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
-
-        .smr_addwishlistSkelton {
+        .smrProCat_addwishlistSkelton {
             background-color: #f6f6f6 !important;
         }
     }
 }
 
-.smr_addwishlistSkelton {
-    height: 450px !important;
-}
-
 @media(max-width:650px) {
-    .smr_addwishlistSkeltonMainBox {
-        gap: 0px !important;
+    .smrProCat_addwishlistSkeltonMainBox {
         padding: 0px 10px;
     }
 
-    .smr_addwishlistSkelton {
-        height: 300px !important;
-    }
-}
-
-@media(max-width:942px) {
-    .smr_addwishlistSkeltonMainBox {
-        gap: 0px !important;
-        padding: 0px 10px;
-    }
-
-    .smr_addwishlistSkelton {
-        height: 300px !important;
+    .smrProCat_addwishlistSkelton {
+        height: 250px !important;
     }
 }
 

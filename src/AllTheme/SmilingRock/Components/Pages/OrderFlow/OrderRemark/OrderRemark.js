@@ -42,6 +42,7 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           value={remark}
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
+          className='smr_orderRemarkMoalInput'
         />
         <div className="smr_projectRemarkBtn-group">
           <Button className="smr_remarksave-btn" onClick={onSave}>

@@ -24,7 +24,6 @@ import PendingMemo from './PendingMemo/PendingMemo';
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
 
-// import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -83,7 +82,6 @@ export default function Account() {
     const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
-        console.log(newValue);
         setValue(newValue);
     };
 
@@ -165,7 +163,6 @@ export default function Account() {
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
-                                                console.log(e);
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
                                             })
                                         }
