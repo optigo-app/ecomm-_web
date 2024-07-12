@@ -14,6 +14,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
 import CartDrawer from '../../Cart/CartPageB2c/Cart';
+import useCountdown from '../../CountDownTimer/CountDownTimer';
 
 
 const Header = () => {
@@ -54,6 +55,11 @@ const Header = () => {
       }
     })
   }, [])
+
+
+  const {showTimer, countdown} = useCountdown();
+
+  console.log('showtimejhjdhsjhjf', showTimer, countdown);
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];

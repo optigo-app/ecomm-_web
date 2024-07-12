@@ -33,13 +33,12 @@ function Home() {
             <TheDifference />
             <PromotionBaner1 />
             {localData?.IsHomeAlbum === 1 && <Album />}
-            {localData?.IsHomeTrending === 1 && <TrendingView />}
+            {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
             {/* <DaimondEveyone /> */}
             {/* <ShopByCategory /> */}
             {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+            {localData?.IsHomeTrending === 1 && <TrendingView />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />
@@ -55,14 +54,12 @@ function Home() {
             <TheDifference />
             <PromotionBaner1 />
             {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
-
             {localData?.IsHomeAlbum === 1 && <Album />}
             {/* <DaimondEveyone /> */}
             <ShopByCategory />
             {localData?.IsHomeNewArrival === 1 && <NewArrival />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet />}
             {localData?.IsHomeTrending === 1 && <TrendingView />}
-
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />

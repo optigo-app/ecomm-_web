@@ -95,7 +95,7 @@ const NewArrival = () => {
     console.log('nnnnnnnnnnnnn', newArrivalData);
 
     return (
-        <div className='smr_NewArrivalMain'>
+        <div className='proCat_NewArrivalMain'>
             <div className='smilingBridesMain'>
                 <div className='smlingBridesImages'>
                     <div className='smr_newArrivaldivMain'>

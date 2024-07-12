@@ -3,36 +3,42 @@
 
 .smr_NewArrivalMain {
 
-    margin-top: 100px;
-    
+    margin-top: 10px;
+
     .smilingBridesMain {
         display: flex;
-        margin-inline: 90px;
-        border: 0.5px solid #e1e1e1;
+        position: relative;
+    }
+
+    .linkingLoveImageDesign {
+        width: 100%;
     }
 
     .enagementBtn {
-        height: 65px;
+        height: 50px;
         color: white;
         border: none;
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
         margin-inline: 30px;
-        background-color: #7d7f85;
     }
 
     .enagementBtn:hover {
-        background-color: white;
-        border: 1px solid #7d7f85;
-        color: #7d7f85;
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
         transition: all 0.3s ease;
     }
 
 
     .smilingBrides {
-        width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border-right: 0.5px solid #e1e1e1;
+        position: absolute;
+        right: 50px;
+        top: 40%;
     }
 
     .smlingBridesImages {
@@ -47,7 +53,7 @@
 
     .smilingBridesMainTitle {
         text-align: center;
-        color: $homePageFontColor;
+        color: white;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
     }
@@ -85,24 +91,9 @@
             width: 100%;
         }
 
-        .smilingBrides {
-            width: 100%;
-            height: auto !important;
-            order: 2;
-        }
-
-        .enagementBtn {
-            height: 65px;
-            color: white;
-            border: none;
-            margin-inline: 40px;
-            background-color: #7d7f85;
-        }
-
         .linkingTitle {
             margin: 5px 0px 0px 0px !important;
             font-size: 20px !important;
-
         }
 
         .linkingShopCol {
@@ -118,6 +109,22 @@
             letter-spacing: 1px !important;
             font-weight: 500 !important;
             color: #7d7f85 !important;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        .smilingBrides {
+            position: relative;
+            right: 0px;
+        }
+
+        .smilingBridesMainTitle {
+            color: black;
+        }
+
+        .enagementBtn {
+            border: 1px solid black;
+            color: black;
         }
     }
 

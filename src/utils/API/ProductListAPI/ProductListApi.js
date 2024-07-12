@@ -144,6 +144,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
     Size: "",
     IsFromDesDet: "",
+    IsPLW: storeinit?.IsPLW
 
   };
 

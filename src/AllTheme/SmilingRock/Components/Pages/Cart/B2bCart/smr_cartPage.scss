@@ -228,6 +228,18 @@ $cartUpdateBtncolor: #b1b1b1;
     display: flex;
     justify-content: space-evenly !important;
   }
+
+.smr_inStockbadgeDiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 128, 0, 0.2705882353);
+  color: black;
+  padding: 2px 5px; 
+  font-size: $fontSize0; 
+  font-weight: bold;
+}
+
   
   @media (min-width: 1440px) {
     .smr_mui_CartBox {

@@ -107,7 +107,7 @@ const Customization = ({
                 ) :
                   <>
                     {ColorStoneCombo?.map(option => (
-                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + ',' + option?.color}</option>
+                      <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}>{option?.Quality + ',' + option?.color}</option>
                     ))}
                   </>
                 }

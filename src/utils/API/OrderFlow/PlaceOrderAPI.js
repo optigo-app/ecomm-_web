@@ -32,6 +32,7 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
             diamondpricelistname: diamondpricelistname,
             colorstonepricelistname: colorstonepricelistname,
             SettingPriceUniqueNo: SettingPriceUniqueNo,
+            IsPLW: storeInit?.IsPLW
         });
 
         console.log('combinedValuecombinedValue...', combinedValue);

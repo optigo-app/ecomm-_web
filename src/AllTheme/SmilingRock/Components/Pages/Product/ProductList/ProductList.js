@@ -89,6 +89,8 @@ const ProductList = () => {
 
   const [sortBySelect,setSortBySelect] = useState();
 
+  const [totalProductCount,setTotalProductCount]= useState();
+
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
   const [diaFilterRange, setDiaFilterRange] = useState({})
@@ -1538,7 +1540,7 @@ const ProductList = () => {
                 <span>
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length === 0
-                    // ? <span><span>{"Filters"}</span> <span>{"product"}</span></span>
+                    // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                     ? "Filters"
                     : `Product Found: ${afterFilterCount}`}
                 </span>
@@ -1546,13 +1548,14 @@ const ProductList = () => {
                   {Object.values(filterChecked).filter((ele) => ele.checked)
                     ?.length > 0
                     ? "Clear All"
-                    : ""}
+                    : <span>{`Total Products: ${afterFilterCount}`}</span>}
                 </span>
               </span>
               <div style={{ marginTop: "12px" }}>
                 {filterData?.map((ele) => (
                   <>
-                    {!ele?.id?.includes("Range") && (
+                    {!ele?.id?.includes("Range") &&
+                                !ele?.id?.includes("Price") && (
                       <Accordion
                         elevation={0}
                         sx={{
@@ -1661,6 +1664,309 @@ const ProductList = () => {
                         </AccordionDetails>
                       </Accordion>
                     )}
+                     {ele?.id?.includes("Price") && (
+                                <Accordion
+                                  elevation={0}
+                                  sx={{
+                                    borderBottom: "1px solid #c7c8c9",
+                                    borderRadius: 0,
+                                    "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                    "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                  }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                >
+                                  <AccordionSummary
+                                    expandIcon={
+                                      <ExpandMoreIcon sx={{ width: "20px" }} />
+                                    }
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                    sx={{
+                                      color: "#7f7d85",
+                                      borderRadius: 0,
+
+                                      "&.MuiAccordionSummary-root": {
+                                        padding: 0,
+                                      },
+                                    }}
+                                    className="filtercategoryLable"
+                                    onClick={() => handleScrollHeight()}
+                                  >
+                                    {/* <span> */}
+                                    {ele.Name}
+                                    {/* </span> */}
+                                  </AccordionSummary>
+                                  <AccordionDetails
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "4px",
+                                      minHeight: "fit-content",
+                                      maxHeight: "300px",
+                                      overflow: "auto",
+                                    }}
+                                  >
+                                    {(JSON.parse(ele?.options) ?? []).map(
+                                      (opt, i) => (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            gap: "12px",
+                                          }}
+                                          key={i}
+                                        >
+                                          {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                name={`Price${i}${i}`}
+                                                // checked={
+                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                //     : false
+                                                // }
+                                                checked={
+                                                  filterChecked[`Price${i}${i}`]
+                                                    ?.checked === undefined
+                                                    ? false
+                                                    : filterChecked[
+                                                        `Price${i}${i}`
+                                                      ]?.checked
+                                                }
+                                                style={{
+                                                  color: "#7f7d85",
+                                                  padding: 0,
+                                                  width: "10px",
+                                                }}
+                                                onClick={(e) =>
+                                                  handleCheckboxChange(
+                                                    e,
+                                                    ele?.id,
+                                                    opt
+                                                  )
+                                                }
+                                                size="small"
+                                              />
+                                            }
+                                            // sx={{
+                                            //   display: "flex",
+                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                            //   width: "100%",
+                                            //   flexDirection: "row-reverse", // Align items to the right
+                                            //   fontFamily:'TT Commons Regular'
+                                            // }}
+                                            className="smr_mui_checkbox_label"
+                                            label={
+                                              opt?.Minval == 0
+                                                ? `Under ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Maxval}`
+                                                : opt?.Maxval == 0
+                                                ? `Over ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Minval}`
+                                                : `${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${
+                                                    opt?.Minval
+                                                  } - ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Maxval}`
+                                            }
+                                          />
+                                        </div>
+                                      )
+                                    )}
+                                  </AccordionDetails>
+                                </Accordion>
+                              )}
+                              {ele?.Name?.includes("Diamond") && (
+                                <Accordion
+                                  elevation={0}
+                                  sx={{
+                                    borderBottom: "1px solid #c7c8c9",
+                                    borderRadius: 0,
+                                    "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                    "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                  }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                >
+                                  <AccordionSummary
+                                    expandIcon={
+                                      <ExpandMoreIcon sx={{ width: "20px" }} />
+                                    }
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                    sx={{
+                                      color: "#7f7d85",
+                                      borderRadius: 0,
+
+                                      "&.MuiAccordionSummary-root": {
+                                        padding: 0,
+                                      },
+                                    }}
+                                    className="filtercategoryLable"
+                                    onClick={() => handleScrollHeight()}
+                                  >
+                                    {/* <span> */}
+                                    {ele.Name}
+                                    {/* </span> */}
+                                  </AccordionSummary>
+                                  <AccordionDetails
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "4px",
+                                      minHeight: "fit-content",
+                                      maxHeight: "300px",
+                                      overflow: "auto",
+                                    }}
+                                  >
+                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      <Box sx={{width: 203,height:88}}>
+                                        {RangeFilterView(ele)}
+                                      </Box>
+                                  </AccordionDetails>
+                                </Accordion>
+                              )}
+                              {ele?.Name?.includes("NetWt") && (
+                                <Accordion
+                                  elevation={0}
+                                  sx={{
+                                    borderBottom: "1px solid #c7c8c9",
+                                    borderRadius: 0,
+                                    "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                    "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                  }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                >
+                                  <AccordionSummary
+                                    expandIcon={
+                                      <ExpandMoreIcon sx={{ width: "20px" }} />
+                                    }
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                    sx={{
+                                      color: "#7f7d85",
+                                      borderRadius: 0,
+
+                                      "&.MuiAccordionSummary-root": {
+                                        padding: 0,
+                                      },
+                                    }}
+                                    className="filtercategoryLable"
+                                    onClick={() => handleScrollHeight()}
+                                  >
+                                    {/* <span> */}
+                                    {ele.Name}
+                                    {/* </span> */}
+                                  </AccordionSummary>
+                                  <AccordionDetails
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "4px",
+                                      minHeight: "fit-content",
+                                      maxHeight: "300px",
+                                      overflow: "auto",
+                                    }}
+                                  >
+                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      <Box sx={{width: 204,height:88}}>
+                                        {RangeFilterView1(ele)}
+                                      </Box>
+                                  </AccordionDetails>
+                                </Accordion>
+                              )}
+                              {ele?.Name?.includes("Gross") && (
+                                <Accordion
+                                  elevation={0}
+                                  sx={{
+                                    borderBottom: "1px solid #c7c8c9",
+                                    borderRadius: 0,
+                                    "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                    "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                  }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                >
+                                  <AccordionSummary
+                                    expandIcon={
+                                      <ExpandMoreIcon sx={{ width: "20px" }} />
+                                    }
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                    sx={{
+                                      color: "#7f7d85",
+                                      borderRadius: 0,
+
+                                      "&.MuiAccordionSummary-root": {
+                                        padding: 0,
+                                      },
+                                    }}
+                                    className="filtercategoryLable"
+                                    onClick={() => handleScrollHeight()}
+                                  >
+                                    {/* <span> */}
+                                    {ele.Name}
+                                    {/* </span> */}
+                                  </AccordionSummary>
+                                  <AccordionDetails
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "4px",
+                                      minHeight: "fit-content",
+                                      maxHeight: "300px",
+                                      overflow: "auto",
+                                    }}
+                                  >
+                                      <Box sx={{width: 204,height:88}}>
+                                        {RangeFilterView2(ele)}
+                                      </Box>
+                                  </AccordionDetails>
+                                </Accordion>
+                              )}
                   </>
                 ))}
               </div>
@@ -1921,6 +2227,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length === 0
                               ? "Filters"
+                              // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                               : `Product Found: ${afterFilterCount}`}
                           </span>
                           <span onClick={() => handelFilterClearAll()}>
@@ -1928,7 +2235,7 @@ const ProductList = () => {
                               (ele) => ele.checked
                             )?.length > 0
                               ? "Clear All"
-                              : ""}
+                              : <span>{`Total Products: ${afterFilterCount}`}</span>}
                           </span>
                         </span>
                         <div style={{ marginTop: "12px" }}>
@@ -2606,8 +2913,7 @@ const ProductList = () => {
                                       -
                                       {
                                         findMetalType(
-                                          selectedMetalId ??
-                                            productData?.MetalPurityid
+                                          productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
                                         )[0]?.metaltype
                                       }
                                     </span>
