@@ -945,7 +945,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -1742,7 +1742,7 @@ const ProductDetail = () => {
             </div>
             }
 
-            <div>
+            { designSetList && <div>
              <div style={{display:'flex',justifyContent:'center',width:'100%'}}>
              <p
                     style={{
@@ -1782,7 +1782,7 @@ const ProductDetail = () => {
 
                   {
                       (designSetList?.Designdetail == undefined ? [] :JSON.parse(designSetList?.Designdetail))?.map((ele)=>(
-                      <div className='completethelook_outer' >
+                      <div className='completethelook_outer' onClick={()=>handleMoveToDetail(ele)}>
                     <div style={{ display: "flex", gap: "60px" }}>
                       <div style={{ marginLeft: "12px" }}>
                         <img
@@ -1838,7 +1838,7 @@ const ProductDetail = () => {
                 
                 </div>
               </div>
-            </div>
+            </div>}
             </>
             }
             <Footer />
