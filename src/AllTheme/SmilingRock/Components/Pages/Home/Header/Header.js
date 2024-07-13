@@ -677,9 +677,9 @@ const Header = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
               >
-                {/* <a href={`${navigation('/servicePolicy')}`}> */}
+                <a href='/servicePolicy'>
                 SERVICE POLICY
-                {/* </a> */}
+                </a>
               </li>
 
               <li
@@ -687,7 +687,9 @@ const Header = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
               >
+                <a href='/ExpertAdvice' className=''>
                 EXPERT ADVICE
+                </a>
               </li>
 
               <li
@@ -695,7 +697,9 @@ const Header = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
               >
+                <a href='/FunFact'>
                 FUN FACT
+                </a>
               </li>
 
 
@@ -706,7 +710,9 @@ const Header = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
                   >
+                <a href='/Lookbook'>
                     LOOKBOOK
+</a>
                   </li>
                 ) : (
                   ''
@@ -717,7 +723,9 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
                 >
+                <a href='/Lookbook'>
                   LOOKBOOK
+                  </a>
                 </li>
               )}
 
@@ -1196,9 +1204,12 @@ const Header = () => {
                     component="div"
                     onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
                   >
-                    <ListItem style={{ padding: '0px 5px 0px 5px' }}>
+                     <a
+                              href={`/p/${menuItem?.menuname}/?M=${btoa(`${menuItem?.param0dataname}/${menuItem?.param0name}`)}`}
+                              className='smr_menuSubTitle'
+                            >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
-                    </ListItem>
+                    </a>
                   </ButtonBase>
                   <>
                     {/* <ButtonBase
