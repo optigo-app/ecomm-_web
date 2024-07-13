@@ -2879,11 +2879,11 @@ const ProductList = () => {
                                   <div className="smr_prod_Title">
                                     <span
                                       className={
-                                        // productData?.TitleLine?.length > 30
-                                        // ?
-                                        "smr_prod_title_with_width"
-                                        // :
-                                        // "smr_prod_title_with_no_width"
+                                        (productData?.TitleLine?.length > 30 || productData?.TitleLine?.length > 0)
+                                        ?
+                                        "smr1_prod_title_with_width"
+                                        :
+                                        "smr1_prod_title_with_no_width"
                                       }
                                     >
                                       {productData?.TitleLine?.length > 0 &&
