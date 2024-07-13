@@ -77,7 +77,7 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="smr_MainWlDiv">
+    <div className="ProCat_MainWlDiv">
       <div className="WlMainPageDiv">
         <div className="smrProcat_WlBtnGroupMainDiv">
           <div className="smr_Wl-title">My Wishlist</div>

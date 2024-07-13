@@ -112,7 +112,7 @@ const CartPage = () => {
 
   console.log('selected--', selectedItem);
   return (
-    <div className='smr_MainBGDiv'>
+    <div className='ProCat_MainBGDiv'>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           <div className="smr_cart-title">My Cart</div>
