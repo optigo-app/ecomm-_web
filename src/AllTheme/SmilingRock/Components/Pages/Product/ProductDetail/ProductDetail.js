@@ -96,7 +96,17 @@ const ProductDetail = () => {
 
   const navigate = useNavigate();
 
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
+
   useEffect(() => {
+    setCSSVariable();
     window.scroll({
       top: 0,
       behavior: "smooth",

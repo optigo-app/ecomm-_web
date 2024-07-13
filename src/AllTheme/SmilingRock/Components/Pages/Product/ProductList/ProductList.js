@@ -109,7 +109,18 @@ const ProductList = () => {
   let cookie = Cookies.get('visiterId')
 
 
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
+
   useEffect(()=>{
+    setCSSVariable();
+
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
     setSelectedMetalId(mtid)
 

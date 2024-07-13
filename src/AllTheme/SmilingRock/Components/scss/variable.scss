@@ -1,5 +1,7 @@
 //backgroundcolors
-$backgroundColor: #c0bbb1;
+
+$backgroundColor: var(--background-color);
+// $backgroundColor:  storeInit?.IsPLW == 1 ? #c4cfdb :#c0bbb1 ;
 $btn1bgColor: #fff;
 $btn1ActivebgColor: #7d7f85;
 
