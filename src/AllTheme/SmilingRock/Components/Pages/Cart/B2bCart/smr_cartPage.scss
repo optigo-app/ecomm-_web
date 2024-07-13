@@ -19,6 +19,32 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
+.smr_cartmainRowDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .smr_cartButton-groups {
+    flex: 1;
+    text-align: left;
+  }
+
+  .smr_cart-title {
+    flex: 1;
+    text-align: center;
+  }
+
+  .smr_placeOrderMainbtnDivs {
+    flex: 1;
+    text-align: right;
+  }
+}
+
+.smr_placeOrderMainbtnDiv {
+  flex: 1;
+  text-align: right;
+}
+
 // Top button Group code
 .smr_cartMainPage {
   display: flex;
@@ -34,29 +60,10 @@ $cartUpdateBtncolor: #b1b1b1;
     color: $titleColor;
     padding-bottom: 35px;
     font-size: $fontSize8;
-    // font-family: $homePageFontColor;
+    font-family: $primaryFontFamily !important;
   }
 
-  // .smr_smiTopAddAllBtn {
-  //   height: 60px;
-  //   width: 150px;
-  //   color: $btn1FontColor;
-  //   background-color: $btn1bgColor;
-  //   border: 1px solid $btn1bgColor;
-  //   font-size: $fontSize4;
-  //   font-weight: 500;
-  //   // margin: 10px;
-  //   justify-content: center;
-  // }
-
-  .smr_cartButton-group {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    margin-inline: 6%;
-    font-family: $primaryFontFamily !important;
+  .smr_cartButton-groups {
 
     .smr_ReomoveAllCartbtn {
       text-transform: capitalize !important;
@@ -90,13 +97,6 @@ $cartUpdateBtncolor: #b1b1b1;
         background-color: $btn1ActivebgColor;
       }
     }
-  }
-
-  .smr_placeOrderMainbtnDiv {
-    display: flex;
-    justify-content: flex-end;
-    margin: -50px 25px 0px 20px;
-    padding-bottom: 50px;
   }
 
   .smr_place-order-btn {
@@ -138,8 +138,8 @@ $cartUpdateBtncolor: #b1b1b1;
   &:hover {
     background-color: #666;
   }
-
 }
+
 
 
 .smr_noCartlistData {
@@ -225,7 +225,7 @@ $cartUpdateBtncolor: #b1b1b1;
     margin-bottom: 20px !important;
     font-family: $primaryFontFamily !important;
 
-    span{
+    span {
       font-weight: bold;
     }
   }
@@ -618,6 +618,10 @@ $cartUpdateBtncolor: #b1b1b1;
       font-size: $fontSize0 !important;
     }
 
+    .smr_cartmainRowDiv{
+      margin-bottom: 20px;
+    }
+
   }
 
   .smr_cartListCard {
@@ -640,14 +644,20 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-// @media(max-width: 1050px) {
-//   .smr_cartMainPage {
-//     display: block !important;
-//   }
-// }
+@media(max-width: 770px) {
+  .smr_cartmainRowDiv{
+    margin-bottom: 30px;
+  }
+  .cartBtnGroupMainDiv {
+    .smr_place-order-btn{
+      height: 35px !important;
+      width: 120px !important;
+    }
+  }
+}
 
 @media(max-width: 474px) {
-  .smr_place-order-btnMobile {
+  .smr_place-order-btn {
     width: 120px;
     font-size: $fontSize2;
     height: 35px;
