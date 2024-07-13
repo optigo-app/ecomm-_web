@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
-
 import { ToastContainer, toast } from 'react-toastify';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+
 const ManageAddress = () => {
 
     const [defaultAdd, setDefaultAdd] = useState('female');
@@ -52,21 +52,6 @@ const ManageAddress = () => {
             const customerid = data?.id;
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            // const combinedValue = JSON.stringify({
-            //     addrid: `${deleteId}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            // });
-
-
-            
-            // // const encodedCombinedValue = btoa(combinedValue);
-            // const encodedCombinedValue = (combinedValue);
-            // const body = {
-            //     "con": `{\"id\":\"\",\"mode\":\"DELADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
-            //     "f": "Delivery (removeFromCartList)",
-            //     p: encodedCombinedValue
-            // };
-            // const response = await CommonAPI(body);
-            // console.log(response);
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
@@ -168,21 +153,6 @@ const ManageAddress = () => {
                     const customerid = data.id;
                     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                     const { FrontEnd_RegNo } = storeInit;
-
-                    // const combinedValue = JSON.stringify({
-                    //     addrid: `${editId}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-                    // });
-                    // // console.log('edit..... combinedValuecombinedValue...', combinedValue);
-
-                    // // const encodedCombinedValue = btoa(combinedValue);
-                    // const encodedCombinedValue = (combinedValue);
-                    // const body = {
-                    //     "con": `{\"id\":\"\",\"mode\":\"EDITADDRESS\",\"appuserid\":\"${data?.userid}\"}`,
-                    //     "f": "Delivery (EditAddress)",
-                    //     p: encodedCombinedValue
-                    // };
-                    // const response = await CommonAPI(body);
-                    // console.log(response);
                     const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
                     
                     if (response?.Data?.rd[0]?.stat === 1) {
@@ -370,7 +340,7 @@ const ManageAddress = () => {
     const loginDetail = () => {
         const storedData = localStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
-        return { id: data.id, emai: data.userid }
+        return { id: data.id, email: data.userid }
     }
 
     const storeInit = () => {
@@ -380,22 +350,27 @@ const ManageAddress = () => {
     }
 
     const handleDefaultSelection = async (addressId) => {
-
+        setIsLoading(true);
         try {
+
             let loginCred = loginDetail();
             let p_ = JSON.stringify({ "addrid": addressId, "FrontEnd_RegNo": storeInit(), "Customerid": loginCred?.id });
+
             const body = {
-                "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${loginCred?.emai}\"}`,
+                "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${loginCred?.email}\"}`,
                 "f": "Delivery (fetchData)",
-                p: btoa(p_),
+                dp: (p_),
             };
+
             const response = await CommonAPI(body);
-            
+
             if (response?.Data?.rd) {
+                setIsLoading(false);
                 fetchData();
             } else {
-                alert('nodata')
+                toast.error('No Data Found')
             }
+
         } catch (err) {
             console.error('Error:', err);
         }
@@ -403,12 +378,6 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
 
-
-        // const updatedAddressData = addressData.map(item => ({
-        //     ...item,
-        //     isdefault: item.id === addressId ? 1 : 0
-        // }));
-        // setAddressData(updatedAddressData);
     };
 
     const fetchData = async () => {
@@ -418,26 +387,14 @@ const ManageAddress = () => {
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
-            // const customerEmail = data.userid;
-            // setUserEmail(customerEmail);
+            
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            // const combinedValue = JSON.stringify({
-            //     FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            // });
-            // const encodedCombinedValue = btoa(combinedValue);
-            // const body = {
-            //     "con": `{\"id\":\"\",\"mode\":\"GETTBLADDRESSDATA\",\"appuserid\":\"${data.userid}\"}`,
-            //     "f": "Delivery (fetchData)",
-            //     p: encodedCombinedValue
-            // };
-            // const response = await CommonAPI(body);
-                const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+            
+            const response = await getAddressData(FrontEnd_RegNo, customerid, data);
             if (response?.Data?.rd) {
                 setAddressData(response?.Data?.rd);
             } else {
-                // alert('nodata')
                 setAddressData([]);
             }
         } catch (error) {
@@ -508,8 +465,10 @@ const ManageAddress = () => {
                                                     checked={item.isdefault === 1}
                                                     onChange={() => handleDefaultSelection(item.id)}
                                                     className='manageAddressInputRadio'
+                                                    id={`default-${item.id}`}
+                                                    name="manageAddressInputRadio"
                                                 />
-                                                <Typography>Default</Typography>
+                                                <label htmlFor={`default-${item.id}`}><Typography>Default</Typography></label>
                                             </Box>
                                             
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
@@ -666,9 +625,7 @@ const ManageAddress = () => {
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>
-                                        {isEditMode ? 'Edit' : 'Add'}
-                                    </button>
+                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
                                     <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
                                         Cancel
                                     </button>

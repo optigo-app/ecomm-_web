@@ -610,6 +610,7 @@ const DesignWiseSalesReport = () => {
                         min={(netWtLimit?.min)}
                         max={(netWtLimit?.max)}
                     />
+                    {console.log(netWtSlider)}
                     
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
