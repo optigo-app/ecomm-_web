@@ -16,7 +16,6 @@ import pako from "pako";
 import CartDrawer from '../../Cart/CartPageB2c/Cart';
 import useCountdown from '../../CountDownTimer/CountDownTimer';
 
-
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const setCartOpenState = useSetRecoilState(cartB2CDrawer);

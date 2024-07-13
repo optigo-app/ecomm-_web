@@ -1035,7 +1035,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <div className="smr_prodDetail_bodyContain">
+      <div className="proCat_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
             {isDataFound ? 

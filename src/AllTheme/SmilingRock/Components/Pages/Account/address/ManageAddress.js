@@ -7,6 +7,9 @@ import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import { useSetRecoilState } from 'recoil';
+import { defaultAddressState } from '../../../Recoil/atom';
+
 
 const ManageAddress = () => {
 
@@ -30,6 +33,8 @@ const ManageAddress = () => {
         zipCode: '',
         mobileNo: ''
     });
+
+    const setDefaultAddress = useSetRecoilState(defaultAddressState);
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
@@ -57,6 +62,7 @@ const ManageAddress = () => {
             if (response?.Data?.rd[0]?.stat === 1) {
                 const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
                 setAddressData(updatedAddressData);
+                setDefaultAddress({});
                 toast.success('Delete Success');
             } else {
                 toast.error('error');
@@ -218,6 +224,7 @@ const ManageAddress = () => {
                         };
                         updatedAddressData.push(newAddress);
                         setAddressData(updatedAddressData);
+                        fetchData();
                     } else {
                         toast.error('error');
                     }
@@ -365,6 +372,7 @@ const ManageAddress = () => {
             const response = await CommonAPI(body);
 
             if (response?.Data?.rd) {
+                
                 setIsLoading(false);
                 fetchData();
             } else {
@@ -392,8 +400,19 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
+
             if (response?.Data?.rd) {
-                setAddressData(response?.Data?.rd);
+
+                if(response?.Data?.rd?.length > 0){
+
+                    let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
+                    
+                    setDefaultAddress(res);
+                    setAddressData(response?.Data?.rd);
+                }
+
+
+
             } else {
                 setAddressData([]);
             }
@@ -444,8 +463,12 @@ const ManageAddress = () => {
                                     return <Box className="AddressSec" key={index}>
                                         <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
                                             <Box sx={{ display: "flex", flexWrap: "wrap", }}>
-                                                <Box sx={{ paddingRight: "15px", fontweight: "600", paddingBottom: "10px" }}><h6>{item?.shippingfirstname && item?.shippingfirstname}</h6></Box>
-                                                <Box sx={{ fontweight: "600" }}><h6>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6></Box>
+                                                <Box sx={{ paddingRight: "5px", fontweight: "600", paddingBottom: "10px" }}>
+                                                    <h6>{item?.shippingfirstname && item?.shippingfirstname}</h6>
+                                                </Box>
+                                                <Box sx={{ fontweight: "600" }}>
+                                                    <h6>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6>
+                                                </Box>
                                             </Box>
                                             <Box>
                                                 <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
