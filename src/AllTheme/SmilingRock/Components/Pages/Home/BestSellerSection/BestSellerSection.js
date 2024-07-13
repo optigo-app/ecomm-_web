@@ -142,7 +142,7 @@ const BestSellerSection = () => {
                                                                     storeInit?.Currencysymbol
                                                                 ),
                                                             }}
-                                                        /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                                        /> {data?.UnitCostWithMarkUp}</p>
                                                 </div>
                                             </div>
                                              ))}

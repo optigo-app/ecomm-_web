@@ -852,7 +852,8 @@ const Header = () => {
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  navigation("/servicePolicy");
+                  // navigation("/servicePolicy");
+                  navigation(() => "/servicePolicy");
                   window.scrollTo(0, 0);
                 }}
               >
@@ -877,10 +878,6 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => {
-                  navigation("/FunFact");
-                  window.scrollTo(0, 0);
-                }}
               >
                 <a href="/FunFact" className="smr_A_link">
                   FUN FACT
@@ -897,9 +894,9 @@ const Header = () => {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    <a href="/Lookbook" className="smr_A_link">
+                    {/* <a href="/Lookbook" className="smr_A_link"> */}
                       LOOKBOOK
-                    </a>
+                    {/* </a> */}
                   </li>
                 ) : (
                   ""
@@ -913,9 +910,9 @@ const Header = () => {
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <a href="/Lookbook" className="smr_A_link">
+                  {/* <a href="/Lookbook" className="smr_A_link"> */}
                     LOOKBOOK
-                  </a>
+                  {/* </a> */}
                 </li>
               )}
             </ul>
