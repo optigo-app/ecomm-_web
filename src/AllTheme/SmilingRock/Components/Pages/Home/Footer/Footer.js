@@ -8,6 +8,7 @@ const Footer = ({ fromPage }) => {
   const [companyInfoData, setCompanuInfoData] = useState();
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
+  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
 
   useEffect(() => {
     let localD = JSON.parse(localStorage.getItem('storeInit'));
@@ -39,7 +40,8 @@ const Footer = ({ fromPage }) => {
   console.log('socialMediaDatasocialMediaDatasocialMediaData',socialMediaData);
   return (
     <div>
-
+    {storeinit?.IsPLW == 0 &&
+    <div>
       {localData?.Footerno === 1 &&
         <div className='smr_Footer1_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
@@ -110,7 +112,9 @@ const Footer = ({ fromPage }) => {
           </div>
         </div>
        } 
-    </div>
+       </div>
+      } 
+       </div>
   )
 }
 

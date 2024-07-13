@@ -5,13 +5,13 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 const BottomBanner = () => {
 
     const dataJSON = [
-        {
-            id: 0,
-            Title: 'Haute Couture',
-            Decription: 'Revealing the beauty of lab grown diamonds in high jewelry. From the house of inspired designers, each bringing a unique taste in design and excellent quality in craftsmanship. A preview of our stunning atelier designs captivating every moment in time.',
-            Link: 'DISCOVER MORE',
-            images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner4.png`
-        },
+        // {
+        //     id: 0,
+        //     Title: 'Haute Couture',
+        //     Decription: 'Revealing the beauty of lab grown diamonds in high jewelry. From the house of inspired designers, each bringing a unique taste in design and excellent quality in craftsmanship. A preview of our stunning atelier designs captivating every moment in time.',
+        //     Link: 'DISCOVER MORE',
+        //     images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner4.png`
+        // },
         {
             id: 1,
             Title: 'Carbon For Carbon',
@@ -19,13 +19,13 @@ const BottomBanner = () => {
             Link: 'LISTEN NOW',
             images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner2.png`
         },
-        {
-            id: 2,
-            Title: 'KayraCreation with Celebrities at Red Carpet',
-            Decription: 'Celebrities and Top Influencers wearing sustainable lab-grown diamonds jewelry',
-            Link: 'DISCOVER',
-            images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner1.png`
-        },
+        // {
+        //     id: 2,
+        //     Title: 'KayraCreation with Celebrities at Red Carpet',
+        //     Decription: 'Celebrities and Top Influencers wearing sustainable lab-grown diamonds jewelry',
+        //     Link: 'DISCOVER',
+        //     images: `${storImagePath()}/images/HomePage/BottombBanner/BottombBanner1.png`
+        // },
         {
             id: 3,
             Title: 'Meet The Founders',
