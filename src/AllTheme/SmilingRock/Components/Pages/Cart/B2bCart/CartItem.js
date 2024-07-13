@@ -95,12 +95,13 @@ const CartItem = ({
 
   const handlePress = (action) => {
     return () => {
-      if (!multiSelect && selectedItemsLength === 0) return;
-      else if (multiSelect && selectedItemsLength === 0) return;
+      // if (!multiSelect && selectedItemsLength === 0) return;
+      // else if (multiSelect && selectedItemsLength === 0) return;
       pressTimer.current = setTimeout(() => {
-        openHandleUpdateCartModal();
-        console.log('selectedItemsssssss', selectedItemsLength);
-      }, 1000);
+        // openHandleUpdateCartModal();
+        // console.log('selectedItemsssssss', selectedItemsLength);
+        alert('Long Pressed Detected...')
+      }, 5000);
       setPressing(action === 'start');
     };
   }
@@ -109,6 +110,14 @@ const CartItem = ({
     clearTimeout(pressTimer.current);
     setPressing(false);
   };
+
+  function truncateText(text, maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  }
+
 
 
   const width = isLargeScreen && itemLength <= 3 ? '390px' :
@@ -149,7 +158,7 @@ const CartItem = ({
             className='smr_cartListImage'
             onClick={() => onSelect(item)}
           />
-          <div>
+          <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='smr_DesignNoTExt'>
                 {item?.designno}
@@ -172,26 +181,31 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              <Box className="smr_PriceBox">
-                {storeInitData?.IsPriceShow == 1 &&
-                  <span className='smr_currencyFontPrice'>
-                    <span
-                      className="smr_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(
-                          CurrencyData?.Currencysymbol
-                        ),
-                      }}
-                    />
-                    {(item?.UnitCostWithMarkUp)}
-                  </span>
-                }
-              </Box>
-              {item?.Remarks !== "" &&
-                <Typography variant="body2" className='smr_remarktext'>
-                  Remark: {item?.Remarks || productRemark}
-                </Typography>
+              {item?.StockNo != "" &&
+                <span className='smr_DesignNoTExt'>{item?.StockNo}</span>
               }
+              <Box className="smr_PriceBox">
+                <>
+                  {storeInitData?.IsPriceShow == 1 &&
+                    <span className='smr_currencyFontPrice'>
+                      <span
+                        className="smr_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(
+                            CurrencyData?.Currencysymbol
+                          ),
+                        }}
+                      />
+                      {(item?.UnitCostWithMarkUp)}
+                    </span>
+                  }
+                </>
+              </Box>
+              {item?.Remarks !== "" && (
+                <Typography variant="body2" className='smr_remarktext'>
+                  <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
+                </Typography>
+              )}
             </CardContent>
             <Box className="smr_cartbtngroupReRm">
               <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">

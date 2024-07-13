@@ -25,7 +25,7 @@ function Home() {
   }, [])
 
   return (
-    <div className='smiling_home_index_main'>
+    <div className='ProCat_home_index_main'>
       {localData?.Blockno === 1 &&
         <div className='smiling_home_index_Submain'>
           <TopSection />
@@ -44,7 +44,7 @@ function Home() {
       }
 
       {localData?.Blockno === 2 &&
-        <div className='smiling_home_index_Submain'>
+        <div className='ProCat_home_index_main'>
           <TopSection />
           <TheDifference />
           <PromotionBaner1 />

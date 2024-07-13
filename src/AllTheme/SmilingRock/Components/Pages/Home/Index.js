@@ -19,10 +19,20 @@ function Home() {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
+    setCSSVariable();
     let localData = JSON.parse(localStorage.getItem('storeInit'));
     setLocalData(localData);
     console.log('localDatalocalData', localData);
   }, [])
+
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
 
   return (
     <div className='smiling_home_index_main'>
