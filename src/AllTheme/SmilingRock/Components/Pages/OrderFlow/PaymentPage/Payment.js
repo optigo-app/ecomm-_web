@@ -82,6 +82,7 @@ const Payment = () => {
             localStorage.setItem('orderNumber', num);
             navigate('/Confirmation');
             setIsloding(false);
+            localStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
