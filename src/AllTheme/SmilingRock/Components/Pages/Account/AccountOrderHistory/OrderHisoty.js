@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Pako from "pako";
 import MenuIcon from '@mui/icons-material/Menu';
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
-
+import PrintIcon from '@mui/icons-material/Print';
 const OrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -20,6 +20,9 @@ const OrderHistory = () => {
   const [image_path, setImagePath] = useState('');
   const navigate = useNavigate();
   const [openListStatus, setOpenListStatus] = useState(false);
+
+  const [showPrint, setShowPrint] = useState(false);
+  const [clickedPrintId, setClickedPrintId] = useState(null);
 
   const getStatusColor = (orderType) => {
     switch (orderType) {
@@ -190,6 +193,11 @@ const OrderHistory = () => {
     }
   };
 
+  const handlePrintOH = (id) => {
+    setShowPrint(!showPrint);
+    setClickedPrintId(id);
+  }
+
   return (
     <div>
     
@@ -263,6 +271,10 @@ const OrderHistory = () => {
                           { e?.OrderStatusId === 1 ? <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>
                            : <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
                       </div>
+                      { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end pe-4"><PrintIcon onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
+                      { e?.IsPLW === 1 && <span className="_colo2 w-100 d-flex justify-content-end" style={{fontSize:'7px', lineHeight:'7px'}}>
+                        { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
+                      </span> }
                       <div className="py-1 w-50 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none">
                           <div dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{" "}
                           <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
