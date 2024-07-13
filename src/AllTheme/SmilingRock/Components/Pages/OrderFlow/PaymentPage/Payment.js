@@ -15,7 +15,6 @@ import Cookies from "js-cookie";
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
     const navigate = useNavigate();
-    const [countData, setCountData] = useState();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalpriceText, setTotalPriceText] = useState();
@@ -86,7 +85,6 @@ const Payment = () => {
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
-                setCountData(res)
                 setCartCountVal(res?.cartcount)
             })
 

@@ -16,7 +16,13 @@
     justify-content: flex-end;
     align-items: center;
 }
-
+._color2{
+    color: grey;
+}
+._color3{
+    background-color: #ff5c00d6;
+    color: white;
+}
 .orderHistory .MuiAccordion-gutters::before{
  opacity: 1 !important;
 }

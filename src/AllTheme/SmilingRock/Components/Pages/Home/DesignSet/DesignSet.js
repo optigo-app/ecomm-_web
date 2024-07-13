@@ -96,12 +96,9 @@ const DesignSet = () => {
         setSwiper(swiper);
     };
 
-    console.log('designSetListdesignSetList', designSetList);
-
 
     const [showAll, setShowAll] = useState(false);
 
-    // Function to handle the "View All" click
     const handleViewAll = () => {
         setShowAll(true);
     };
@@ -109,10 +106,13 @@ const DesignSet = () => {
     // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
 
+    console.log('designSetListdesignSetList', designSetList);
+
+
     return (
         <div className="smr_designSetMain">
 
-            <p className='smr_desognSetTitle'>Complete Our Look</p>
+            <p className='smr_desognSetTitle'>Complete Your Look</p>
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />

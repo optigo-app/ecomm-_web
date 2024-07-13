@@ -7,9 +7,10 @@ export const getAddressData = async(FrontEnd_RegNo, customerid, data) => {
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"GETTBLADDRESSDATA\",\"appuserid\":\"${data.userid}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"GETTBLADDRESSDATA\",\"appuserid\":\"${data?.userid}\"}`,
             "f": "Delivery (fetchData)",
-            p: encodedCombinedValue
+             p: encodedCombinedValue,
+            "dp":combinedValue
         };
         const response = await CommonAPI(body);
         return response
@@ -22,7 +23,9 @@ export const handleAddAddress = async(formData, FrontEnd_RegNo, customerid, stor
     try {
         
          const combinedValue = JSON.stringify({
-                firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+                firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, 
+                addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, 
+                country: `${formData.country}`, zip: `${formData.zipCode}`, mobileno: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             });
 
         // const encodedCombinedValue = btoa(combinedValue);
