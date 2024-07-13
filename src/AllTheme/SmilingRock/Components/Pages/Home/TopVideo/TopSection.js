@@ -1,27 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import './TopSection.modul.scss'
+import React, { useEffect, useRef, useState } from "react";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import "./TopSection.modul.scss";
 
 const TopSection = () => {
-
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
+  const storeInit = JSON.parse(localStorage.getItem("storeInit"));
 
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem('storeInit'));
+    let localData = JSON.parse(localStorage.getItem("storeInit"));
     setLocalData(localData);
-    console.log('localDatalocalData', localData);
-  }, [])
+    console.log("localDatalocalData", localData);
+  }, []);
 
   const handleVideoLoad = () => {
     setLoading(false);
     // Unmute the video once it's loaded
-    setTimeout(() => {
-
-    }, 0);
+    setTimeout(() => {}, 0);
 
     videoRef.current.controls = false;
   };
@@ -30,10 +28,16 @@ const TopSection = () => {
     setVideoStarted(true);
   };
 
-
   return (
-    <div className='smr_topVideoMain' style={{ minHeight: '550px' }}>
-      {localData?.Blockno === 1 &&
+    <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
+      {localData?.Blockno === 1 && storeInit?.IsPLW == 1 ? (
+        <div>
+          <img
+            src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner2.webp`}
+            style={{ width: "100%" }}
+          />
+        </div>
+      ) : (
         <video
           ref={videoRef}
           width="500"
@@ -45,17 +49,23 @@ const TopSection = () => {
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}
         >
-          <source src={`${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`} type="video/mp4" />
-        </video>}
+          <source
+            src={`${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`}
+            type="video/mp4"
+          />
+        </video>
+      )}
 
-      {localData?.Blockno === 2 &&
+      {localData?.Blockno === 2 && (
         <div>
-          <img src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`} style={{ width: '100%' }} />
+          <img
+            src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`}
+            style={{ width: "100%" }}
+          />
         </div>
-
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default TopSection
+export default TopSection;

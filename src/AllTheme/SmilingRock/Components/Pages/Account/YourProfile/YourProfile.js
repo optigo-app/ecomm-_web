@@ -3,6 +3,9 @@ import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
+import { defaultAddressState } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
+
 
 export default function YourProfile() {
     
@@ -11,12 +14,41 @@ export default function YourProfile() {
     const [editedUserData, setEditedUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const defaultAddress = useRecoilValue(defaultAddressState);
+
     useEffect(() => {
         const storedUserData = localStorage.getItem('loginUserDetail');
         if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
+             
+             
+                setUserData(JSON.parse(storedUserData));    
+             
+            // setUserData(JSON.parse(storedUserData));
         }
     }, []);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('loginUserDetail');
+        if (storedUserData) {
+             
+                setUserData(JSON.parse(storedUserData));
+                let obj = JSON.parse(storedUserData);
+                
+                obj.defaddress_shippingfirstname = defaultAddress?.shippingfirstname;
+                obj.defaddress_shippinglastname = defaultAddress?.shippinglastname;
+                obj.defaddress_shippingmobile = defaultAddress?.shippingmobile;
+                obj.defaddress_addressprofile = defaultAddress?.addressprofile;
+                obj.defaddress_street = defaultAddress?.street;
+                obj.defaddress_city = defaultAddress?.city;
+                obj.defaddress_state = defaultAddress?.state;
+                obj.defaddress_country = defaultAddress?.country;
+                obj.defaddress_zip = defaultAddress?.zip;
+                obj.IsDefault = defaultAddress?.isdefault;
+                setUserData(obj);
+             
+            // setUserData(JSON.parse(storedUserData));
+        }
+    }, [defaultAddress]);
 
     const handleEdit = () => {
         setEditedUserData({ ...userData });
@@ -65,8 +97,6 @@ export default function YourProfile() {
     const handleClose = () => {
         setEditMode(false);
     };
-
-
     return (
         <div className='smr_yourProfile'>
             <ToastContainer />
@@ -88,7 +118,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
-                                    value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
+                                    // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
+                                    value={userData?.defaddress_shippingfirstname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -98,7 +129,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
+                                    // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
+                                    value={userData?.defaddress_shippinglastname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -110,7 +142,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={userData.userid !== "undefined" ? userData.userid : ""}
+                                    // value={userData.userid !== "undefined" ? userData.userid : ""}
+                                    value={userData?.userid}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -120,7 +153,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
+                                    // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
+                                    value={userData?.defaddress_shippingmobile}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -132,7 +166,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
+                                    // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
+                                    value={userData?.defaddress_street}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
