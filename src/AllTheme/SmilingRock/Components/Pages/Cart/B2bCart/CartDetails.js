@@ -39,7 +39,7 @@ const CartDetails = ({
         <img 
         src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
         alt="image" 
-        className='smr_cartImage'  
+        className='smr_cartDetailImage'  
         onClick={() => handleMoveToDetail(selectedItem)}
         />
       </div>
