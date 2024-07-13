@@ -902,13 +902,15 @@ const ProductDetail = () => {
 
     if(pdImgListCol?.length > 0 && (isImgCol == true)){
       setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({"link":pdImgListCol[0],"type":'img'});
+      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+      setThumbImgIndex(thumbImgIndex)
+
     }
     else{
       if (pdImgList?.length > 0) {
-        setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
+        setSelectedThumbImg({"link":pdImgList[thumbImgIndex],"type":'img'});
         setPdThumbImg(pdImgList);
-        // setThumbImgIndex(0)
+        setThumbImgIndex(thumbImgIndex)
       }
     }
 
