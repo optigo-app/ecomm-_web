@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ContinueWithEmail.modul.scss';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +24,9 @@ export default function ContinueWithEmail() {
     //     return regex.test(email);
     // };
 
+    useEffect(() => {
+        setCSSVariable();
+    },[])
     const validateEmail = (email) => {
         // const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,6 +45,17 @@ export default function ContinueWithEmail() {
             setEmailError('');
         }
     };
+
+    const setCSSVariable = () => {
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          backgroundColor
+        );
+      };
+
+
 
     const handleSubmit = async () => {
         const trimmedEmail = email.trim();
@@ -106,7 +120,7 @@ export default function ContinueWithEmail() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
