@@ -44,7 +44,7 @@ const Album = () => {
 
   return (
     <div className="smr_alubmMainDiv">
-      {albumData?.length > 0 && <p className="smr_albumTitle">ALBUM</p>}
+      {albumData?.length > 0 && <p className="smr_albumTitle">Album</p>}
       <div className="smr_albumALL_div">
         {albumData?.slice(0, 5).map((data, index) => (
           <div
