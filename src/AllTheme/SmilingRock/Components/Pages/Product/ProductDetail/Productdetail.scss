@@ -381,8 +381,9 @@ color: $primaryfontcolor2;
 
 .Smr_stockItem_table_tr,.Smr_stockItem_table_td{
    border: 1px solid #dddddd;
-   text-align: center;
+   text-align: left;
    padding: 8px;
+   color:#7d7f85;
 }
 
 // .Smr_stockItem_table_tr:nth-child(even){
@@ -394,6 +395,60 @@ color: $primaryfontcolor2;
     width:70%;
     font-family: $primaryFontFamily;
     border: 1px solid #dddddd;
+}
+
+.compeletethelook_cont {
+    padding: 0px 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.compeletethelook_prodt {
+    z-index: 1;
+    position: relative;
+    margin-left: -140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.completethelook_outer {
+    padding: 5px;
+    border: 1px solid #e1e1e1;
+    background-color: #fff;
+}
+
+.srthelook_img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+}
+
+.srthelook_prodinfo {
+    display: flex;
+    align-items: center;
+    // border-bottom: 1px solid #e1e1e1;
+    gap: 158px;
+}
+
+.srthelook_prodinfo_inner{
+    font-family: $primaryFontFamilyMedium;
+}
+
+.smr_ctlImg_containe{
+    width: 951px;
+    height: 632px;
+}
+
+.ctl_img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    margin-top: 12px;
+    margin-bottom: -100px;
 }
 
   
