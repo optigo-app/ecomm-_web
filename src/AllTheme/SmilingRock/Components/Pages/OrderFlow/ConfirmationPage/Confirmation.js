@@ -9,7 +9,21 @@ const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
     const [storeInit, setStoreInit] = useState();
+
+    const setCSSVariable = () => {
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          backgroundColor
+        );
+      };
+    
+
     useEffect(() => {
+
+        setCSSVariable();
+        
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
         setStoreInit(storeInit);
         let orderNo = localStorage.getItem('orderNumber')

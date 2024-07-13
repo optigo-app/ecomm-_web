@@ -77,6 +77,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
   const islogin = useRecoilValue(loginState);
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  const isMobileScreen = useMediaQuery('(max-width:768px)');
 
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
@@ -163,13 +164,33 @@ const CartPage = () => {
     <div className='smr_MainBGDiv'>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          <div className="smr_cart-title">My Cart</div>
-          {!isloding && cartData.length != 0 &&
+          {isMobileScreen &&
+            <div className="smr_cart-title">My Cart</div>
+          }
+          <div className='smr_cartmainRowDiv'>
+            <div className='smr_cartButton-groups'>
+              <Link
+                className='smr_ReomoveAllCartbtn'
+                variant="body2"
+                onClick={handleRemoveAllDialog}
+              >
+                Clear All
+              </Link>
+            </div>
+            {!isMobileScreen &&
+              <div className="smr_cart-title">My Cart</div>
+            }
+            <div className='smr_placeOrderMainbtnDivs'>
+              <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+            </div>
+          </div>
+
+          {/* {!isloding && cartData.length != 0 &&
             <>
               <div className="smr_cartButton-group">
-                {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
-                {/* <button className='smr_cartBtn'>Image View</button> */}
-                {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
+                <button className="smr_cartBtn smr_cartActivebtn">List View</button>
+                <button className='smr_cartBtn'>Image View</button>
+                <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
                 <div>
                   <Link
                     className='smr_ReomoveAllCartbtn'
@@ -178,21 +199,21 @@ const CartPage = () => {
                   >
                     Clear All
                   </Link>
-                  {/* <Link
+                  <Link
                     className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
                     {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
-                  </Link> */}
+                  </Link>
                 </div>
 
-                {/* <button className='smr_cartBtn'>Show ProductList</button> */}
+                <button className='smr_cartBtn'>Show ProductList</button>
 
-                {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
-                {/* {multiSelect && selectedItems.length != 0 &&
+                <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+                {multiSelect && selectedItems.length != 0 &&
                   <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                } */}
+                }
                 <div className='smr_placeOrderMobileMainbtnDiv'>
                   <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
@@ -201,7 +222,7 @@ const CartPage = () => {
                 <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
-          }
+          } */}
         </div>
         {!isloding ? (
           <>
@@ -309,7 +330,7 @@ const CartPage = () => {
             ) :
               <div className='smr_noCartlistData'>
                 <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Data in cart</p>
+                <p className='smr_desc'>Please First Add Product in Cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
