@@ -10,14 +10,20 @@ import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { CartCount, loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
 import { green } from '@mui/material/colors';
+import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
+import { toast } from 'react-toastify';
+import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
+import Cookies from "js-cookie";
 
 
 const CartPage = () => {
+  const addressData = useAddress();
+
   const {
     isloding,
     ispriceloding,
@@ -64,13 +70,22 @@ const CartPage = () => {
   } = useCart();
 
   const navigate = useNavigate();
-
+  const [storeInit, setStoreInit] = useState();
+  const [defaultAddr, setDefaultAddr] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
+  const islogin = useRecoilValue(loginState);
+  const isLargeScreen = useMediaQuery('(min-width:1050px)');
 
   const handlePlaceOrder = () => {
-    let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-    localStorage.setItem('TotalPriceData', priceData)
-    navigate("/Delivery")
+    if (storeInit?.IsPLW == 0) {
+      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
+      localStorage.setItem('TotalPriceData', priceData)
+      navigate("/Delivery")
+    } else {
+      handlePay();
+    }
     window.scrollTo(0, 0);
   }
 
@@ -81,8 +96,6 @@ const CartPage = () => {
     });
   }
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [countstatus, setCountStatus] = useState();
 
   useEffect(() => {
     const iswishUpdateStatus = localStorage.getItem('cartUpdation');
@@ -110,10 +123,42 @@ const CartPage = () => {
     setDialogOpen(false);
   };
 
-  const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  useEffect(() => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeInit);
+    if (storeInit?.IsPLW == 1) {
+      if (addressData && addressData.addressData) {
+        const defaultAddress = addressData.addressData.find(addr => addr?.isdefault === 1);
+
+        if (defaultAddress) {
+          setDefaultAddr(defaultAddress)
+        } else {
+          console.log('No default address found.');
+        }
+      }
+    }
+  }, []);
 
 
-  console.log('selected--', selectedItem);
+
+  const handlePay = async () => {
+    const visiterId = Cookies.get('visiterId');
+    const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+    console.log("paymentResponse", paymentResponse);
+    if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+      let num = paymentResponse.Data?.rd[0]?.orderno
+      localStorage.setItem('orderNumber', num);
+      navigate('/Confirmation');
+      GetCountAPI().then((res) => {
+        console.log('responseCount', res);
+        setCartCountVal(res?.cartcount)
+      })
+
+    } else {
+      toast.error('Something went wrong!')
+    }
+  }
+
   return (
     <div className='smr_MainBGDiv'>
       <div className='cartMainPageDiv'>
@@ -163,7 +208,7 @@ const CartPage = () => {
             <div style={{ marginLeft: '35px' }}>
               {multiSelect &&
                 <FormControlLabel
-                  control={<Checkbox 
+                  control={<Checkbox
                     sx={{
                       color: "rgba(125, 127, 133, 0.4) !important",
                     }}

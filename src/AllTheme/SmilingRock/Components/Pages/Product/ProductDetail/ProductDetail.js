@@ -26,6 +26,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Cookies from 'js-cookie'
+import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -55,6 +56,8 @@ const ProductDetail = () => {
   const [isPriceloading,setisPriceLoading] = useState(false)
   const [isDataFound,setIsDataFound]=useState(false)
   const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
+
+  const [designSetList,setDesignSetList] = useState();
 
   const [thumbImgIndex,setThumbImgIndex] = useState()
 
@@ -637,6 +640,11 @@ const ProductDetail = () => {
             await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",cookie).then((res)=>{
               setSimilarBrandArr(res?.Data?.rd)         
             }).catch((err)=>console.log("similarbrandErr",err))
+
+            await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
+              console.log("designsetList",res?.Data?.rd[0])
+              setDesignSetList(res?.Data?.rd[0])
+            }).catch((err)=>console.log("designsetErr",err))
           }
       })
       .catch((err) => console.log("err", err));
@@ -1551,10 +1559,11 @@ const ProductDetail = () => {
                   <tr className="Smr_stockItem_table_tr">
                     <th className="Smr_stockItem_table_td" >SrNo</th>
                     <th className="Smr_stockItem_table_td" >Design No</th>
-                    <th className="Smr_stockItem_table_td" >Stock Id</th>
+                    <th className="Smr_stockItem_table_td" >StockBarcode</th>
                     <th className="Smr_stockItem_table_td" >Job No</th>
-                    <th className="Smr_stockItem_table_td" >Net Wt/Gross Wt/Dia Wt/CS Wt</th>
-                    <th className="Smr_stockItem_table_td" >Metal Color/Purity/Type/Price</th>
+                    <th className="Smr_stockItem_table_td"  style={{textAlign:'center'}}>Net Wt/Gross Wt/Dia Wt/CS Wt</th>
+                    <th className="Smr_stockItem_table_td" >Metal Color/Purity/Type</th>
+                    <th className="Smr_stockItem_table_td" >Price</th>
                     <th className="Smr_stockItem_table_td" >Add To Cart</th>
                   </tr>
                   {stockItemArr?.map((ele,i) => (
@@ -1571,7 +1580,7 @@ const ProductDetail = () => {
                       </td>
                       <td className="Smr_stockItem_table_td">
                         <span className="smr_prod_designno">
-                        {ele?.StockId}
+                        {ele?.StockBarcode}
                         </span>
                       </td>
                       <td className="Smr_stockItem_table_td">
@@ -1642,11 +1651,16 @@ const ProductDetail = () => {
                         </div>
                       </td>
                       <td className="Smr_stockItem_table_td" >
-                        <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
+                        {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
                             <span>
                               {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
-                              {" "}/{" "}
-                              <span
+                              {/* {" "}/{" "} */}
+                              </span>
+                        {/* </div> */}
+                      </td>
+                      <td className="Smr_stockItem_table_td" >
+                        <span>
+                               <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
@@ -1654,9 +1668,8 @@ const ProductDetail = () => {
                                     ),
                                   }}
                                 />
-                              </span>
                               <span>{" "}{ele?.Amount}</span>
-                        </div>
+                        </span>
                       </td>
                       <td className="Smr_stockItem_table_td" style={{display:'flex',justifyContent:'center'}}>
                         <Checkbox
@@ -1738,6 +1751,104 @@ const ProductDetail = () => {
               </div>
             </div>
             }
+
+            <div>
+             <div style={{display:'flex',justifyContent:'center',width:'100%'}}>
+             <p
+                    style={{
+                      fontFamily: "FreightDisp Pro Medium",
+                      color: "#7d7f85",
+                      fontSize: "30px",
+                      // display:'none'
+                    }}
+                  >
+                    Complete The Look
+                  </p>
+             </div>
+              <div className="compeletethelook_cont">
+                <div className="smr_ctlImg_containe">
+                <img
+                  // src={
+                  //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
+                  // }
+                  src={storeInit?.DesignSetImageFol + designSetList?.designsetuniqueno + "/" + designSetList?.DefaultImageName}
+                  alt={""}
+                  className='ctl_img'
+
+                />
+                </div>
+                
+                <div className="compeletethelook_prodt" >
+                  <p
+                    style={{
+                      fontFamily: "FreightDisp Pro Medium",
+                      color: "#7d7f85",
+                      fontSize: "30px",
+                      display:'none'
+                    }}
+                  >
+                    Complete The Look
+                  </p>
+
+                  {
+                      (designSetList?.Designdetail == undefined ? [] :JSON.parse(designSetList?.Designdetail))?.map((ele)=>(
+                      <div className='completethelook_outer' >
+                    <div style={{ display: "flex", gap: "60px" }}>
+                      <div style={{ marginLeft: "12px" }}>
+                        <img
+                          src={ ele?.ImageCount > 0 ? 
+                            (storeInit?.DesignImageFol +
+                            ele?.designno +
+                            "_" +
+                            "1" +
+                            "." +
+                            ele?.ImageExtension)
+                            :
+                            imageNotFound}
+
+                            alt = {""}
+                          // src={
+                          //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
+                          // }
+                          className='srthelook_img'
+                        />
+                      </div>
+                      <div
+                        className='srthelook_prodinfo'
+                      >
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#7d7f85",
+                            textTransform: "uppercase",
+                          }}
+                          className="srthelook_prodinfo_inner"
+                        >
+                          <p>
+                            {ele?.designno} - {ele?.CategoryName}
+                            <br />
+                            {<span
+                              className="smr_currencyFont"
+                              dangerouslySetInnerHTML={{
+                                __html: decodeEntities(storeInit?.Currencysymbol),
+                              }}
+                            /> }
+                            {ele?.UnitCostWithMarkUp}
+                          </p>
+                        </div>
+                        <div>
+                          <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
+                            &#8250;
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                      ))}
+                
+                </div>
+              </div>
+            </div>
             </>
             }
             <Footer />

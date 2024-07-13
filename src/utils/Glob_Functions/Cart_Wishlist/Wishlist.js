@@ -104,7 +104,7 @@ const Usewishlist = () => {
       try {
         const response = await handleWishlistToCartAPI(param, item, visiterId, islogin);
         let resStatus = response?.Data?.rd[0];
-        
+
         if (resStatus?.msg === "success") {
           const updatedWishlistData = wishlistData.map(wish =>
             wish.id === item.id ? { ...wish, IsInCart: 1 } : wish
@@ -124,21 +124,36 @@ const Usewishlist = () => {
 
   // add to cart all
   const handleAddtoCartAll = async () => {
+    debugger
     const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
+    let resStatus;
     try {
-      const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
-      let resStatus = response?.Data?.rd[0]
-      if (resStatus?.msg == "success") {
-        getWishlistData();
-        toast.success('All wishlist items added to cart')
-      }
+      wishlistData.forEach(async (item) => {
+        if (item.IsInCart !== 1) {
+          try {
+            const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
+            resStatus = response?.Data?.rd[0];
+            if (resStatus?.msg === "success") {
+              toast.success('All wishlist items added to cart');
+              getWishlistData();
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        }else{
+          toast.info('Already in cart');
+        }
+      });
+     
       return resStatus
     } catch (error) {
       setUpdateCount(false);
       console.error("Error:", error);
+      return { success: false };
     }
   };
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
