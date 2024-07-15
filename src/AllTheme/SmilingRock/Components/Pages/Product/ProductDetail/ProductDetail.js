@@ -637,7 +637,7 @@ const ProductDetail = () => {
               setStockItemArr(res?.Data?.rd)    
             }).catch((err)=>console.log("stockItemErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",cookie).then((res)=>{
+            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
               setSimilarBrandArr(res?.Data?.rd)         
             }).catch((err)=>console.log("similarbrandErr",err))
 
@@ -834,6 +834,8 @@ const ProductDetail = () => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
+    
+
     if(mtColorLocal?.length){
       mcArr =
       mtColorLocal?.filter(
@@ -859,6 +861,62 @@ const ProductDetail = () => {
     }else{
       setMetalWiseColorImg()
     }
+
+    let pd = singleProd;
+    let pdImgListCol = [];
+    let pdImgList = [];
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_"+ mcArr?.colorname +
+          "." +
+          singleProd?.ImageExtension;
+          pdImgListCol.push(imgString);
+      }
+    } 
+
+    if (singleProd?.ImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "." +
+          singleProd?.ImageExtension;
+        pdImgList.push(imgString);
+      }
+    }
+
+    
+    let isImgCol;
+    
+    if(pdImgListCol?.length > 0){
+      isImgCol = await checkImageAvailability(pdImgListCol[0])
+    }
+
+    if(pdImgListCol?.length > 0 && (isImgCol == true)){
+      setPdThumbImg(pdImgListCol)
+      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+      setThumbImgIndex(thumbImgIndex)
+
+    }
+    else{
+      if (pdImgList?.length > 0) {
+        setSelectedThumbImg({"link":pdImgList[thumbImgIndex],"type":'img'});
+        setPdThumbImg(pdImgList);
+        setThumbImgIndex(thumbImgIndex)
+      }
+    }
+
+
+
+    console.log("pdImgList",pdImgList,pdImgListCol)
   } 
 
   // useEffect(()=>{
@@ -955,7 +1013,7 @@ const ProductDetail = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -1083,7 +1141,8 @@ const ProductDetail = () => {
                   >
                     {selectedThumbImg?.type == "img" ? (
                       <img
-                        src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
+                        src={selectedThumbImg?.link ?? imageNotFound}
+                        // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                         alt={""}
                         onLoad={() => setIsImageLoad(false)}
                         className="smr_prod_img"
@@ -1378,7 +1437,7 @@ const ProductDetail = () => {
                     <li className="smr_proDeatilList">Shape</li>
                     <li className="smr_proDeatilList">Clarity</li>
                     <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                    <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                   </ul>
                   {diaList?.map((data) => (
                     <ul className="smr_mt_detail_title_ul">
@@ -1386,7 +1445,7 @@ const ProductDetail = () => {
                       <li className="smr_proDeatilList1">{data?.H}</li>
                       <li className="smr_proDeatilList1">{data?.J}</li>
                       <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
+                        {data.M}&nbsp;&nbsp;{data?.N}
                       </li>
                     </ul>
                   ))}
@@ -1409,7 +1468,7 @@ const ProductDetail = () => {
                     <li className="smr_proDeatilList">Shape</li>
                     <li className="smr_proDeatilList">Clarity</li>
                     <li className="smr_proDeatilList">Color</li>
-                    <li className="smr_proDeatilList">Pcs/Wt</li>
+                    <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                   </ul>
                   {csList?.map((data) => (
                     <ul className="smr_mt_detail_title_ul">
@@ -1417,7 +1476,7 @@ const ProductDetail = () => {
                       <li className="smr_proDeatilList1">{data?.H}</li>
                       <li className="smr_proDeatilList1">{data?.J}</li>
                       <li className="smr_proDeatilList1">
-                        {data.M}/{data?.N}
+                        {data.M}&nbsp;&nbsp;{data?.N}
                       </li>
                     </ul>
                   ))}
@@ -1559,10 +1618,10 @@ const ProductDetail = () => {
                   <tr className="Smr_stockItem_table_tr">
                     <th className="Smr_stockItem_table_td" >SrNo</th>
                     <th className="Smr_stockItem_table_td" >Design No</th>
-                    <th className="Smr_stockItem_table_td" >StockBarcode</th>
+                    {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
                     <th className="Smr_stockItem_table_td" >Job No</th>
                     <th className="Smr_stockItem_table_td"  style={{textAlign:'center'}}>Net Wt/Gross Wt/Dia Wt/CS Wt</th>
-                    <th className="Smr_stockItem_table_td" >Metal Color/Purity/Type</th>
+                    <th className="Smr_stockItem_table_td" >Metal Color-Purity</th>
                     <th className="Smr_stockItem_table_td" >Price</th>
                     <th className="Smr_stockItem_table_td" >Add To Cart</th>
                   </tr>
@@ -1583,11 +1642,11 @@ const ProductDetail = () => {
                         {ele?.StockBarcode}
                         </span>
                       </td>
-                      <td className="Smr_stockItem_table_td">
+                      {/* <td className="Smr_stockItem_table_td">
                         <span className="smr_prod_designno">
                         {ele?.JobNo}
                         </span>
-                      </td>
+                      </td> */}
                       <td className="Smr_stockItem_table_td">
                         <div className="smr_prod_Allwt">
                           <div
@@ -1752,7 +1811,7 @@ const ProductDetail = () => {
             </div>
             }
 
-            <div>
+            { designSetList && <div>
              <div style={{display:'flex',justifyContent:'center',width:'100%'}}>
              <p
                     style={{
@@ -1792,7 +1851,7 @@ const ProductDetail = () => {
 
                   {
                       (designSetList?.Designdetail == undefined ? [] :JSON.parse(designSetList?.Designdetail))?.map((ele)=>(
-                      <div className='completethelook_outer' >
+                      <div className='completethelook_outer' onClick={()=>handleMoveToDetail(ele)}>
                     <div style={{ display: "flex", gap: "60px" }}>
                       <div style={{ marginLeft: "12px" }}>
                         <img
@@ -1848,7 +1907,7 @@ const ProductDetail = () => {
                 
                 </div>
               </div>
-            </div>
+            </div>}
             </>
             }
             <Footer />

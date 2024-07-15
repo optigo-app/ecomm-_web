@@ -28,10 +28,12 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
             orderRemarks: '',
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
             Customerid: `${customerId}`,
+            packageId: packageId,
             Laboursetid: laboursetid,
             diamondpricelistname: diamondpricelistname,
             colorstonepricelistname: colorstonepricelistname,
             SettingPriceUniqueNo: SettingPriceUniqueNo,
+            domain:storeInit?.domain ?? "",
             IsPLW: storeInit?.IsPLW
         });
 
