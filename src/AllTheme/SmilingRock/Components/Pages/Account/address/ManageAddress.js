@@ -661,7 +661,9 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <Typography sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography>
+                                                    <a className='text-decoration-none' href={`tel: +91 ${item?.shippingmobile}`}>{item?.shippingmobile}
+                                                        {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
+                                                    </a>
                                                 </Box>
                                             </NavLink>
 
