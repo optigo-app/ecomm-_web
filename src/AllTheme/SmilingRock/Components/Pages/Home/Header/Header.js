@@ -734,17 +734,19 @@ const Header = () => {
               </p>
             )}
 
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  navigation("/account");
-                }}
-              >
-                Account
-              </p>
-            </div>
+         {
+          islogin &&    <div>
+          <p
+            className="smr_menuStaicMobilePageLink"
+            onClick={() => {
+              setDrawerShowOverlay(false);
+              navigation("/account");
+            }}
+          >
+            Account
+          </p>
+        </div>
+         }
 
             <div>
               <p
@@ -948,28 +950,36 @@ const Header = () => {
                 storeinit?.IsPLW ? (
                   ""
                 ) : (
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
-                    <a href="/account" className="smr_A_link">
-                      ACCOUNT
-                    </a>
-                  </li>
-                )
-              ) : islogin && storeinit?.IsPLW ? (
-                ""
-              ) : (
-                <li
+                <>
+                {
+                  islogin &&   <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigation("/account")}
                 >
-                  <a href="/account" className="smr_A_link">
+                  {/* <a href="/account" className="smr_A_link"> */}
                     ACCOUNT
-                  </a>
+                  {/* </a> */}
                 </li>
+                }
+                </>
+                )
+              ) : islogin && storeinit?.IsPLW ? (
+                ""
+              ) : (
+                <>
+                {
+                  (islogin === true) && <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigation("/account")}
+                >
+                  {/* <a href="/account" className="smr_A_link"> */}
+                    ACCOUNT
+                  {/* </a> */}
+                </li>
+                }
+                </>
               )}
               {islogin ? (
                 <li
@@ -1270,7 +1280,9 @@ const Header = () => {
                 </li>
 
                 {storeinit?.IsPLW == 0 && IsB2BWebsiteChek == 0 ? (
-                  <li
+                  <>
+                  {
+                    (islogin === true) && <li
                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
                     // onClick={() => navigation("/LoginOption")}
@@ -1280,6 +1292,8 @@ const Header = () => {
                       ACCOUNT
                     </a>
                   </li>
+                  }
+                  </>
                 ) : (
                   islogin && (
                     <li
