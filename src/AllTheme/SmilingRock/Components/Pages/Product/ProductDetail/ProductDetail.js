@@ -1978,7 +1978,7 @@ const ProductDetail = () => {
                     </div>
                   )}
 
-                <div>
+                <div className="smr_DesignSet_main">
                   <div
                     style={{
                       display: "flex",

@@ -465,6 +465,13 @@ color: $primaryfontcolor2;
     margin-bottom: -100px;
 }
 
+.smr_DesignSet_main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
   
 @media screen and (max-width:1200px) {
     .smr_prod_image_shortInfo{
