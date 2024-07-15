@@ -271,30 +271,54 @@ const ManageAddress = () => {
         //     errors.lastName = 'Last Name is required';
         // }
     
+        // if (!formData.mobileNo.trim()) {
+        //     errors.mobileNo = 'Mobile No. is required';
+        // }
         if (!formData.mobileNo.trim()) {
             errors.mobileNo = 'Mobile No. is required';
+        } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
+            errors.mobileNo = 'Mobile No. must contain exactly 10 numbers';
         }
     
         if (!formData.address.trim()) {
             errors.address = 'Address is required';
         }
     
+        // if (!formData.country.trim()) {
+        //     errors.country = 'Country is required';
+        // }
         if (!formData.country.trim()) {
-            errors.country = 'Country is required';
+            errors.country = 'Country Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.country = 'Country Name must contain only letters';
         }
-    
         if (!formData.state.trim()) {
-            errors.state = 'State is required';
+            errors.state = 'State Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.state = 'State Name must contain only letters';
         }
-    
         if (!formData.city.trim()) {
-            errors.city = 'City is required';
+            errors.city = 'City Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.city = 'City Name must contain only letters';
         }
     
+        // if (!formData.state.trim()) {
+        //     errors.state = 'State is required';
+        // }
+    
+        // if (!formData.city.trim()) {
+        //     errors.city = 'City is required';
+        // }
+    
+        // if (!formData.zipCode.trim()) {
+        //     errors.zipCode = 'ZIP Code is required';
+        // }
         if (!formData.zipCode.trim()) {
             errors.zipCode = 'ZIP Code is required';
+        } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
+            errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
         }
-    
         // If there are any errors, update state and return
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
