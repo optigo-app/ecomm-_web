@@ -9,7 +9,10 @@ import {
   Checkbox,
   Drawer,
   FormControlLabel,
+  IconButton,
   Modal,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -32,6 +35,16 @@ import ProductListSkeleton from "../../Product/ProductList/productlist_skeleton/
 import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+// import DemolookBook from "./demoLookBook";
+
+import { RxGrid } from "react-icons/rx";
+import { TfiLayoutGrid2 } from "react-icons/tfi";
+import { TfiLayoutGrid3 } from "react-icons/tfi";
+import DemolookBook from "./demoLookBook";
+
+
 const Lookbook = () => {
   let location = useLocation();
   const [imageUrl, setImageUrl] = useState();
@@ -350,8 +363,7 @@ const Lookbook = () => {
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -444,10 +456,17 @@ const Lookbook = () => {
     seyDataKey(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState("3");
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const [selectedValue, setSelectedValue] = useState("1");
+  // const handleChange = (event) => {
+  //   setSelectedValue(event.target.value);
+  // };
+
+  const handleChange = (event, newValue) => {
+    if (newValue !== null) {
+      setSelectedValue(newValue);
+    }
   };
+
 
   console.log(
     "filteredDesignSetLstDatafilteredDesignSetLstData",
@@ -502,8 +521,8 @@ const Lookbook = () => {
                             background: "none",
                           },
                         }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
+                      // expanded={accExpanded}
+                      // defaultExpanded={}
                       >
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
@@ -565,7 +584,7 @@ const Lookbook = () => {
                                         ?.checked === undefined
                                         ? false
                                         : filterChecked[`${ele?.id}${opt?.id}`]
-                                            ?.checked
+                                          ?.checked
                                     }
                                     style={{
                                       color: "#7f7d85",
@@ -611,8 +630,8 @@ const Lookbook = () => {
                           background: "none",
                         },
                       }}
-                      // expanded={accExpanded}
-                      // defaultExpanded={}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
                     >
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
@@ -671,7 +690,7 @@ const Lookbook = () => {
                                   // }
                                   checked={
                                     filterChecked[`Price${i}${i}`]?.checked ===
-                                    undefined
+                                      undefined
                                       ? false
                                       : filterChecked[`Price${i}${i}`]?.checked
                                   }
@@ -697,13 +716,13 @@ const Lookbook = () => {
                               label={
                                 opt?.Minval == 0
                                   ? `Under ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
+                                    storeInit?.Currencysymbol
+                                  )}${opt?.Maxval}`
                                   : opt?.Maxval == 0
-                                  ? `Over ${decodeEntities(
+                                    ? `Over ${decodeEntities(
                                       storeInit?.Currencysymbol
                                     )}${opt?.Minval}`
-                                  : `${decodeEntities(
+                                    : `${decodeEntities(
                                       storeInit?.Currencysymbol
                                     )}${opt?.Minval} - ${decodeEntities(
                                       storeInit?.Currencysymbol
@@ -862,16 +881,16 @@ const Lookbook = () => {
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -935,8 +954,8 @@ const Lookbook = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -982,8 +1001,8 @@ const Lookbook = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1047,7 +1066,7 @@ const Lookbook = () => {
                                           ?.checked === undefined
                                           ? false
                                           : filterChecked[`Price${i}${i}`]
-                                              ?.checked
+                                            ?.checked
                                       }
                                       style={{
                                         color: "#7f7d85",
@@ -1071,13 +1090,13 @@ const Lookbook = () => {
                                   label={
                                     opt?.Minval == 0
                                       ? `Under ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
+                                        storeInit?.Currencysymbol
+                                      )}${opt?.Maxval}`
                                       : opt?.Maxval == 0
-                                      ? `Over ${decodeEntities(
+                                        ? `Over ${decodeEntities(
                                           storeInit?.Currencysymbol
                                         )}${opt?.Minval}`
-                                      : `${decodeEntities(
+                                        : `${decodeEntities(
                                           storeInit?.Currencysymbol
                                         )}${opt?.Minval} - ${decodeEntities(
                                           storeInit?.Currencysymbol
@@ -1117,15 +1136,33 @@ const Lookbook = () => {
                 Select View
               </button>
 
-              <select
+              {/* <select
                 value={selectedValue}
                 onChange={handleChange}
                 className="smr_lookBookViveBoxSet"
               >
                 <option value="1">Single Block View</option>
                 <option value="2">Double Block View</option>
-                {/* <option value="3">Scroll Block View</option> */}
-              </select>
+                <option value="3">Scroll Block View</option>
+              </select> */}
+
+              <ToggleButtonGroup
+                size="medium"
+                value={selectedValue}
+                exclusive
+                onChange={handleChange}
+                aria-label="text alignment"
+              >
+                <ToggleButton value={1} aria-label="left aligned">
+                  <RxGrid />
+                </ToggleButton>
+                <ToggleButton value={2} aria-label="centered">
+                  <TfiLayoutGrid2 />
+                </ToggleButton>
+                <ToggleButton value={3} aria-label="right aligned">
+                  <TfiLayoutGrid3 />
+                </ToggleButton>
+              </ToggleButtonGroup>
             </div>
 
             {selectedValue == 2 && (
@@ -1456,7 +1493,86 @@ const Lookbook = () => {
 
             {selectedValue == 3 && (
               <div>
-
+                <Swiper
+                  slidesPerView={1}
+                  spaceBetween={10}
+                  navigation={true}
+                  loop={true}
+                  modules={[Pagination, Navigation]}
+                  className="smr_LookBookmySwiper"
+                >
+                  {filteredDesignSetLstData?.map((slide, index) => (
+                    <SwiperSlide key={index}>
+                      <div>
+                        <div className="compeletethelook_cont">
+                          <div className="smr_ctlImg_containe">
+                            <img
+                              src={ProdCardImageFunc(slide)}
+                              alt=""
+                              className="ctl_img"
+                            />
+                          </div>
+                          <div className="compeletethelook_prodt">
+                            {/* Mapping over sortDesignDetailsBySrNo result */}
+                            {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
+                              <div key={subIndex} className='completethelook_outer' style={{ borderTop: subIndex !== 0 ? 'none' : '', width: '513px', padding: '5px', border: '1px solid #e1e1e1', backgroundColor: '#fff' }}>
+                                <div style={{ display: 'flex', gap: '60px' }}>
+                                  <div style={{ marginLeft: '12px' }}>
+                                    <img
+                                      src={ele?.ImageCount > 0 ?
+                                        `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                        : imageNotFound}
+                                      alt=""
+                                      className='srthelook_img'
+                                    />
+                                  </div>
+                                  <div className='srthelook_prodinfo'>
+                                    <div style={{ fontSize: '14px', color: '#7d7f85', textTransform: 'uppercase' }} className="srthelook_prodinfo_inner">
+                                      <p>
+                                        {ele?.designno} - {ele?.CategoryName}<br />
+                                        <span
+                                          className="smr_currencyFont"
+                                          dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }}
+                                        />
+                                        {ele?.UnitCostWithMarkUp}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "end",
+                                      alignItems: 'center',
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    {cartItems.includes(ele?.autocode) ? (
+                                      <IconButton
+                                        onClick={() => handleAddToCart(ele)}
+                                      >
+                                        <LocalMallIcon
+                                          className="smr_lookBookAddtoCartIconBtn"
+                                        />
+                                      </IconButton>
+                                    ) : (
+                                      <IconButton
+                                        onClick={() => handleRemoveCart(ele)}
+                                      >
+                                          <LocalMallIcon
+                                          className="smr_lookBookINCartIconBtn"
+                                        />
+                                      </IconButton>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             )}
           </div>
