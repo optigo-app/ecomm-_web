@@ -62,7 +62,7 @@ const ManageAddress = () => {
             if (response?.Data?.rd[0]?.stat === 1) {
                 const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
                 setAddressData(updatedAddressData);
-                setDefaultAddress({});
+                fetchData();
                 toast.success('Delete Success');
             } else {
                 toast.error('error');

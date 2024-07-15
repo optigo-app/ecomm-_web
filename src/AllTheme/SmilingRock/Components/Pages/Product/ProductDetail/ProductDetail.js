@@ -904,7 +904,7 @@ const ProductDetail = () => {
       setPdThumbImg(pdImgListCol)
       setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
       setThumbImgIndex(thumbImgIndex)
-
+      
     }
     else{
       if (pdImgList?.length > 0) {
@@ -967,7 +967,7 @@ const ProductDetail = () => {
         setCartCountVal(cartC);
       }).catch((err) => console.log("err", err))
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode,cookie).then((res) => {
+      RemoveCartAndWishAPI(type, ele?.autocode,cookie,true).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
@@ -1620,7 +1620,7 @@ const ProductDetail = () => {
                     <th className="Smr_stockItem_table_td" >Design No</th>
                     {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
                     <th className="Smr_stockItem_table_td" >Job No</th>
-                    <th className="Smr_stockItem_table_td"  style={{textAlign:'center'}}>Net Wt/Gross Wt/Dia Wt/CS Wt</th>
+                    <th className="Smr_stockItem_table_td"  style={{textAlign:'center'}}>Gross Wt/Net Wt/Dia Wt/CS Wt</th>
                     <th className="Smr_stockItem_table_td" >Metal Color-Purity</th>
                     <th className="Smr_stockItem_table_td" >Price</th>
                     <th className="Smr_stockItem_table_td" >Add To Cart</th>
@@ -1658,12 +1658,29 @@ const ProductDetail = () => {
                               gap: "3px",
                             }}
                           >
-                            <span className="smr_prod_wt">
-                              <span className="smr_d_keys">NWT:</span>
-                              <span className="smr_d_val">{ele?.NetWt}</span>
-                            </span>
-
                             {storeInit?.IsGrossWeight == 1 &&
+                              Number(ele?.GrossWt) !== 0 && (
+                                <>
+                                  <span className="smr_prod_wt">
+                                    <span className="smr_d_keys">GWT:</span>
+                                    <span className="smr_d_val">
+                                      {ele?.GrossWt}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+
+                              { Number(ele?.NetWt) !== 0 && 
+                               ( <>
+                                <span>|</span>
+                                <span className="smr_prod_wt">
+                                <span className="smr_d_keys">NWT:</span>
+                                <span className="smr_d_val">{ele?.NetWt}</span>
+                                </span>
+                                </>)
+                              }
+
+                            {/* {storeInit?.IsGrossWeight == 1 &&
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
@@ -1674,7 +1691,7 @@ const ProductDetail = () => {
                                     </span>
                                   </span>
                                 </>
-                              )}
+                              )} */}
                             {storeInit?.IsDiamondWeight == 1 &&
                               Number(ele?.DiaWt) !== 0 && (
                                 <>
@@ -1850,8 +1867,8 @@ const ProductDetail = () => {
                   </p>
 
                   {
-                      (designSetList?.Designdetail == undefined ? [] :JSON.parse(designSetList?.Designdetail))?.map((ele)=>(
-                      <div className='completethelook_outer' onClick={()=>handleMoveToDetail(ele)}>
+                      (designSetList?.Designdetail == undefined ? [] :JSON.parse(designSetList?.Designdetail))?.map((ele,i)=>(
+                      <div className='completethelook_outer' onClick={()=>handleMoveToDetail(ele)} style={{ borderTop: i !== 0 ? "none" : "",}}>
                     <div style={{ display: "flex", gap: "60px" }}>
                       <div style={{ marginLeft: "12px" }}>
                         <img
@@ -1895,11 +1912,11 @@ const ProductDetail = () => {
                             {ele?.UnitCostWithMarkUp}
                           </p>
                         </div>
-                        <div>
+                        {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
                             &#8250;
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
