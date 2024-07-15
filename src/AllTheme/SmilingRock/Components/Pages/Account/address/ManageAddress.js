@@ -119,127 +119,276 @@ const ManageAddress = () => {
         setOpenDelete(true);
     }
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const errors = {};
+    //     if (!formData.firstName.trim()) {
+    //         errors.firstName = 'First Name is required';
+    //     }
+    //     if(formData?.firstName?.trim() !== ''){
+    //         console.log(formData?.firstName);
+    //         if (!formData?.firstName.trim()) {
+    //             errors.firstName = 'First Name is required';
+    //         } else if (!/^[a-zA-Z]+$/.test(formData?.firstName.trim())) {
+    //             errors.firstName = 'First Name must contain only letters';
+    //         } 
+    //     }
+    //     if (!formData.lastName.trim()) {
+    //         errors.lastName = 'Last Name is required';
+    //     }
+    //     if (!formData.mobileNo.trim()) {
+    //         errors.mobileNo = 'Mobile No. is required';
+    //     }
+    //     if (!formData.address.trim()) {
+    //         errors.address = 'Address is required';
+    //     }
+    //     if (!formData.country.trim()) {
+    //         errors.country = 'Country is required';
+    //     }
+    //     if (!formData.state.trim()) {
+    //         errors.state = 'State is required';
+    //     }
+    //     if (!formData.city.trim()) {
+    //         errors.city = 'City is required';
+    //     }
+    //     if (!formData.zipCode.trim()) {
+    //         errors.zipCode = 'ZIP Code is required';
+    //     }
+
+    //     if (Object.keys(errors).length > 0) {
+    //         setErrors(errors);
+    //     } 
+    //     else {
+    //         if (isEditMode) {
+    //             try {
+    //                 setOpen(false);
+    //                 setIsLoading(true);
+    //                 const storedData = localStorage.getItem('loginUserDetail');
+    //                 const data = JSON.parse(storedData);
+    //                 const customerid = data.id;
+    //                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    //                 const { FrontEnd_RegNo } = storeInit;
+    //                 const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
+    //                 console.log(response);
+    //                 if (response?.Data?.rd[0]?.stat === 1) {
+    //                     toast.success('Edit success');
+    //                     const editedAddress = {
+    //                         ...addressData[editAddressIndex],
+    //                         shippingfirstname: formData.firstName,
+    //                         shippinglastname: formData.lastName,
+    //                         street: formData.address,
+    //                         country: formData.country,
+    //                         state: formData.state,
+    //                         city: formData.city,
+    //                         zip: formData.zipCode,
+    //                         shippingmobile: formData.mobileNo
+    //                     };
+    //                     const updatedAddressData = [...addressData];
+    //                     updatedAddressData[editAddressIndex] = editedAddress;
+    //                     setAddressData(updatedAddressData);
+    //                 } else {
+    //                     toast.error('error');
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //             } finally {
+    //                 setIsLoading(false);
+    //             }
+
+    //         } else {
+    //             try {
+    //                 setIsLoading(true);
+    //                 setOpen(false);
+    //                 const storedData = localStorage.getItem('loginUserDetail');
+    //                 const data = JSON.parse(storedData);
+    //                 const customerid = data.id;
+    //                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    //                 const { FrontEnd_RegNo } = storeInit;
+
+    //                 // const combinedValue = JSON.stringify({
+    //                 //     firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+    //                 // });
+
+    //                 // const encodedCombinedValue = btoa(combinedValue);
+    //                 // const body = {
+    //                 //     "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data.userid}\"}`,
+    //                 //     "f": "Delivery (addAddress)",
+    //                 //     p: encodedCombinedValue
+    //                 // };
+    //                 // const response = await CommonAPI(body);
+                    
+    //                 const response = await handleAddAddress(formData, FrontEnd_RegNo, customerid, storeInit, data);
+
+    //                 if (response?.Data?.rd[0]?.stat === 1) {
+    //                     let updatedAddressData = [...addressData];
+    //                     const newAddress = {
+    //                         shippingfirstname: formData.firstName,
+    //                         shippinglastname: formData.lastName,
+    //                         street: formData.address,
+    //                         country: formData.country,
+    //                         state: formData.state,
+    //                         city: formData.city,
+    //                         zip: formData.zipCode,
+    //                         shippingmobile: formData.mobileNo
+    //                     };
+    //                     updatedAddressData.push(newAddress);
+    //                     setAddressData(updatedAddressData);
+    //                     fetchData();
+    //                 } else {
+    //                     toast.error('error');
+    //                 }
+    //                 handleClose();
+    //                 toast.success('Add success');
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //             } finally {
+    //                 setIsLoading(false);
+    //             }
+    //         }
+
+    //         handleClose();
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errors = {};
+        e.preventDefault(); // Prevent default form submission
+    
+        const errors = {}; // Initialize errors object
+    
+        // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+            errors.firstName = 'First Name must contain only letters';
         }
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.lastName = 'Last Name must contain only letters';
         }
+    
+        // if (!formData.lastName.trim()) {
+        //     errors.lastName = 'Last Name is required';
+        // }
+    
         if (!formData.mobileNo.trim()) {
             errors.mobileNo = 'Mobile No. is required';
         }
+    
         if (!formData.address.trim()) {
             errors.address = 'Address is required';
         }
+    
         if (!formData.country.trim()) {
             errors.country = 'Country is required';
         }
+    
         if (!formData.state.trim()) {
             errors.state = 'State is required';
         }
+    
         if (!formData.city.trim()) {
             errors.city = 'City is required';
         }
+    
         if (!formData.zipCode.trim()) {
             errors.zipCode = 'ZIP Code is required';
         }
-
+    
+        // If there are any errors, update state and return
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
-        } else {
+            return;
+        }
+    
+        try {
+            setIsLoading(true); // Set loading state
+    
+            const storedData = localStorage.getItem('loginUserDetail');
+            const data = JSON.parse(storedData);
+            const customerid = data.id;
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
+    
+            let response;
+    
             if (isEditMode) {
-                try {
-                    setOpen(false);
-                    setIsLoading(true);
-                    const storedData = localStorage.getItem('loginUserDetail');
-                    const data = JSON.parse(storedData);
-                    const customerid = data.id;
-                    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                    const { FrontEnd_RegNo } = storeInit;
-                    const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
-                    
-                    if (response?.Data?.rd[0]?.stat === 1) {
-                        toast.success('Edit success');
-                        const editedAddress = {
-                            ...addressData[editAddressIndex],
-                            shippingfirstname: formData.firstName,
-                            shippinglastname: formData.lastName,
-                            street: formData.address,
-                            country: formData.country,
-                            state: formData.state,
-                            city: formData.city,
-                            zip: formData.zipCode,
-                            shippingmobile: formData.mobileNo
-                        };
-                        const updatedAddressData = [...addressData];
-                        updatedAddressData[editAddressIndex] = editedAddress;
-                        setAddressData(updatedAddressData);
-                    } else {
-                        toast.error('error');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                } finally {
-                    setIsLoading(false);
+                // Handle edit mode
+                setOpen(false); // Close modal or dialog
+    
+                response = await handleEditAddress(
+                    editId,
+                    formData,
+                    FrontEnd_RegNo,
+                    customerid,
+                    storeInit,
+                    data
+                );
+    
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    // Handle successful edit
+                    toast.success('Edit success');
+    
+                    const editedAddress = {
+                        ...addressData[editAddressIndex],
+                        shippingfirstname: formData.firstName,
+                        shippinglastname: formData.lastName,
+                        street: formData.address,
+                        country: formData.country,
+                        state: formData.state,
+                        city: formData.city,
+                        zip: formData.zipCode,
+                        shippingmobile: formData.mobileNo
+                    };
+    
+                    const updatedAddressData = [...addressData];
+                    updatedAddressData[editAddressIndex] = editedAddress;
+                    setAddressData(updatedAddressData);
+                } else {
+                    toast.error('Error editing');
                 }
-
             } else {
-                try {
-                    setIsLoading(true);
-                    setOpen(false);
-                    const storedData = localStorage.getItem('loginUserDetail');
-                    const data = JSON.parse(storedData);
-                    const customerid = data.id;
-                    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                    const { FrontEnd_RegNo } = storeInit;
-
-                    // const combinedValue = JSON.stringify({
-                    //     firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-                    // });
-
-                    // const encodedCombinedValue = btoa(combinedValue);
-                    // const body = {
-                    //     "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data.userid}\"}`,
-                    //     "f": "Delivery (addAddress)",
-                    //     p: encodedCombinedValue
-                    // };
-                    // const response = await CommonAPI(body);
-                    
-                    const response = await handleAddAddress(formData, FrontEnd_RegNo, customerid, storeInit, data);
-
-                    if (response?.Data?.rd[0]?.stat === 1) {
-                        let updatedAddressData = [...addressData];
-                        const newAddress = {
-                            shippingfirstname: formData.firstName,
-                            shippinglastname: formData.lastName,
-                            street: formData.address,
-                            country: formData.country,
-                            state: formData.state,
-                            city: formData.city,
-                            zip: formData.zipCode,
-                            shippingmobile: formData.mobileNo
-                        };
-                        updatedAddressData.push(newAddress);
-                        setAddressData(updatedAddressData);
-                        fetchData();
-                    } else {
-                        toast.error('error');
-                    }
-                    handleClose();
+                // Handle add mode
+                setOpen(false); // Close modal or dialog
+    
+                response = await handleAddAddress(
+                    formData,
+                    FrontEnd_RegNo,
+                    customerid,
+                    storeInit,
+                    data
+                );
+    
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    // Handle successful addition
                     toast.success('Add success');
-                } catch (error) {
-                    console.error('Error:', error);
-                } finally {
-                    setIsLoading(false);
+    
+                    const newAddress = {
+                        shippingfirstname: formData.firstName,
+                        shippinglastname: formData.lastName,
+                        street: formData.address,
+                        country: formData.country,
+                        state: formData.state,
+                        city: formData.city,
+                        zip: formData.zipCode,
+                        shippingmobile: formData.mobileNo
+                    };
+    
+                    const updatedAddressData = [...addressData, newAddress];
+                    setAddressData(updatedAddressData);
+                    fetchData(); // Assuming fetchData updates necessary data after addition
+                } else {
+                    toast.error('Error adding');
                 }
             }
-
-            handleClose();
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('An unexpected error occurred');
+        } finally {
+            setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
+    
 
     const handleClose = () => {
         setFormData({
