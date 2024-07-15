@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./orderhistory.scss";
 import CircleIcon from "@mui/icons-material/Circle";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Chip, CircularProgress, Stack } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Pako from "pako";
 import MenuIcon from '@mui/icons-material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
 const OrderHistory = () => {
@@ -19,7 +20,9 @@ const OrderHistory = () => {
   const [ukey, setUkey] = useState('');
   const [image_path, setImagePath] = useState('');
   const navigate = useNavigate();
-  const [openListStatus, setOpenListStatus] = useState(false);
+  // const [openListStatus, setOpenListStatus] = useState(false);
+  const [openListStatus, setOpenListStatus] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [showPrint, setShowPrint] = useState(false);
   const [clickedPrintId, setClickedPrintId] = useState(null);
@@ -139,8 +142,8 @@ const OrderHistory = () => {
   };
 
   const handleApproveReject = async(e, status) => {
-    
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    console.log(storeinit);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     let statusId = ''
     if(status === 'approve'){
@@ -157,11 +160,12 @@ const OrderHistory = () => {
       "dp":`{\"FrontEnd_RegNo\":\"${storeinit?.FrontEnd_RegNo}\",\"Customerid\":\"${loginInfo?.id}\",\"orderno\":\"${e?.orderno}\",\"OrderStatusId\":\"${statusId}"\}`
       }
       const response = await CommonAPI(body);
-
+      console.log(response);
       let arr = [];
 
       if(response?.Status === '200'){
         setOpenListStatus(false);
+        setShowActions(false)
          orderHistoryData?.map((e) => {
           let obj = {...e};
           if(obj?.orderno === response?.Data?.rd[0]?.orderno){
@@ -169,7 +173,7 @@ const OrderHistory = () => {
           }
           arr.push(obj);
           
-
+          
          })
 
          setOrderHistoryData(arr);
@@ -185,18 +189,27 @@ const OrderHistory = () => {
     if(status?.toLowerCase() === 'approved'){
       return "bg-success text-white";
     }else if(status?.toLowerCase() === 'rejected') {
-      return "bg-danger text-white"
-    }else if(status?.toLowerCase() === 'approval pending'){
-      return "_color3"
+      return "bg-dark text-white"
     }else{
-      return null
+      return "_color3"
     }
+    // }else if(status?.toLowerCase() === 'approval pending'){
+    //   return "_color3"
+    // }else{
+    //   return null
+    // }
   };
 
   const handlePrintOH = (id) => {
     setShowPrint(!showPrint);
     setClickedPrintId(id);
   }
+
+  const [showActions, setShowActions] = useState(false);
+
+  const handleToggleActions = (id) => {
+    setShowActions(id);
+  };
 
   return (
     <div>
@@ -207,6 +220,7 @@ const OrderHistory = () => {
         <div className="orderedItems user-select-none">
           {orderHistoryData?.length > 0 ?
             orderHistoryData?.map((e) => {
+              
               return (
                 <div className="border orderHistory p-1 px-0 my-4" key={e?.id} >
                   <div className=" d-flex w-100 justify-content-between align-items-center p-1 d_block position-relative">
@@ -260,16 +274,62 @@ const OrderHistory = () => {
                     </div>
                     </div>
                     <div className="w-50 d-flex flex-column justify-content-around  w-50 ">
-                      { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex justify-content-end pe-4" ><MenuIcon className="_color2 " onClick={() => openList(e?.id)} /></div> : <div>&nbsp;</div> }
-                      {
-                        openListStatus === e?.id && <div className="p-1 border-black border rounded position-absolute mt-1 bg-white" style={{width : '10%',zIndex:'1000', top: '30%', right: '-1%'}}>
-                            <div className="text-success w-100 text-center" onClick={() => handleApproveReject(e, 'approve')}>Approve</div>
-                            <div className="text-danger w-100 text-center" onClick={() => handleApproveReject(e, 'reject')}>Reject</div>
+                        {/* <MenuIcon className="_color2 " onClick={() => openList(e?.id)} /> */}
+                      {/* { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex align-items-center justify-content-end pe-4" >
+                         <div className="" style={{zIndex:'1000'}}>
+                            <Stack direction="row" spacing={1}>
+                              <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+                              <Chip size="small" label="Reject" 
+                              sx={{backgroundColor:'black', color:'white',   '&:hover': {
+                                    backgroundColor: 'black',
+                                    color: 'white',
+                                    cursor: 'default', // This ensures the cursor does not change on hover
+                                  },}} onClick={() => handleApproveReject(e, 'reject')} />
+                            </Stack>
                         </div> 
-                      }
+                        <MoreVertIcon className="_color2 " onClick={() => openList(e?.id)} />
+                        </div> : <div>&nbsp;</div> } */}
+                             <div>
+      {e?.IsPLW === 1 ? (
+        <div className="w-100 ps-4 d-flex align-items-center justify-content-end pe-4">
+          <div className={`sidebar ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+            <Stack direction="row" style={{paddingBottom:'1px'}} spacing={1}>
+            {(showActions === e?.id) && (
+                <>
+                  <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+                  <Chip
+                    size="small"
+                    label="Reject"
+                    sx={{
+                      backgroundColor: 'black',
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: 'black',
+                        color: 'white',
+                        cursor: 'default',
+                      },
+                    }}
+                    onClick={() => handleApproveReject(e, 'reject')}
+                  />
+                </>
+              )}
+            </Stack>
+          </div>
+          <MoreVertIcon className="_color2" onClick={() => handleToggleActions(e.id)} />
+        </div>
+      ) : (
+        <div>&nbsp;</div>
+      )}
+    </div>
+                
                       <div className="py-1 w-100 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none d-flex align-items-center justify-content-end">
-                          { e?.OrderStatusId === 1 ? <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>
-                           : <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
+                          {/* { e?.OrderStatusId === 1 ? */}
+                          {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
+                           {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
+                           { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                          {/* //  :
+                            // <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
+                            // <div>&nbsp;</div>} */}
                       </div>
                       { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end pe-4"><PrintIcon onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
                       { e?.IsPLW === 1 && <span className="_colo2 w-100 d-flex justify-content-end" style={{fontSize:'7px', lineHeight:'7px'}}>
@@ -282,7 +342,7 @@ const OrderHistory = () => {
                     </div>
                   </div>
               
-                  <div>
+                  <div className="bgcolororderdetail">
       <div style={{ height: '10px', cursor: 'pointer' }} title="info" className="border-top"></div>
       {orderInfo === e?.id ? (
         <>
@@ -292,7 +352,7 @@ const OrderHistory = () => {
             </Box>
           ) : (
             <div className="p_4_oh">
-              <div className="d-flex flex-wrap align-items-center center_price_2 d_block">
+              <div className="d-flex flex-wrap align-items-center center_price_2 d_block ">
                 <Container>
                   <Row className="g-4 pb-3">
                     {orderDetails?.length > 0 &&
