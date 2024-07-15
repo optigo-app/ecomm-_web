@@ -40,7 +40,8 @@
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: cover;
-        height: 300px;
+        max-height: 500px;
+        max-width: 500px;
     }
 
     .smr_albumALL_div {

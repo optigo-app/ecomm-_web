@@ -110,7 +110,11 @@
 
     .linkRingLove {
         display: flex !important;
-        justify-content: center;
+        justify-content: space-evenly;
+    }
+
+    .smr_TrendingMainDiv {
+        max-width: 250px;
     }
 
     .linkLoveRing1 {
@@ -133,6 +137,7 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
+        margin-top: 10px;
     }
 
     .linkingShopCol {
@@ -225,9 +230,10 @@
             height: 500px !important;
         }
 
-        .smr_trendingViewTopMain_Imgdiv{
+        .smr_trendingViewTopMain_Imgdiv {
             width: 100%;
         }
+
         .smr_trendingViewTopMain_div {
             display: flex;
             margin-top: 10px;
@@ -236,7 +242,7 @@
             margin-inline: 10px;
         }
 
-        .smr_trendingViewTopMain_Sliderdiv{
+        .smr_trendingViewTopMain_Sliderdiv {
             width: 100%;
         }
     }

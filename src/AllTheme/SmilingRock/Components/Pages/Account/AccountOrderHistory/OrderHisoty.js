@@ -342,7 +342,7 @@ const OrderHistory = () => {
                     </div>
                   </div>
               
-                  <div className="bgcolororderdetail">
+                  <div className="">
       <div style={{ height: '10px', cursor: 'pointer' }} title="info" className="border-top"></div>
       {orderInfo === e?.id ? (
         <>

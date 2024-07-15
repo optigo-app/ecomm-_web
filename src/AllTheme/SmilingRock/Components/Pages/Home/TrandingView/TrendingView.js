@@ -190,7 +190,7 @@ const TrendingView = () => {
                                 {chunkedData.map((chunk, index) => (
                                         <div className='linkRingLove'>
                                               {chunk?.map((data, dataIndex) => (
-                                            <div>
+                                            <div className='smr_TrendingMainDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
