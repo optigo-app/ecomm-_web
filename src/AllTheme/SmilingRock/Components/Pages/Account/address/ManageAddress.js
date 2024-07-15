@@ -60,7 +60,7 @@ const ManageAddress = () => {
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
-                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
+                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);     
                 setAddressData(updatedAddressData);
                 fetchData();
                 toast.success('Delete Success');
@@ -75,7 +75,6 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
-    
     const handleOpen = (item, addressIndex = null) => {
         setIsEditMode(addressIndex !== null);
         if (addressIndex !== null && addressData.length > addressIndex) {
@@ -580,8 +579,21 @@ const ManageAddress = () => {
 
                     let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
                     
-                    setDefaultAddress(res);
-                    setAddressData(response?.Data?.rd);
+                    let arr = [];
+                    if(res === undefined){
+                        response?.Data?.rd?.forEach((a, i) => {
+                            let obj = {...a};
+                            if(i === 0){
+                                obj.isdefault = 1;
+                            }
+                            arr.push(obj);
+                        })
+                        setAddressData(arr);
+                        setDefaultAddress(arr[0]);
+                    }else{
+                        setDefaultAddress(res);
+                        setAddressData(response?.Data?.rd);
+                    }
                 }
 
 
