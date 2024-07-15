@@ -444,7 +444,7 @@ const Lookbook = () => {
     seyDataKey(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState("1");
+  const [selectedValue, setSelectedValue] = useState("3");
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -1451,6 +1451,12 @@ const Lookbook = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {selectedValue == 3 && (
+              <div>
+
               </div>
             )}
           </div>
