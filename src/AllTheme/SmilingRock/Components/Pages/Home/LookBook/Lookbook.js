@@ -449,6 +449,11 @@ const Lookbook = () => {
     setSelectedValue(event.target.value);
   };
 
+  console.log(
+    "filteredDesignSetLstDatafilteredDesignSetLstData",
+    filteredDesignSetLstData
+  );
+
   return (
     <div className="smr_LookBookMain">
       <Drawer
@@ -1112,7 +1117,11 @@ const Lookbook = () => {
                 Select View
               </button>
 
-              <select value={selectedValue} onChange={handleChange} className="smr_lookBookViveBoxSet">
+              <select
+                value={selectedValue}
+                onChange={handleChange}
+                className="smr_lookBookViveBoxSet"
+              >
                 <option value="1">Single Block View</option>
                 <option value="2">Double Block View</option>
                 {/* <option value="3">Scroll Block View</option> */}
@@ -1213,29 +1222,11 @@ const Lookbook = () => {
                         style={{ display: dataKey == index && "none" }}
                       >
                         <Swiper
-                          slidesPerView={1}
+                          slidesPerView={3}
                           spaceBetween={10}
                           navigation={true}
                           // pagination={{ clickable: true }}
-                          loop={true}
-                          breakpoints={{
-                            640: {
-                              slidesPerView: 2,
-                              spaceBetween: 0,
-                            },
-                            768: {
-                              slidesPerView: 4,
-                              spaceBetween: 0,
-                            },
-                            1024: {
-                              slidesPerView: 5,
-                              spaceBetween: 0,
-                            },
-                            1240: {
-                              slidesPerView: 4,
-                              spaceBetween: 0,
-                            },
-                          }}
+                          loop={false}
                           modules={[Pagination, Navigation]}
                           className="smr_LookBookmySwiper"
                         >
@@ -1393,29 +1384,11 @@ const Lookbook = () => {
                         </div>
                       </div>
                       <Swiper
-                        slidesPerView={1}
+                        slidesPerView={3}
                         spaceBetween={10}
                         navigation={true}
                         // pagination={{ clickable: true }}
-                        loop={true}
-                        breakpoints={{
-                          640: {
-                            slidesPerView: 2,
-                            spaceBetween: 0,
-                          },
-                          768: {
-                            slidesPerView: 4,
-                            spaceBetween: 0,
-                          },
-                          1024: {
-                            slidesPerView: 5,
-                            spaceBetween: 0,
-                          },
-                          1240: {
-                            slidesPerView: 4,
-                            spaceBetween: 0,
-                          },
-                        }}
+                        loop={false}
                         modules={[Pagination, Navigation]}
                         className="smr_LookBookmySwiper"
                       >

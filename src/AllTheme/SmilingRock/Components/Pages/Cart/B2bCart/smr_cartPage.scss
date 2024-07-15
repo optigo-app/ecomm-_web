@@ -59,7 +59,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
   .smr_cart-title {
     color: $titleColor;
-    padding-bottom: 35px;
+    // padding-bottom: 35px;
     font-size: $fontSize8;
     font-family: $primaryFontFamily !important;
   }
@@ -194,7 +194,7 @@ $cartUpdateBtncolor: #b1b1b1;
     display: flex;
     justify-content: start;
     align-items: start;
-    max-height: 750px;
+    max-height: 755px;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -957,7 +957,7 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 .smr_rightContentDataDiv {
-  max-width: 120px;
+  max-width: 150px;
 }
 
 .smr_cartcontentData {
