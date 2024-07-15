@@ -413,6 +413,19 @@ color: $primaryfontcolor2;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    // height:364px;
+    // overflow-y: scroll;
+}
+.compeletethelook_prodt_for_3 {
+    z-index: 1;
+    position: relative;
+    margin-left: -140px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    height:364px;
+    overflow-y: scroll;
 }
 
 .completethelook_outer {
