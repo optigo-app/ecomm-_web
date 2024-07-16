@@ -8,7 +8,7 @@ export const DesignSetListAPI = async(obj,dno,visiterId) =>{
   const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
 
   const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
-  const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.email1 ?? "";
+  const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.userid ?? "";
   
   let data = {
     PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
