@@ -653,7 +653,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,prodListType,cookie)
+     ProductListApi(output,1,obj,prodListType,cookie,sortBySelect)
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -699,7 +699,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj,prodListType,cookie)
+    ProductListApi(output, value, obj,prodListType,cookie,sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -790,7 +790,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,prodListType,cookie)
+      ProductListApi(output,currPage,obj,prodListType,cookie,sortBySelect)
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
@@ -2879,7 +2879,7 @@ const ProductList = () => {
                                   <div className="smr_prod_Title">
                                     <span
                                       className={
-                                        (productData?.TitleLine?.length > 30 || productData?.TitleLine?.length > 0)
+                                        (productData?.TitleLine?.length > 30 )
                                         ?
                                         "smr1_prod_title_with_width"
                                         :
