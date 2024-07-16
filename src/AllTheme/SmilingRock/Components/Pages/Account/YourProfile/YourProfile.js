@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
+import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 
 
 export default function YourProfile() {
@@ -16,6 +17,8 @@ export default function YourProfile() {
     const [errors, setErrors] = useState({});
 
     const defaultAddress = useRecoilValue(defaultAddressState);
+    const [addressPresentFlag, setAddressPresentFlag] = useState(false);
+
 
     // useEffect(() => {
     //     const storedUserData = localStorage.getItem('loginUserDetail');
@@ -174,6 +177,28 @@ export default function YourProfile() {
         return Object.values(tempErrors).every(x => x === "");
     };
 
+    useEffect(() => {
+        fetchAddress();
+    }, [])
+
+    const fetchAddress = async() => {
+        try {
+            const storedData = localStorage.getItem('loginUserDetail');
+            const data = JSON.parse(storedData);
+            const customerid = data.id;
+            
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
+            
+            const response = await getAddressData(FrontEnd_RegNo, customerid, data);
+            if(response?.Data?.rd?.length > 0){
+                setAddressPresentFlag(true);
+            }    
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
 
     return (
         <div className='smr_yourProfile'>
@@ -185,7 +210,7 @@ export default function YourProfile() {
                 </div>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
-                <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                { addressPresentFlag &&  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>
                             <div className='mobileEditProfileDiv'>
@@ -252,10 +277,10 @@ export default function YourProfile() {
                             </div>
                         </>
                     )}
-                </div>
-                <div>
+                </div>}
+                { addressPresentFlag &&  <div>
                     <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
-                </div>
+                </div>}
             </div>
 
             <Modal
