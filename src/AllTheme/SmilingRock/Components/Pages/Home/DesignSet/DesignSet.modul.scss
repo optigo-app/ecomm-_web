@@ -140,6 +140,13 @@
     text-align: center;
   }
 
+  .smr_designSetViewmoreBtn{
+    color: $titleColor !important;
+    margin-left: 20px !important;
+    text-decoration-color: $titleColor !important;
+    font-size: $fontSize2 !important;
+  }
+
   @media screen and (max-width: 1000px) {
     margin-inline: 10px !important;
 
