@@ -186,6 +186,8 @@
     margin-left:5px;
     color: $primaryfontcolor2;
     margin-top: 12px;
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 
 .Smr_CartAndWish_portion{
@@ -404,6 +406,11 @@ color: $primaryfontcolor2;
     max-width: 1600px;
 }
 
+.smr_Price_breakup_label{
+    width:70px;
+    color: #7d7f85
+}
+
 @media screen and (max-width:1820px) {
     .smr_Swiper_designSet{
         max-width: 1400px;
@@ -562,6 +569,7 @@ color: $primaryfontcolor2;
     align-items: center;
     height:420px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .completethelook_outer {
