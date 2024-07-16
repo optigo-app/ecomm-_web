@@ -312,14 +312,17 @@ const QuotationJob = () => {
 
 
   const handleRequestSort = (property) => {
-    let isAsc = ((orderBy === property) && (order === 'asc'));
-    if(isAsc){
-      setOrder('desc');
-    }else{
-      setOrder('asc');
-    }
+    if(property?.toLowerCase() === 'sr#') return null
+    else{
 
-    setOrderBy(property);
+      let isAsc = ((orderBy === property) && (order === 'asc'));
+      if(isAsc){
+        setOrder('desc');
+      }else{
+        setOrder('asc');
+      }
+      
+      setOrderBy(property);
     const sortedData = stableSort(data, getComparator(order, property));
     setData(sortedData); // Update the data array with sorted data
   
@@ -327,7 +330,8 @@ const QuotationJob = () => {
     const sortedFilterData = stableSort(filterData, getComparator(order, property));
     // setPage(0);
     setFilterData(sortedFilterData);
-
+    
+  }
      
   };
 
@@ -920,7 +924,6 @@ const scrollToTop = () => {
                                 column?.id === 'checkbox' ? 
                                   <Checkbox 
                                     checked={row?.isJobSelected} 
-                                    className='br_bottom_0_JMA'
                                     onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
                                   /> 
                                   : 

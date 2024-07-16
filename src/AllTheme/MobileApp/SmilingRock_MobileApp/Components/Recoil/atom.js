@@ -19,3 +19,8 @@ export const  smrMA_WishCount = atom({
   key: 'WishCount',
   default: 0
 })
+
+export const defaultAddressState = atom({
+  key: 'defaultAddressState',
+  default: null,
+});

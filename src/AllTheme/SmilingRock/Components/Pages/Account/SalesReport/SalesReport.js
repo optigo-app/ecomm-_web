@@ -345,7 +345,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className="salesReporttabelHead">
       <TableRow>
-        {headCells.map((headCell) => (
+        {headCells?.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
