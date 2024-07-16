@@ -28,6 +28,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 
 
@@ -2755,7 +2757,7 @@ const ProductList = () => {
                                   {/* <Button className="smr_wish-icon"> */}
                                   <Checkbox
                                     icon={
-                                      <FavoriteBorderIcon
+                                      <StarBorderIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#7d7f85",
@@ -2764,7 +2766,7 @@ const ProductList = () => {
                                       />
                                     }
                                     checkedIcon={
-                                      <FavoriteIcon
+                                      <StarIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#e31b23",
