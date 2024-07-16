@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./orderhistory.scss";
 import CircleIcon from "@mui/icons-material/Circle";
-import { Box, Chip, CircularProgress, Stack } from "@mui/material";
+import { Box, Chip, CircularProgress, Stack, useMediaQuery } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
@@ -26,6 +26,8 @@ const OrderHistory = () => {
 
   const [showPrint, setShowPrint] = useState(false);
   const [clickedPrintId, setClickedPrintId] = useState(null);
+
+  const smallDevice320px = useMediaQuery('(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px)');
 
   const getStatusColor = (orderType) => {
     switch (orderType) {
@@ -143,7 +145,6 @@ const OrderHistory = () => {
 
   const handleApproveReject = async(e, status) => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    console.log(storeinit);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     let statusId = ''
     if(status === 'approve'){
@@ -160,7 +161,6 @@ const OrderHistory = () => {
       "dp":`{\"FrontEnd_RegNo\":\"${storeinit?.FrontEnd_RegNo}\",\"Customerid\":\"${loginInfo?.id}\",\"orderno\":\"${e?.orderno}\",\"OrderStatusId\":\"${statusId}"\}`
       }
       const response = await CommonAPI(body);
-      console.log(response);
       let arr = [];
 
       if(response?.Status === '200'){
@@ -209,6 +209,11 @@ const OrderHistory = () => {
 
   const handleToggleActions = (id) => {
     setShowActions(id);
+    if(id === showActions){
+      setShowActions(false)
+    }else{
+      setShowActions(id);
+    }
   };
 
   return (
@@ -273,7 +278,6 @@ const OrderHistory = () => {
                         <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                     </div>
                     </div>
-                    <div className="w-50 d-flex flex-column justify-content-around  w-50 ">
                         {/* <MenuIcon className="_color2 " onClick={() => openList(e?.id)} /> */}
                       {/* { e?.IsPLW === 1 ? <div className="w-100 ps-4  d-flex align-items-center justify-content-end pe-4" >
                          <div className="" style={{zIndex:'1000'}}>
@@ -289,44 +293,45 @@ const OrderHistory = () => {
                         </div> 
                         <MoreVertIcon className="_color2 " onClick={() => openList(e?.id)} />
                         </div> : <div>&nbsp;</div> } */}
-                             <div>
-      {e?.IsPLW === 1 ? (
-        <div className="w-100 ps-4 d-flex align-items-center justify-content-end pe-4">
-          <div className={`sidebar ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
-            <Stack direction="row" style={{paddingBottom:'1px'}} spacing={1}>
-            {(showActions === e?.id) && (
-                <>
-                  <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
-                  <Chip
-                    size="small"
-                    label="Reject"
-                    sx={{
-                      backgroundColor: 'black',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: 'black',
-                        color: 'white',
-                        cursor: 'default',
-                      },
-                    }}
-                    onClick={() => handleApproveReject(e, 'reject')}
-                  />
-                </>
-              )}
-            </Stack>
-          </div>
-          <MoreVertIcon className="_color2" onClick={() => handleToggleActions(e.id)} />
-        </div>
-      ) : (
-        <div>&nbsp;</div>
-      )}
-    </div>
+                    { (!smallDevice320px) && <div className=" d-flex flex-column justify-content-around  w-50">
+                            <div>
+                              {e?.IsPLW === 1 ? (
+                                <div className="w-100 ps-4 d-flex align-items-center justify-content-end pe-4">
+                                  <div className={`sidebar ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+                                    <Stack direction="row" style={{paddingBottom:'1px'}} spacing={1}>
+                                    {(showActions === e?.id) && (
+                                        <>
+                                          <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip
+                                            size="small"
+                                            label="Reject"
+                                            sx={{
+                                              backgroundColor: 'black',
+                                              color: 'white',
+                                              '&:hover': {
+                                                backgroundColor: 'black',
+                                                color: 'white',
+                                                cursor: 'default',
+                                              },
+                                            }}
+                                        onClick={() => handleApproveReject(e, 'reject')}
+                                      />
+                                    </>
+                                  )}
+                                </Stack>
+                                </div>
+                                <MoreVertIcon className="_color2" onClick={() => handleToggleActions(e.id)} />
+                              </div>
+                              ) : (
+                                <div>&nbsp;</div>
+                              )}
+                            </div>
                 
                       <div className="py-1 w-100 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none d-flex align-items-center justify-content-end">
+                           { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
                           {/* { e?.OrderStatusId === 1 ? */}
                           {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
                            {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
-                           { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
                           {/* //  :
                             // <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
                             // <div>&nbsp;</div>} */}
@@ -339,8 +344,62 @@ const OrderHistory = () => {
                           <div dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{" "}
                           <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                       </div>
-                    </div>
+                    </div>}
+
                   </div>
+
+                  { smallDevice320px && <div className="w-100 d-flex justify-content-between align-items-center py-2">
+                            <div>
+                              {e?.IsPLW === 1 ? (
+                                <div className="d-flex align-items-center flex-row-reverse">
+                                  <div className={`sidebar d-flex flex-column ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+                                    {/* <Stack direction="col" style={{paddingBottom:'1px'}} spacing={1}> */}
+                                    <div style={{padding:'2px'}}>
+
+                                    {(showActions === e?.id) && (
+                                      <>
+                                          <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip
+                                            size="small"
+                                            label="Reject"
+                                            sx={{
+                                              backgroundColor: 'black',
+                                              color: 'white',
+                                              '&:hover': {
+                                                backgroundColor: 'black',
+                                                color: 'white',
+                                                cursor: 'default',
+                                              },
+                                            }}
+                                        onClick={() => handleApproveReject(e, 'reject')}
+                                      />
+                                    </>
+                                  )}
+                                            </div>
+                                    {/* </Stack> */}
+                                </div>
+                                <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
+                              </div>
+                              ) : (
+                                <div>&nbsp;</div>
+                              )}
+                            </div>
+                
+                          <div className="d-flex align-items-center justify-content-end">
+                              { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                              {/* { e?.OrderStatusId === 1 ? */}
+                              {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
+                              {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
+                              {/* //  :
+                                // <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
+                                // <div>&nbsp;</div>} */}
+                          </div>
+                          { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
+                          { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+                            { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
+                          </span> }
+                          
+                    </div>}
               
                   <div className="">
       <div style={{ height: '10px', cursor: 'pointer' }} title="info" className="border-top"></div>
