@@ -112,6 +112,10 @@ const DesignSet = () => {
 
     const handleNavigate = () => {
         navigate("/Lookbook");
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
     }
 
 
@@ -136,7 +140,7 @@ const DesignSet = () => {
                         />
                         <div className="collection-info">
                             <h3>{slide?.designsetno}</h3>
-                            <button onClick={handleViewAll}>View Collection</button>
+                            <button onClick={handleNavigate}>View More</button>
                         </div>
                     </div>
                 ))}
