@@ -1979,7 +1979,7 @@ const ProductDetail = () => {
                   )}
 
                 <div className="smr_DesignSet_main">
-                  <div
+                  { designSetList?.length > 0 && <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
@@ -1996,9 +1996,9 @@ const ProductDetail = () => {
                     >
                       Complete The Look
                     </p>
-                  </div>
+                  </div>}
 
-                  <div className="smr_Swiper_designSet" style={{maxWidth:'1600px'}}>
+                  <div className="smr_Swiper_designSet" >
                     <Swiper
                       modules={[Navigation, Pagination, Scrollbar]}
                       // spaceBetween={50}
