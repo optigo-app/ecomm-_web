@@ -348,7 +348,7 @@ const OrderHistory = () => {
 
                   </div>
 
-                  { smallDevice320px && <div className="w-100 d-flex justify-content-between align-items-center py-2">
+                  { smallDevice320px && <div className="w-100 d-flex justify-content-between align-items-center py-2"  style={{minHeight:'55px'}}>
                             <div>
                               {e?.IsPLW === 1 ? (
                                 <div className="d-flex align-items-center flex-row-reverse">
@@ -394,10 +394,12 @@ const OrderHistory = () => {
                                 // <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
                                 // <div>&nbsp;</div>} */}
                           </div>
-                          { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
-                          { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
-                            { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
-                          </span> }
+                          <div className="d-flex align-items-center text-break" style={{width:'18%'}}>  
+                            { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
+                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+                              { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
+                            </span> }
+                          </div>
                           
                     </div>}
               

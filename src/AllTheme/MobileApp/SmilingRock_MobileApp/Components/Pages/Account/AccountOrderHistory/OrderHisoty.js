@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./orderhistory.scss";
 import CircleIcon from "@mui/icons-material/Circle";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Chip, CircularProgress, Stack, useMediaQuery } from "@mui/material";
 import { formatAmount } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
-
 import { getOrderHistory, getOrderItemDetails, handleOrderImageError } from "../../../../../../../utils/API/AccountTabs/OrderHistory";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import MobViewHeader from "../MobViewHeader/MobViewHeader";
-import Pako from "pako";
 import { useNavigate } from "react-router-dom";
-
-
+import Pako from "pako";
+import MenuIcon from '@mui/icons-material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { CommonAPI } from "../../../../../../../utils/API/CommonAPI/CommonAPI";
+import PrintIcon from '@mui/icons-material/Print';
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
 const OrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -20,7 +21,14 @@ const OrderHistory = () => {
   const [ukey, setUkey] = useState('');
   const [image_path, setImagePath] = useState('');
   const navigate = useNavigate();
+  // const [openListStatus, setOpenListStatus] = useState(false);
+  const [openListStatus, setOpenListStatus] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const [showPrint, setShowPrint] = useState(false);
+  const [clickedPrintId, setClickedPrintId] = useState(null);
+
+  const smallDevice320px = useMediaQuery('(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px)');
 
   const getStatusColor = (orderType) => {
     switch (orderType) {
@@ -47,45 +55,7 @@ const OrderHistory = () => {
 
 
     try {
-      // let EncodeData = {
-      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-      //   Customerid: `${loginInfo?.id}`,
-      // };
-
-      // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
-
-      // const body_currencycombo = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-      //   f: "m-test2.orail.co.in (getcategorysize)",
-      //   p: `${encodedCombinedValue}`,
-      // };
-
-      // const response = await CommonAPI(body_currencycombo);
-
-      // const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-
-      // let EncodeData_order_history = {
-      //   CurrencyRate: `${CurrencyRate}`,
-      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-      //   Customerid: `${loginInfo?.id}`,
-      // };
-
-      // // const encodedCombinedValue2 = btoa(
-      // //   JSON.stringify(EncodeData_order_history)
-      // // );
-      // const encodedCombinedValue2 = (
-      //   JSON.stringify(EncodeData_order_history)
-      // );
-
-      // const body_order_history = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORY\",\"appuserid\":\"${UserEmail}\"}`,
-      //   f: "zen (cartcount)",
-      //   // p: `${encodedCombinedValue2}`,
-      //   dp: `${encodedCombinedValue2}`,
-      // };
-
-      // const response2 = await CommonAPI(body_order_history);
-
+  
       const response = await getOrderHistory(storeinit, loginInfo, UserEmail);
 
       if (response?.Status === "200") {
@@ -124,49 +94,6 @@ const OrderHistory = () => {
     const UserEmail = localStorage.getItem("userEmail");
     try {
 
-
-      // let EncodeData = {
-      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-      //   Customerid: `${loginInfo?.id}`,
-      // };
-      
-      // // const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
-      // const encodedCombinedValue = (JSON.stringify(EncodeData));
-
-      // const body_currencycombo = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"CURRENCYCOMBO\",\"appuserid\":\"${UserEmail}\"}`,
-      //   f: "m-test2.orail.co.in (getcategorysize)",
-      //   p: `${encodedCombinedValue}`,
-      // };
-
-      // const response = await CommonAPI(body_currencycombo);
-      // console.log(response);
-
-      // const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-      // let EncodeData_order_history = {
-      //   orderno: `${obj?.orderno}`,
-      //   isStockPrint: "1",
-      //   CurrencyRate: `${CurrencyRate}`,
-      //   FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
-      //   Customerid: `${loginInfo?.id}`,
-      // };
-
-      // const encodedCombinedValue2 = btoa(
-      //   JSON.stringify(EncodeData_order_history)
-      // );
-      // // const encodedCombinedValue2 = ( JSON.stringify(EncodeData_order_history));
-
-      // // console.log(encodedCombinedValue2);
-
-      // const body_order_detail = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORYDETAIL\",\"appuserid\":\"${UserEmail}\"}`,
-      //   f: "zen (cartcount)",
-      //   p: `${encodedCombinedValue2}`,
-      //   // dp: `${encodedCombinedValue2}`,
-      // };
-
-      // const response2 = await CommonAPI(body_order_detail);
-      
       const response2 = await getOrderItemDetails(obj, storeinit, loginInfo, UserEmail);
       
       if (response2?.Status === '200') {
@@ -217,6 +144,80 @@ const OrderHistory = () => {
     }
   };
 
+  const handleApproveReject = async(e, status) => {
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let statusId = ''
+    if(status === 'approve'){
+        statusId = 0;
+    }else if(status === 'reject'){
+      statusId = 2;
+    }
+
+    const UserEmail = localStorage.getItem("registerEmail");
+
+    const body = {
+      "con":`{\"id\":\"Store\",\"mode\":\"SetOrderStatus\",\"appuserid\":\"${UserEmail}\"}`,
+      "f":"Postman",
+      "dp":`{\"FrontEnd_RegNo\":\"${storeinit?.FrontEnd_RegNo}\",\"Customerid\":\"${loginInfo?.id}\",\"orderno\":\"${e?.orderno}\",\"OrderStatusId\":\"${statusId}"\}`
+      }
+
+      const response = await CommonAPI(body);
+      let arr = [];
+
+      if(response?.Status === '200'){
+        setOpenListStatus(false);
+        setShowActions(false)
+         orderHistoryData?.map((e) => {
+          let obj = {...e};
+          if(obj?.orderno === response?.Data?.rd[0]?.orderno){
+            obj.OrderStatusName = response?.Data?.rd[0]?.OrderStatusName;
+          }
+          arr.push(obj);
+          
+          
+         })
+
+         setOrderHistoryData(arr);
+      }
+
+  };
+
+  const openList = (id) => {
+    setOpenListStatus(openListStatus === id ? null : id); // Toggle the list status by item id
+  };
+
+  const getStatusColor2 = (status) => {
+    if(status?.toLowerCase() === 'approved'){
+      return "bg-success text-white";
+    }else if(status?.toLowerCase() === 'rejected') {
+      return "bg-dark text-white"
+    }else{
+      return "_color3"
+    }
+    // }else if(status?.toLowerCase() === 'approval pending'){
+    //   return "_color3"
+    // }else{
+    //   return null
+    // }
+  };
+
+  const handlePrintOH = (id) => {
+    setShowPrint(!showPrint);
+    setClickedPrintId(id);
+  }
+
+  const [showActions, setShowActions] = useState(false);
+
+  const handleToggleActions = (id) => {
+    setShowActions(id);
+    if(id === showActions){
+      setShowActions(false)
+    }else{
+      setShowActions(id);
+    }
+  };
+
   return (
     <div>
 
@@ -231,8 +232,9 @@ const OrderHistory = () => {
           {orderHistoryData?.length > 0 ?
             orderHistoryData?.map((e) => {
               return (
-                <div className="border orderHistory p-1 px-0 my-4" key={e?.id} onClick={() => handleClick(e)}>
-                  <div className=" d-flex w-100 justify-content-between align-items-center p-1 d_block">
+                // <div className="border orderHistory p-1 px-0 my-4" key={e?.id} onClick={() => handleClick(e)}>
+                <div className="border orderHistory p-1 px-0 my-4" key={e?.id}>
+                  <div className=" d-flex w-100 justify-content-between align-items-center p-1 d_block" onClick={() => handleClick(e)}>
                     <div className="w_25_oh _w50_oh order_none">
                       <div className="d-flex justify-content-start w-100 align-items-center py-2 d_block">
                         <div className="text-secondary fw-bold fs-5 ps-3 pe-5 fs_Small_2">
@@ -287,62 +289,56 @@ const OrderHistory = () => {
                         <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                     </div>
                   </div>
-              
-                  {/* <div>
-                    <div style={{ height: "10px", cursor: "pointer" }} title="info" className=" border-top" ></div>
-                    {orderInfo === e?.id ? (
-                      <>
-                        {
-                          loaderOH2 ? 
-                          <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-                          <div className="p_4_oh ">
-                            <div className="d-flex flex-wrap align-items-center center_price_2 d_block">
-                              <div className="container">
-                                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 row-cols-xxl-4 g-4 pb-3">
-                                  {orderDetails?.length > 0 &&
-                                    orderDetails.map((el, index) => (
-                                      <div 
-                                        key={index} 
-                                        className={`col ${orderDetails.length === 1 ? 'col-12' : 'col-1'}`} 
-                                        style={{ minWidth: orderDetails.length === 1 ? '100%' : '25%' }}
-                                      >
-                                        <div className="card h-100">
-                                          <img
-                                            src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
-                                            onError={(e) => handleOrderImageError(e)}
-                                            alt="#designimage"
-                                            className="card-img-top h-100"
-                                          />
-                                          <div className="card-body">
-                                            <h5 className="card-title">{el?.metaltypename} {el?.metalcolorname}</h5>
-                                            <p className="card-text">{el?.designno}</p>
-                                            <p className="card-text">
-                                              <span dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
+                    <div className="w-100 d-flex justify-content-between align-items-center py-2" style={{minHeight:'55px'}}>
+                            <div className="w-50 d-flex justify-content-end align-items-center">
+                              {e?.IsPLW === 1 ? (
+                                <div className="d-flex align-items-center">
+                                  <div className={`sidebar d-flex flex-column ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+                                    {/* <Stack direction="col" style={{paddingBottom:'1px'}} spacing={1}> */}
+                                    <div style={{padding:'2px'}}>
+                                    {(showActions === e?.id) && (
+                                      <>
+                                          <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip
+                                            size="small"
+                                            label="Reject"
+                                            sx={{
+                                              backgroundColor: 'black',
+                                              color: 'white',
+                                              '&:hover': {
+                                                backgroundColor: 'black',
+                                                color: 'white',
+                                                cursor: 'default',
+                                              },
+                                            }}
+                                        onClick={() => handleApproveReject(e, 'reject')}
+                                      />
+                                    </>
+                                  )}
+                                            </div>
+                                    {/* </Stack> */}
                                 </div>
+                                <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
                               </div>
+                              ) : (
+                                <div>&nbsp;</div>
+                              )}
                             </div>
-                            <div className="pt-2 _end">
-                              <div className="d_flex_oh justify-content-between align-items-center fs-4 w-25 w25_oh  text-secondary _w50_oh_2 fs_small order_none" style={{ width: '30% !important' }}>
-                                <div style={{ width: '40%' }}>Total :</div>
-                                <div style={{ width: '60%' }} className="d-flex align-items-center"> <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{formatAmount(e?.orderAmountwithvat)}</div>
-                              </div>
-                              <div className="d_flex_oh justify-content-between align-items-center  text-secondary fs_small order_not_none">
-                                <div className="d-flex align-items-center w-100 pe-4"><div>Total :</div> <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{formatAmount(e?.orderAmountwithvat)}</div>
-                              </div>
-                            </div>
+                
+                          <div className="d-flex align-items-center justify-content-end">
+                              { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
                           </div>
-                        }
-
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div> */}
+                          <div className="d-flex align-items-center text-break" style={{width:'18%'}}>  
+                            { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
+                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+                              { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
+                            </span> }
+                          </div>
+                          
+                    </div>
+                  
+              
+                 
                   <div>
       <div style={{ height: '10px', cursor: 'pointer' }} title="info" className="border-top"></div>
       {orderInfo === e?.id ? (
@@ -422,13 +418,3 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
-
-// import React from 'react'
-
-// const OrderHisoty = () => {
-//   return (
-//     <div>OrderHisoty</div>
-//   )
-// }
-
-// export default OrderHisoty
