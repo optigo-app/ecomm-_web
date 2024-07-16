@@ -1445,7 +1445,7 @@ const ProductDetail = () => {
                                 {
                                   background: "none",
                                 },
-                              width:'386px'
+                              width:'95.5%'
                             }}
                           >
                             <AccordionSummary
