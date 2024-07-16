@@ -257,11 +257,20 @@ const ManageAddress = () => {
         // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
+        } else if(formData.firstName?.length < 3){
+            errors.firstName = 'First Name too short';
+        } else if(formData.firstName?.length > 25){
+            errors.firstName = 'FIrst Name too long';
         } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
             errors.firstName = 'First Name must contain only letters';
         }
+
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
+        } else if(formData.lastName?.length < 3){
+            errors.lastName = 'Last Name is too short';
+        } else if(formData.lastName?.length > 25){
+            errors.lastName = 'Last Name is too long';
         } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
             errors.lastName = 'Last Name must contain only letters';
         }
@@ -444,6 +453,10 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.firstName = 'First Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.firstName = 'First Name is too long';
                 } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.firstName = 'Invalid First Name';
                 } else {
@@ -453,6 +466,10 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.lastName = 'Last Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.lastName = 'Last Name is too long';
                 } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.lastName = 'Invalid Last Name';
                 } else {
@@ -576,7 +593,7 @@ const ManageAddress = () => {
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
-
+                    
                     let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
                     
                     let arr = [];
@@ -590,9 +607,11 @@ const ManageAddress = () => {
                         })
                         setAddressData(arr);
                         setDefaultAddress(arr[0]);
+                        
                     }else{
                         setDefaultAddress(res);
                         setAddressData(response?.Data?.rd);
+                        
                     }
                 }
 
