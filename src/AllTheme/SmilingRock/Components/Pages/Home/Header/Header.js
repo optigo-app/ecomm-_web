@@ -359,6 +359,7 @@ const Header = () => {
 
         navigate(`/d/${searchText}?p=${encodeObj}`);
         toggleOverlay();
+        setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
         // }
