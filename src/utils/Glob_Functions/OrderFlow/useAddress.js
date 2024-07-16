@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 // import { toast } from 'react-toastify';
 import { fetchAddresses, addAddress, editAddress, deleteAddress, setDefaultAddress } from '../../API/OrderFlow/DeliveryAPI';
+import { toast } from 'react-toastify';
 
 export const useAddress = () => {
     const [addressData, setAddressData] = useState([]);
@@ -218,13 +219,13 @@ export const useAddress = () => {
         if (address && address.isdefault === 1) {
             return;
         }
-    
+
         setIsLoading(true);
-        
+
         try {
             const updatedAddressData = await setDefaultAddress(addressId, addressData);
             console.log('updatedAddressData', updatedAddressData);
-            if(updatedAddressData[0]?.stat == 1){
+            if (updatedAddressData[0]?.stat == 1) {
                 fetchInitialData();
             }
         } catch (error) {
@@ -233,7 +234,7 @@ export const useAddress = () => {
             setIsLoading(false);
         }
     };
-    
+
     useEffect(() => {
         const defaultAddressItem = addressData.find(item => item.isdefault === 1);
         if (defaultAddressItem) {
@@ -246,11 +247,26 @@ export const useAddress = () => {
 
 
     const proceedToOrder = (navigation) => {
-        if (addressData.some((item) => item.isdefault === 1)) {
+        if (!addressData || addressData?.length === 0) {
+            return;
+        }
+
+        const requiredFields = ['addressprofile', 'city', 'state', 'country', 'zip', 'street', 'shippingfirstname', 'shippinglastname', 'shippingmobile'];
+        const defaultAddressExists = addressData?.some((item) => item.isdefault === 1);
+
+        const addressIsValid = addressData?.every((address) => {
+            const hasEmptyField = requiredFields?.some((field) => !address[field] || address[field]?.trim() === '');
+            if (hasEmptyField) {
+                toast.error('Please fill in all required fields');
+            }
+            return !hasEmptyField;
+        });
+
+        if (addressIsValid && defaultAddressExists) {
             navigation('/payment');
             window.scrollTo(0, 0);
-        } else {
-
+        } else if (addressIsValid && !defaultAddressExists) {
+            toast.error('Please first select the shipping address');
         }
     };
 
