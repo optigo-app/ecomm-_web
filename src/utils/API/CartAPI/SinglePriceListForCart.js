@@ -7,7 +7,7 @@ export const GetSinglePriceListApi = async (item) => {
   const storeInit = JSON.parse(localStorage.getItem("storeInit"))
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
   const islogin = JSON.parse(localStorage.getItem("LoginUser"))
-  const UserEmail = localStorage.getItem("registerEmail")
+  const customerEmail = data?.userid ?? "";
 
 
   
@@ -46,7 +46,7 @@ export const GetSinglePriceListApi = async (item) => {
   const encodedCombinedValue = btoa(JSON.stringify(GetPriceReq));
 
   let body = {
-    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${UserEmail}\"}`,
+    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${customerEmail}\"}`,
     "f": "cartPagePriceApi (fullProdInfo)",
     "p": encodedCombinedValue,
     "dp":JSON.stringify(GetPriceReq)
