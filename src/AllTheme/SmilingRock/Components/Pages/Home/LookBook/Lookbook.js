@@ -29,7 +29,7 @@ import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/
 import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Pagination, FreeMode, Navigation, Thumbs, Scrollbar } from "swiper/modules";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import ProductListSkeleton from "../../Product/ProductList/productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
@@ -1522,7 +1522,7 @@ const Lookbook = () => {
                       navigation={true}
                       loop={true}
                       thumbs={{ swiper: thumbsSwiper }}
-                      modules={[FreeMode, Navigation, Thumbs]}
+                      modules={[FreeMode, Navigation, Thumbs, Scrollbar]}
                       className="smr_LookBookmySwiper mySwiper2"
                     >
                       {filteredDesignSetLstData?.map((slide, index) => (
@@ -1549,7 +1549,7 @@ const Lookbook = () => {
 
                                 {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
                                   <div key={subIndex} className='completethelook_outer' style={{ borderTop: subIndex !== 0 ? 'none' : '', width: '513px', padding: '5px', border: '1px solid #e1e1e1', backgroundColor: '#fff' }}>
-                                    <div style={{ display: 'flex', gap: '60px', justifyContent: 'space-around' }}>
+                                    <div className="smr_lookbookMainDivdata" style={{ display: 'flex', gap: '40px', justifyContent: 'space-around' }}>
                                       <div style={{ marginLeft: '12px' }}>
                                         <img
                                           src={ele?.ImageCount > 0 ?
@@ -1601,25 +1601,52 @@ const Lookbook = () => {
                     </Swiper>
                     <div className="smr_lookbook3thumbMainDiv">
                       {filteredDesignSetLstData?.length != 0 &&
-                        <Swiper
-                          onSwiper={setThumbsSwiper}
-                          spaceBetween={10}
-                          slidesPerView={20}
-                          freeMode={true}
-                          watchSlidesProgress={true}
-                          modules={[FreeMode, Navigation, Thumbs]}
-                          className="mySwiper"
-                        >
-                          {filteredDesignSetLstData?.map((slide, index) => (
-                            <SwiperSlide key={index}>
-                              <img
-                                src={ProdCardImageFunc(slide)}
-                                alt=""
-                                className="ctl_Paginationimg"
-                              />
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
+                      <Swiper
+                      onSwiper={setThumbsSwiper}
+                      spaceBetween={10}
+                      slidesPerView={20}
+                      freeMode={true}
+                      watchSlidesProgress={true}
+                      modules={[FreeMode, Navigation, Thumbs]}
+                      className="mySwiper"
+                      breakpoints={{
+                        320: {
+                          slidesPerView: 2,
+                          spaceBetween: 10,
+                        },
+                        480: {
+                          slidesPerView: 3,
+                          spaceBetween: 10,
+                        },
+                        640: {
+                          slidesPerView: 4,
+                          spaceBetween: 10,
+                        },
+                        768: {
+                          slidesPerView: 5,
+                          spaceBetween: 10,
+                        },
+                        1024: {
+                          slidesPerView: 10,
+                          spaceBetween: 10,
+                        },
+                        1280: {
+                          slidesPerView: 20,
+                          spaceBetween: 10,
+                        }
+                      }}
+                    >
+                      {filteredDesignSetLstData?.map((slide, index) => (
+                        <SwiperSlide key={index}>
+                          <img
+                            src={ProdCardImageFunc(slide)}
+                            alt=""
+                            className="ctl_Paginationimg"
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                    
                       }
                     </div>
                   </>

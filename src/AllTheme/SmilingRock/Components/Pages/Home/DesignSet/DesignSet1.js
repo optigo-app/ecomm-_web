@@ -140,7 +140,7 @@ const DesignSet = () => {
                         />
                         <div className="collection-info">
                             <h3>{slide?.designsetno}</h3>
-                            <button onClick={handleNavigate}>View More</button>
+                            {/* <button onClick={handleNavigate}>View More</button> */}
                         </div>
                     </div>
                 ))}
