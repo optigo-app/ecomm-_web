@@ -37,12 +37,10 @@ import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-// import DemolookBook from "./demoLookBook";
 
 import { RxGrid } from "react-icons/rx";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { TfiLayoutGrid3 } from "react-icons/tfi";
-import DemolookBook from "./demoLookBook";
 
 
 const Lookbook = () => {
@@ -395,13 +393,13 @@ const Lookbook = () => {
     return designSetLstData
       ?.map((set) => ({
         ...set,
-        Designdetail: JSON.stringify(
-          JSON.parse(set.Designdetail).filter((detail) =>
-            selectedCategories.includes(detail.CategoryName)
+        Designdetail: JSON?.stringify(
+          JSON.parse(set.Designdetail)?.filter((detail) =>
+            selectedCategories?.includes(detail.CategoryName)
           )
         ),
       }))
-      .filter((set) => JSON.parse(set.Designdetail).length > 0);
+      ?.filter((set) => JSON?.parse(set.Designdetail).length > 0);
   };
 
   const filteredDesignSetLstData = filterDesignSetsByCategory(
@@ -1034,7 +1032,7 @@ const Lookbook = () => {
                               overflow: "auto",
                             }}
                           >
-                            {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
+                            {(JSON?.parse(ele?.options) ?? [])?.map((opt, i) => (
                               <div
                                 style={{
                                   display: "flex",
@@ -1259,7 +1257,7 @@ const Lookbook = () => {
                         style={{ display: dataKey == index && "none" }}
                       >
                         <Swiper
-                          slidesPerView={3}
+                          slidesPerView={4}
                           spaceBetween={10}
                           navigation={true}
                           // pagination={{ clickable: true }}
@@ -1319,7 +1317,7 @@ const Lookbook = () => {
                                       className="smr_lookBookAddtoCartBtn"
                                       onClick={() => handleAddToCart(detail)}
                                     >
-                                      ADD TO CART
+                                      ADD TO CART +
                                     </button>
                                   )}
                                 </div>
@@ -1359,7 +1357,11 @@ const Lookbook = () => {
                     <div
                       style={{
                         display: dataKey == index && "none",
+                        display:'flex',
                         width: "70%",
+                        justifyContent:'space-around',
+                        alignItems:'center',
+                        flexDirection:'column'
                       }}
                     >
                       <div
@@ -1367,6 +1369,8 @@ const Lookbook = () => {
                         style={{
                           display: dataKey == index ? "none" : "flex",
                           justifyContent: "space-between",
+                          width:'100%',
+                          padding:'0px 15px',
                           margin: "5px",
                         }}
                       >
@@ -1421,7 +1425,7 @@ const Lookbook = () => {
                         </div>
                       </div>
                       <Swiper
-                        slidesPerView={3}
+                        slidesPerView={4}
                         spaceBetween={10}
                         navigation={true}
                         // pagination={{ clickable: true }}
@@ -1477,7 +1481,7 @@ const Lookbook = () => {
                                     className="smr_lookBookAddtoCartBtn"
                                     onClick={() => handleAddToCart(detail)}
                                   >
-                                    ADD TO CART
+                                    ADD TO CART +
                                   </button>
                                 )}
                               </div>
@@ -1492,7 +1496,7 @@ const Lookbook = () => {
             )}
 
             {selectedValue == 3 && (
-              <div>
+              <div className="smr_lookbook3MainDiv">
                 <Swiper
                   slidesPerView={1}
                   spaceBetween={10}
@@ -1513,10 +1517,11 @@ const Lookbook = () => {
                             />
                           </div>
                           <div className="compeletethelook_prodt">
+                            
                             {/* Mapping over sortDesignDetailsBySrNo result */}
                             {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
                               <div key={subIndex} className='completethelook_outer' style={{ borderTop: subIndex !== 0 ? 'none' : '', width: '513px', padding: '5px', border: '1px solid #e1e1e1', backgroundColor: '#fff' }}>
-                                <div style={{ display: 'flex', gap: '60px' }}>
+                                <div style={{ display: 'flex', gap: '60px', justifyContent:'space-around' }}>
                                   <div style={{ marginLeft: '12px' }}>
                                     <img
                                       src={ele?.ImageCount > 0 ?

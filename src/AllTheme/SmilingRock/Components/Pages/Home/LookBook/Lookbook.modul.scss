@@ -70,9 +70,12 @@
     height: 35px;
     width: 150px;
     border: none;
-    background-color: lightgray;
     font-weight: 500;
     border-radius: 3px;
+    color: #fff;
+    border: 1px solid #7d7f85;
+    background: #7d7f85;
+    border-radius: 6px;
   }
 
   .smr_lookBookFilterSubDiv {
@@ -102,7 +105,7 @@
   }
 
   .smr_lookBookSliderSubDiv {
-    width: 33.33% !important;
+    // width: 33.33% !important;
     position: relative;
   }
 
@@ -126,10 +129,13 @@
   .smr_lookBookBuyBtn {
     height: 30px;
     width: 100px;
-    background-color: lightgray;
     font-size: 15px;
     border: none;
     font-weight: 600;
+    color: #fff;
+    border: 1px solid #7d7f85;
+    border-radius: 6px;
+    background: #7d7f85;
   }
 
   .smr_lookBookAddtoCartBtn {
@@ -138,6 +144,10 @@
     border: none;
     font-size: 13px;
     font-weight: 600;
+    color: #7d7f85;
+    border: 1px solid #7d7f85;
+    border-radius: 6px;
+    background: none;
   }
 
 
@@ -158,7 +168,10 @@
     border: none;
     font-size: 13px;
     font-weight: 600;
-    background-color: #cfffcf;
+    color: #fff;
+    border: 1px solid #c0bbb1;
+    border-radius: 6px;
+    background: #c0bbb1;
   }
 
   .smr_lookBookAddtoCartIconBtn {
@@ -267,58 +280,64 @@
   }
 }
 
+.smr_lookbook3MainDiv {
 
-.compeletethelook_cont {
-  padding: 0px 85px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
+  .compeletethelook_cont {
+    padding: 0px 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 
-.compeletethelook_prodt {
-  z-index: 1;
-  position: relative;
-  margin-left: -140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+  .compeletethelook_prodt {
+    z-index: 1;
+    position: relative;
+    margin-left: -140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    max-height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 
-.completethelook_outer {
-  padding: 5px;
-  border: 1px solid #e1e1e1;
-  background-color: #fff;
-  width: 513px
-}
+  .completethelook_outer {
+    padding: 5px;
+    border: 1px solid #e1e1e1;
+    background-color: #fff;
+    width: 513p
+  }
 
-.srthelook_img {
-  width: 110px;
-  height: 110px;
-  object-fit: cover;
-}
+  .srthelook_img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+  }
 
-.srthelook_prodinfo {
-  display: flex;
-  align-items: center;
-  // border-bottom: 1px solid #e1e1e1;
-  gap: 158px;
-}
+  .srthelook_prodinfo {
+    display: flex;
+    align-items: center;
+    // border-bottom: 1px solid #e1e1e1;
+    gap: 158px;
+  }
 
-.srthelook_prodinfo_inner {
-  font-family: $primaryFontFamilyMedium;
-}
+  .srthelook_prodinfo_inner {
+    font-family: $primaryFontFamilyMedium;
+  }
 
-.smr_ctlImg_containe {
-  width: 951px;
-  height: 632px;
-}
+  .smr_ctlImg_containe {
+    width: 951px;
+    height: 632px;
+  }
 
-.ctl_img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  margin-top: 12px;
-  margin-bottom: -100px;
+  .ctl_img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    margin-top: 12px;
+    margin-bottom: -100px;
+  }
 }

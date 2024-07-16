@@ -9,7 +9,7 @@ import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
 import TrendingView from './TrandingView/TrendingView';
-import DesignSet from './DesignSet/DesignSet';
+import DesignSet from './DesignSet/DesignSet1';
 import Album from './Album/Album';
 import NewArrival from './NewArrival/NewArrival';
 import BestSellerSection from './BestSellerSection/BestSellerSection';

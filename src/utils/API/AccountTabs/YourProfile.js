@@ -13,7 +13,7 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo, userD
         state: `${editedUserData.state}`, 
         country: `${userData.defaddress_country}`, 
         zip: `${userData.defaddress_zip}`, 
-        mobile: `${userData.defaddress_shippingmobile}`, 
+        mobileno: `${userData.defaddress_shippingmobile}`, 
         FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
         Customerid: `${editedUserData.id}`
     });
@@ -22,7 +22,8 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo, userD
     const body = {
         "con": `{\"id\":\"\",\"mode\":\"EDITPROFILE\",\"appuserid\":\"${data?.userid}\"}`,
         "f": "YourProfile (EditProfile)",
-        p: encodedCombinedValue
+        p: encodedCombinedValue,
+        dp: combinedValue,
     };
     const response = await CommonAPI(body);
     

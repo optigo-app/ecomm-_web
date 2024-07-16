@@ -60,7 +60,7 @@ const ManageAddress = () => {
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
-                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
+                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);     
                 setAddressData(updatedAddressData);
                 fetchData();
                 toast.success('Delete Success');
@@ -75,7 +75,6 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
-    
     const handleOpen = (item, addressIndex = null) => {
         setIsEditMode(addressIndex !== null);
         if (addressIndex !== null && addressData.length > addressIndex) {
@@ -120,126 +119,177 @@ const ManageAddress = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errors = {};
+        e.preventDefault(); // Prevent default form submission
+    
+        const errors = {}; // Initialize errors object
+    
+        // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
+        } else if(formData.firstName?.length < 3){
+            errors.firstName = 'First Name too short';
+        } else if(formData.firstName?.length > 25){
+            errors.firstName = 'FIrst Name too long';
+        } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+            errors.firstName = 'First Name must contain only letters';
         }
+
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
+        } else if(formData.lastName?.length < 3){
+            errors.lastName = 'Last Name is too short';
+        } else if(formData.lastName?.length > 25){
+            errors.lastName = 'Last Name is too long';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.lastName = 'Last Name must contain only letters';
         }
+    
+        // if (!formData.lastName.trim()) {
+        //     errors.lastName = 'Last Name is required';
+        // }
+    
+        // if (!formData.mobileNo.trim()) {
+        //     errors.mobileNo = 'Mobile No. is required';
+        // }
         if (!formData.mobileNo.trim()) {
             errors.mobileNo = 'Mobile No. is required';
+        } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
+            errors.mobileNo = 'Mobile No. must contain exactly 10 numbers';
         }
+    
         if (!formData.address.trim()) {
             errors.address = 'Address is required';
         }
+    
+        // if (!formData.country.trim()) {
+        //     errors.country = 'Country is required';
+        // }
         if (!formData.country.trim()) {
-            errors.country = 'Country is required';
+            errors.country = 'Country Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.country = 'Country Name must contain only letters';
         }
         if (!formData.state.trim()) {
-            errors.state = 'State is required';
+            errors.state = 'State Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.state = 'State Name must contain only letters';
         }
         if (!formData.city.trim()) {
-            errors.city = 'City is required';
+            errors.city = 'City Name is required';
+        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+            errors.city = 'City Name must contain only letters';
         }
+    
+        // if (!formData.state.trim()) {
+        //     errors.state = 'State is required';
+        // }
+    
+        // if (!formData.city.trim()) {
+        //     errors.city = 'City is required';
+        // }
+    
+        // if (!formData.zipCode.trim()) {
+        //     errors.zipCode = 'ZIP Code is required';
+        // }
         if (!formData.zipCode.trim()) {
             errors.zipCode = 'ZIP Code is required';
+        } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
+            errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
         }
-
+        // If there are any errors, update state and return
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
-        } else {
+            return;
+        }
+    
+        try {
+            setIsLoading(true); // Set loading state
+    
+            const storedData = localStorage.getItem('loginUserDetail');
+            const data = JSON.parse(storedData);
+            const customerid = data.id;
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
+    
+            let response;
+    
             if (isEditMode) {
-                try {
-                    setOpen(false);
-                    setIsLoading(true);
-                    const storedData = localStorage.getItem('loginUserDetail');
-                    const data = JSON.parse(storedData);
-                    const customerid = data.id;
-                    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                    const { FrontEnd_RegNo } = storeInit;
-                    const response = await handleEditAddress(editId, formData, FrontEnd_RegNo, customerid, storeInit, data);
-                    
-                    if (response?.Data?.rd[0]?.stat === 1) {
-                        toast.success('Edit success');
-                        const editedAddress = {
-                            ...addressData[editAddressIndex],
-                            shippingfirstname: formData.firstName,
-                            shippinglastname: formData.lastName,
-                            street: formData.address,
-                            country: formData.country,
-                            state: formData.state,
-                            city: formData.city,
-                            zip: formData.zipCode,
-                            shippingmobile: formData.mobileNo
-                        };
-                        const updatedAddressData = [...addressData];
-                        updatedAddressData[editAddressIndex] = editedAddress;
-                        setAddressData(updatedAddressData);
-                    } else {
-                        toast.error('error');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                } finally {
-                    setIsLoading(false);
+                // Handle edit mode
+                setOpen(false); // Close modal or dialog
+    
+                response = await handleEditAddress(
+                    editId,
+                    formData,
+                    FrontEnd_RegNo,
+                    customerid,
+                    storeInit,
+                    data
+                );
+    
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    // Handle successful edit
+                    toast.success('Edit success');
+    
+                    const editedAddress = {
+                        ...addressData[editAddressIndex],
+                        shippingfirstname: formData.firstName,
+                        shippinglastname: formData.lastName,
+                        street: formData.address,
+                        country: formData.country,
+                        state: formData.state,
+                        city: formData.city,
+                        zip: formData.zipCode,
+                        shippingmobile: formData.mobileNo
+                    };
+    
+                    const updatedAddressData = [...addressData];
+                    updatedAddressData[editAddressIndex] = editedAddress;
+                    setAddressData(updatedAddressData);
+                } else {
+                    toast.error('Error editing');
                 }
-
             } else {
-                try {
-                    setIsLoading(true);
-                    setOpen(false);
-                    const storedData = localStorage.getItem('loginUserDetail');
-                    const data = JSON.parse(storedData);
-                    const customerid = data.id;
-                    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                    const { FrontEnd_RegNo } = storeInit;
-
-                    // const combinedValue = JSON.stringify({
-                    //     firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobile: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-                    // });
-
-                    // const encodedCombinedValue = btoa(combinedValue);
-                    // const body = {
-                    //     "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data.userid}\"}`,
-                    //     "f": "Delivery (addAddress)",
-                    //     p: encodedCombinedValue
-                    // };
-                    // const response = await CommonAPI(body);
-                    
-                    const response = await handleAddAddress(formData, FrontEnd_RegNo, customerid, storeInit, data);
-
-                    if (response?.Data?.rd[0]?.stat === 1) {
-                        let updatedAddressData = [...addressData];
-                        const newAddress = {
-                            shippingfirstname: formData.firstName,
-                            shippinglastname: formData.lastName,
-                            street: formData.address,
-                            country: formData.country,
-                            state: formData.state,
-                            city: formData.city,
-                            zip: formData.zipCode,
-                            shippingmobile: formData.mobileNo
-                        };
-                        updatedAddressData.push(newAddress);
-                        setAddressData(updatedAddressData);
-                        fetchData();
-                    } else {
-                        toast.error('error');
-                    }
-                    handleClose();
+                // Handle add mode
+                setOpen(false); // Close modal or dialog
+    
+                response = await handleAddAddress(
+                    formData,
+                    FrontEnd_RegNo,
+                    customerid,
+                    storeInit,
+                    data
+                );
+    
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    // Handle successful addition
                     toast.success('Add success');
-                } catch (error) {
-                    console.error('Error:', error);
-                } finally {
-                    setIsLoading(false);
+    
+                    const newAddress = {
+                        shippingfirstname: formData.firstName,
+                        shippinglastname: formData.lastName,
+                        street: formData.address,
+                        country: formData.country,
+                        state: formData.state,
+                        city: formData.city,
+                        zip: formData.zipCode,
+                        shippingmobile: formData.mobileNo
+                    };
+    
+                    const updatedAddressData = [...addressData, newAddress];
+                    setAddressData(updatedAddressData);
+                    fetchData(); // Assuming fetchData updates necessary data after addition
+                } else {
+                    toast.error('Error adding');
                 }
             }
-
-            handleClose();
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('An unexpected error occurred');
+        } finally {
+            setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
+    
 
     const handleClose = () => {
         setFormData({
@@ -272,6 +322,10 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.firstName = 'First Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.firstName = 'First Name is too long';
                 } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.firstName = 'Invalid First Name';
                 } else {
@@ -281,6 +335,10 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.lastName = 'Last Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.lastName = 'Last Name is too long';
                 } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.lastName = 'Invalid Last Name';
                 } else {
@@ -404,11 +462,26 @@ const ManageAddress = () => {
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
-
+                    
                     let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
                     
-                    setDefaultAddress(res);
-                    setAddressData(response?.Data?.rd);
+                    let arr = [];
+                    if(res === undefined){
+                        response?.Data?.rd?.forEach((a, i) => {
+                            let obj = {...a};
+                            if(i === 0){
+                                obj.isdefault = 1;
+                            }
+                            arr.push(obj);
+                        })
+                        setAddressData(arr);
+                        setDefaultAddress(arr[0]);
+                        
+                    }else{
+                        setDefaultAddress(res);
+                        setAddressData(response?.Data?.rd);
+                        
+                    }
                 }
 
 
@@ -476,7 +549,9 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <Typography sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography>
+                                                    <a className='text-decoration-none' href={`tel: +91 ${item?.shippingmobile}`}>{item?.shippingmobile}
+                                                        {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
+                                                    </a>
                                                 </Box>
                                             </NavLink>
 
