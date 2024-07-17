@@ -420,6 +420,9 @@ color: $primaryfontcolor2;
     .smr_Swiper_designSet{
         max-width: 1200px;
     }
+    .compeletethelook_prodt_for_3{
+        width:750px;
+    }
 }
 @media screen and (max-width:1364px) {
     .smr_Swiper_designSet{
@@ -445,6 +448,7 @@ color: $primaryfontcolor2;
         margin-left: 0px !important;
         height: auto !important;
         overflow-y: visible !important;
+        width:750px;
     }
     .swiper-pagination{
         position: relative
@@ -520,9 +524,9 @@ color: $primaryfontcolor2;
     .swiper-button-next {
         display: none;
     }
-    .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
-        top:-814px !important;
-    }
+    // .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+    //     top:-814px !important;
+    // }
 }
 
 .compeletethelook_cont {
@@ -602,7 +606,7 @@ color: $primaryfontcolor2;
 }
 
 .ctl_img {
-    object-fit: cover;
+    object-fit: scale-down;
     width: 100%;
     height: 100%;
     margin-top: 12px;

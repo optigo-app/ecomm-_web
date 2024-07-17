@@ -5,10 +5,9 @@ import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextFie
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
-import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
+import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
 import { defaultAddressState } from '../../../Recoil/atom';
-import { CommonAPI } from '../../../../../../../utils/API/CommonAPI/CommonAPI';
 import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
 import MobViewHeader from './../MobViewHeader/MobViewHeader';
 
@@ -391,26 +390,17 @@ const ManageAddress = () => {
         return { id: data.id, email: data.userid }
     }
 
-    const storeInit = () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo } = storeInit;
-        return FrontEnd_RegNo;
-    }
-
     const handleDefaultSelection = async (addressId) => {
+
         setIsLoading(true);
+        
         try {
 
             let loginCred = loginDetail();
-            let p_ = JSON.stringify({ "addrid": addressId, "FrontEnd_RegNo": storeInit(), "Customerid": loginCred?.id });
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
 
-            const body = {
-                "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${loginCred?.email}\"}`,
-                "f": "Delivery (fetchData)",
-                dp: (p_),
-            };
-
-            const response = await CommonAPI(body);
+            const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
 
             if (response?.Data?.rd) {
                 

@@ -38,6 +38,7 @@ import 'swiper/css/scrollbar';
 
 import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
+import { Helmet } from "react-helmet";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -859,7 +860,7 @@ const ProductDetail = () => {
     let imgLink = storeInit?.DesignImageFol +
     (singleProd ?? singleProd1)?.designno +
     "_" +
-    (thumbImgIndex+1) +"_"+ mcArr?.colorname +
+    (thumbImgIndex+1) +"_"+ mcArr?.colorcode +
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
@@ -884,7 +885,7 @@ const ProductDetail = () => {
           singleProd?.designno +
           "_" +
           i +
-          "_"+ mcArr?.colorname +
+          "_"+ mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
           pdImgListCol.push(imgString);
@@ -1125,6 +1126,9 @@ const ProductDetail = () => {
 
   return (
     <>
+    <Helmet>
+      <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
+    </Helmet>
       <div className="smr_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
@@ -1259,13 +1263,13 @@ const ProductDetail = () => {
                               </span>
                             </span>
                             <span className="smr_prod_short_key">
-                              Diamond Quality Color:{" "}
+                              Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
                                 {`${selectDiaQc}`}
                               </span>
                             </span>
                             <span className="smr_prod_short_key">
-                              Net Wt:{" "}
+                              Net Wt :{" "}
                               <span className="smr_prod_short_val">
                                 {singleProd1?.Nwt ?? singleProd?.Nwt}
                               </span>
@@ -1445,7 +1449,7 @@ const ProductDetail = () => {
                                 {
                                   background: "none",
                                 },
-                              width:'386px'
+                              width:'95.5%'
                             }}
                           >
                             <AccordionSummary
@@ -1506,7 +1510,7 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />}</Typography>
-                              <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(3)}</Typography>
+                              <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
 
@@ -1522,7 +1526,7 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />}</Typography>
-                              <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(3)}</Typography>
+                              <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
 
@@ -1538,7 +1542,7 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />}</Typography>
-                              <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(3)}</Typography>
+                              <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
 
@@ -1554,7 +1558,7 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />}</Typography>
-                              <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(3)}</Typography>
+                              <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
 
@@ -1570,7 +1574,7 @@ const ProductDetail = () => {
                                   ),
                                 }}
                               />}</Typography>
-                              <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(3)}</Typography>
+                              <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
 
@@ -1596,7 +1600,7 @@ const ProductDetail = () => {
                                 (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
                                 (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
 
-                              )?.toFixed(3)
+                              )?.toFixed(2)
                             }</Typography>
                               </span>
                              </div>
@@ -2042,6 +2046,7 @@ const ProductDetail = () => {
                               style={{
                                 display: "flex",
                                 justifyContent: "center",
+                                border:'none'
                               }}
                             >
                               <Checkbox
@@ -2192,10 +2197,12 @@ const ProductDetail = () => {
                                 //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
                                 // }
                                 src={
-                                  storeInit?.DesignSetImageFol +
+                                  designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
                                   designSetList?.designsetuniqueno +
                                   "/" +
-                                  designSetList?.DefaultImageName
+                                  designSetList?.DefaultImageName 
+                                  :
+                                  imageNotFound
                                 }
                                 alt={""}
                                 className="ctl_img"
