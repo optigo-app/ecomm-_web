@@ -1,5 +1,4 @@
-export const responsiveConfig = {
-  responsive: [
+export const responsiveConfig = [
     {
       breakpoint: 780,
       settings: {
@@ -48,5 +47,4 @@ export const responsiveConfig = {
         className: "center",
       },
     },
-  ],
-};
+  ];

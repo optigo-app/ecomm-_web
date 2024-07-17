@@ -270,7 +270,6 @@ export default function LoginWithEmail() {
         // try {
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         // const { FrontEnd_RegNo, domain } = storeInit;
-
         // // let Domian = `https://${domain}`
         let Domian = `https://${storeInit?.domain}`
 

@@ -3,6 +3,28 @@
     height: 100%;
     width: 100%;
   }
+  .accordian {
+    border-bottom: 1px solid rgba(134, 134, 134, 0.623);
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(134, 134, 134, 0.623);
+    }
+    
+    &:last-child {
+      border-bottom: 1px solid rgba(134, 134, 134, 0.623);
+    }
+    
+    &:active{
+      border: none;
+    }
+    
+    &::before {
+      display: none;
+    }
+  }
 
   .elv_Productlists_lists_header {
     align-items: center;
@@ -29,7 +51,8 @@
   .elv_Productslists_lists_name{
     margin-top: 30px;
   }
-
+  
+  
   .elv_breadcrumbs{
     font-size: 10px;
     text-transform: uppercase;
@@ -252,6 +275,8 @@
   .elv_filtered_category_div{
     height: 100%;
     margin-right: 12px;
+    // background-color: red;
+   
   }
   .elv_category_names{
     font-family: "PT Sans", sans-serif;
@@ -330,6 +355,21 @@
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
+  .elv_filtered_prodlists_4{
+    width: 100%;
+    max-width: fit-content;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  .elv_filtered_prodlists_5{
+    width: 48.8%;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
 
   .elv_filtered_prods{
     display: flex;
@@ -403,6 +443,49 @@
     }
   }
 
+  .elv_filtered_image_4{
+    max-width: 100%; 
+    height: auto; 
+    object-fit: contain; 
+    max-height: 31rem;
+    width: 100%; 
+    animation: enlarge_image_4 1s forwards;
+  }
+
+  @keyframes enlarge_image_4 {
+    0% {
+      width: 30rem;
+      height: 20rem;
+    }
+    100% {
+      height: 31rem;
+      width: 35.4rem;
+    }
+  }
+
+  .elv_filtered_image_5{
+    max-width: 100%; 
+    height: 17rem; 
+    object-fit: contain;
+    max-height: auto;
+    width: 100%;
+    animation: enlarge_image_5 1s forwards;
+  }
+
+  @keyframes enlarge_image_5 {
+    0% {
+      height: 22rem;
+      width: 100%;
+    }
+    100% {
+      height: 17rem;
+      width: 100%;
+    }
+  }
+
+  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+    max-width: 300px;
+  }
 
   .elv_filtered_prod_details{
     display: flex;
@@ -433,6 +516,22 @@
     flex-direction: column;
     align-items: start;
     margin-right: 10px;
+  }
+
+  .elv_subCategory_name_price{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    font-family:  "TT Commons Regular";
+  }
+
+  .elv_titleline_visibility {
+    visibility: hidden;
+  }
+  
+  .elv_titleline {
+    visibility: visible;
   }
 
   @media screen and (max-width: 1690px) {
@@ -634,6 +733,19 @@
     .elv_filter_icon_1{
       display: none;
     }
+    .elv_Productlists_lists_header_breadcrumb{
+      padding: 11px 0px 11px 20px;
+    }
+    .elv_Productlists_details{
+      font-size: 15px;
+    }
+    .elv_Productlists_lists_header_logo{
+      padding-right: 0;
+    }
+    .elv_Productlist_logo{
+      margin-right: 20px;
+    }
+  
   
   }
 

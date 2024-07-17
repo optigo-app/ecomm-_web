@@ -26,7 +26,7 @@ import { Typography } from "@mui/material";
 import { FaHeart } from "react-icons/fa";
 import RelatedProduct from "./RelatedProduct/RelatedProduct";
 import RecentlyViewd from "./RecentlyViewed/RecentlyViewd";
-import { settings } from "../../Constants/SliderConfig";
+import { responsiveConfig } from "../../Config/ProductSliderConfig";
 
 const ProductPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -49,56 +49,7 @@ const ProductPage = () => {
     autoplaySpeed: 2000,
     beforeChange: (current, next) => setCurrentSlide(next),
     afterChange: (current) => setCurrentSlide(current),
-    responsive: [
-      {
-        breakpoint: 780,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-          centerMode: true,
-          className: "center",
-          centerPadding: "100px",
-        },
-      },
-      {
-        breakpoint: 550,
-        settings: {
-          centerPadding: "30px",
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-          centerMode: true,
-          className: "center",
-        },
-      },
-      {
-        breakpoint: 330,
-        settings: {
-          centerPadding: "40px",
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-          centerMode: true,
-          className: "center",
-        },
-      },
-      {
-        breakpoint: 420,
-        settings: {
-          centerPadding: "50px",
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-          centerMode: true,
-          className: "center",
-        },
-      },
-    ],
+    responsive: responsiveConfig,
   };
   const handleThumbnailClick = (index) => {
     if (sliderRef.current) {

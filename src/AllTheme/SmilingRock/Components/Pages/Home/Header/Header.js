@@ -359,6 +359,7 @@ const Header = () => {
 
         navigate(`/d/${searchText}?p=${encodeObj}`);
         toggleOverlay();
+        setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
         // }
@@ -394,7 +395,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number End Click Enter"
+                placeholder="Enter Design Number"
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -424,7 +425,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number End Click Enter"
+                placeholder="Enter Design Number"
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}

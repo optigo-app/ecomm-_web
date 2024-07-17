@@ -6,7 +6,7 @@ import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
-import { Checkbox, Skeleton } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Skeleton, Typography } from "@mui/material";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
@@ -24,6 +24,7 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
@@ -977,7 +978,7 @@ const ProductDetail = () => {
         setCartCountVal(cartC);
       }).catch((err) => console.log("err", err))
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode,cookie,true).then((res) => {
+      RemoveCartAndWishAPI(type, ele?.StockId,cookie,true).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
@@ -1427,6 +1428,181 @@ const ProductDetail = () => {
                                 </div>
                               )}
                             </div>
+                          )}
+
+                          { storeInit?.IsPriceBreakUp == 1 && (
+                            <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                              "&.MuiPaper-root.MuiAccordion-root:before":
+                                {
+                                  background: "none",
+                                },
+                              width:'386px'
+                            }}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              className="filtercategoryLable"
+                              
+                            >
+                              <Typography>Price Breakup</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                // minHeight: "fit-content",
+                                // maxHeight: "300px",
+                                // overflow: "auto",
+                                padding:'0 0 16px 0',
+
+                              }}
+                            >
+
+                              {/* <table>
+                                <tr>
+                                  <td><Typography>{(singleProd?.Metal_Cost).toFixed(3)}</Typography></td>
+                                  <td><Typography>Metal Amount</Typography></td>
+                                </tr>
+                                <tr>
+                                  <td><Typography>{(singleProd?.Diamond_Cost).toFixed(3)}</Typography></td>
+                                  <td><Typography>Diamond Amount</Typography></td>
+                                </tr>
+                                <tr>
+                                  <td><Typography>{(singleProd?.ColorStone_Cost).toFixed(3)}</Typography></td>
+                                  <td><Typography>Stone Amount</Typography></td>
+                                </tr>
+                              </table> */}
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">Metal</Typography>
+                              <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(3)}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">Diamond </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(3)}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">Stone </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(3)}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">MISC </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(3)}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">Labour </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(3)}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label">Other </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{<span
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              />}</Typography>
+                              <Typography>{
+                              (
+
+                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
+                                (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
+                                (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
+                                (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
+                                (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
+                                (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+
+                              )?.toFixed(3)
+                            }</Typography>
+                              </span>
+                             </div>
+
+                            </AccordionDetails>
+                          </Accordion>
                           )}
 
                         {
@@ -1979,7 +2155,7 @@ const ProductDetail = () => {
                   )}
 
                 <div className="smr_DesignSet_main">
-                  <div
+                  { designSetList?.length > 0 && <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
@@ -1996,9 +2172,9 @@ const ProductDetail = () => {
                     >
                       Complete The Look
                     </p>
-                  </div>
+                  </div>}
 
-                  <div className="smr_Swiper_designSet" style={{maxWidth:'1600px'}}>
+                  <div className="smr_Swiper_designSet" >
                     <Swiper
                       modules={[Navigation, Pagination, Scrollbar]}
                       // spaceBetween={50}

@@ -7,7 +7,8 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider,
+   Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -28,6 +29,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 
 
@@ -293,6 +296,7 @@ const ProductList = () => {
   
 
   useEffect(() => {
+    
     let param = JSON.parse(localStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
@@ -653,7 +657,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,prodListType,cookie)
+     ProductListApi(output,1,obj,prodListType,cookie,sortBySelect)
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -699,7 +703,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj,prodListType,cookie)
+    ProductListApi(output, value, obj,prodListType,cookie,sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -790,7 +794,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,prodListType,cookie)
+      ProductListApi(output,currPage,obj,prodListType,cookie,sortBySelect)
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
@@ -2755,7 +2759,7 @@ const ProductList = () => {
                                   {/* <Button className="smr_wish-icon"> */}
                                   <Checkbox
                                     icon={
-                                      <FavoriteBorderIcon
+                                      <StarBorderIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#7d7f85",
@@ -2764,7 +2768,7 @@ const ProductList = () => {
                                       />
                                     }
                                     checkedIcon={
-                                      <FavoriteIcon
+                                      <StarIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#e31b23",
@@ -2879,7 +2883,7 @@ const ProductList = () => {
                                   <div className="smr_prod_Title">
                                     <span
                                       className={
-                                        (productData?.TitleLine?.length > 30 || productData?.TitleLine?.length > 0)
+                                        (productData?.TitleLine?.length > 30 )
                                         ?
                                         "smr1_prod_title_with_width"
                                         :
