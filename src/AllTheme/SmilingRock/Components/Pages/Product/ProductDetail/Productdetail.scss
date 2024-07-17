@@ -186,6 +186,8 @@
     margin-left:5px;
     color: $primaryfontcolor2;
     margin-top: 12px;
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 
 .Smr_CartAndWish_portion{
@@ -404,6 +406,11 @@ color: $primaryfontcolor2;
     max-width: 1600px;
 }
 
+.smr_Price_breakup_label{
+    width:70px;
+    color: #7d7f85
+}
+
 @media screen and (max-width:1820px) {
     .smr_Swiper_designSet{
         max-width: 1400px;
@@ -412,6 +419,9 @@ color: $primaryfontcolor2;
 @media screen and (max-width:1590px) {
     .smr_Swiper_designSet{
         max-width: 1200px;
+    }
+    .compeletethelook_prodt_for_3{
+        width:750px;
     }
 }
 @media screen and (max-width:1364px) {
@@ -438,6 +448,7 @@ color: $primaryfontcolor2;
         margin-left: 0px !important;
         height: auto !important;
         overflow-y: visible !important;
+        width:750px;
     }
     .swiper-pagination{
         position: relative
@@ -507,15 +518,15 @@ color: $primaryfontcolor2;
         padding: 0 0 !important;
         margin-top: 14px !important;
     }
-    // .swiper-button-prev{
-    //     display: none;
-    // }
-    // .swiper-button-next {
-    //     display: none;
-    // }
-    .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
-        top:-814px !important;
+    .swiper-button-prev{
+        display: none;
     }
+    .swiper-button-next {
+        display: none;
+    }
+    // .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+    //     top:-814px !important;
+    // }
 }
 
 .compeletethelook_cont {
@@ -562,6 +573,7 @@ color: $primaryfontcolor2;
     align-items: center;
     height:420px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .completethelook_outer {
@@ -594,7 +606,7 @@ color: $primaryfontcolor2;
 }
 
 .ctl_img {
-    object-fit: cover;
+    object-fit: scale-down;
     width: 100%;
     height: 100%;
     margin-top: 12px;

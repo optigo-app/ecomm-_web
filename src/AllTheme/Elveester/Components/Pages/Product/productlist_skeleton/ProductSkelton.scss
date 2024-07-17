@@ -1,0 +1,46 @@
+.elv_skeltonMainDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    margin-bottom: 20px;
+}
+
+.elv_skeltonMainDiv_prodlistPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    // margin-inline: 13%;
+    margin-bottom: 20px;
+}
+
+.elv_skeltoncards{
+    box-shadow: none !important;
+}
+
+.elv_skeltoncards_listpage{
+    box-shadow: none !important;
+    width:350px
+}
+
+@media (max-width:1440px) {
+    .elv_filtercard{
+        display: none !important;
+    }
+    .elv_topSkeletonMain{
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .elv_skeltonMainDiv{
+        margin-inline: 1%;
+    }
+
+    .elv_cardMainSkeleton{
+        height: 20vh!important;
+    }
+
+  
+}
