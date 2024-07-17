@@ -91,7 +91,7 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
     if (res) {
       // let pdData = res?.Data.rd;
       pdList = res?.Data.rd;
-      pdResp = res?.Data
+      pdResp = res?.Data;
     }
   });
 

@@ -29,3 +29,8 @@ export const DiamondRangeArr = atom({
   key: 'DiamondRangeArr',
   default: []
 })
+
+export const defaultAddressState = atom({
+  key: 'defaultAddressState',
+  default: null,
+});

@@ -750,7 +750,8 @@ const AccountLedger = () => {
                     </div>
                 </div>
                 {
-                    loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div className='m-2 overflow-auto'>
+                    loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}>
+                        <CircularProgress className='loadingBarManage' /></Box> : <div className=' overflow-auto'  style={{margin:'10px', marginBottom:'20%'}}>
                     <table className='w-100'>
                         <thead className='w-100 border'>
                             <tr className='w-100 border-bottom fs_td'>

@@ -1,20 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import './Header.modul.scss'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import "./Header.modul.scss";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  CartCount,
+  WishCount,
+  cartB2CDrawer,
+  companyLogo,
+  loginState,
+} from "../../../Recoil/atom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
-import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
+import {
+  Badge,
+  ButtonBase,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip,
+} from "@mui/material";
+import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { PiStarThin } from "react-icons/pi";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import MenuIcon from '@mui/icons-material/Menu';
-import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import Cookies from 'js-cookie';
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import Cookies from "js-cookie";
 import pako from "pako";
-import CartDrawer from '../../Cart/CartPageB2c/Cart';
-
+import CartDrawer from "../../Cart/CartPageB2c/Cart";
+import useCountdown from "../../CountDownTimer/CountDownTimer";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -27,55 +40,75 @@ const Header = () => {
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
-  const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+  const [cartCountNum, setCartCountNum] = useRecoilState(CartCount);
+  const [wishCountNum, setWishCountNum] = useRecoilState(WishCount);
 
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("");
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const location = useLocation();
 
   let navigate = useNavigate();
-  let cookie = Cookies.get('visiterId')
+  let cookie = Cookies.get("visiterId");
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
   useEffect(() => {
-    const visiterID = Cookies.get('visiterId');
-    GetCountAPI(visiterID).then((res) => {
-      if (res) {
-        setCartCountNum(res?.cartcount)
-        setWishCountNum(res?.wishcount)
-      }
-    }).catch((err) => {
-      if (err) {
-        console.log("getCountApiErr", err);
-      }
-    })
-  }, [])
+    const visiterID = Cookies.get("visiterId");
+    GetCountAPI(visiterID)
+      .then((res) => {
+        if (res) {
+          setCartCountNum(res?.cartcount);
+          setWishCountNum(res?.wishcount);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("getCountApiErr", err);
+        }
+      });
+  }, []);
+
+  const { showTimer, countdown } = useCountdown();
+
+  console.log("showtimejhjdhsjhjf", showTimer, countdown);
 
   useEffect(() => {
-    const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
-    const uniqueMenuItems = uniqueMenuIds.map(menuid => {
-      const item = menuData?.find(data => data?.menuid === menuid);
-      const param1DataIds = [...new Set(menuData?.filter(data => data?.menuid === menuid)?.map(item => item?.param1dataid))];
+    const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
+    const uniqueMenuItems = uniqueMenuIds.map((menuid) => {
+      const item = menuData?.find((data) => data?.menuid === menuid);
+      const param1DataIds = [
+        ...new Set(
+          menuData
+            ?.filter((data) => data?.menuid === menuid)
+            ?.map((item) => item?.param1dataid)
+        ),
+      ];
 
-      const param1Items = param1DataIds.map(param1dataid => {
-        const param1Item = menuData?.find(data => data?.menuid === menuid && data?.param1dataid === param1dataid);
-        const param2Items = menuData?.filter(data => data?.menuid === menuid && data?.param1dataid === param1dataid)?.map(item => ({
-          param2dataid: item?.param2dataid,
-          param2dataname: item?.param2dataname,
-          param2id: item?.param2id,
-          param2name: item?.param2name
-        }));
+      const param1Items = param1DataIds.map((param1dataid) => {
+        const param1Item = menuData?.find(
+          (data) =>
+            data?.menuid === menuid && data?.param1dataid === param1dataid
+        );
+        const param2Items = menuData
+          ?.filter(
+            (data) =>
+              data?.menuid === menuid && data?.param1dataid === param1dataid
+          )
+          ?.map((item) => ({
+            param2dataid: item?.param2dataid,
+            param2dataname: item?.param2dataname,
+            param2id: item?.param2id,
+            param2name: item?.param2name,
+          }));
         return {
           menuname: param1Item?.menuname,
           param1dataid: param1Item?.param1dataid,
           param1dataname: param1Item?.param1dataname,
           param1id: param1Item?.param1id,
           param1name: param1Item?.param1name,
-          param2: param2Items
+          param2: param2Items,
         };
       });
 
@@ -86,7 +119,7 @@ const Header = () => {
         param0dataname: item?.param0dataname,
         param0id: item?.param0id,
         param0name: item?.param0name,
-        param1: param1Items
+        param1: param1Items,
       };
     });
 
@@ -108,7 +141,6 @@ const Header = () => {
     } else {
       return;
     }
-
   }, [islogin]);
 
   useEffect(() => {
@@ -121,65 +153,60 @@ const Header = () => {
       setIsHeaderFixed(scrollPosition > 100);
       setIsHeaderFixedDropShow(scrollPosition > 100);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const fetchData = () => {
-    const value = JSON.parse(localStorage.getItem('LoginUser'));
+    const value = JSON.parse(localStorage.getItem("LoginUser"));
     setislogin(value);
   };
 
-
   const getMenuApi = async () => {
-
-    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
-    const visiterID = Cookies.get('visiterId');
+    const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
     } else {
-      finalID = loginUserDetail?.id || '0';
+      finalID = loginUserDetail?.id || "0";
     }
 
-    await GetMenuAPI(finalID).then((response) => {
-      setMenuData(response?.Data?.rd)
-    }).catch((err) => console.log(err))
-  }
-
-
+    await GetMenuAPI(finalID)
+      .then((response) => {
+        setMenuData(response?.Data?.rd);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleLogout = () => {
     setislogin(false);
-    Cookies.remove('userLoginCookie');
-    localStorage.setItem('LoginUser', false);
-    localStorage.removeItem('storeInit');
-    localStorage.removeItem('loginUserDetail');
-    localStorage.removeItem('remarks');
-    localStorage.removeItem('selectedAddressId');
-    localStorage.removeItem('orderNumber');
-    localStorage.removeItem('registerEmail');
-    localStorage.removeItem('UploadLogicalPath');
-    localStorage.removeItem('remarks');
-    localStorage.removeItem('registerMobile');
-    localStorage.removeItem('allproductlist');
+    Cookies.remove("userLoginCookie");
+    localStorage.setItem("LoginUser", false);
+    localStorage.removeItem("storeInit");
+    localStorage.removeItem("loginUserDetail");
+    localStorage.removeItem("remarks");
+    localStorage.removeItem("selectedAddressId");
+    localStorage.removeItem("orderNumber");
+    localStorage.removeItem("registerEmail");
+    localStorage.removeItem("UploadLogicalPath");
+    localStorage.removeItem("remarks");
+    localStorage.removeItem("registerMobile");
+    localStorage.removeItem("allproductlist");
     localStorage.clear();
-    navigation('/')
+    navigation("/");
     window.location.reload();
-  }
-
+  };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownOpen = () => {
     setIsDropdownOpen(true);
   };
-
-
 
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
@@ -198,27 +225,31 @@ const Header = () => {
   const handelMenu = (param, param1, param2) => {
     setDrawerShowOverlay(false);
     let finalData = {
-      "menuname": param?.menuname ?? "",
-      "FilterKey": param?.key ?? "",
-      "FilterVal": param?.value ?? "",
-      "FilterKey1": param1?.key ?? "",
-      "FilterVal1": param1?.value ?? "",
-      "FilterKey2": param2?.key ?? "",
-      "FilterVal2": param2?.value ?? ""
-    }
-    localStorage.setItem("menuparams", JSON.stringify(finalData))
+      menuname: param?.menuname ?? "",
+      FilterKey: param?.key ?? "",
+      FilterVal: param?.value ?? "",
+      FilterKey1: param1?.key ?? "",
+      FilterVal1: param1?.value ?? "",
+      FilterKey2: param2?.key ?? "",
+      FilterVal2: param2?.value ?? "",
+    };
+    localStorage.setItem("menuparams", JSON.stringify(finalData));
 
     const queryParameters1 = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    ]
+      .filter(Boolean)
+      .join("/");
 
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join(',');
+    ]
+      .filter(Boolean)
+      .join(",");
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -228,29 +259,34 @@ const Header = () => {
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => value)
       .filter(Boolean)
-      .join(',');
+      .join(",");
 
     const paginationParam = [
       `page=${finalData.page ?? 1}`,
-      `size=${finalData.size ?? 50}`
-    ].join('&');
+      `size=${finalData.size ?? 50}`,
+    ].join("&");
 
-    console.log('otherparamsUrl--', otherparamUrl);
+    console.log("otherparamsUrl--", otherparamUrl);
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-    handleDropdownClose()
-    navigate(url)
-  }
-
+    handleDropdownClose();
+    navigate(url);
+  };
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
-  const handleMenuClick = async (menuItem, param1Item = null, param2Item = null) => {
+  const handleMenuClick = async (
+    menuItem,
+    param1Item = null,
+    param2Item = null
+  ) => {
     const { param1, param2, ...cleanedMenuItem } = menuItem;
     let menuDataObj = { ...cleanedMenuItem };
 
@@ -261,7 +297,7 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log('Menu Item:', cleanedMenuItem);
+      console.log("Menu Item:", cleanedMenuItem);
     }
     let finalData = {
       menuname: menuDataObj?.menuname ?? "",
@@ -270,37 +306,38 @@ const Header = () => {
       FilterKey1: menuDataObj?.param1name ?? "",
       FilterVal1: menuDataObj?.param1dataname ?? "",
       FilterKey2: menuDataObj?.param2name ?? "",
-      FilterVal2: menuDataObj?.param2dataname ?? ""
-    }
-    navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
-    localStorage.setItem('menuparams', JSON.stringify(finalData));
+      FilterVal2: menuDataObj?.param2dataname ?? "",
+    };
+    navigation(`/productpage`, {
+      state: { menuFlag: finalData?.menuname, filtervalue: finalData },
+    });
+    localStorage.setItem("menuparams", JSON.stringify(finalData));
   };
 
   const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
-    if (iconclicked == 'iconclicked') {
-      setSelectedMenu(prevMenu => (prevMenu === menuName ? null : menuName));
+    if (iconclicked == "iconclicked") {
+      setSelectedMenu((prevMenu) => (prevMenu === menuName ? null : menuName));
       return;
     }
     const { param1, ...menuItemWithoutParam1 } = menuItem;
-    handleMenuClick(menuItemWithoutParam1)
+    handleMenuClick(menuItemWithoutParam1);
   };
 
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
 
-      const compressed = pako.deflate(uint8Array, { to: 'string' });
-
+      const compressed = pako.deflate(uint8Array, { to: "string" });
 
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
-      console.error('Error compressing and encoding:', error);
+      console.error("Error compressing and encoding:", error);
       return null;
     }
   };
 
   const searchDataFucn = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       if (searchText) {
         // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
@@ -312,53 +349,53 @@ const Header = () => {
         let obj = {
           a: "",
           b: searchText,
-          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
-          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
-          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
-          f: {}
-        }
+          m: loginInfo?.MetalId ?? storeInit?.MetalId,
+          d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+          c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+          f: {},
+        };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj))
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-        navigate(`/d/${searchText}?p=${encodeObj}`)
+        navigate(`/d/${searchText}?p=${encodeObj}`);
         toggleOverlay();
+        setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
         // }
       }
     }
-  }
-
+  };
 
   // for cart drawer
 
   const toggleCartDrawer = () => {
-    setIsCartOpen(prevState => !prevState);
-    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
-    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
-    setCartOpenState(prevState => !prevState);
+    setIsCartOpen((prevState) => !prevState);
+    const isCartDrawerOpen = JSON.parse(localStorage.getItem("isCartDrawer"));
+    localStorage.setItem("isCartDrawer", !isCartDrawerOpen);
+    setCartOpenState((prevState) => !prevState);
   };
 
-  const handleContextMenu = (e) => {
-  };
+  const handleContextMenu = (e) => {};
 
   const handleMouseDown = (e) => {
-    console.log('rrrrrrrrrrrrrrrrrrr', e);
+    console.log("rrrrrrrrrrrrrrrrrrr", e);
     if (e.button === 1) {
     }
   };
 
   return (
-    <div className='smr_headerMain_div'>
-
+    <div className="smr_headerMain_div">
       {serachsShowOverlay && (
         <>
           <div className="smr_smlingSearchoverlay">
             <div className="smr_smlingTopSerachOver">
-              <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
+              <IoSearchOutline
+                style={{ height: "15px", width: "15px", marginRight: "10px" }}
+              />
               <input
                 type="text"
-                placeholder="Enter Design Number End Click Enter"
+                placeholder="Enter Design Number"
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -377,12 +414,18 @@ const Header = () => {
             </div>
           </div>
 
-          <div className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""}`}>
+          <div
+            className={`smr_smlingSearchoverlayNew ${
+              isHeaderFixedDropShow ? "fixed" : ""
+            }`}
+          >
             <div className="smr_smlingTopSerachOver-Fixed">
-              <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
+              <IoSearchOutline
+                style={{ height: "15px", width: "15px", marginRight: "10px" }}
+              />
               <input
                 type="text"
-                placeholder="Enter Design Number End Click Enter"
+                placeholder="Enter Design Number"
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -406,8 +449,14 @@ const Header = () => {
       {drawerShowOverlay && (
         <>
           <div className="srm_MobileSiderBarMain">
-            <div style={{ margin: '20px 10px 0px 10px', display: 'flex', justifyContent: 'space-between' }}>
-              <div className='smr_mobileHeader_top_div1'>
+            <div
+              style={{
+                margin: "20px 10px 0px 10px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div className="smr_mobileHeader_top_div1">
                 <IoClose
                   style={{
                     height: "30px",
@@ -418,28 +467,32 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className='smr_mobileHeader_top_div2'>
+              <div className="smr_mobileHeader_top_div2">
                 <a href="/">
-                  <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+                  <img
+                    src={compnyLogo}
+                    loading="lazy"
+                    className="smr_logo_header"
+                  />
                 </a>
               </div>
 
-              <div className='smr_mobileHeader_top_div3'>
-
-                {islogin &&
+              <div className="smr_mobileHeader_top_div3">
+                {islogin && (
                   <>
                     <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className='badgeColorFix smr_mobileHideIcone'
-                      style={{ marginInline: '15px' }}
+                      className="badgeColorFix smr_mobileHideIcone"
+                      style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="WishList">
                         <li
                           className="nav_li_smining_Icone"
-                          onClick={() => navigation("/myWishList")}>
+                          onClick={() => navigation("/myWishList")}
+                        >
                           <PiStarThin
                             style={{
                               height: "20px",
@@ -452,9 +505,15 @@ const Header = () => {
                     </Badge>
                     <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
-                      onClick={toggleOverlay} style={{}}>
+                      onClick={toggleOverlay}
+                      style={{}}
+                    >
                       <IoSearchOutline
-                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                        style={{
+                          height: "20px",
+                          cursor: "pointer",
+                          width: "20px",
+                        }}
                       />
                     </li>
                     <Badge
@@ -462,60 +521,115 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className='badgeColorFix'
-                      style={{ marginInline: '15px' }}
+                      className="badgeColorFix"
+                      style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="Cart">
-
                         <li
-                          onClick={() => { navigate('/cartPage') }}
+                          onClick={() => {
+                            navigate("/cartPage");
+                          }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
+                            sx={{ height: "30px", width: "30px" }}
                           />
                         </li>
                       </Tooltip>
                     </Badge>
                   </>
-                }
-
+                )}
               </div>
             </div>
-            <div className='smr_mobileMenuSubDivMain'>
-              <List className='smr_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
-                {menuItems.map(menuItem => (
+            <div className="smr_mobileMenuSubDivMain">
+              <List
+                className="smr_ListMenuSiderMobile"
+                sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
+              >
+                {menuItems.map((menuItem) => (
                   <div key={menuItem.menuid}>
                     <ButtonBase
                       component="div"
                       className="muilistMenutext"
-                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
-                      style={{ width: '100%' }}
+                      onClick={() =>
+                        handleLoginMenuClick(
+                          menuItem.menuname,
+                          null,
+                          "iconclicked"
+                        )
+                      }
+                      style={{ width: "100%" }}
                     >
-                      <ListItem style={{ padding: '5px', borderBottom: '1px solid white' }}>
-                        <p className='smr_menuStaicMobile'>{menuItem.menuname}</p>
+                      <ListItem
+                        style={{
+                          padding: "5px",
+                          borderBottom: "1px solid white",
+                        }}
+                      >
+                        <p className="smr_menuStaicMobile">
+                          {menuItem.menuname}
+                        </p>
                       </ListItem>
                     </ButtonBase>
                     {selectedMenu === menuItem.menuname && (
                       <>
                         <ButtonBase
                           component="div"
-                          onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
-                          style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                          onClick={() =>
+                            handelMenu({
+                              menuname: menuItem?.menuname,
+                              key: menuItem?.param0name,
+                              value: menuItem?.param0dataname,
+                            })
+                          }
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "start",
+                          }}
                         >
-                          <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                            <button className="smr_mobile_viewAllBtn">View All</button>
+                          <div
+                            style={{
+                              paddingLeft: "10px",
+                              fontSize: "15px",
+                              marginTop: "5px",
+                            }}
+                          >
+                            <button className="smr_mobile_viewAllBtn">
+                              View All
+                            </button>
                           </div>
                         </ButtonBase>
-                        <List className='smr_mobileMenuScroll'>
-                          {menuItem.param1.map(subMenuItem => (
+                        <List className="smr_mobileMenuScroll">
+                          {menuItem.param1.map((subMenuItem) => (
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
                                 component="div"
-                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
-                                style={{ width: '100%' }}
+                                onClick={() =>
+                                  handelMenu(
+                                    {
+                                      menuname: menuItem?.menuname,
+                                      key: menuItem?.param0name,
+                                      value: menuItem?.param0dataname,
+                                    },
+                                    {
+                                      key: subMenuItem.param1name,
+                                      value: subMenuItem.param1dataname,
+                                    }
+                                  )
+                                }
+                                style={{ width: "100%" }}
                               >
-                                <p style={{ margin: '0px 0px 0px 15px', width: '100%', fontWeight: '600', color: 'white' }}>{subMenuItem.param1dataname}</p>
+                                <p
+                                  style={{
+                                    margin: "0px 0px 0px 15px",
+                                    width: "100%",
+                                    fontWeight: "600",
+                                    color: "white",
+                                  }}
+                                >
+                                  {subMenuItem.param1dataname}
+                                </p>
                               </ButtonBase>
                               {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
                               {selectedMenu === menuItem.menuname && (
@@ -523,16 +637,47 @@ const Header = () => {
                                   {/* <div style={{ paddingLeft: '10px' }}>
                                     <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
                                   </div> */}
-                                  <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                    {subMenuItem.param2.map(subSubMenuItem => (
-                                      <ButtonBase
-                                        component="div"
-                                        onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
-                                        style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
-                                      >
-                                        <p className="smr_mobile_subMenu">{subSubMenuItem.param2dataname}</p>
-                                      </ButtonBase>
-                                    ))}
+                                  <List
+                                    style={{
+                                      paddingTop: "0px",
+                                      paddingBottom: "0px",
+                                    }}
+                                  >
+                                    {subMenuItem.param2.map(
+                                      (subSubMenuItem) => (
+                                        <ButtonBase
+                                          component="div"
+                                          onClick={() =>
+                                            handelMenu(
+                                              {
+                                                menuname: menuItem?.menuname,
+                                                key: menuItem?.param0name,
+                                                value: menuItem?.param0dataname,
+                                              },
+                                              {
+                                                key: subMenuItem.param1name,
+                                                value:
+                                                  subMenuItem.param1dataname,
+                                              },
+                                              {
+                                                key: subSubMenuItem.param2name,
+                                                value:
+                                                  subSubMenuItem.param2dataname,
+                                              }
+                                            )
+                                          }
+                                          style={{
+                                            width: "100%",
+                                            display: "flex",
+                                            justifyContent: "start",
+                                          }}
+                                        >
+                                          <p className="smr_mobile_subMenu">
+                                            {subSubMenuItem.param2dataname}
+                                          </p>
+                                        </ButtonBase>
+                                      )
+                                    )}
                                   </List>
                                 </>
                               )}
@@ -546,42 +691,74 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className='smr_menuStaicMobilePage'>About us</p>
+              <p className="smr_menuStaicMobilePage">About us</p>
             </div>
 
             <div>
-              <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
+              <p
+                className="smr_menuStaicMobilePageLink"
+                style={{ marginTop: "10px" }}
+                onClick={() => {
+                  setDrawerShowOverlay(false);
+                  navigation("/myWishList");
+                }}
+              >
+                WishList
+              </p>
             </div>
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
                 <p
-                  className='smr_menuStaicMobilePageLink'
-                  style={{ marginTop: '10px' }}
-                  onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+                  className="smr_menuStaicMobilePageLink"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/Lookbook");
+                  }}
                 >
                   Lookbook
                 </p>
               ) : (
-                ''
+                ""
               )
             ) : (
               <p
-                className='smr_menuStaicMobilePageLink'
-                style={{ marginTop: '10px' }}
-                onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}
+                className="smr_menuStaicMobilePageLink"
+                style={{ marginTop: "10px" }}
+                onClick={() => {
+                  setDrawerShowOverlay(false);
+                  navigation("/Lookbook");
+                }}
               >
                 Lookbook
               </p>
             )}
 
+         {
+          islogin &&    <div>
+          <p
+            className="smr_menuStaicMobilePageLink"
+            onClick={() => {
+              setDrawerShowOverlay(false);
+              navigation("/account");
+            }}
+          >
+            Account
+          </p>
+        </div>
+         }
 
             <div>
-              <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
-            </div>
-
-            <div>
-              <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); handleLogout(); }}>Log Out</p>
+              <p
+                className="smr_menuStaicMobilePageLink"
+                onClick={() => {
+                  setDrawerShowOverlay(false);
+                  handleLogout();
+                }}
+              >
+                Log Out
+              </p>
             </div>
 
             {islogin && (
@@ -590,7 +767,7 @@ const Header = () => {
                   display: "flex",
                   borderBottom: "1px solid white",
                   alignItems: "end",
-                  marginInline: '15px'
+                  marginInline: "15px",
                 }}
               >
                 <input
@@ -605,7 +782,7 @@ const Header = () => {
                     marginTop: "15px",
                     fontWeight: 500,
                     color: "white",
-                    fontSize: '17px'
+                    fontSize: "17px",
                   }}
                   className="mobileSideBarSearch"
                 />
@@ -619,19 +796,17 @@ const Header = () => {
                   }}
                 />
               </div>
-            )
-            }
+            )}
           </div>
         </>
       )}
 
-      <div className='smiling_Top_header'>
-        <div className='smiling_Top_header_sub'>
-          <div className='smiling_Top_header_div1'>
+      <div className="smiling_Top_header">
+        <div className="smiling_Top_header_sub">
+          <div className="smiling_Top_header_div1">
             <ul className="nav_ul_shop">
-
-              {IsB2BWebsiteChek == 1 ?
-                islogin == true ?
+              {IsB2BWebsiteChek == 1 ? (
+                islogin == true ? (
                   <li
                     className="nav_li_smining nav_li_smining_shop"
                     onMouseEnter={handleDropdownOpen}
@@ -639,7 +814,11 @@ const Header = () => {
                   >
                     <span
                       className="nav_li_smining"
-                      style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
                     >
                       SHOP
                       <RiArrowDropDownLine
@@ -647,9 +826,10 @@ const Header = () => {
                       />
                     </span>
                   </li>
-                  :
+                ) : (
                   ""
-                :
+                )
+              ) : (
                 <li
                   className="nav_li_smining nav_li_smining_shop"
                   onMouseEnter={handleDropdownOpen}
@@ -657,7 +837,11 @@ const Header = () => {
                 >
                   <span
                     className="nav_li_smining"
-                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
                   >
                     SHOP
                     <RiArrowDropDownLine
@@ -665,59 +849,75 @@ const Header = () => {
                     />
                   </span>
                 </li>
-              }
+              )}
 
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+                onClick={() => {
+                  // navigation("/servicePolicy");
+                  navigation(() => "/servicePolicy");
+                  window.scrollTo(0, 0);
+                }}
               >
-                {/* IMPACT */}
-                SERVICE POLICY
+                <a href="/servicePolicy" className="smr_A_link">
+                  SERVICE POLICY
+                </a>
               </li>
 
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
+                onClick={() => {
+                  navigation("/ExpertAdvice");
+                  window.scrollTo(0, 0);
+                }}
               >
-                EXPERT ADVICE
+                <a href="/ExpertAdvice" className="smr_A_link">
+                  EXPERT ADVICE
+                </a>
               </li>
 
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
               >
-                FUN FACT
+                <a href="/FunFact" className="smr_A_link">
+                  FUN FACT
+                </a>
               </li>
-
 
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <li
                     className="nav_li_smining nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
-                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                    onClick={() => {
+                      navigation("/Lookbook");
+                      window.scrollTo(0, 0);
+                    }}
                   >
-                    LOOKBOOK
+                    {/* <a href="/Lookbook" className="smr_A_link"> */}
+                      LOOKBOOK
+                    {/* </a> */}
                   </li>
                 ) : (
-                  ''
+                  ""
                 )
               ) : (
                 <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                  onClick={() => {
+                    navigation("/Lookbook");
+                    window.scrollTo(0, 0);
+                  }}
                 >
-                  LOOKBOOK
+                  {/* <a href="/Lookbook" className="smr_A_link"> */}
+                    LOOKBOOK
+                  {/* </a> */}
                 </li>
               )}
-
-
-
-
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
               <MenuIcon
@@ -727,40 +927,61 @@ const Header = () => {
               />
             </ul>
           </div>
-          <div className='smiling_Top_header_div2'>
+          <div className="smiling_Top_header_div2">
             <a href="/">
-              <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+              <img
+                src={compnyLogo}
+                loading="lazy"
+                className="smr_logo_header"
+              />
             </a>
           </div>
-          <div className='smiling_Top_header_div3'>
+          <div className="smiling_Top_header_div3">
             <ul className="nav_ul_shop">
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={() => navigation("/aboutUs")}
               >
-                ABOUT US
+                <a href="/Lookbook" className="smr_A_link">
+                  ABOUT US
+                </a>
               </li>
-              {
-                IsB2BWebsiteChek == 0 ?
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
+              {IsB2BWebsiteChek == 0 ? (
+                storeinit?.IsPLW ? (
+                  ""
+                ) : (
+                <>
+                {
+                  islogin &&   <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigation("/account")}
+                >
+                  {/* <a href="/account" className="smr_A_link"> */}
                     ACCOUNT
-                  </li>
-                  :
-                  islogin &&
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
+                  {/* </a> */}
+                </li>
+                }
+                </>
+                )
+              ) : islogin && storeinit?.IsPLW ? (
+                ""
+              ) : (
+                <>
+                {
+                  (islogin === true) && <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigation("/account")}
+                >
+                  {/* <a href="/account" className="smr_A_link"> */}
                     ACCOUNT
-                  </li>
-
-              }
+                  {/* </a> */}
+                </li>
+                }
+                </>
+              )}
               {islogin ? (
                 <li
                   className="nav_li_smining nav_li_smining_Mobile"
@@ -769,7 +990,6 @@ const Header = () => {
                 >
                   LOG OUT
                 </li>
-
               ) : (
                 <li
                   className="nav_li_smining"
@@ -780,21 +1000,77 @@ const Header = () => {
                 </li>
               )}
 
-              {
-
-                IsB2BWebsiteChek == 0 ?
+              {IsB2BWebsiteChek == 0 ? (
+                <>
+                  <Badge
+                    badgeContent={wishCountNum}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    className="badgeColorFix smr_mobileHideIcone"
+                  >
+                    <Tooltip title="WishList">
+                      <li
+                        className="nav_li_smining_Icone"
+                        onClick={() => navigation("/myWishList")}
+                      >
+                        <PiStarThin
+                          style={{
+                            height: "20px",
+                            cursor: "pointer",
+                            width: "20px",
+                          }}
+                        />
+                      </li>
+                    </Tooltip>
+                  </Badge>
+                  <li
+                    className="nav_li_smining_Icone smr_mobileHideIcone"
+                    onClick={toggleOverlay}
+                    style={{}}
+                  >
+                    <IoSearchOutline
+                      style={{
+                        height: "20px",
+                        cursor: "pointer",
+                        width: "20px",
+                      }}
+                    />
+                  </li>
+                  <Badge
+                    badgeContent={cartCountNum}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    className="badgeColorFix"
+                  >
+                    <Tooltip title="Cart">
+                      <li
+                        onClick={toggleCartDrawer}
+                        className="nav_li_smining_Icone"
+                      >
+                        <ShoppingCartOutlinedIcon
+                          sx={{ height: "30px", width: "30px" }}
+                        />
+                      </li>
+                    </Tooltip>
+                  </Badge>
+                </>
+              ) : (
+                islogin && (
                   <>
                     <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className='badgeColorFix smr_mobileHideIcone'
+                      className="badgeColorFix smr_mobileHideIcone"
                     >
                       <Tooltip title="WishList">
                         <li
                           className="nav_li_smining_Icone"
-                          onClick={() => navigation("/myWishList")}>
+                          onClick={() => navigation("/myWishList")}
+                        >
                           <PiStarThin
                             style={{
                               height: "20px",
@@ -807,9 +1083,15 @@ const Header = () => {
                     </Badge>
                     <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
-                      onClick={toggleOverlay} style={{}}>
+                      onClick={toggleOverlay}
+                      style={{}}
+                    >
                       <IoSearchOutline
-                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                        style={{
+                          height: "20px",
+                          cursor: "pointer",
+                          width: "20px",
+                        }}
                       />
                     </li>
                     <Badge
@@ -817,86 +1099,39 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className='badgeColorFix'
+                      className="badgeColorFix"
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={toggleCartDrawer}
+                          onClick={() => {
+                            navigate("/cartPage");
+                          }}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
+                            sx={{ height: "30px", width: "30px" }}
                           />
                         </li>
                       </Tooltip>
                     </Badge>
                   </>
-                  :
-                  islogin &&
-                  <>
-                    <Badge
-                      badgeContent={wishCountNum}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      className='badgeColorFix smr_mobileHideIcone'
-                    >
-                      <Tooltip title="WishList">
-                        <li
-                          className="nav_li_smining_Icone"
-                          onClick={() => navigation("/myWishList")}>
-                          <PiStarThin
-                            style={{
-                              height: "20px",
-                              cursor: "pointer",
-                              width: "20px",
-                            }}
-                          />
-                        </li>
-                      </Tooltip>
-                    </Badge>
-                    <li
-                      className="nav_li_smining_Icone smr_mobileHideIcone"
-                      onClick={toggleOverlay} style={{}}>
-                      <IoSearchOutline
-                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
-                      />
-                    </li>
-                    <Badge
-                      badgeContent={cartCountNum}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      className='badgeColorFix'
-                    >
-                      <Tooltip title="Cart">
-                        <li
-                          onClick={() => { navigate('/cartPage') }}
-                          className="nav_li_smining_Icone"
-                        >
-                          <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
-                          />
-                        </li>
-                      </Tooltip>
-                    </Badge>
-                  </>
-              }
-
-
+                )
+              )}
             </ul>
           </div>
         </div>
 
         <div
-          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""}  ${serachsShowOverlay ? "searchoverly" : ""}`}
+          className={`Smining-Top-Header-fixed-main ${
+            isHeaderFixed ? "fixed" : ""
+          }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
-          <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
-            <div className='smiling_Top_header_div1'>
+          <div className="smiling_Top_header_sub" style={{ width: "100%" }}>
+            <div className="smiling_Top_header_div1">
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
-                {IsB2BWebsiteChek == 1 ?
-                  islogin == true ?
+                {IsB2BWebsiteChek == 1 ? (
+                  islogin == true ? (
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_shop"
                       onMouseEnter={handleDropdownOpen}
@@ -908,7 +1143,7 @@ const Header = () => {
                           display: "flex",
                           alignItems: "center",
                           fontWeight: 500,
-                          cursor: 'pointer'
+                          cursor: "pointer",
                         }}
                       >
                         SHOP
@@ -917,8 +1152,11 @@ const Header = () => {
                         />
                       </span>
                     </li>
-                    : ""
-                  : <li
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  <li
                     className="nav_li_smining_Fixed nav_li_smining_shop"
                     onMouseEnter={handleDropdownOpen}
                     onMouseLeave={handleDropdownClose}
@@ -929,7 +1167,7 @@ const Header = () => {
                         display: "flex",
                         alignItems: "center",
                         fontWeight: 500,
-                        cursor: 'pointer'
+                        cursor: "pointer",
                       }}
                     >
                       SHOP
@@ -938,52 +1176,76 @@ const Header = () => {
                       />
                     </span>
                   </li>
-                }
+                )}
 
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
+                  onClick={() => {
+                    navigation("/servicePolicy");
+                    window.scrollTo(0, 0);
+                  }}
                 >
-                  SERVICE POLICY
+                  <a href="/servicePolicy" className="smr_A_linkFixed">
+                    SERVICE POLICY
+                  </a>
                 </li>
 
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}
+                  onClick={() => {
+                    navigation("/ExpertAdvice");
+                    window.scrollTo(0, 0);
+                  }}
                 >
-                  EXPERT ADVICE
+                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
+                    EXPERT ADVICE
+                  </a>
                 </li>
 
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
+                  onClick={() => {
+                    navigation("/FunFact");
+                    window.scrollTo(0, 0);
+                  }}
                 >
-                  FUN FACT
+                  <a href="/FunFact" className="smr_A_linkFixed">
+                    FUN FACT
+                  </a>
                 </li>
-
 
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
-                      onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                      onClick={() => {
+                        navigation("/Lookbook");
+                        window.scrollTo(0, 0);
+                      }}
                     >
-                      LOOKBOOK
+                      <a href="/Lookbook" className="smr_A_linkFixed">
+                        LOOKBOOK
+                      </a>
                     </li>
                   ) : (
-                    ''
+                    ""
                   )
                 ) : (
                   <li
                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
-                    onClick={() => { navigation('/Lookbook'); window.scrollTo(0, 0); }}
+                    onClick={() => {
+                      navigation("/Lookbook");
+                      window.scrollTo(0, 0);
+                    }}
                   >
-                    LOOKBOOK
+                    <a href="/Lookbook" className="smr_A_linkFixed">
+                      LOOKBOOK
+                    </a>
                   </li>
                 )}
 
@@ -997,48 +1259,58 @@ const Header = () => {
                 {/* } */}
               </ul>
             </div>
-            <div className='smiling_Top_header_div2'>
+            <div className="smiling_Top_header_div2">
               <a href="/">
-                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />
+                <img
+                  src={compnyLogo}
+                  loading="lazy"
+                  className="smr_logo_header_Fixed"
+                />
               </a>
             </div>
-            <div className='smiling_Top_header_div3'>
+            <div className="smiling_Top_header_div3">
               <ul className="nav_ul_shop">
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigation("/aboutUs")}
                 >
-                  ABOUT US
+                  <a href="/aboutUs" className="smr_A_linkFixed">
+                    ABOUT US
+                  </a>
                 </li>
 
-
-                {
-                  IsB2BWebsiteChek == 0 ?
+                {storeinit?.IsPLW == 0 && IsB2BWebsiteChek == 0 ? (
+                  <>
+                  {
+                    (islogin === true) && <li
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    // onClick={() => navigation("/LoginOption")}
+                    onClick={() => navigation("/account")}
+                  >
+                    <a href="/account" className="smr_A_linkFixed">
+                      ACCOUNT
+                    </a>
+                  </li>
+                  }
+                  </>
+                ) : (
+                  islogin && (
                     <li
                       className="nav_li_smining_Fixed nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                       // onClick={() => navigation("/LoginOption")}
                       onClick={() => navigation("/account")}
                     >
-                      ACCOUNT
+                      <a href="/account" className="smr_A_linkFixed">
+                        ACCOUNT
+                      </a>
                     </li>
-                    :
-                    islogin &&
-                    <li
-                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                      style={{ cursor: "pointer" }}
-                      // onClick={() => navigation("/LoginOption")}
-                      onClick={() => navigation("/account")}
-                    >
-                      ACCOUNT
-                    </li>
-                }
-
-
+                  )
+                )}
 
                 {islogin ? (
-
                   <li
                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                     style={{ cursor: "pointer" }}
@@ -1056,20 +1328,77 @@ const Header = () => {
                   </li>
                 )}
 
-                {
-                  IsB2BWebsiteChek == 0 ?
+                {IsB2BWebsiteChek == 0 ? (
+                  <>
+                    <Badge
+                      badgeContent={wishCountNum}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      className="badgeColor smr_mobileHideIcone"
+                    >
+                      <Tooltip title="WishList">
+                        <li
+                          className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                          onClick={() => navigation("/myWishList")}
+                        >
+                          <PiStarThin
+                            style={{
+                              height: "20px",
+                              cursor: "pointer",
+                              width: "20px",
+                            }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                    <li
+                      className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                      onClick={toggleOverlay}
+                      style={{}}
+                    >
+                      <IoSearchOutline
+                        style={{
+                          height: "20px",
+                          cursor: "pointer",
+                          width: "20px",
+                        }}
+                      />
+                    </li>
+                    <Badge
+                      badgeContent={cartCountNum}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      className="badgeColor"
+                    >
+                      <Tooltip title="Cart">
+                        <li
+                          onClick={toggleCartDrawer}
+                          className="nav_li_smining_Fixed_Icone"
+                        >
+                          <ShoppingCartOutlinedIcon
+                            sx={{ height: "30px", width: "30px" }}
+                          />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                  </>
+                ) : (
+                  islogin && (
                     <>
                       <Badge
                         badgeContent={wishCountNum}
                         max={1000}
                         overlap={"rectangular"}
                         color="secondary"
-                        className='badgeColor smr_mobileHideIcone'
+                        className="badgeColor smr_mobileHideIcone"
                       >
                         <Tooltip title="WishList">
                           <li
                             className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
-                            onClick={() => navigation("/myWishList")}>
+                            onClick={() => navigation("/myWishList")}
+                          >
                             <PiStarThin
                               style={{
                                 height: "20px",
@@ -1082,9 +1411,15 @@ const Header = () => {
                       </Badge>
                       <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
-                        onClick={toggleOverlay} style={{}}>
+                        onClick={toggleOverlay}
+                        style={{}}
+                      >
                         <IoSearchOutline
-                          style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                          style={{
+                            height: "20px",
+                            cursor: "pointer",
+                            width: "20px",
+                          }}
                         />
                       </li>
                       <Badge
@@ -1092,72 +1427,24 @@ const Header = () => {
                         max={1000}
                         overlap={"rectangular"}
                         color="secondary"
-                        className='badgeColor'
+                        className="badgeColor"
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={toggleCartDrawer}
+                            onClick={() => {
+                              navigate("/cartPage");
+                            }}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
-                              sx={{ height: '30px', width: '30px' }}
+                              sx={{ height: "30px", width: "30px" }}
                             />
                           </li>
                         </Tooltip>
                       </Badge>
                     </>
-                    :
-                    islogin &&
-                    <>
-                      <Badge
-                        badgeContent={wishCountNum}
-                        max={1000}
-                        overlap={"rectangular"}
-                        color="secondary"
-                        className='badgeColor smr_mobileHideIcone'
-                      >
-                        <Tooltip title="WishList">
-                          <li
-                            className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
-                            onClick={() => navigation("/myWishList")}>
-                            <PiStarThin
-                              style={{
-                                height: "20px",
-                                cursor: "pointer",
-                                width: "20px",
-                              }}
-                            />
-                          </li>
-                        </Tooltip>
-                      </Badge>
-                      <li
-                        className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
-                        onClick={toggleOverlay} style={{}}>
-                        <IoSearchOutline
-                          style={{ height: "20px", cursor: "pointer", width: "20px" }}
-                        />
-                      </li>
-                      <Badge
-                        badgeContent={cartCountNum}
-                        max={1000}
-                        overlap={"rectangular"}
-                        color="secondary"
-                        className='badgeColor'
-                      >
-                        <Tooltip title="Cart">
-                          <li
-                            onClick={() => { navigate('/cartPage') }}
-                            className="nav_li_smining_Fixed_Icone"
-                          >
-                            <ShoppingCartOutlinedIcon
-                              sx={{ height: '30px', width: '30px' }}
-                            />
-                          </li>
-                        </Tooltip>
-                      </Badge>
-                    </>
-                }
-
+                  )
+                )}
               </ul>
             </div>
           </div>
@@ -1166,8 +1453,10 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""}`}
-          style={{ backgroundColor: isHeaderFixed && 'transparent' }}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${
+            isHeaderFixed ? "fixed" : ""
+          }`}
+          style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
             style={{
@@ -1176,23 +1465,42 @@ const Header = () => {
               color: "#7d7f85",
               backgroundColor: "white",
               gap: "50px",
-              justifyContent: 'space-between',
-              marginTop: isHeaderFixed && '20px'
+              justifyContent: "space-between",
+              marginTop: isHeaderFixed && "20px",
             }}
-            className='smr_showDropOptionMainDiv'
+            className="smr_showDropOptionMainDiv"
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
-            <div style={{ display: 'flex' }}>
-              {menuItems.map(menuItem => (
-                <div key={menuItem.menuid} className='smr_headerOptionSingleDiv' style={{ minWidth: 'fitContent', borderRight: '1px solid lightgray', paddingLeft: '25px' }}>
+            <div style={{ display: "flex" }}>
+              {menuItems.map((menuItem) => (
+                <div
+                  key={menuItem.menuid}
+                  className="smr_headerOptionSingleDiv"
+                  style={{
+                    minWidth: "fitContent",
+                    borderRight: "1px solid lightgray",
+                    paddingLeft: "25px",
+                  }}
+                >
                   <ButtonBase
                     component="div"
-                    onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
+                    onClick={() =>
+                      handelMenu({
+                        menuname: menuItem?.menuname,
+                        key: menuItem?.param0name,
+                        value: menuItem?.param0dataname,
+                      })
+                    }
                   >
-                    <ListItem style={{ padding: '0px 5px 0px 5px' }}>
+                    <a
+                      href={`/p/${menuItem?.menuname}/?M=${btoa(
+                        `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                      )}`}
+                      className="smr_menuSubTitle"
+                    >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
-                    </ListItem>
+                    </a>
                   </ButtonBase>
                   <>
                     {/* <ButtonBase
@@ -1203,40 +1511,82 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className='smr_listMain'>
-                      {menuItem.param1.map(subMenuItem => (
+                    <List className="smr_listMain">
+                      {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
                             component="div"
-                            style={{ width: '100%', display: 'flex', justifyContent: 'start', height: '25px' }}
-                          // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              justifyContent: "start",
+                              height: "25px",
+                            }}
+                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`)}`}
-                              className='smr_menuSubTitle'
+                              href={`/p/${menuItem?.param0dataname}/${
+                                subMenuItem.param1dataname
+                              }/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                              )}`}
+                              className="smr_menuSubTitle"
                             >
-                              <p style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>
+                              <p
+                                style={{
+                                  margin: "0px 0px 0px 6px",
+                                  fontWeight: 500,
+                                }}
+                              >
                                 {subMenuItem.param1dataname}
                               </p>
                             </a>
                             {/* </a> */}
                           </ButtonBase>
                           <>
-                            <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                              {subMenuItem.param2.map(subSubMenuItem => (
+                            <List
+                              style={{
+                                paddingTop: "0px",
+                                paddingBottom: "0px",
+                              }}
+                            >
+                              {subMenuItem.param2.map((subSubMenuItem) => (
                                 <div
                                   component="div"
-                                  style={{ width: '100%' }}
-                                  onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
-
+                                  style={{ width: "100%" }}
+                                  onClick={() =>
+                                    handelMenu(
+                                      {
+                                        menuname: menuItem?.menuname,
+                                        key: menuItem?.param0name,
+                                        value: menuItem?.param0dataname,
+                                      },
+                                      {
+                                        key: subMenuItem.param1name,
+                                        value: subMenuItem.param1dataname,
+                                      },
+                                      {
+                                        key: subSubMenuItem.param2name,
+                                        value: subSubMenuItem.param2dataname,
+                                      }
+                                    )
+                                  }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname}/?M=${btoa(`${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`)}`}
-                                    className='smr_menuSubTitle'
+                                    href={`/p/${menuItem?.param0dataname}/${
+                                      subMenuItem.param1dataname
+                                    }/${
+                                      subSubMenuItem.param2dataname
+                                    }/?M=${btoa(
+                                      `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                    )}`}
+                                    className="smr_menuSubTitle"
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                    <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
+                                    <p className="muilist2ndSubMenutext">
+                                      {subSubMenuItem.param2dataname}
+                                    </p>
                                     {/* </ListItem> */}
                                   </a>
                                 </div>
@@ -1245,7 +1595,18 @@ const Header = () => {
                           </>
                         </div>
                       ))}
-                      <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
+                      <button
+                        className="smr_underline_button"
+                        onClick={() =>
+                          handelMenu({
+                            menuname: menuItem?.menuname,
+                            key: menuItem?.param0name,
+                            value: menuItem?.param0dataname,
+                          })
+                        }
+                      >
+                        view all
+                      </button>
                     </List>
                   </>
                 </div>
@@ -1255,8 +1616,8 @@ const Header = () => {
         </div>
       </div>
       <CartDrawer open={isCartOpen} />
-    </div >
-  )
-}
+    </div>
+  );
+};
 
-export default Header
+export default Header;

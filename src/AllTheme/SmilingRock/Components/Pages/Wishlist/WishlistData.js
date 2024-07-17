@@ -44,7 +44,7 @@ const WishlistData = ({
         {items.length == 0 &&
           <div className='smr_noWishlistData'>
             <p className='smr_title'>No Wishlist Found!</p>
-            <p className='smr_desc'>Please First Add To Wishlist Data</p>
+            <p className='smr_desc'>Please First Add Product in Wishlist</p>
             <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }

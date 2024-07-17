@@ -15,7 +15,6 @@ import Cookies from "js-cookie";
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
     const navigate = useNavigate();
-    const [countData, setCountData] = useState();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalpriceText, setTotalPriceText] = useState();
@@ -68,8 +67,8 @@ const Payment = () => {
             const newPrice = totalPriceNum * 0.03;
             setTotalPriceText(newPrice.toFixed(2));
             setTotalPrice(totalPriceNum);
-            const finalTotalPrice = totalPriceNum + newPrice;
-            setFinlTotal(finalTotalPrice.toFixed(2));
+            const finalTotalPrice = totalPriceNum;
+            setFinlTotal(finalTotalPrice);
         }
     }, [])
 
@@ -83,10 +82,10 @@ const Payment = () => {
             localStorage.setItem('orderNumber', num);
             navigate('/Confirmation');
             setIsloding(false);
+            localStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
-                setCountData(res)
                 setCartCountVal(res?.cartcount)
             })
 
@@ -173,7 +172,7 @@ const Payment = () => {
                                     <span>{totalprice}</span>
                                 </p>
                             </div>
-                            <div className='smr_paymenttotalpricesummary'>
+                            {/* <div className='smr_paymenttotalpricesummary'>
                                 <p>Estimated Tax</p>
                                 <p>
                                     <span
@@ -186,7 +185,7 @@ const Payment = () => {
                                     />
                                     <span>{totalpriceText}</span>
                                 </p>
-                            </div>
+                            </div> */}
                             <div className='smr_paymenttotalpricesummary'>
                                 <p>Estimated Total</p>
                                 <p>
