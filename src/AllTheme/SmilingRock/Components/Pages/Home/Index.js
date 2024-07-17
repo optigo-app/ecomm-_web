@@ -13,6 +13,7 @@ import DesignSet from './DesignSet/DesignSet1';
 import Album from './Album/Album';
 import NewArrival from './NewArrival/NewArrival';
 import BestSellerSection from './BestSellerSection/BestSellerSection';
+import BrandsComponent from './BrandComponent/BrandComponents';
 
 function Home() {
 
@@ -52,6 +53,7 @@ function Home() {
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />
+            <BrandsComponent/>
             <Footer />
           </div>
         }
@@ -73,6 +75,7 @@ function Home() {
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />
+            <BrandsComponent/>
             <Footer />
           </div>
         }
