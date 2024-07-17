@@ -448,7 +448,7 @@ const ProductList = () => {
   }, [location?.key])
 
   useEffect(() => {
-    const finalProdWithPrice = productListData.map((product) => {
+    const finalProdWithPrice = productListData?.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {
@@ -2849,8 +2849,8 @@ const ProductList = () => {
                                     productData?.VideoExtension :""}
                                    loop={true}
                                    autoPlay={true}
-                                  //  className="smr_productCard_Image"
-                                  style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                   className="smr_productCard_video"
+                                  // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                  />
                                   :
                                   <img
@@ -3033,7 +3033,7 @@ const ProductList = () => {
                     size={maxwidth464px ? "small" : "large"}
                     shape="circular"
                     onChange={handelPageChange}
-                    showFirstButtongit
+                    showFirstButton
                     showLastButton
                   />
                 </div>

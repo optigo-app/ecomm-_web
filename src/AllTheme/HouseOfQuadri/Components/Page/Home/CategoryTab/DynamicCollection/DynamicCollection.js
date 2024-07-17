@@ -30,11 +30,9 @@ import {
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { FilterListAPI } from "../../../../../../../utils/API/FilterAPI/FilterListAPI";
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { MdOutlineExpandMore } from "react-icons/md";
+import { MdFilterListAlt } from "react-icons/md";
 
-const ExpandMoreIcon = () => {
-  return <></>;
-};
 const DynamicCollection = () => {
   const { query } = useParams();
   const location = useLocation();
@@ -476,189 +474,45 @@ const DynamicCollection = () => {
 
   // Range filter logics
 
+  // Dummy Function just for trials
+  // const handleRangeFilterApi = () => {
+  //   // Implementation of your range filter API logic
+  // };
 
-  // Dummy Function just for trials 
-  const handleRangeFilterApi = () => {
-    // Implementation of your range filter API logic
-  };
+  // // Example of defining handleRangeFilterApi1
+  // const handleRangeFilterApi1 = () => {
+  //   // Implementation of your range filter API 1 logic
+  // };
 
-  // Example of defining handleRangeFilterApi1
-  const handleRangeFilterApi1 = () => {
-    // Implementation of your range filter API 1 logic
-  };
-
-  // Example of defining handleRangeFilterApi2
-  const handleRangeFilterApi2 = () => {
-    // Implementation of your range filter API 2 logic
-  };
+  // // Example of defining handleRangeFilterApi2
+  // const handleRangeFilterApi2 = () => {
+  //   // Implementation of your range filter API 2 logic
+  // };
 
   // Example of defining handleCheckboxChange
-  const handleCheckboxChange = () => {
-    // Implementation of your checkbox change handler logic
-  };
+  const handleCheckboxChange = () => {};
 
-  const RangeFilterView = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue}
-              onChange={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue[0]}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue[1]}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView1 = (ele) => {
-    console.log("netwt", ele);
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue1}
-              onChange={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue1[0]}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue1[1]}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView2 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue2}
-              onChange={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue2[0]}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue2[1]}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  // ends
-
-  const handleInputChange = (index) => (event) => {
-    const newSliderValue = [...sliderValue];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setSliderValue(newSliderValue);
-    handleRangeFilterApi(newSliderValue);
-  };
-  const handleInputChange1 = (index) => (event) => {
-    const newSliderValue = [...sliderValue1];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setSliderValue1(newSliderValue);
-    handleRangeFilterApi1(newSliderValue);
-  };
-  const handleInputChange2 = (index) => (event) => {
-    const newSliderValue = [...sliderValue2];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setSliderValue2(newSliderValue);
-    handleRangeFilterApi2(newSliderValue);
-  };
+  // const handleInputChange = (index) => (event) => {
+  //   const newSliderValue = [...sliderValue];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setSliderValue(newSliderValue);
+  //   handleRangeFilterApi(newSliderValue);
+  // };
+  // const handleInputChange1 = (index) => (event) => {
+  //   const newSliderValue = [...sliderValue1];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setSliderValue1(newSliderValue);
+  //   handleRangeFilterApi1(newSliderValue);
+  // };
+  // const handleInputChange2 = (index) => (event) => {
+  //   const newSliderValue = [...sliderValue2];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setSliderValue2(newSliderValue);
+  //   handleRangeFilterApi2(newSliderValue);
+  // };
 
   useEffect(() => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -681,18 +535,159 @@ const DynamicCollection = () => {
     callAllApi();
   }, []);
 
-  const handleSliderChange = (event, newValue) => {
-    setSliderValue(newValue);
-    handleRangeFilterApi(newValue);
-  };
-  const handleSliderChange1 = (event, newValue) => {
-    setSliderValue1(newValue);
-    handleRangeFilterApi1(newValue);
-  };
-  const handleSliderChange2 = (event, newValue) => {
-    setSliderValue2(newValue);
-    handleRangeFilterApi1(newValue);
-  };
+  // const RangeFilterView = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue}
+  //             onChange={handleSliderChange}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={sliderValue[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView1 = (ele) => {
+  //   console.log("netwt", ele);
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue1}
+  //             onChange={handleSliderChange1}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={sliderValue1[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue1[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView2 = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={sliderValue2}
+  //             onChange={handleSliderChange2}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={sliderValue2[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={sliderValue2[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // ends
+
+  // const handleSliderChange = (event, newValue) => {
+  //   setSliderValue(newValue);
+  //   handleRangeFilterApi(newValue);
+  // };
+  // const handleSliderChange1 = (event, newValue) => {
+  //   setSliderValue1(newValue);
+  //   handleRangeFilterApi1(newValue);
+  // };
+  // const handleSliderChange2 = (event, newValue) => {
+  //   setSliderValue2(newValue);
+  //   handleRangeFilterApi1(newValue);
+  // };
 
   return (
     <>
@@ -872,6 +867,12 @@ const DynamicCollection = () => {
         </div>
         <div className="filter_section">
           <div className="filter_accordian_section">
+            <div className="filter_results">
+              <span>
+                <MdFilterListAlt size={24} /> Filters
+              </span>
+              <span>Total Products: 22 </span>
+            </div>
             {filterData?.map((item, index) => {
               return (
                 <>
@@ -879,7 +880,7 @@ const DynamicCollection = () => {
                     !item?.id?.includes("Price") && (
                       <Accordion key={index} className="accordian">
                         <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
+                          expandIcon={<MdOutlineExpandMore />}
                           aria-controls="panel1-content"
                           id="panel1-header"
                           className="hoq_category_names"
@@ -894,7 +895,9 @@ const DynamicCollection = () => {
                                   className="hoq_subCategory_name"
                                   key={opt?.id}
                                 >
-                                  <label htmlFor={`${item?.id}${opt?.id}`}>{opt.Name}</label>
+                                  <label htmlFor={`${item?.id}${opt?.id}`}>
+                                    {opt.Name}
+                                  </label>
                                   <div>
                                     <Checkbox
                                       name={`${item?.id}${opt?.id}`}
@@ -930,18 +933,16 @@ const DynamicCollection = () => {
                       </Accordion>
                     )}
                   {item?.id?.includes("Price") && (
-                    <Accordion className="accordian" >
+                    <Accordion className="accordian">
                       <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        expandIcon={<MdOutlineExpandMore />}
                         aria-controls="panel1-content"
                         id="panel1-header"
                         className="hoq_category_names"
                       >
                         <span className="hoq_category_names">{item.Name}</span>
                       </AccordionSummary>
-                      <AccordionDetails
-                      className="accordian_details_col"
-                      >
+                      <AccordionDetails className="accordian_details_col">
                         {(JSON.parse(item?.options) ?? []).map((opt, i) => (
                           <div
                             style={{
@@ -949,8 +950,9 @@ const DynamicCollection = () => {
                               alignItems: "center",
                               justifyContent: "space-between",
                               gap: "12px",
+                              padding: "5px 2px",
                             }}
-                            className="hoq_subCategory_name"
+                            className="hoq_subCategory_name price"
                             key={i}
                           >
                             <FormControlLabel
@@ -963,11 +965,7 @@ const DynamicCollection = () => {
                                       ? false
                                       : filterChecked[`Price${i}${i}`]?.checked
                                   }
-                                  style={{
-                                    color: "#7f7d85",
-                                    padding: 0,
-                                    // width: "10px",
-                                  }}
+                                  className="price_checkbox"
                                   onClick={(e) => {
                                     handleCheckboxChange(e, item?.id, opt);
                                   }}
@@ -996,10 +994,12 @@ const DynamicCollection = () => {
                       </AccordionDetails>
                     </Accordion>
                   )}
-                  {item?.Name?.includes("Diamond") && (
+                  {/* {item?.Name?.includes("Diamond") && (
                     <Accordion elevation={0}>
                       <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        expandIcon={
+                          <MdOutlineExpandMore sx={{ width: "20px" }} />
+                        }
                       >
                         <span className="hoq_category_names">{item.Name}</span>
                       </AccordionSummary>
@@ -1023,7 +1023,9 @@ const DynamicCollection = () => {
                   {item?.Name?.includes("Gross") && (
                     <Accordion elevation={0}>
                       <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        expandIcon={
+                          <MdOutlineExpandMore sx={{ width: "20px" }} />
+                        }
                       >
                         <span className="hoq_category_names">{item.Name}</span>
                       </AccordionSummary>
@@ -1047,7 +1049,9 @@ const DynamicCollection = () => {
                   {item?.Name?.includes("NetWt") && (
                     <Accordion elevation={0}>
                       <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        expandIcon={
+                          <MdOutlineExpandMore sx={{ width: "20px" }} />
+                        }
                       >
                         <span className="hoq_category_names">{item.Name}</span>
                       </AccordionSummary>
@@ -1067,40 +1071,42 @@ const DynamicCollection = () => {
                         </Box>
                       </AccordionDetails>
                     </Accordion>
-                  )}
+                  )} */}
                 </>
               );
             })}
           </div>
           {/* productlist cards */}
-          <div className="collections_list">
-            {/* loader */}
-            {isProdLoading ? (
-              <LoadingBar />
-            ) : productListData && productListData.length > 0 ? (
-              productListData.map((val, i) => (
-                <C_Card
-                  key={i}
-                  img={ImageUrl(val?.designno, val?.ImageExtension)}
-                  videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
-                  rollUpImage={RollUpImageUrl2(
-                    val?.designno,
-                    val?.ImageExtension,
-                    val?.ImageCount
-                  )}
-                  title={val?.TitleLine}
-                  designo={val?.designno}
-                  decodeEntities={decodeEntities}
-                  productData={val}
-                  price={`INR `}
-                  isNew={i % 2 !== 0}
-                  storeInit={storeInit}
-                />
-              ))
-            ) : (
-              // not found page
-              <NoProductFound />
-            )}
+          <div className="cc_list">
+            <div className="collections_list">
+              {/* loader */}
+              {isProdLoading ? (
+                <LoadingBar />
+              ) : productListData && productListData.length > 0 ? (
+                productListData.map((val, i) => (
+                  <C_Card
+                    key={i}
+                    img={ImageUrl(val?.designno, val?.ImageExtension)}
+                    videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
+                    rollUpImage={RollUpImageUrl2(
+                      val?.designno,
+                      val?.ImageExtension,
+                      val?.ImageCount
+                    )}
+                    title={val?.TitleLine}
+                    designo={val?.designno}
+                    decodeEntities={decodeEntities}
+                    productData={val}
+                    price={`INR `}
+                    isNew={i % 2 !== 0}
+                    storeInit={storeInit}
+                  />
+                ))
+              ) : (
+                // not found page
+                <NoProductFound />
+              )}
+            </div>
           </div>
         </div>
         {/* Pagination */}
@@ -1377,7 +1383,7 @@ const NoProductFound = () => {
 //     //         {!item?.id?.includes("Range") && !item?.id?.includes("Price") && (
 //     //           <Accordion key={index} className="accordian">
 //     //             <AccordionSummary
-//     //               expandIcon={<ExpandMoreIcon />}
+//     //               expandIcon={<MdOutlineExpandMore />}
 //     //               aria-controls="panel1-content"
 //     //               id="panel1-header"
 //     //               className="hoq_category_names"
