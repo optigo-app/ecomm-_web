@@ -123,6 +123,32 @@
         transition: all 0.5s ease;
     }
 
+    .elv_listMain{
+        display: flex;
+        flex-flow: column wrap;
+        height: 350px;
+        width: 100%;
+        margin-right: 20px !important;
+    }
+
+    .elv_menuSubTitle {
+        font-size: 13px;
+        text-decoration: none;
+        color: #9b978f;
+        // color: rgb(192 187 184);
+    }
+
+    .muilist2ndSubMenutext {
+        font-size: 12px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .muilist2ndSubMenutext:hover {
+        color: black;
+
+    }
+
     .el_Login_header_li {
         height: 100%;
         display: flex;

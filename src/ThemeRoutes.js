@@ -171,7 +171,7 @@ export default function ThemeRoutes() {
       {themeNo === 5 && <HemratnaProcatalog_App />} 
 
 
-      {themeNo === 5 && <Procatalog_App />}
+      {themeNo === 6 && <Procatalog_App />}
     </>
   )
 }
