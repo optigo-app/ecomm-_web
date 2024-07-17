@@ -123,7 +123,7 @@ const DesignSet = () => {
         <>
             <div className='smr_DesignSetTitleDiv'>
                 <p className='smr_desognSetTitle'>Complete Your Look
-                    <Link className='smr_designSetViewmoreBtn' onClick={handleNavigate}>
+                    <Link href="/Lookbook" className='smr_designSetViewmoreBtn' onClick={handleNavigate}>
                         View more
                     </Link>
                 </p>

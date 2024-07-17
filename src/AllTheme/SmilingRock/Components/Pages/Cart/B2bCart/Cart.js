@@ -168,21 +168,25 @@ const CartPage = () => {
             <div className="smr_cart-title">My Cart</div>
           }
           <div className='smr_cartmainRowDiv'>
-            <div className='smr_cartButton-groups'>
-              <Link
-                className='smr_ReomoveAllCartbtn'
-                variant="body2"
-                onClick={handleRemoveAllDialog}
-              >
-                Clear All
-              </Link>
-            </div>
+            {!isloding && cartData.length != 0 &&
+              <div className='smr_cartButton-groups'>
+                <Link
+                  className='smr_ReomoveAllCartbtn'
+                  variant="body2"
+                  onClick={handleRemoveAllDialog}
+                >
+                  Clear All
+                </Link>
+              </div>
+            }
             {!isMobileScreen &&
               <div className="smr_cart-title">My Cart</div>
             }
-            <div className='smr_placeOrderMainbtnDivs'>
-              <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-            </div>
+            {!isloding && cartData.length != 0 &&
+              <div className='smr_placeOrderMainbtnDivs'>
+                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              </div>
+            }
           </div>
 
           {/* {!isloding && cartData.length != 0 &&
