@@ -5,6 +5,9 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: $fontTenorSans;
   .Banner {
     width: 100%;
     height: 45vh;
@@ -83,71 +86,223 @@
       }
     }
   }
-  .collections_list {
-    width: 80%;
-    height: auto;
+  .filter_Bar {
+    width: 90%;
+    height: 80px;
     display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    align-content: center;
-    justify-content: start;
-    gap: 25px;
-    padding: 28px;
-    .C_Card {
-      min-width: 350px;
-      min-height: 550px;
-      position: relative;
-      .new {
-        position: absolute;
-        top: 0;
-        margin: 15px;
+    align-items: center;
+    justify-content: center;
+    .breadcrumb {
+      width: 25%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0;
+      padding: 0 15px;
+      span {
+        font-family: $fontDmSans;
+        font-size: 16px;
+      }
+    }
+    .filter_select {
+      width: 75%;
+      height: 100%;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      div {
         display: flex;
         align-items: center;
-        span {
-          background-color: #d3d3d3;
-          padding: 3px 8px;
-          border-radius: 4px;
-          font-family: $fontCrimsonTextRegular;
-          color: red;
-          font-size: 14px;
+        justify-content: center;
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+        padding: 5px;
+        margin-right: 15px;
+        .label {
+          font-size: 16px;
+        }
+        select {
+          border: none;
+          border-radius: none;
+          font-size: 15px;
+          background: transparent;
+          .option {
+            font-size: 12px;
+          }
         }
       }
-      a{
-        text-decoration: none;
-        color: inherit;
+    }
+  }
+  .filter_section {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    height: 100vh;
+    .filter_accordian_section {
+      width: 20%;
+      overflow-y: scroll;
+      height: 100vh;
+      position: sticky;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+      gap: 0;
+      font-family: $fontDmSans;
+      .accordian{
+        box-shadow: none;
+        margin: 0 ;
+        padding: 5px 0;
+         .hoq_category_names{
+         margin: 0;
+         padding: 0;
+         }
+         .accordian_details_col{
+          padding: 0;
+          margin: 0;
+         .hoq_subCategory_name{
+          display: flex;
+          margin: 0;
+          padding: 5px 10px;
+          align-items: center;
+          justify-content: space-between;
+          &:last-child{
+            margin-bottom: 15px;
+          }
+         }
+        }
+      }
+    }
+    .collections_list {
+      width: 80%;
+      height: 100vh;
+      overflow-y: scroll;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      // align-items: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      // filter_accordian_section
+      .loading_container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 5%;
+        }
+      }
+
+      .NoProductFound {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        background-color: #cfcfcf17;
+        align-items: center;
+        overflow: hidden;
+        justify-content: center;
+        border-radius: 5px;
+        img {
+          width: 18%;
+        }
+      }
+
+      .C_Card {
+        width: 325px;
+        height: max-content;
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0 2px;
+        .hoq_cart_and_wishlist_icon {
+          position: absolute;
+          top: 0;
+          display: flex;
+          z-index: 56;
+          align-items: center;
+          width: 100%;
+          right: 0;
+          display: flex;
+          justify-content: space-between;
+          left: 0;
+          height: 50px;
+        }
         .image {
-            width: 350px;
-            height: 90%;
-            img {
+          width: 315px;
+          height: 300px;
+          overflow: hidden;
+          position: relative;
+          .rollup_video {
+            position: absolute;
+            z-index: 45;
+            width: 100%;
+            height: 300px;
+            top: 0;
+            video {
               width: 100%;
               height: 100%;
               object-fit: cover;
             }
           }
-          .title {
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+            border: none;
+            transition: 0.3s ease;
+          }
+        }
+        .det {
+          width: 100%;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          text-align: center;
+          font-family: $fontCrimsonTextRegular;
+          overflow: hidden;
+          padding: 8px 0px;
+          h2 {
+            font-size: 19px;
+            font-weight: 400;
+            color: #7d7f85;
+            padding: 0;
             width: 100%;
             height: auto;
+            display: -webkit-box;
+            text-align: center;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            padding: 2px 10px;
+          }
+          .jewel_parameter {
+            margin-top: -4px;
             display: flex;
             align-items: center;
-            flex-direction: column;
-            text-align: center;
-            font-family: $fontCrimsonTextRegular;
-            padding: 8px 0;
-            h2 {
-              font-size: 19px;
-              white-space: nowrap;
-              font-weight: 400;
-              color: black;
-              padding: 0;
-            }
-            small {
-              margin-top: -4px;
-              font-size: 14.45px;
+            color: #7d7f85;
+            &:has(span) {
+              display: flex;
+              gap: 5px;
+              letter-spacing: 0.5px;
             }
           }
+          .hoq_prod_mtcolr_price {
+            color: #7d7f85;
+            span {
+              color: #7d7f85;
+              font-size: 14px;
+            }
+          }
+        }
       }
     }
   }
+
   .pagination-bar {
     width: 100%;
     display: flex;

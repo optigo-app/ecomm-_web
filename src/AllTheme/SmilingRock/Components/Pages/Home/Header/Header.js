@@ -506,8 +506,10 @@ const Header = () => {
                       <>
                         <ButtonBase
                           component="div"
-                          onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}
-                          style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                            onClick={() => handelMenu(
+                              { "menuname": menuItem?.menuname, "key":
+                                 menuItem?.param0name, "value": menuItem?.param0dataname })}
+                            style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                         >
                           <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
                             <button className="smr_mobile_viewAllBtn">View All</button>
@@ -518,7 +520,8 @@ const Header = () => {
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
                                 component="div"
-                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                                onClick={() => handelMenu({ 
+                                  "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                 style={{ width: '100%' }}
                               >
                                 <p style={{ margin: '0px 0px 0px 15px', width: '100%', fontWeight: '600', color: 'white' }}>{subMenuItem.param1dataname}</p>
