@@ -24,6 +24,7 @@ import PendingMemo from './PendingMemo/PendingMemo';
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
 import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
+import Cookies from 'js-cookie';
 
 
 function CustomTabPanel(props) {
@@ -90,9 +91,27 @@ export default function Account() {
         setValue1(newValue);
     }
 
+    // const handleLogout = () => {
+    //     setIsLoginState('false')
+    //     localStorage.setItem('LoginUser', 'false');
+    //     localStorage.removeItem('storeInit');
+    //     localStorage.removeItem('loginUserDetail');
+    //     localStorage.removeItem('remarks');
+    //     localStorage.removeItem('selectedAddressId');
+    //     localStorage.removeItem('orderNumber');
+    //     localStorage.removeItem('registerEmail');
+    //     localStorage.removeItem('UploadLogicalPath');
+    //     localStorage.removeItem('remarks');
+    //     localStorage.removeItem('registerMobile');
+    //     localStorage.removeItem('allproductlist');
+    //     naviagation('/')
+    //     window.location.reload();
+    // }
     const handleLogout = () => {
-        setIsLoginState('false')
-        localStorage.setItem('LoginUser', 'false');
+        // console.log(loginState);
+        setIsLoginState(false);
+        Cookies.remove('userLoginCookie');
+        localStorage.setItem('LoginUser', false);
         localStorage.removeItem('storeInit');
         localStorage.removeItem('loginUserDetail');
         localStorage.removeItem('remarks');
@@ -103,9 +122,10 @@ export default function Account() {
         localStorage.removeItem('remarks');
         localStorage.removeItem('registerMobile');
         localStorage.removeItem('allproductlist');
-        naviagation('/')
+        localStorage.clear();
+        navigation('/')
         window.location.reload();
-    }
+      }
 
     return (
         <div className='accountPagTabSection'>
@@ -124,8 +144,9 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                        <Tab label="Log Out" onClick={handleLogout} />
                                     </Tabs>
-                                    <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p>
+                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
                             </div>
                             <div className='smlingAccountTabMobileView YourAccountPageTabs'>
@@ -138,7 +159,9 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                        <Tab label="Log Out" onClick={handleLogout} />
                                     </Tabs>
+                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
                                
                             </div>

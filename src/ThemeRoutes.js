@@ -25,14 +25,12 @@ import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 
 export default function ThemeRoutes() {
-  const [themeNo, setThemeNo] = useState(7);
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
-  const [dt_companyTitleLogo, dt_setCompanyTitleLogo] =
-    useRecoilState(dt_companyLogo);
-  const [el_companyTitleLogo, el_setCompanyTitleLogo] =
-    useRecoilState(el_companyLogo);
-  const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] =
-    useRecoilState(smrMA_companyLogo);
+
+  const [themeNo, setThemeNo] = useState();
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+  const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
+  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+  const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
@@ -55,36 +53,24 @@ export default function ThemeRoutes() {
       dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
-    Storeinit()
-      .then((response) => {
-        if (response.status === 200) {
-          // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+    Storeinit().then((response) => {
+      if (response.status === 200) {
 
-          localStorage.setItem(
-            "storeInit",
-            JSON.stringify(response.data.Data.rd[0])
-          );
-          localStorage.setItem(
-            "myAccountFlags",
-            JSON.stringify(response.data.Data.rd1)
-          );
-          localStorage.setItem(
-            "CompanyInfoData",
-            JSON.stringify(response.data.Data.rd2[0])
-          );
-          let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-          const existingVisitorId = Cookies.get("visiterId");
-          callAllApi();
-          if (islogin == false) {
-            if (!existingVisitorId) {
-              Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
-            } else {
-              const expirationDate =
-                Cookies.getJSON("visiterId")?.expires &&
-                new Date(Cookies.getJSON("visiterId").expires);
-              if (expirationDate && expirationDate <= new Date()) {
-                Cookies.remove("visiterId", { path: "/" });
-              }
+        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        
+        localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
+        localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
+        localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
+        let visiterId = response?.data.Data?.rd2[0]?.VisitorId
+        const existingVisitorId = Cookies.get('visiterId');
+        callAllApi();
+        if (islogin == false) {
+          if (!existingVisitorId) {
+            Cookies.set('visiterId', visiterId, { path: '/', expires: 30 });
+          } else {
+            const expirationDate = Cookies.getJSON('visiterId')?.expires && new Date(Cookies.getJSON('visiterId').expires);
+            if (expirationDate && expirationDate <= new Date()) {
+              Cookies.remove('visiterId', { path: '/' });
             }
           }
 

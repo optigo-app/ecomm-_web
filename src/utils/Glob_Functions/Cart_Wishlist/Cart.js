@@ -322,8 +322,12 @@ const useCart = () => {
       );
       setCartData(updatedCartData);
     } else {
-      const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty) } : selectedItem;
+      const updatedCartData = cartData.map(cart =>
+        cart.id === item.id ? { ...cart, Quantity: (item?.Quantity || 0) + 1, FinalCost: priceQty } : cart
+      );
+      setCartData(updatedCartData);
 
+      const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty) } : selectedItem;
       setSelectedItem(updatedSelectedItem);
     }
     setQtyCount(prevCount => prevCount + 1);
@@ -347,8 +351,12 @@ const useCart = () => {
         );
         setCartData(updatedQtytData);
       } else {
+        const updatedQtytData = cartData?.map(cart =>
+          cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
+        );
+        setCartData(updatedQtytData);
+        
         const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : selectedItem;
-
         setSelectedItem(updatedSelectedItem);
       }
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));

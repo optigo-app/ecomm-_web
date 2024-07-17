@@ -3,11 +3,29 @@ import "./confirmation.scss"
 import Footer from '../../Home/Footer/Footer';
 import ThankYouImage from "../../../Assets/thankyou.svg"
 import { useNavigate } from 'react-router-dom';
+import { FaPrint } from 'react-icons/fa';
 
 const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
+    const [storeInit, setStoreInit] = useState();
+
+    const setCSSVariable = () => {
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          backgroundColor
+        );
+      };
+    
+
     useEffect(() => {
+
+        setCSSVariable();
+        
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        setStoreInit(storeInit);
         let orderNo = localStorage.getItem('orderNumber')
         setOrderNo(orderNo)
     }, [])
@@ -34,6 +52,15 @@ const Confirmation = () => {
                         <div className="orderNumber">
                             <p>Your Order number is <span>{orderNo}</span></p>
                         </div>
+                        {storeInit?.IsPLW != 0 &&
+                            <div className='smr_plwlPrintDiv'>
+                                <button className="icon-button">
+                                    <FaPrint className="icon" />
+                                    Print
+                                </button>
+                                <p>Comming soon...</p>
+                            </div>
+                        }
                         <button className="continueShoppingBtn" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>

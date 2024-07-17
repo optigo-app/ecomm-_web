@@ -1,26 +1,24 @@
-@import '../../scss/variable';
+@import "../../scss/variable";
 
-$generalColor : lightgray;
+$generalColor: lightgray;
 
 .Submain {
-    background-color: $generalColor;
+  background-color: $generalColor;
 }
 
-.smiling_home_index_main {
-    background-color: $backgroundColor;
-    padding-inline: 6%;
-}
+.ProCat_home_index_main {
+  background-color: $backgroundColor;
+  padding-inline: 6%;
 
-.smiling_home_index_Submain {
+  .smiling_home_index_Submain {
     background-color: white;
-}
+  }
 
-
-.authFlowBakcColor {
+  .authFlowBakcColor {
     background-color: $backgroundColor;
-}
+  }
 
-.loader-overlay {
+  .loader-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,12 +29,11 @@ $generalColor : lightgray;
     justify-content: center;
     align-items: center;
     z-index: 1;
-}
+  }
 
-
-@media screen and (max-width:1200px) {
-
+  @media screen and (max-width: 1200px) {
     .smiling_home_index_main {
-        padding-inline: 1% !important;
+      padding-inline: 1% !important;
     }
+  }
 }

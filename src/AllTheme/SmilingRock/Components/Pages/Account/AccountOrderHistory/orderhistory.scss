@@ -20,7 +20,12 @@
     color: grey;
 }
 ._color3{
-    color: orange;
+    // background-color: red !important;
+    background-color: #e43434 !important;
+    color: white  !important;
+}
+.bgcolororderdetail{
+    background-color: #f9f9f9;
 }
 .orderHistory .MuiAccordion-gutters::before{
  opacity: 1 !important;
@@ -86,6 +91,20 @@
   }
   .card-text {
     font-size: 1rem;
+  }
+
+
+  .actions-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px; /* Adjust position from the right */
+    transition: transform 1s ease-out;
+    z-index: 1000;
+  }
+  
+  .actions-container.active {
+    transform: translateX(-100%); /* Slide in from right to left */
   }
 
 // @media (min-width : 891px) and (max-width: 987px){
@@ -402,3 +421,5 @@ div[role="tabpanel"] >div.MuiBox-root:has(.orderedItems){
         min-width: 100% !important;
       }
 }
+
+

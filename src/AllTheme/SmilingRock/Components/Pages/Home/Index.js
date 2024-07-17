@@ -9,7 +9,7 @@ import SustainAbility from './SustainAbility/SustainAbility';
 import BottomBanner from './BottomBanner/BottomBanner';
 import Footer from './Footer/Footer';
 import TrendingView from './TrandingView/TrendingView';
-import DesignSet from './DesignSet/DesignSet';
+import DesignSet from './DesignSet/DesignSet1';
 import Album from './Album/Album';
 import NewArrival from './NewArrival/NewArrival';
 import BestSellerSection from './BestSellerSection/BestSellerSection';
@@ -19,10 +19,20 @@ function Home() {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
+    setCSSVariable();
     let localData = JSON.parse(localStorage.getItem('storeInit'));
     setLocalData(localData);
     console.log('localDatalocalData', localData);
   }, [])
+
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
 
   return (
     <div className='smiling_home_index_main'>

@@ -48,8 +48,10 @@ const Cart = ({
 
   useEffect(() => {
     setTimeout(() => {
-      let priceData = items.reduce((total, item) => total + item?.FinalCost, 0)?.toFixed(2)
-      setTotalPrice(priceData)
+      if(items){
+        let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0)?.toFixed(2)
+        setTotalPrice(priceData)
+      }
     }, 300);
   })
 
@@ -97,8 +99,8 @@ const Cart = ({
             </div>
           </div>
           <div className='smr_b2cCartTb'>
-            {items.length !== 0 ? (
-              items.map((item, index) => (
+            {items?.length !== 0 ? (
+              items?.map((item, index) => (
                 <CartTableData
                   key={index}
                   cartData={item}

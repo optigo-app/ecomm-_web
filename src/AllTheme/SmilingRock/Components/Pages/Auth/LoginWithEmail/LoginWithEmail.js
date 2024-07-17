@@ -72,11 +72,23 @@ export default function LoginWithEmail() {
     //     })
     // }
 
+ 
     useEffect(() => {
+
+        setCSSVariable();
+
         const storedEmail = location.state?.email;;
         if (storedEmail) setEmail(storedEmail);
     }, []);
 
+    const setCSSVariable = () => {
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          backgroundColor
+        );
+      };
 
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
@@ -299,7 +311,7 @@ export default function LoginWithEmail() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smr_loginEmailD'>
                     <p style={{
                         textAlign: 'center',

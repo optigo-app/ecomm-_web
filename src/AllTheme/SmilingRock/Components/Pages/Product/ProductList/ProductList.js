@@ -29,6 +29,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 
 
@@ -98,6 +100,7 @@ const ProductList = () => {
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
+  const [isRollOverVideo,setIsRollOverVideo] = useState({});
 
   const [value, setValue] = React.useState([]);
 
@@ -110,7 +113,18 @@ const ProductList = () => {
   let cookie = Cookies.get('visiterId')
 
 
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
+
   useEffect(()=>{
+    setCSSVariable();
+
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
     setSelectedMetalId(mtid)
 
@@ -643,7 +657,7 @@ const ProductList = () => {
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,prodListType,cookie)
+     ProductListApi(output,1,obj,prodListType,cookie,sortBySelect)
        .then((res) => {
          if (res) {
            setProductListData(res?.pdList);
@@ -689,7 +703,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj,prodListType,cookie)
+    ProductListApi(output, value, obj,prodListType,cookie,sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -780,7 +794,7 @@ const ProductList = () => {
 
     if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,prodListType,cookie)
+      ProductListApi(output,currPage,obj,prodListType,cookie,sortBySelect)
           .then((res) => {
             if (res) {
               setProductListData(res?.pdList);
@@ -875,14 +889,14 @@ const ProductList = () => {
 
   }
 
-  const handleImgRollover = (pd, i) => {
+  const handleImgRollover = (pd) => {
     if (pd?.images?.length >= 1) {
       // setRolloverImgPd((prev) => pd?.images[1])
       setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
     }
   }
 
-  const handleLeaveImgRolloverImg = (pd,i) =>{
+  const handleLeaveImgRolloverImg = (pd) =>{
     if(pd?.images?.length > 0){
       // setRolloverImgPd((prev) => pd?.images[0] )
       setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
@@ -1086,9 +1100,13 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
+    // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
     let DiaRange = {DiaMin:Rangeval[0],DiaMax:Rangeval[1]}
-    let netRange = {netMin:sliderValue1[0],netMax:sliderValue1[1]}
-    let grossRange = {grossMin:sliderValue2[0],grossMax:sliderValue2[1]}
+    let netRange = { netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0] , netMax: diafilter1?.Max == sliderValue1[1] ? "" :sliderValue1[1] }
+    let grossRange = {grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],grossMax: diafilter2?.Max == sliderValue2[1] ? "" :sliderValue2[1] }
 
       await ProductListApi(output,1,obj,prodListType,cookie,sortBySelect,DiaRange,netRange,grossRange)
          .then((res) => {
@@ -1107,12 +1125,16 @@ const ProductList = () => {
    }
   const handleRangeFilterApi1 = async(Rangeval1) =>{
 
+    let  diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = {diaMin:sliderValue[0],diaMax:sliderValue[1]}
+    let DiaRange = {diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0] ,diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1]}
     let netRange = {netMin:Rangeval1[0],netMax:Rangeval1[1]}
-    let grossRange = {grossMin:sliderValue2[0],grossMax:sliderValue2[1]}
+    let grossRange = {grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1]}
 
 
       await ProductListApi(output,1,obj,prodListType,cookie,sortBySelect,DiaRange,netRange,grossRange)
@@ -1131,13 +1153,16 @@ const ProductList = () => {
     
    }
   const handleRangeFilterApi2 = async(Rangeval2) =>{
-    console.log("newValue",Rangeval2);
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = {diaMin:sliderValue[0],diaMax:sliderValue[1]}
-    let netRange = {netMin:sliderValue1[0],netMax:sliderValue1[1]}
+    let  diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
+    let DiaRange = {diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],diaMax: diafilter?.Max == sliderValue[1] ? "" :sliderValue[1]}
+    let netRange = {netMin: diafilter1?.Min == sliderValue1[0] ? "" :sliderValue1[0],netMax:diafilter1?.Max == sliderValue1[1] ? "" :sliderValue1[1]}
     let grossRange = {grossMin:Rangeval2[0],grossMax:Rangeval2[1]}
 
       await ProductListApi(output,1,obj,prodListType,cookie,sortBySelect,DiaRange,netRange,grossRange)
@@ -1166,7 +1191,7 @@ const ProductList = () => {
   };
   const handleSliderChange2 = (event, newValue) => {
     setSliderValue2(newValue);
-    handleRangeFilterApi1(newValue)
+    handleRangeFilterApi2(newValue)
   };
 
   const handleInputChange = (index) => (event) => {
@@ -2734,7 +2759,7 @@ const ProductList = () => {
                                   {/* <Button className="smr_wish-icon"> */}
                                   <Checkbox
                                     icon={
-                                      <FavoriteBorderIcon
+                                      <StarBorderIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#7d7f85",
@@ -2743,7 +2768,7 @@ const ProductList = () => {
                                       />
                                     }
                                     checkedIcon={
-                                      <FavoriteIcon
+                                      <StarIcon
                                         sx={{
                                           fontSize: "22px",
                                           color: "#e31b23",
@@ -2790,7 +2815,45 @@ const ProductList = () => {
                                     </span>
                                   )}
                                 </div>
-                                <img
+                                <div 
+                                  onMouseEnter={() => {
+                                    handleImgRollover(productData);
+                                    if(productData?.VideoCount > 0){
+                                      setIsRollOverVideo({[productData?.autocode]:true})
+                                    }else{
+                                      setIsRollOverVideo({[productData?.autocode]:false})
+                                    }
+                                  }}
+
+                                  onClick={() =>
+                                    handleMoveToDetail(productData)
+                                  }
+
+                                  onMouseLeave={() => {
+                                    handleLeaveImgRolloverImg(productData);
+                                    setIsRollOverVideo({[productData?.autocode]:false})
+                                  }}
+                                  className="smr_ImgandVideoContainer"
+                                >
+                                { 
+                                isRollOverVideo[productData?.autocode] == true ? 
+                                   <video
+                                  //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                   src={ productData?.VideoCount > 0 ? 
+                                    (storeInit?.DesignImageFol).slice(0, -13) +
+                                    "video/" +
+                                    productData?.designno +
+                                    "_" +
+                                    1 +
+                                    "." +
+                                    productData?.VideoExtension :""}
+                                   loop={true}
+                                   autoPlay={true}
+                                  //  className="smr_productCard_Image"
+                                  style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                 />
+                                  :
+                                  <img
                                   className="smr_productCard_Image"
                                   id={`smr_productCard_Image${productData?.autocode}`}
                                   // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
@@ -2803,25 +2866,28 @@ const ProductList = () => {
                                       : imageNotFound
                                   }
                                   alt=""
-                                  onClick={() =>
-                                    handleMoveToDetail(productData)
-                                  }
-                                  onMouseEnter={() => {
-                                    handleImgRollover(productData);
-                                  }}
-                                  onMouseLeave={() => {
-                                    handleLeaveImgRolloverImg(productData, i);
-                                  }}
+                                  // onClick={() =>
+                                  //   handleMoveToDetail(productData)
+                                  // }
+                                  // onMouseEnter={() => {
+                                  //   handleImgRollover(productData);
+                                  // }}
+                                  // onMouseLeave={() => {
+                                  //   handleLeaveImgRolloverImg(productData);
+                                  // }}
                                 />
+                                
+                                }
+                                </div>
                                 <div className="smr_prod_card_info">
                                   <div className="smr_prod_Title">
                                     <span
                                       className={
-                                        // productData?.TitleLine?.length > 30
-                                        // ?
-                                        "smr_prod_title_with_width"
-                                        // :
-                                        // "smr_prod_title_with_no_width"
+                                        (productData?.TitleLine?.length > 30 )
+                                        ?
+                                        "smr1_prod_title_with_width"
+                                        :
+                                        "smr1_prod_title_with_no_width"
                                       }
                                     >
                                       {productData?.TitleLine?.length > 0 &&

@@ -24,17 +24,19 @@
 
   .smr_designSetMainDiv {
     display: flex;
+    height: 550px;
+    justify-content: center;
   }
 
   .smr_designSetDiv1 {
-    width: 50%;
+    width: 30%;
   }
 
   .smr_designSetDiv2 {
     width: 50%;
     display: flex;
     flex-wrap: wrap;
-    height: 550px;
+    height: 510px;
     overflow: auto;
   }
 
@@ -85,14 +87,12 @@
   }
 
   .smr_designSetDiv {
-    flex: 0 0 auto;
-    // width: 48.5%;
     text-align: center;
-    // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
     margin: 0px;
     cursor: pointer;
+    height: 200px;
+    margin-inline: 5px;
   }
-
 
   .smr_designsetDiv {
     width: 100%;
@@ -100,8 +100,7 @@
   }
 
   .image {
-    max-width: 200px;
-    margin: 5px;
+    max-width: 250px;
     border-radius: 8px;
     object-fit: contain;
   }
@@ -139,6 +138,13 @@
     font-weight: 500;
     color: $homePageFontColor;
     text-align: center;
+  }
+
+  .smr_designSetViewmoreBtn{
+    color: $titleColor !important;
+    margin-left: 20px !important;
+    text-decoration-color: $titleColor !important;
+    font-size: $fontSize2 !important;
   }
 
   @media screen and (max-width: 1000px) {

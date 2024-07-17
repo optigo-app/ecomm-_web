@@ -13,12 +13,13 @@ import Pako from 'pako';
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
+import { Link } from '@mui/material';
 
 const DesignSet = () => {
+    const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState();
     const [designSetList, setDesignSetList] = useState([]);
     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-    const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(loginState);
     const [swiper, setSwiper] = useState(null);
@@ -82,7 +83,7 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
-        navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
     };
 
     const decodeEntities = (html) => {
@@ -96,12 +97,9 @@ const DesignSet = () => {
         setSwiper(swiper);
     };
 
-    console.log('designSetListdesignSetList', designSetList);
-
 
     const [showAll, setShowAll] = useState(false);
 
-    // Function to handle the "View All" click
     const handleViewAll = () => {
         setShowAll(true);
     };
@@ -109,10 +107,21 @@ const DesignSet = () => {
     // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
 
+    console.log('designSetListdesignSetList', designSetList);
+
+    const handleNavigate = () => {
+        navigate("/Lookbook");
+    }
+
+
     return (
         <div className="smr_designSetMain">
 
-            <p className='smr_desognSetTitle'>Complete Our Look</p>
+            <p className='smr_desognSetTitle'>Complete Your Look
+                <Link className='smr_designSetViewmoreBtn' onClick={handleNavigate}>
+                    View more
+                </Link>
+            </p>
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
@@ -128,81 +137,14 @@ const DesignSet = () => {
                                 onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine ? slide?.TitleLine : '')}
                             />
                             <p className="smr_designList_title">{slide?.TitleLine}</p>
-                            {/* <p className="smr_designList_title">
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(storeInit?.Currencysymbol),
-                                    }}
-                                />{' '}
-                                {slide?.UnitCost}
-                            </p> */}
                         </div>
                     ))}
-                    {!showAll && itemsToShow?.length > 6 && <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>}
+                    {!showAll && itemsToShow?.length > 6 && (
+                        <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>
+                    )}
                 </div>
+
             </div>
-
-            {/* <div>
-                <p className="designSetTitle">Design Set</p>
-            </div>
-            <div className="App">
-                <button
-                    className="nav-btn-left"
-                    onClick={() => swiper?.slidePrev()}
-                    disabled={!swiper || swiper.isBeginning}
-                >
-                    <FaChevronLeft />
-                </button>
-                <Swiper
-                    modules={[Navigation]}
-                    spaceBetween={50}
-                    slidesPerView={3}
-                    onSwiper={onSwiperInit}
-                    navigation={{
-                        nextEl: '.nav-btn-right',
-                        prevEl: '.nav-btn-left',
-                    }}
-                    onSlideChange={(swiper) => {
-                        if (swiper.isBeginning) {
-                            swiper.allowSlidePrev = false;
-                        } else {
-                            swiper.allowSlidePrev = true;
-                        }
-
-                        if (swiper.isEnd) {
-                            swiper.allowSlideNext = false;
-                        } else {
-                            swiper.allowSlideNext = true;
-                        }
-                    }}
-                >
-                    {designSetList?.map((slide, index) => (
-                        <SwiperSlide key={index} className='srm_designSetMain'>
-                            <div className="smr_designSetDiv">
-                                <img className="image" loading="lazy" src={ProdCardImageFunc(slide)} alt={`Slide ${index}`} onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine)} />
-                                <p className="smr_designList_title">{slide?.TitleLine}</p>
-                                <p className="smr_designList_title">
-                                    <span
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(storeInit?.Currencysymbol),
-                                        }}
-                                    />{' '}
-                                    {slide?.UnitCost}
-                                </p>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-                <button
-                    className="nav-btn-right"
-                    onClick={() => swiper?.slideNext()}
-                    disabled={!swiper || swiper.isEnd}
-                >
-                    <FaChevronRight />
-                </button>
-            </div> */}
-
-
         </div>
     );
 };

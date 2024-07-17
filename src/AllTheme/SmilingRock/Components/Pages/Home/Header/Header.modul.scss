@@ -28,7 +28,7 @@
 
     .smr_logo_header {
         object-fit: contain;
-        max-width: 110px;
+        max-width: 500px;
     }
 
     .smiling_Top_header_div3 {
@@ -127,7 +127,7 @@
 
     .smr_logo_header_Fixed {
         object-fit: contain;
-        max-width: 60px;
+        max-width: 500px;
     }
 
     .Smining-Top-Header-fixed-main {
@@ -150,6 +150,15 @@
         height: 60px;
     }
 
+    .smr_A_link{
+        text-decoration: none;
+        color: white;
+    }
+
+    .smr_A_linkFixed{
+        text-decoration: none;
+        color: #7d7f85;
+    }
 
     /// open dropdownList 
     .shop-dropdown {
