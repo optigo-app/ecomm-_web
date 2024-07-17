@@ -99,9 +99,8 @@ export default function ThemeRoutes() {
             left: 0,
             behavior: "smooth",
           });
-        }
-      })
-      .catch((err) => console.log(err));
+        }}
+      }).catch((err) => console.log(err));
   }, []);
 
   const callAllApi = () => {
