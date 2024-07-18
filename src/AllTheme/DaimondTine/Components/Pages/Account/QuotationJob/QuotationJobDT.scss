@@ -106,17 +106,18 @@
     top: 0;
 }
 
-.muiSmilingRocksBtn {
-    border: 1px solid #7d7f85 !important;
+.muiSmilingRocksBtnDT {
+    // border: 1px solid #7d7f85 !important;
+    border: 0px !important;
 }
 
-.muiSmilingRocksBtn:hover {
+.muiSmilingRocksBtnDT:hover {
     background: #fff !important;
-    color: #7d7f85;
+    color: black;
 }
 
-.muiSmilingRocksBtn:hover svg {
-    color: #7d7f85 !important;
+.muiSmilingRocksBtnDT:hover svg {
+    color: black !important;
 }
 
 @media(max-width: 768px) {

@@ -484,14 +484,15 @@ const ManageAddress = () => {
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#f6efe6',
+                    // background: '#f6efe6',
+                    background: '#f0e0e0',
                     color: "rgba(31, 25, 25, 0.7)",
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='muiSmilingRocksBtnManageDT savedAddressManageBtn' variant="contained" sx={{ background: "#f0e0e0", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"

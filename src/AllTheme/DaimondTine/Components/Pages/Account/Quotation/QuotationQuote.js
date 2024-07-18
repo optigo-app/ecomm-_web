@@ -371,16 +371,7 @@ const QuotationQuote = () => {
             const customerid = data.id; 
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            // const combinedValue = JSON.stringify({
-            //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-            // });
-            // const encodedCombinedValue = btoa(combinedValue);
-            // const body = {
-            //     "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.email1}\"}`,
-            //     "f": "zen (cartcount)",
-            //     p: encodedCombinedValue
-            // };
-            // const response = await CommonAPI(body);
+   
             let currencyRate = "1";
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
@@ -435,7 +426,7 @@ const QuotationQuote = () => {
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
             <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
-                    <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                    <Button variant="contained" className="muiSmilingRocksBtnDT" sx={{ background: "#f0e0e0", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0" }} onClick={eve => resetAllFilters(eve)}>
                         All
                     </Button>
                 </Box>
@@ -445,7 +436,8 @@ const QuotationQuote = () => {
                         handleSearch(eve, eve?.target?.value, fromDate, toDate);
                     }} />
                     <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
-                        onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
+                        onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon />
+                    </Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">
                     <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec w_q">
@@ -521,7 +513,7 @@ const QuotationQuote = () => {
                     </Box>
                 </Box>
                 <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="QuotePadSec pad_left_q">
-                    <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                    <Button variant='contained' className="muiSmilingRocksBtnDT" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "black !important" }} /></Button>
                 </Box>
             </Box>
             {isLoading ?
