@@ -206,7 +206,7 @@ export default function YourProfile() {
         try {
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
-            const customerid = data.id;
+            const customerid = data?.id;
             
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
