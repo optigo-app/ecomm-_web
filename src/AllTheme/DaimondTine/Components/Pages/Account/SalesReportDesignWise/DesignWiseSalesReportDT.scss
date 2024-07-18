@@ -79,7 +79,21 @@
     background-color: rgba(0, 0, 0, 0.08);
 }
 
+.muiSmilingRocksBtnDT {
+    border: none !important;
+    color: black !important;
+    // border: 1px solid #7d7f85 !important;
+}
 
+.muiSmilingRocksBtnDT:hover {
+    background: #fff !important;
+    // color: #f0e0e0;
+    color: black !important;
+}
+
+.muiSmilingRocksBtnDT:hover svg {
+    color: black !important;
+}
 /* .designWiseSalesProducts .designWiseSalesReportProduct > .MuiBox-root:has(.MuiTypography-root){
     transition: 0.4s ease;
 }

@@ -584,15 +584,15 @@ const AccountLedger = () => {
              
                                 <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
         
-                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
-                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
+                                <Button variant='contained' className='muiSmilingRocksBtnDT' title='search here'
+                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0",  }}
                                     onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
                                     >
-                                    <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
+                                    <SearchIcon sx={{ color: "black !important", cursor:'pointer' }} /></Button>
                                 </Box>
                             </div>
                         <Box sx={{paddingBottom: "35px", paddingRight: "15px"}}>
-                            <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}  
+                            <Button variant="contained" className="muiSmilingRocksBtnDT" sx={{ background: "#f0e0e0", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0" }}  
                             onClick={() => backToInitial3()}>
                                 All
                             </Button>

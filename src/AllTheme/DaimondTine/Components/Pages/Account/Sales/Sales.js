@@ -124,7 +124,7 @@ function EnhancedTableHead(props) {
     };
 
     return (
-        <TableHead>
+        <TableHead style={{backgroundColor:'#f0e0e0', color:'black'}}>
             <TableRow>
                 {headCells.map((headCell) => (
                     <TableCell
@@ -391,7 +391,7 @@ const Sales = () => {
     return (
         <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
+                <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtnDT " sx={{ background: "#f0e0e0", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
                 <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                     <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
                         setSearchVal(eve?.target?.value);
@@ -467,7 +467,7 @@ const Sales = () => {
                     </Box>
                 </Box>
                 <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
-                    <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                    <Button variant='contained' className="muiSmilingRocksBtnDT" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "black !important" }} /></Button>
                 </Box>
             </Box>
             {isLoading ?

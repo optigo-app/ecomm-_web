@@ -45,7 +45,7 @@
 }
 
 .salesReportTableSecWeb table thead tr:first-child {
-    background: #eaeaeb;
+    background: #f0e0e0 !important;
 }
 
 /* .salesReporttabelHead th{
@@ -67,6 +67,23 @@
 
 .salesReportImgSec {
     margin-bottom: 20px !important;
+}
+
+
+.muiSmilingRocksBtnDT {
+    border: none !important;
+    color: black !important;
+    // border: 1px solid #7d7f85 !important;
+}
+
+.muiSmilingRocksBtnDT:hover {
+    background: #fff !important;
+    // color: #f0e0e0;
+    color: black !important;
+}
+
+.muiSmilingRocksBtnDT:hover svg {
+    color: black !important;
 }
 
 @media(max-width: 768px){
