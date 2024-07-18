@@ -23,6 +23,7 @@ import ChangePassword from './ChangePassword/ChangePassword';
 import YourProfile from './YourProfile/YourProfile';
 import OrderHistory from './OrderHistory/OrderHistory';
 import ManageAddress from './ManageAddress/ManageAddress';
+import Plm from './PLM/PLM';
 
 
 function CustomTabPanel(props) {
@@ -123,7 +124,7 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        <Tab label="PLM" {...a11yProps(5)} />
                                         <Tab label="Log Out" onClick={handleLogout} />
                                     </Tabs>
                                 </Box>
@@ -136,7 +137,7 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                        <Tab label="PLM" {...a11yProps(5)} />
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
                                         <Tab label="Log Out" onClick={handleLogout} />
                                     </Tabs>
@@ -200,6 +201,11 @@ export default function Account() {
                             <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
                                 <div>
                                     <ChangePassword />
+                                </div>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={accountValidation() ? 5 : 3}>
+                                <div>
+                                    <Plm />
                                 </div>
                             </CustomTabPanel>
 
