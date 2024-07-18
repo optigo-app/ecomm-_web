@@ -871,7 +871,7 @@ const SalesReport = () => {
           <Button
             variant="contained"
             sx={{ background: "#f0e0e0" }}
-            className="muiSmilingRocksBtnDT"
+            className="muiSmilingRocksBtnDTS"
             onClick={(eve) => resetAllFilters(eve)}
           >
             All
@@ -982,7 +982,7 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtnDT"
+            className="muiSmilingRocksBtnDTS"
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
@@ -1028,7 +1028,7 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtnDT"
+            className="muiSmilingRocksBtnDTS"
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
@@ -1057,7 +1057,7 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWebQ">
             <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
