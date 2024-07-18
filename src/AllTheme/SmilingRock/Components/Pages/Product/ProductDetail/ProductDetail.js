@@ -1502,14 +1502,14 @@ const ProductDetail = () => {
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label">Metal</Typography>
                               <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>
+                                {
+                                  <span className="smr_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }
+                              </Typography>
+                               &nbsp;
                               <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
@@ -1518,14 +1518,12 @@ const ProductDetail = () => {
                              <Typography className="smr_Price_breakup_label">Diamond </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>{
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                              }</Typography>
+                              &nbsp;
                               <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
@@ -1534,14 +1532,12 @@ const ProductDetail = () => {
                              <Typography className="smr_Price_breakup_label">Stone </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>{
+                                <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
                               <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
@@ -1550,14 +1546,12 @@ const ProductDetail = () => {
                              <Typography className="smr_Price_breakup_label">MISC </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>{
+                                <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
                               <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
@@ -1566,14 +1560,12 @@ const ProductDetail = () => {
                              <Typography className="smr_Price_breakup_label">Labour </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>{
+                                <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
                               <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)}</Typography>
                               </span>
                              </div>
@@ -1582,14 +1574,12 @@ const ProductDetail = () => {
                              <Typography className="smr_Price_breakup_label">Other </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
+                              <Typography>{
+                                <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
                               <Typography>{
                               (
 
@@ -1614,15 +1604,11 @@ const ProductDetail = () => {
                             {isPriceloading ? (
                               ""
                             ) : (
-                              <span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />
+                              <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
                             )}
+                            &nbsp;
                             {/* {PriceWithMarkupFunction(
                         mtrd?.AB,
                         finalprice,
@@ -2030,14 +2016,10 @@ const ProductDetail = () => {
                             </td>
                             <td className="Smr_stockItem_table_td">
                               <span>
-                                <span
-                                  className="smr_currencyFont"
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    ),
-                                  }}
-                                />
+                              <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                                &nbsp;
                                 <span> {ele?.Amount}</span>
                               </span>
                             </td>
@@ -2140,14 +2122,10 @@ const ProductDetail = () => {
                                   className="smr_stockItem_price_type_mt"
                                 >
                                   <spam>
-                                    <span
-                                      className="smr_currencyFont"
-                                      dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        ),
-                                      }}
-                                    />
+                                  <span className="smr_currencyFont">
+                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
                                   </spam>
                                   <span>{ele?.UnitCostWithMarkUp}</span>
                                 </div>
@@ -2272,15 +2250,11 @@ const ProductDetail = () => {
                                           {ele?.designno} - {ele?.CategoryName}
                                           <br />
                                           {
-                                            <span
-                                              className="smr_currencyFont"
-                                              dangerouslySetInnerHTML={{
-                                                __html: decodeEntities(
-                                                  storeInit?.Currencysymbol
-                                                ),
-                                              }}
-                                            />
+                                            <span className="smr_currencyFont">
+                                              {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
                                           }
+                                          &nbsp;
                                           {ele?.UnitCostWithMarkUp}
                                         </p>
                                       </div>

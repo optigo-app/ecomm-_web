@@ -31,6 +31,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie'
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import { Helmet } from "react-helmet";
 
 
 
@@ -1356,7 +1357,19 @@ const ProductList = () => {
     )
   }
 
+  const DynamicListPageTitleLineFunc = () =>{
+    if(location?.search.split("=")[0]?.slice(1) == "M"){
+      return menuParams?.menuname
+    }else{
+      return location?.pathname.split('/')[2]
+    }
+  }
+
   return (
+    <>
+    <Helmet>
+      <title>{DynamicListPageTitleLineFunc()}</title>
+    </Helmet>
     <div id="top">
       <Drawer
         open={isDrawerOpen}
@@ -1802,20 +1815,11 @@ const ProductList = () => {
                                             className="smr_mui_checkbox_label"
                                             label={
                                               opt?.Minval == 0
-                                                ? `Under ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Maxval}`
+                                                ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                                 : opt?.Maxval == 0
-                                                ? `Over ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Minval}`
-                                                : `${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${
-                                                    opt?.Minval
-                                                  } - ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Maxval}`
+                                                ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode }${opt?.Minval}`
+                                                : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${ opt?.Minval} 
+                                                   - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                             }
                                           />
                                         </div>
@@ -2500,20 +2504,11 @@ const ProductList = () => {
                                             className="smr_mui_checkbox_label"
                                             label={
                                               opt?.Minval == 0
-                                                ? `Under ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Maxval}`
+                                                ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                                 : opt?.Maxval == 0
-                                                ? `Over ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Minval}`
-                                                : `${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${
-                                                    opt?.Minval
-                                                  } - ${decodeEntities(
-                                                    storeInit?.Currencysymbol
-                                                  )}${opt?.Maxval}`
+                                                ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                                : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
+                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                             }
                                           />
                                         </div>
@@ -2987,14 +2982,17 @@ const ProductList = () => {
                                     </span>
                                     <span>/</span>
                                     <span className="smr_price">
-                                      <span
+                                      {/*  <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
                                             storeInit?.Currencysymbol
                                           ),
                                         }}
-                                      />
+                                      /> */}
+                                      <span className="smr_currencyFont">
+                                        {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
                                       <span className="smr_pricePort">
                                         {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
@@ -3043,6 +3041,7 @@ const ProductList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

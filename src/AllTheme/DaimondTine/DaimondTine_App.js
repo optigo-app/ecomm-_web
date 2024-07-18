@@ -12,6 +12,9 @@ import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/Log
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 import { dt_loginState } from './Components/Recoil/atom'
+import ProductList from './Components/Pages/Product/ProductList/ProductList'
+import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
+import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
 
 const DaimondTine_App = () => {
 
@@ -30,6 +33,10 @@ const DaimondTine_App = () => {
         <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />
+        <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
+          <Route path="/p/*" element={<ProductList/>} />
+          <Route path="/d/*" element={<ProductDetail/>} />
+        </Route>
       </Routes>
     </div>
   )

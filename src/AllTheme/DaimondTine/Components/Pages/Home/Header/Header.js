@@ -14,6 +14,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import Cookies from "js-cookie";
 
 const Header = () => {
 
@@ -29,6 +30,11 @@ const Header = () => {
     const [selectedData, setSelectedData] = useState([]);
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [leval1menu,setLeval1menu] =  useState();
+
+
+    let navigate = useNavigate()
+
 
 
     const fetchData = () => {
@@ -37,9 +43,22 @@ const Header = () => {
     };
 
     const getMenuApi = async () => {
-        await GetMenuAPI().then((response) => {
+
+        const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const { IsB2BWebsite } = storeInit;
+        const visiterID = Cookies.get("visiterId");
+        let finalID;
+        if (IsB2BWebsite == 0) {
+          finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+        } else {
+          finalID = loginUserDetail?.id || "0";
+        }
+
+        await GetMenuAPI(finalID).then((response) => {
             setMenuData(response?.Data?.rd)
         }).catch((err) => console.log(err))
+
     }
 
 
@@ -170,6 +189,8 @@ const Header = () => {
         setHoveredIndex(index);
         setExpandedMenu(index);
         setSelectedData(menuItems[index] || []);
+        setLeval1menu(param)
+        console.log("leval0menu",param);
     };
 
     const handleLogout = () => {
@@ -195,44 +216,65 @@ const Header = () => {
     const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1024px)');
     const isDesktop = useMediaQuery('(min-width: 1025px) and (max-width: 1440px)');
     const isMaxDesktop = useMediaQuery('(min-width: 1440px) and (max-width: 2550px)');
+    
 
-    const handelMenu = (param, param1, param2) => {
-        let finalData = {
-            "menuname": param?.menuname ?? "",
-            "FilterKey": param?.key ?? "",
-            "FilterVal": param?.value ?? "",
-            "FilterKey1": param1?.key ?? "",
-            "FilterVal1": param1?.value ?? "",
-            "FilterKey2": param2?.key ?? "",
-            "FilterVal2": param2?.value ?? ""
-        }
-        localStorage.setItem("menuparams", JSON.stringify(finalData))
-        const queryParameters = [
-            finalData?.FilterKey && `${finalData.FilterVal}`,
-            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        ].filter(Boolean).join('/');
+    const handelMenu = (param) => {
 
-        const otherparamUrl = Object.entries({
-            b: finalData?.FilterKey,
-            g: finalData?.FilterKey1,
-            c: finalData?.FilterKey2,
-        })
-            .filter(([key, value]) => value !== undefined)
-            .map(([key, value]) => value)
-            .filter(Boolean)
-            .join('&');
+        console.log("param",param);
+        // setDrawerShowOverlay(false);
+        // let finalData = {
+        //   menuname: param?.menuname ?? "",
+        //   FilterKey: param?.key ?? "",
+        //   FilterVal: param?.value ?? "",
+        //   FilterKey1: param1?.key ?? "",
+        //   FilterVal1: param1?.value ?? "",
+        //   FilterKey2: param2?.key ?? "",
+        //   FilterVal2: param2?.value ?? "",
+        // };
+        // localStorage.setItem("menuparams", JSON.stringify(finalData));
+    
+        // const queryParameters1 = [
+        //   finalData?.FilterKey && `${finalData.FilterVal}`,
+        //   finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        //   finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        // ]
+        //   .filter(Boolean)
+        //   .join("/");
+    
+        // const queryParameters = [
+        //   finalData?.FilterKey && `${finalData.FilterVal}`,
+        //   finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        //   finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        // ]
+        //   .filter(Boolean)
+        //   .join(",");
+    
+        // const otherparamUrl = Object.entries({
+        //   b: finalData?.FilterKey,
+        //   g: finalData?.FilterKey1,
+        //   c: finalData?.FilterKey2,
+        // })
+        //   .filter(([key, value]) => value !== undefined)
+        //   .map(([key, value]) => value)
+        //   .filter(Boolean)
+        //   .join(",");
+    
+        // const paginationParam = [
+        //   `page=${finalData.page ?? 1}`,
+        //   `size=${finalData.size ?? 50}`,
+        // ].join("&");
+    
+        // console.log("otherparamsUrl--", otherparamUrl);
+    
+        // let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-        const paginationParam = [
-            `page=${finalData.page ?? 1}`,
-            `size=${finalData.size ?? 50}`
-        ].join('&');
+        // const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+        //   menuEncoded
+        // )}`;
 
-        const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
-        // let d = new Date();
-        // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-        navigation(url)
-    }
+        // navigate(url);
+
+      };
 
     const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
         if (iconclicked == 'iconclicked') {
@@ -397,7 +439,13 @@ const Header = () => {
                                 onMouseLeave={() => {
                                     handleMouseLeave();
                                 }}
-                                onClick={() => handleMenuClick(item)}
+                                onClick={() => 
+                                handelMenu({
+                                        menuname: item?.menuname,
+                                        key: item?.param0name,
+                                        value: item?.param0dataname,
+                                })}
+                                
                             >
                                 <span className="nav-li-sminingSpan">
                                     {item.menuname}
@@ -443,14 +491,28 @@ const Header = () => {
                         {/* Render selectedData outside the menuItems loop */}
                         <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
                             {selectedData?.param1?.map((param1Item, param1Index) => (
+                                // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
                                 <div key={param1Index}>
-                                    <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                    <span onClick={() => handelMenu(leval1menu)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
                                     <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                                         {param1Item?.param2?.map((param2Item, param2Index) => (
-                                            <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                            <p className="level2menuData" key={param2Index} onClick={() => handelMenu(param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                                                 {param2Item?.param2dataname}
                                             </p>
                                         ))}
+                                        {/* {
+                                        menuname: menuItem?.menuname,
+                                        key: menuItem?.param0name,
+                                        value: menuItem?.param0dataname,
+                                      },
+                                      {
+                                        key: subMenuItem.param1name,
+                                        value: subMenuItem.param1dataname,
+                                      },
+                                      {
+                                        key: subSubMenuItem.param2name,
+                                        value: subSubMenuItem.param2dataname,
+                                      } */}
                                     </div>
                                 </div>
                             ))}
