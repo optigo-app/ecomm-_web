@@ -3,9 +3,8 @@ import "./manageaddress.scss";
 import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import { NavLink } from 'react-router-dom';
-import { getAddressData, handleAddAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
+import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
 import { defaultAddressState } from '../../../Recoil/atom';
@@ -408,31 +407,23 @@ const ManageAddress = () => {
         return { id: data.id, email: data.userid }
     }
 
-    const storeInit = () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo } = storeInit;
-        return FrontEnd_RegNo;
-    }
+ 
 
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
         try {
 
             let loginCred = loginDetail();
-            let p_ = JSON.stringify({ "addrid": addressId, "FrontEnd_RegNo": storeInit(), "Customerid": loginCred?.id });
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
 
-            const body = {
-                "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${loginCred?.email}\"}`,
-                "f": "Delivery (fetchData)",
-                dp: (p_),
-            };
+            const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
 
-            const response = await CommonAPI(body);
-
-            if (response?.Data?.rd) {
+            if ( response?.Status === '200' && response?.Data?.rd) {
                 
                 setIsLoading(false);
                 fetchData();
+
             } else {
                 toast.error('No Data Found')
             }
@@ -549,9 +540,8 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <a className='text-decoration-none' href={`tel: +91 ${item?.shippingmobile}`}>{item?.shippingmobile}
+                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} className='text-decoration-none' >{item?.shippingmobile}</a>
                                                         {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
-                                                    </a>
                                                 </Box>
                                             </NavLink>
 

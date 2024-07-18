@@ -88,6 +88,9 @@
   }
 
   @media screen and (max-width: 1200px) {
+    .heading{
+      margin-top: 1rem;
+    }
     .tab_card {
       flex-wrap: nowrap;
       width: 100%;
@@ -99,6 +102,9 @@
     }
   }
   @media screen and (max-width: 768px) {
+    .heading{
+      margin-top: -2rem;
+    }
     .tab_card {
       flex-wrap: nowrap;
       overflow-x: auto;

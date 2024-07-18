@@ -6,7 +6,7 @@ export const el_companyLogo = atom({
   })
 
   export const el_loginState = atom({
-    key: 'dt_loginState',
+    key: 'el_loginState',
     default: false,
   })
 

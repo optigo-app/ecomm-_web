@@ -102,3 +102,24 @@ export const handleDeleteAddress = async(deleteId, data, FrontEnd_RegNo, custome
         console.log(error);
     }
 }
+
+export const handleDefaultSelectionAddress = async(loginCred, addressId, FrontEnd_RegNo) => {
+
+    try {
+
+        let p_ = JSON.stringify({ "addrid": addressId, "FrontEnd_RegNo": FrontEnd_RegNo, "Customerid": loginCred?.id });
+
+        const body = {
+            "con": `{\"id\":\"\",\"mode\":\"SETDEFAULTADDRESS\",\"appuserid\":\"${loginCred?.email}\"}`,
+            "f": "Delivery (fetchData)",
+            dp: (p_),
+        };
+
+        const response = await CommonAPI(body);
+        return response;   
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

@@ -7,7 +7,8 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider,
+   Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Footer from "../../Home/Footer/Footer";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
@@ -295,6 +296,7 @@ const ProductList = () => {
   
 
   useEffect(() => {
+    
     let param = JSON.parse(localStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
@@ -446,7 +448,7 @@ const ProductList = () => {
   }, [location?.key])
 
   useEffect(() => {
-    const finalProdWithPrice = productListData.map((product) => {
+    const finalProdWithPrice = productListData?.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {
@@ -2847,8 +2849,8 @@ const ProductList = () => {
                                     productData?.VideoExtension :""}
                                    loop={true}
                                    autoPlay={true}
-                                  //  className="smr_productCard_Image"
-                                  style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                   className="smr_productCard_video"
+                                  // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                  />
                                   :
                                   <img
@@ -3031,7 +3033,7 @@ const ProductList = () => {
                     size={maxwidth464px ? "small" : "large"}
                     shape="circular"
                     onChange={handelPageChange}
-                    showFirstButtongit
+                    showFirstButton
                     showLastButton
                   />
                 </div>
