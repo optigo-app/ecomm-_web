@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './YourProfile.scss';
+import './YourProfileDT.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
-import { defaultAddressState } from '../../../Recoil/atom';
+import {defaultAddressStateDT} from './../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 
@@ -16,51 +16,8 @@ export default function YourProfile() {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
 
-    const defaultAddress = useRecoilValue(defaultAddressState);
+    const defaultAddress = useRecoilValue(defaultAddressStateDT);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
-
-
-    // useEffect(() => {
-    //     const storedUserData = localStorage.getItem('loginUserDetail');
-    //     if (storedUserData) {
-    //          console.log('call');
-             
-    //             // setUserData(JSON.parse(storedUserData));
-
-    //             let obj = JSON.parse(storedUserData);
-
-    //             console.log("edit user data",obj);
-
-    //             setUserData(obj);
-             
-    //             // setUserData(JSON.parse(storedUserData));
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-
-    //     const storedUserData = localStorage.getItem('loginUserDetail');
-    //     if (storedUserData && defaultAddress !== undefined) {
-             
-    //             setUserData(JSON.parse(storedUserData));
-    //             let obj = JSON.parse(storedUserData);
-                
-    //             obj.defaddress_shippingfirstname = defaultAddress?.shippingfirstname;
-    //             obj.defaddress_shippinglastname = defaultAddress?.shippinglastname;
-    //             obj.defaddress_shippingmobile = defaultAddress?.shippingmobile;
-    //             obj.defaddress_addressprofile = defaultAddress?.addressprofile;
-    //             obj.defaddress_street = defaultAddress?.street;
-    //             obj.defaddress_city = defaultAddress?.city;
-    //             obj.defaddress_state = defaultAddress?.state;
-    //             obj.defaddress_country = defaultAddress?.country;
-    //             obj.defaddress_zip = defaultAddress?.zip;
-    //             obj.IsDefault = defaultAddress?.isdefault;
-    //             setUserData(obj);
-             
-    //         // setUserData(JSON.parse(storedUserData));
-    //     }
-    // }, [defaultAddress]);
-
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('loginUserDetail');
@@ -158,36 +115,6 @@ export default function YourProfile() {
 
     };
 
-    // const handleSave = async (event) => {
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     console.log(event);
-    //     setEditMode(false);
-    //     try {
-    //         setIsLoading(true);
-    //         const storedData = localStorage.getItem('loginUserDetail');
-    //         const data = JSON.parse(storedData);
-    //         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-    //         const { FrontEnd_RegNo } = storeInit;
-    //         const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, editedUserData);
-    //         if (response?.Data?.rd[0]?.stat === 1) {
-
-    //             toast.success('Edit success');
-    //             setUserData(editedUserData);
-    //             localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
-
-    //         } else {
-    //             toast.error('error');
-    //         }
-
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-
-
-    // };
 
 
     const handleSubmit = async (event) => {
@@ -228,55 +155,6 @@ export default function YourProfile() {
 
     const validate = () => {
 
-        // const errors = {}; // Initialize errors object
-    
-        // // Validate each required field
-        // if (!editedUserData.defaddress_shippingfirstname.trim()) {
-        //     errors.defaddress_shippingfirstname = 'First Name is required';
-        // } else if(editedUserData.defaddress_shippingfirstname?.length < 3){
-        //     errors.defaddress_shippingfirstname = 'First Name too short';
-        // } else if(editedUserData.defaddress_shippingfirstname?.length > 25){
-        //     errors.defaddress_shippingfirstname = 'FIrst Name too long';
-        // } else if (!/^[a-zA-Z]+$/.test(editedUserData.defaddress_shippingfirstname.trim())) {
-        //     errors.defaddress_shippingfirstname = 'First Name must contain only letters';
-        // }
-
-        // if (!editedUserData.defaddress_shippinglastname.trim()) {
-        //     errors.defaddress_shippinglastname = 'Last Name is required';
-        // } else if(editedUserData.defaddress_shippinglastname?.length < 3){
-        //     errors.defaddress_shippinglastname = 'Last Name is too short';
-        // } else if(editedUserData.defaddress_shippinglastname?.length > 25){
-        //     errors.defaddress_shippinglastname = 'Last Name is too long';
-        // } else if (!/^[a-zA-Z]+$/.test(editedUserData.defaddress_shippinglastname.trim())) {
-        //     errors.defaddress_shippinglastname = 'Last Name must contain only letters';
-        // }
-
-        // if (!editedUserData.defaddress_street.trim()) {
-        //     errors.defaddress_street = 'Address is required';
-        // } else if(editedUserData.defaddress_street?.length < 3){
-        //     errors.defaddress_street = 'Address is too short';
-        // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(editedUserData.defaddress_street.trim())) {
-        //     errors.defaddress_street = 'Invalid Address';
-        // } else {
-        //     errors.defaddress_street = '';
-        // }
-        
-
-        // if (!editedUserData.defaddress_shippingmobile.trim()) {
-        //     errors.defaddress_shippingmobile = 'Mobile No. is required';
-        // } else if (!/^\d{10}$/.test(editedUserData.defaddress_shippingmobile.trim())) {
-        //     errors.defaddress_shippingmobile = 'Mobile No. must contain exactly 10 numbers';
-        // }
-    
-        // console.log(errors, editedUserData);
-        // // If there are any errors, update state and return
-        // if (Object.keys(errors).length > 0) {
-        //     setErrors(errors);
-        //     return false;
-        // }else{
-        //     return true;
-        // }
-
         let tempErrors = {};
 
             // First Name validation
@@ -316,16 +194,8 @@ export default function YourProfile() {
 
             setErrors(tempErrors);
 
-            // Check if all errors are empty strings or undefined
             return Object.values(tempErrors).every(x => !x);
 
-        // tempErrors.defaddress_shippingfirstname = editedUserData.defaddress_shippingfirstname ? "" : "This field is required.";
-        // tempErrors.defaddress_shippinglastname = editedUserData.defaddress_shippinglastname ? "" : "This field is required.";
-        // tempErrors.userid = editedUserData.userid ? "" : "This field is required.";
-        // tempErrors.defaddress_shippingmobile = editedUserData.defaddress_shippingmobile ? "" : "This field is required.";
-        // tempErrors.defaddress_street = editedUserData.defaddress_street ? "" : "This field is required.";
-        // setErrors(tempErrors);
-        // return Object.values(tempErrors).every(x => x === "");
     };
 
     useEffect(() => {
@@ -336,7 +206,7 @@ export default function YourProfile() {
         try {
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
-            const customerid = data.id;
+            const customerid = data?.id;
             
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
@@ -372,7 +242,6 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
-                                    // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
                                     value={userData?.defaddress_shippingfirstname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
@@ -383,7 +252,6 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
                                     value={userData?.defaddress_shippinglastname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
@@ -396,7 +264,6 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.userid !== "undefined" ? userData.userid : ""}
                                     value={userData?.userid}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
@@ -407,7 +274,6 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
                                     value={userData?.defaddress_shippingmobile}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
@@ -420,7 +286,6 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
                                     value={userData?.defaddress_street}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
@@ -439,7 +304,7 @@ export default function YourProfile() {
                 onClose={handleClose}
             >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
-                    {/* <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}> */}
+                  
                     <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
@@ -501,11 +366,10 @@ export default function YourProfile() {
                                 />
                             </>
                         )}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
-                        <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
-                    </div>
+                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                          <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                          <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                      </div>
                     </form>
                 </div>
             </Modal>
