@@ -30,6 +30,11 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import ProductListSkeleton from "../productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
+import ProductFilterSkeleton from "../productlist_skeleton/ProductFilterSkeleton";
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
+import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
+import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 
 const ProductList = () => {
   const location = useLocation();
@@ -72,6 +77,7 @@ const ProductList = () => {
   const [filterNetWtSlider, setFilterNetWTSlider] = useState([]);
   // const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
+  const [loginInfo, setLoginInfo] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
@@ -248,7 +254,7 @@ const ProductList = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [showFilter]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -264,7 +270,7 @@ const ProductList = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [openGridModal]);
+  }, []);
 
   // Working With API's
 
@@ -383,13 +389,85 @@ const ProductList = () => {
     return txt.value;
   };
 
+  const callAllApi = () => {
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
 
+    if (!mtTypeLocal || mtTypeLocal?.length === 0) {
+      MetalTypeComboAPI(cookie)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            setMetaltype(data);
+
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+      setMetaltype(mtTypeLocal);
+    }
+
+    if (!diaQcLocal || diaQcLocal?.length === 0) {
+      DiamondQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+            setDiamondType(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+      setDiamondType(diaQcLocal);
+    }
+
+    if (!csQcLocal || csQcLocal?.length === 0) {
+      ColorStoneQualityColorComboAPI()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+            setCsQcCombo(data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+      setCsQcCombo(csQcLocal);
+    }
+
+    if (!mtColorLocal || mtColorLocal?.length === 0) {
+      MetalColorCombo()
+        .then((response) => {
+          if (response?.Data?.rd) {
+            let data = response?.Data?.rd;
+            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    setLoginInfo(logininfo);
+  }, []);
+
+  useEffect(() => {
+    callAllApi();
+  }, [loginInfo]);
 
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value)
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    console.log('obj: ', obj);
 
     setIsOnlyProdLoading(true)
 
@@ -410,260 +488,302 @@ const ProductList = () => {
       })
   }
 
-  const handleRangeFilterApi = async (Rangeval) => {
-    console.log('Rangeval: ', Rangeval);
+  const handelCustomCombo = (obj) => {
 
     let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
-    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
-    let grossRange = { grossMin: filterDiamondSlider[0], grossMax: filterDiamondSlider[1] }
-
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-
-
+    if (location?.state?.SearchVal === undefined) {
+      setIsOnlyProdLoading(true)
+      ProductListApi(output,1,obj,prodListType,cookie,sortBySelect)
+          .then((res) => {
+            if (res) {
+              setProductListData(res?.pdList);
+              // setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            }
+            return res;
+          })
+          .catch((err) => console.log("err", err))
+          .finally(()=>{
+            setTimeout(() => {
+              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
+              setIsOnlyProdLoading(false)
+            }, 100);
+          })
+    }
   }
 
-  const handleRangeFilterApi1 = async (Rangeval1) => {
-    console.log('Rangeval1: ', Rangeval1);
+  useEffect(() => {
 
-    let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
-    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: filterGrossSlider[0], grossMax: filterGrossSlider[1] }
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-  }
+    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
+      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+        handelCustomCombo(obj)
+      }
+    }
 
-  const handleRangeFilterApi2 = async (Rangeval2) => {
-    console.log("newValue", Rangeval2);
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+  }, [selectedMetalId, selectedDiaId, selectedCsId])
 
-    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
-    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
-    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+  // const handleRangeFilterApi = async (Rangeval) => {
+  //   console.log('Rangeval: ', Rangeval);
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-  }
+  //   let output = FilterValueWithCheckedOnly()
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-  const handleSliderChange = (event, newValue) => {
-    setFilterGrossSlider(newValue);
-    handleRangeFilterApi(newValue)
-  };
-  const handleSliderChange1 = (event, newValue) => {
-    setFilterNetWTSlider(newValue);
-    handleRangeFilterApi1(newValue)
-  };
-  const handleSliderChange2 = (event, newValue) => {
-    setFilterDiamondSlider(newValue);
-    handleRangeFilterApi2(newValue)
-  };
+  //   let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
+  //   let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
+  //   let grossRange = { grossMin: filterDiamondSlider[0], grossMax: filterDiamondSlider[1] }
 
-  const handleInputChange = (index) => (event) => {
-    const newSliderValue = [...filterGrossSlider];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setFilterGrossSlider(newSliderValue);
-    handleRangeFilterApi(newSliderValue)
-  };
-  const handleInputChange1 = (index) => (event) => {
-    const newSliderValue = [...filterNetWtSlider];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setFilterNetWTSlider(newSliderValue);
-    handleRangeFilterApi1(newSliderValue)
-  };
-  const handleInputChange2 = (index) => (event) => {
-    const newSliderValue = [...filterDiamondSlider];
-    newSliderValue[index] =
-      event.target.value === "" ? "" : Number(event.target.value);
-    setFilterDiamondSlider(newSliderValue);
-    handleRangeFilterApi2(newSliderValue)
-  };
+  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+  //     .then((res) => {
+  //       if (res) {
+  //         setProductListData(res?.pdList);
+  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //       }
+  //       return res;
+  //     })
+  //     .catch((err) => console.log("err", err))
+  //     .finally(() => {
+  //       setIsOnlyProdLoading(false)
+  //     })
 
-  const RangeFilterView = (ele) => {
-    const min = JSON.parse(ele?.options)[0]?.Min;
-    const max = JSON.parse(ele?.options)[0]?.Max;
 
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={filterDiamondSlider}
-              onChange={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={min}
-              max={max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-              onClick={(e) => e.stopPropagation()} // Prevent slider click propagation
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={filterDiamondSlider[0]}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: min,
-                max: max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-            />
-            <Input
-              value={filterDiamondSlider[1]}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: min,
-                max: max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView1 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={filterGrossSlider}
-              onChange={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min.toFixed(3)}
-              max={JSON?.parse(ele?.options)[0]?.Max.toFixed(3)}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={filterGrossSlider[0]}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={filterGrossSlider[1]}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView2 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={filterNetWtSlider}
-              onChange={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={filterNetWtSlider[0]}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={filterNetWtSlider[1]}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
+  // }
+
+  // const handleRangeFilterApi1 = async (Rangeval1) => {
+  //   console.log('Rangeval1: ', Rangeval1);
+
+  //   let output = FilterValueWithCheckedOnly()
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+  //   let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
+  //   let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
+  //   let grossRange = { grossMin: filterGrossSlider[0], grossMax: filterGrossSlider[1] }
+
+
+  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+  //     .then((res) => {
+  //       if (res) {
+  //         setProductListData(res?.pdList);
+  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //       }
+  //       return res;
+  //     })
+  //     .catch((err) => console.log("err", err))
+  //     .finally(() => {
+  //       setIsOnlyProdLoading(false)
+  //     })
+  // }
+
+  // const handleRangeFilterApi2 = async (Rangeval2) => {
+  //   console.log("newValue", Rangeval2);
+
+  //   let output = FilterValueWithCheckedOnly()
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+  //   let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
+  //   let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
+  //   let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+
+  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+  //     .then((res) => {
+  //       if (res) {
+  //         setProductListData(res?.pdList);
+  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //       }
+  //       return res;
+  //     })
+  //     .catch((err) => console.log("err", err))
+  //     .finally(() => {
+  //       setIsOnlyProdLoading(false)
+  //     })
+  // }
+
+  // const handleSliderChange = (event, newValue) => {
+  //   setFilterGrossSlider(newValue);
+  //   handleRangeFilterApi(newValue)
+  // };
+  // const handleSliderChange1 = (event, newValue) => {
+  //   setFilterNetWTSlider(newValue);
+  //   handleRangeFilterApi1(newValue)
+  // };
+  // const handleSliderChange2 = (event, newValue) => {
+  //   setFilterDiamondSlider(newValue);
+  //   handleRangeFilterApi2(newValue)
+  // };
+
+  // const handleInputChange = (index) => (event) => {
+  //   const newSliderValue = [...filterGrossSlider];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setFilterGrossSlider(newSliderValue);
+  //   handleRangeFilterApi(newSliderValue)
+  // };
+  // const handleInputChange1 = (index) => (event) => {
+  //   const newSliderValue = [...filterNetWtSlider];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setFilterNetWTSlider(newSliderValue);
+  //   handleRangeFilterApi1(newSliderValue)
+  // };
+  // const handleInputChange2 = (index) => (event) => {
+  //   const newSliderValue = [...filterDiamondSlider];
+  //   newSliderValue[index] =
+  //     event.target.value === "" ? "" : Number(event.target.value);
+  //   setFilterDiamondSlider(newSliderValue);
+  //   handleRangeFilterApi2(newSliderValue)
+  // };
+
+  // const RangeFilterView = (ele) => {
+  //   const min = JSON.parse(ele?.options)[0]?.Min;
+  //   const max = JSON.parse(ele?.options)[0]?.Max;
+
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={filterDiamondSlider}
+  //             onChange={handleSliderChange2}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={min}
+  //             max={max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //             onClick={(e) => e.stopPropagation()} // Prevent slider click propagation
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={filterDiamondSlider[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: min,
+  //               max: max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //             onClick={(e) => e.stopPropagation()} // Prevent input click propagation
+  //           />
+  //           <Input
+  //             value={filterDiamondSlider[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange2(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: min,
+  //               max: max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //             onClick={(e) => e.stopPropagation()} // Prevent input click propagation
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView1 = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={filterGrossSlider}
+  //             onChange={handleSliderChange}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min.toFixed(3)}
+  //             max={JSON?.parse(ele?.options)[0]?.Max.toFixed(3)}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={filterGrossSlider[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
+  //               max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={filterGrossSlider[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
+  //               max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const RangeFilterView2 = (ele) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <div>
+  //           <Slider
+  //             value={filterNetWtSlider}
+  //             onChange={handleSliderChange1}
+  //             valueLabelDisplay="auto"
+  //             aria-labelledby="range-slider"
+  //             min={JSON?.parse(ele?.options)[0]?.Min}
+  //             max={JSON?.parse(ele?.options)[0]?.Max}
+  //             step={0.001}
+  //             sx={{ marginTop: "25px" }}
+  //           />
+  //         </div>
+  //         <div style={{ display: "flex", gap: "10px" }}>
+  //           <Input
+  //             value={filterNetWtSlider[0]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(0)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //           <Input
+  //             value={filterNetWtSlider[1]}
+  //             margin="dense"
+  //             onChange={handleInputChange1(1)}
+  //             inputProps={{
+  //               step: 0.001,
+  //               min: JSON?.parse(ele?.options)[0]?.Min,
+  //               max: JSON?.parse(ele?.options)[0]?.Max,
+  //               type: "number",
+  //               "aria-labelledby": "range-slider",
+  //             }}
+  //           />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
 
   const compressAndEncode = (inputString) => {
     try {
@@ -699,6 +819,9 @@ const ProductList = () => {
     navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
+
+  // console.log(selectedDiaId)
+  // console.log(selectedMetalId)
 
 
   return (
@@ -813,6 +936,7 @@ const ProductList = () => {
                       onChange={(e) => {
                         handleSortby(e);
                         handleChangeTrend(e);
+                        setIsOnlyProdLoading(true);
                       }}
                       displayEmpty
                       inputProps={{ "aria-label": "Without label" }}
@@ -868,7 +992,9 @@ const ProductList = () => {
                             >
                               <Select
                                 value={selectedMetalId}
-                                onChange={(e) => setSelectedMetalId(e.target.value)}
+                                onChange={(e) => {setSelectedMetalId(e.target.value);
+                                  setIsOnlyProdLoading(true);
+                                }}
                                 displayEmpty
                                 inputProps={{ "aria-label": "Without label" }}
                                 style={{
@@ -889,6 +1015,7 @@ const ProductList = () => {
                               </Select>
                             </FormControl>
                           </div>
+                          {storeInit?.IsDiamondCustomization === 1 && (
                           <div className="elv_filteration_rows_4">
                             <FormControl
                               sx={{
@@ -901,7 +1028,9 @@ const ProductList = () => {
                             >
                               <Select
                                 value={selectedDiaId}
-                                onChange={(e) => setSelectedDiaId(e.target.value)}
+                                onChange={(e) => {setSelectedDiaId(e.target.value);
+                                  setIsOnlyProdLoading(true);
+                                }}
                                 displayEmpty
                                 inputProps={{ "aria-label": "Without label" }}
                                 style={{
@@ -927,6 +1056,7 @@ const ProductList = () => {
                               </Select>
                             </FormControl>
                           </div>
+                          )}
                         </Box>
                       </Modal>
                     </div>
@@ -945,7 +1075,9 @@ const ProductList = () => {
                       >
                         <Select
                           value={selectedMetalId}
-                          onChange={(e) => setSelectedMetalId(e.target.value)}
+                          onChange={(e) => {setSelectedMetalId(e.target.value);
+                            setIsOnlyProdLoading(true);
+                          }}
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           style={{
@@ -966,6 +1098,7 @@ const ProductList = () => {
                         </Select>
                       </FormControl>
                     </div>
+                    {storeInit?.IsDiamondCustomization === 1 && (
                     <div className="elv_filteration_rows_4">
                       <FormControl
                         sx={{
@@ -978,7 +1111,9 @@ const ProductList = () => {
                       >
                         <Select
                           value={selectedDiaId}
-                          onChange={(e) => setSelectedDiaId(e.target.value)}
+                          onChange={(e) => {setSelectedDiaId(e.target.value);
+                            setIsOnlyProdLoading(true);
+                          }}
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           style={{
@@ -1004,6 +1139,7 @@ const ProductList = () => {
                         </Select>
                       </FormControl>
                     </div>
+                    )}
                   </>
                 )}
 
@@ -1053,7 +1189,9 @@ const ProductList = () => {
                                   }}
                                 >
                                   <span
-                                    onClick={() => handleActiveIcons("single-view")}
+                                    onClick={() => {handleActiveIcons("single-view");
+                                      setIsOnlyProdLoading(true);
+                                    }}
                                     style={{
                                       paddingRight: "8px",
                                       fontSize: "14px",
@@ -1067,7 +1205,9 @@ const ProductList = () => {
                                     Single View
                                   </span>
                                   <span
-                                    onClick={() => handleActiveIcons("double-view")}
+                                    onClick={() => {handleActiveIcons("double-view");
+                                      setIsOnlyProdLoading(true);
+                                    }}
                                     style={{
                                       paddingRight: "8px",
                                       fontSize: "14px",
@@ -1209,11 +1349,13 @@ const ProductList = () => {
                                                           width: "10px",
                                                         }}
                                                         onClick={(e) =>
-                                                          handleCheckboxChange(
+                                                          {handleCheckboxChange(
                                                             e,
                                                             item?.id,
                                                             opt?.Name
-                                                          )
+                                                          );
+                                                          setIsOnlyProdLoading(true);
+                                                        }
                                                         }
                                                         size="small"
                                                       />
@@ -1278,11 +1420,12 @@ const ProductList = () => {
                                                       width: "10px",
                                                     }}
                                                     onClick={(e) => {
-                                                      handleCheckboxChange(
+                                                      {handleCheckboxChange(
                                                         e,
                                                         item?.id,
                                                         opt
                                                       );
+                                                      setIsOnlyProdLoading(true);}
                                                     }}
                                                     size="small"
                                                   />
@@ -1311,7 +1454,7 @@ const ProductList = () => {
                                       </AccordionDetails>
                                     </Accordion>
                                   )}
-                                  {item?.Name?.includes("Diamond") && (
+                                  {/* {item?.Name?.includes("Diamond") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
                                         expandIcon={
@@ -1336,7 +1479,7 @@ const ProductList = () => {
                                           "RangeEle",
                                           JSON?.parse(item?.options)[0]
                                         )}
-                                        <Box sx={{ width: 203, height: 88 }}>
+                                        <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView(item)}
                                         </Box>
                                       </AccordionDetails>
@@ -1367,7 +1510,7 @@ const ProductList = () => {
                                           "RangeEle",
                                           JSON?.parse(item?.options)[0]
                                         )}
-                                        <Box sx={{ width: 203, height: 88 }}>
+                                        <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView1(item)}
                                         </Box>
                                       </AccordionDetails>
@@ -1398,12 +1541,12 @@ const ProductList = () => {
                                           "RangeEle",
                                           JSON?.parse(item?.options)[0]
                                         )}
-                                        <Box sx={{ width: 203, height: 88 }}>
+                                        <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView2(item)}
                                         </Box>
                                       </AccordionDetails>
                                     </Accordion>
-                                  )}
+                                  )} */}
                                 </>
                               );
                             })}
@@ -1473,521 +1616,19 @@ const ProductList = () => {
                         </div>
                       </>
                     )}
-
-                    {showFilter === true ? (
+                    {isOnlyProdLoading ? (
+                      <ProductFilterSkeleton />
+                    ) : (
                       <>
-                        <div className="elv_filtered_data_by_grid_other">
-                          <div className="elv_filtered_data_grid_div">
-                            {activeIcon === "window" && (
-                              <>
-                                {productListData?.map((item, index) => (
-                                  <div
-                                    className="elv_filtered_prodlists_1"
-                                    style={{ maxWidth: "calc(100% / 2)", cursor: 'pointer' }}
-                                    key={index}
-                                    onClick={() =>
-                                      handleMoveToDetail(item)
-                                    }
-                                  >
-                                    <div className="elv_filtered_prods">
-                                      <div className="elv_filtered_icons">
-                                        <div>
-                                          <LocalMallOutlinedIcon border="#CBC7C7" />
-                                        </div>
-                                        <div>
-                                          <FavoriteBorderIcon border="#CBC7C7" />
-                                        </div>
-                                      </div>
+                        {showFilter === true ? (
+                          <>
+                            <div className="elv_filtered_data_by_grid_other">
+                              <div className="elv_filtered_data_grid_div">
+                                {activeIcon === "window" && (
+                                  <>
+                                    {productListData?.map((item, index) => (
                                       <div
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                        }}
-                                      >
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <img
-                                            className="elv_filtered_image_1"
-                                            src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
-                                          />
-                                          {item?.TitleLine ? (
-                                            <span
-                                              className="elv_titleline"
-                                              style={{
-                                                fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                              }}
-                                            >
-                                              {item?.TitleLine}
-                                            </span>
-                                          ) : (
-                                            <span
-                                              className="elv_titleline"
-                                              style={{
-                                                fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: 'hidden',
-                                                display: 'inline-block',
-                                                minWidth: '1em',
-                                                paddingBlock: '18px',
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                              }}
-                                            >
-                                              {item?.TitleLine}
-                                            </span>
-                                          )}
-                                        </div>
-                                      </div>
-                                      <div className="elv_filtered_prod_details">
-                                        <div className="elv_filtered_prod_weights">
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Nwt.toFixed(3)}
-                                            </span>
-                                          </div>
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Dwt.toFixed(3)}/{item?.Dpcs}
-                                            </span>
-                                          </div>
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Gwt.toFixed(3)}
-                                            </span>
-                                          </div>
-                                        </div>
-                                        <div className="elv_filtered_prod_price">
-                                          <span className="elv_prod_weight_span_1">{item?.designno}</span>
-                                          <span
-                                            style={{
-                                              fontWeight: "bold",
-                                              textAlign: "left",
-                                              fontSize: "17px",
-                                            }}
-                                          >
-                                            ₹{item?.UnitCostWithMarkUp}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </>
-                            )}
-                            {activeIcon === "apps" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_2"
-                                        style={{ maxWidth: "calc(100% / 3)", cursor: 'pointer' }}
-                                        key={index}
-                                        onClick={() =>
-                                          handleMoveToDetail(item)
-                                        }
-                                      >
-                                        <div className="elv_filtered_prods">
-                                          <div className="elv_filtered_icons">
-                                            <div>
-                                              <LocalMallOutlinedIcon border="#CBC7C7" />
-                                            </div>
-                                            <div>
-                                              <FavoriteBorderIcon border="#CBC7C7" />
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <img
-                                                className="elv_filtered_image_2"
-                                                src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
-                                              />
-                                              {item?.TitleLine ? (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                    color: "#B2B0B0",
-                                                    fontSize: "14px",
-                                                    visibility: 'hidden',
-                                                    display: 'inline-block',
-                                                    minWidth: '1em',
-                                                    paddingBlock: '18px',
-                                                    letterSpacing: "0.35px",
-                                                    lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="elv_filtered_prod_details">
-                                            <div className="elv_filtered_prod_weights">
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Nwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Gwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "bold",
-                                                  textAlign: "left",
-                                                  fontSize: "17px",
-                                                }}
-                                              >
-                                                ₹{item?.UnitCostWithMarkUp}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                            {activeIcon === "view_grid" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_3"
-                                        style={{ maxWidth: "calc(100% / 4)", cursor: 'pointer' }}
-                                        key={index}
-                                        onClick={() =>
-                                          handleMoveToDetail(item)
-                                        }
-                                      >
-                                        <div className="elv_filtered_prods">
-                                          <div className="elv_filtered_icons">
-                                            <div>
-                                              <LocalMallOutlinedIcon border="#CBC7C7" />
-                                            </div>
-                                            <div>
-                                              <FavoriteBorderIcon border="#CBC7C7" />
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <img
-                                                className="elv_filtered_image_3"
-                                                src={`${getDesignImageFol}/${item?.designno
-                                                  }_${item?.ImageCount > 0
-                                                    ? item?.ImageCount
-                                                    : 1
-                                                  }.${item?.ImageExtension}`}
-                                              />
-                                              {item?.TitleLine ? (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                     fontFamily: '"PT Sans", sans-serif',
-                                                    color: "#B2B0B0",
-                                                    fontSize: "14px",
-                                                    visibility: 'hidden',
-                                                    display: 'inline-block',
-                                                    minWidth: '1em',
-                                                    paddingBlock: '18px',
-                                                    letterSpacing: "0.35px",
-                                                    lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="elv_filtered_prod_details">
-                                            <div className="elv_filtered_prod_weights">
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Nwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Gwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "bold",
-                                                  textAlign: "left",
-                                                  fontSize: "17px",
-                                                }}
-                                              >
-                                                ₹{item?.UnitCostWithMarkUp}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                            {activeIcon === "single-view" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_4"
-                                        style={{ maxWidth: "calc(100% / 1)", cursor: 'pointer' }}
-                                        key={index}
-                                        onClick={() =>
-                                          handleMoveToDetail(item)
-                                        }
-                                      >
-                                        <div className="elv_filtered_prods">
-                                          <div className="elv_filtered_icons">
-                                            <div>
-                                              <LocalMallOutlinedIcon border="#CBC7C7" />
-                                            </div>
-                                            <div>
-                                              <FavoriteBorderIcon border="#CBC7C7" />
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <img
-                                                className="elv_filtered_image_4"
-                                                src={`${getDesignImageFol}/${item?.designno
-                                                  }_${item?.ImageCount > 0
-                                                    ? item?.ImageCount
-                                                    : 1
-                                                  }.${item?.ImageExtension}`}
-                                              />
-                                              {item?.TitleLine ? (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                    color: "#B2B0B0",
-                                                    fontSize: "14px",
-                                                    visibility: 'hidden',
-                                                    display: 'inline-block',
-                                                    minWidth: '1em',
-                                                    paddingBlock: '18px',
-                                                    letterSpacing: "0.35px",
-                                                    lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="elv_filtered_prod_details">
-                                            <div className="elv_filtered_prod_weights">
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Nwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Gwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "bold",
-                                                  textAlign: "left",
-                                                  fontSize: "17px",
-                                                }}
-                                              >
-                                                ₹{item?.UnitCostWithMarkUp}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                            {activeIcon === "double-view" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_5"
+                                        className="elv_filtered_prodlists_1"
                                         style={{ maxWidth: "calc(100% / 2)", cursor: 'pointer' }}
                                         key={index}
                                         onClick={() =>
@@ -2019,257 +1660,7 @@ const ProductList = () => {
                                               }}
                                             >
                                               <img
-                                                className="elv_filtered_image_5"
-                                                src={`${getDesignImageFol}/${item?.designno
-                                                  }_${item?.ImageCount > 0
-                                                    ? item?.ImageCount
-                                                    : 1
-                                                  }.${item?.ImageExtension}`}
-                                              />
-                                              {item?.TitleLine ? (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                    color: "#B2B0B0",
-                                                    fontSize: "14px",
-                                                    visibility: 'hidden',
-                                                    display: 'inline-block',
-                                                    minWidth: '1em',
-                                                    paddingBlock: '18px',
-                                                    letterSpacing: "0.35px",
-                                                    lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="elv_filtered_prod_details">
-                                            <div className="elv_filtered_prod_weights">
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Nwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Gwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "bold",
-                                                  textAlign: "left",
-                                                  fontSize: "17px",
-                                                }}
-                                              >
-                                                ₹{item?.UnitCostWithMarkUp}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="elv_filtered_data_by_grid">
-                          <div className="elv_filtered_data_grid_div">
-                            {activeIcon === "window" && (
-                              <>
-                                {productListData?.map((item, index) => (
-                                  <div
-                                    className="elv_filtered_prodlists_1"
-                                    style={{ maxWidth: "calc(100% / 2)", cursor: 'pointer' }}
-                                    key={index}
-                                    onClick={() =>
-                                      handleMoveToDetail(item)
-                                    }
-                                  >
-                                    <div className="elv_filtered_prods">
-                                      <div className="elv_filtered_icons">
-                                        <div>
-                                          <LocalMallOutlinedIcon border="#CBC7C7" />
-                                        </div>
-                                        <div>
-                                          <FavoriteBorderIcon border="#CBC7C7" />
-                                        </div>
-                                      </div>
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                        }}
-                                      >
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <img
-                                            className="elv_filtered_image_1"
-                                            src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
-                                          />
-                                          {item?.TitleLine ? (
-                                            <span
-                                              className="elv_titleline"
-                                              style={{
-                                                fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "12px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                              }}
-                                            >
-                                              {item?.TitleLine}
-                                            </span>
-                                          ) : (
-                                            <span
-                                              className="elv_titleline"
-                                              style={{
-                                                fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: 'hidden',
-                                                display: 'inline-block',
-                                                minWidth: '1em',
-                                                paddingBlock: '18px',
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                              }}
-                                            >
-                                              {item?.TitleLine}
-                                            </span>
-                                          )}
-                                        </div>
-                                      </div>
-                                      <div className="elv_filtered_prod_details">
-                                        <div className="elv_filtered_prod_weights">
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Nwt.toFixed(3)}
-                                            </span>
-                                          </div>
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Dwt.toFixed(3)}/{item?.Dpcs}
-                                            </span>
-                                          </div>
-                                          <div style={{ display: "flex" }}>
-                                            <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
-                                            <span className="elv_prod_weight_span_2">
-                                              &nbsp;{item?.Gwt.toFixed(3)}
-                                            </span>
-                                          </div>
-                                        </div>
-                                        <div className="elv_filtered_prod_price">
-                                          <span className="elv_prod_weight_span_1">{item?.designno}</span>
-                                          <span
-                                            style={{
-                                              fontWeight: "bold",
-                                              textAlign: "left",
-                                              fontSize: "17px",
-                                            }}
-                                          >
-                                            ₹{item?.UnitCostWithMarkUp}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </>
-                            )}
-                            {activeIcon === "apps" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_2"
-                                        style={{ maxWidth: "calc(100% / 3)", cursor: 'pointer' }}
-                                        key={index}
-                                        onClick={() =>
-                                          handleMoveToDetail(item)
-                                        }
-                                      >
-                                        <div className="elv_filtered_prods">
-                                          <div className="elv_filtered_icons">
-                                            <div>
-                                              <LocalMallOutlinedIcon border="#CBC7C7" />
-                                            </div>
-                                            <div>
-                                              <FavoriteBorderIcon border="#CBC7C7" />
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <img
-                                                className="elv_filtered_image_2"
+                                                className="elv_filtered_image_1"
                                                 src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
                                               />
                                               {item?.TitleLine ? (
@@ -2277,144 +1668,13 @@ const ProductList = () => {
                                                   className="elv_titleline"
                                                   style={{
                                                     fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: 'hidden',
-                                                display: 'inline-block',
-                                                minWidth: '1em',
-                                                paddingBlock: '18px',
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
-                                                  }}
-                                                >
-                                                  {item?.TitleLine}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div className="elv_filtered_prod_details">
-                                            <div className="elv_filtered_prod_weights">
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Nwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
-                                                </span>
-                                              </div>
-                                              <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
-                                                <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Gwt.toFixed(3)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "bold",
-                                                  textAlign: "left",
-                                                  fontSize: "17px",
-                                                }}
-                                              >
-                                                ₹{item?.UnitCostWithMarkUp}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                            {activeIcon === "view_grid" && (
-                              <>
-                                {productListData?.map((item, index) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="elv_filtered_prodlists_3"
-                                        style={{ maxWidth: "calc(100% / 4)", cursor: 'pointer' }}
-                                        key={index}
-                                        onClick={() =>
-                                          handleMoveToDetail(item)
-                                        }
-                                      >
-                                        <div className="elv_filtered_prods">
-                                          <div className="elv_filtered_icons">
-                                            <div>
-                                              <LocalMallOutlinedIcon border="#CBC7C7" />
-                                            </div>
-                                            <div>
-                                              <FavoriteBorderIcon border="#CBC7C7" />
-                                            </div>
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <img
-                                                className="elv_filtered_image_3"
-                                                src={`${getDesignImageFol}/${item?.designno
-                                                  }_${item?.ImageCount > 0
-                                                    ? item?.ImageCount
-                                                    : 1
-                                                  }.${item?.ImageExtension}`}
-                                              />
-                                              {item?.TitleLine ? (
-                                                <span
-                                                  className="elv_titleline"
-                                                  style={{
-                                                    fontFamily: '"PT Sans", sans-serif',
-                                                color: "#B2B0B0",
-                                                fontSize: "14px",
-                                                visibility: "visible", // Always visible when item?.TitleLine exists
-                                                display: "inline-block",
-                                                minWidth: "1em",
-                                                letterSpacing: "0.35px",
-                                                lineHeight: "21px"
+                                                    color: "#B2B0B0",
+                                                    fontSize: "14px",
+                                                    visibility: "visible", // Always visible when item?.TitleLine exists
+                                                    display: "inline-block",
+                                                    minWidth: "1em",
+                                                    letterSpacing: "0.35px",
+                                                    lineHeight: "21px"
                                                   }}
                                                 >
                                                   {item?.TitleLine}
@@ -2442,35 +1702,26 @@ const ProductList = () => {
                                           <div className="elv_filtered_prod_details">
                                             <div className="elv_filtered_prod_weights">
                                               <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  NWT&nbsp;:{" "}
-                                                </span>
+                                                <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
                                                 <span className="elv_prod_weight_span_2">
                                                   &nbsp;{item?.Nwt.toFixed(3)}
                                                 </span>
                                               </div>
                                               <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  DWT&nbsp;:{" "}
-                                                </span>
+                                                <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
                                                 <span className="elv_prod_weight_span_2">
-                                                  &nbsp;{item?.Dwt.toFixed(3)}/
-                                                  {item?.Dpcs}
+                                                  &nbsp;{item?.Dwt.toFixed(3)}/{item?.Dpcs}
                                                 </span>
                                               </div>
                                               <div style={{ display: "flex" }}>
-                                                <span className="elv_prod_weight_span_1">
-                                                  GWT&nbsp;:{" "}
-                                                </span>
+                                                <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
                                                 <span className="elv_prod_weight_span_2">
                                                   &nbsp;{item?.Gwt.toFixed(3)}
                                                 </span>
                                               </div>
                                             </div>
                                             <div className="elv_filtered_prod_price">
-                                              <span className="elv_prod_weight_span_1">
-                                                {item?.designno}
-                                              </span>
+                                              <span className="elv_prod_weight_span_1">{item?.designno}</span>
                                               <span
                                                 style={{
                                                   fontWeight: "bold",
@@ -2484,13 +1735,267 @@ const ProductList = () => {
                                           </div>
                                         </div>
                                       </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            )}
-                            {openGridModal === true && (
-                              <>
+                                    ))}
+                                  </>
+                                )}
+                                {activeIcon === "apps" && (
+                                  <>
+                                    {productListData?.map((item, index) => {
+                                      return (
+                                        <>
+                                          <div
+                                            className="elv_filtered_prodlists_2"
+                                            style={{ maxWidth: "calc(100% / 3)", cursor: 'pointer' }}
+                                            key={index}
+                                            onClick={() =>
+                                              handleMoveToDetail(item)
+                                            }
+                                          >
+                                            <div className="elv_filtered_prods">
+                                              <div className="elv_filtered_icons">
+                                                <div>
+                                                  <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                </div>
+                                                <div>
+                                                  <FavoriteBorderIcon border="#CBC7C7" />
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <img
+                                                    className="elv_filtered_image_2"
+                                                    src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
+                                                  />
+                                                  {item?.TitleLine ? (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: "visible", // Always visible when item?.TitleLine exists
+                                                        display: "inline-block",
+                                                        minWidth: "1em",
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  ) : (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: 'hidden',
+                                                        display: 'inline-block',
+                                                        minWidth: '1em',
+                                                        paddingBlock: '18px',
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <div className="elv_filtered_prod_details">
+                                                <div className="elv_filtered_prod_weights">
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      NWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Nwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      DWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Dwt.toFixed(3)}/
+                                                      {item?.Dpcs}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      GWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Gwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div className="elv_filtered_prod_price">
+                                                  <span className="elv_prod_weight_span_1">
+                                                    {item?.designno}
+                                                  </span>
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "bold",
+                                                      textAlign: "left",
+                                                      fontSize: "17px",
+                                                    }}
+                                                  >
+                                                    ₹{item?.UnitCostWithMarkUp}
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                                {activeIcon === "view_grid" && (
+                                  <>
+                                    {productListData?.map((item, index) => {
+                                      return (
+                                        <>
+                                          <div
+                                            className="elv_filtered_prodlists_3"
+                                            style={{ maxWidth: "calc(100% / 4)", cursor: 'pointer' }}
+                                            key={index}
+                                            onClick={() =>
+                                              handleMoveToDetail(item)
+                                            }
+                                          >
+                                            <div className="elv_filtered_prods">
+                                              <div className="elv_filtered_icons">
+                                                <div>
+                                                  <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                </div>
+                                                <div>
+                                                  <FavoriteBorderIcon border="#CBC7C7" />
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <img
+                                                    className="elv_filtered_image_3"
+                                                    src={`${getDesignImageFol}/${item?.designno
+                                                      }_${item?.ImageCount > 0
+                                                        ? item?.ImageCount
+                                                        : 1
+                                                      }.${item?.ImageExtension}`}
+                                                  />
+                                                  {item?.TitleLine ? (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: "visible", // Always visible when item?.TitleLine exists
+                                                        display: "inline-block",
+                                                        minWidth: "1em",
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  ) : (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: 'hidden',
+                                                        display: 'inline-block',
+                                                        minWidth: '1em',
+                                                        paddingBlock: '18px',
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <div className="elv_filtered_prod_details">
+                                                <div className="elv_filtered_prod_weights">
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      NWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Nwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      DWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Dwt.toFixed(3)}/
+                                                      {item?.Dpcs}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      GWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Gwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div className="elv_filtered_prod_price">
+                                                  <span className="elv_prod_weight_span_1">
+                                                    {item?.designno}
+                                                  </span>
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "bold",
+                                                      textAlign: "left",
+                                                      fontSize: "17px",
+                                                    }}
+                                                  >
+                                                    ₹{item?.UnitCostWithMarkUp}
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                      );
+                                    })}
+                                  </>
+                                )}
                                 {activeIcon === "single-view" && (
                                   <>
                                     {productListData?.map((item, index) => {
@@ -2753,10 +2258,654 @@ const ProductList = () => {
                                     })}
                                   </>
                                 )}
-                              </>
-                            )}
-                          </div>
-                        </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="elv_filtered_data_by_grid">
+                              <div className="elv_filtered_data_grid_div">
+                                {activeIcon === "window" && (
+                                  <>
+                                    {productListData?.map((item, index) => (
+                                      <div
+                                        className="elv_filtered_prodlists_1"
+                                        style={{ maxWidth: "calc(100% / 2)", cursor: 'pointer' }}
+                                        key={index}
+                                        onClick={() =>
+                                          handleMoveToDetail(item)
+                                        }
+                                      >
+                                        <div className="elv_filtered_prods">
+                                          <div className="elv_filtered_icons">
+                                            <div>
+                                              <LocalMallOutlinedIcon border="#CBC7C7" />
+                                            </div>
+                                            <div>
+                                              <FavoriteBorderIcon border="#CBC7C7" />
+                                            </div>
+                                          </div>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                            }}
+                                          >
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                              }}
+                                            >
+                                              <img
+                                                className="elv_filtered_image_1"
+                                                src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
+                                              />
+                                              {item?.TitleLine ? (
+                                                <span
+                                                  className="elv_titleline"
+                                                  style={{
+                                                    fontFamily: '"PT Sans", sans-serif',
+                                                    color: "#B2B0B0",
+                                                    fontSize: "12px",
+                                                    visibility: "visible", // Always visible when item?.TitleLine exists
+                                                    display: "inline-block",
+                                                    minWidth: "1em",
+                                                  }}
+                                                >
+                                                  {item?.TitleLine}
+                                                </span>
+                                              ) : (
+                                                <span
+                                                  className="elv_titleline"
+                                                  style={{
+                                                    fontFamily: '"PT Sans", sans-serif',
+                                                    color: "#B2B0B0",
+                                                    fontSize: "14px",
+                                                    visibility: 'hidden',
+                                                    display: 'inline-block',
+                                                    minWidth: '1em',
+                                                    paddingBlock: '18px',
+                                                    letterSpacing: "0.35px",
+                                                    lineHeight: "21px"
+                                                  }}
+                                                >
+                                                  {item?.TitleLine}
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+                                          <div className="elv_filtered_prod_details">
+                                            <div className="elv_filtered_prod_weights">
+                                              <div style={{ display: "flex" }}>
+                                                <span className="elv_prod_weight_span_1">NWT&nbsp;: </span>
+                                                <span className="elv_prod_weight_span_2">
+                                                  &nbsp;{item?.Nwt.toFixed(3)}
+                                                </span>
+                                              </div>
+                                              <div style={{ display: "flex" }}>
+                                                <span className="elv_prod_weight_span_1">DWT&nbsp;: </span>
+                                                <span className="elv_prod_weight_span_2">
+                                                  &nbsp;{item?.Dwt.toFixed(3)}/{item?.Dpcs}
+                                                </span>
+                                              </div>
+                                              <div style={{ display: "flex" }}>
+                                                <span className="elv_prod_weight_span_1">GWT&nbsp;: </span>
+                                                <span className="elv_prod_weight_span_2">
+                                                  &nbsp;{item?.Gwt.toFixed(3)}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="elv_filtered_prod_price">
+                                              <span className="elv_prod_weight_span_1">{item?.designno}</span>
+                                              <span
+                                                style={{
+                                                  fontWeight: "bold",
+                                                  textAlign: "left",
+                                                  fontSize: "17px",
+                                                }}
+                                              >
+                                                ₹{item?.UnitCostWithMarkUp}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
+                                {activeIcon === "apps" && (
+                                  <>
+                                    {productListData?.map((item, index) => {
+                                      return (
+                                        <>
+                                          <div
+                                            className="elv_filtered_prodlists_2"
+                                            style={{ maxWidth: "calc(100% / 3)", cursor: 'pointer' }}
+                                            key={index}
+                                            onClick={() =>
+                                              handleMoveToDetail(item)
+                                            }
+                                          >
+                                            <div className="elv_filtered_prods">
+                                              <div className="elv_filtered_icons">
+                                                <div>
+                                                  <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                </div>
+                                                <div>
+                                                  <FavoriteBorderIcon border="#CBC7C7" />
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <img
+                                                    className="elv_filtered_image_2"
+                                                    src={`${getDesignImageFol}/${item?.designno}_${item?.ImageCount > 0 ? item?.ImageCount : 1}.${item?.ImageExtension}`}
+                                                  />
+                                                  {item?.TitleLine ? (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: "visible", // Always visible when item?.TitleLine exists
+                                                        display: "inline-block",
+                                                        minWidth: "1em",
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  ) : (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: 'hidden',
+                                                        display: 'inline-block',
+                                                        minWidth: '1em',
+                                                        paddingBlock: '18px',
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <div className="elv_filtered_prod_details">
+                                                <div className="elv_filtered_prod_weights">
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      NWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Nwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      DWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Dwt.toFixed(3)}/
+                                                      {item?.Dpcs}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      GWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Gwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div className="elv_filtered_prod_price">
+                                                  <span className="elv_prod_weight_span_1">
+                                                    {item?.designno}
+                                                  </span>
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "bold",
+                                                      textAlign: "left",
+                                                      fontSize: "17px",
+                                                    }}
+                                                  >
+                                                    ₹{item?.UnitCostWithMarkUp}
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                                {activeIcon === "view_grid" && (
+                                  <>
+                                    {productListData?.map((item, index) => {
+                                      return (
+                                        <>
+                                          <div
+                                            className="elv_filtered_prodlists_3"
+                                            style={{ maxWidth: "calc(100% / 4)", cursor: 'pointer' }}
+                                            key={index}
+                                            onClick={() =>
+                                              handleMoveToDetail(item)
+                                            }
+                                          >
+                                            <div className="elv_filtered_prods">
+                                              <div className="elv_filtered_icons">
+                                                <div>
+                                                  <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                </div>
+                                                <div>
+                                                  <FavoriteBorderIcon border="#CBC7C7" />
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <img
+                                                    className="elv_filtered_image_3"
+                                                    src={`${getDesignImageFol}/${item?.designno
+                                                      }_${item?.ImageCount > 0
+                                                        ? item?.ImageCount
+                                                        : 1
+                                                      }.${item?.ImageExtension}`}
+                                                  />
+                                                  {item?.TitleLine ? (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: "visible", // Always visible when item?.TitleLine exists
+                                                        display: "inline-block",
+                                                        minWidth: "1em",
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  ) : (
+                                                    <span
+                                                      className="elv_titleline"
+                                                      style={{
+                                                        fontFamily: '"PT Sans", sans-serif',
+                                                        color: "#B2B0B0",
+                                                        fontSize: "14px",
+                                                        visibility: 'hidden',
+                                                        display: 'inline-block',
+                                                        minWidth: '1em',
+                                                        paddingBlock: '18px',
+                                                        letterSpacing: "0.35px",
+                                                        lineHeight: "21px"
+                                                      }}
+                                                    >
+                                                      {item?.TitleLine}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <div className="elv_filtered_prod_details">
+                                                <div className="elv_filtered_prod_weights">
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      NWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Nwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      DWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Dwt.toFixed(3)}/
+                                                      {item?.Dpcs}
+                                                    </span>
+                                                  </div>
+                                                  <div style={{ display: "flex" }}>
+                                                    <span className="elv_prod_weight_span_1">
+                                                      GWT&nbsp;:{" "}
+                                                    </span>
+                                                    <span className="elv_prod_weight_span_2">
+                                                      &nbsp;{item?.Gwt.toFixed(3)}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                                <div className="elv_filtered_prod_price">
+                                                  <span className="elv_prod_weight_span_1">
+                                                    {item?.designno}
+                                                  </span>
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "bold",
+                                                      textAlign: "left",
+                                                      fontSize: "17px",
+                                                    }}
+                                                  >
+                                                    ₹{item?.UnitCostWithMarkUp}
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                                {openGridModal === true && (
+                                  <>
+                                    {activeIcon === "single-view" && (
+                                      <>
+                                        {productListData?.map((item, index) => {
+                                          return (
+                                            <>
+                                              <div
+                                                className="elv_filtered_prodlists_4"
+                                                style={{ maxWidth: "calc(100% / 1)", cursor: 'pointer' }}
+                                                key={index}
+                                                onClick={() =>
+                                                  handleMoveToDetail(item)
+                                                }
+                                              >
+                                                <div className="elv_filtered_prods">
+                                                  <div className="elv_filtered_icons">
+                                                    <div>
+                                                      <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                    </div>
+                                                    <div>
+                                                      <FavoriteBorderIcon border="#CBC7C7" />
+                                                    </div>
+                                                  </div>
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      alignItems: "center",
+                                                    }}
+                                                  >
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                      }}
+                                                    >
+                                                      <img
+                                                        className="elv_filtered_image_4"
+                                                        src={`${getDesignImageFol}/${item?.designno
+                                                          }_${item?.ImageCount > 0
+                                                            ? item?.ImageCount
+                                                            : 1
+                                                          }.${item?.ImageExtension}`}
+                                                      />
+                                                      {item?.TitleLine ? (
+                                                        <span
+                                                          className="elv_titleline"
+                                                          style={{
+                                                            fontFamily: '"PT Sans", sans-serif',
+                                                            color: "#B2B0B0",
+                                                            fontSize: "14px",
+                                                            visibility: "visible", // Always visible when item?.TitleLine exists
+                                                            display: "inline-block",
+                                                            minWidth: "1em",
+                                                            letterSpacing: "0.35px",
+                                                            lineHeight: "21px"
+                                                          }}
+                                                        >
+                                                          {item?.TitleLine}
+                                                        </span>
+                                                      ) : (
+                                                        <span
+                                                          className="elv_titleline"
+                                                          style={{
+                                                            fontFamily: '"PT Sans", sans-serif',
+                                                            color: "#B2B0B0",
+                                                            fontSize: "14px",
+                                                            visibility: 'hidden',
+                                                            display: 'inline-block',
+                                                            minWidth: '1em',
+                                                            paddingBlock: '18px',
+                                                            letterSpacing: "0.35px",
+                                                            lineHeight: "21px"
+                                                          }}
+                                                        >
+                                                          {item?.TitleLine}
+                                                        </span>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                  <div className="elv_filtered_prod_details">
+                                                    <div className="elv_filtered_prod_weights">
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          NWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Nwt.toFixed(3)}
+                                                        </span>
+                                                      </div>
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          DWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Dwt.toFixed(3)}/
+                                                          {item?.Dpcs}
+                                                        </span>
+                                                      </div>
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          GWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Gwt.toFixed(3)}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                    <div className="elv_filtered_prod_price">
+                                                      <span className="elv_prod_weight_span_1">
+                                                        {item?.designno}
+                                                      </span>
+                                                      <span
+                                                        style={{
+                                                          fontWeight: "bold",
+                                                          textAlign: "left",
+                                                          fontSize: "17px",
+                                                        }}
+                                                      >
+                                                        ₹{item?.UnitCostWithMarkUp}
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        })}
+                                      </>
+                                    )}
+                                    {activeIcon === "double-view" && (
+                                      <>
+                                        {productListData?.map((item, index) => {
+                                          return (
+                                            <>
+                                              <div
+                                                className="elv_filtered_prodlists_5"
+                                                style={{ maxWidth: "calc(100% / 2)", cursor: 'pointer' }}
+                                                key={index}
+                                                onClick={() =>
+                                                  handleMoveToDetail(item)
+                                                }
+                                              >
+                                                <div className="elv_filtered_prods">
+                                                  <div className="elv_filtered_icons">
+                                                    <div>
+                                                      <LocalMallOutlinedIcon border="#CBC7C7" />
+                                                    </div>
+                                                    <div>
+                                                      <FavoriteBorderIcon border="#CBC7C7" />
+                                                    </div>
+                                                  </div>
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      alignItems: "center",
+                                                    }}
+                                                  >
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                      }}
+                                                    >
+                                                      <img
+                                                        className="elv_filtered_image_5"
+                                                        src={`${getDesignImageFol}/${item?.designno
+                                                          }_${item?.ImageCount > 0
+                                                            ? item?.ImageCount
+                                                            : 1
+                                                          }.${item?.ImageExtension}`}
+                                                      />
+                                                      {item?.TitleLine ? (
+                                                        <span
+                                                          className="elv_titleline"
+                                                          style={{
+                                                            fontFamily: '"PT Sans", sans-serif',
+                                                            color: "#B2B0B0",
+                                                            fontSize: "14px",
+                                                            visibility: "visible", // Always visible when item?.TitleLine exists
+                                                            display: "inline-block",
+                                                            minWidth: "1em",
+                                                            letterSpacing: "0.35px",
+                                                            lineHeight: "21px"
+                                                          }}
+                                                        >
+                                                          {item?.TitleLine}
+                                                        </span>
+                                                      ) : (
+                                                        <span
+                                                          className="elv_titleline"
+                                                          style={{
+                                                            fontFamily: '"PT Sans", sans-serif',
+                                                            color: "#B2B0B0",
+                                                            fontSize: "14px",
+                                                            visibility: 'hidden',
+                                                            display: 'inline-block',
+                                                            minWidth: '1em',
+                                                            paddingBlock: '18px',
+                                                            letterSpacing: "0.35px",
+                                                            lineHeight: "21px"
+                                                          }}
+                                                        >
+                                                          {item?.TitleLine}
+                                                        </span>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                  <div className="elv_filtered_prod_details">
+                                                    <div className="elv_filtered_prod_weights">
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          NWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Nwt.toFixed(3)}
+                                                        </span>
+                                                      </div>
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          DWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Dwt.toFixed(3)}/
+                                                          {item?.Dpcs}
+                                                        </span>
+                                                      </div>
+                                                      <div style={{ display: "flex" }}>
+                                                        <span className="elv_prod_weight_span_1">
+                                                          GWT&nbsp;:{" "}
+                                                        </span>
+                                                        <span className="elv_prod_weight_span_2">
+                                                          &nbsp;{item?.Gwt.toFixed(3)}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                    <div className="elv_filtered_prod_price">
+                                                      <span className="elv_prod_weight_span_1">
+                                                        {item?.designno}
+                                                      </span>
+                                                      <span
+                                                        style={{
+                                                          fontWeight: "bold",
+                                                          textAlign: "left",
+                                                          fontSize: "17px",
+                                                        }}
+                                                      >
+                                                        ₹{item?.UnitCostWithMarkUp}
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        })}
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        )}
+
                       </>
                     )}
 

@@ -91,6 +91,7 @@
 
     .elv_ProductDet_prod_img {
         display: flex;
+        flex: 1 1 64%;
 
         .elv_ProductDet_prod_image {
             height: auto;
@@ -125,6 +126,7 @@
             display: flex;
             flex-direction: column;
             margin-top: 1rem;
+            width: 27rem;
 
             .elv_ProductDet_prod_code {
                 font-size: 16px;
@@ -203,14 +205,26 @@
     }
 
     .elv_ProductDet_dropdown {
-        .elv_metaltype_drp {
+        .elv_metaltype_span{
             border: none;
-            background-color: #F4F4F4;
-            color: '#8E7B8E';
-            font-weight: "400";
-            cursor: pointer;
-            text-transform: "uppercase";
-            letter-spacing: "2px";
+            outline: none;
+            font-size: 17px;
+            color: #7d7f85;;
+            font-family:  "TT Commons Medium";
+            letter-spacing: 2.2px;
+        }
+        .elv_metaltype_drp {
+            width: 100%;
+            background-color: #f4f4f4 !important;
+            border: none;
+            color: #424242;
+            font-size: 13px;
+            height: 30px;
+            outline: none;
+            text-transform: uppercase;
+            font-family: 'PT Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2.2px;
 
             &:focus {
                 outline: none;
@@ -218,12 +232,40 @@
         }
 
         .elv_ProductDet_divider_1 {
-            margin: 8px
+            margin: 8px 0px 8px 0px;
         }
     }
 
-    .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-        padding: 4px;
+    .elv_ProductDet_dropdown_max1000{
+        .elv_metaltype_span{
+            border: none;
+            outline: none;
+            font-size: 17px;
+            color: #7d7f85;;
+            font-family:  "TT Commons Medium";
+            letter-spacing: 2.2px;
+        }
+        .elv_metaltype_drp {
+            width: 100%;
+            background-color: #f4f4f4 !important;
+            border: none;
+            color: #424242;
+            font-size: 13px;
+            height: 30px;
+            outline: none;
+            text-transform: uppercase;
+            font-family: 'PT Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2.2px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .elv_ProductDet_divider_1 {
+            margin: 8px 0px 8px 0px;
+        }
     }
 
     .elv_ProductDet_prod_price {
@@ -234,6 +276,9 @@
             color: rgb(125, 127, 133);
             font-weight: 700;
             letter-spacing: 2px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
         }
     }
 
@@ -293,7 +338,7 @@
                 width: 100%;
                 font-weight: 600;
                 color: #d2815f;
-                margin-top: 12px;
+                padding-top: 12px;
             }
         }
     }
@@ -334,7 +379,7 @@
 
     @media screen and (max-width: 1400px) {
         .elv_ProductDet_prod_description {
-            width: 90%;
+            width: 50%;
 
             .elv_Product_prod_desc_data {
                 max-width: 64%;
