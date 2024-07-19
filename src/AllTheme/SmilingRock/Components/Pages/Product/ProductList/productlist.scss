@@ -11,6 +11,9 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 15px;
+  // flex-direction: column;
+  position: sticky;
+  top: 0;
 }
 
 .smr_whiteInnerContain {
@@ -42,7 +45,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  width:25%;
+  width:100% !important;
  
 }
 
@@ -50,8 +53,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width:75%;
-    margin:15px 70px 0px 15px
+    width:98.3% !important;
+    margin: 0px 0px 10px 0px !important;
+    // margin:15px 70px 0px 15px
 }
 
 .container {
@@ -97,8 +101,11 @@
 }
 
 .smr_filter_portion {
+  top:25px !important;
+  position: sticky !important;
   width: 25%;
   font-family: $primaryFontFamily;
+  height: 80vh;
 }
 
 // .smr_filterDrawer .MuiPaper-root{
@@ -134,13 +141,13 @@
   align-items: baseline;
   margin: 20px 50px 0px 0px;
   flex-direction: column;
-  position: sticky;
-  top: 50px;
-  overflow-y: scroll;
-  height: 100vh;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  // position: sticky;
+  // top: 50px;
+  // overflow-y: scroll;
+  // height: 100vh;
+  // -webkit-overflow-scrolling: touch;
+  // -ms-overflow-style: none;
+  // scrollbar-width: none;
 }
 
 .smr_productList::-webkit-scrollbar {
@@ -440,6 +447,16 @@
   // min-width:399px;
 }
 
+.smr_backtotop{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: $primaryFontFamily;
+  height: 13vh;
+}
+
 @media screen and (max-width: 1441px) {
   .smr_whiteInnerContain {
     margin-inline: 2%;
@@ -500,6 +517,14 @@
   .smr_productCard_video{
     height: 312px;
     min-height: 312px;
+  }
+
+  .smr_main_sorting_div{
+    display: none !important;
+  }
+
+  .empty_sorting_div{
+    display: none !important;
   }
 }
 

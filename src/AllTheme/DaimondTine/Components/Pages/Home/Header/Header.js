@@ -189,9 +189,12 @@ const Header = () => {
         setHoveredIndex(index);
         setExpandedMenu(index);
         setSelectedData(menuItems[index] || []);
-        setLeval1menu(param)
-        console.log("leval0menu",param);
+        
     };
+
+    const handleMouseEnter0 = (param) => {
+        setLeval1menu(param)
+    } 
 
     const handleLogout = () => {
         setislogin(false);
@@ -218,61 +221,61 @@ const Header = () => {
     const isMaxDesktop = useMediaQuery('(min-width: 1440px) and (max-width: 2550px)');
     
 
-    const handelMenu = (param) => {
+    const handelMenu = (param,param1,param2) => {
 
-        console.log("param",param);
+        console.log("param",param,param1,param2)
         // setDrawerShowOverlay(false);
-        // let finalData = {
-        //   menuname: param?.menuname ?? "",
-        //   FilterKey: param?.key ?? "",
-        //   FilterVal: param?.value ?? "",
-        //   FilterKey1: param1?.key ?? "",
-        //   FilterVal1: param1?.value ?? "",
-        //   FilterKey2: param2?.key ?? "",
-        //   FilterVal2: param2?.value ?? "",
-        // };
-        // localStorage.setItem("menuparams", JSON.stringify(finalData));
+        let finalData = {
+          menuname: param?.menuname ?? "",
+          FilterKey: param?.key ?? "",
+          FilterVal: param?.value ?? "",
+          FilterKey1: param1?.key ?? "",
+          FilterVal1: param1?.value ?? "",
+          FilterKey2: param2?.key ?? "",
+          FilterVal2: param2?.value ?? "",
+        };
+        localStorage.setItem("menuparams", JSON.stringify(finalData));
     
-        // const queryParameters1 = [
-        //   finalData?.FilterKey && `${finalData.FilterVal}`,
-        //   finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-        //   finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        // ]
-        //   .filter(Boolean)
-        //   .join("/");
+        const queryParameters1 = [
+          finalData?.FilterKey && `${finalData.FilterVal}`,
+          finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+          finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ]
+          .filter(Boolean)
+          .join("/");
     
-        // const queryParameters = [
-        //   finalData?.FilterKey && `${finalData.FilterVal}`,
-        //   finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-        //   finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        // ]
-        //   .filter(Boolean)
-        //   .join(",");
+        const queryParameters = [
+          finalData?.FilterKey && `${finalData.FilterVal}`,
+          finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+          finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+        ]
+          .filter(Boolean)
+          .join(",");
     
-        // const otherparamUrl = Object.entries({
-        //   b: finalData?.FilterKey,
-        //   g: finalData?.FilterKey1,
-        //   c: finalData?.FilterKey2,
-        // })
-        //   .filter(([key, value]) => value !== undefined)
-        //   .map(([key, value]) => value)
-        //   .filter(Boolean)
-        //   .join(",");
+        const otherparamUrl = Object.entries({
+          b: finalData?.FilterKey,
+          g: finalData?.FilterKey1,
+          c: finalData?.FilterKey2,
+        })
+          .filter(([key, value]) => value !== undefined)
+          .map(([key, value]) => value)
+          .filter(Boolean)
+          .join(",");
     
-        // const paginationParam = [
-        //   `page=${finalData.page ?? 1}`,
-        //   `size=${finalData.size ?? 50}`,
-        // ].join("&");
+        const paginationParam = [
+          `page=${finalData.page ?? 1}`,
+          `size=${finalData.size ?? 50}`,
+        ].join("&");
     
         // console.log("otherparamsUrl--", otherparamUrl);
     
-        // let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+        let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-        // const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
-        //   menuEncoded
-        // )}`;
+        const url = `/p/${queryParameters1}/?M=${btoa(
+          menuEncoded
+        )}`;
 
-        // navigate(url);
+        navigate(url);
 
       };
 
@@ -435,7 +438,10 @@ const Header = () => {
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
                                 key={index}
                                 label={item.menuname}
-                                onMouseEnter={() => handleMouseEnter(index, item)}
+                                onMouseEnter={() =>{ 
+                                    handleMouseEnter(index, item);
+                                    handleMouseEnter0(item);
+                                }}
                                 onMouseLeave={() => {
                                     handleMouseLeave();
                                 }}
@@ -493,25 +499,37 @@ const Header = () => {
                             {selectedData?.param1?.map((param1Item, param1Index) => (
                                 // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
                                 <div key={param1Index}>
-                                    <span onClick={() => handelMenu(leval1menu)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                    <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
                                     <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                                         {param1Item?.param2?.map((param2Item, param2Index) => (
-                                            <p className="level2menuData" key={param2Index} onClick={() => handelMenu(param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                            <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
+                                                menuname: leval1menu?.menuname,
+                                                key: leval1menu?.param0name,
+                                                value: leval1menu?.param0dataname,
+                                              },
+                                              {
+                                                key: param1Item.param1name,
+                                                value: param1Item.param1dataname,
+                                              },
+                                              {
+                                                key: param2Item.param2name,
+                                                value: param2Item.param2dataname,
+                                              })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                                                 {param2Item?.param2dataname}
                                             </p>
                                         ))}
                                         {/* {
-                                        menuname: menuItem?.menuname,
-                                        key: menuItem?.param0name,
-                                        value: menuItem?.param0dataname,
+                                        menuname: leval1menu?.menuname,
+                                        key: leval1menu?.param0name,
+                                        value: leval1menu?.param0dataname,
                                       },
                                       {
-                                        key: subMenuItem.param1name,
-                                        value: subMenuItem.param1dataname,
+                                        key: param1Item.param1name,
+                                        value: param1Item.param1dataname,
                                       },
                                       {
-                                        key: subSubMenuItem.param2name,
-                                        value: subSubMenuItem.param2dataname,
+                                        key: param2Item.param2name,
+                                        value: param2Item.param2dataname,
                                       } */}
                                     </div>
                                 </div>

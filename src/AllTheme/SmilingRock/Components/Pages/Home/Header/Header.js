@@ -222,7 +222,19 @@ const Header = () => {
     setDrawerShowOverlay(!drawerShowOverlay);
   };
 
-  const handelMenu = (param, param1, param2) => {
+  const handelMenu = (param, param1, param2,event) => {
+
+
+    if (
+      event?.ctrlKey ||     // Ctrl key
+      event?.shiftKey ||    // Shift key
+      event?.metaKey ||     // Meta key (Command key on macOS)
+      (event?.button && event?.button === 1) // Middle mouse button
+    ) {
+      // Let the default behavior of the <a> tag handle the new tab opening
+      return;
+    } else{
+      event?.preventDefault();
     setDrawerShowOverlay(false);
     let finalData = {
       menuname: param?.menuname ?? "",
@@ -278,6 +290,7 @@ const Header = () => {
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
     handleDropdownClose();
     navigate(url);
+  }
   };
 
   //mobileMenu.................
@@ -1485,12 +1498,16 @@ const Header = () => {
                 >
                   <ButtonBase
                     component="div"
-                    onClick={() =>
+                    onClick={(e) =>
                       handelMenu({
                         menuname: menuItem?.menuname,
                         key: menuItem?.param0name,
                         value: menuItem?.param0dataname,
-                      })
+                      },
+                      {},
+                      {},
+                      e
+                    )
                     }
                   >
                     <a
@@ -1498,6 +1515,13 @@ const Header = () => {
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
                       className="smr_menuSubTitle"
+                      // onClick={() =>
+                      //   handelMenu({
+                      //     menuname: menuItem?.menuname,
+                      //     key: menuItem?.param0name,
+                      //     value: menuItem?.param0dataname,
+                      //   })
+                      // }
                     >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </a>
@@ -1522,7 +1546,7 @@ const Header = () => {
                               justifyContent: "start",
                               height: "25px",
                             }}
-                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                            onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname },{},e)}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             <a
@@ -1532,6 +1556,8 @@ const Header = () => {
                                 `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
                               )}`}
                               className="smr_menuSubTitle"
+
+                              // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
                               <p
                                 style={{
@@ -1555,7 +1581,7 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: "100%" }}
-                                  onClick={() =>
+                                  onClick={(e) =>
                                     handelMenu(
                                       {
                                         menuname: menuItem?.menuname,
@@ -1569,7 +1595,8 @@ const Header = () => {
                                       {
                                         key: subSubMenuItem.param2name,
                                         value: subSubMenuItem.param2dataname,
-                                      }
+                                      },
+                                      e
                                     )
                                   }
                                 >
@@ -1582,6 +1609,23 @@ const Header = () => {
                                       `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
                                     )}`}
                                     className="smr_menuSubTitle"
+                                    // onClick={() =>
+                                    //   handelMenu(
+                                    //     {
+                                    //       menuname: menuItem?.menuname,
+                                    //       key: menuItem?.param0name,
+                                    //       value: menuItem?.param0dataname,
+                                    //     },
+                                    //     {
+                                    //       key: subMenuItem.param1name,
+                                    //       value: subMenuItem.param1dataname,
+                                    //     },
+                                    //     {
+                                    //       key: subSubMenuItem.param2name,
+                                    //       value: subSubMenuItem.param2dataname,
+                                    //     }
+                                    //   )
+                                    // }
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                                     <p className="muilist2ndSubMenutext">

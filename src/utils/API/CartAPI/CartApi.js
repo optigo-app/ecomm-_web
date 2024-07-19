@@ -27,7 +27,8 @@ export const fetchCartDetails = async (visiterId, islogin) => {
             colorstonepricelistname:colorstonepricelistname,
             SettingPriceUniqueNo:SettingPriceUniqueNo,
             IsWishList:0,
-            IsPLW: storeInit?.IsPLW
+            IsPLW: storeInit?.IsPLW,
+            CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
         });
 
         const encodedCombinedValue = btoa(combinedValue);

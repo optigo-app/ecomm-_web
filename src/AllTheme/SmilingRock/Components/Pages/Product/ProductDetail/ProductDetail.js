@@ -1181,7 +1181,7 @@ const ProductDetail = () => {
                                 width: "100%",
                                 objectFit: "cover",
                                 marginTop: "40px",
-                                height: "90%",
+                                // height: "90%",
                                 borderRadius: "8px",
                               }}
                             />
@@ -1459,14 +1459,14 @@ const ProductDetail = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "#7d7f85 !important",
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
                               }}
-                              className="filtercategoryLable"
+                              // className="filtercategoryLable"
                               
                             >
                               <Typography>Price Breakup</Typography>
@@ -2078,7 +2078,9 @@ const ProductDetail = () => {
                             <div
                               className="smr_stockItemCard"
                               onClick={() =>
-                                setTimeout(() => handleMoveToDetail(ele), 500)
+                                // setTimeout(() => 
+                                  handleMoveToDetail(ele)
+                              // , 500)
                               }
                             >
                               <img

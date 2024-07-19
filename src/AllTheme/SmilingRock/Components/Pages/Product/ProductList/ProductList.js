@@ -1617,14 +1617,14 @@ const ProductList = () => {
                           aria-controls="panel1-content"
                           id="panel1-header"
                           sx={{
-                            color: "#7f7d85",
+                            color: "#7d7f85",
                             borderRadius: 0,
 
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
                           }}
-                          className="filtercategoryLable"
+                          // className="filtercategoryLable"
                         >
                           {/* <span> */}
                           {ele.Name}
@@ -1737,7 +1737,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -1861,7 +1861,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -1918,7 +1918,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -1975,7 +1975,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -2029,8 +2029,229 @@ const ProductList = () => {
                     />
                   </div>
                 ) : (
-                  <div className="smr_prodSorting">
-                    <div className="empty_sorting_div">
+                  null
+                  // <div className="smr_prodSorting">
+                  //   <div className="empty_sorting_div">
+                  //     <span
+                  //       className="smr_breadcums_port "
+                  //       style={{ marginLeft: "72px" }}
+                  //       onClick={() => {
+                  //         navigate("/");
+                  //       }}
+                  //     >
+                  //       {"Home >"}{" "}
+                  //     </span>
+
+                  //     {location?.search.charAt(1) == "A" && (
+                  //       <div
+                  //         className="smr_breadcums_port"
+                  //         style={{ marginLeft: "3px" }}
+                  //       >
+                  //         <span>{"Album"}</span>
+                  //       </div>
+                  //     )}
+
+                  //     {location?.search.charAt(1) == "T" && (
+                  //       <div
+                  //         className="smr_breadcums_port"
+                  //         style={{ marginLeft: "3px" }}
+                  //       >
+                  //         <span>{"Trending"}</span>
+                  //       </div>
+                  //     )}
+
+                  //     {location?.search.charAt(1) == "B" && (
+                  //       <div
+                  //         className="smr_breadcums_port"
+                  //         style={{ marginLeft: "3px" }}
+                  //       >
+                  //         <span>{"Best Seller"}</span>
+                  //       </div>
+                  //     )}
+
+                  //     {location?.search.charAt(1) == "N" && (
+                  //       <div
+                  //         className="smr_breadcums_port"
+                  //         style={{ marginLeft: "3px" }}
+                  //       >
+                  //         <span>{"New Arrival"}</span>
+                  //       </div>
+                  //     )}
+
+                  //     {IsBreadCumShow && (
+                  //       <div
+                  //         className="smr_breadcums_port"
+                  //         style={{ marginLeft: "3px" }}
+                  //       >
+                  //         {menuParams?.menuname && (
+                  //           <span
+                  //             onClick={() =>
+                  //               handleBreadcums({
+                  //                 [menuParams?.FilterKey]:
+                  //                   menuParams?.FilterVal,
+                  //               })
+                  //             }
+                  //           >
+                  //             {menuParams?.menuname}
+                  //           </span>
+                  //         )}
+
+                  //         {menuParams?.FilterVal1 && (
+                  //           <span
+                  //             onClick={() =>
+                  //               handleBreadcums({
+                  //                 [menuParams?.FilterKey]:
+                  //                   menuParams?.FilterVal,
+                  //                 [menuParams?.FilterKey1]:
+                  //                   menuParams?.FilterVal1,
+                  //               })
+                  //             }
+                  //           >
+                  //             {` > ${menuParams?.FilterVal1}`}
+                  //           </span>
+                  //         )}
+
+                  //         {menuParams?.FilterVal2 && (
+                  //           <span
+                  //             onClick={() =>
+                  //               handleBreadcums({
+                  //                 [menuParams?.FilterKey]:
+                  //                   menuParams?.FilterVal,
+                  //                 [menuParams?.FilterKey1]:
+                  //                   menuParams?.FilterVal1,
+                  //                 [menuParams?.FilterKey2]:
+                  //                   menuParams?.FilterVal2,
+                  //               })
+                  //             }
+                  //           >
+                  //             {` > ${menuParams?.FilterVal2}`}
+                  //           </span>
+                  //         )}
+
+                  //         {/* {
+                  //           decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
+                  //               (i !== 2 && <span
+                  //                 onClick={() =>
+                  //                   handleBreadcums({
+                  //                     [menuParams?.FilterKey]:
+                  //                       menuParams?.FilterVal,
+                  //                   })
+                  //                 }
+                  //               >
+                  //                 {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
+                  //               </span>)
+                  //           ))
+                  //         } */}
+                  //       </div>
+                  //     )}
+                  //   </div>
+
+                    // <div className="smr_main_sorting_div">
+                    //   <div className="smr_metal_custom">
+                    //     <label className="label">Metal:&nbsp;</label>
+                    //     <select
+                    //       className="select"
+                    //       value={selectedMetalId}
+                    //       onChange={(e) => setSelectedMetalId(e.target.value)}
+                    //     >
+                    //       {metalTypeCombo?.map((metalele, i) => (
+                    //         <option
+                    //           className="option"
+                    //           key={i}
+                    //           value={metalele?.Metalid}
+                    //         >
+                    //           {metalele?.metaltype.toUpperCase()}
+                    //         </option>
+                    //       ))}
+                    //     </select>
+                    //   </div>
+
+                    //   {storeInit?.IsDiamondCustomization === 1 && (
+                    //     <div className="smr_dia_custom">
+                    //       <label className="label">Diamond:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedDiaId}
+                    //         onChange={(e) => setSelectedDiaId(e.target.value)}
+                    //       >
+                    //         {diaQcCombo?.map((diaQc, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
+
+                    //   {storeInit?.IsCsCustomization === 1 && (
+                    //     <div className="smr_cs_custom">
+                    //       <label className="label">color stone:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedCsId}
+                    //         onChange={(e) => setSelectedCsId(e.target.value)}
+                    //       >
+                    //         {csQcCombo?.map((csCombo, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
+
+                    //   <div className="smr_sorting_custom">
+                    //     <div className="container">
+                    //       <label className="label">Sort By:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={sortBySelect}
+                    //         onChange={(e) => handleSortby(e)}
+                    //       >
+                    //         <option className="option" value="Recommended">
+                    //           Recommended
+                    //         </option>
+                    //         <option className="option" value="New">
+                    //           New
+                    //         </option>
+                    //         <option className="option" value="Trending">
+                    //           Trending
+                    //         </option>
+                    //         <option className="option" value="In Stock">
+                    //           In stock
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE HIGH TO LOW"
+                    //         >
+                    //           Price High To Low
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE LOW TO HIGH"
+                    //         >
+                    //           Price Low To High
+                    //         </option>
+                    //       </select>
+                    //     </div>
+                    //   </div>
+                    // </div>
+                  // </div>
+                )}
+
+                <div className="smr_mainPortion">
+                  <div className="smr_filter_portion">
+                  <div className="empty_sorting_div">
                       <span
                         className="smr_breadcums_port "
                         style={{ marginLeft: "72px" }}
@@ -2126,130 +2347,9 @@ const ProductList = () => {
                               {` > ${menuParams?.FilterVal2}`}
                             </span>
                           )}
-
-                          {/* {
-                            decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
-                                (i !== 2 && <span
-                                  onClick={() =>
-                                    handleBreadcums({
-                                      [menuParams?.FilterKey]:
-                                        menuParams?.FilterVal,
-                                    })
-                                  }
-                                >
-                                  {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
-                                </span>)
-                            ))
-                          } */}
                         </div>
                       )}
                     </div>
-
-                    <div className="smr_main_sorting_div">
-                      <div className="smr_metal_custom">
-                        <label className="label">Metal:&nbsp;</label>
-                        <select
-                          className="select"
-                          value={selectedMetalId}
-                          onChange={(e) => setSelectedMetalId(e.target.value)}
-                        >
-                          {metalTypeCombo?.map((metalele, i) => (
-                            <option
-                              className="option"
-                              key={i}
-                              value={metalele?.Metalid}
-                            >
-                              {metalele?.metaltype.toUpperCase()}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {storeInit?.IsDiamondCustomization === 1 && (
-                        <div className="smr_dia_custom">
-                          <label className="label">Diamond:&nbsp;</label>
-                          <select
-                            className="select"
-                            value={selectedDiaId}
-                            onChange={(e) => setSelectedDiaId(e.target.value)}
-                          >
-                            {diaQcCombo?.map((diaQc, i) => (
-                              <option
-                                className="option"
-                                key={i}
-                                value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                              >
-                                {" "}
-                                {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-
-                      {storeInit?.IsCsCustomization === 1 && (
-                        <div className="smr_cs_custom">
-                          <label className="label">color stone:&nbsp;</label>
-                          <select
-                            className="select"
-                            value={selectedCsId}
-                            onChange={(e) => setSelectedCsId(e.target.value)}
-                          >
-                            {csQcCombo?.map((csCombo, i) => (
-                              <option
-                                className="option"
-                                key={i}
-                                value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                              >
-                                {" "}
-                                {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-
-                      <div className="smr_sorting_custom">
-                        <div className="container">
-                          <label className="label">Sort By:&nbsp;</label>
-                          <select
-                            className="select"
-                            value={sortBySelect}
-                            onChange={(e) => handleSortby(e)}
-                          >
-                            <option className="option" value="Recommended">
-                              Recommended
-                            </option>
-                            <option className="option" value="New">
-                              New
-                            </option>
-                            <option className="option" value="Trending">
-                              Trending
-                            </option>
-                            <option className="option" value="In Stock">
-                              In stock
-                            </option>
-                            <option
-                              className="option"
-                              value="PRICE HIGH TO LOW"
-                            >
-                              Price High To Low
-                            </option>
-                            <option
-                              className="option"
-                              value="PRICE LOW TO HIGH"
-                            >
-                              Price Low To High
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div className="smr_mainPortion">
-                  <div className="smr_filter_portion">
                     {filterData?.length > 0 && (
                       <div className="smr_filter_portion_outter">
                         <span className="smr_filter_text">
@@ -2301,14 +2401,14 @@ const ProductList = () => {
                                       aria-controls="panel1-content"
                                       id="panel1-header"
                                       sx={{
-                                        color: "#7f7d85",
+                                        color: "#7d7f85",
                                         borderRadius: 0,
 
                                         "&.MuiAccordionSummary-root": {
                                           padding: 0,
                                         },
                                       }}
-                                      className="filtercategoryLable"
+                                      // className="filtercategoryLable"
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
@@ -2363,7 +2463,7 @@ const ProductList = () => {
                                                         ]?.checked
                                                   }
                                                   style={{
-                                                    color: "#7f7d85",
+                                                    color: "#7f7d85 !important",
                                                     padding: 0,
                                                     width: "10px",
                                                   }}
@@ -2426,7 +2526,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -2550,7 +2650,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -2607,7 +2707,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -2664,7 +2764,7 @@ const ProductList = () => {
                                         padding: 0,
                                       },
                                     }}
-                                    className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     onClick={() => handleScrollHeight()}
                                   >
                                     {/* <span> */}
@@ -2712,6 +2812,107 @@ const ProductList = () => {
                       {isOnlyProdLoading ? (
                         <ProductListSkeleton fromPage={"Prodlist"} />
                       ) : (
+                        <>
+                        <div className="smr_main_sorting_div">
+                      <div className="smr_metal_custom">
+                        <label className="label">Metal:&nbsp;</label>
+                        <select
+                          className="select"
+                          value={selectedMetalId}
+                          onChange={(e) => setSelectedMetalId(e.target.value)}
+                        >
+                          {metalTypeCombo?.map((metalele, i) => (
+                            <option
+                              className="option"
+                              key={i}
+                              value={metalele?.Metalid}
+                            >
+                              {metalele?.metaltype.toUpperCase()}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {storeInit?.IsDiamondCustomization === 1 && (
+                        <div className="smr_dia_custom">
+                          <label className="label">Diamond:&nbsp;</label>
+                          <select
+                            className="select"
+                            value={selectedDiaId}
+                            onChange={(e) => setSelectedDiaId(e.target.value)}
+                          >
+                            {diaQcCombo?.map((diaQc, i) => (
+                              <option
+                                className="option"
+                                key={i}
+                                value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                              >
+                                {" "}
+                                {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      {storeInit?.IsCsCustomization === 1 && (
+                        <div className="smr_cs_custom">
+                          <label className="label">color stone:&nbsp;</label>
+                          <select
+                            className="select"
+                            value={selectedCsId}
+                            onChange={(e) => setSelectedCsId(e.target.value)}
+                          >
+                            {csQcCombo?.map((csCombo, i) => (
+                              <option
+                                className="option"
+                                key={i}
+                                value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                              >
+                                {" "}
+                                {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      <div className="smr_sorting_custom">
+                        <div className="container">
+                          <label className="label">Sort By:&nbsp;</label>
+                          <select
+                            className="select"
+                            value={sortBySelect}
+                            onChange={(e) => handleSortby(e)}
+                          >
+                            <option className="option" value="Recommended">
+                              Recommended
+                            </option>
+                            <option className="option" value="New">
+                              New
+                            </option>
+                            <option className="option" value="Trending">
+                              Trending
+                            </option>
+                            <option className="option" value="In Stock">
+                              In stock
+                            </option>
+                            <option
+                              className="option"
+                              value="PRICE HIGH TO LOW"
+                            >
+                              Price High To Low
+                            </option>
+                            <option
+                              className="option"
+                              value="PRICE LOW TO HIGH"
+                            >
+                              Price Low To High
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                        </div>
                         <div className="smr_outer_portion" id="smr_outer_portion">
                           {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                           <div className="smr_inner_portion">
@@ -3010,34 +3211,40 @@ const ProductList = () => {
                             ))}
                           </div>
                         </div>
+                        {storeInit?.IsProductListPagination == 1 &&
+                          Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "5%",
+                                width:'100%'
+                              }}
+                              className="smr_pagination_portion"
+                            >
+                              <Pagination
+                                count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                size={maxwidth464px ? "small" : "large"}
+                                shape="circular"
+                                onChange={handelPageChange}
+                                showFirstButton
+                                showLastButton
+                              />
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   )}
                 </div>
               </>
             )}
-            {storeInit?.IsProductListPagination == 1 &&
-              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "5%",
-                  }}
-                  className="smr_pagination_portion"
-                >
-                  <Pagination
-                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                    size={maxwidth464px ? "small" : "large"}
-                    shape="circular"
-                    onChange={handelPageChange}
-                    showFirstButton
-                    showLastButton
-                  />
-                </div>
-              )}
+            
             <Footer fromPage={"ProdList"} />
           </div>
+        </div>
+        <div className="smr_backtotop">
+              BACK TO TOP
         </div>
       </div>
     </div>

@@ -31,6 +31,9 @@ const WishlistItems = (
     const setCartCountVal = useSetRecoilState(CartCount)
     const visiterId = Cookies.get('visiterId');
 
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
 
 
     const handleWishlistToCartFun = async (item) => {
@@ -91,9 +94,8 @@ const WishlistItems = (
                                     <span>{item.metaltypeName}</span>
                                 )}
                                 {' / '}
-                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currency),
-                                }} />
+                                {/* <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                <span className="smr_currencyFont" >{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>
                                 {' '}
                                 {item?.UnitCost !== "" && (
                                     <span>{(item?.FinalCost)}</span>
