@@ -426,7 +426,7 @@ const QuotationQuote = () => {
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
             <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
-                    <Button variant="contained" className="muiSmilingRocksBtnDT" sx={{ background: "#f0e0e0", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0" }} onClick={eve => resetAllFilters(eve)}>
+                    <Button variant="contained" className="muiSmilingRocksBtnDTQ" sx={{ background: "#f0e0e0", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0" }} onClick={eve => resetAllFilters(eve)}>
                         All
                     </Button>
                 </Box>
@@ -513,12 +513,12 @@ const QuotationQuote = () => {
                     </Box>
                 </Box>
                 <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="QuotePadSec pad_left_q">
-                    <Button variant='contained' className="muiSmilingRocksBtnDT" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "black !important" }} /></Button>
+                    <Button variant='contained' className="muiSmilingRocksBtnDTQ" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "black !important" }} /></Button>
                 </Box>
             </Box>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
+                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWebQ">
                     <TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
                         <Table
                             sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
