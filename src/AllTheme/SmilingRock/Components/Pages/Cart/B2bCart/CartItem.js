@@ -48,6 +48,8 @@ const CartItem = ({
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
@@ -188,14 +190,15 @@ const CartItem = ({
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
                     <span className='smr_currencyFontPrice'>
-                      <span
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      {/* <span
                         className="smr_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
-                      />
+                      /> */}
                       {(item?.UnitCostWithMarkUp)}
                     </span>
                   }

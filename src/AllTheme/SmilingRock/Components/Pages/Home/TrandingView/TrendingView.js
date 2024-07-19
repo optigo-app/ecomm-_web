@@ -203,14 +203,10 @@ const TrendingView = () => {
                                                 <div className='linkLoveRing1Desc'>
                                                     <p className='ring1Desc'>{data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
-                                                        <span
-                                                            className="smr_currencyFont"
-                                                            dangerouslySetInnerHTML={{
-                                                                __html: decodeEntities(
-                                                                    storeInit?.Currencysymbol
-                                                                ),
-                                                            }}
-                                                        /> {data?.UnitCostWithMarkUp}</p>
+                                                        <span className="smr_currencyFont">
+                                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                        </span> &nbsp;
+                                                        {data?.UnitCostWithMarkUp}</p>
                                                 </div>
                                             </div>
                                              ))}

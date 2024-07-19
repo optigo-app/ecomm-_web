@@ -34,6 +34,7 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
     // SearchKey:`${serachVar ?? ""}`,
     // PageNo:`${page}`,
     // PageSize:`${storeinit?.PageSize}`,
+    CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
     Metalid: `${obj?.mt == undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt}`,
     DiaQCid: `${obj?.diaQc == undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.diaQc}`,
     CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc}`,

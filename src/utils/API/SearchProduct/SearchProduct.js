@@ -9,7 +9,8 @@ export const SearchProduct = async(searchVar) => {
           PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
           FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
           Customerid: `${loginInfo?.id ?? 0}`,
-          SearchKey:`${searchVar}`
+          SearchKey:`${searchVar}`,
+          CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`
         };
       
         let encData = JSON.stringify(data)
