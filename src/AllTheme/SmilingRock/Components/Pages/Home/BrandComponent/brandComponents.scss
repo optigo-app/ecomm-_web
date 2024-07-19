@@ -3,13 +3,15 @@
     justify-content: center;
     align-items: center;
 }
-.brandsCompoents{
+.smr_brandsCompoents{
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 50px 0px 50px 0px !important;
+    margin: 0 !important;
+    padding: 0;
+    padding-block: 3%;
 }
 .AffiliationComponents{
     color: rgba(29, 50, 88, 0.8) !important;
@@ -17,7 +19,8 @@
     font-size: 22px;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 50px 0px 50px 0px !important;
+    margin: 0;
+    padding: 0;
 }
 
 .affilitionImg1{
@@ -59,7 +62,7 @@
         width: 17% !important;
         margin-right: 20px !important;
     }
-    .brandsCompoents{
+    .smr_brandsCompoents{
         font-size: 16px;
     }
 }
@@ -96,7 +99,7 @@
     }
 
 
-    .brandsCompoents{
+    .smr_brandsCompoents{
         font-size: 16px;
     }
 }

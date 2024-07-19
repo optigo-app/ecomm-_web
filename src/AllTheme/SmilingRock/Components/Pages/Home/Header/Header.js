@@ -206,10 +206,18 @@ const Header = () => {
 
   const handleDropdownOpen = () => {
     setIsDropdownOpen(true);
+    window.scrollTo({
+      left: 0,
+      behavior: 'smooth'
+    });    
   };
 
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
+    window.scrollTo({
+      left: 0,
+      behavior: 'smooth'
+    });  
   };
 
   const toggleOverlay = () => {
