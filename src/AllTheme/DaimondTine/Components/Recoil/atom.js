@@ -9,3 +9,9 @@ export const dt_companyLogo = atom({
     key: 'dt_loginState',
     default: false,
   })
+
+  export const defaultAddressStateDT = atom({
+    key: 'defaultAddressStateDT',
+    default: null,
+  });
+  
