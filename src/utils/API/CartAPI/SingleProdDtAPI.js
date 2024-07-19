@@ -39,6 +39,7 @@ export const fetchSingleProdDT = async (selectedItem, sizedata, diaId, csQid, se
             CsQCid: csQID,
             Size: size,
             IsFromDesDet: "1",
+            CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`
         });
 
         console.log('prjdkkjf', combinedValue);

@@ -1,12 +1,10 @@
 @import '../../../scss/variable';
 
 .smr_alubmMainDiv {
-    margin: 30px 0px;
 
     .smr_AlbumImageMain {
         height: fit-content;
         width: 20%;
-        margin: 5px;
         cursor: pointer;
         // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
     }
@@ -14,9 +12,11 @@
     .smr_albumTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize5;
+        font-size: $fontSize6;
         text-align: center;
-        margin-top: 10px;
+        margin: 0;
+        padding: 0;
+        padding-block: 3%;
     }
 
     .smr_albumViveAll {
@@ -48,6 +48,8 @@
     .smr_albumALL_div {
         display: flex;
         justify-content: center;
+        gap: 10px;
+        margin: 0px 10px;
     }
 
     @media screen and (max-width: 1200px) {

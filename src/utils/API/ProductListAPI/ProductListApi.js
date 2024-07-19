@@ -119,7 +119,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     FilPrice:filterObj?.Price,
     // Max_Price: '',
     // Min_Price: '',
-
+    CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
     SortBy: `${sortby ?? ""}`,
     Laboursetid: `${
       storeinit?.IsB2BWebsite == 0 && islogin == false

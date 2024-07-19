@@ -1,0 +1,97 @@
+.smr_MainDt2Div {
+    .imgBG {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    .card {
+        box-sizing: border-box;
+        width: 230px;
+        height: 348px;
+        border: 1px solid #e8e8e8;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        padding: 5px;
+
+        background-color: white;
+    }
+
+    .cardimg {
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        max-height: 270px;
+    }
+
+    .maindiv {
+        position: relative;
+    }
+
+    .subimgpart {
+        position: absolute;
+        bottom: 7%;
+        right: 7%;
+        z-index: 1000;
+        /* transform: translate(-50%, -50%); */
+    }
+
+    .btnflex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .fs1 {
+        margin: 4px 0 4px 0px;
+        font-size: 12.5px;
+        font-weight: bolder;
+        color: #5f5e5e;
+    }
+
+    .fs2 {
+        font-size: 10px;
+        color: grey;
+        letter-spacing: 1.2px;
+    }
+
+    .fs3 {
+        font-size: 10px;
+        letter-spacing: 1.2px;
+        margin-top: 6px;
+        cursor: pointer;
+    }
+
+    .btncst {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+        color: #989898;
+        border: 0px;
+        outline: none;
+        border: 0.5px solid #989898;
+    }
+
+    .btncst:hover {
+        color: #5f5e5e;
+    }
+
+    .centerall {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
