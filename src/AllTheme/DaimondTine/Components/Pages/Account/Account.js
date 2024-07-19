@@ -65,7 +65,8 @@ function a11yProps(index) {
 
 const tabIndicator = {
     '& .MuiTab-textColorPrimary.Mui-selected': {
-        color: "#3b3c3d",
+        color: "black",
+        // color: "#3b3c3d",
     },
     '& .MuiTabs-indicator': {
         backgroundColor: "#3b3c3d"
@@ -164,10 +165,10 @@ export default function Account() {
                             {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
-                                    sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
+                                    sx={{ background: "#f0e0e0", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
-                                                return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
+                                                return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#3b3c3d" }} key={i} />
                                             })
                                         }
                                     </Tabs>

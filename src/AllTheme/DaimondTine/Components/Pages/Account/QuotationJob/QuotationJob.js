@@ -665,7 +665,7 @@ const scrollToTop = () => {
   return (
     <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
       <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-        <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
+        <Button variant="contained" sx={{ marginBottom: "35px", background: "#f0e0e0" }} className='muiSmilingRocksBtnDT QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
         <Box sx={{ padding: "0 20px" }}>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
@@ -747,7 +747,7 @@ const scrollToTop = () => {
           </Box>
         </Box>
         <Box sx={{ padding: "0 15px 35px 0", }} className="QuotationJobAllBtnSec">
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+          <Button variant='contained' className='muiSmilingRocksBtnDT' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "black !important" }} /></Button>
         </Box>
         <Box sx={{ position: "relative", padding: "0 15px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
         <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
@@ -837,11 +837,14 @@ const scrollToTop = () => {
             setPage(0);
             handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
           }} />
-          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#f0e0e0" }}
             onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
         </Box>
         <Box sx={{ padding: "0 0px 40px 0", }} className="QuotationJobAllBtnSec">
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+          <Button variant='contained' className='muiSmilingRocksBtnDT' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }}
+             onClick={(eve) => handlePrintJobs(filterData, data)}>
+            <PrintIcon sx={{ color: "black !important" }} />
+          </Button>
         </Box>
       </Box>
 
@@ -853,7 +856,7 @@ const scrollToTop = () => {
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
                   <TableRow>
-                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                  <TableCell style={{backgroundColor: "#f0e0e0", color: "black"}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}
@@ -863,7 +866,8 @@ const scrollToTop = () => {
                       <TableCell
                         key={column?.id}
                         align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                        // style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                        style={{ minWidth: column.minWidth, backgroundColor: "#f0e0e0", color: "black", }}
                         onClick={() => handleRequestSort(column?.id)}
                       >
                         {column.label}
