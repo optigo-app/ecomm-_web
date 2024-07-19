@@ -1310,9 +1310,9 @@ const Header = () => {
                     // onClick={() => navigation("/LoginOption")}
                     onClick={() => navigation("/account")}
                   >
-                    <a href="/account" className="smr_A_linkFixed">
+                    {/* <a href="/account" className="smr_A_linkFixed"> */}
                       ACCOUNT
-                    </a>
+                    {/* </a> */}
                   </li>
                   }
                   </>
@@ -1324,9 +1324,9 @@ const Header = () => {
                       // onClick={() => navigation("/LoginOption")}
                       onClick={() => navigation("/account")}
                     >
-                      <a href="/account" className="smr_A_linkFixed">
+                      {/* <a href="/account" className="smr_A_linkFixed"> */}
                         ACCOUNT
-                      </a>
+                      {/* </a> */}
                     </li>
                   )
                 )}
