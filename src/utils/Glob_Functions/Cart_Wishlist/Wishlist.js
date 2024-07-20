@@ -124,7 +124,6 @@ const Usewishlist = () => {
 
   // add to cart all
   const handleAddtoCartAll = async () => {
-    debugger;
     const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     let resStatus;
