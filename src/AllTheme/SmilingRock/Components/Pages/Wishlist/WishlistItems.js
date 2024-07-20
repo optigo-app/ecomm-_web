@@ -71,11 +71,11 @@ const WishlistItems = (
                                 {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
-                                <span className='smr_wishDT'>NWT : </span>
-                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                <span className='smr_pipe'> | </span>
                                 <span className='smr_wishDT'>GWT: </span>
                                 <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                <span className='smr_pipe'> | </span>
+                                <span className='smr_wishDT'>NWT : </span>
+                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                 <span className='smr_pipe'> | </span>
                                 <span className='smr_wishDT'>DWT: </span>
                                 <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>

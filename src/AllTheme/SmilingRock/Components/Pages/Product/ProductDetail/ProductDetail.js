@@ -69,7 +69,6 @@ const ProductDetail = () => {
   const [isDataFound,setIsDataFound]=useState(false)
   const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
 
-
   const [designSetList,setDesignSetList] = useState();
 
   const [thumbImgIndex,setThumbImgIndex] = useState()
@@ -123,11 +122,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     setCSSVariable();
+  }, []);
+
+  useEffect(()=>{
     window.scroll({
       top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+      behavior: "auto",
+    }); 
+  },[])
 
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
@@ -237,7 +239,7 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: sizeData ?? singleProd?.DefaultSize ,
+      Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize) ,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
       UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
@@ -602,7 +604,6 @@ const ProductDetail = () => {
       }
 
       // console.log("objjj",obj)
- 
       setisPriceLoading(true)
 
       await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
@@ -1108,7 +1109,7 @@ const ProductDetail = () => {
 
     // console.log("eeee",obj)
     setisPriceLoading(true)
-    await SingleProdListAPI(prod,size,obj,cookie)
+    await SingleProdListAPI(prod,(size ?? sizeData),obj,cookie)
     .then((res)=>{
       setSingleProd1(res?.pdList[0])
 
@@ -1121,8 +1122,21 @@ const ProductDetail = () => {
     }).catch((err)=>{console.log("customProdDetailErr",err)})
 
   }
-  
+
   const formatter = new Intl.NumberFormat('en-IN')
+
+  const SizeSorting = (SizeArr) =>{
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
+
+  }
 
   return (
     <>
@@ -1396,7 +1410,7 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                              {SizeCombo?.rd?.length > 0 && (
+                              {SizeSorting(SizeCombo?.rd)?.length > 0 && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
@@ -1628,7 +1642,7 @@ const ProductDetail = () => {
                           </div>
                         }
 
-                        <div className="Smr_CartAndWish_portion">
+                        {!isPriceloading && <div className="Smr_CartAndWish_portion">
                           <button
                             className={
                               !addToCartFlag
@@ -1667,7 +1681,7 @@ const ProductDetail = () => {
                               onChange={(e) => handleWishList(e, singleProd)}
                             />
                           </div>
-                        </div>
+                        </div>}
                       </div>
                     </div>
                   </div>

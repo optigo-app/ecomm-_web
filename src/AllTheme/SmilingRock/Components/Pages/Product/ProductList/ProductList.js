@@ -954,7 +954,7 @@ const ProductList = () => {
     
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
     // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
     navigate(url);
@@ -1369,6 +1369,33 @@ const ProductList = () => {
       return location?.pathname.split('/')[2]
     }
   }
+
+  const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+
+    const values = BreadCum[0].split(',');
+    const labels = BreadCum[1].split(',');
+    
+    const updatedBreadCum = labels.reduce((acc, label, index) => {
+        acc[label] = values[index] || ''; 
+        return acc;
+    }, {});
+
+    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+  }, {});
+
+  // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    result.menuname = decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    return result
+  }
+  // useEffect(()=>{
+  //   console.log("breadcum",BreadCumsObj())
+  // },[location?.key])
 
   return (
     <>
@@ -2308,48 +2335,49 @@ const ProductList = () => {
                           className="smr_breadcums_port"
                           style={{ marginLeft: "3px" }}
                         >
-                          {menuParams?.menuname && (
+                          {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+                          {BreadCumsObj()?.menuname && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
                                 })
                               }
                             >
-                              {menuParams?.menuname}
+                              {BreadCumsObj()?.menuname}
                             </span>
                           )}
 
-                          {menuParams?.FilterVal1 && (
+                          {BreadCumsObj()?.FilterVal1 && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
-                                  [menuParams?.FilterKey1]:
-                                    menuParams?.FilterVal1,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
                                 })
                               }
                             >
-                              {` > ${menuParams?.FilterVal1}`}
+                              {` > ${BreadCumsObj()?.FilterVal1}`}
                             </span>
                           )}
 
-                          {menuParams?.FilterVal2 && (
+                          {BreadCumsObj()?.FilterVal2 && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
-                                  [menuParams?.FilterKey1]:
-                                    menuParams?.FilterVal1,
-                                  [menuParams?.FilterKey2]:
-                                    menuParams?.FilterVal2,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
+                                  [BreadCumsObj()?.FilterKey2]:
+                                  BreadCumsObj()?.FilterVal2,
                                 })
                               }
                             >
-                              {` > ${menuParams?.FilterVal2}`}
+                              {` > ${BreadCumsObj()?.FilterVal2}`}
                             </span>
                           )}
                         </div>
@@ -2972,7 +3000,7 @@ const ProductList = () => {
                                       <StarIcon
                                         sx={{
                                           fontSize: "22px",
-                                          color: "#e31b23",
+                                          color: "#ffd200",
                                         }}
                                       />
                                     }

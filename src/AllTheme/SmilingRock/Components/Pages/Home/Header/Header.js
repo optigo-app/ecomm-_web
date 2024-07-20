@@ -1558,7 +1558,7 @@ const Header = () => {
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.param0dataname}/${
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${
                                 subMenuItem.param1dataname
                               }/?M=${btoa(
                                 `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
@@ -1609,7 +1609,7 @@ const Header = () => {
                                   }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.param0dataname}/${
+                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${
                                       subMenuItem.param1dataname
                                     }/${
                                       subSubMenuItem.param2dataname
