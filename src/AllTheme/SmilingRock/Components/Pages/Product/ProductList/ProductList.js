@@ -56,6 +56,7 @@ const ProductList = () => {
     setCsQcCombo(CsQcCombo)
   }, [])
 
+
   let location = useLocation();
   let navigate = useNavigate();
   let minwidth1201px = useMediaQuery('(min-width:1201px)')
@@ -108,11 +109,11 @@ const ProductList = () => {
   const getDiaRangeFilter = useRecoilValue(DiamondRangeArr)
 
 
-  console.log("getDiaRangeFilter",getDiaRangeFilter)
+  // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
+  const formatter = new Intl.NumberFormat('en-IN')
 
   let cookie = Cookies.get('visiterId')
-
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -313,7 +314,7 @@ const ProductList = () => {
 
       let UrlVal = location?.search.slice(1).split("/")
 
-      console.log("URLVal", UrlVal);
+      // console.log("URLVal", UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -388,7 +389,7 @@ const ProductList = () => {
       await ProductListApi({},1,obj,productlisttype,cookie)
         .then((res) => {
           if (res) {
-            console.log("productList", res);
+            // console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
@@ -414,10 +415,11 @@ const ProductList = () => {
             await FilterListAPI(productlisttype,cookie).then((res)=>{
               setFilterData(res)
 
-              let diafilter = JSON.parse(res?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
-              let diafilter1 = JSON.parse(res?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
-              let diafilter2 = JSON.parse(res?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
-              console.log("diafilter",diafilter);
+              let diafilter = res?.filter((ele)=>ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0] : [];
+              let diafilter1 = res?.filter((ele)=>ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0] : [];
+              let diafilter2 = res?.filter((ele)=>ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0] : [];
+
+              // console.log("diafilter",diafilter);
               setSliderValue([diafilter?.Min,diafilter?.Max])
               setSliderValue1([diafilter1?.Min,diafilter1?.Max])
               setSliderValue2([diafilter2?.Min,diafilter2?.Max])
@@ -654,7 +656,7 @@ const ProductList = () => {
    let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
 
   //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+    // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
     
   if(location?.key === locationKey){
     setIsOnlyProdLoading(true)
@@ -694,6 +696,9 @@ const ProductList = () => {
   }
 
   const handelPageChange = (event, value) => {
+
+    // console.log("pagination",value);
+
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setIsProdLoading(true)
@@ -730,7 +735,7 @@ const ProductList = () => {
   }
 
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
+    // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -879,7 +884,7 @@ const ProductList = () => {
       c: selectedCsId,
       f: output
     }
-    console.log('ksjkfjkjdkjfkjsdk--', obj);
+    // console.log('ksjkfjkjdkjfkjsdk--', obj);
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress()
@@ -949,12 +954,12 @@ const ProductList = () => {
     
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
     // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
     navigate(url);
 
-    console.log("mparams", KeyObj, ValObj)
+    // console.log("mparams", KeyObj, ValObj)
 
   }
 
@@ -1264,7 +1269,7 @@ const ProductList = () => {
     )
   }
   const RangeFilterView1 = (ele) =>{
-    console.log("netwt",ele)
+    // console.log("netwt",ele)
     return (
       <>
       <div>
@@ -1364,6 +1369,33 @@ const ProductList = () => {
       return location?.pathname.split('/')[2]
     }
   }
+
+  const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+
+    const values = BreadCum[0].split(',');
+    const labels = BreadCum[1].split(',');
+    
+    const updatedBreadCum = labels.reduce((acc, label, index) => {
+        acc[label] = values[index] || ''; 
+        return acc;
+    }, {});
+
+    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+  }, {});
+
+  // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    result.menuname = decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    return result
+  }
+  // useEffect(()=>{
+  //   console.log("breadcum",BreadCumsObj())
+  // },[location?.key])
 
   return (
     <>
@@ -1499,7 +1531,7 @@ const ProductList = () => {
                   fontFamily: "TT Commons Regular",
                 }}
               >
-                color stone:&nbsp;
+                Color Stone:&nbsp;
               </Typography>
               <select
                 style={{
@@ -1878,7 +1910,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{width: 203,height:88}}>
                                         {RangeFilterView(ele)}
                                       </Box>
@@ -1935,7 +1967,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{width: 204,height:88}}>
                                         {RangeFilterView1(ele)}
                                       </Box>
@@ -2303,48 +2335,49 @@ const ProductList = () => {
                           className="smr_breadcums_port"
                           style={{ marginLeft: "3px" }}
                         >
-                          {menuParams?.menuname && (
+                          {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+                          {BreadCumsObj()?.menuname && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
                                 })
                               }
                             >
-                              {menuParams?.menuname}
+                              {BreadCumsObj()?.menuname}
                             </span>
                           )}
 
-                          {menuParams?.FilterVal1 && (
+                          {BreadCumsObj()?.FilterVal1 && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
-                                  [menuParams?.FilterKey1]:
-                                    menuParams?.FilterVal1,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
                                 })
                               }
                             >
-                              {` > ${menuParams?.FilterVal1}`}
+                              {` > ${BreadCumsObj()?.FilterVal1}`}
                             </span>
                           )}
 
-                          {menuParams?.FilterVal2 && (
+                          {BreadCumsObj()?.FilterVal2 && (
                             <span
                               onClick={() =>
                                 handleBreadcums({
-                                  [menuParams?.FilterKey]:
-                                    menuParams?.FilterVal,
-                                  [menuParams?.FilterKey1]:
-                                    menuParams?.FilterVal1,
-                                  [menuParams?.FilterKey2]:
-                                    menuParams?.FilterVal2,
+                                  [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                  [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
+                                  [BreadCumsObj()?.FilterKey2]:
+                                  BreadCumsObj()?.FilterVal2,
                                 })
                               }
                             >
-                              {` > ${menuParams?.FilterVal2}`}
+                              {` > ${BreadCumsObj()?.FilterVal2}`}
                             </span>
                           )}
                         </div>
@@ -2667,7 +2700,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{width: 203,height:88}}>
                                         {RangeFilterView(ele)}
                                       </Box>
@@ -2724,7 +2757,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                      {console.log("RangeEle",JSON?.parse(ele?.options)[0])}
+                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
                                       <Box sx={{width: 204,height:88}}>
                                         {RangeFilterView1(ele)}
                                       </Box>
@@ -2857,7 +2890,7 @@ const ProductList = () => {
 
                       {storeInit?.IsCsCustomization === 1 && (
                         <div className="smr_cs_custom">
-                          <label className="label">color stone:&nbsp;</label>
+                          <label className="label">Color Stone:&nbsp;</label>
                           <select
                             className="select"
                             value={selectedCsId}
@@ -2967,7 +3000,7 @@ const ProductList = () => {
                                       <StarIcon
                                         sx={{
                                           fontSize: "22px",
-                                          color: "#e31b23",
+                                          color: "#ffd200",
                                         }}
                                       />
                                     }
@@ -3108,26 +3141,27 @@ const ProductList = () => {
                                       }}
                                     >
                                       {/* <span className="smr_por"> */}
-                                      {Number(productData?.Nwt) !== 0 && (
+                                     
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                          Number(productData?.Gwt) !== 0 && (
                                         <span className="smr_prod_wt">
-                                          <span className="smr_keys">NWT:</span>
-                                          <span className="smr_val">
-                                            {productData?.Nwt}
-                                          </span>
+                                        <span className="smr_keys">
+                                          GWT:
                                         </span>
+                                        <span className="smr_val">
+                                          {productData?.Gwt}
+                                        </span>
+                                      </span>
                                       )}
-                                      {storeInit?.IsGrossWeight == 1 &&
-                                        Number(productData?.Gwt) !== 0 && (
+                                       {Number(productData?.Nwt) !== 0 && (
                                           <>
                                             <span>|</span>
                                             <span className="smr_prod_wt">
-                                              <span className="smr_keys">
-                                                GWT:
-                                              </span>
-                                              <span className="smr_val">
-                                                {productData?.Gwt}
-                                              </span>
-                                            </span>
+                                            <span className="smr_keys">NWT:</span>
+                                            <span className="smr_val">
+                                            {productData?.Nwt}
+                                          </span>
+                                        </span>
                                           </>
                                         )}
                                       {/* </span> */}
@@ -3202,7 +3236,7 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                        {productData?.UnitCostWithMarkUp}
+                                        {formatter.format(productData?.UnitCostWithMarkUp)}
                                       </span>
                                     </span>
                                   </div>
@@ -3227,8 +3261,10 @@ const ProductList = () => {
                                 size={maxwidth464px ? "small" : "large"}
                                 shape="circular"
                                 onChange={handelPageChange}
+                                page={currPage}
                                 showFirstButton
                                 showLastButton
+                                
                               />
                             </div>
                           )}
@@ -3243,10 +3279,18 @@ const ProductList = () => {
             <Footer fromPage={"ProdList"} />
           </div>
         </div>
-        <div className="smr_backtotop">
+        {/* <div className="smr_backtotop">
               BACK TO TOP
-        </div>
+        </div> */}
       </div>
+    </div>
+    <div className="smr_backtotop" onClick={()=>{
+      window.scroll({
+        top: 0,
+        behavior: "auto",
+      }); 
+    }}>
+         BACK TO TOP
     </div>
     </>
   );

@@ -21,6 +21,7 @@ import BestSellerSection from './BestSellerSection/BestSellerSection';
 import BestSellerSection1 from './BestSellerSection/BestSellerSection1';
 import BrandsComponent from './BrandComponent/BrandComponents';
 
+
 function Home() {
 
   const [localData, setLocalData] = useState();
@@ -42,6 +43,7 @@ function Home() {
   };
 
   return (
+    <>
     <div className='smiling_home_index_main'>
       <div style={{ minHeight: '700px' }}>
         {localData?.Blockno === 1 &&
@@ -123,6 +125,7 @@ function Home() {
         })}>BACK TO TOP</p>
       </div>
     </div>
+    </>
   )
 }
 

@@ -72,7 +72,7 @@ const Header = () => {
 
   const { showTimer, countdown } = useCountdown();
 
-  console.log("showtimejhjdhsjhjf", showTimer, countdown);
+  // console.log("showtimejhjdhsjhjf", showTimer, countdown);
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -130,7 +130,7 @@ const Header = () => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
 
-    console.log("callll");
+    // console.log("callll");
 
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
@@ -282,7 +282,7 @@ const Header = () => {
       `size=${finalData.size ?? 50}`,
     ].join("&");
 
-    console.log("otherparamsUrl--", otherparamUrl);
+    // console.log("otherparamsUrl--", otherparamUrl);
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
@@ -314,7 +314,7 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log("Menu Item:", cleanedMenuItem);
+      // console.log("Menu Item:", cleanedMenuItem);
     }
     let finalData = {
       menuname: menuDataObj?.menuname ?? "",
@@ -396,7 +396,7 @@ const Header = () => {
   const handleContextMenu = (e) => {};
 
   const handleMouseDown = (e) => {
-    console.log("rrrrrrrrrrrrrrrrrrr", e);
+    // console.log("rrrrrrrrrrrrrrrrrrr", e);
     if (e.button === 1) {
     }
   };
@@ -1555,7 +1555,7 @@ const Header = () => {
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.param0dataname}/${
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${
                                 subMenuItem.param1dataname
                               }/?M=${btoa(
                                 `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
@@ -1606,7 +1606,7 @@ const Header = () => {
                                   }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.param0dataname}/${
+                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${
                                       subMenuItem.param1dataname
                                     }/${
                                       subSubMenuItem.param2dataname

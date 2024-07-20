@@ -411,6 +411,18 @@ color: $primaryfontcolor2;
     color: #7d7f85
 }
 
+.smr_prodDetail_backtotop{
+    color:white;
+    font-family: $primaryFontFamily;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    background-color: #c0bbb1;
+    width: 100%;
+    cursor: pointer;
+  }
+
 @media screen and (max-width:1820px) {
     .smr_Swiper_designSet{
         max-width: 1400px;
