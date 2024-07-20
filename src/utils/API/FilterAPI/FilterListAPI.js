@@ -58,7 +58,8 @@ export const FilterListAPI = async(mainData,visiterId) =>{
         "FilterVal1":`${MenuParams?.FilterVal1 ?? ""}`,
         "FilterKey2":`${MenuParams?.FilterKey2 ?? ""}`,
         "FilterVal2":`${MenuParams?.FilterVal2 ?? ""}`,
-        SearchKey:`${serachVar ?? ""}`
+        SearchKey:`${serachVar ?? ""}`,
+        CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
       }
       let encData =  btoa(JSON.stringify(data))
 

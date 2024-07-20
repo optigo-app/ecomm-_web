@@ -105,7 +105,19 @@
   position: sticky !important;
   width: 25%;
   font-family: $primaryFontFamily;
-  height: 80vh;
+  height: 100%;
+}
+
+.smr_backtotop{
+  color:white;
+  font-family: $primaryFontFamily;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  background-color: #c0bbb1;
+  width: 100%;
+  cursor: pointer;
 }
 
 // .smr_filterDrawer .MuiPaper-root{
@@ -447,15 +459,15 @@
   // min-width:399px;
 }
 
-.smr_backtotop{
-  width:100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: $primaryFontFamily;
-  height: 13vh;
-}
+// .smr_backtotop{
+//   width:100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   color: black;
+//   font-family: $primaryFontFamily;
+//   height: 13vh;
+// }
 
 @media screen and (max-width: 1441px) {
   .smr_whiteInnerContain {

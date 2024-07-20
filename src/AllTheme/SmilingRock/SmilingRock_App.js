@@ -104,6 +104,9 @@ const SmilingRock_App = () => {
 
   return (
     <>
+    <Helmet>
+      <title>{localData?.BrowserTitle}</title>
+    </Helmet>
       <div>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
