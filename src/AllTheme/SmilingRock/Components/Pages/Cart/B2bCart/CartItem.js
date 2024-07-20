@@ -14,6 +14,7 @@ import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
+import Cookies from "js-cookie";
 
 const CartItem = ({
   item,
@@ -40,9 +41,9 @@ const CartItem = ({
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
-  const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  const visiterId = Cookies.get('visiterId');
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -53,9 +54,7 @@ const CartItem = ({
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
-    setCountStatus(isCartUpdateStatus)
-  }, [onRemove])
+  }, [])
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -80,17 +79,15 @@ const CartItem = ({
     setIsSelectedItems()
   }
 
-  const handleRemoveItem = () => {
-    onRemove(item)
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
+
+  const handleRemoveItem = async (item) => {
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == "success") {
+        GetCountAPI(visiterId).then((res) => {
           setCartCountVal(res?.cartcount);
         })
-      }
-    }, 500)
-  }
+    }
+};
 
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);

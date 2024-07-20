@@ -175,7 +175,7 @@ const TrendingView1 = () => {
                         <span className='smr_trending1Title'>Trending</span>
                     </div>
                     <div className="smr_trendingProduct-grid">
-                    <div className='smr_leftSideBestTR'>
+                        <div className='smr_leftSideBestTR'>
                             <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
@@ -188,21 +188,21 @@ const TrendingView1 = () => {
                                 <div key={index} className="product-card">
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
-                                            src={hoveredItem === data.SrNo ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                :
+                                            src={data?.ImageCount >= 1 ?
                                                 `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                :
+                                                imageNotFound
                                             }
                                             alt={data.name}
                                         />
                                     </div>
                                     <div className="product-info">
                                         <h3>{data?.TitleLine}-{data?.designno}</h3>
-                                        <span className='smr_btdetailDT'>NWT : </span>
-                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                        <span className='smr_btpipe'> | </span>
                                         <span className='smr_btdetailDT'>GWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                        <span className='smr_btpipe'> | </span>
+                                        <span className='smr_btdetailDT'>NWT : </span>
+                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                         <span className='smr_btpipe'> | </span>
                                         <span className='smr_btdetailDT'>DWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
@@ -222,7 +222,7 @@ const TrendingView1 = () => {
                                 </div>
                             ))}
                         </div>
-                        
+
                     </div>
                 </div>
             }
