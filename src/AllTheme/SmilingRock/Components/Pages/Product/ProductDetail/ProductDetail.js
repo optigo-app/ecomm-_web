@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
@@ -75,6 +75,8 @@ const ProductDetail = () => {
 
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
+
+  const [prodLoading,setProdLoading] = useState(false)
 
   
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -604,6 +606,7 @@ const ProductDetail = () => {
       }
 
       // console.log("objjj",obj)
+      setProdLoading(true)
       setisPriceLoading(true)
 
       await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
@@ -619,6 +622,7 @@ const ProductDetail = () => {
           if(!res?.pdList[0]){
             // console.log("singleprod",res?.pdList[0]);
             setisPriceLoading(false)
+            setProdLoading(false)
             setIsDataFound(true)
           }
 
@@ -1448,7 +1452,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                          { storeInit?.IsPriceBreakUp == 1 && (
+                          { storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
                             <Accordion
                             elevation={0}
                             sx={{
@@ -1642,7 +1646,7 @@ const ProductDetail = () => {
                           </div>
                         }
 
-                        {!isPriceloading && <div className="Smr_CartAndWish_portion">
+                        { prodLoading && <div className="Smr_CartAndWish_portion">
                           <button
                             className={
                               !addToCartFlag
