@@ -607,6 +607,7 @@ const ProductDetail = () => {
 
       // console.log("objjj",obj)
       setProdLoading(true)
+
       setisPriceLoading(true)
 
       await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
@@ -1295,7 +1296,7 @@ const ProductDetail = () => {
                           </div>
                         </div>
                         {storeInit?.IsProductWebCustomization == 1 &&
-                          metalTypeCombo?.length > 0 && (
+                          metalTypeCombo?.length > 0 &&  storeInit?.IsMetalCustomization === 1 &&(
                             <div className="smr_single_prod_customize">
                               <div className="smr_single_prod_customize_metal">
                                 <label className="menuItemTimeEleveDeatil">
@@ -1331,7 +1332,7 @@ const ProductDetail = () => {
                                   </select>
                                 )}
                               </div>
-                              {metalColorCombo?.length > 0 && (
+                              {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL COLOR:
