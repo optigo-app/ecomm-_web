@@ -107,10 +107,11 @@
 
         .swiper-button-prev,
         .swiper-button-next {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
+            background-color: #dadada;
+            color: rgba(0, 0, 0, 0.5);
             padding: 10px;
             border-radius: 50%;
+            z-index: 1;
             width: 40px;
             height: 40px;
             display: flex;

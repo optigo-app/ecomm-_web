@@ -468,7 +468,7 @@ const Lookbook = () => {
     seyDataKey(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState(2);
+  const [selectedValue, setSelectedValue] = useState(1);
   // const handleChange = (event) => {
   //   setSelectedValue(event.target.value);
   // };
@@ -1402,7 +1402,7 @@ const Lookbook = () => {
               </div>
             )}
 
-            {selectedValue == 1 && (
+            {selectedValue == 3 && (
               <div className="smr_lookBookImgDivMain">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
@@ -1622,7 +1622,7 @@ const Lookbook = () => {
               </div>
             )}
 
-            {selectedValue == 3 && (
+            {selectedValue == 1 && (
               <div className="smr_lookbook3MainDiv">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
@@ -1695,6 +1695,15 @@ const Lookbook = () => {
                                       border: "1px solid #e1e1e1",
                                       backgroundColor: "#fff",
                                     }}
+                                    onClick={() =>
+                                      handleNavigation(
+                                        ele?.designno,
+                                        ele?.autocode,
+                                        ele?.TitleLine
+                                          ? ele?.TitleLine
+                                          : ""
+                                      )
+                                    }
                                   >
                                     <div
                                       className="smr_lookbookMainDivdata"
