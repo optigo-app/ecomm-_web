@@ -97,7 +97,7 @@ const NewArrival = () => {
     return (
         <div className='smr_newwArr1MainDiv'>
             <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
-                <Link  className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                     View more
                 </Link>
             </Typography>
@@ -120,11 +120,11 @@ const NewArrival = () => {
                                 <CardContent className='smr_newarrproduct-info'>
                                     <Typography variant='h6' className='smr_newArrTitle'>{product?.TitleLine}</Typography>
                                     <Typography variant='body2'>
-                                        <span className='smr_lb3detailDT'>NWT : </span>
-                                        <span className='smr_lb3detailDT'>{(product?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                        <span className='smr_lb3pipe'> | </span>
                                         <span className='smr_lb3detailDT'>GWT: </span>
                                         <span className='smr_lb3detailDT'>{(product?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                        <span className='smr_lb3pipe'> | </span>
+                                        <span className='smr_lb3detailDT'>NWT : </span>
+                                        <span className='smr_lb3detailDT'>{(product?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                         <span className='smr_lb3pipe'> | </span>
                                         <span className='smr_lb3detailDT'>DWT: </span>
                                         <span className='smr_lb3detailDT'>{(product?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(product?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>

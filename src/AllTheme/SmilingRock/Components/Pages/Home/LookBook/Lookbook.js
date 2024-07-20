@@ -1669,6 +1669,15 @@ const Lookbook = () => {
                                       border: "1px solid #e1e1e1",
                                       backgroundColor: "#fff",
                                     }}
+                                    onClick={() =>
+                                      handleNavigation(
+                                        ele?.designno,
+                                        ele?.autocode,
+                                        ele?.TitleLine
+                                          ? ele?.TitleLine
+                                          : ""
+                                      )
+                                    }
                                   >
                                     <div
                                       className="smr_lookbookMainDivdata"

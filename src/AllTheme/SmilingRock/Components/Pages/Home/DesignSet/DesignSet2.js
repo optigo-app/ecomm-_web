@@ -1,30 +1,143 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./DesignSet2.scss";
 import bgImg from "../../../Assets/full.jpg";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
+import imageNotFound from '../../../Assets/image-not-found.jpg';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import Pako from 'pako';
+import Cookies from 'js-cookie';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../../../Recoil/atom';
+import { Link } from '@mui/material';
+import gradientColors from "../LookBook/color.json"
 
-const Clothes = () => {
-  const arr = [
-    {
-      id: 1,
-      name: "The Silvia Eylet Vee",
-      price: "$ 388.00",
-      imgsrc:
-        "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Gorjapant_DSP3188_Tumeric_1_ColorCorrection.jpg?v=1639856522&width=352",
-    },
-    {
-      id: 2,
-      name:'The Gorja Point',
-      price:"$ 328.00",
-      imgsrc:
-        "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Silviaeyeletvee_EPA3577_Saltwhite_2.jpg?v=1639856500&width=352",
-    },
-  ];
+const DesignSet2 = () => {
 
+  const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState();
+  const [designSetList, setDesignSetList] = useState([]);
+  const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+  const [storeInit, setStoreInit] = useState({});
+  const islogin = useRecoilValue(loginState);
   const [swiper, setSwiper] = useState(null);
+  const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
+
+  useEffect(() => {
+
+    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const { IsB2BWebsite } = storeInit;
+    const visiterID = Cookies.get('visiterId');
+    let finalID;
+    if (IsB2BWebsite == 0) {
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    } else {
+      finalID = loginUserDetail?.id || '0';
+    }
+
+    let storeinit = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInit(storeinit);
+
+    let data = JSON.parse(localStorage.getItem('storeInit'));
+    setImageUrl(data?.DesignSetImageFol);
+    setImageUrlDesignSet(data?.DesignImageFol);
+
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
+      .then((response) => {
+        if (response?.Data?.rd) {
+          setDesignSetList(response?.Data?.rd);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const ProdCardImageFunc = (pd) => {
+    let finalprodListimg;
+    if (pd?.DefaultImageName) {
+      finalprodListimg = imageUrl + pd?.designsetuniqueno + '/' + pd?.DefaultImageName;
+    } else {
+      finalprodListimg = imageNotFound;
+    }
+    return finalprodListimg;
+  };
+
+  const getRandomBgColor = (index) => {
+    const colorsLength = gradientColors.length;
+    return gradientColors[index % colorsLength];
+  };
+
+  const parseDesignDetails = (details) => {
+    try {
+      return JSON.parse(details);
+    } catch (error) {
+      console.error("Error parsing design details:", error);
+      return [];
+    }
+  };
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+  const handleNavigation = (designNo, autoCode, titleLine) => {
+    let obj = {
+      a: autoCode,
+      b: designNo,
+      m: loginUserDetail?.MetalId ?? storeInit?.MetalId,
+      d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+      f: {},
+    };
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+    navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+  };
+
+  const decodeEntities = (html) => {
+    var txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  const onSwiperInit = (swiper) => {
+    console.log('Swiper initialized:', swiper);
+    setSwiper(swiper);
+  };
+
+
+  const [showAll, setShowAll] = useState(false);
+
+  const handleViewAll = () => {
+    setShowAll(true);
+  };
+
+  // Determine the items to show
+  const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 4);
+  console.log('jkksdjkjfkdsj', designSetList);
+
+  console.log('designSetListdesignSetList', designSetList);
+
+  const handleNavigate = () => {
+    navigate("/Lookbook");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
 
   const handlePrevious = () => {
     if (swiper !== null) {
@@ -40,127 +153,123 @@ const Clothes = () => {
   // const currentItem = arr[currentIndex];
   return (
     <>
-    <div className="smr_MainDt2Div">
-        <div
-          style={{
-            height: "99.5vh",
-            backgroundColor: "black",
-            margin: "0px",
-            padding: "0px",
-            width: '100%',
-            position: 'relative',
-          }}
-          className="maindiv"
-        >
-          <img src={bgImg} alt="" className="imgBG" />
-          <div className="subimgpart">
-            <div className="card">
-              <Swiper
-                      style={{width:'215px'}}
-                      spaceBetween={5}
-                      slidesPerView={1}
-                      loop
-                      speed={1500}
-                      onSwiper={setSwiper}
-              >
-              {arr.map((item) => (
-                  <SwiperSlide key={item.id}>
-                    <div className="centerall">
-                      <img
-                        src={item.imgsrc}
-                        alt={item.name}
-                        className="cardimg"
-                      />
-                    </div>
-                    <div className="fs1 centerall">{item.name}</div>
-                    <div className="fs2 centerall">{item.price}</div>
-                    <div className="fs3 centerall">View Details</div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-            <div className="btnflex">
-              <button className="btncst" onClick={handlePrevious}>&lt;</button>
-              <button className="btncst" onClick={handleNext}>&gt;</button>
-            </div>
-          </div>
+      <div className="smr_DesignSet2MainDiv">
+        <div className='smr_DesignSetTitleDiv'>
+          <p className='smr_desognSetTitle'>Complete Your Look
+            <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
+              View more
+            </Link>
+          </p>
         </div>
+        {designSetList?.length !== 0 && (
+          <>
+            <Swiper
+              className="mySwiper"
+              spaceBetween={5}
+              slidesPerView={1}
+              speed={1000}
+              loop={false}
+              navigation={true}
+              modules={[Navigation]}
+            >
+              {designSetList?.slice(0, 5)?.map((slide, index) => (
+                <SwiperSlide key={`slide-${index}`}>
+                  <div
+                    style={{
+                      position: 'relative',
+                    }}
+                    className="maindiv"
+                  >
+                    {ProdCardImageFunc(slide) ? (
+                      <img
+                        // src={ProdCardImageFunc(slide)}
+                        src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
+                        alt=""
+                        className="imgBG"
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          ...getRandomBgColor(index),
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                        }}
+                        className="imgBG"
+                      >
+                        <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                      </div>
+                    )}
+                    {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
+                    <div className="subimgpart">
+                      <div className="card">
+                        <Swiper
+                          className="swiper_w"
+                          spaceBetween={5}
+                          slidesPerView={1}
+                          loop
+                          speed={1000}
+                          onSwiper={setSwiper}
+                        >
+                          {slide?.Designdetail && (
+                            <>
+                              {JSON.parse(slide?.Designdetail)?.map((detail, subIndex) => (
+                                <SwiperSlide key={`detail-${detail?.id}`}>
+                                  <div className="centerall">
+                                    <img
+                                      loading="lazy"
+                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      alt={`Sub image ${subIndex} for slide ${index}`}
+                                      onClick={() =>
+                                        handleNavigation(
+                                          detail?.designno,
+                                          detail?.autocode,
+                                          detail?.TitleLine ? detail?.TitleLine : ""
+                                        )
+                                      }
+                                      className="cardimg"
+                                    />
+                                  </div>
+                                  <div className="fs1 centerall">{detail?.TitleLine}-{detail?.designno}</div>
+                                  <div className="fs2 centerall">
+                                    <p>
+                                      <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                          __html: decodeEntities(
+                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                          ),
+                                        }}
+                                      /> {detail?.UnitCostWithMarkUp}
+                                    </p>
+                                  </div>
+                                  <div className="fs3 centerall">View Details</div>
+                                </SwiperSlide>
+                              ))}
+                            </>
+                          )}
+                        </Swiper>
+                      </div>
+                      <div className="btnflex">
+                        <button className="btncst" onClick={handlePrevious}>&lt;</button>
+                        <button className="btncst" onClick={handleNext}>&gt;</button>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+          </>
+        )}
+
       </div>
-   
+
     </>
   );
 };
 
-export default Clothes;
-
-
-// import React, { useState } from "react";
-// import "./clothes.css";
-// import bgImg from "../../assets/images/full.jpg";
-
-// const Clothes = () => {
-//   const arr = [
-//     {
-//       id: 1,
-//       name: "The Silvia Eylet Vee",
-//       price: "$ 388.00",
-//       imgsrc:
-//         "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Gorjapant_DSP3188_Tumeric_1_ColorCorrection.jpg?v=1639856522&width=352",
-//     },
-//     {
-//       id: 2,
-//       name:'The Gorja Point',
-//       price:"$ 328.00",
-//       imgsrc:
-//         "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Silviaeyeletvee_EPA3577_Saltwhite_2.jpg?v=1639856500&width=352",
-//     },
-//   ];
-
-//   const [currentIndex, setCurrentIndex] = useState(0);
-
-//   const handlePrevious = () => {
-//     setCurrentIndex((prevIndex) => (prevIndex === 0 ? arr.length - 1 : prevIndex - 1));
-//   };
-
-//   const handleNext = () => {
-//     setCurrentIndex((prevIndex) => (prevIndex === arr.length - 1 ? 0 : prevIndex + 1));
-//   };
-
-//   const currentItem = arr[currentIndex];
-//   return (
-//     <>
-//     <div className="">
-//         <div
-//           style={{
-//             height: "99.5vh",
-//             backgroundColor: "black",
-//             margin: "0px",
-//             padding: "0px",
-//             width: '100%',
-//             position: 'relative',
-//           }}
-//           className="maindiv"
-//         >
-//           <img src={bgImg} alt="" className="imgBG" />
-//           <div className="subimgpart">
-//             <div className="card">
-//               <div>
-//                 <img src={currentItem.imgsrc} alt={currentItem.name} className="cardimg" />
-//               </div>
-//               <div className="fs1">{currentItem.name}</div>
-//               <div className="fs2">{currentItem.price}</div>
-//               <div className="fs3">View Details</div>
-//             </div>
-//             <div className="btnflex">
-//               <button className="btncst" onClick={handlePrevious}>&lt;</button>
-//               <button className="btncst" onClick={handleNext}>&gt;</button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-   
-//     </>
-//   );
-// };
-
-// export default Clothes;
+export default DesignSet2;
