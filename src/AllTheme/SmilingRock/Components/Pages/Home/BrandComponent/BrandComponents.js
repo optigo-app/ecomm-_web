@@ -1,21 +1,46 @@
-import React from 'react'
-import './brandComponents.scss'
+import React from 'react';
+import Marquee from 'react-fast-marquee';
+import './brandComponents.scss';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const BrandsComponent = () => {
     return (
         <div id='brandsComponentID' className='smr_brandsComponentsDiv'>
-            <p className='brandsCompoents'>introducing our exclusive brands</p>
-            <div className='brandsComponentClass' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo2.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />
-                {/* <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo1.png`} style={{ width: '10%', objectFit: 'cover', marginRight:'90px' }} /> */}
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />
-                {/* <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo4.webp`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} /> */}
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo6.png`} style={{ width: '10%', objectFit: 'cover'}} />
-            </div>
+            <p className='smr_brandsCompoents'>Introducing our exclusive brands</p>
+            <Marquee
+                className='brandsComponentClass'
+                gradient={false}
+                speed={40}
+                pauseOnHover={true}
+            // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo2.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo6.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+            </Marquee>
         </div>
-    )
-}
+    );
+};
 
-export default BrandsComponent
+export default BrandsComponent;

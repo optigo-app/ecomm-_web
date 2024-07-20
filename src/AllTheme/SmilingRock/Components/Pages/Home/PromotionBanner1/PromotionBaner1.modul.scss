@@ -9,10 +9,11 @@
 .festiveBox {
     position: absolute;
     top: 50%;
-    left: 80%;
+    left: 83% !important;
     transform: translate(-50%, -50%);
     text-align: center;
     padding: 20px;
+    background: #ffffff59;
 }
 
 .DiscoverBtn {

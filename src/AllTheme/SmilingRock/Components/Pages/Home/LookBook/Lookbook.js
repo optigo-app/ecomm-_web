@@ -243,8 +243,9 @@ const Lookbook = () => {
     return finalprodListimg;
   };
 
-  const getRandomBgColor = () => {
-    return gradientColors[Math.floor(Math.random() * gradientColors.length)];
+  const getRandomBgColor = (index) => {
+    const colorsLength = gradientColors.length;
+    return gradientColors[index % colorsLength];
   };
 
   const parseDesignDetails = (details) => {
@@ -1208,6 +1209,7 @@ const Lookbook = () => {
                         style={{
                           display: "flex",
                           height: dataKey == index && "100%",
+                          position: 'relative'
                         }}
                       >
                         {ProdCardImageFunc(slide) ? (
@@ -1228,19 +1230,19 @@ const Lookbook = () => {
                             style={{
                               height: dataKey == index ? "100%" : "250px",
                               width: "100%",
-                              ...getRandomBgColor(),
+                              ...getRandomBgColor(index),
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
                               cursor: "pointer",
                             }}
                           >
-                            <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                            <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                           </div>
                         )}
-                        {/* <p className="smr_designList_title">
+                        <p className="smr_lb2designList_title">
                           {slide?.designsetno}
-                        </p> */}
+                        </p>
                       </div>
                       <div
                         className="smr_lookBookImgDeatil"
@@ -1415,6 +1417,7 @@ const Lookbook = () => {
                             display: "flex",
                             width: "30%",
                             height: "300px",
+                            position: 'relative'
                           }}
                         >
                           {ProdCardImageFunc(slide) ? (
@@ -1435,17 +1438,17 @@ const Lookbook = () => {
                               style={{
                                 height: "100%",
                                 width: "100%",
-                                ...getRandomBgColor(),
+                                ...getRandomBgColor(index),
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 cursor: "pointer",
                               }}
                             >
-                              <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                             </div>
                           )}
-                          {/* <p className="smr_designList_title">{slide?.TitleLine}</p> */}
+                          <p className="smr_lb1designList_title">{slide?.designsetno}</p>
                         </div>
 
                         <div
@@ -1654,7 +1657,7 @@ const Lookbook = () => {
                                     style={{
                                       height: "100%",
                                       width: "100%",
-                                      ...getRandomBgColor(),
+                                      ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
@@ -1662,9 +1665,10 @@ const Lookbook = () => {
                                     }}
                                     className="smr_lb3ctl_img"
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                                   </div>
                                 )}
+                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
                               </div>
                               <div
                                 className={
@@ -1721,7 +1725,21 @@ const Lookbook = () => {
                                           className="smr_lb3srthelook_prodinfo_inner"
                                         >
                                           <p>
-                                            {ele?.designno} - {ele?.CategoryName}
+                                            <span>
+                                              {ele?.designno} - {ele?.CategoryName}
+                                            </span>
+                                            <br />
+                                            <span className='smr_lb3detailDT'>NWT : </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>GWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>DWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>CWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                             <br />
                                             {/* <span
                                               className="smr_currencyFont"
