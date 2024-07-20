@@ -25,7 +25,7 @@ const LoginOption = () => {
                     <p style={{
                         textAlign: 'center',
                         color: '#7d7f85',
-                    }}>Use your email or mobile no to continue with the organization.</p>
+                    }}>Use your email or mobile number to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
                         <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
                             <IoMdMail style={{ height: '25px', width: '25px' }} />

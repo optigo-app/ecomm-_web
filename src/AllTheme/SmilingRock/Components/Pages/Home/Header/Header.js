@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Header.modul.scss";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -203,21 +203,17 @@ const Header = () => {
   };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const divRef = useRef(null);
 
   const handleDropdownOpen = () => {
-    setIsDropdownOpen(true);
-    window.scrollTo({
-      left: 0,
-      behavior: 'smooth'
-    });    
+    setIsDropdownOpen(true);    
   };
 
   const handleDropdownClose = () => {
-    setIsDropdownOpen(false);
-    window.scrollTo({
-      left: 0,
-      behavior: 'smooth'
-    });  
+    setIsDropdownOpen(false); 
+    if (divRef.current) {
+      divRef.current.scrollTo(0, 0);
+  }
   };
 
   const toggleOverlay = () => {
@@ -1480,6 +1476,7 @@ const Header = () => {
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
+           ref={divRef}
             style={{
               display: "flex",
               padding: "25px",
