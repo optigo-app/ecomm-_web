@@ -84,19 +84,22 @@ const QuotationJob = () => {
     setPage(0);
     setRowsPerPage(10);
     setCategory(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, selectedStatus, orderProm);
   };
   const handleMetalColor = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalColor(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, selectedStatus, orderProm);
   };
   const handleMetalPurity = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalPurity(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, selectedStatus, orderProm);
   };
   moment.locale('en-gb');
 
@@ -230,15 +233,28 @@ const QuotationJob = () => {
 
 
 
-      if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      // if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      //   flags.metalPurity = true;
+      // }
+      if ((e?.MetalType?.toString()?.toLowerCase() === metalPurities?.toString()?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
         flags.metalPurity = true;
       }
-      if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+
+      // if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+      //   flags.MetalColor = true;
+      // }
+      if ((e?.MetalColor?.toString()?.toLowerCase() === MetalColors?.toString()?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
         flags.MetalColor = true;
       }
-      if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+
+
+      // if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+      //   flags.category = true;
+      // }
+      if ((e?.Category?.toString()?.toLowerCase() === categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
         flags.category = true;
       }
+      
 
 
 
@@ -264,7 +280,10 @@ const QuotationJob = () => {
 
 
 
-      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && flags.category === true && flags.MetalColor === true && flags.search === true && flags.metalPurity === true) {
+      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && 
+          flags.category === true && flags.MetalColor === true && flags.search === true &&
+          flags.metalPurity === true)
+      {
         filteredData.push(e);
       }
 
@@ -430,17 +449,7 @@ const QuotationJob = () => {
 
       const storeInit = JSON.parse(localStorage.getItem('storeInit'));
       const { FrontEnd_RegNo } = storeInit;
-      // const combinedValue = JSON.stringify({
-      //   CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
-      // });
-      // const encodedCombinedValue = btoa(combinedValue);
-      // const body = {
-      //   "con": `{\"id\":\"Store\",\"mode\":\"getjob\",\"appuserid\":\"${data?.email1}\"}`,
-      //   "f": "zen (cartcount)",
-      //   p: encodedCombinedValue
-      // };
-      
-      // const response = await CommonAPI(body);
+
       let currencyRate = "1";
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
@@ -747,7 +756,8 @@ const scrollToTop = () => {
           </Box>
         </Box>
         <Box sx={{ padding: "0 15px 35px 0", }} className="QuotationJobAllBtnSec">
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+          {/* <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button> */}
+          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
         </Box>
         <Box sx={{ position: "relative", padding: "0 15px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
         <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
@@ -835,10 +845,12 @@ const scrollToTop = () => {
           <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
             setSearchVal(eve?.target?.value);
             setPage(0);
-            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
           }} />
           <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
         </Box>
         <Box sx={{ padding: "0 0px 40px 0", }} className="QuotationJobAllBtnSec">
           <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
