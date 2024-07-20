@@ -196,13 +196,12 @@ const useCart = () => {
       const response = await removeFromCartList(item, param, visiterId, islogin);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
-        localStorage.setItem('cartUpdation', true);
+        return resStatus;
       } else {
         console.log('Failed to remove product or product not found');
       }
     } catch (error) {
       console.error("Error:", error);
-      localStorage.setItem('cartUpdation', false);
     }
   };
 
@@ -221,10 +220,9 @@ const useCart = () => {
         getCartData();
         setCartData([]);
         setSelectedItem([]);
-        localStorage.setItem('cartUpdation', true)
+        return resStatus;
       } else {
         console.log('Failed to remove product or product not found');
-        localStorage.setItem('cartUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -326,12 +324,11 @@ const useCart = () => {
         cart.id === item.id ? { ...cart, Quantity: (item?.Quantity || 0) + 1, FinalCost: priceQty } : cart
       );
       setCartData(updatedCartData);
-
       const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty) } : selectedItem;
       setSelectedItem(updatedSelectedItem);
     }
     setQtyCount(prevCount => prevCount + 1);
-    let lastEnteredQuantity = qtyCount + 1;
+    let lastEnteredQuantity = item?.Quantity + 1;
     let num = item?.id;
     try {
       const response = await updateQuantity(num, lastEnteredQuantity, visiterId, islogin);
@@ -360,7 +357,7 @@ const useCart = () => {
         setSelectedItem(updatedSelectedItem);
       }
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
-      const updatedQtyCount = qtyCount > 1 ? qtyCount - 1 : 1;
+      const updatedQtyCount = qtyCount > 1 ? item?.Quantity - 1 : 1;
       let num = selectedItem?.id;
       if (qtyCount > 1) {
         try {

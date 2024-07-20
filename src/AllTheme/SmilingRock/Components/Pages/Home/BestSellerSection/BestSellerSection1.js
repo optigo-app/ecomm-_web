@@ -7,38 +7,7 @@ import Pako from 'pako';
 import { loginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
-
-const products = [
-    {
-        name: "The Orian Tee",
-        price: "$298.00",
-        color: "Vermillion Multi",
-        status: "Sold Out",
-        imageUrl: "https://i.ibb.co/yPzpq2X/3.png",
-        // imageUrl: "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Oriantee_TLL3596_Vermillionmulti_2.jpg?crop=center&height=742&v=1639856450&width=668",
-        colorsAvailable: 2
-    },
-    {
-        name: "The Arya Vee Sweater",
-        price: "$428.00",
-        color: "Havana Marl",
-        status: "Sold Out",
-        imageUrl: "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Oriantee_TLL3596_Vermillionmulti_2.jpg?crop=center&height=742&v=1639856450&width=668"
-    },
-    {
-        name: "The Romare Sleeveless Popover",
-        price: "$268.00",
-        color: "Turmeric",
-        imageUrl: "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Oriantee_TLL3596_Vermillionmulti_2.jpg?crop=center&height=742&v=1639856450&width=668"
-    },
-    {
-        name: "The Gorja Pant",
-        price: "$328.00",
-        color: "Turmeric",
-        imageUrl: "https://pipeline-theme-fashion.myshopify.com/cdn/shop/products/SU_Oriantee_TLL3596_Vermillionmulti_2.jpg?crop=center&height=742&v=1639856450&width=668"
-    }
-];
-
+import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 
 const ProductGrid = () => {
@@ -155,21 +124,21 @@ const ProductGrid = () => {
                                 <div key={index} className="product-card">
                                     <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
-                                            src={hoveredItem === data.SrNo ?
-                                                `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                :
+                                            src={data?.ImageCount >= 1 ?
                                                 `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                :
+                                              imageNotFound
                                             }
                                             alt={data.name}
                                         />
                                     </div>
                                     <div className="product-info">
                                         <h3>{data?.TitleLine}-{data?.designno}</h3>
-                                        <span className='smr_btdetailDT'>NWT : </span>
-                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                        <span className='smr_btpipe'> | </span>
                                         <span className='smr_btdetailDT'>GWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                        <span className='smr_btpipe'> | </span>
+                                        <span className='smr_btdetailDT'>NWT : </span>
+                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                                         <span className='smr_btpipe'> | </span>
                                         <span className='smr_btdetailDT'>DWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
