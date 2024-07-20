@@ -84,19 +84,22 @@ const QuotationJob = () => {
     setPage(0);
     setRowsPerPage(10);
     setCategory(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, selectedStatus, orderProm);
   };
   const handleMetalColor = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalColor(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, selectedStatus, orderProm);
   };
   const handleMetalPurity = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalPurity(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
+    // handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, selectedStatus, orderProm);
   };
   moment.locale('en-gb');
 
@@ -132,6 +135,150 @@ const QuotationJob = () => {
     scrollToTop();
   };
 
+  // const handleSearch = (eve, searchValue, fromDatess, todatess, metalPurities, MetalColors, categories, statuss, orderPromDate) => {
+  //   let fromdates = `${fromDatess?.["$y"]}-${checkMonth(fromDatess?.["$M"])}-${fromDatess?.["$D"]}`
+  //   let todates = `${todatess?.["$y"]}-${checkMonth(todatess?.["$M"])}-${todatess?.["$D"]}`
+  //   let filteredData = [];
+  //   let count = 0;
+  //   data?.forEach((e, i) => {
+  //     let flags = {
+  //       dateFrom: false,
+  //       dateTo: false,
+  //       status: false,
+  //       category: false,
+  //       MetalColor: false,
+  //       search: false,
+  //       metalPurity: false,
+  //     }
+  //     if (searchValue !== "") {
+  //       if (e?.["Sr#"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["Date"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["SKUNO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["PO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["JobNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["DesignNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["Category"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["metal_color"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["metal_purity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["PDate"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["FinalAmount"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["ProgressStatusName"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["Quantity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+  //         e?.["SuppliedQuantity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()))
+  //          {
+  //         flags.search = true;
+  //       }
+    
+  //     } else {
+  //       flags.search = true;
+  //     }
+  //     //order date and promise date flag filter
+  //     let cutDate = "";
+  //     if (orderPromDate === "order") {
+  //       cutDate = e?.["Date"]?.split("-");
+  //     } else {
+  //       cutDate = e?.["PDate"]?.split("-");
+  //     }
+  //     if (cutDate !== undefined) {
+
+
+
+  //       cutDate = `${cutDate[2]}-${cutDate[1]}-${cutDate[0]}`;
+  //       if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
+  //         let fromdat = moment(fromdates);
+  //         let todat = moment(todates);
+  //         let cutDat = moment(cutDate);
+  //         if (moment(fromdat).isSameOrBefore(todat)) {
+  //           const isBetween = cutDat.isBetween(fromdat, todat);
+  //           if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
+  //             flags.dateTo = true;
+  //             flags.dateFrom = true;
+  //           }
+  //         } else {
+  //           setTimeout(() => {
+  //             resetAllFilters();
+  //           }, 0)
+  //         }
+  //       } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
+      
+  //         flags.dateTo = true;
+  //         count++;
+  //         Swal.fire({
+  //           title: "Error !",
+  //           text: "Enter Valid Date From",
+  //           icon: "error",
+  //           confirmButtonText: "ok"
+  //         });
+    
+
+  //       } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
+       
+  //         flags.dateFrom = true;
+  //         count++;
+  //         Swal.fire({
+  //           title: "Error !",
+  //           text: "Enter Valid Date To",
+  //           icon: "error",
+  //           confirmButtonText: "ok"
+  //         });
+
+  //       } else if (fromdates?.includes(undefined) && todates?.includes(undefined)) {
+  //         flags.dateTo = true;
+  //         flags.dateFrom = true;
+  //       }
+   
+  //     }
+
+
+
+
+
+  //     if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+  //       flags.metalPurity = true;
+  //     }
+  //     if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+  //       flags.MetalColor = true;
+  //     }
+  //     if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+  //       flags.category = true;
+  //     }
+
+
+
+
+
+  //     if (!Array.isArray(statuss) || statuss?.length === 0) {
+  //       flags.status = true; // Show all data
+  //     } else {
+  //       // Check if any selected status matches the ProgressStatusName
+  //       if (Array.isArray(statuss)) {
+  //         if (statuss.includes(e?.ProgressStatusName)) {
+  //           flags.status = true;
+  //         }
+  //       } else {
+  //         if (e?.ProgressStatusName === statuss || statuss === "all") {
+  //           flags.status = true;
+  //         }
+  //       }
+  //     }
+
+
+
+
+
+
+  //     if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && flags.category === true && flags.MetalColor === true && flags.search === true && flags.metalPurity === true) {
+  //       filteredData.push(e);
+  //     }
+
+  //   });
+  //   if (count === 0) {
+  //     setFilterData(filteredData);
+  //   } else {
+  //     resetAllFilt();
+  //     handleSearch(eve, "", null, null, metalPurityList[0]?.value, metalColorList[0]?.value, categoryList[0]?.value, statusList[0]?.value, "order");
+  //   }
+  // }
   const handleSearch = (eve, searchValue, fromDatess, todatess, metalPurities, MetalColors, categories, statuss, orderPromDate) => {
     let fromdates = `${fromDatess?.["$y"]}-${checkMonth(fromDatess?.["$M"])}-${fromDatess?.["$D"]}`
     let todates = `${todatess?.["$y"]}-${checkMonth(todatess?.["$M"])}-${todatess?.["$D"]}`
@@ -230,15 +377,28 @@ const QuotationJob = () => {
 
 
 
-      if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      // if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      //   flags.metalPurity = true;
+      // }
+      if ((e?.MetalType?.toString()?.toLowerCase() === metalPurities?.toString()?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
         flags.metalPurity = true;
       }
-      if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+
+      // if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+      //   flags.MetalColor = true;
+      // }
+      if ((e?.MetalColor?.toString()?.toLowerCase() === MetalColors?.toString()?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
         flags.MetalColor = true;
       }
-      if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+
+
+      // if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+      //   flags.category = true;
+      // }
+      if ((e?.Category?.toString()?.toLowerCase() === categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
         flags.category = true;
       }
+      
 
 
 
@@ -264,7 +424,10 @@ const QuotationJob = () => {
 
 
 
-      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && flags.category === true && flags.MetalColor === true && flags.search === true && flags.metalPurity === true) {
+      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && 
+          flags.category === true && flags.MetalColor === true && flags.search === true &&
+          flags.metalPurity === true)
+      {
         filteredData.push(e);
       }
 
