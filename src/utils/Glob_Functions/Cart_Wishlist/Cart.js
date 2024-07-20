@@ -107,6 +107,7 @@ const useCart = () => {
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
           let item = response?.Data?.rd[0]
+          setQtyCount(item?.Quantity)
           handleCategorySize(item);
           setMetalID(response?.Data?.rd[0]?.metaltypeid)
           setMetalCOLORID(response?.Data?.rd[0]?.metalcolorid)
@@ -159,7 +160,7 @@ const useCart = () => {
   const isSelectedAll = () => {
     return cartData.length > 0 && selectedItems.length === cartData.length;
   };
-  
+
   const handleSelectAll = (event) => {
     if (event.target.checked) {
       setSelectedItems([...cartData]);
@@ -167,7 +168,7 @@ const useCart = () => {
       setSelectedItems([]);
     }
   };
-  
+
 
   // for updation modal
   const handleOpenModal = () => {
@@ -352,7 +353,7 @@ const useCart = () => {
           cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
         );
         setCartData(updatedQtytData);
-        
+
         const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : selectedItem;
         setSelectedItem(updatedSelectedItem);
       }
@@ -374,32 +375,32 @@ const useCart = () => {
   const handleMetalTypeChange = async (event) => {
     const selectedTypeName = event.target.value;
     setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
-    console.log('eventKey--', event.target.value);
+    console.log('eventKey--', selectedTypeName);
 
-    const selectedMetal = metalTypeCombo.find(option => option.metaltype == selectedTypeName);
+    const selectedMetal = metalTypeCombo.find(option => option.metaltype === selectedTypeName);
     if (selectedMetal) {
       const selectedMetalId = selectedMetal.Metalid;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalID(selectedMetalId);
-      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId)
+      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId);
     }
   };
 
+
   const handleMetalColorChange = (event) => {
-    setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: event.target.value }));
-    console.log('event---', event.target.value);
     const selectedTypeName = event.target.value;
     setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
-    console.log('eventKey--', event.target.value);
+    console.log('eventKey--', selectedTypeName);
 
-    const selectedMetal = metalColorCombo.find(option => option.metalcolorname == selectedTypeName);
+    const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
     if (selectedMetal) {
       const selectedMetalId = selectedMetal.id;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalCOLORID(selectedMetalId);
+      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId);
     }
-
   };
+
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
@@ -413,28 +414,29 @@ const useCart = () => {
 
     const selectedDia = diamondQualityColorCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedDia) {
-      const selectedDiaQId = selectedDia?.QualityId;
-      const selectedDiaCId = selectedDia?.ColorId;
-      let diaId = `${selectedDiaQId},${selectedDiaCId}`;
+      const selectedDiaQId = selectedDia.QualityId;
+      const selectedDiaCId = selectedDia.ColorId;
+      const diaId = `${selectedDiaQId},${selectedDiaCId}`;
       console.log('Selected Metalid:', diaId);
-      setdiaID(selectedDiaQId + "," + selectedDiaCId)
-      handlePrice(sizeId, diaId)
+      setdiaID(diaId);
+      handlePrice(sizeId, diaId, colorStoneID, metalID);
     }
   };
 
+
   const handleSizeChange = (event) => {
-    let sizedata = event?.target?.value;
+    const sizedata = event?.target?.value;
     setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));
     setSizeId(sizedata);
     console.log("sizeIdkdnk", sizedata);
 
-    const sizeChangeData = sizeCombo?.rd.filter((size) => {
-      return size.sizename === sizedata;
-    });
-    handlePrice(sizedata);
-    setSizeChangeData(sizeChangeData)
+    const sizeChangeData = sizeCombo?.rd.filter(size => size.sizename === sizedata);
+    setSizeChangeData(sizeChangeData);
     console.log("sizeChangeData", sizeChangeData);
+
+    handlePrice(sizedata, diaIDData, colorStoneID, metalID);
   };
+
 
 
   const handleColorStoneChange = (event) => {
@@ -449,32 +451,38 @@ const useCart = () => {
 
     const selectedCS = ColorStoneCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedCS) {
-      const selectedCSQId = selectedCS?.QualityId;
-      const selectedCSCId = selectedCS?.ColorId;
-      let csQid = `${selectedCSQId},${selectedCSCId}`;
+      const selectedCSQId = selectedCS.QualityId;
+      const selectedCSCId = selectedCS.ColorId;
+      const csQid = `${selectedCSQId},${selectedCSCId}`;
       console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
-      setColorStoneID(selectedCSQId + "," + selectedCSCId)
-      handlePrice(sizeId, diaIDData, csQid)
+      setColorStoneID(csQid);
+      handlePrice(sizeId, diaIDData, csQid, metalID);
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
-  }
+  };
+
 
   // for price api
 
   const handlePrice = async (sizedata, diaId, csQid, selectedMetalId) => {
     try {
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
-      if (response?.Message == "Success") {
-        let resData = response?.Data?.rd[0];
-        let finalPrice = resData?.UnitCostWithMarkUp * qtyCount
-        setSelectedItem(prevItem => ({ ...prevItem, FinalCost: finalPrice, UnitCostWithMarkUp: resData?.UnitCostWithMarkUp }));
-        console.log('priceRes--', finalPrice)
+      if (response?.Message === "Success") {
+        const resData = response?.Data?.rd[0];
+        const finalPrice = resData?.UnitCostWithMarkUp * qtyCount;
+        setSelectedItem(prevItem => ({
+          ...prevItem,
+          FinalCost: finalPrice,
+          UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
+        }));
+        console.log('priceRes--', finalPrice);
       }
     } catch (error) {
       console.error("Failed to update quantity:", error);
     }
-  }
+  };
+
 
 
   const decodeEntities = (html) => {

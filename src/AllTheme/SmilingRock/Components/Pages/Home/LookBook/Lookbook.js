@@ -213,7 +213,7 @@ const Lookbook = () => {
     }
 
     let output = FilterValueWithCheckedOnly();
-    if (Object.keys(filterChecked)?.length > 0) {
+    if (Object.keys(filterChecked)?.length >= 0) {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output)
         .then((response) => {
           if (response?.Data?.rd) {
@@ -1253,15 +1253,15 @@ const Lookbook = () => {
                         }}
                       >
                         <p style={{ fontSize: "13px", margin: "2px" }}>
-                          DWT:
+                          DWT:{" "}
                           {calculateTotalUnitCostWithMarkUpDwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | GWT:
+                          | GWT:{" "}
                           {calculateTotalUnitCostWithMarkUpGWt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | NWT:
+                          | NWT:{" "}
                           {calculateTotalUnitCostWithMarkUpNwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
@@ -1472,15 +1472,15 @@ const Lookbook = () => {
                             }}
                           >
                             <p style={{ fontSize: "13px", margin: "2px" }}>
-                              DWT:
+                              DWT:{" "}
                               {calculateTotalUnitCostWithMarkUpDwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | GWT:
+                              | GWT:{" "}
                               {calculateTotalUnitCostWithMarkUpGWt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | NWT:
+                              | NWT:{" "}
                               {calculateTotalUnitCostWithMarkUpNwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
