@@ -125,7 +125,8 @@ const OrderHistory = () => {
     }
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    productData?.TitleLine === undefined ?  navigate(`/d/${productData?.designno}?p=${encodeObj}`)
+     : navigate(`/d/${ productData?.TitleLine && productData?.TitleLine?.replace(/\s+/g, `_`)}${ productData?.TitleLine && productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
