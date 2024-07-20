@@ -84,7 +84,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
 
-  console.log("SizeCombo",SizeCombo);
+  // console.log("SizeCombo",SizeCombo);
 
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
@@ -106,9 +106,9 @@ const ProductDetail = () => {
 
   // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
 
-  console.log("sizeData",sizeData)
+  // console.log("sizeData",sizeData)
 
-  console.log("pdVideoArr", selectedThumbImg);
+  // console.log("pdVideoArr", selectedThumbImg);
 
   const navigate = useNavigate();
 
@@ -190,7 +190,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          console.log("addtocart re", cartflag);
+          // console.log("addtocart re", cartflag);
           setAddToCartFlag(cartflag);
         });
     } else {
@@ -203,7 +203,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          console.log("rremovve add", cartflag);
+          // console.log("rremovve add", cartflag);
           setAddToCartFlag(cartflag);
         });
     }
@@ -348,7 +348,7 @@ const ProductDetail = () => {
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
         
-        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+        // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     },500)
   }, [singleProd])
@@ -546,7 +546,7 @@ const ProductDetail = () => {
     }
   };
 
-  console.log("sizeData",sizeData);
+  // console.log("sizeData",sizeData);
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
@@ -601,7 +601,7 @@ const ProductDetail = () => {
         csQc:`${csArr?.QualityId},${csArr?.ColorId}`
       }
 
-      console.log("objjj",obj)
+      // console.log("objjj",obj)
  
       setisPriceLoading(true)
 
@@ -616,7 +616,7 @@ const ProductDetail = () => {
           }
 
           if(!res?.pdList[0]){
-            console.log("singleprod",res?.pdList[0]);
+            // console.log("singleprod",res?.pdList[0]);
             setisPriceLoading(false)
             setIsDataFound(true)
           }
@@ -642,7 +642,7 @@ const ProductDetail = () => {
       }).then(async(resp)=>{
           if(resp){
             await getSizeData(resp?.pdList[0],cookie).then((res)=>{
-              console.log("Sizeres",res)
+              // console.log("Sizeres",res)
               setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
@@ -655,7 +655,7 @@ const ProductDetail = () => {
             }).catch((err)=>console.log("similarbrandErr",err))
 
             await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
-              console.log("designsetList",res?.Data?.rd[0])
+              // console.log("designsetList",res?.Data?.rd[0])
               setDesignSetList(res?.Data?.rd)
             }).catch((err)=>console.log("designsetErr",err))
           }
@@ -672,7 +672,7 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  console.log("location", location);
+  // console.log("location", location);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -775,7 +775,7 @@ const ProductDetail = () => {
 
     let pd = singleProd;
 
-    console.log("singleProdImageCount", pd?.ImageCount);
+    // console.log("singleProdImageCount", pd?.ImageCount);
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -820,7 +820,7 @@ const ProductDetail = () => {
     return finalprodListimg;
   };
 
-  console.log("pdThumbImg", pdThumbImg);
+  // console.log("pdThumbImg", pdThumbImg);
 
   useEffect(() => {
     ProdCardImageFunc();
@@ -846,12 +846,10 @@ const ProductDetail = () => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    
-
     if(mtColorLocal?.length){
       mcArr =
       mtColorLocal?.filter(
-          (ele) => ele?.metalcolorname == e.target.value
+          (ele) => ele?.colorcode == e.target.value
         )[0]
     }
 
@@ -928,7 +926,7 @@ const ProductDetail = () => {
 
 
 
-    console.log("pdImgList",pdImgList,pdImgListCol)
+    // console.log("pdImgList",pdImgList,pdImgListCol)
   } 
 
   // useEffect(()=>{
@@ -955,7 +953,7 @@ const ProductDetail = () => {
   // console.log("stock",stockItemArr,SimilarBrandArr);
 
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
+    // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -1108,7 +1106,7 @@ const ProductDetail = () => {
       b:singleProd?.designno
     }
 
-    console.log("eeee",obj)
+    // console.log("eeee",obj)
     setisPriceLoading(true)
     await SingleProdListAPI(prod,size,obj,cookie)
     .then((res)=>{
@@ -1119,10 +1117,12 @@ const ProductDetail = () => {
       }
       setDiaList(res?.pdResp?.rd3)
       setCsList(res?.pdResp?.rd4)
-      console.log("res123",res)
+      // console.log("res123",res)
     }).catch((err)=>{console.log("customProdDetailErr",err)})
 
   }
+  
+  const formatter = new Intl.NumberFormat('en-IN')
 
   return (
     <>
@@ -1338,7 +1338,7 @@ const ProductDetail = () => {
                                       {metalColorCombo?.map((ele) => (
                                         <option
                                           key={ele?.id}
-                                          value={ele?.metalcolorname}
+                                          value={ele?.colorcode}
                                         >
                                           {ele?.metalcolorname}
                                         </option>
@@ -1510,7 +1510,7 @@ const ProductDetail = () => {
                                 }
                               </Typography>
                                &nbsp;
-                              <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2)}</Typography>
+                              <Typography>{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1524,7 +1524,7 @@ const ProductDetail = () => {
                                 </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2)}</Typography>
+                              <Typography>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1538,7 +1538,7 @@ const ProductDetail = () => {
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2)}</Typography>
+                              <Typography>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1552,7 +1552,7 @@ const ProductDetail = () => {
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2)}</Typography>
+                              <Typography>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1566,7 +1566,7 @@ const ProductDetail = () => {
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)}</Typography>
+                              <Typography>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1581,7 +1581,7 @@ const ProductDetail = () => {
                               }</Typography>
                               &nbsp;
                               <Typography>{
-                              (
+                              formatter.format((
 
                                 (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
                                 (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
@@ -1590,7 +1590,7 @@ const ProductDetail = () => {
                                 (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
                                 (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
 
-                              )?.toFixed(2)
+                              )?.toFixed(2))
                             }</Typography>
                               </span>
                              </div>
@@ -1620,7 +1620,7 @@ const ProductDetail = () => {
                                 width={140}
                                 height={30}
                               />
-                            ) : (
+                            ) : formatter.format(
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
                             )}
@@ -2020,7 +2020,7 @@ const ProductDetail = () => {
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
-                                <span> {ele?.Amount}</span>
+                                <span> {formatter.format(ele?.Amount)}</span>
                               </span>
                             </td>
                             <td
@@ -2129,7 +2129,7 @@ const ProductDetail = () => {
                                   </span>
                                   &nbsp;
                                   </spam>
-                                  <span>{ele?.UnitCostWithMarkUp}</span>
+                                  <span>{formatter.format(ele?.UnitCostWithMarkUp)}</span>
                                 </div>
                               </div>
                             </div>
@@ -2257,7 +2257,7 @@ const ProductDetail = () => {
                                             </span>
                                           }
                                           &nbsp;
-                                          {ele?.UnitCostWithMarkUp}
+                                          {formatter.format(ele?.UnitCostWithMarkUp)}
                                         </p>
                                       </div>
                                       {/* <div>
@@ -2281,6 +2281,14 @@ const ProductDetail = () => {
             <Footer />
           </div>
         </div>
+        <div className="smr_prodDetail_backtotop" onClick={()=>{
+        window.scroll({
+          top: 0,
+          behavior: "auto",
+        }); 
+    }}>
+         BACK TO TOP
+    </div>
       </div>
     </>
   );

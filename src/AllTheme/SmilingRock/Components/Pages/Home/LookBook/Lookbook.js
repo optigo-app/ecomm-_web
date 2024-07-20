@@ -540,14 +540,14 @@ const Lookbook = () => {
                           aria-controls="panel1-content"
                           id="panel1-header"
                           sx={{
-                            color: "#7f7d85",
+                            color: "#7d7f85 !imporatnt",
                             borderRadius: 0,
 
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
                           }}
-                          className="filtercategoryLable"
+                          // className="filtercategoryLable"
                         >
                           {/* <span> */}
                           {ele.Name}
@@ -598,7 +598,7 @@ const Lookbook = () => {
                                           ?.checked
                                     }
                                     style={{
-                                      color: "#7f7d85",
+                                      color: "#7d7f85 !important",
                                       padding: 0,
                                       width: "10px",
                                     }}
@@ -649,14 +649,14 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7f7d85",
+                          color: "#7d7f85 !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
                         }}
-                        className="filtercategoryLable"
+                        // className="filtercategoryLable"
                       >
                         {/* <span> */}
                         {ele.Name}
@@ -724,20 +724,27 @@ const Lookbook = () => {
                               //   fontFamily:'TT Commons Regular'
                               // }}
                               className="smr_mui_checkbox_label"
+                              // label={
+                              //   opt?.Minval == 0
+                              //     ? `Under ${decodeEntities(
+                              //       storeInit?.Currencysymbol
+                              //     )}${opt?.Maxval}`
+                              //     : opt?.Maxval == 0
+                              //       ? `Over ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval}`
+                              //       : `${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval} - ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Maxval}`
+                              // }
                               label={
                                 opt?.Minval == 0
-                                  ? `Under ${decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  )}${opt?.Maxval}`
+                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                   : opt?.Maxval == 0
-                                    ? `Over ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval}`
-                                    : `${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval} - ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
+                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                               }
                             />
                           </div>
@@ -910,14 +917,14 @@ const Lookbook = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "#7d7f85 !important",
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
                               }}
-                              className="filtercategoryLable"
+                              // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Name}
@@ -1022,14 +1029,14 @@ const Lookbook = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "#7d7f85 !important",
                               borderRadius: 0,
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
                             }}
-                            className="filtercategoryLable"
+                            // className="filtercategoryLable"
                           >
                             {/* <span> */}
                             {ele.Name}
@@ -1099,20 +1106,27 @@ const Lookbook = () => {
                                     //   fontFamily:'TT Commons Regular'
                                     // }}
                                     className="smr_mui_checkbox_label"
+                                    // label={
+                                    //   opt?.Minval == 0
+                                    //     ? `Under ${decodeEntities(
+                                    //       storeInit?.Currencysymbol
+                                    //     )}${opt?.Maxval}`
+                                    //     : opt?.Maxval == 0
+                                    //       ? `Over ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval}`
+                                    //       : `${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval} - ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Maxval}`
+                                    // }
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Minval}`
-                                          : `${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Minval} - ${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                     }
                                   />
                                 </div>
@@ -1264,12 +1278,18 @@ const Lookbook = () => {
                             {" "}
                             <span
                               className="smr_currencyFont"
+                            >
+                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>
+                            {/* <span
+                              className="smr_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(
                                   storeInit?.Currencysymbol
                                 ),
                               }}
-                            />{" "}
+                            /> */}
+                            &nbsp;
                             {calculateTotalUnitCostWithMarkUp(
                               JSON.parse(slide.Designdetail)
                             )}
@@ -1474,14 +1494,20 @@ const Lookbook = () => {
                                 }}
                               >
                                 {" "}
-                                <span
+                                {/* <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                />{" "}
+                                /> */}
+                                <span
+                                className="smr_currencyFont"
+                              >
+                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                                &nbsp;
                                 {calculateTotalUnitCostWithMarkUp(
                                   JSON.parse(slide.Designdetail)
                                 )}
@@ -1697,14 +1723,20 @@ const Lookbook = () => {
                                           <p>
                                             {ele?.designno} - {ele?.CategoryName}
                                             <br />
-                                            <span
+                                            {/* <span
                                               className="smr_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
                                                   storeInit?.Currencysymbol
                                                 ),
                                               }}
-                                            />
+                                            /> */}
+                                            <span
+                                              className="smr_currencyFont"
+                                            >
+                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                            &nbsp;
                                             {ele?.UnitCostWithMarkUp}
                                           </p>
                                         </div>
