@@ -74,7 +74,9 @@ const DesignSet2 = () => {
 
   const parseDesignDetails = (details) => {
     try {
-      return JSON.parse(details);
+      let finalArr = JSON.parse(details);
+      console.log('kjdksjfkjsdjf', finalArr);
+      return finalArr;
     } catch (error) {
       console.error("Error parsing design details:", error);
       return [];
@@ -150,7 +152,6 @@ const DesignSet2 = () => {
       swiper.slideNext();
     }
   };
-  // const currentItem = arr[currentIndex];
   return (
     <>
       <div className="smr_DesignSet2MainDiv">
@@ -163,7 +164,7 @@ const DesignSet2 = () => {
         </div>
         {designSetList?.length !== 0 && (
           <>
-            <Swiper
+            {/* <Swiper
               className="mySwiper"
               spaceBetween={5}
               slidesPerView={1}
@@ -171,9 +172,9 @@ const DesignSet2 = () => {
               loop={false}
               navigation={true}
               modules={[Navigation]}
-            >
-              {designSetList?.slice(0, 5)?.map((slide, index) => (
-                <SwiperSlide key={`slide-${index}`}>
+            > */}
+              {designSetList?.slice(0, 1)?.map((slide, index) => (
+                // <SwiperSlide key={`slide-${index}`}>
                   <div
                     style={{
                       position: 'relative',
@@ -210,13 +211,12 @@ const DesignSet2 = () => {
                           className="swiper_w"
                           spaceBetween={5}
                           slidesPerView={1}
-                          loop
                           speed={1000}
                           onSwiper={setSwiper}
                         >
                           {slide?.Designdetail && (
                             <>
-                              {JSON.parse(slide?.Designdetail)?.map((detail, subIndex) => (
+                              {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                 <SwiperSlide key={`detail-${detail?.id}`}>
                                   <div className="centerall">
                                     <img
@@ -259,9 +259,9 @@ const DesignSet2 = () => {
                       </div>
                     </div>
                   </div>
-                </SwiperSlide>
+                // </SwiperSlide>
               ))}
-            </Swiper>
+            {/* </Swiper> */}
 
           </>
         )}

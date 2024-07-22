@@ -1664,7 +1664,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <CartDrawer open={isCartOpen} />
+      {/* <CartDrawer open={isCartOpen} /> */}
     </div>
   );
 };
