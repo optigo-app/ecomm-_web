@@ -61,6 +61,7 @@ const useCart = () => {
   const [finalPrice, setFinalPrice] = useState();
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
   const [handleUpdate, setHandleUpdate] = useState();
+  const [cartDrawer, setCartDrawer] = useState();
 
   const [visiterId, setVisiterId] = useState();
   const islogin = useRecoilValue(loginState)
@@ -69,7 +70,7 @@ const useCart = () => {
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
-  const cartStatus = localStorage.getItem('isCartDrawer')
+
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
@@ -79,9 +80,13 @@ const useCart = () => {
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData)
+      const cartStatus = localStorage.getItem('isCartDrawer')
+      setCartDrawer(cartStatus)
     } else {
       setCurrencyData(storeInit)
     }
+
+
   }, [])
 
 
@@ -122,9 +127,11 @@ const useCart = () => {
     }
   };
 
+
+  console.log('hshahdhasghda', cartDrawer);
   useEffect(() => {
     getCartData();
-  }, [cartStatus]);
+  }, []);
 
   // for multiselect
   const handleSelectItem = async (item) => {
