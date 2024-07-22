@@ -268,7 +268,7 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className={sizeCombo?.rd?.length !== 0 ? "smr_cart-right2-side" : "smr_cart-right-side"}>
                   {isLargeScreen ? (
                     <div className='smr_pc-cartDetail'>
                       {selectedItem && (

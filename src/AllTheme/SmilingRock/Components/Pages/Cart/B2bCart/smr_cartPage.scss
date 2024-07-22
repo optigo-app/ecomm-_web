@@ -201,15 +201,26 @@ $cartUpdateBtncolor: #b1b1b1;
 
   .smr_cart-right-side {
     position: sticky;
-    top: 0px;
-    height: 85.9vh;
+    top: 60px;
+    height: 81.9vh;
     max-width: 25%;
     width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
-    // padding: 0px 20px 0px 0px;
+    padding: 0px 20px 0px 0px;
     // max-width: 450px;
+  }
+  .smr_cart-right2-side{
+    position: sticky;
+    top: 60px;
+    max-width: 25%;
+    height: 90vh !important;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px 0px 0px;
   }
 
   .smr_mobile-cartDetails {
@@ -290,6 +301,15 @@ $cartUpdateBtncolor: #b1b1b1;
         max-width: 400px
       }
     }
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        max-width: 300px;
+      }
+      
+      .smr_CartCusto_R-details {
+        max-width: 400px
+      }
+    }
 
     .smr_cartListImage {
       max-width: 160px;
@@ -300,6 +320,15 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media (max-width: 1530px) and (min-width: 1500px) {
     .smr_cart-right-side {
+      .smr_Cart-imageDiv {
+        max-width: 280px;
+      }
+
+      .smr_CartCusto_R-details {
+        max-width: 350px
+      }
+    }
+    .smr_cart-right2-side {
       .smr_Cart-imageDiv {
         max-width: 280px;
       }
@@ -326,6 +355,15 @@ $cartUpdateBtncolor: #b1b1b1;
         max-width: 350px
       }
     }
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        max-width: 280px;
+      }
+
+      .smr_CartCusto_R-details {
+        max-width: 350px
+      }
+    }
 
     .smr_cartListImage {
       max-width: 130px;
@@ -344,7 +382,15 @@ $cartUpdateBtncolor: #b1b1b1;
         max-width: 340px
       }
     }
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        max-width: 270px;
+      }
 
+      .smr_CartCusto_R-details {
+        max-width: 340px
+      }
+    }
     .smr_cartListImage {
       max-width: 125px;
       max-height: 125px;
@@ -354,6 +400,15 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media (max-width: 1399px) and (min-width: 1200px) {
     .smr_cart-right-side {
+      .smr_Cart-imageDiv {
+        max-width: 260px;
+      }
+
+      .smr_CartCusto_R-details {
+        max-width: 330px
+      }
+    }
+    .smr_cart-right2-side {
       .smr_Cart-imageDiv {
         max-width: 260px;
       }
@@ -386,6 +441,15 @@ $cartUpdateBtncolor: #b1b1b1;
         max-width: 330px
       }
     }
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        max-width: 260px;
+      }
+
+      .smr_CartCusto_R-details {
+        max-width: 330px
+      }
+    }
 
     .smr_cartListCardGrid {
       width: 50% !important;
@@ -410,8 +474,21 @@ $cartUpdateBtncolor: #b1b1b1;
       max-width: 28%;
       width: 28%;
     }
+    .smr_cart-right2-side {
+      max-width: 28%;
+      width: 28%;
+    }
 
     .smr_cart-right-side {
+      .smr_Cart-imageDiv {
+        max-width: 260px;
+      }
+
+      .smr_CartCusto_R-details {
+        max-width: 300px
+      }
+    }
+    .smr_cart-right2-side {
       .smr_Cart-imageDiv {
         max-width: 260px;
       }
@@ -622,7 +699,7 @@ $cartUpdateBtncolor: #b1b1b1;
       font-size: $fontSize0 !important;
     }
 
-    .smr_cartmainRowDiv{
+    .smr_cartmainRowDiv {
       margin-bottom: 20px;
     }
 
@@ -649,11 +726,12 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 @media(max-width: 770px) {
-  .smr_cartmainRowDiv{
+  .smr_cartmainRowDiv {
     margin-bottom: 30px;
   }
+
   .cartBtnGroupMainDiv {
-    .smr_place-order-btn{
+    .smr_place-order-btn {
       height: 35px !important;
       width: 120px !important;
     }
@@ -707,14 +785,16 @@ $cartUpdateBtncolor: #b1b1b1;
   align-items: center;
   justify-content: center;
   max-width: 400px;
-  // height: 412px;
-  // min-height: 412px;
+  max-height: 400px;
+  height: 400px;
+  width: 400px;
+  border-radius: 12px;
+  border: 1px solid rgb(225, 225, 225);
+
 
   .smr_cartDetailImage {
     border-radius: 10px;
-    border: 1px solid rgb(225, 225, 225);
     padding: 2px;
-    border-radius: 12px;
     max-width: 600px;
     width: 100%;
     max-height: 450px;
@@ -728,11 +808,19 @@ $cartUpdateBtncolor: #b1b1b1;
   max-width: 600px;
 
   .smr_cart-Titleline {
-    font-size: $fontSize5;
+    font-size: $fontSize4;
     color: $titleColor;
     margin: 10px;
     text-align: center;
+    max-height: 100px;
+    height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  
 
   .smr_Cart-options {
     display: flex;
