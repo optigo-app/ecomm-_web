@@ -1444,7 +1444,7 @@ const ProductList = () => {
           >
             Customization
           </Typography>
-          <div
+          { storeInit?.IsMetalCustComb === 1 &&  <div
           // className="smr_metal_custom"
           >
             <Typography
@@ -1479,9 +1479,9 @@ const ProductList = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div>}
 
-          {storeInit?.IsDiamondCustomization === 1 && (
+          {storeInit?.IsDiamondCustComb === 1 && (
             <div
             // className="smr_dia_custom"
             >
@@ -2847,7 +2847,7 @@ const ProductList = () => {
                       ) : (
                         <>
                         <div className="smr_main_sorting_div">
-                      <div className="smr_metal_custom">
+                      { storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
                         <label className="label">Metal:&nbsp;</label>
                         <select
                           className="select"
@@ -2865,8 +2865,8 @@ const ProductList = () => {
                           ))}
                         </select>
                       </div>
-
-                      {storeInit?.IsDiamondCustomization === 1 && (
+}
+                      {storeInit?.IsDiamondCustComb === 1 && (
                         <div className="smr_dia_custom">
                           <label className="label">Diamond:&nbsp;</label>
                           <select
