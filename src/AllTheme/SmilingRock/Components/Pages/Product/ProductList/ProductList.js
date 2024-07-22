@@ -2929,7 +2929,7 @@ const ProductList = () => {
                                     <option className="option" value="Trending">
                                       Trending
                                     </option>
-                                    {storeInit?.IsEcatDesignset == 1 &&
+                                    {storeInit?.IsStockWebsite == 1 &&
                                       <option className="option" value="In Stock">
                                         In stock
                                       </option>
