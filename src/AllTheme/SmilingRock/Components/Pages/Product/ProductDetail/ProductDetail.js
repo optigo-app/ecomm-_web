@@ -555,6 +555,8 @@ const ProductDetail = () => {
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
 
+    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
+
     let decodeobj = decodeAndDecompress(navVal);
 
     if (decodeobj) {
@@ -652,18 +654,24 @@ const ProductDetail = () => {
               setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
-              setStockItemArr(res?.Data?.rd)    
-            }).catch((err)=>console.log("stockItemErr",err))
+            if(storeinitInside?.IsStockWebsite === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
+                setStockItemArr(res?.Data?.rd)    
+              }).catch((err)=>console.log("stockItemErr",err))
+            }
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
-              setSimilarBrandArr(res?.Data?.rd)         
-            }).catch((err)=>console.log("similarbrandErr",err))
+            if(storeinitInside?.IsProductDetailSimilarDesign === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
+                setSimilarBrandArr(res?.Data?.rd)         
+              }).catch((err)=>console.log("similarbrandErr",err))
+            }
 
-            await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
-              // console.log("designsetList",res?.Data?.rd[0])
-              setDesignSetList(res?.Data?.rd)
-            }).catch((err)=>console.log("designsetErr",err))
+            if(storeinitInside?.IsProductDetailDesignSet === 1){
+              await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
+                // console.log("designsetList",res?.Data?.rd[0])
+                setDesignSetList(res?.Data?.rd)
+              }).catch((err)=>console.log("designsetErr",err))
+            }
           }
       })
       .catch((err) => console.log("err", err))
@@ -676,7 +684,7 @@ const ProductDetail = () => {
       behavior: "smooth",
     });
 
-  }, [location?.key]);
+  }, [location?.key,]);
 
   // console.log("location", location);
 
@@ -1543,7 +1551,7 @@ const ProductDetail = () => {
                                 </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                               <Typography className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
@@ -1765,7 +1773,7 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {stockItemArr?.length > 0 && (
+                {( stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
                     <p className="smr_details_title"> Stock Items </p>
                     <div className="smr_stockitem_container">
@@ -2158,6 +2166,7 @@ const ProductDetail = () => {
                     </div>
                   )}
 
+                {storeInit?.IsProductDetailDesignSet === 1 && 
                 <div className="smr_DesignSet_main">
                   { designSetList?.length > 0 && <div
                     style={{
@@ -2294,7 +2303,7 @@ const ProductDetail = () => {
                       ))}
                     </Swiper>
                   </div>
-                </div>
+                </div>}
               </>
             )}
             <Footer />
