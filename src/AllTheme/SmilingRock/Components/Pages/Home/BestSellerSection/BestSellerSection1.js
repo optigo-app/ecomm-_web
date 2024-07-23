@@ -159,7 +159,8 @@ const ProductGrid = () => {
                             ))}
                         </div>
                         <div className='smr_rightSideBestSeler'>
-                            <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" />
+                            {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
+                           <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner2.jpg`} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
