@@ -8,7 +8,6 @@ import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/Continu
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { companyLogo, loginState } from "./Components/Recoil/atom";
-import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
