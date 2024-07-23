@@ -27,13 +27,13 @@
       outline: none;
       background-color: transparent;
       font-size: 14px;
-      font-family: $fontCrimsonTextRegular;
+      font-family: $fontDmSans;
       text-transform: uppercase;
       margin-bottom: 1rem;
     }
     span {
       font-size: 19px;
-      font-family: $fontCrimsonTextRegular;
+      font-family: $fontDmSans;
       font-weight: 500;
       letter-spacing: 0.5px;
       display: flex;
@@ -57,7 +57,7 @@
     display: flex;
     flex-wrap: wrap;
     padding: 35px 45px;
-    font-family: $fontCrimsonTextRegular;
+    font-family: $fontDmSans;
     gap: 1.5rem;
     position: relative;
     .details {

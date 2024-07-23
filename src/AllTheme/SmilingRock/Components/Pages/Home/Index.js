@@ -42,6 +42,9 @@ function Home() {
     );
   };
 
+
+  console.log("kjfdkjjjjjjjjjjjjjjj",window?.location?.protocol)
+
   return (
     <>
     <div className='smiling_home_index_main'>

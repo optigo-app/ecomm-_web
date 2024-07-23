@@ -41,11 +41,11 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
         />
-        <div className="smr_projectRemarkBtn-group">
-          <Button className="smr_remarksave-btn" onClick={onSave}>
+        <div className="smrmo_projectRemarkBtn-group">
+          <Button className="smrmo_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="smr_remarkcancel-btn" onClick={onClose}>
+          <Button className="smrmo_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>
