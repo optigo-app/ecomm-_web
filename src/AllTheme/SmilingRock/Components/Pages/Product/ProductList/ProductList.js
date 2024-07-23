@@ -453,7 +453,7 @@ const ProductList = () => {
   }, [location?.key])
 
   useEffect(() => {
-    const finalProdWithPrice = productListData?.map((product) => {
+    const finalProdWithPrice = productListData.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {

@@ -1,4 +1,4 @@
-import { json, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import "./DynamicCollection.modul.scss";
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
@@ -8,11 +8,16 @@ import Cookies from "js-cookie";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { MetalColorCombo } from "../../../../../../../utils/API/Combo/MetalColorCombo";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "../../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import { MdOutlineFilterList } from "react-icons/md";
+import { MdOutlineFilterListOff } from "react-icons/md";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
 import {
   findMetalColor,
   findMetalType,
@@ -23,8 +28,10 @@ import {
   AccordionSummary,
   Box,
   Checkbox,
+  Drawer,
   FormControlLabel,
   Input,
+  Skeleton,
   Slider,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -32,10 +39,27 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { FilterListAPI } from "../../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { MdOutlineExpandMore } from "react-icons/md";
 import { MdFilterListAlt } from "react-icons/md";
+import FiberNewIcon from "@mui/icons-material/FiberNew";
+import GradeIcon from "@mui/icons-material/Grade";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import CloseIcon from "@mui/icons-material/Close";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import pako from "pako";
+import { SlPlus } from "react-icons/sl";
+import { IoBagHandleOutline } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+import { CartAndWishListAPI } from "../../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import { Hoq_CartCount, Hoq_WishCount } from "../../../../Recoil/atom";
+import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 
 const DynamicCollection = () => {
-  const { query } = useParams();
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const location = useLocation();
+  const { query } = useParams();
+  const navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
   const [ShowMore, SetShowMore] = useState(false);
   const [storeInit, setStoreInit] = useState({});
@@ -51,58 +75,86 @@ const DynamicCollection = () => {
   const [metalTypeCombo, SetmetalTypeCombo] = useState([]);
   const [ColorStoneQualityColorCombo, SetColorStoneQualityColorCombo] =
     useState([]);
+  const setCartCountVal = useSetRecoilState(Hoq_CartCount);
+  const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const [diamondQualityColorCombo, SetdiamondQualityColorCombo] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
   const [filterData, setfilterData] = useState([]);
-  const [filterChecked, setfilterChecked] = useState([]);
+  const [filterChecked, setFilterChecked] = useState([]);
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
+  const [sortBySelect, setSortBySelect] = useState("");
+  const [afterFilterCount, setAfterFilterCount] = useState();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedMetalId, setSelectedMetalId] = useState(
+    loginUserDetail?.MetalId
+  );
+  const [cartArr, setCartArr] = useState({});
+  const [wishArr, setWishArr] = useState({});
+  const [accExpanded, setAccExpanded] = useState(null);
+
+  const [selectedDiaId, setSelectedDiaId] = useState(
+    loginUserDetail?.cmboDiaQCid
+  );
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
   // mui pagination handle
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-  // const HandleFilter = () => {
-  //   let filteredProducts = [...Product];
 
-  //   switch (selectedFilter) {
-  //     case "best-selling":
-  //       filteredProducts.sort((a, b) => b.collection - a.collection);
-  //       break;
-  //     case "ascending":
-  //       filteredProducts.sort((a, b) =>
-  //         a.collection.localeCompare(b.collection)
-  //       );
-  //       break;
-  //     case "descending":
-  //       filteredProducts.sort((a, b) =>
-  //         b.collection.localeCompare(a.collection)
-  //       );
-  //       break;
-  //     case "price-ascending":
-  //       filteredProducts.sort((a, b) => a.price - b.price);
-  //       break;
-  //     case "price-descending":
-  //       filteredProducts.sort((a, b) => b.price - a.price);
-  //       break;
-  //     case "created-ascending":
-  //       filteredProducts.sort(
-  //         (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-  //       );
-  //       break;
-  //     case "created-descending":
-  //       filteredProducts.sort(
-  //         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  //       );
-  //       break;
-  //     case "featured":
-  //     default:
-  //       break;
-  //   }
+  const handleCartandWish = (e, ele, type) => {
+    console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-  //   setProductList(filteredProducts);
-  // };
+    let prodObj = {
+      autocode: ele?.autocode,
+      Metalid: selectedMetalId ?? ele?.MetalPurityid,
+      MetalColorId: ele?.MetalColorid,
+      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      Size: ele?.DefaultSize,
+      Unitcost: ele?.UnitCost,
+      markup: ele?.DesignMarkUp,
+      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      Remark: "",
+    };
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    } else {
+      RemoveCartAndWishAPI(type, ele?.autocode, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked,
+      }));
+    }
+
+    if (type === "Wish") {
+      setWishArr((prev) => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked,
+      }));
+    }
+  };
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -129,21 +181,98 @@ const DynamicCollection = () => {
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param);
     }
-  }, [location?.key, "productListData", "filterChecked"]);
+  }, [location?.key, productListData, filterChecked]);
+
+  const FilterValueWithCheckedOnly = () => {
+    let onlyTrueFilterValue = Object.values(filterChecked).filter(
+      (ele) => ele.checked
+    );
+
+    const priceValues = onlyTrueFilterValue
+      .filter((item) => item.type === "Price")
+      .map((item) => item.value);
+
+    const output = {};
+
+    onlyTrueFilterValue.forEach((item) => {
+      if (!output[item.type]) {
+        output[item.type] = "";
+      }
+
+      if (item.type == "Price") {
+        output["Price"] = priceValues;
+        return;
+      }
+
+      output[item.type] += `${item.id}, `;
+    });
+
+    for (const key in output) {
+      if (key !== "Price") {
+        output[key] = output[key].slice(0, -2);
+      }
+    }
+
+    // if
+
+    return output;
+  };
+
+  useEffect(() => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+    console.log(
+      "locationkey",
+      location?.key !== locationKey,
+      location?.key,
+      locationKey
+    );
+
+    if (location?.key === locationKey) {
+      setIsProdLoading(true);
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsProdLoading(false);
+        });
+    }
+  }, [filterChecked]);
+
+  useEffect(() => {
+    // setCSSVariable();
+
+    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    setSelectedMetalId(mtid);
+
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    setSelectedDiaId(diaid);
+
+    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    setSelectedCsId(csid);
+  }, []);
 
   // Product Fetching Api
   useEffect(() => {
     setIsProdLoading(true);
     const fetchData = async () => {
-      // let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
       const data = JSON.parse(localStorage.getItem("storeInit"));
       setStoreInit(data);
+      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-      let obj = {
-        mt: data?.metalId,
-        dia: data?.cmboDiaQCid,
-        cs: data?.cmboCSQCid,
-      };
+      // let obj = {
+      //   mt: data?.metalId,
+      //   dia: data?.cmboDiaQCid,
+      //   cs: data?.cmboCSQCid,
+      // };
 
       let UrlVal = location?.search.slice(1).split("/");
 
@@ -219,7 +348,7 @@ const DynamicCollection = () => {
       // setIsProdLoading(true);
 
       setprodListType(productlisttype);
-      await ProductListApi({}, currentPage, obj, productlisttype, cookie)
+      await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
             setproductsPerPage(res?.pdResp?.rd1[0]?.designcount);
@@ -236,15 +365,18 @@ const DynamicCollection = () => {
               .then((res) => {
                 setfilterData(res);
 
-                let diafilter = JSON.parse(
-                  res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                )[0];
-                let diafilter1 = JSON.parse(
-                  res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                )[0];
-                let diafilter2 = JSON.parse(
-                  res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                )[0];
+                let diafilter =
+                  JSON?.parse(
+                    res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                  )[0] || {};
+                let diafilter1 =
+                  JSON?.parse(
+                    res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                  )[0] || {};
+                let diafilter2 =
+                  JSON?.parse(
+                    res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                  )[0] || {};
                 console.log("diafilter", diafilter);
                 setSliderValue([diafilter?.Min, diafilter?.Max]);
                 setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
@@ -299,7 +431,6 @@ const DynamicCollection = () => {
     }
   };
   // image hover ends
-
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
@@ -369,6 +500,165 @@ const DynamicCollection = () => {
         .catch((err) => console.log(err));
     }
   };
+
+  // pRODUCT nAVIGATING lOGICS
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const decodeAndDecompress = (encodedString) => {
+    try {
+      // Decode the Base64 string to binary data
+      const binaryString = atob(encodedString);
+
+      // Convert binary string to Uint8Array
+      const uint8Array = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i);
+      }
+
+      // Decompress the data
+      const decompressed = pako.inflate(uint8Array, { to: "string" });
+
+      // Convert decompressed data back to JSON object
+      const jsonObject = JSON.parse(decompressed);
+
+      return jsonObject;
+    } catch (error) {
+      console.error("Error decoding and decompressing:", error);
+      return null;
+    }
+  };
+
+  const handleScrollHeight = () => {};
+
+  const handleCheckboxChange = (e, listname, val) => {
+    const { name, checked } = e.target;
+
+    setFilterChecked((prev) => ({
+      ...prev,
+      [name]: {
+        checked,
+        type: listname,
+        id: name?.replace(/[a-zA-Z]/g, ""),
+        value: val,
+      },
+    }));
+  };
+
+  const handleSortby = async (e) => {
+    setSortBySelect(e.target?.value);
+
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    setIsProdLoading(true);
+
+    let sortby = e.target?.value;
+
+    await ProductListApi(output, currentPage, obj, prodListType, cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          console.log("filter", res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsProdLoading(false);
+      });
+  };
+
+  // cUTSOMIZATION
+  const handelCustomCombo = (obj) => {
+    let output = FilterValueWithCheckedOnly();
+
+    if (location?.state?.SearchVal === undefined) {
+      setIsProdLoading(true);
+      ProductListApi(
+        output,
+        currentPage,
+        obj,
+        prodListType,
+        cookie,
+        sortBySelect
+      )
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            console.log("filter", res?.pdResp?.rd1[0]?.designcount);
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setTimeout(() => {
+            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            setIsProdLoading(false);
+          }, 100);
+        });
+    }
+  };
+
+  // Handling PrODUCT nAVIGATING
+  const handleMoveToDetail = (productData) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: selectedMetalId,
+      d: selectedDiaId,
+      c: selectedCsId,
+      f: output,
+    };
+    console.log("ksjkfjkjdkjfkjsdk--", obj);
+    // compressAndEncode(JSON.stringify(obj))
+
+    decodeAndDecompress();
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    navigate(
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
+        productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+
+  useEffect(() => {
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+
+    if (
+      loginInfo?.MetalId !== selectedMetalId ||
+      loginInfo?.cmboDiaQCid !== selectedDiaId ||
+      loginInfo?.cmboCSQCid !== selectedCsId
+    ) {
+      if (
+        selectedMetalId !== "" ||
+        selectedDiaId !== "" ||
+        selectedCsId !== ""
+      ) {
+        handelCustomCombo(obj);
+      }
+    }
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -490,7 +780,6 @@ const DynamicCollection = () => {
   // };
 
   // Example of defining handleCheckboxChange
-  const handleCheckboxChange = () => {};
 
   // const handleInputChange = (index) => (event) => {
   //   const newSliderValue = [...sliderValue];
@@ -518,6 +807,13 @@ const DynamicCollection = () => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
+
+  const handelFilterClearAll = () => {
+    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+      setFilterChecked({});
+    }
+    setAccExpanded(false);
+  };
 
   useEffect(() => {
     callAllApi();
@@ -692,6 +988,475 @@ const DynamicCollection = () => {
   return (
     <>
       <div className="hoq_dynamic_Collections">
+        {/* Mobile filter Drawer */}
+        <Drawer
+          open={isDrawerOpen}
+          onClose={() => {
+            setIsDrawerOpen(false);
+          }}
+          className="hoq_filterDrawer"
+          style={{ zIndex: "99999999" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "end",
+              padding: "8px 8px 0px 0px",
+            }}
+          >
+            <CloseIcon
+              onClick={() => {
+                setIsDrawerOpen(false);
+              }}
+            />
+          </div>
+          <div
+            style={{
+              marginLeft: "15px",
+              marginBottom: "20px",
+              display: "flex",
+              gap: "5px",
+              flexDirection: "column",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#7f7d85",
+                fontSize: "16px",
+                fontFamily: "Tenor Sans , sans-serif",
+                marginTop: "12px",
+              }}
+            >
+              Customization
+            </Typography>
+            <div
+            // className="smr_metal_custom"
+            >
+              <Typography
+                className="label"
+                sx={{
+                  color: "#7f7d85",
+                  fontSize: "14px",
+                  fontFamily: "Tenor Sans , sans-serif",
+                }}
+              >
+                Metal:&nbsp;
+              </Typography>
+              <select
+                style={{
+                  border: "1px solid #e1e1e1",
+                  borderRadius: "8px",
+                  minWidth: "270px",
+                }}
+                className="select"
+                value={selectedMetalId}
+                onChange={(e) => {
+                  setSelectedMetalId(e.target.value);
+                }}
+              >
+                {metalTypeCombo?.map((metalele) => (
+                  <option
+                    className="option"
+                    key={metalele?.Metalid}
+                    value={metalele?.Metalid}
+                  >
+                    {metalele?.metaltype.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {storeInit?.IsDiamondCustomization === 1 && (
+              <div
+              // className="smr_dia_custom"
+              >
+                <Typography
+                  className="label"
+                  sx={{
+                    color: "#7f7d85",
+                    fontSize: "14px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                >
+                  Diamond:&nbsp;
+                </Typography>
+                <select
+                  style={{
+                    border: "1px solid #e1e1e1",
+                    borderRadius: "8px",
+                    minWidth: "270px",
+                  }}
+                  className="select"
+                  value={selectedDiaId}
+                  onChange={(e) => setSelectedDiaId(e.target.value)}
+                >
+                  {diamondQualityColorCombo?.map((diaQc) => (
+                    <option
+                      className="option"
+                      key={diaQc?.QualityId}
+                      value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                    >
+                      {" "}
+                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {storeInit?.IsCsCustomization === 1 && (
+              <div
+              // className="smr_cs_custom"
+              >
+                <Typography
+                  className="label"
+                  sx={{
+                    color: "#7f7d85",
+                    fontSize: "14px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                >
+                  color stone:&nbsp;
+                </Typography>
+                <select
+                  style={{
+                    border: "1px solid #e1e1e1",
+                    borderRadius: "8px",
+                    minWidth: "270px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                  className="select"
+                  value={selectedCsId}
+                  onChange={(e) => setSelectedCsId(e.target.value)}
+                >
+                  {ColorStoneQualityColorCombo?.map((csCombo) => (
+                    <option
+                      className="option"
+                      key={csCombo?.QualityId}
+                      value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                    >
+                      {" "}
+                      {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div
+            // className="smr_sorting_custom"
+            >
+              <div
+              // className="container"
+              >
+                <Typography
+                  className="label"
+                  sx={{
+                    color: "#7f7d85",
+                    fontSize: "14px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                >
+                  Sort By:&nbsp;
+                </Typography>
+                <select
+                  style={{
+                    border: "1px solid #e1e1e1",
+                    borderRadius: "8px",
+                    minWidth: "270px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                  className="select"
+                  value={sortBySelect}
+                  onChange={(e) => handleSortby(e)}
+                >
+                  <option className="option" value="Recommended">
+                    Recommended
+                  </option>
+                  <option className="option" value="New">
+                    New
+                  </option>
+                  <option className="option" value="Trending">
+                    Trending
+                  </option>
+                  <option className="option" value="In Stock">
+                    In stock
+                  </option>
+                  <option className="option" value="PRICE HIGH TO LOW">
+                    Price High To Low
+                  </option>
+                  <option className="option" value="PRICE LOW TO HIGH">
+                    Price Low To High
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            className="smr_mobile_filter_portion"
+            style={{
+              fontFamily: "Tenor Sans , sans-serif !Important",
+            }}
+          >
+            {filterData?.length > 0 && (
+              <div className="smr_mobile_filter_portion_outter">
+                <span className="smr_filter_text">
+                  <span style={{ fontWeight: 500 }}>
+                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                      ?.length === 0
+                      ? // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
+                        "Filters"
+                      : `Product Found: ${afterFilterCount}`}
+                  </span>
+                  <span onClick={() => handelFilterClearAll()}>
+                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                      ?.length > 0 ? (
+                      "Clear All"
+                    ) : (
+                      <span
+                        style={{ fontWeight: 400 }}
+                      >{`Total Products: ${afterFilterCount}`}</span>
+                    )}
+                  </span>
+                </span>
+                <div style={{ marginTop: "12px" }}>
+                  {filterData?.map((ele) => (
+                    <>
+                      {!ele?.id?.includes("Range") &&
+                        !ele?.id?.includes("Price") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              className="filtercategoryLable"
+                            >
+                              {/* <span> */}
+                              {ele.Name}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                                fontFamily: "Tenor Sans , sans-serif",
+                              }}
+                            >
+                              {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: "12px",
+                                    fontFamily: "Tenor Sans , sans-serif",
+                                  }}
+                                  key={opt?.id}
+                                >
+                                  <FormControlLabel
+                                    control={
+                                      <Checkbox
+                                        name={`${ele?.id}${opt?.id}`}
+                                        checked={
+                                          filterChecked[`${ele?.id}${opt?.id}`]
+                                            ?.checked === undefined
+                                            ? false
+                                            : filterChecked[
+                                                `${ele?.id}${opt?.id}`
+                                              ]?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                          fontFamily: "Tenor Sans , sans-serif",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(
+                                            e,
+                                            ele?.id,
+                                            opt?.Name
+                                          )
+                                        }
+                                        size="small"
+                                      />
+                                    }
+                                    className="smr_mui_checkbox_label"
+                                    label={opt.Name}
+                                  />
+                                </div>
+                              ))}
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                      {ele?.id?.includes("Price") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            fontFamily: "Tenor Sans , sans-serif",
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                          }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            className="filtercategoryLable"
+                            onClick={() => handleScrollHeight()}
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                              fontFamily: "Tenor Sans , sans-serif",
+                            }}
+                          >
+                            {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  gap: "12px",
+                                  fontFamily: "Tenor Sans , sans-serif",
+                                }}
+                                key={i}
+                              >
+                                {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                <FormControlLabel
+                                  style={{
+                                    fontFamily: "Tenor Sans , sans-serif",
+                                  }}
+                                  control={
+                                    <Checkbox
+                                      name={`Price${i}${i}`}
+                                      // checked={
+                                      //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                      //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                      //     : false
+                                      // }
+                                      checked={
+                                        filterChecked[`Price${i}${i}`]
+                                          ?.checked === undefined
+                                          ? false
+                                          : filterChecked[`Price${i}${i}`]
+                                              ?.checked
+                                      }
+                                      style={{
+                                        color: "#7f7d85",
+                                        padding: 0,
+                                        width: "10px",
+                                      }}
+                                      onClick={(e) =>
+                                        handleCheckboxChange(e, ele?.id, opt)
+                                      }
+                                      size="small"
+                                    />
+                                  }
+                                  // sx={{
+                                  //   display: "flex",
+                                  //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                  //   width: "100%",
+                                  //   flexDirection: "row-reverse", // Align items to the right
+                                  //   fontFamily:'TT Commons Regular'
+                                  // }}
+                                  className="smr_mui_checkbox_label"
+                                  label={
+                                    opt?.Minval == 0
+                                      ? `Under ${decodeEntities(
+                                          storeInit?.Currencysymbol
+                                        )}${opt?.Maxval}`
+                                      : opt?.Maxval == 0
+                                      ? `Over ${decodeEntities(
+                                          storeInit?.Currencysymbol
+                                        )}${opt?.Minval}`
+                                      : `${decodeEntities(
+                                          storeInit?.Currencysymbol
+                                        )}${opt?.Minval} - ${decodeEntities(
+                                          storeInit?.Currencysymbol
+                                        )}${opt?.Maxval}`
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </Drawer>
         {/* Main Image Banner */}
         <Banner />
         {/* Image Below */}
@@ -717,371 +1482,30 @@ const DynamicCollection = () => {
             <span onClick={() => SetShowMore(!ShowMore)}>Read More</span>
           </div>
         </div>
-        {/* Filter on Below on iamge Banner */}
-        <div className="filter_Bar">
-          {/* BreadCrumb  */}
-          <div className="breadcrumb">
-            <div role="presentation">
-              <Breadcrumbs aria-label="breadcrumb">
-                <span>Home</span>
-                <span>Amber</span>
-                <span>Rings</span>
-              </Breadcrumbs>
-            </div>
-          </div>
-          {/* Filter Options */}
-          <div className="filter_select" role="sorting options">
-            {/* metal sorting filter */}
-            <div role="metal_sorting">
-              <Typography
-                className="label"
-                sx={{
-                  color: "#7f7d85",
-                  fontSize: "14px",
-                  fontFamily: "TT Commons Regular",
-                }}
-              >
-                Metal :&nbsp;
-              </Typography>
-              <select
-                className="select"
-                // value={sortBySelect}
-                // onChange={(e) => handleSortby(e)}
-              >
-                {metalTypeCombo?.map((metalele) => (
-                  <option
-                    className="option"
-                    key={metalele?.Metalid}
-                    value={metalele?.Metalid}
-                  >
-                    {metalele?.metaltype.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {/* diamon sorting filter */}
-            {storeInit?.IsDiamondCustomization === 1 && (
-              <div
-                role="diamond_sorting"
-                // className="container"
-              >
-                <Typography
-                  className="label"
-                  sx={{
-                    color: "#7f7d85",
-                    fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
-                  }}
-                >
-                  Diamond :&nbsp;
-                </Typography>
-                <select
-                  className="select"
-                  // value={sortBySelect}
-                  // onChange={(e) => handleSortby(e)}
-                >
-                  {diamondQualityColorCombo?.map((diaQc) => (
-                    <option
-                      className="option"
-                      key={diaQc?.QualityId}
-                      value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                    >
-                      {" "}
-                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            {/* color stone sorting filter */}
-            {storeInit?.IsCsCustomization === 1 && (
-              <div role="color_Stone_sorting">
-                <Typography
-                  className="label"
-                  sx={{
-                    color: "#7f7d85",
-                    fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
-                  }}
-                >
-                  color stone :&nbsp;
-                </Typography>
-                <select
-                  className="select"
-                  // value={sortBySelect}
-                  // onChange={(e) => handleSortby(e)}
-                >
-                  {ColorStoneQualityColorCombo?.map((csCombo) => (
-                    <option
-                      className="option"
-                      key={csCombo?.QualityId}
-                      value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                    >
-                      {" "}
-                      {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div
-              role="sorting_by"
-              // className="container"
-            >
-              <Typography
-                className="label"
-                sx={{
-                  color: "#7f7d85",
-                  fontSize: "14px",
-                  fontFamily: "TT Commons Regular",
-                }}
-              >
-                Sort By:&nbsp;
-              </Typography>
-              <select
-                className="select"
-                // value={sortBySelect}
-                // onChange={(e) => handleSortby(e)}
-              >
-                <option className="option" value="Recommended">
-                  Recommended
-                </option>
-                <option className="option" value="New">
-                  New
-                </option>
-                <option className="option" value="Trending">
-                  Trending
-                </option>
-                <option className="option" value="In Stock">
-                  In stock
-                </option>
-                <option className="option" value="PRICE HIGH TO LOW">
-                  Price High To Low
-                </option>
-                <option className="option" value="PRICE LOW TO HIGH">
-                  Price Low To High
-                </option>
-              </select>
-            </div>
+        <div className="filter_btn_mobile">
+          <div className="fb_btn">
+            <Checkbox
+              icon={<MdOutlineFilterList size={32} />}
+              checkedIcon={
+                <MdOutlineFilterListOff
+                  size={32}
+                  style={{ color: "#666666" }}
+                />
+              }
+              checked={isDrawerOpen}
+              onChange={(e) => setIsDrawerOpen(e.target.value)}
+            />
           </div>
         </div>
+        {/* Filter on Below on iamge Banner */}
         <div className="filter_section">
-          <div className="filter_accordian_section">
-            <div className="filter_results">
-              <span>
-                <MdFilterListAlt size={24} /> Filters
-              </span>
-              <span>Total Products: 22 </span>
-            </div>
-            {filterData?.map((item, index) => {
-              return (
-                <>
-                  {!item?.id?.includes("Range") &&
-                    !item?.id?.includes("Price") && (
-                      <Accordion key={index} className="accordian">
-                        <AccordionSummary
-                          expandIcon={<MdOutlineExpandMore />}
-                          aria-controls="panel1-content"
-                          id="panel1-header"
-                          className="hoq_category_names"
-                        >
-                          {item?.Name}
-                        </AccordionSummary>
-                        <AccordionDetails className="accordian_details_col">
-                          {(JSON.parse(item?.options) ?? []).map((opt) => {
-                            return (
-                              <>
-                                <div
-                                  className="hoq_subCategory_name"
-                                  key={opt?.id}
-                                >
-                                  <label htmlFor={`${item?.id}${opt?.id}`}>
-                                    {opt.Name}
-                                  </label>
-                                  <div>
-                                    <Checkbox
-                                      name={`${item?.id}${opt?.id}`}
-                                      id={`${item?.id}${opt?.id}`}
-                                      checked={
-                                        filterChecked[`${item?.id}${opt?.id}`]
-                                          ?.checked === undefined
-                                          ? false
-                                          : filterChecked[
-                                              `${item?.id}${opt?.id}`
-                                            ]?.checked
-                                      }
-                                      style={{
-                                        color: "#7f7d85",
-                                        padding: 0,
-                                        width: "10px",
-                                      }}
-                                      onClick={(e) =>
-                                        handleCheckboxChange(
-                                          e,
-                                          item?.id,
-                                          opt?.Name
-                                        )
-                                      }
-                                      size="small"
-                                    />
-                                  </div>
-                                </div>
-                              </>
-                            );
-                          })}
-                        </AccordionDetails>
-                      </Accordion>
-                    )}
-                  {item?.id?.includes("Price") && (
-                    <Accordion className="accordian">
-                      <AccordionSummary
-                        expandIcon={<MdOutlineExpandMore />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        className="hoq_category_names"
-                      >
-                        <span className="hoq_category_names">{item.Name}</span>
-                      </AccordionSummary>
-                      <AccordionDetails className="accordian_details_col">
-                        {(JSON.parse(item?.options) ?? []).map((opt, i) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              gap: "12px",
-                              padding: "5px 2px",
-                            }}
-                            className="hoq_subCategory_name price"
-                            key={i}
-                          >
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  name={`Price${i}${i}`}
-                                  checked={
-                                    filterChecked[`Price${i}${i}`]?.checked ===
-                                    undefined
-                                      ? false
-                                      : filterChecked[`Price${i}${i}`]?.checked
-                                  }
-                                  className="price_checkbox"
-                                  onClick={(e) => {
-                                    handleCheckboxChange(e, item?.id, opt);
-                                  }}
-                                  size="small"
-                                />
-                              }
-                              className="hoq_subCategory_name_price"
-                              label={
-                                opt?.Minval == 0
-                                  ? `Under ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
-                                  : opt?.Maxval == 0
-                                  ? `Over ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval}`
-                                  : `${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval} - ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
-                              }
-                            />
-                          </div>
-                        ))}
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                  {/* {item?.Name?.includes("Diamond") && (
-                    <Accordion elevation={0}>
-                      <AccordionSummary
-                        expandIcon={
-                          <MdOutlineExpandMore sx={{ width: "20px" }} />
-                        }
-                      >
-                        <span className="hoq_category_names">{item.Name}</span>
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-                        <Box sx={{ width: 203, height: 88 }}>
-                          {RangeFilterView(item)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                  {item?.Name?.includes("Gross") && (
-                    <Accordion elevation={0}>
-                      <AccordionSummary
-                        expandIcon={
-                          <MdOutlineExpandMore sx={{ width: "20px" }} />
-                        }
-                      >
-                        <span className="hoq_category_names">{item.Name}</span>
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-                        <Box sx={{ width: 203, height: 88 }}>
-                          {RangeFilterView1(item)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                  {item?.Name?.includes("NetWt") && (
-                    <Accordion elevation={0}>
-                      <AccordionSummary
-                        expandIcon={
-                          <MdOutlineExpandMore sx={{ width: "20px" }} />
-                        }
-                      >
-                        <span className="hoq_category_names">{item.Name}</span>
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-                        <Box sx={{ width: 203, height: 88 }}>
-                          {RangeFilterView2(item)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )} */}
-                </>
-              );
-            })}
-          </div>
           {/* productlist cards */}
           <div className="cc_list">
+            {/* top filter bar */}
             <div className="collections_list">
               {/* loader */}
               {isProdLoading ? (
-                <LoadingBar />
+                <LoadingSkeleton />
               ) : productListData && productListData.length > 0 ? (
                 productListData.map((val, i) => (
                   <C_Card
@@ -1097,9 +1521,12 @@ const DynamicCollection = () => {
                     designo={val?.designno}
                     decodeEntities={decodeEntities}
                     productData={val}
-                    price={`INR `}
-                    isNew={i % 2 !== 0}
+                    handleMoveToDetail={handleMoveToDetail}
                     storeInit={storeInit}
+                    selectedMetalId={selectedMetalId}
+                    handleCartandWish={handleCartandWish}
+                    cartArr={cartArr}
+                    wishArr={wishArr}
                   />
                 ))
               ) : (
@@ -1107,14 +1534,17 @@ const DynamicCollection = () => {
                 <NoProductFound />
               )}
             </div>
+            {Math.ceil(productsPerPage / storeInit?.PageSize) > 1 && (
+              <div className="pagination_sec">
+                <PaginationBar
+                  totalPages={Math.ceil(productsPerPage / storeInit?.PageSize)}
+                  currentPage={currentPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
-        {/* Pagination */}
-        <PaginationBar
-          totalPages={Math.ceil(productsPerPage / storeInit?.PageSize)}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
       </div>
     </>
   );
@@ -1134,30 +1564,46 @@ const Banner = () => {
     </div>
   );
 };
-
 const C_Card = ({
   img,
   title,
-  price,
-  isNew,
-  link,
   videoUrl,
   rollUpImage,
   designo,
   productData,
   storeInit,
   decodeEntities,
+  selectedMetalId,
+  handleMoveToDetail,
+  handleCartandWish,
+  cartArr,
+  wishArr,
 }) => {
   const [isHover, setisHover] = useState(false);
+  const [isPlusClicked, SetisPlusClicked] = useState(false);
 
   return (
-    <div className="C_Card">
-      <div className="hoq_cart_and_wishlist_icon">
+    <div className="C_Card" onMouseLeave={() => SetisPlusClicked(false)}>
+      <div className="hoq_product_label">
+        {productData?.IsInReadyStock == 1 && (
+          <span className="hoq_instock">In Stock</span>
+        )}
+        {productData?.IsBestSeller == 1 && (
+          <span className="hoq_bestSeller">Best Seller</span>
+        )}
+        {productData?.IsTrending == 1 && (
+          <span className="hoq_intrending">Trending</span>
+        )}
+        {productData?.IsNewArrival == 1 && (
+          <span className="hoq_newarrival">New Arrival</span>
+        )}
+      </div>
+      <div className="hoq_plus">
         <Checkbox
           icon={
-            <LocalMallIcon
+            <LocalMallOutlinedIcon
               sx={{
-                fontSize: "22px",
+                fontSize: "26px",
                 color: "#7d7f85",
                 opacity: ".7",
               }}
@@ -1166,49 +1612,51 @@ const C_Card = ({
           checkedIcon={
             <LocalMallIcon
               sx={{
-                fontSize: "22px",
+                fontSize: "26px",
                 color: "#009500",
               }}
             />
           }
           disableRipple={false}
           sx={{ padding: "10px" }}
-          // onChange={(e) => handleCartandWish(e, productData, "Cart")}
-          // checked={
-          //   cartArr[productData?.autocode] ?? productData?.IsInCart === 1
-          //     ? true
-          //     : false
-          // }
+          onChange={(e) => handleCartandWish(e, productData, "Cart")}
+          checked={
+            cartArr[productData?.autocode] ?? productData?.IsInCart === 1
+              ? true
+              : false
+          }
         />
         <Checkbox
           icon={
-            <FavoriteBorderIcon
+            <FavoriteIcon
               sx={{
-                fontSize: "22px",
+                fontSize: "26px",
                 color: "#7d7f85",
                 opacity: ".7",
               }}
             />
           }
           checkedIcon={
-            <FavoriteBorderIcon
+            <FavoriteIcon
               sx={{
-                fontSize: "22px",
+                fontSize: "26px",
                 color: "#e31b23",
               }}
             />
           }
           disableRipple={false}
           sx={{ padding: "10px" }}
-          // onChange={(e) => handleCartandWish(e, productData, "Wish")}
-          // checked={
-          //   wishArr[productData?.autocode] ?? productData?.IsInWish === 1
-          //     ? true
-          //     : false
-          // }
+          onChange={(e) => handleCartandWish(e, productData, "Wish")}
+          // checked={productData?.IsInWish}
+          checked={
+            wishArr[productData?.autocode] ?? productData?.IsInWish === 1
+              ? true
+              : false
+          }
         />
       </div>
       <div
+        onClick={() => handleMoveToDetail(productData)}
         className="image"
         style={{ border: "none" }}
         onMouseOver={() => setisHover(true)}
@@ -1241,26 +1689,90 @@ const C_Card = ({
           }}
         />
       </div>
+      {/* <div
+        className="hoq_cart_and_wishlist_icon"
+        style={{
+          bottom: isPlusClicked ? "9.5rem" : "",
+          opacity: isPlusClicked ? "" : "0.2",
+        }}
+      >
+        <Checkbox
+          icon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <IoBagHandleOutline color="green" size={"20px"} /> Add To Cart
+            </h1>
+          }
+          checkedIcon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              {" "}
+              <IoBagHandleOutline color="green" size={"20px"} /> Added In Cart
+            </h1>
+          }
+          disableRipple={false}
+          sx={{
+            padding: "10px",
+            fontSize: "0.5rem",
+            padding: "10px 15px",
+            borderRadius: "1px",
+          }}
+          className="cart"
+          // onChange={(e) => handleCartandWish(e, productData, "Cart")}
+          // checked={
+          //   cartArr[productData?.autocode] ?? productData?.IsInCart === 1
+          //     ? true
+          //     : false
+          // }
+        />
+        <Checkbox
+          icon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <CiHeart size={"24px"}   /> Wishlist
+            </h1>
+          }
+          checkedIcon={
+            <h1 style={{ fontSize: "0.9rem", margin: 0, fontWeight: "600" }}>
+              <FaHeart size={"20px"} color="red" /> Wishlist
+            </h1>
+          }
+          disableRipple={false}
+          sx={{
+            padding: "10px",
+            fontSize: "0.5rem",
+            padding: "10px 15px",
+            borderRadius: "1px",
+          }}
+          className="wishlist"
+          // onChange={(e) => handleCartandWish(e, productData, "Wish")}
+          // checked={
+          //   wishArr[productData?.autocode] ?? productData?.IsInWish === 1
+          //     ? true
+          //     : false
+          // }
+        />
+      </div> */}
       <div className="det">
         <h2 className="">
           {!title?.length > 0 ? designo : designo + "-" + title}
         </h2>
         <small className="jewel_parameter">
-          {Number(productData?.Nwt) !== 0 && (
-            <span className="smr_prod_wt">
-              <span className="smr_keys">NWT:</span>
-              <span className="smr_val">{productData?.Nwt}</span>
-            </span>
-          )}
           {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
             <>
-              <span>|</span>
               <span className="smr_prod_wt">
                 <span className="smr_keys">GWT:</span>
                 <span className="smr_val">{productData?.Gwt}</span>
               </span>
             </>
           )}
+          {Number(productData?.Nwt) !== 0 && (
+            <>
+              <span>|</span>
+              <span className="smr_prod_wt">
+                <span className="smr_keys">NWT:</span>
+                <span className="smr_val">{productData?.Nwt}</span>
+              </span>
+            </>
+          )}
+
           {/* </span> */}
           {/* <span className="smr_por"> */}
           {storeInit?.IsDiamondWeight == 1 &&
@@ -1302,11 +1814,9 @@ const C_Card = ({
             -
             {
               findMetalType(
-                // productData?.IsMrpBase == 1
-                //   ?
-                productData?.MetalPurityid
-                // : selectedMetalId ??
-                //     productData?.MetalPurityid
+                productData?.IsMrpBase == 1
+                  ? productData?.MetalPurityid
+                  : selectedMetalId ?? productData?.MetalPurityid
               )[0]?.metaltype
             }
           </span>
@@ -1327,7 +1837,6 @@ const C_Card = ({
     </div>
   );
 };
-
 const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
   return (
     <div className="pagination-bar">
@@ -1337,240 +1846,62 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         onChange={onPageChange}
         shape="rounded"
         className="pagination-btn"
+        siblingCount={0}
       />
     </div>
   );
 };
-
-const LoadingBar = () => {
-  return (
-    <div className="loading_container">
-      <img
-        src="https://media.lordicon.com/icons/wired/gradient/724-diamond-luxury-precious.gif"
-        alt=""
-      />
-    </div>
-  );
-};
-
 const NoProductFound = () => {
   return (
     <div className="NoProductFound">
-      <img
-        src="https://www.1042tactical.com/images/ecommerce/no-products-found.svg"
-        alt=""
-      />
+      <h1>
+        Sorry, no products match your current filters. Please adjust your
+        criteria or contact support for assistance.
+      </h1>
     </div>
   );
 };
-
-// const FilterSection = ({ storeInit, filterData, filterChecked }) => {
-//   const decodeEntities = (html) => {
-//     var txt = document.createElement("textarea");
-//     txt.innerHTML = html;
-//     return txt.value;
-//   };
-
-//   const handleCheckboxChange = ()=>{
-
-//   }
-//   return (
-//     // <div className="filter_accordian_section">
-//     //   {filterData?.map((item, index) => {
-//     //     //api smiling rocks
-//     //     return (
-//     //       <>
-//     //         {!item?.id?.includes("Range") && !item?.id?.includes("Price") && (
-//     //           <Accordion key={index} className="accordian">
-//     //             <AccordionSummary
-//     //               expandIcon={<MdOutlineExpandMore />}
-//     //               aria-controls="panel1-content"
-//     //               id="panel1-header"
-//     //               className="hoq_category_names"
-//     //             >
-//     //               {item?.Name}
-//     //             </AccordionSummary>
-//     //             <AccordionDetails>
-//     //               {(JSON.parse(item?.options) ?? []).map((opt) => {
-//     //                 return (
-//     //                   <>
-//     //                     <div className="elv_subCategory_name" key={opt?.id}>
-//     //                       <div>{opt.Name}</div>
-//     //                       <div>
-//     //                         <Checkbox
-//     //                           name={`${item?.id}${opt?.id}`}
-//     //                           checked={
-//     //                             filterChecked[`${item?.id}${opt?.id}`]
-//     //                               ?.checked === undefined
-//     //                               ? false
-//     //                               : filterChecked[`${item?.id}${opt?.id}`]
-//     //                                   ?.checked
-//     //                           }
-//     //                           style={{
-//     //                             color: "#7f7d85",
-//     //                             padding: 0,
-//     //                             width: "10px",
-//     //                           }}
-//     //                           onClick={(e) =>
-//     //                             handleCheckboxChange(e, item?.id, opt?.Name)
-//     //                           }
-//     //                           size="small"
-//     //                         />
-//     //                       </div>
-//     //                     </div>
-//     //                   </>
-//     //                 );
-//     //               })}
-//     //             </AccordionDetails>
-//     //           </Accordion>
-//     //         )}
-//     //         {item?.id?.includes("Price") && (
-//     //           <Accordion className="accordian">
-//     //             <AccordionSummary
-//     //               expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-//     //               aria-controls="panel1-content"
-//     //               id="panel1-header"
-//     //             >
-//     //               <span className="hoq_category_names">{item.Name}</span>
-//     //             </AccordionSummary>
-//     //             <AccordionDetails
-//     //               sx={{
-//     //                 display: "flex",
-//     //                 flexDirection: "column",
-//     //                 gap: "4px",
-//     //                 minHeight: "fit-content",
-//     //                 maxHeight: "300px",
-//     //                 overflow: "auto",
-//     //               }}
-//     //             >
-//     //               {(JSON.parse(item?.options) ?? []).map((opt, i) => (
-//     //                 <div
-//     //                   style={{
-//     //                     display: "flex",
-//     //                     alignItems: "center",
-//     //                     justifyContent: "space-between",
-//     //                     gap: "12px",
-//     //                   }}
-//     //                   key={i}
-//     //                 >
-//     //                   <FormControlLabel
-//     //                     control={
-//     //                       <Checkbox
-//     //                         name={`Price${i}${i}`}
-//     //                         checked={
-//     //                           filterChecked[`Price${i}${i}`]?.checked ===
-//     //                           undefined
-//     //                             ? false
-//     //                             : filterChecked[`Price${i}${i}`]?.checked
-//     //                         }
-//     //                         style={{
-//     //                           color: "#7f7d85",
-//     //                           padding: 0,
-//     //                           width: "10px",
-//     //                         }}
-//     //                         onClick={(e) => {
-//     //                           handleCheckboxChange(e, item?.id, opt);
-//     //                         }}
-//     //                         size="small"
-//     //                       />
-//     //                     }
-//     //                     className="elv_subCategory_name_price"
-//     //                     label={
-//     //                       opt?.Minval == 0
-//     //                         ? `Under ${decodeEntities(
-//     //                             storeInit?.Currencysymbol
-//     //                           )}${opt?.Maxval}`
-//     //                         : opt?.Maxval == 0
-//     //                         ? `Over ${decodeEntities(
-//     //                             storeInit?.Currencysymbol
-//     //                           )}${opt?.Minval}`
-//     //                         : `${decodeEntities(storeInit?.Currencysymbol)}${
-//     //                             opt?.Minval
-//     //                           } - ${decodeEntities(storeInit?.Currencysymbol)}${
-//     //                             opt?.Maxval
-//     //                           }`
-//     //                     }
-//     //                   />
-//     //                 </div>
-//     //               ))}
-//     //             </AccordionDetails>
-//     //           </Accordion>
-//     //         )}
-//     //         {item?.Name?.includes("Diamond") && (
-//     //           <Accordion elevation={0}>
-//     //             <AccordionSummary
-//     //               expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-//     //             >
-//     //               <span className="hoq_category_names">{item.Name}</span>
-//     //             </AccordionSummary>
-//     //             <AccordionDetails
-//     //               sx={{
-//     //                 display: "flex",
-//     //                 flexDirection: "column",
-//     //                 gap: "4px",
-//     //                 minHeight: "fit-content",
-//     //                 maxHeight: "300px",
-//     //                 overflow: "auto",
-//     //               }}
-//     //             >
-//     //               {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-//     //               <Box sx={{ width: 203, height: 88 }}>
-//     //                 {RangeFilterView(item)}
-//     //               </Box>
-//     //             </AccordionDetails>
-//     //           </Accordion>
-//     //         )}
-//     //         {item?.Name?.includes("Gross") && (
-//     //           <Accordion elevation={0}>
-//     //             <AccordionSummary
-//     //               expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-//     //             >
-//     //               <span className="hoq_category_names">{item.Name}</span>
-//     //             </AccordionSummary>
-//     //             <AccordionDetails
-//     //               sx={{
-//     //                 display: "flex",
-//     //                 flexDirection: "column",
-//     //                 gap: "4px",
-//     //                 minHeight: "fit-content",
-//     //                 maxHeight: "300px",
-//     //                 overflow: "auto",
-//     //               }}
-//     //             >
-//     //               {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-//     //               <Box sx={{ width: 203, height: 88 }}>
-//     //                 {RangeFilterView1(item)}
-//     //               </Box>
-//     //             </AccordionDetails>
-//     //           </Accordion>
-//     //         )}
-//     //         {item?.Name?.includes("NetWt") && (
-//     //           <Accordion elevation={0}>
-//     //             <AccordionSummary
-//     //               expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-//     //             >
-//     //               <span className="hoq_category_names">{item.Name}</span>
-//     //             </AccordionSummary>
-//     //             <AccordionDetails
-//     //               sx={{
-//     //                 display: "flex",
-//     //                 flexDirection: "column",
-//     //                 gap: "4px",
-//     //                 minHeight: "fit-content",
-//     //                 maxHeight: "300px",
-//     //                 overflow: "auto",
-//     //               }}
-//     //             >
-//     //               {console.log("RangeEle", JSON?.parse(item?.options)[0])}
-//     //               <Box sx={{ width: 203, height: 88 }}>
-//     //                 {RangeFilterView2(item)}
-//     //               </Box>
-//     //             </AccordionDetails>
-//     //           </Accordion>
-//     //         )}
-//     //       </>
-//     //     );
-//     //   })}
-//     // </div>
-//   );
-// };
+const LoadingSkeleton = () => {
+  return Array.from({ length: 8 }).map((_, i) => {
+    return (
+      <div className="C_Card">
+        <div className="image">
+          <Skeleton
+            key={i}
+            variant="rectangular"
+            width={"100%"}
+            height={"100%"}
+            className="hoq_CartSkelton"
+          />
+        </div>
+        <div
+          className="det"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "2px",
+          }}
+        >
+          <Skeleton
+            key={i}
+            className="hoq_CartSkelton"
+            width={"100%"}
+            height={"22px"}
+          />
+          <Skeleton
+            key={i}
+            className="hoq_CartSkelton"
+            width={"100%"}
+            height={"22px"}
+          />
+          <Skeleton
+            key={i}
+            className="hoq_CartSkelton"
+            width={"100%"}
+            height={"22px"}
+          />
+        </div>
+      </div>
+    );
+  });
+};
