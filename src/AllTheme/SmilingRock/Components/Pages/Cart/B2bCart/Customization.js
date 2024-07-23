@@ -28,6 +28,9 @@ const Customization = ({
   const [storeInitData, setStoreInitData] = useState();
 
 
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
@@ -140,14 +143,15 @@ const Customization = ({
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
-                    <span
+                    {/* <span
                       className="smr_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
-                    />
+                    /> */}
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {(selectedItem?.FinalCost)}
                   </span>
                 ) :

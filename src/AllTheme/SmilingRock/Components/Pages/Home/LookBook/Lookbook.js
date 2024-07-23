@@ -213,7 +213,7 @@ const Lookbook = () => {
     }
 
     let output = FilterValueWithCheckedOnly();
-    if (Object.keys(filterChecked)?.length > 0) {
+    if (Object.keys(filterChecked)?.length >= 0) {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output)
         .then((response) => {
           if (response?.Data?.rd) {
@@ -243,8 +243,9 @@ const Lookbook = () => {
     return finalprodListimg;
   };
 
-  const getRandomBgColor = () => {
-    return gradientColors[Math.floor(Math.random() * gradientColors.length)];
+  const getRandomBgColor = (index) => {
+    const colorsLength = gradientColors.length;
+    return gradientColors[index % colorsLength];
   };
 
   const parseDesignDetails = (details) => {
@@ -467,7 +468,7 @@ const Lookbook = () => {
     seyDataKey(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState(2);
+  const [selectedValue, setSelectedValue] = useState(1);
   // const handleChange = (event) => {
   //   setSelectedValue(event.target.value);
   // };
@@ -540,14 +541,14 @@ const Lookbook = () => {
                           aria-controls="panel1-content"
                           id="panel1-header"
                           sx={{
-                            color: "#7f7d85",
+                            color: "#7d7f85 !imporatnt",
                             borderRadius: 0,
 
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
                           }}
-                          className="filtercategoryLable"
+                          // className="filtercategoryLable"
                         >
                           {/* <span> */}
                           {ele.Name}
@@ -598,7 +599,7 @@ const Lookbook = () => {
                                           ?.checked
                                     }
                                     style={{
-                                      color: "#7f7d85",
+                                      color: "#7d7f85 !important",
                                       padding: 0,
                                       width: "10px",
                                     }}
@@ -649,14 +650,14 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7f7d85",
+                          color: "#7d7f85 !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
                         }}
-                        className="filtercategoryLable"
+                        // className="filtercategoryLable"
                       >
                         {/* <span> */}
                         {ele.Name}
@@ -724,20 +725,27 @@ const Lookbook = () => {
                               //   fontFamily:'TT Commons Regular'
                               // }}
                               className="smr_mui_checkbox_label"
+                              // label={
+                              //   opt?.Minval == 0
+                              //     ? `Under ${decodeEntities(
+                              //       storeInit?.Currencysymbol
+                              //     )}${opt?.Maxval}`
+                              //     : opt?.Maxval == 0
+                              //       ? `Over ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval}`
+                              //       : `${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval} - ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Maxval}`
+                              // }
                               label={
                                 opt?.Minval == 0
-                                  ? `Under ${decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  )}${opt?.Maxval}`
+                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                   : opt?.Maxval == 0
-                                    ? `Over ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval}`
-                                    : `${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval} - ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
+                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                               }
                             />
                           </div>
@@ -910,14 +918,14 @@ const Lookbook = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "#7d7f85 !important",
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
                               }}
-                              className="filtercategoryLable"
+                              // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Name}
@@ -1022,14 +1030,14 @@ const Lookbook = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "#7d7f85 !important",
                               borderRadius: 0,
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
                             }}
-                            className="filtercategoryLable"
+                            // className="filtercategoryLable"
                           >
                             {/* <span> */}
                             {ele.Name}
@@ -1099,20 +1107,27 @@ const Lookbook = () => {
                                     //   fontFamily:'TT Commons Regular'
                                     // }}
                                     className="smr_mui_checkbox_label"
+                                    // label={
+                                    //   opt?.Minval == 0
+                                    //     ? `Under ${decodeEntities(
+                                    //       storeInit?.Currencysymbol
+                                    //     )}${opt?.Maxval}`
+                                    //     : opt?.Maxval == 0
+                                    //       ? `Over ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval}`
+                                    //       : `${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval} - ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Maxval}`
+                                    // }
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Minval}`
-                                          : `${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Minval} - ${decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          )}${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                     }
                                   />
                                 </div>
@@ -1194,6 +1209,7 @@ const Lookbook = () => {
                         style={{
                           display: "flex",
                           height: dataKey == index && "100%",
+                          position: 'relative'
                         }}
                       >
                         {ProdCardImageFunc(slide) ? (
@@ -1214,19 +1230,19 @@ const Lookbook = () => {
                             style={{
                               height: dataKey == index ? "100%" : "250px",
                               width: "100%",
-                              ...getRandomBgColor(),
+                              ...getRandomBgColor(index),
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
                               cursor: "pointer",
                             }}
                           >
-                            <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                            <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                           </div>
                         )}
-                        {/* <p className="smr_designList_title">
+                        <p className="smr_lb2designList_title">
                           {slide?.designsetno}
-                        </p> */}
+                        </p>
                       </div>
                       <div
                         className="smr_lookBookImgDeatil"
@@ -1237,15 +1253,15 @@ const Lookbook = () => {
                         }}
                       >
                         <p style={{ fontSize: "13px", margin: "2px" }}>
-                          DWT:
+                          DWT:{" "}
                           {calculateTotalUnitCostWithMarkUpDwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | GWT:
+                          | GWT:{" "}
                           {calculateTotalUnitCostWithMarkUpGWt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | NWT:
+                          | NWT:{" "}
                           {calculateTotalUnitCostWithMarkUpNwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
@@ -1264,12 +1280,18 @@ const Lookbook = () => {
                             {" "}
                             <span
                               className="smr_currencyFont"
+                            >
+                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>
+                            {/* <span
+                              className="smr_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(
                                   storeInit?.Currencysymbol
                                 ),
                               }}
-                            />{" "}
+                            /> */}
+                            &nbsp;
                             {calculateTotalUnitCostWithMarkUp(
                               JSON.parse(slide.Designdetail)
                             )}
@@ -1380,7 +1402,7 @@ const Lookbook = () => {
               </div>
             )}
 
-            {selectedValue == 1 && (
+            {selectedValue == 3 && (
               <div className="smr_lookBookImgDivMain">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
@@ -1395,6 +1417,7 @@ const Lookbook = () => {
                             display: "flex",
                             width: "30%",
                             height: "300px",
+                            position: 'relative'
                           }}
                         >
                           {ProdCardImageFunc(slide) ? (
@@ -1415,17 +1438,17 @@ const Lookbook = () => {
                               style={{
                                 height: "100%",
                                 width: "100%",
-                                ...getRandomBgColor(),
+                                ...getRandomBgColor(index),
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 cursor: "pointer",
                               }}
                             >
-                              <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                             </div>
                           )}
-                          {/* <p className="smr_designList_title">{slide?.TitleLine}</p> */}
+                          <p className="smr_lb1designList_title">{slide?.designsetno}</p>
                         </div>
 
                         <div
@@ -1449,15 +1472,15 @@ const Lookbook = () => {
                             }}
                           >
                             <p style={{ fontSize: "13px", margin: "2px" }}>
-                              DWT:
+                              DWT:{" "}
                               {calculateTotalUnitCostWithMarkUpDwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | GWT:
+                              | GWT:{" "}
                               {calculateTotalUnitCostWithMarkUpGWt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | NWT:
+                              | NWT:{" "}
                               {calculateTotalUnitCostWithMarkUpNwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
@@ -1474,14 +1497,20 @@ const Lookbook = () => {
                                 }}
                               >
                                 {" "}
-                                <span
+                                {/* <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                />{" "}
+                                /> */}
+                                <span
+                                className="smr_currencyFont"
+                              >
+                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                                &nbsp;
                                 {calculateTotalUnitCostWithMarkUp(
                                   JSON.parse(slide.Designdetail)
                                 )}
@@ -1593,7 +1622,7 @@ const Lookbook = () => {
               </div>
             )}
 
-            {selectedValue == 3 && (
+            {selectedValue == 1 && (
               <div className="smr_lookbook3MainDiv">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
@@ -1628,7 +1657,7 @@ const Lookbook = () => {
                                     style={{
                                       height: "100%",
                                       width: "100%",
-                                      ...getRandomBgColor(),
+                                      ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
@@ -1636,9 +1665,10 @@ const Lookbook = () => {
                                     }}
                                     className="smr_lb3ctl_img"
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor().color }}>{slide?.designsetno}</p>
+                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                                   </div>
                                 )}
+                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
                               </div>
                               <div
                                 className={
@@ -1665,6 +1695,15 @@ const Lookbook = () => {
                                       border: "1px solid #e1e1e1",
                                       backgroundColor: "#fff",
                                     }}
+                                    onClick={() =>
+                                      handleNavigation(
+                                        ele?.designno,
+                                        ele?.autocode,
+                                        ele?.TitleLine
+                                          ? ele?.TitleLine
+                                          : ""
+                                      )
+                                    }
                                   >
                                     <div
                                       className="smr_lookbookMainDivdata"
@@ -1695,16 +1734,36 @@ const Lookbook = () => {
                                           className="smr_lb3srthelook_prodinfo_inner"
                                         >
                                           <p>
-                                            {ele?.designno} - {ele?.CategoryName}
+                                            <span>
+                                              {ele?.designno} - {ele?.CategoryName}
+                                            </span>
                                             <br />
-                                            <span
+                                            <span className='smr_lb3detailDT'>NWT : </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>GWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>DWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>CWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            <br />
+                                            {/* <span
                                               className="smr_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
                                                   storeInit?.Currencysymbol
                                                 ),
                                               }}
-                                            />
+                                            /> */}
+                                            <span
+                                              className="smr_currencyFont"
+                                            >
+                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                            &nbsp;
                                             {ele?.UnitCostWithMarkUp}
                                           </p>
                                         </div>

@@ -40,6 +40,9 @@ const Payment = () => {
     };
     console.log('orderreamrk', orderRemark);
 
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
     useEffect(() => {
         const orderRemakdata = localStorage.getItem("orderRemark");
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -161,14 +164,19 @@ const Payment = () => {
                             <div className='smr_paymenttotalpricesummary'>
                                 <p>Subtotal</p>
                                 <p>
-                                    <span
+                                    {/* <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
                                                 CurrencyData
                                             ),
                                         }}
-                                    />
+                                    /> */}
+
+                                    <span className="smr_currencyFont">
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>&nbsp;
+
                                     <span>{totalprice}</span>
                                 </p>
                             </div>
@@ -189,14 +197,17 @@ const Payment = () => {
                             <div className='smr_paymenttotalpricesummary'>
                                 <p>Estimated Total</p>
                                 <p>
-                                    <span
+                                    {/* <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
                                                 CurrencyData
                                             ),
                                         }}
-                                    />
+                                    /> */}
+                                    <span className="smr_currencyFont">
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>&nbsp;
                                     <span>{finalTotal}</span>
                                 </p>
                             </div>

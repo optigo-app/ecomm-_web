@@ -870,8 +870,8 @@ const SalesReport = () => {
         >
           <Button
             variant="contained"
-            sx={{ background: "#7d7f85" }}
-            className="muiSmilingRocksBtn"
+            sx={{ background: "#f0e0e0" }}
+            className="muiSmilingRocksBtnDTS"
             onClick={(eve) => resetAllFilters(eve)}
           >
             All
@@ -982,11 +982,11 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtn"
+            className="muiSmilingRocksBtnDTS"
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
-              background: "#7d7f85",
+              background: "#f0e0e0",
             }}
             onClick={(eve) =>
               handleSearch(
@@ -999,7 +999,7 @@ const SalesReport = () => {
               )
             }
           >
-            <SearchIcon sx={{ color: "#fff !important" }} />
+            <SearchIcon sx={{ color: "black !important" }} />
           </Button>
         </Box>
         <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
@@ -1028,11 +1028,11 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtn"
+            className="muiSmilingRocksBtnDTS"
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
-              background: "#7d7f85",
+              background: "#f0e0e0",
             }}
             onClick={(eve) =>
               handleSearch(
@@ -1045,7 +1045,7 @@ const SalesReport = () => {
               )
             }
           >
-            <SearchIcon sx={{ color: "#fff !important" }} />
+            <SearchIcon sx={{ color: "black !important" }} />
           </Button>
         </Box>
       </Box>
@@ -1057,7 +1057,7 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWebQ">
             <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead

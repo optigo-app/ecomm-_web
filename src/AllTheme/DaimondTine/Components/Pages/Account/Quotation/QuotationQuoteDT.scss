@@ -38,10 +38,11 @@
     position: relative;
 }
 
-.salesApiTableQWeb thead>tr:first-child {
+.salesApiTableQWebQ thead>tr:first-child {
     position: sticky;
     top: 0;
-    background-color: rgb(235, 235, 235);
+    // background-color: rgb(235, 235, 235);
+    background-color: #f0e0e0 !important;
 }
 
 .salesApiSectionQWeb svg {
@@ -54,17 +55,20 @@
     line-height: 120%;
 }
 
-.muiSmilingRocksBtn {
-    border: 1px solid #7d7f85 !important;
+.muiSmilingRocksBtnDTQ {
+    border: none !important;
+    color: black !important;
+    // border: 1px solid #7d7f85 !important;
 }
 
-.muiSmilingRocksBtn:hover {
+.muiSmilingRocksBtnDTQ:hover {
     background: #fff !important;
-    color: #7d7f85;
+    // color: #f0e0e0;
+    color: black !important;
 }
 
-.muiSmilingRocksBtn:hover svg {
-    color: #7d7f85 !important;
+.muiSmilingRocksBtnDTQ:hover svg {
+    color: black !important;
 }
 
 .AllQuoteBtn {

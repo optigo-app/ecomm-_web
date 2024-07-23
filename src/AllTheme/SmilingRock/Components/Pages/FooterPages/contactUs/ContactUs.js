@@ -69,7 +69,8 @@ export default function ContactUs() {
             const body = {
                 "con": "{\"id\":\"\",\"mode\":\"CONTACTUS\"}",
                 "f": "CONTACTUS (handlesubmit)",
-                p: encodedCombinedValue
+                p: encodedCombinedValue,
+                dp:combinedValue
             };
             const response = await CommonAPI(body);
             if (response) {
@@ -96,7 +97,7 @@ export default function ContactUs() {
                 <div>
                     <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or queestion? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
+                        <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>
                     <div className='Fo-contactBoxMain'>
                         <div className='Fo-contactBox1'>
@@ -210,7 +211,7 @@ export default function ContactUs() {
                                     {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
                                 </div>
                                 <div className="address">
-                                    {/* {activeTab === 'M1' && (
+                                    {activeTab === 'M1' && (
                                         <div>
                                             <p>Kayra Creation Limited</p>
                                             <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
@@ -218,7 +219,7 @@ export default function ContactUs() {
                                             <p>+852-52482000</p>
                                             <p>sales@kayracreation.com</p>
                                         </div>
-                                    )} */}
+                                    )}
                                     {/* {activeTab === 'M3' && (
                                         <div>
                                             <p>Find Us - Locate us on Map</p>

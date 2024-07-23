@@ -14,13 +14,13 @@
     }
 
     .smiling_Top_header_div1 {
-        width: 33.33%;
+        width: 35%;
         display: flex;
         align-items: center;
     }
 
     .smiling_Top_header_div2 {
-        width: 33.33%;
+        width: 30%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -32,7 +32,7 @@
     }
 
     .smiling_Top_header_div3 {
-        width: 33.33%;
+        width: 35%;
         justify-content: flex-end;
         display: flex;
         align-items: center;
@@ -330,6 +330,7 @@
 
     .smr_showDropOptionMainDiv {
         overflow: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .smr_showDropOptionMainDiv::-webkit-scrollbar {

@@ -34,7 +34,8 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
             colorstonepricelistname: colorstonepricelistname,
             SettingPriceUniqueNo: SettingPriceUniqueNo,
             domain:storeInit?.domain ?? "",
-            IsPLW: storeInit?.IsPLW
+            IsPLW: storeInit?.IsPLW,
+            CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
         });
 
         console.log('combinedValuecombinedValue...', combinedValue);

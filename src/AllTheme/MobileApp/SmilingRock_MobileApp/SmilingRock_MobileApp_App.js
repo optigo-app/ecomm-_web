@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Header from './Components/Pages/Home/Header/Header'
 import { Route, Routes, useLocation } from 'react-router-dom'
@@ -21,8 +21,8 @@ import OrderHistory from './Components/Pages/Account/AccountOrderHistory/OrderHi
 import ManageAddress from './Components/Pages/Account/address/ManageAddress';
 import ChangePassword from './Components/Pages/Account/changePassword/ChangePassword';
 import SearchPage from './Components/Pages/SearchPage/SearchPage'
-import { smrMA_loginState } from './Components/Recoil/atom'
-import { useRecoilValue } from 'recoil'
+import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import MobileViewComp from './Components/Pages/Account/MobileViewComps/MobileViewComp';
 import QuotationQuote from './Components/Pages/Account/QuotationQuote/QuotationQuote';
@@ -35,6 +35,22 @@ const SmilingRock_MobileApp_App = () => {
 
   const location = useLocation();
   const islogin = useRecoilValue(smrMA_loginState)
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo);
+
+  useEffect(() => {
+    let data = localStorage.getItem("storeInit");
+    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let logo = JSON?.parse(data);
+    if (Logindata) {
+      if (Logindata?.IsPLWOn == 1) {
+        setCompanyTitleLogo(Logindata?.Private_label_logo);
+      } else {
+        setCompanyTitleLogo(logo?.companylogo);
+      }
+    } else {
+      setCompanyTitleLogo(logo?.companylogo);
+    }
+  });
 
   return (
     <div>

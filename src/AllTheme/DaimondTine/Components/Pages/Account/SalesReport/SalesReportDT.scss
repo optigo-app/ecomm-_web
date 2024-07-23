@@ -44,8 +44,8 @@
     padding-right: 0;
 }
 
-.salesReportTableSecWeb table thead tr:first-child {
-    background: #eaeaeb;
+.salesReportTableSecWebQ table thead tr:first-child {
+    background: #f0e0e0 !important;
 }
 
 /* .salesReporttabelHead th{
@@ -67,6 +67,23 @@
 
 .salesReportImgSec {
     margin-bottom: 20px !important;
+}
+
+
+.muiSmilingRocksBtnDTS {
+    border: none !important;
+    color: black !important;
+    // border: 1px solid #7d7f85 !important;
+}
+
+.muiSmilingRocksBtnDTS:hover {
+    background: #fff !important;
+    // color: #f0e0e0;
+    color: black !important;
+}
+
+.muiSmilingRocksBtnDTS:hover svg {
+    color: black !important;
 }
 
 @media(max-width: 768px){

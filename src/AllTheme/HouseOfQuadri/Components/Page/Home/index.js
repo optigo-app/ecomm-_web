@@ -12,11 +12,9 @@ import ScrollTriggerTab from "./ScrollTriggerTab/ScrollTriggerTab";
 import SocialTab from "./SocialTab/SocialTab";
 import FaqSection from "./FaQSection/FaqSection";
 import InfoSection from "./InfoSection/InfoSection";
-import ChatMenu from "./ChatMenu/ChatMenu";
 const HomePage = () => {
   return (
     <div className="hoq_main_homepage">
-      <ChatMenu/>
       <TopSlider />   
       <TabSection />
       <Collection />

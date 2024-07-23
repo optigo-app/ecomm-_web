@@ -87,8 +87,8 @@ const CartPage = () => {
                     handleMoveToDetail={handleMoveToDetail}
                   />
                 </div>
-                <div className="smr_cart-right-side">
-                  <div className='smr_mobile-cartDetails'>
+                <div className="smrmo_cart-right-side">
+                  <div className='smrmo_mobile-cartDetails'>
                     <MobileCartDetails
                       open={openMobileModal}
                       handleClose={handlecloseMobileModal}
@@ -124,9 +124,9 @@ const CartPage = () => {
               </div>
             ) :
               <div className='smrMo_noCartlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
+                <p className='smrmo_title'>No Data Found!</p>
+                <p className='smrmo_desc'>Please First Add Data in cart</p>
+                <button className='smrmo_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
               </div>
             }
           </>

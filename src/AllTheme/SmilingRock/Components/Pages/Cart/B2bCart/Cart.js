@@ -76,6 +76,7 @@ const CartPage = () => {
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const islogin = useRecoilValue(loginState);
+  const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
@@ -107,17 +108,15 @@ const CartPage = () => {
     setDialogOpen(true);
   };
 
-  const handleConfirmRemoveAll = () => {
+
+  const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    handleRemoveAll();
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
+    const returnValue = await handleRemoveAll();
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   };
 
   const handleCloseDialog = () => {
@@ -269,7 +268,7 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className={sizeCombo?.rd?.length !== 0 ? "smr_cart-right2-side" : "smr_cart-right-side"}>
                   {isLargeScreen ? (
                     <div className='smr_pc-cartDetail'>
                       {selectedItem && (

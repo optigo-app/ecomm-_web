@@ -529,7 +529,7 @@ const DesignWiseSalesReport = () => {
         <Box className="designWiseSalesReport">
             <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                    <Button variant="contained" sx={{ background: "#f0e0e0" }} className='muiSmilingRocksBtnDT' onClick={eve => resetAllFilters(eve)}>All</Button>
                 </Box>
            
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
@@ -590,10 +590,10 @@ const DesignWiseSalesReport = () => {
                 </Box>
 
                 <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
-                    <Button variant='contained' className='muiSmilingRocksBtn'
-                        sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+                    <Button variant='contained' className='muiSmilingRocksBtnDT'
+                        sx={{ padding: "7px 10px", minWidth: "max-content", background: "#f0e0e0" }}
                         onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                        <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                        <SearchIcon sx={{ color: "black !important" }} /></Button>
                 </Box>
 
                 <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
@@ -783,7 +783,8 @@ const DesignWiseSalesReport = () => {
                                 color: "#7d7f85",
                                 position: "relative",
                                 zIndex: 0,
-                                background: "#c0bbb133",
+                                // background: "#c0bbb133",
+                                background: "white",
                             }}
                             className="smilingProductImageBox designWiseSalesReportProduct"
                         >
