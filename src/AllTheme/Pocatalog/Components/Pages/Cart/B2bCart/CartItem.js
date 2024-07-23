@@ -101,8 +101,8 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
-      <Card className='smr_cartListCard'
+      className='procat_cartListCardGrid'>
+      <Card className='procat_cartListCard'
         key={item?.id}
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
@@ -112,7 +112,7 @@ const CartItem = ({
         }}
         onClick={() => onSelect(item)}
       >
-        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="procat_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
@@ -120,33 +120,33 @@ const CartItem = ({
             className='smrProCat_cartListImage'
           />
           <div>
-            <CardContent className='smr_cartcontentData'>
-              <Typography variant="body2" className='smr_DesignNoTExt'>
+            <CardContent className='procat_cartcontentData'>
+              <Typography variant="body2" className='procat_DesignNoTExt'>
                 {item?.designno}
               </Typography>
-              <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div className='procat_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='procat_card-ContentData'>
                     NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='procat_card-ContentData'>
                     CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='procat_card-ContentData'>
                     GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='procat_card-ContentData'>
                     DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
               </div>
-              <Box className="smr_PriceBox">
+              <Box className="procat_PriceBox">
                 {storeInitData?.IsPriceShow == 1 &&
-                  <span className='smr_currencyFontPrice'>
+                  <span className='procat_currencyFontPrice'>
                     <span
-                      className="smr_currencyFont"
+                      className="procat_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
@@ -158,16 +158,16 @@ const CartItem = ({
                 }
               </Box>
             </CardContent>
-            <Box className="smr_cartbtngroupReRm">
+            <Box className="procat_cartbtngroupReRm">
               {item?.Remarks !== "" &&
-                <Typography variant="body2" className='smr_card-ContentData'>
+                <Typography variant="body2" className='procat_card-ContentData'>
                   Remark: {item?.Remarks || productRemark}
                 </Typography>
               }
-              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+              <Link className='procat_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              <Link className='procat_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>

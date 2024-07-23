@@ -1,5 +1,5 @@
 import React from 'react';
-import './smr_cartPage.scss';
+import './procat_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
@@ -33,13 +33,13 @@ const CartDetails = ({
 
   console.log('selectediTem', selectedItem);
   return (
-    <div className="smr_cart-container">
-      <div className="smr_Cart-imageDiv">
-        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
+    <div className="procat_cart-container">
+      <div className="procat_Cart-imageDiv">
+        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='procat_cartImage' /> */}
         <img 
         src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
         alt="image" 
-        className='smr_cartImage'  
+        className='procat_cartImage'  
         onClick={() => handleMoveToDetail(selectedItem)}
         />
       </div>
