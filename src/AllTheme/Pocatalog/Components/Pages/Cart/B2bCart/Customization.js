@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './smr_cartPage.scss';
+import './procat_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 
@@ -43,11 +43,11 @@ const Customization = ({
   }, [])
 
   return (
-    <div className="smr_Cart_R-details">
-      <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+    <div className="procat_Cart_R-details">
+      <p className='procat_cart-Titleline'>{selectedItem?.TitleLine}</p>
       <Divider />
       {storeInitData?.IsProductWebCustomization == 1 &&
-        <div className="smr_Cart-options">
+        <div className="procat_Cart-options">
           {storeInitData?.IsMetalCustomization == 1 &&
             <div className="option">
               <label htmlFor="metal-type">Metal Type:</label>
@@ -132,14 +132,14 @@ const Customization = ({
           }
         </div>
       }
-      <div className='smr_cartQtyPricemainDev'>
+      <div className='procat_cartQtyPricemainDev'>
         <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
         {storeInitData?.IsPriceShow == 1 &&
           <div className="product-price">
             {!ispriceloding ? (
               <span>
                 <span
-                  className="smr_currencyFont"
+                  className="procat_currencyFont"
                   dangerouslySetInnerHTML={{
                     __html: decodeEntities(
                       CurrencyData?.Currencysymbol
@@ -149,13 +149,13 @@ const Customization = ({
                 {(selectedItem?.FinalCost)}
               </span>
             ) :
-              <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+              <Skeleton className='procat_CartSkelton' variant="text" width="80%" animation="wave" />
             }
           </div>
         }
       </div>
-      <div className='smr_UpdateCartBtn'>
-        <button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
+      <div className='procat_UpdateCartBtn'>
+        <button className="procat_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
       </div>
     </div>
   );

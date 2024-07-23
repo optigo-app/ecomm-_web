@@ -408,7 +408,16 @@ color: $primaryfontcolor2;
 
 .smr_Price_breakup_label{
     width:70px;
-    color: #7d7f85
+    color: #7d7f85;
+    font-family: $primaryFontFamily;
+}
+
+.smr_currencyFont{
+    font-family: $primaryFontFamily;
+}
+
+.smr_PriceBreakup_Price{
+    font-family: $primaryFontFamily;
 }
 
 .smr_prodDetail_backtotop{

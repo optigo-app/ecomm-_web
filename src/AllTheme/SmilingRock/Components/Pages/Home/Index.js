@@ -45,7 +45,7 @@ function Home() {
   return (
     <>
     <div className='smiling_home_index_main'>
-      <div style={{ minHeight: '700px' }}>
+      <div>
         {localData?.Blockno === 1 &&
           <div className='smiling_home_index_Submain'>
             <TopSection />
@@ -61,32 +61,32 @@ function Home() {
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />
-            <BrandsComponent/>
+            {/* <BrandsComponent/> */}
             <Footer />
           </div>
         }
       </div>
-      {/* <div style={{ minHeight: '700px' }}>
-        {localData?.Blockno === 1 &&
+      <div>
+        {localData?.Blockno === 2 &&
           <div className='smiling_home_index_Submain'>
             <TopSection />
             <TheDifference />
             <PromotionBaner2 />
             {localData?.IsHomeAlbum === 1 && <Album1 />}
             {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-            <DaimondEveyone />
-            <ShopByCategory />
+            {/* <DaimondEveyone /> */}
+            {/* <ShopByCategory /> */}
             {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             {localData?.IsHomeTrending === 1 && <TrendingView1 />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
-            <SustainAbility />
-            <BestSaller />
+            {/* <SustainAbility /> */}
+            {/* <BestSaller /> */}
             <BottomBanner />
             <BrandsComponent/>
             <Footer />
           </div>
         }
-      </div> */}
+      </div>
 
       {/* <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
         {localData?.Blockno === 2 &&
