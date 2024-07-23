@@ -356,7 +356,8 @@ export default function LoginWithEmail() {
               type={showConfirmPassword ? "text" : "password"}
               autoComplete="current-password"
               className="smr_loginPasswordBox"
-              style={{ margin: "15px" }}
+              // style={{ margin: "15px" }}
+              style={{ margin: "15px"}} 
               value={confirmPassword}
               onChange={(e) =>
                 handleInputChange(e, setConfirmPassword, "confirmPassword")

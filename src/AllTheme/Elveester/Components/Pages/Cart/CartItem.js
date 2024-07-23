@@ -1,5 +1,5 @@
-import React from 'react';
-import './smr_cartPage.scss';
+import React, { useEffect, useState, useRef } from 'react';
+import './elv_cartPage.scss';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,60 +9,199 @@ import Grid from '@mui/material/Grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { green } from '@mui/material/colors';
+import { useSetRecoilState } from 'recoil';
+import { Box, Checkbox, useMediaQuery } from '@mui/material';
+import noImageFound from "../../Assets/image-not-found.jpg"
+import { el_CartCount } from '../../Recoil/atom';
+import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import { Link } from 'react-router-dom';
+import RemarkDialog from './OrderRemarkDialog';
+import ItemRemarkDialog from './ItemRemarkDialog';
 
-const CartItem = ({ item, onSelect, isSelected, multiSelect, onRemove, itemLength }) => {
+const CartItem = ({
+  item,
+  index,
+  CartCardImageFunc,
+  onSelect,
+  CurrencyData,
+  showRemark1,
+  decodeEntities,
+  isSelected,
+  selectedItem,
+  selectedItemsLength,
+  isActive,
+  border,
+  handleBorder,
+  multiSelect,
+  onRemove,
+  itemLength,
+  showRemark,
+  productRemark,
+  handleAddRemark,
+  handleRemarkChange,
+  handleSave,
+  handleCancel,
+  openHandleUpdateCartModal }) => {
 
-  console.log('itemLength---', item);
+  const [remark, setRemark] = useState(item.Remarks || '');
+  const [isSelectedItems, setIsSelectedItems] = useState();
+  const [countstatus, setCountStatus] = useState();
+  const setCartCountVal = useSetRecoilState(el_CartCount)
+  const [storeInitData, setStoreInitData] = useState();
+  const [open1, setOpen1] = useState(false);
+
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
+
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+
+  useEffect(() => {
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
+    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
+    setCountStatus(isCartUpdateStatus)
+  }, [onRemove])
+
+  const handleRemarkChangeInternal = (e) => {
+    setRemark(e.target.value);
+    handleRemarkChange(e);
+  };
+
+  const handleSaveInternal = () => {
+    handleSave(item, remark);
+    handleClose1();
+  };
+
+  useEffect(() => {
+    handleIsSelected()
+  }, [isSelected])
+
+  const handleIsSelected = () => {
+    let isselected = selectedItem?.id == item?.id
+    console.log('isselectedItems', isselected);
+    setIsSelectedItems(isselected)
+  }
+
+  const handleRemoveItem = () => {
+    onRemove(item)
+    setTimeout(() => {
+      if (countstatus) {
+        GetCountAPI().then((res) => {
+          console.log('responseCount', res);
+          setCartCountVal(res?.cartcount);
+        })
+      }
+    }, 500)
+  }
+
+  const [pressing, setPressing] = useState(false);
+  const pressTimer = useRef(null);
+
+  const handlePress = (action) => {
+    return () => {
+      // if (!multiSelect && selectedItemsLength === 0) return;
+      // else if (multiSelect && selectedItemsLength === 0) return;
+      pressTimer.current = setTimeout(() => {
+        // openHandleUpdateCartModal();
+        // console.log('selectedItemsssssss', selectedItemsLength);
+        alert('Long Pressed Detected...')
+      }, 5000);
+      setPressing(action === 'start');
+    };
+  }
+
+  const cancelPress = () => {
+    clearTimeout(pressTimer.current);
+    setPressing(false);
+  };
+
+  function truncateText(text, maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  }
+
+  const width = isLargeScreen && itemLength <= 3 ? '390px' :
+    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
+      '100%';
+
 
   return (
-    <Grid item xs={12} sm={itemLength !== 1 ? 6 : 12} md={itemLength !== 1 ? 6 : 12}>
-      <Card className='smr_cartListCard'
-        sx={{
-          maxWidth: 250,
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: '10px',
-          boxShadow: isSelected ? 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important' : 'none',
+    // <Grid item
+    //   xs={12}
+    //   sm={itemLength <= 2 ? 6 : 6}
+    //   md={itemLength <= 2 ? 6 : 6}
+    //   lg={itemLength <= 2 ? 6 : 4}
+    //   xxl={itemLength <= 2 ? 6 : 3}
+    // >
+    <>
+      <div className='elv_ProductCards'
+        onClick={() => onSelect(item)}
+        onMouseDown={handlePress('start')}
+        onMouseUp={cancelPress}
+        onMouseLeave={cancelPress}
+        onTouchStart={handlePress('start')}
+        onTouchEnd={cancelPress}
+        style={{
+          border: isSelectedItems ? '1px solid brown' : '1px solid #e1e1e1'
         }}
-        onClick={() => onSelect(item)}>
-        <CardActionArea style={{ flexGrow: 1 }} > 
-          <CardMedia
-            component="img"
-            image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
-            alt={item?.TitleLine}
-            className='smr_cartListImage'
+      >
+
+        <div className='elv_cardImage_div' >
+          <img className='elv_cardImage_img' src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt=""
+          onClick={() => handleIsSelected()}
           />
-          <CardContent>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-              <div>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  NWT: {item?.MetalWeight}
-                </Typography>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  GWT: {item?.totalGrossweight}
-                </Typography>
-                <Typography variant="body2" className='smr_card-ContentData'>
-                  DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
-                </Typography>
-              </div>
-            </div>
-            <div className='designNocartList'>
-              <p className='smr_DesignNoTExt'>{item?.designno}</p>
-            </div>
-          </CardContent>
-        </CardActionArea>
-        <div className='closeCartIconDiv'>
-          <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(item); }}/>
         </div>
-        {isSelected && multiSelect && <CheckCircleIcon sx={{ color: green[500], position: 'absolute', top: 30, left: 8 }} />}
-      </Card>
-    </Grid>
+        <div className='elv_ProductCard_details'>
+          <div className="elv_Product_details" onClick={() => onSelect(item)}>
+            <div>
+              <span className='elv_ProdDesignno'>{item?.designno}</span>
+              <div className='elv_ProdWeights_div'>
+                <div className='elv_ProdWt1_div'>
+                  <div>
+                    <span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                  </div>
+                  <div>
+                    <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px' }}>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                  </div>
+                </div>
+                <div className='elv_ProdWt1_div'>
+                  <div >
+                    <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500' }}>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                  </div>
+                  <div >
+                    <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500' }}>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                  </div>
+                </div>
+              </div>
+              <div className='elv_itemsRemark_div'>
+
+                <div className='elv_remarks_remove_div'>
+                  {item?.Remarks !== "" && (
+                    <Typography variant="body2" className='elv_remarktext'>
+                      <span>Remark:</span> <span>{truncateText(item?.Remarks || productRemark, 40)}</span>
+                    </Typography>
+                  )}
+                  <span className='elv_remark_modal_title' onClick={handleOpen1}>{item?.Remarks ? 'Edit Remark' : 'Add Remark'}</span>
+                  <span className='elv_remove_items' onClick={handleRemoveItem}>Remove</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ItemRemarkDialog
+          handleClose1={handleClose1}
+          open1={open1}
+          remark={remark}
+          onRemarkChange={handleRemarkChangeInternal}
+          onSave={handleSaveInternal}
+        />
+      </div>
+    </>
+    // </Grid>
   );
 };
 
