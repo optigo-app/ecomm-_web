@@ -84,6 +84,24 @@
     font-family: $primaryFontFamily;
   }
 
+  .smr_lb3BuyComboDiv {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+
+    button {
+      height: 35px;
+      width: 150px;
+      border: none;
+      font-weight: 500;
+      border-radius: 3px;
+      color: #7d7f85;
+      border: 1px solid #7d7f85;
+      background: none;
+      border-radius: 6px;
+    }
+  }
+
   .smrlookBookPopuMain .MuiBox-root {
     padding: 10px !important;
   }
@@ -524,6 +542,7 @@
       padding: 0 50px !important;
     }
   }
+
   @media(max-width: 500px) {
     .smr_lb3ctlImg_containe {
       width: 400px !important;
@@ -538,6 +557,7 @@
       height: 300px !important;
       // height: 100% !important;
     }
+
     .smr_lb3compeletethelook_prodt {
       margin-left: 0px !important;
       width: 300px;
