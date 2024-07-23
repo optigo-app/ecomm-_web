@@ -627,6 +627,8 @@ const ProductDetail = () => {
             setisPriceLoading(false)
             setProdLoading(false)
             setIsDataFound(true)
+          }else{
+            setIsDataFound(false)
           }
 
           setDiaList(res?.pdResp?.rd3)
@@ -684,9 +686,9 @@ const ProductDetail = () => {
       behavior: "smooth",
     });
 
-  }, [location?.key,]);
+  }, [location?.key]);
 
-  // console.log("location", location);
+  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1496,7 +1498,7 @@ const ProductDetail = () => {
                               // className="filtercategoryLable"
                               
                             >
-                              <Typography>Price Breakup</Typography>
+                              <Typography sx={{fontFamily:"TT Commons Regular",fontSize:'18px'}}>Price Breakup</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1527,87 +1529,87 @@ const ProductDetail = () => {
                               </table> */}
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Metal</Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
                               <span style={{display:'flex'}}>
                               <Typography>
                                 {
-                                  <span className="smr_currencyFont">
+                                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                   </span>
                                 }
                               </Typography>
                                &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                              <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Diamond </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                               }</Typography>
                               &nbsp;
-                               <Typography className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Stone </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">MISC </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Labour </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Other </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{
                               formatter.format((
 
                                 (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 

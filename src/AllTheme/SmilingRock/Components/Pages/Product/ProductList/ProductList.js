@@ -2284,11 +2284,11 @@ const ProductList = () => {
                   )}
 
                   <div className="smr_mainPortion">
-                    <div className="smr_filter_portion">
+                    <div className="smr_filter_portion" style={{marginTop:'20px'}}>
                       <div className="empty_sorting_div">
                         <span
                           className="smr_breadcums_port "
-                          style={{ marginLeft: "72px" }}
+                          // style={{ marginLeft: "72px" }}
                           onClick={() => {
                             navigate("/");
                           }}
@@ -3087,8 +3087,8 @@ const ProductList = () => {
                                           />
                                           :
                                           <img
-                                            className="smr_productCard_Image"
-                                            id={`smr_productCard_Image${productData?.autocode}`}
+                                            className="smr_productListCard_Image"
+                                            id={`smr_productListCard_Image${productData?.autocode}`}
                                             // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                                             // src={ ProdCardImageFunc(productData,0)}
                                             src={
@@ -3097,7 +3097,7 @@ const ProductList = () => {
                                                 : productData?.images?.length > 0
                                                   ? productData?.images[0]
                                                   : imageNotFound
-                                            }
+                                                }
                                             alt=""
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
