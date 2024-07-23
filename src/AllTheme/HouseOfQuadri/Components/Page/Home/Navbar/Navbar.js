@@ -12,9 +12,17 @@ import CartDrawer from "../../Cart/DrawerCart/CartDrawer";
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
-import { Hoq_loginState } from "../../../Recoil/atom";
+import {
+  Hoq_CartCount,
+  Hoq_WishCount,
+  Hoq_loginState,
+} from "../../../Recoil/atom";
 import { useRecoilState } from "recoil";
 import Cookies from "js-cookie";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Badge } from "@mui/material";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import Pako from "pako";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +38,11 @@ const Navbar = () => {
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
+  const [LoggedUserDetails, setLoggedUserDetails] = useState();
 
+  const [cartCountNum, setCartCountNum] = useRecoilState(Hoq_CartCount);
+  const [wishCountNum, setWishCountNum] = useRecoilState(Hoq_WishCount);
+  const [searchText, setSearchText] = useState("");
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const currentScrollY = window.scrollY;
@@ -77,7 +89,6 @@ const Navbar = () => {
   useEffect(() => {
     fetchData();
   }, [islogin]);
-
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -136,6 +147,7 @@ const Navbar = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
+    setLoggedUserDetails(loginUserDetail);
     let finalId;
 
     if (IsB2BWebsite === 0) {
@@ -150,7 +162,6 @@ const Navbar = () => {
       })
       .catch((err) => console.log(err));
   };
-
 
   const handleMenu = (param, param1, param2) => {
     console.log("first");
@@ -200,26 +211,83 @@ const Navbar = () => {
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(
-      menuEncoded
-    )}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
     navigate(url);
   };
   useEffect(() => {
-    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
+    const visiterID = Cookies.get("visiterId");
+    GetCountAPI(visiterID)
+      .then((res) => {
+        if (res) {
+          setCartCountNum(res?.cartcount);
+          setWishCountNum(res?.wishcount);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("getCountApiErr", err);
+        }
+      });
+  }, []);
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const searchDataFucn = (e) => {
+    if (e.key === "Enter") {
+      if (searchText) {
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: loginInfo?.MetalId ?? storeInit?.MetalId,
+          d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+          c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+          f: {},
+        };
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+        navigate(`/d/${searchText}?p=${encodeObj}`);
+        // toggleOverlay();
+        setSearchText("");
+        setshowSearchBar(!showSearchBar);
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+        // }
+      }
+    }
+  };
+  useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
 
     console.log("callll");
-
+    console.log(LoggedUserDetails);
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -229,7 +297,6 @@ const Navbar = () => {
     } else {
       return;
     }
-
   }, [islogin]);
   return (
     <div
@@ -241,8 +308,10 @@ const Navbar = () => {
     >
       <div className="nav_top_head">
         <span className="contact_icon">
-          <IoIosCall color="red" size={19} />
-          Contact
+          <a href="tel:0123456789">
+            <IoIosCall color="red" size={19} />
+            Contact
+          </a>
         </span>
       </div>
       <nav className="navbar">
@@ -251,6 +320,9 @@ const Navbar = () => {
           setisMobileMenu={setisMobileMenu}
           setshowSearchBar={setshowSearchBar}
           showSearchBar={showSearchBar}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          searchDataFucn={searchDataFucn}
         />
         <NavbarCenter
           MainLogo={MainLogo}
@@ -267,6 +339,9 @@ const Navbar = () => {
           open={() => setshowSearchBar(!showSearchBar)}
           islogin={islogin}
           handleLogout={handleLogout}
+          user={LoggedUserDetails?.firstname}
+          wishCountNum={wishCountNum}
+          cartCountNum={cartCountNum}
         />
       </nav>
       <div className="nav_bottom_head">MEET US ON 10TH JULY IN PUNE</div>
@@ -281,6 +356,9 @@ const NavbarleftSlide = ({
   isMobileMenu,
   setshowSearchBar,
   showSearchBar,
+  searchText,
+  setSearchText,
+  searchDataFucn,
 }) => {
   return (
     <>
@@ -290,7 +368,13 @@ const NavbarleftSlide = ({
           onClick={() => setshowSearchBar(!showSearchBar)}
         />
         {showSearchBar && (
-          <SearchBar closeSearch={() => setshowSearchBar(!showSearchBar)} />
+          <SearchBar
+            closeSearch={() => setshowSearchBar(!showSearchBar)}
+            showSearchBar={showSearchBar}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            searchDataFucn={searchDataFucn}
+          />
         )}
         <CiMenuFries
           className="search_icon icons mobile-Ham"
@@ -309,16 +393,82 @@ const NavbarRightSide = ({
   HaveItem,
   open,
   handleLogout,
+  user,
+  wishCountNum,
+  cartCountNum,
 }) => {
   return (
     <>
       <div className="nav_right">
+        {islogin && (
+          <>
+            <span className="loggedUser">Hey , </span>{" "}
+            <small className="loggesUserName"> {user}</small>{" "}
+          </>
+        )}
+
+        <Link to={"/wishlist"}>
+          <Badge
+            style={{ size: "2px" }}
+            sx={{
+              "& .MuiBadge-badge": {
+                fontSize: "10px",
+                padding: "7px",
+                borderRadius: "4px",
+                marginRight: "7px",
+                marginTop: "-2px",
+                bgcolor: "#C20000",
+                width: 0,
+                height: 0,
+              },
+            }}
+            badgeContent={wishCountNum}
+            color="primary"
+          >
+            <CiHeart className="wishlist_icon icons" />
+          </Badge>
+        </Link>
+
+        <CiSearch className="search_icon icons mobile-search" onClick={open} />
+        <Badge
+          style={{ size: "2px" }}
+          sx={{
+            "& .MuiBadge-badge": {
+              fontSize: "10px",
+              padding: "7px",
+              borderRadius: "4px",
+              marginRight: "7px",
+              marginTop: "-2px",
+              bgcolor: "#C20000",
+              width: 0,
+              height: 0,
+            },
+          }}
+          badgeContent={cartCountNum}
+          color="primary"
+        >
+          <Link to={"/cart"}>
+            <PiBagSimpleThin
+              className="Cart_icon icons "
+              // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+            />
+          </Link>
+        </Badge>
+
+        {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
+        {showDrawer && (
+          <CartDrawer
+            width={showDrawer}
+            close={() => setshowDrawer(!showDrawer)}
+          />
+        )}
         {islogin ? (
           <button
             onClick={handleLogout}
+            className="logout_btn_hoq icons"
             style={{ border: "none", backgroundColor: "transparent" }}
           >
-            LogOut
+            <LogoutIcon className="logoout_h" />
           </button>
         ) : (
           <Link to={"/LoginOption"}>
@@ -326,22 +476,6 @@ const NavbarRightSide = ({
               Login
             </small>
           </Link>
-        )}
-        <Link to={"/wishlist"}>
-          <CiHeart className="wishlist_icon icons" />
-        </Link>
-
-        <CiSearch className="search_icon icons mobile-search" onClick={open} />
-        <PiBagSimpleThin
-          className="Cart_icon icons "
-          onClick={() => setshowDrawer(!showDrawer)}
-        />
-        {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
-        {showDrawer && (
-          <CartDrawer
-            width={showDrawer}
-            close={() => setshowDrawer(!showDrawer)}
-          />
         )}
       </div>
     </>
@@ -374,6 +508,7 @@ const NavbarCenter = ({
           <ul>
             {menuItems?.map((menuItem, i) => {
               const { menuname, param1 } = menuItem;
+            
               return (
                 <React.Fragment key={i}>
                   <li>
@@ -391,26 +526,33 @@ const NavbarCenter = ({
                     {param1 && (
                       <IoChevronDown className="chevron-downn-mobile" />
                     )}
-                    {param1?.length > 0 && (
-                      <ul className="submenu">
-                        {param1?.map(
-                          ({ param1dataname, param2, param1name }, j) => (
-                            <li>
-                              <span
-                                onClick={() =>
-                                  handleMenu(
-                                    {
-                                      menuname: menuname,
-                                      key: menuItem?.param0name,
-                                      value: menuItem?.param0dataname,
-                                    },
-                                    { key: param1name, value: param1dataname }
-                                  )
-                                }
-                              >
-                                {param1dataname}
-                              </span>
-                              {param2 && (
+                    {param1 &&
+                      param1?.length > 0 &&
+                      param1[0].param1name !== "" && (
+                        <ul className="submenu">
+                          {param1[0].param1name === ""
+                            ? "no"
+                            : param1?.map(
+                                ({ param1dataname, param1name }, j) => (
+                                  <li>
+                                    <span
+                                      onClick={() =>
+                                        handleMenu(
+                                          {
+                                            menuname: menuname,
+                                            key: menuItem?.param0name,
+                                            value: menuItem?.param0dataname,
+                                          },
+                                          {
+                                            key: param1name,
+                                            value: param1dataname,
+                                          }
+                                        )
+                                      }
+                                    >
+                                      {param1dataname}
+                                    </span>
+                                    {/* {param2 && (
                                 <ul className="sub_submenu">
                                   {param2?.map(
                                     ({ param2dataname, param2name }, j) => (
@@ -440,12 +582,12 @@ const NavbarCenter = ({
                                     )
                                   )}
                                 </ul>
+                              )} */}
+                                  </li>
+                                )
                               )}
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
+                        </ul>
+                      )}
                   </li>
                 </React.Fragment>
               );
@@ -457,11 +599,33 @@ const NavbarCenter = ({
   );
 };
 
-const SearchBar = ({ closeSearch }) => {
+const SearchBar = ({
+  closeSearch,
+  showSearchBar,
+  searchText,
+  setSearchText,
+  searchDataFucn,
+}) => {
+  const searchInputRef = useRef(null);
+  useEffect(() => {
+    if (showSearchBar && searchInputRef.current) {
+      searchInputRef.current.focus();
+    } else {
+      setSearchText("");
+    }
+  }, [showSearchBar]);
   return (
     <div className="SearchBar">
       <IoSearchOutline size={24} />{" "}
-      <input type="text" placeholder="Search our Store" />
+      <input
+        type="text"
+        ref={searchInputRef}
+        placeholder="Enter Design Number"
+        value={searchText}
+        autoFocus
+        onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={searchDataFucn}
+      />
       <button onClick={closeSearch}>
         <TfiClose size={18} />
       </button>

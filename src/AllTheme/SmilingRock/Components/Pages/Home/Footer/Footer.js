@@ -36,8 +36,6 @@ const Footer = ({ fromPage }) => {
 
   }, [])
 
-
-  console.log('socialMediaDatasocialMediaDatasocialMediaData',socialMediaData);
   return (
     <div>
     {storeinit?.IsPLW == 0 &&
