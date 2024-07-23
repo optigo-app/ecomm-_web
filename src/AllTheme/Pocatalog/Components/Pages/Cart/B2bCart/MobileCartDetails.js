@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import './smr_cartPage.scss';
+import './procat_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -54,22 +54,22 @@ const MobileCartDetails = ({
   }, [])
 
   return (
-    <Modal open={open} onClose={handleClose} className="smr_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smr_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
-        <div className="smr_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="procat_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="procat_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
+        <div className="procat_Cart-imageDiv">
           <img 
           src={CartCardImageFunc(selectedItem)} 
           alt="Cluster Diamond" 
-          className='smr_cartImage' 
+          className='procat_cartImage' 
           onClick={() => handleMoveToDetail(selectedItem)}
           style={{border:'none'}} 
           />
         </div>
-        <div className="smr_Cart_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="procat_Cart_R-details">
+          <p className='procat_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="smr_Cart-options">
+            <div className="procat_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -154,14 +154,14 @@ const MobileCartDetails = ({
               }
             </div>
           }
-          <div className='smr_cartQtyPricemainDev' style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className='procat_cartQtyPricemainDev' style={{ display: 'flex', flexDirection: 'column' }}>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
                     <span
-                      className="smr_currencyFont"
+                      className="procat_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
@@ -171,13 +171,13 @@ const MobileCartDetails = ({
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
-                  <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='procat_CartSkelton' variant="text" width="80%" animation="wave" />
                 )}
               </div>
             }
           </div>
-          <div className='smr_UpdateCartBtn'>
-            <Button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+          <div className='procat_UpdateCartBtn'>
+            <Button className="procat_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
           </div>
           <div style={{ color:'#7d7f85', position:'absolute', top:0,right:0 }} onClick={handleClose}>
             <CloseIcon />

@@ -56,7 +56,7 @@ const TopSection = () => {
         </video>
       )}
 
-      {localData?.Blockno === 2 && (
+      {localData?.Blockno === 3 && (
         <div>
           <img
             src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`}
