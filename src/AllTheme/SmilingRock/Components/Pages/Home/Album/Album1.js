@@ -87,6 +87,7 @@ const Album1 = () => {
                             key={album?.Albumid}
                             spaceBetween={10}
                             slidesPerView={5}
+                            lazy={true}
                             navigation={JSON?.parse(album?.Designdetail).length > 5 ? true : false}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
