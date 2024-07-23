@@ -47,7 +47,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
   const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
 
   const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
-  const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.email1 ?? "";
+  const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.userid ?? "";
 
   // let diaQc = findDiaQcId(obj?.dia ?? loginInfo?.cmboDiaQCid)[0]
   // let csQc = findCsQcId(obj?.cs ?? loginInfo?.cmboCSQCid)[0]

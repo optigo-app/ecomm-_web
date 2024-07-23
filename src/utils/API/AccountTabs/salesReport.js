@@ -10,7 +10,7 @@ export const getSalesReportData = async(currencyRate, FrontEnd_RegNo, customerid
           const encodedCombinedValue = btoa(combinedValue);
           const encodedCombinedValue2 = (combinedValue);
           const body = {
-            con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data.email1}\"}`,
+            con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data?.userid}\"}`,
             f: "zen (cartcount)",
             p: encodedCombinedValue,
             dp: encodedCombinedValue2,
