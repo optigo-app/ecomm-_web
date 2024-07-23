@@ -28,7 +28,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import { FaEye, FaFilter } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
-
+import Cookies from 'js-cookie'
 
 const ProductList = () => {
 
@@ -59,9 +59,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? "");
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? "");
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? "");
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
@@ -77,9 +77,14 @@ const ProductList = () => {
   const [locationKey,setLocationKey] = useState()
 
 
-
+  const [prodListType, setprodListType] = useState();
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
+  let cookie = Cookies.get('visiterId')
+  const [sliderValue, setSliderValue] = useState([]);
+  const [sliderValue1, setSliderValue1] = useState([]);
+  const [sliderValue2, setSliderValue2] = useState([]);
+  const [sortBySelect, setSortBySelect] = useState();
 
 
   // useEffect(()=>{
@@ -218,6 +223,17 @@ const ProductList = () => {
   };
 
   useEffect(() => {
+    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
+    setSelectedMetalId(mtid)
+    
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
+    setSelectedDiaId(diaid)
+
+    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    setSelectedCsId(csid)
+  }, [])
+
+  useEffect(() => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
@@ -267,13 +283,13 @@ const ProductList = () => {
 
   useEffect(() => {
 
-    const fetchData = async() =>{
-      
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    const fetchData = async () => {
 
-    let UrlVal =  location?.search.slice(1).split("/")
+      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    console.log("URLVal",UrlVal);
+      let UrlVal = location?.search.slice(1).split("/")
+
+      // console.log("URLVal", UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -285,111 +301,125 @@ const ProductList = () => {
 
       let productlisttype;
 
-    UrlVal.forEach((ele)=>{
-      let firstChar = ele.charAt(0);
+      UrlVal.forEach((ele) => {
+        let firstChar = ele.charAt(0);
 
-      switch (firstChar) {
-        case 'M':
+        switch (firstChar) {
+          case 'M':
             MenuVal = ele;
             break;
-        case 'S':
+          case 'S':
             SearchVar = ele;
             break;
-        case 'T':
+          case 'T':
             TrendingVar = ele;
             break;
-        case 'N':
+          case 'N':
             NewArrivalVar = ele;
             break;
-        case 'B':
+          case 'B':
             BestSellerVar = ele;
             break;
-        case 'A':
+          case 'A':
             AlbumVar = ele;
             break;
-        default:
+          default:
             return '';
+        }
+      })
+
+      if (MenuVal?.length > 0) {
+        let menuDecode = atob(MenuVal?.split("=")[1])
+
+        let key = menuDecode?.split("/")[1].split(',')
+        let val = menuDecode?.split("/")[0].split(',')
+
+        setIsBreadcumShow(true)
+
+        productlisttype = [key, val]
       }
-    })
 
-    if(MenuVal){
+      if (SearchVar) {
+        productlisttype = SearchVar
+      }
 
-      let menuDecode = atob(MenuVal.split("=")[1])
+      if (TrendingVar) {
+        productlisttype = TrendingVar.split("=")[1]
+      }
+      if (NewArrivalVar) {
+        productlisttype = NewArrivalVar.split("=")[1]
+      }
 
-      let key = menuDecode.split("/")[1].split(',')
-      let val = menuDecode.split("/")[0].split(',')
+      if (BestSellerVar) {
+        productlisttype = BestSellerVar.split("=")[1]
+      }
 
-      setIsBreadcumShow(true)
+      if (AlbumVar) {
+        productlisttype = AlbumVar.split("=")[1]
+      }
 
-      productlisttype=[key,val]
-    }
-
-    if(SearchVar){
-      productlisttype = SearchVar
-    }
-
-    if(TrendingVar){
-      productlisttype = TrendingVar.split("=")[1]
-    }
-    
-    if(NewArrivalVar){
-      productlisttype = NewArrivalVar.split("=")[1]
-    }
-
-    if(BestSellerVar){
-      productlisttype = BestSellerVar.split("=")[1]
-    }
-
-    if(AlbumVar){
-      productlisttype = AlbumVar.split("=")[1]
-    }
-    
-    setIsProdLoading(true)
-    //  if(location?.state?.SearchVal === undefined){ 
-      await ProductListApi({},1,obj,productlisttype)
+      setIsProdLoading(true)
+      //  if(location?.state?.SearchVal === undefined){ 
+      setprodListType(productlisttype)
+      await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
-            console.log("productList",res);
+            // console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
           return res;
         })
-        .then( async(res) => {
-          let forWardResp;
-          if (res) {
-            await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
-              if(resp){
-               console.log("productPriceData",resp);
+        // .then( async(res) => {
+        //   let forWardResp;
+        //   if (res) {
+        //     await GetPriceListApi(1,{},{},res?.pdResp?.rd1[0]?.AutoCodeList,obj,productlisttype).then((resp)=>{
+        //       if(resp){
+        //        console.log("productPriceData",resp);
 
-                setPriceListData(resp)
-                forWardResp = resp;
-              }
-            })
-          }
-          return forWardResp
-        }).then(async(forWardResp)=>{
+        //         setPriceListData(resp)
+        //         forWardResp = resp;
+        //       }
+        //     })
+        //   }
+        //   return forWardResp
+        // })
+        .then(async (res) => {
           let forWardResp1;
-          if(forWardResp){
-            await FilterListAPI(productlisttype).then((res)=>{
+          if (res) {
+            await FilterListAPI(productlisttype, cookie).then((res) => {
               setFilterData(res)
+
+              let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+              let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+              let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+
+              // console.log("diafilter",diafilter);
+              setSliderValue([diafilter?.Min, diafilter?.Max])
+              setSliderValue1([diafilter1?.Min, diafilter1?.Max])
+              setSliderValue2([diafilter2?.Min, diafilter2?.Max])
+
               forWardResp1 = res
-            }).catch((err)=>console.log("err",err))
+            }).catch((err) => console.log("err", err))
           }
           return forWardResp1
-        }).finally(()=> {
+        }).finally(() => {
           setIsProdLoading(false)
           setIsOnlyProdLoading(false)
+          window.scroll({
+            top: 0,
+            behavior: 'smooth'
+          })
         })
         .catch((err) => console.log("err", err))
 
       // }
-      
+
     }
 
     fetchData();
 
-    if(location?.key){
+    if (location?.key) {
       setLocationKey(location?.key)
     }
 
@@ -554,39 +584,41 @@ const ProductList = () => {
     return output
   }
   
-  useEffect(()=>{
-   let output = FilterValueWithCheckedOnly()
-   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
-   
-  //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    if(location?.key === locationKey){
+  useEffect(() => {
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+    // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
+
+    if (location?.key === locationKey) {
       setIsOnlyProdLoading(true)
-       ProductListApi(output,1,obj)
-         .then((res) => {
-           if (res) {
-             setProductListData(res?.pdList);
-             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-           }
-           return res;
-         })
-         .then( async(res) => {
-           if (res) {
-             await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-               if(resp){
-                 setPriceListData(resp)  
-               }
-             })
-           }
-           return res
-         })
-         .catch((err) => console.log("err", err)).finally((res)=>{setIsOnlyProdLoading(false)})
-       }
-        // .then(async(res)=>{
-        //   if(res){
-        //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-        //   }
-        // })
-      // }
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        //  .then( async(res) => {
+        //    if (res) {
+        //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+        //        if(resp){
+        //          setPriceListData(resp)  
+        //        }
+        //      })
+        //    }
+        //    return res
+        //  })
+        .catch((err) => console.log("err", err)).finally(() => { setIsOnlyProdLoading(false) })
+    }
+    // .then(async(res)=>{
+    //   if(res){
+    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+    //   }
+    // })
+    // }
 
   }, [filterChecked])
 
@@ -595,8 +627,10 @@ const ProductList = () => {
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
-
   const handelPageChange = (event, value) => {
+
+    // console.log("pagination",value);
+
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
     setIsProdLoading(true)
@@ -607,7 +641,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi(output, value, obj)
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -615,23 +649,22 @@ const ProductList = () => {
         }
         return res;
       })
-      .then(async (res) => {
-        if (res) {
-          await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
-            if (resp) {
-              setPriceListData(resp)
-            }
-          })
-        }
-        return res
-      })
+      // .then(async (res) => {
+      //   if (res) {
+      //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+      //       if (resp) {
+      //         setPriceListData(resp)
+      //       }
+      //     })
+      //   }
+      //   return res
+      // })
       .catch((err) => console.log("err", err)).finally(() => {
         setTimeout(() => {
           setIsProdLoading(false)
         }, 100);
       })
   }
-
   const handleCartandWish = (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -691,38 +724,27 @@ const ProductList = () => {
 
 
   const handelCustomCombo = (obj) => {
-
     let output = FilterValueWithCheckedOnly()
-    
-    if(location?.state?.SearchVal === undefined){
+    if (location?.state?.SearchVal === undefined) {
       setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .then( async(res) => {
-            if (res) {
-              await GetPriceListApi(currPage,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-                if(resp){
-                  setPriceListData(resp)  
-                }
-              })
-            }
-            return res
-          })
-          .catch((err) => console.log("err", err))
-          .finally(()=>{
-            setTimeout(() => {
-              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
-              setIsOnlyProdLoading(false)
-            }, 100);
-          })
+      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setTimeout(() => {
+            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+            setIsOnlyProdLoading(false)
+          }, 100);
+        })
     }
   }
+
 
   useEffect(() => {
 
