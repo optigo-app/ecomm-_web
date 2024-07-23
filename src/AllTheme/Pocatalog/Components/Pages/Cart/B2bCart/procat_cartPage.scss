@@ -20,7 +20,7 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 // Top button Group code
-.smr_cartMainPage {
+.procat_cartMainPage {
   display: flex;
   gap: 20px;
   margin-bottom: -8%;
@@ -30,14 +30,14 @@ $cartUpdateBtncolor: #b1b1b1;
   text-align: center;
   padding-top: 40px;
 
-  .smr_cart-title {
+  .procat_cart-title {
     color: $titleColor;
     padding-bottom: 35px;
     font-size: $fontSize8;
     // font-family: $homePageFontColor;
   }
 
-  // .smr_smiTopAddAllBtn {
+  // .procat_smiTopAddAllBtn {
   //   height: 60px;
   //   width: 150px;
   //   color: $btn1FontColor;
@@ -49,7 +49,7 @@ $cartUpdateBtncolor: #b1b1b1;
   //   justify-content: center;
   // }
 
-  .smr_cartButton-group {
+  .procat_cartButton-group {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
@@ -58,13 +58,13 @@ $cartUpdateBtncolor: #b1b1b1;
     margin-inline: 6%;
     font-family: $homePageFontFamily !important;
 
-    .smr_ReomoveAllCartbtn {
+    .procat_ReomoveAllCartbtn {
       text-transform: capitalize !important;
       color: $titleColor !important;
       text-decoration-color: $titleColor !important;
     }
 
-    .smr_cartBtn {
+    .procat_cartBtn {
       height: 60px;
       width: 150px;
       font-family: $homePageFontFamily !important;
@@ -75,7 +75,7 @@ $cartUpdateBtncolor: #b1b1b1;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 
-      &.smr_cartActivebtn {
+      &.procat_cartActivebtn {
         background-color: $btn1ActivebgColor;
         color: $btn1hoverFontColor;
       }
@@ -87,14 +87,14 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_placeOrderMainbtnDiv {
+  .procat_placeOrderMainbtnDiv {
     display: flex;
     justify-content: flex-end;
     margin: -50px 25px 0px 20px;
     padding-bottom: 50px;
   }
 
-  .smr_place-order-btn {
+  .procat_place-order-btn {
     font-family: $homePageFontFamily !important;
     background-color: $btn1hoverColor;
     color: $btn1hoverFontColor;
@@ -145,17 +145,17 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 @media (max-width: 1450px) {
-  .smr_placeOrderMainbtnDiv {
+  .procat_placeOrderMainbtnDiv {
     display: none !important;
   }
 }
 
 // cart Main Page layout
 
-.smr_cartMainPage {
+.procat_cartMainPage {
   display: flex;
 
-  .smr_cart-left-side {
+  .procat_cart-left-side {
     max-width: 75%;
     width: 75%;
     display: flex;
@@ -166,7 +166,7 @@ $cartUpdateBtncolor: #b1b1b1;
     overflow-x: hidden;
   }
 
-  .smr_cart-right-side {
+  .procat_cart-right-side {
     max-width: 25%;
     width: 25%;
     display: flex;
@@ -176,17 +176,17 @@ $cartUpdateBtncolor: #b1b1b1;
     // max-width: 450px;
   }
 
-  .smr_mobile-cartDetails {
+  .procat_mobile-cartDetails {
     display: none;
   }
 
-  .smr_currencyFontPrice {
+  .procat_currencyFontPrice {
     color: $titleColor !important;
     font-weight: bold;
   }
 
   @media (min-width: 1440px) {
-    .smr_mui_CartBox {
+    .procat_mui_CartBox {
       display: flex;
       justify-content: space-around;
     }
@@ -212,12 +212,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1599px) and (min-width: 1530px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 300px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 400px
       }
     }
@@ -229,12 +229,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1530px) and (min-width: 1500px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 280px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 350px
       }
     }
@@ -246,12 +246,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1499px) and (min-width: 1440px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 280px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 350px
       }
     }
@@ -263,12 +263,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1439px) and (min-width: 1400px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 270px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 340px
       }
     }
@@ -280,17 +280,17 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1399px) and (min-width: 1200px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 260px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 330px
       }
     }
 
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -303,17 +303,17 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1199px) and (min-width: 1140px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 260px;
       }
 
-      .smr_Cart_R-details {
+      .procat_Cart_R-details {
         max-width: 330px
       }
     }
 
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -326,31 +326,31 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1139px) and (min-width: 1040px) {
-    .smr_cart-left-sides {
+    .procat_cart-left-sides {
       max-width: 72%;
       width: 72%;
     }
 
-    .smr_cart-right-side {
+    .procat_cart-right-side {
       max-width: 28%;
       width: 28%;
     }
 
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .procat_cart-right-side {
+      .procat_Cart-imageDiv {
         max-width: 260px;
       }
 
-      .smr_CartCusto_R-details {
+      .procat_CartCusto_R-details {
         max-width: 300px
       }
     }
 
-    .smr_RightCartList {
+    .procat_RightCartList {
       margin: 5px 20px !important;
     }
 
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -364,11 +364,11 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
   @media (max-width: 1050px) {
-    .smr_pc-cartDetail {
+    .procat_pc-cartDetail {
       display: none !important;
     }
 
-    .smr_cart-left-side {
+    .procat_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
@@ -376,33 +376,33 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
 
-    .smr_mui_CartBox {
+    .procat_mui_CartBox {
       display: flex !important;
       flex-direction: row !important;
     }
 
-    .smr_cartcontentData {
+    .procat_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
 
-    .smr_cartbtngroupReRm {
+    .procat_cartbtngroupReRm {
       margin-top: 10px !important;
       right: 0 !important;
     }
 
-    .smr_ReomoveCartbtn {
+    .procat_ReomoveCartbtn {
       margin-right: 8px;
     }
   }
 
   @media (max-width: 886px) {
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 33.33333333333333% !important;
       max-width: 33.33333333333333% !important;
       flex-basis: 33.33333333333333% !important;
     }
 
-    .smr_mui_CartBox {
+    .procat_mui_CartBox {
       display: flex !important;
       flex-direction: column !important;
     }
@@ -412,7 +412,7 @@ $cartUpdateBtncolor: #b1b1b1;
       object-fit: contain;
     }
 
-    .smr_cartbtngroupReRm {
+    .procat_cartbtngroupReRm {
       right: 0 !important;
       left: 0;
       text-align: center;
@@ -420,33 +420,33 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 599px) {
-    .smr_cart-left-side {
+    .procat_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
       overflow: auto;
     }
 
-    .smr_pc-cartDetail {
+    .procat_pc-cartDetail {
       display: none;
     }
 
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
     }
 
-    .smr_mui_CartBox {
+    .procat_mui_CartBox {
       display: flex !important;
       flex-direction: column !important;
     }
 
-    .smr_cartcontentData {
+    .procat_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
 
-    .smr_cartbtngroupReRm {
+    .procat_cartbtngroupReRm {
       margin-top: 10px !important;
       right: 0 !important;
       left: 0;
@@ -456,52 +456,52 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 474px) {
-    .smr_cart-left-side {
+    .procat_cart-left-side {
       width: 100%;
       max-width: 100%;
       max-height: 100%;
       overflow: auto;
     }
 
-    .smr_pc-cartDetail {
+    .procat_pc-cartDetail {
       display: none;
     }
 
-    .smr_cartListCardGrid {
+    .procat_cartListCardGrid {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
     }
 
-    .smr_mui_CartBox {
+    .procat_mui_CartBox {
       display: flex !important;
       flex-direction: column !important;
     }
 
-    .smr_cartcontentData {
+    .procat_cartcontentData {
       padding: 5px 5px 20px 5px !important;
     }
 
-    .smr_cartbtngroupReRm {
+    .procat_cartbtngroupReRm {
       margin-top: 10px !important;
       right: 0px !important;
       left: 0;
       text-align: center;
     }
 
-    .smr_remarkModalBox {
+    .procat_remarkModalBox {
       width: 200px !important;
     }
 
   }
 
-  .smr_cartListCard {
-    .smr_card-ContentData {
+  .procat_cartListCard {
+    .procat_card-ContentData {
       padding: 2px 0px 2px 0px !important;
       font-size: 9px !important;
     }
   }
-  .smr_PriceBox{
+  .procat_PriceBox{
     margin-bottom: 10px !important;
   }
 }
@@ -509,13 +509,13 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
 @media (max-width: 1700px) and (min-width: 1200px) {
-  .smr_cartMainPage {
+  .procat_cartMainPage {
     gap: 0px;
   }
 }
 
 @media(max-width: 1050px) {
-  .smr_cartMainPage {
+  .procat_cartMainPage {
     display: block !important;
   }
 }
@@ -528,29 +528,29 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
 @media screen and (min-width: 1051px) {
-  .smr_mobile-cartDetails {
+  .procat_mobile-cartDetails {
     display: none !important;
   }
 
-  .smr_cart-modal {
+  .procat_cart-modal {
     display: none !important;
   }
 }
 
-.smr_cart-container {
+.procat_cart-container {
   height: 100%;
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.smr_cart-container::-webkit-scrollbar {
+.procat_cart-container::-webkit-scrollbar {
   display: none !important;
 }
 
 // cart Details SCSS code (cart right side)
 
-.smr_cart-container {
+.procat_cart-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -560,13 +560,13 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_Cart-imageDiv {
+.procat_Cart-imageDiv {
   display: flex;
   align-items: center;
   justify-content: center;
   max-width: 400px;
 
-  .smr_cartImage {
+  .procat_cartImage {
     max-width: 100%;
     border-radius: 10px;
     border: 1px solid rgb(225, 225, 225);
@@ -575,19 +575,19 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_Cart_R-details {
+.procat_Cart_R-details {
   padding: 0 20px;
   flex: 1;
   max-width: 600px;
 
-  .smr_cart-Titleline {
+  .procat_cart-Titleline {
     font-size: $fontSize6;
     margin-bottom: 20px;
     color: $titleColor;
     text-align: center;
   }
 
-  .smr_Cart-options {
+  .procat_Cart-options {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -616,14 +616,14 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_cartQtyPricemainDev {
+  .procat_cartQtyPricemainDev {
     display: flex;
     justify-content: space-between;
   }
 
   // cart quantity scss
 
-  .smr_cart-quantity {
+  .procat_cart-quantity {
     display: flex;
     width: 130px;
     height: 45px;
@@ -682,13 +682,13 @@ $cartUpdateBtncolor: #b1b1b1;
     justify-content: end;
   }
 
-  .smr_UpdateCartBtn {
+  .procat_UpdateCartBtn {
     display: flex;
     justify-content: flex-end;
     align-items: end;
   }
 
-  .smr_cartUpdate-button {
+  .procat_cartUpdate-button {
     display: block;
     height: 40px;
     width: 100px;
@@ -708,7 +708,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 }
 
-.smr_RightCartList {
+.procat_RightCartList {
   // display: flex;
   // justify-content: center;
   // align-items: center;
@@ -717,20 +717,20 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // cart list item css(left side)
 
-.smr_cartListCard {
+.procat_cartListCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   display: flex !important;
   justify-content: space-between !important;
   flex-direction: column !important;
 
-  .smr_DesignNoTExt {
+  .procat_DesignNoTExt {
     color: $titleColor;
     font-weight: bold;
     font-size: $fontSize1;
     font-family: $homePageFontFamily !important;
   }
 
-  .smr_card-ContentData {
+  .procat_card-ContentData {
     color: $titleColor;
     font-size: $fontSize0 !important;
     font-family: $homePageFontFamily;
@@ -746,26 +746,26 @@ $cartUpdateBtncolor: #b1b1b1;
   object-fit: cover;
 }
 
-.smr_cartcontentData {
+.procat_cartcontentData {
   padding: 16px 0px !important;
 }
 
-.smr_cartlistdetails {
+.procat_cartlistdetails {
   font-size: 10px !important;
 }
 
-.smr_cartbtngroupReRm {
+.procat_cartbtngroupReRm {
   position: absolute;
   bottom: 5px;
 
-  .smr_ItemRemarkbtn,
-  .smr_ReomoveCartbtn {
+  .procat_ItemRemarkbtn,
+  .procat_ReomoveCartbtn {
     color: #c1c1c1 !important;
     font-size: $fontSize1;
   }
 
 
-  .smr_ItemRemarkbtn {
+  .procat_ItemRemarkbtn {
     margin-right: 20px;
   }
 }
@@ -773,27 +773,27 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // update cart modal
 
-.smr_modal {
+.procat_modal {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.smr_Modal-cardList {
+.procat_Modal-cardList {
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
 }
 
-.smr_Modal-FilterList {
+.procat_Modal-FilterList {
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
 }
 
-.smr_paper {
+.procat_paper {
   position: relative;
   width: 1200px;
   max-width: 1200px;
@@ -804,36 +804,36 @@ $cartUpdateBtncolor: #b1b1b1;
 
 }
 
-.smr_Modal_Title {
+.procat_Modal_Title {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 
-  .smr_Modal_TitleTypo {
+  .procat_Modal_TitleTypo {
     color: $titleColor;
     margin: 0;
   }
 }
 
-.smr_closeIcon {
+.procat_closeIcon {
   position: absolute;
   top: 8px;
   right: 8px;
 }
 
-.smr_cartmodal_body {
+.procat_cartmodal_body {
   margin-top: 20px;
 }
 
-.smr_cart-Accordian {
+.procat_cart-Accordian {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
 }
 
-.smr_Cart-prCard {
+.procat_Cart-prCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
 }
 
-.smr_ShortCutCombo-section {
+.procat_ShortCutCombo-section {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -846,31 +846,31 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_cartModal-Divider {
+.procat_cartModal-Divider {
   margin: 10px 0px 20px 0px;
 }
 
-.smr_filter-AccrodianDetails {
+.procat_filter-AccrodianDetails {
   display: flex !important;
   justify-content: space-between !important;
 }
 
-.smr_cart-Accordion {
-  .smr_FilterTitle {
+.procat_cart-Accordion {
+  .procat_FilterTitle {
     color: $titleColor;
     font-weight: 500;
     font-size: $fontSize4;
     font-family: $homePageFontFamily;
   }
 
-  .smr_filterAccordianDeatilTitle {
+  .procat_filterAccordianDeatilTitle {
     color: $titleColor;
     font-size: $fontSize3;
     font-family: $homePageFontFamily;
     padding-left: 10px;
   }
 
-  .smr_filterCheckbox {
+  .procat_filterCheckbox {
     color: $titleColor;
     font-size: $fontSize3;
     font-family: $homePageFontFamily;
@@ -879,25 +879,25 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // customization ui
 
-.smr_projectRemark {
+.procat_projectRemark {
   max-width: 600px;
   padding: 5px 40px 20px 20px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
 }
 
-.smr_remarkTitle {
+.procat_remarkTitle {
   color: $titleColor;
   font-size: $fontSize4;
   font-weight: bold;
 }
 
-.smr_prRemarkText {
+.procat_prRemarkText {
   color: $titleColor;
   font-size: $fontSize2;
 }
 
-.smr_AddReamrkBtn {
+.procat_AddReamrkBtn {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -917,7 +917,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_product-remark {
+.procat_product-remark {
   margin: 15px 0px 15px 0px;
 
   label {
@@ -937,7 +937,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_projectRemarkBtn-group {
+.procat_projectRemarkBtn-group {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -950,7 +950,7 @@ $cartUpdateBtncolor: #b1b1b1;
     cursor: pointer;
   }
 
-  .smr_remarksave-btn {
+  .procat_remarksave-btn {
     background-color: $cartUpdateBtncolor;
     color: $btn1hoverFontColor;
 
@@ -959,7 +959,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_remarkcancel-btn {
+  .procat_remarkcancel-btn {
     background-color: $btn1bgColor;
     color: $btn1FontColor;
     border: 1px solid $titleColor;
@@ -970,7 +970,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_projectUpdateCartBtn-group {
+.procat_projectUpdateCartBtn-group {
   display: flex !important;
   justify-content: end !important;
   gap: 10px;
@@ -983,7 +983,7 @@ $cartUpdateBtncolor: #b1b1b1;
     cursor: pointer;
   }
 
-  .smr_cartUpdate-btn {
+  .procat_cartUpdate-btn {
     background-color: $cartUpdateBtncolor;
     color: $btn1hoverFontColor;
 
@@ -992,7 +992,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_cartCancel-btn {
+  .procat_cartCancel-btn {
     background-color: $btn1bgColor;
     color: $btn1FontColor;
     border: 1px solid $titleColor;
@@ -1003,12 +1003,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_CartSkelton {
+.procat_CartSkelton {
   background-color: #f6f6f6 !important;
 }
 
 
-.smr_remarkModalBox {
+.procat_remarkModalBox {
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -1016,7 +1016,7 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 @media (max-width: 768px) {
-  .smr_remarkModalBox {
+  .procat_remarkModalBox {
     width: 95%;
     max-width: 100%;
     min-width: 0;

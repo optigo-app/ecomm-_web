@@ -4,7 +4,7 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './smr_cartPage.scss';
+import './procat_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link, useMediaQuery } from '@mui/material';
@@ -115,28 +115,28 @@ const CartPage = () => {
     <div className='ProCat_MainBGDiv'>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          <div className="smr_cart-title">My Cart</div>
+          <div className="procat_cart-title">My Cart</div>
           {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr_cartButton-group">
-                {/* <button className="smr_cartBtn smr_cartActivebtn">List View</button> */}
-                {/* <button className='smr_cartBtn'>Image View</button> */}
-                {/* <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='smr_ReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
+              <div className="procat_cartButton-group">
+                {/* <button className="procat_cartBtn procat_cartActivebtn">List View</button> */}
+                {/* <button className='procat_cartBtn'>Image View</button> */}
+                {/* <button className='procat_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
+                <Link className='procat_ReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
                   Clear All
                 </Link>
-                {/* <button className='smr_cartBtn'>Show ProductList</button> */}
+                {/* <button className='procat_cartBtn'>Show ProductList</button> */}
 
-                {/* <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
+                {/* <button className='procat_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
                 {multiSelect && selectedItems.length != 0 &&
-                  <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+                  <button className='procat_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
                 <div className='smrProcat_placeOrderMobileMainbtnDiv'>
                   <button className="smrProcat_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              <div className='smr_placeOrderMainbtnDiv'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='procat_placeOrderMainbtnDiv'>
+                <button className="procat_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
           }
@@ -144,8 +144,8 @@ const CartPage = () => {
         {!isloding ? (
           <>
             {cartData.length !== 0 ? (
-              <div className="smr_cartMainPage">
-                <div className="smr_cart-left-side">
+              <div className="procat_cartMainPage">
+                <div className="procat_cart-left-side">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -164,9 +164,9 @@ const CartPage = () => {
                     handleCancel={handleCancel}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className="procat_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='smr_pc-cartDetail'>
+                    <div className='procat_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -191,7 +191,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='smr_mobile-cartDetails'>
+                    <div className='procat_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -227,10 +227,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noWishlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Data in cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='procat_noWishlistData'>
+                <p className='procat_title'>No Data Found!</p>
+                <p className='procat_desc'>Please First Add Data in cart</p>
+                <button className='procat_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
