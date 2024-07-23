@@ -627,6 +627,8 @@ const ProductDetail = () => {
             setisPriceLoading(false)
             setProdLoading(false)
             setIsDataFound(true)
+          }else{
+            setIsDataFound(false)
           }
 
           setDiaList(res?.pdResp?.rd3)
@@ -684,9 +686,9 @@ const ProductDetail = () => {
       behavior: "smooth",
     });
 
-  }, [location?.key,]);
+  }, [location?.key]);
 
-  // console.log("location", location);
+  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
