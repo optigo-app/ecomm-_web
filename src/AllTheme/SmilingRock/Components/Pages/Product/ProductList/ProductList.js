@@ -3097,7 +3097,7 @@ const ProductList = () => {
                                                 : productData?.images?.length > 0
                                                   ? productData?.images[0]
                                                   : imageNotFound
-                                            }
+                                                }
                                             alt=""
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
