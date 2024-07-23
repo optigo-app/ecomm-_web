@@ -50,6 +50,11 @@
   .smr_loginPasswordBox {
     width: 420px;
     margin: 10px;
+    input[type="password"]{
+      font-size: 2rem;
+      padding: 5px 13px;
+      
+    }
   }
 
   @media screen and (max-width: 950px) {

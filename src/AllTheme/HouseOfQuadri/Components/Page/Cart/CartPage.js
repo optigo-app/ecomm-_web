@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import B2bCart from "./B2bCart/Cart";
+import CartDrawer from './DrawerCart/CartDrawer';
 
 const CartPage = () => {
-  return (
-    <div>CartPage</div>
-  )
-}
+    const [storeInitData, setStoreInitData] = useState(null);
+    useEffect(() => {
+        const storeInit = JSON?.parse(localStorage?.getItem('storeInit'));
+        setStoreInitData(storeInit);
+    }, []);
 
-export default CartPage
+    return (
+        <div>
+            {storeInitData && storeInitData?.IsB2BWebsite == 1 ? (
+                <B2bCart />
+            ) : (
+                <CartDrawer />
+            )}
+        </div>
+    );
+};
+
+export default CartPage;
