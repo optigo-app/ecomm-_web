@@ -1024,40 +1024,40 @@ const ProductDetail = () => {
                       </>
                     )}
                     {SizeCombo?.length > 0 && (
-                    <>
-                      <div>
+                      <>
                         <div>
-                          <div style={{
-                            margin: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: 'column',
-                            border: "none",
-                            paddingBottom: '8px'
-                          }}>
-                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
-                            {singleProd?.IsMrpBase == 1 ?
-                              <span className="elv_metaltype_span">
-                                {singleProd?.DefaultSize}
-                              </span>
-                              :
-                              <select
-                                className="elv_metaltype_drp"
-                                value={sizeData}
-                                onChange={(e) => handleCustomChange(e, 'size')}
-                              >
-                                {SizeCombo?.rd?.map((ele) => (
-                                  <option key={ele?.id} value={ele?.sizename}>
-                                    {ele?.sizename}
-                                  </option>
-                                ))}
-                              </select>}
+                          <div>
+                            <div style={{
+                              margin: 1,
+                              width: "95%",
+                              display: "flex",
+                              justifyContent: "center",
+                              flexDirection: 'column',
+                              border: "none",
+                              paddingBottom: '8px'
+                            }}>
+                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
+                              {singleProd?.IsMrpBase == 1 ?
+                                <span className="elv_metaltype_span">
+                                  {singleProd?.DefaultSize}
+                                </span>
+                                :
+                                <select
+                                  className="elv_metaltype_drp"
+                                  value={sizeData}
+                                  onChange={(e) => handleCustomChange(e, 'size')}
+                                >
+                                  {SizeCombo?.rd?.map((ele) => (
+                                    <option key={ele?.id} value={ele?.sizename}>
+                                      {ele?.sizename}
+                                    </option>
+                                  ))}
+                                </select>}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </>
-                  )}
+                      </>
+                    )}
                   </div>
                   <div className='elv_ProductDet_prod_price'>
                     <span className='elv_ProductDet_prod_price_1'>
@@ -1241,7 +1241,7 @@ const ProductDetail = () => {
                       </div>
                     </>
                   )}
-                  {SizeCombo?.length > 0 && (
+                  {SizeCombo?.rd?.length > 0 && (
                     <>
                       <div>
                         <div>

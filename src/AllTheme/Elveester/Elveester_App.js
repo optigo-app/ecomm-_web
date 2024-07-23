@@ -15,6 +15,10 @@ import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/Log
 import Register from './Components/Pages/Auth/Registretion/Register'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
+import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
+import PaymentPage from './Components/Pages/OrderFlow/PaymentPage/PaymentPage'
+import ConfirmationPage from './Components/Pages/OrderFlow/ConfirmationPage/ConfirmationPage'
+import Wishlist from './Components/Pages/Wishlist/Wishlist'
 
 const SmilingRock_App = () => {
 
@@ -48,9 +52,12 @@ const SmilingRock_App = () => {
                 <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/cartPage" element={<CartDetails />} />
+                <Route path="/myWishList" element={<Wishlist />} />
+                <Route path="/Delivery" element={<Delivery />} />
+                <Route path="/payment" element={<PaymentPage />} />
+                <Route path="/Confirmation" element={<ConfirmationPage />} />
                 <Route path="/p/*" element={<ProductList />} />
                 <Route path="/d/*" element={<ProductDetail />} />
-                {/* <Route path="/menu" element={<Menubar />} /> */}
             </Routes>
             {showFooter && <Footer />}
         </div>
