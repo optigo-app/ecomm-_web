@@ -44,10 +44,10 @@ const Customization = ({
 
   return (
     <div className="smrMo_Cart_R-details">
-      <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+      <p className='smrmo_cart-Titleline'>{selectedItem?.TitleLine}</p>
       <Divider />
       {storeInitData?.IsProductWebCustomization == 1 &&
-        <div className="smr_Cart-options">
+        <div className="smrmo_Cart-options">
           {storeInitData?.IsMetalCustomization == 1 &&
             <div className="option">
               <label htmlFor="metal-type">Metal Type:</label>
@@ -132,14 +132,14 @@ const Customization = ({
           }
         </div>
       }
-      <div className='smr_cartQtyPricemainDev'>
+      <div className='smrmo_cartQtyPricemainDev'>
         <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
         {storeInitData?.IsPriceShow == 1 &&
           <div className="product-price">
             {!ispriceloding ? (
               <span>
                 <span
-                  className="smr_currencyFont"
+                  className="smrmo_currencyFont"
                   dangerouslySetInnerHTML={{
                     __html: decodeEntities(
                       CurrencyData?.Currencysymbol
@@ -149,13 +149,13 @@ const Customization = ({
                 {(selectedItem?.UnitCostWithmarkup)}
               </span>
             ) :
-              <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+              <Skeleton className='smrmo_CartSkelton' variant="text" width="80%" animation="wave" />
             }
           </div>
         }
       </div>
-      <div className='smr_UpdateCartBtn'>
-        <button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
+      <div className='smrmo_UpdateCartBtn'>
+        <button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
       </div>
     </div>
   );
