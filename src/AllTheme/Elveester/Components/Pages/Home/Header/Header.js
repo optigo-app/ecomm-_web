@@ -3,7 +3,7 @@ import './Header.modul.scss'
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
-import { el_companyLogo, el_loginState } from '../../../Recoil/atom';
+import { el_companyLogo, el_loginState,el_CartCount,el_WishCount } from '../../../Recoil/atom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
 import { Badge, ButtonBase, List, ListItem, Tooltip } from '@mui/material';
@@ -19,6 +19,8 @@ const Header = () => {
   const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const navigation = useNavigate();
   const [islogin, setislogin] = useRecoilState(el_loginState);
+  const cartCount = useRecoilState(el_CartCount);
+  const wishCount = useRecoilState(el_WishCount);
   const [burgerMenu, setBurgerMenu] = useState(false);
   const [chnageBG, setChnageBG] = useState(false);
   const navigate = useNavigate();
@@ -362,15 +364,17 @@ const Header = () => {
                       onMouseEnter={() => {
                         handleMouseEnter(index, item);
                       }}
-                      onMouseLeave={() => {
-                        handleMouseLeave();
-                      }}
-                      onClick={() =>
+                      // onMouseLeave={() => {
+                      //   handleMouseLeave();
+                      // }}
+                      onClick={() => {
                         handelMenu({
                           menuname: item?.manuname,
                           key: item?.param0name,
                           value: item?.param0dataname,
-                        })
+                        });
+                        handleMouseLeave(index);
+                      }
                       }
                     >
                       {item.menuname}
@@ -410,7 +414,7 @@ const Header = () => {
               {!burgerMenu && (
                 <>
                   <Badge
-                    badgeContent={"3"}
+                    badgeContent={wishCount}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
@@ -434,7 +438,7 @@ const Header = () => {
                     </Tooltip>
                   </Badge>
                   <Badge
-                    badgeContent={"3"}
+                    badgeContent={cartCount}
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
@@ -494,6 +498,7 @@ const Header = () => {
          className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}
          onMouseEnter={() => handleMouseEnter(hoveredIndex)}
          onMouseLeave={handleMouseLeave}
+         onClick={() => handleMouseLeave()}
         >
           <div
            style={{

@@ -38,9 +38,10 @@
 }
 
 .Fo-contactBox1InputBox {
-    height: 60px;
+    height: 50px !important;
     width: 300px;
     border: 1px solid #e1e1e1;
+    padding: 0px 5px;
 }
 
 .Fo-contactBox2 {
@@ -58,7 +59,7 @@
 
 .Fo-contactBox1BtnSub {
     height: 60px;
-    width: 250px;
+    width: 300px;
     margin-top: 30px;
     border: 0;
     background-color: #7d7f85;
@@ -134,7 +135,7 @@
         border-right: 0;
     }
     .Fo-contactBox1InputBox {
-        height: 60px;
+        height: 40px;
         width: 100%;
         border: 1px solid #e1e1e1;
     }

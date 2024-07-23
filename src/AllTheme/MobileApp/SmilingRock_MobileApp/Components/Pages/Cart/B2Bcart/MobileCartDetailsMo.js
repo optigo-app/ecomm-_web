@@ -54,13 +54,13 @@ const MobileCartDetails = ({
   }, [])
 
   return (
-    <Modal open={open} onClose={handleClose} className="smr_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smr_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
-        <div className="smr_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
+        <div className="smrmo_Cart-imageDiv">
           <img 
           src={CartCardImageFunc(selectedItem)} 
           alt="Cluster Diamond" 
-          className='smr_cartImage' 
+          className='smrmo_cartImage' 
           onClick={() => handleMoveToDetail(selectedItem)}
           style={{border:'none'}} 
           />
@@ -69,7 +69,7 @@ const MobileCartDetails = ({
           <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="smr_Cart-options">
+            <div className="smrmo_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -154,14 +154,14 @@ const MobileCartDetails = ({
               }
             </div>
           }
-          <div className='smr_cartQtyPricemainDev' style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className='smrmo_cartQtyPricemainDev' style={{ display: 'flex', flexDirection: 'column' }}>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
                     <span
-                      className="smr_currencyFont"
+                      className="smrmo_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
@@ -171,13 +171,13 @@ const MobileCartDetails = ({
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
-                  <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='smrmo_CartSkelton' variant="text" width="80%" animation="wave" />
                 )}
               </div>
             }
           </div>
-          <div className='smr_UpdateCartBtn'>
-            <Button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+          <div className='smrmo_UpdateCartBtn'>
+            <Button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
           </div>
           <div style={{ color:'#7d7f85', position:'absolute', top:0,right:0 }} onClick={handleClose}>
             <CloseIcon />

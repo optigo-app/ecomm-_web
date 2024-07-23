@@ -1,0 +1,105 @@
+.mainAffiliDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.smr_brandsCompoents{
+    color: rgba(29, 50, 88, 0.8) !important;
+    text-align: center;
+    font-size: 22px;
+    text-transform: capitalize;
+    line-height: 2px;
+    margin: 0 !important;
+    padding: 0;
+    padding-block: 3%;
+}
+.AffiliationComponents{
+    color: rgba(29, 50, 88, 0.8) !important;
+    text-align: center;
+    font-size: 22px;
+    text-transform: capitalize;
+    line-height: 2px;
+    margin: 0;
+    padding: 0;
+}
+
+.affilitionImg1{
+    max-width: 180px;
+    object-fit: contain;
+}
+
+.brandsComponentClass {
+    margin-bottom: -10%;
+}
+
+
+@media (min-width: 446px) and (max-width: 768px) {
+    .brandsComponentClass{
+        width: 100%;
+        overflow: auto;
+        display: flex  !important;
+        justify-content: start !important;
+    }
+    .AffiliationClassComponents{
+        width: 100%;
+        overflow: auto;
+        display: flex  !important;
+        justify-content: start !important;
+    }
+    .AffiliationComponents{
+        margin: 50px 0px 20px 0px !important
+    }
+    .mainAffiliDiv{
+        display: block !important;
+        text-align: center;
+    }
+    .affilitionImg{
+        width: 17% !important;
+        margin-right: 20px !important;
+    }
+
+    .affilitionImg1{
+        width: 17% !important;
+        margin-right: 20px !important;
+    }
+    .smr_brandsCompoents{
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 445px) {
+    .brandsComponentClass{
+        width: 100%;
+        overflow: auto;
+        display: flex  !important;
+        justify-content: start !important;
+    }
+    .AffiliationClassComponents{
+        width: 100%;
+        overflow: auto;
+        display: flex  !important;
+        justify-content: start !important;
+    }
+    .AffiliationComponents{
+        margin: 50px 0px 20px 0px !important
+    }
+    .mainAffiliDiv{
+        display: block !important;
+        text-align: center;
+    }
+    .affilitionImg{
+        width: 25% !important;
+        margin-right: 20px !important;
+    }
+
+    .affilitionImg1{
+        width: 25% !important;
+        margin-right: 20px !important;
+    }
+
+
+    .smr_brandsCompoents{
+        font-size: 16px;
+    }
+}

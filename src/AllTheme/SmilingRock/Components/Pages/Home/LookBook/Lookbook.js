@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Lookbook.modul.scss";
+import gradientColors from "./color.json"
 import {
   Accordion,
   AccordionDetails,
@@ -29,18 +30,25 @@ import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/
 import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, FreeMode, Navigation, Thumbs, Scrollbar } from "swiper/modules";
+import {
+  Pagination,
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Scrollbar,
+  Keyboard,
+  Mousewheel
+} from "swiper/modules";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import ProductListSkeleton from "../../Product/ProductList/productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import LocalMallIcon from '@mui/icons-material/LocalMall';
+import LocalMallIcon from "@mui/icons-material/LocalMall";
 
 import { RxGrid } from "react-icons/rx";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { TfiLayoutGrid3 } from "react-icons/tfi";
-
 
 const Lookbook = () => {
   let location = useLocation();
@@ -205,7 +213,7 @@ const Lookbook = () => {
     }
 
     let output = FilterValueWithCheckedOnly();
-    if (Object.keys(filterChecked)?.length > 0) {
+    if (Object.keys(filterChecked)?.length >= 0) {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output)
         .then((response) => {
           if (response?.Data?.rd) {
@@ -230,9 +238,14 @@ const Lookbook = () => {
       finalprodListimg =
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
-      finalprodListimg = imageNotFound;
+      finalprodListimg = null;
     }
     return finalprodListimg;
+  };
+
+  const getRandomBgColor = (index) => {
+    const colorsLength = gradientColors.length;
+    return gradientColors[index % colorsLength];
   };
 
   const parseDesignDetails = (details) => {
@@ -370,10 +383,10 @@ const Lookbook = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
-    const categoryOptions = JSON.parse(
-      filterData.find((item) => item.id === "category")?.options ?? "[]"
+    const categoryOptions = JSON?.parse(
+      filterData?.find((item) => item.id === "category")?.options ?? "[]"
     );
-    const categoryNames = categoryOptions.map((opt) => opt.Name);
+    const categoryNames = categoryOptions?.map((opt) => opt.Name);
     setSelectedCategories(categoryNames);
   }, [filterData]);
 
@@ -455,7 +468,7 @@ const Lookbook = () => {
     seyDataKey(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState("1");
+  const [selectedValue, setSelectedValue] = useState(1);
   // const handleChange = (event) => {
   //   setSelectedValue(event.target.value);
   // };
@@ -466,7 +479,6 @@ const Lookbook = () => {
       setThumbsSwiper(null);
     }
   };
-
 
   console.log(
     "filteredDesignSetLstDatafilteredDesignSetLstData",
@@ -529,14 +541,14 @@ const Lookbook = () => {
                           aria-controls="panel1-content"
                           id="panel1-header"
                           sx={{
-                            color: "#7f7d85",
+                            color: "#7d7f85 !imporatnt",
                             borderRadius: 0,
 
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
                           }}
-                          className="filtercategoryLable"
+                          // className="filtercategoryLable"
                         >
                           {/* <span> */}
                           {ele.Name}
@@ -587,7 +599,7 @@ const Lookbook = () => {
                                           ?.checked
                                     }
                                     style={{
-                                      color: "#7f7d85",
+                                      color: "#7d7f85 !important",
                                       padding: 0,
                                       width: "10px",
                                     }}
@@ -638,14 +650,14 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7f7d85",
+                          color: "#7d7f85 !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
                         }}
-                        className="filtercategoryLable"
+                        // className="filtercategoryLable"
                       >
                         {/* <span> */}
                         {ele.Name}
@@ -713,20 +725,27 @@ const Lookbook = () => {
                               //   fontFamily:'TT Commons Regular'
                               // }}
                               className="smr_mui_checkbox_label"
+                              // label={
+                              //   opt?.Minval == 0
+                              //     ? `Under ${decodeEntities(
+                              //       storeInit?.Currencysymbol
+                              //     )}${opt?.Maxval}`
+                              //     : opt?.Maxval == 0
+                              //       ? `Over ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval}`
+                              //       : `${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Minval} - ${decodeEntities(
+                              //         storeInit?.Currencysymbol
+                              //       )}${opt?.Maxval}`
+                              // }
                               label={
                                 opt?.Minval == 0
-                                  ? `Under ${decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  )}${opt?.Maxval}`
+                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                                   : opt?.Maxval == 0
-                                    ? `Over ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval}`
-                                    : `${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Minval} - ${decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    )}${opt?.Maxval}`
+                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
                               }
                             />
                           </div>
@@ -899,14 +918,14 @@ const Lookbook = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "#7d7f85 !important",
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
                               }}
-                              className="filtercategoryLable"
+                              // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Name}
@@ -1011,14 +1030,14 @@ const Lookbook = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "#7d7f85 !important",
                               borderRadius: 0,
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
                             }}
-                            className="filtercategoryLable"
+                            // className="filtercategoryLable"
                           >
                             {/* <span> */}
                             {ele.Name}
@@ -1034,17 +1053,18 @@ const Lookbook = () => {
                               overflow: "auto",
                             }}
                           >
-                            {(JSON?.parse(ele?.options) ?? [])?.map((opt, i) => (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                  gap: "12px",
-                                }}
-                                key={i}
-                              >
-                                {/* <small
+                            {(JSON?.parse(ele?.options) ?? [])?.map(
+                              (opt, i) => (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: "12px",
+                                  }}
+                                  key={i}
+                                >
+                                  {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1052,59 +1072,67 @@ const Lookbook = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      name={`Price${i}${i}`}
-                                      // checked={
-                                      //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                      //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                      //     : false
-                                      // }
-                                      checked={
-                                        filterChecked[`Price${i}${i}`]
-                                          ?.checked === undefined
-                                          ? false
-                                          : filterChecked[`Price${i}${i}`]
-                                            ?.checked
-                                      }
-                                      style={{
-                                        color: "#7f7d85",
-                                        padding: 0,
-                                        width: "10px",
-                                      }}
-                                      onClick={(e) =>
-                                        handleCheckboxChange(e, ele?.id, opt)
-                                      }
-                                      size="small"
-                                    />
-                                  }
-                                  // sx={{
-                                  //   display: "flex",
-                                  //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                  //   width: "100%",
-                                  //   flexDirection: "row-reverse", // Align items to the right
-                                  //   fontFamily:'TT Commons Regular'
-                                  // }}
-                                  className="smr_mui_checkbox_label"
-                                  label={
-                                    opt?.Minval == 0
-                                      ? `Under ${decodeEntities(
-                                        storeInit?.Currencysymbol
-                                      )}${opt?.Maxval}`
-                                      : opt?.Maxval == 0
-                                        ? `Over ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Minval}`
-                                        : `${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Minval} - ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
-                                  }
-                                />
-                              </div>
-                            ))}
+                                  <FormControlLabel
+                                    control={
+                                      <Checkbox
+                                        name={`Price${i}${i}`}
+                                        // checked={
+                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                        //     : false
+                                        // }
+                                        checked={
+                                          filterChecked[`Price${i}${i}`]
+                                            ?.checked === undefined
+                                            ? false
+                                            : filterChecked[`Price${i}${i}`]
+                                              ?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(e, ele?.id, opt)
+                                        }
+                                        size="small"
+                                      />
+                                    }
+                                    // sx={{
+                                    //   display: "flex",
+                                    //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                    //   width: "100%",
+                                    //   flexDirection: "row-reverse", // Align items to the right
+                                    //   fontFamily:'TT Commons Regular'
+                                    // }}
+                                    className="smr_mui_checkbox_label"
+                                    // label={
+                                    //   opt?.Minval == 0
+                                    //     ? `Under ${decodeEntities(
+                                    //       storeInit?.Currencysymbol
+                                    //     )}${opt?.Maxval}`
+                                    //     : opt?.Maxval == 0
+                                    //       ? `Over ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval}`
+                                    //       : `${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Minval} - ${decodeEntities(
+                                    //         storeInit?.Currencysymbol
+                                    //       )}${opt?.Maxval}`
+                                    // }
+                                    label={
+                                      opt?.Minval == 0
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                        : opt?.Maxval == 0
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                    }
+                                  />
+                                </div>
+                              )
+                            )}
                           </AccordionDetails>
                         </Accordion>
                       )}
@@ -1120,7 +1148,7 @@ const Lookbook = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginRight: "10px",
+                margin: "0px 5px 25px 5px",
               }}
             >
               <FilterAltIcon
@@ -1133,7 +1161,7 @@ const Lookbook = () => {
                 onClick={handleOpen}
                 className="smr_lookBookSelectViewBtn"
               >
-                Select View
+                Set View
               </button>
 
               {/* <select
@@ -1152,10 +1180,10 @@ const Lookbook = () => {
                 exclusive
                 onChange={handleChange}
                 aria-label="text alignment"
+                sx={{ height: "35px" }}
               >
                 <ToggleButton value={1} aria-label="left aligned">
-                  {/* <RxGrid /> */}
-                  |
+                  {/* <RxGrid /> */}|
                 </ToggleButton>
                 <ToggleButton value={2} aria-label="centered">
                   {/* <TfiLayoutGrid2 /> */}
@@ -1181,22 +1209,39 @@ const Lookbook = () => {
                         style={{
                           display: "flex",
                           height: dataKey == index && "100%",
+                          position: 'relative'
                         }}
                       >
-                        <img
-                          className="smr_lookBookImg"
-                          loading="lazy"
-                          src={ProdCardImageFunc(slide)}
-                          alt={`Slide ${index}`}
-                          onMouseEnter={() => handleHoverImages(index)}
-                          onMouseLeave={() => seyDataKey(null)}
-                          style={{
-                            height: dataKey == index ? "100%" : "250px",
-                            cursor: "pointer",
-                          }}
-                        />
-                        <p className="smr_designList_title">
-                          {slide?.TitleLine}
+                        {ProdCardImageFunc(slide) ? (
+                          <img
+                            className="smr_lookBookImg"
+                            loading="lazy"
+                            src={ProdCardImageFunc(slide)}
+                            alt={`Slide ${index}`}
+                            onMouseEnter={() => handleHoverImages(index)}
+                            onMouseLeave={() => seyDataKey(null)}
+                            style={{
+                              height: dataKey == index ? "100%" : "250px",
+                              cursor: "pointer",
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              height: dataKey == index ? "100%" : "250px",
+                              width: "100%",
+                              ...getRandomBgColor(index),
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                          </div>
+                        )}
+                        <p className="smr_lb2designList_title">
+                          {slide?.designsetno}
                         </p>
                       </div>
                       <div
@@ -1208,15 +1253,15 @@ const Lookbook = () => {
                         }}
                       >
                         <p style={{ fontSize: "13px", margin: "2px" }}>
-                          DWT:
+                          DWT:{" "}
                           {calculateTotalUnitCostWithMarkUpDwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | GWT:
+                          | GWT:{" "}
                           {calculateTotalUnitCostWithMarkUpGWt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
-                          | NWT:
+                          | NWT:{" "}
                           {calculateTotalUnitCostWithMarkUpNwt(
                             JSON.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
@@ -1235,12 +1280,18 @@ const Lookbook = () => {
                             {" "}
                             <span
                               className="smr_currencyFont"
+                            >
+                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>
+                            {/* <span
+                              className="smr_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(
                                   storeInit?.Currencysymbol
                                 ),
                               }}
-                            />{" "}
+                            /> */}
+                            &nbsp;
                             {calculateTotalUnitCostWithMarkUp(
                               JSON.parse(slide.Designdetail)
                             )}
@@ -1269,6 +1320,20 @@ const Lookbook = () => {
                           loop={false}
                           modules={[Pagination, Navigation]}
                           className="smr_LookBookmySwiper"
+                          breakpoints={{
+                            320: {
+                              slidesPerView: 1,
+                              spaceBetween: 10,
+                            },
+                            480: {
+                              slidesPerView: 2,
+                              spaceBetween: 20,
+                            },
+                            640: {
+                              slidesPerView: 3,
+                              spaceBetween: 30,
+                            },
+                          }}
                         >
                           {sortDesignDetailsBySrNo(
                             parseDesignDetails(slide?.Designdetail)
@@ -1337,42 +1402,63 @@ const Lookbook = () => {
               </div>
             )}
 
-            {selectedValue == 1 && (
+            {selectedValue == 3 && (
               <div className="smr_lookBookImgDivMain">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
                     <p>No Product Found!</p>
                   </div>
-                ) :
+                ) : (
                   <>
                     {filteredDesignSetLstData?.map((slide, index) => (
                       <div className="smr_designSetDiv2" key={index}>
                         <div
-                          style={{ display: "flex", width: "30%", height: "300px" }}
+                          style={{
+                            display: "flex",
+                            width: "30%",
+                            height: "300px",
+                            position: 'relative'
+                          }}
                         >
-                          <img
-                            className="smr_lookBookImg"
-                            loading="lazy"
-                            src={ProdCardImageFunc(slide)}
-                            alt={`Slide ${index}`}
-                            // onMouseEnter={() => handleHoverImages(index)}
-                            // onMouseLeave={() => seyDataKey(null)}
-                            style={{
-                              height: "100%",
-                              cursor: "pointer",
-                            }}
-                          />
-                          {/* <p className="smr_designList_title">{slide?.TitleLine}</p> */}
+                          {ProdCardImageFunc(slide) ? (
+                            <img
+                              className="smr_lookBookImg"
+                              loading="lazy"
+                              src={ProdCardImageFunc(slide)}
+                              alt={`Slide ${index}`}
+                              // onMouseEnter={() => handleHoverImages(index)}
+                              // onMouseLeave={() => seyDataKey(null)}
+                              style={{
+                                height: "100%",
+                                cursor: "pointer",
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                height: "100%",
+                                width: "100%",
+                                ...getRandomBgColor(index),
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                            </div>
+                          )}
+                          <p className="smr_lb1designList_title">{slide?.designsetno}</p>
                         </div>
 
                         <div
                           style={{
                             display: dataKey == index && "none",
-                            display: 'flex',
+                            display: "flex",
                             width: "70%",
-                            justifyContent: 'space-around',
-                            alignItems: 'center',
-                            flexDirection: 'column'
+                            justifyContent: "space-around",
+                            alignItems: "center",
+                            flexDirection: "column",
                           }}
                         >
                           <div
@@ -1380,21 +1466,21 @@ const Lookbook = () => {
                             style={{
                               display: dataKey == index ? "none" : "flex",
                               justifyContent: "space-between",
-                              width: '100%',
-                              padding: '0px 15px',
+                              width: "100%",
+                              padding: "0px 15px",
                               margin: "5px",
                             }}
                           >
                             <p style={{ fontSize: "13px", margin: "2px" }}>
-                              DWT:
+                              DWT:{" "}
                               {calculateTotalUnitCostWithMarkUpDwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | GWT:
+                              | GWT:{" "}
                               {calculateTotalUnitCostWithMarkUpGWt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
-                              | NWT:
+                              | NWT:{" "}
                               {calculateTotalUnitCostWithMarkUpNwt(
                                 JSON.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
@@ -1411,14 +1497,20 @@ const Lookbook = () => {
                                 }}
                               >
                                 {" "}
-                                <span
+                                {/* <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                />{" "}
+                                /> */}
+                                <span
+                                className="smr_currencyFont"
+                              >
+                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                                &nbsp;
                                 {calculateTotalUnitCostWithMarkUp(
                                   JSON.parse(slide.Designdetail)
                                 )}
@@ -1427,7 +1519,10 @@ const Lookbook = () => {
                                 className="smr_lookBookBuyBtn"
                                 onClick={() =>
                                   handleByCombo(
-                                    parseDesignDetails(slide?.Designdetail, "Cart")
+                                    parseDesignDetails(
+                                      slide?.Designdetail,
+                                      "Cart"
+                                    )
                                   )
                                 }
                               >
@@ -1443,6 +1538,20 @@ const Lookbook = () => {
                             loop={false}
                             modules={[Pagination, Navigation]}
                             className="smr_LookBookmySwiper"
+                            breakpoints={{
+                              320: {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                              },
+                              480: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                              },
+                              640: {
+                                slidesPerView: 3,
+                                spaceBetween: 30,
+                              },
+                            }}
                           >
                             {sortDesignDetailsBySrNo(
                               parseDesignDetails(slide?.Designdetail)
@@ -1453,7 +1562,10 @@ const Lookbook = () => {
                               >
                                 <SwiperSlide
                                   className="smr_lookBookSliderSubDiv"
-                                  style={{ marginRight: "0px", cursor: "pointer" }}
+                                  style={{
+                                    marginRight: "0px",
+                                    cursor: "pointer",
+                                  }}
                                 >
                                   {detail?.IsInReadyStock == 1 && (
                                     <span className="smr_LookBookinstock">
@@ -1469,7 +1581,9 @@ const Lookbook = () => {
                                       handleNavigation(
                                         detail?.designno,
                                         detail?.autocode,
-                                        detail?.TitleLine ? detail?.TitleLine : ""
+                                        detail?.TitleLine
+                                          ? detail?.TitleLine
+                                          : ""
                                       )
                                     }
                                   />
@@ -1504,17 +1618,17 @@ const Lookbook = () => {
                       </div>
                     ))}
                   </>
-                }
+                )}
               </div>
             )}
 
-            {selectedValue == 3 && (
+            {selectedValue == 1 && (
               <div className="smr_lookbook3MainDiv">
                 {filteredDesignSetLstData?.length == 0 ? (
                   <div className="smr_noProductFoundLookBookDiv">
                     <p>No Product Found!</p>
                   </div>
-                ) :
+                ) : (
                   <>
                     <Swiper
                       slidesPerView={1}
@@ -1522,51 +1636,134 @@ const Lookbook = () => {
                       navigation={true}
                       loop={true}
                       thumbs={{ swiper: thumbsSwiper }}
-                      modules={[FreeMode, Navigation, Thumbs, Scrollbar]}
+                      modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
+                      keyboard={{ enabled: true }}
+                      mousewheel={true}
                       className="smr_LookBookmySwiper mySwiper2"
                     >
                       {filteredDesignSetLstData?.map((slide, index) => (
                         <SwiperSlide key={index}>
                           <div>
-                            <div className="compeletethelook_cont">
-                              <div className="smr_ctlImg_containe">
-                                <img
-                                  src={ProdCardImageFunc(slide)}
-                                  alt=""
-                                  className="ctl_img"
-                                />
+                            <div className="smr_lb3compeletethelook_cont">
+                              <div className="smr_lb3ctlImg_containe">
+                                {ProdCardImageFunc(slide) ? (
+                                  <img
+                                    src={ProdCardImageFunc(slide)}
+                                    alt=""
+                                    className="smr_lb3ctl_img"
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      height: "100%",
+                                      width: "100%",
+                                      ...getRandomBgColor(index),
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    className="smr_lb3ctl_img"
+                                  >
+                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  </div>
+                                )}
+                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
                               </div>
                               <div
                                 className={
                                   (slide?.Designdetail == undefined
                                     ? []
-                                    : sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))
+                                    : sortDesignDetailsBySrNo(
+                                      parseDesignDetails(slide?.Designdetail)
+                                    )
                                   )?.length > 3
-                                    ? "compeletethelook_prodt_for_3"
-                                    : "compeletethelook_prodt"
+                                    ? "smr_lb3compeletethelook_prodt_for_3"
+                                    : "smr_lb3compeletethelook_prodt"
                                 }
                               >
-
-                                {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
-                                  <div key={subIndex} className='completethelook_outer' style={{ borderTop: subIndex !== 0 ? 'none' : '', width: '513px', padding: '5px', border: '1px solid #e1e1e1', backgroundColor: '#fff' }}>
-                                    <div className="smr_lookbookMainDivdata" style={{ display: 'flex', gap: '40px', justifyContent: 'space-around' }}>
-                                      <div style={{ marginLeft: '12px' }}>
+                                {sortDesignDetailsBySrNo(
+                                  parseDesignDetails(slide?.Designdetail)
+                                )?.map((ele, subIndex) => (
+                                  <div
+                                    key={subIndex}
+                                    className="smr_lb3completethelook_outer"
+                                    style={{
+                                      borderTop: subIndex !== 0 ? "none" : "",
+                                      width: "513px",
+                                      padding: "5px",
+                                      border: "1px solid #e1e1e1",
+                                      backgroundColor: "#fff",
+                                    }}
+                                    onClick={() =>
+                                      handleNavigation(
+                                        ele?.designno,
+                                        ele?.autocode,
+                                        ele?.TitleLine
+                                          ? ele?.TitleLine
+                                          : ""
+                                      )
+                                    }
+                                  >
+                                    <div
+                                      className="smr_lookbookMainDivdata"
+                                      style={{
+                                        display: "flex",
+                                        gap: "40px",
+                                        justifyContent: "space-around",
+                                      }}
+                                    >
+                                      <div style={{ marginLeft: "12px" }}>
                                         <img
-                                          src={ele?.ImageCount > 0 ?
-                                            `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
-                                            : imageNotFound}
+                                          src={
+                                            ele?.ImageCount > 0
+                                              ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                              : imageNotFound
+                                          }
                                           alt=""
-                                          className='srthelook_img'
+                                          className="smr_lb3srthelook_img"
                                         />
                                       </div>
-                                      <div className='srthelook_prodinfo'>
-                                        <div style={{ fontSize: '14px', color: '#7d7f85', textTransform: 'uppercase' }} className="srthelook_prodinfo_inner">
+                                      <div className="smr_lb3srthelook_prodinfo">
+                                        <div
+                                          style={{
+                                            fontSize: "14px",
+                                            color: "#7d7f85",
+                                            textTransform: "uppercase",
+                                          }}
+                                          className="smr_lb3srthelook_prodinfo_inner"
+                                        >
                                           <p>
-                                            {ele?.designno} - {ele?.CategoryName}<br />
+                                            <span>
+                                              {ele?.designno} - {ele?.CategoryName}
+                                            </span>
+                                            <br />
+                                            <span className='smr_lb3detailDT'>NWT : </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>GWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>DWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            <span className='smr_lb3pipe'> | </span>
+                                            <span className='smr_lb3detailDT'>CWT: </span>
+                                            <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            <br />
+                                            {/* <span
+                                              className="smr_currencyFont"
+                                              dangerouslySetInnerHTML={{
+                                                __html: decodeEntities(
+                                                  storeInit?.Currencysymbol
+                                                ),
+                                              }}
+                                            /> */}
                                             <span
                                               className="smr_currencyFont"
-                                              dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }}
-                                            />
+                                            >
+                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                            &nbsp;
                                             {ele?.UnitCostWithMarkUp}
                                           </p>
                                         </div>
@@ -1575,20 +1772,23 @@ const Lookbook = () => {
                                         style={{
                                           display: "flex",
                                           justifyContent: "end",
-                                          alignItems: 'center',
+                                          alignItems: "center",
                                           marginBottom: "5px",
                                         }}
                                       >
                                         {cartItems.includes(ele?.autocode) ? (
-                                          <IconButton onClick={() => handleRemoveCart(ele)}>
+                                          <IconButton
+                                            onClick={() => handleRemoveCart(ele)}
+                                          >
                                             <LocalMallIcon className="smr_lookBookINCartIconBtn" />
                                           </IconButton>
                                         ) : (
-                                          <IconButton onClick={() => handleAddToCart(ele)}>
+                                          <IconButton
+                                            onClick={() => handleAddToCart(ele)}
+                                          >
                                             <LocalMallIcon className="smr_lookBookAddtoCartIconBtn" />
                                           </IconButton>
                                         )}
-
                                       </div>
                                     </div>
                                   </div>
@@ -1600,59 +1800,61 @@ const Lookbook = () => {
                       ))}
                     </Swiper>
                     <div className="smr_lookbook3thumbMainDiv">
-                      {filteredDesignSetLstData?.length != 0 &&
-                      <Swiper
-                      onSwiper={setThumbsSwiper}
-                      spaceBetween={10}
-                      slidesPerView={20}
-                      freeMode={true}
-                      watchSlidesProgress={true}
-                      modules={[FreeMode, Navigation, Thumbs]}
-                      className="mySwiper"
-                      breakpoints={{
-                        320: {
-                          slidesPerView: 2,
-                          spaceBetween: 10,
-                        },
-                        480: {
-                          slidesPerView: 3,
-                          spaceBetween: 10,
-                        },
-                        640: {
-                          slidesPerView: 4,
-                          spaceBetween: 10,
-                        },
-                        768: {
-                          slidesPerView: 5,
-                          spaceBetween: 10,
-                        },
-                        1024: {
-                          slidesPerView: 10,
-                          spaceBetween: 10,
-                        },
-                        1280: {
-                          slidesPerView: 20,
-                          spaceBetween: 10,
-                        }
-                      }}
-                    >
-                      {filteredDesignSetLstData?.map((slide, index) => (
-                        <SwiperSlide key={index}>
-                          <img
-                            src={ProdCardImageFunc(slide)}
-                            alt=""
-                            className="ctl_Paginationimg"
-                          />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    
-                      }
+                      {filteredDesignSetLstData?.length != 0 && (
+                        <Swiper
+                          onSwiper={setThumbsSwiper}
+                          spaceBetween={10}
+                          slidesPerView={20}
+                          freeMode={true}
+                          watchSlidesProgress={true}
+                          modules={[Keyboard, FreeMode, Navigation, Thumbs]}
+                          keyboard={{ enabled: true }}
+                          mousewheel={true}
+                          className="mySwiper"
+                          breakpoints={{
+                            320: {
+                              slidesPerView: 2,
+                              spaceBetween: 10,
+                            },
+                            480: {
+                              slidesPerView: 3,
+                              spaceBetween: 10,
+                            },
+                            640: {
+                              slidesPerView: 4,
+                              spaceBetween: 10,
+                            },
+                            768: {
+                              slidesPerView: 5,
+                              spaceBetween: 10,
+                            },
+                            1024: {
+                              slidesPerView: 10,
+                              spaceBetween: 10,
+                            },
+                            1280: {
+                              slidesPerView: 20,
+                              spaceBetween: 10,
+                            },
+                          }}
+                        >
+                          {filteredDesignSetLstData?.map((slide, index) => (
+                            <SwiperSlide key={index}>
+                              <img
+                                src={ProdCardImageFunc(slide)}
+                                alt=""
+                                className="ctl_Paginationimg"
+                              />
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      )}
                     </div>
                   </>
-                }
+                )}
               </div>
             )}
+
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
 import Pako from "pako";
 import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI";
 import { SingleFullProdPriceAPI } from "../../../../../../utils/API/SingleFullProdPriceAPI/SingleFullProdPriceAPI";
@@ -69,13 +69,14 @@ const ProductDetail = () => {
   const [isDataFound,setIsDataFound]=useState(false)
   const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
 
-
   const [designSetList,setDesignSetList] = useState();
 
   const [thumbImgIndex,setThumbImgIndex] = useState()
 
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
+
+  const [prodLoading,setProdLoading] = useState(false)
 
   
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -84,7 +85,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
 
-  console.log("SizeCombo",SizeCombo);
+  // console.log("SizeCombo",SizeCombo);
 
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
@@ -106,9 +107,9 @@ const ProductDetail = () => {
 
   // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
 
-  console.log("sizeData",sizeData)
+  // console.log("sizeData",sizeData)
 
-  console.log("pdVideoArr", selectedThumbImg);
+  // console.log("pdVideoArr", selectedThumbImg);
 
   const navigate = useNavigate();
 
@@ -123,11 +124,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     setCSSVariable();
+  }, []);
+
+  useEffect(()=>{
     window.scroll({
       top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+      behavior: "auto",
+    }); 
+  },[])
 
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
@@ -190,7 +194,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          console.log("addtocart re", cartflag);
+          // console.log("addtocart re", cartflag);
           setAddToCartFlag(cartflag);
         });
     } else {
@@ -203,7 +207,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          console.log("rremovve add", cartflag);
+          // console.log("rremovve add", cartflag);
           setAddToCartFlag(cartflag);
         });
     }
@@ -237,7 +241,7 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: sizeData ?? singleProd?.DefaultSize ,
+      Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize) ,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
       UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
@@ -348,7 +352,7 @@ const ProductDetail = () => {
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
         
-        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+        // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     },500)
   }, [singleProd])
@@ -546,10 +550,12 @@ const ProductDetail = () => {
     }
   };
 
-  console.log("sizeData",sizeData);
+  // console.log("sizeData",sizeData);
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
+
+    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
 
     let decodeobj = decodeAndDecompress(navVal);
 
@@ -601,8 +607,9 @@ const ProductDetail = () => {
         csQc:`${csArr?.QualityId},${csArr?.ColorId}`
       }
 
-      console.log("objjj",obj)
- 
+      // console.log("objjj",obj)
+      setProdLoading(true)
+
       setisPriceLoading(true)
 
       await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
@@ -616,9 +623,12 @@ const ProductDetail = () => {
           }
 
           if(!res?.pdList[0]){
-            console.log("singleprod",res?.pdList[0]);
+            // console.log("singleprod",res?.pdList[0]);
             setisPriceLoading(false)
+            setProdLoading(false)
             setIsDataFound(true)
+          }else{
+            setIsDataFound(false)
           }
 
           setDiaList(res?.pdResp?.rd3)
@@ -642,22 +652,28 @@ const ProductDetail = () => {
       }).then(async(resp)=>{
           if(resp){
             await getSizeData(resp?.pdList[0],cookie).then((res)=>{
-              console.log("Sizeres",res)
+              // console.log("Sizeres",res)
               setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
-              setStockItemArr(res?.Data?.rd)    
-            }).catch((err)=>console.log("stockItemErr",err))
+            if(storeinitInside?.IsStockWebsite === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
+                setStockItemArr(res?.Data?.rd)    
+              }).catch((err)=>console.log("stockItemErr",err))
+            }
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
-              setSimilarBrandArr(res?.Data?.rd)         
-            }).catch((err)=>console.log("similarbrandErr",err))
+            if(storeinitInside?.IsProductDetailSimilarDesign === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
+                setSimilarBrandArr(res?.Data?.rd)         
+              }).catch((err)=>console.log("similarbrandErr",err))
+            }
 
-            await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
-              console.log("designsetList",res?.Data?.rd[0])
-              setDesignSetList(res?.Data?.rd)
-            }).catch((err)=>console.log("designsetErr",err))
+            if(storeinitInside?.IsProductDetailDesignSet === 1){
+              await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
+                // console.log("designsetList",res?.Data?.rd[0])
+                setDesignSetList(res?.Data?.rd)
+              }).catch((err)=>console.log("designsetErr",err))
+            }
           }
       })
       .catch((err) => console.log("err", err))
@@ -672,7 +688,7 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  console.log("location", location);
+  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -775,7 +791,7 @@ const ProductDetail = () => {
 
     let pd = singleProd;
 
-    console.log("singleProdImageCount", pd?.ImageCount);
+    // console.log("singleProdImageCount", pd?.ImageCount);
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -820,7 +836,7 @@ const ProductDetail = () => {
     return finalprodListimg;
   };
 
-  console.log("pdThumbImg", pdThumbImg);
+  // console.log("pdThumbImg", pdThumbImg);
 
   useEffect(() => {
     ProdCardImageFunc();
@@ -846,12 +862,10 @@ const ProductDetail = () => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    
-
     if(mtColorLocal?.length){
       mcArr =
       mtColorLocal?.filter(
-          (ele) => ele?.metalcolorname == e.target.value
+          (ele) => ele?.colorcode == e.target.value
         )[0]
     }
 
@@ -928,7 +942,7 @@ const ProductDetail = () => {
 
 
 
-    console.log("pdImgList",pdImgList,pdImgListCol)
+    // console.log("pdImgList",pdImgList,pdImgListCol)
   } 
 
   // useEffect(()=>{
@@ -955,7 +969,7 @@ const ProductDetail = () => {
   // console.log("stock",stockItemArr,SimilarBrandArr);
 
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
+    // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -1108,9 +1122,9 @@ const ProductDetail = () => {
       b:singleProd?.designno
     }
 
-    console.log("eeee",obj)
+    // console.log("eeee",obj)
     setisPriceLoading(true)
-    await SingleProdListAPI(prod,size,obj,cookie)
+    await SingleProdListAPI(prod,(size ?? sizeData),obj,cookie)
     .then((res)=>{
       setSingleProd1(res?.pdList[0])
 
@@ -1119,8 +1133,23 @@ const ProductDetail = () => {
       }
       setDiaList(res?.pdResp?.rd3)
       setCsList(res?.pdResp?.rd4)
-      console.log("res123",res)
+      // console.log("res123",res)
     }).catch((err)=>{console.log("customProdDetailErr",err)})
+
+  }
+
+  const formatter = new Intl.NumberFormat('en-IN')
+
+  const SizeSorting = (SizeArr) =>{
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
 
   }
 
@@ -1181,7 +1210,7 @@ const ProductDetail = () => {
                                 width: "100%",
                                 objectFit: "cover",
                                 marginTop: "40px",
-                                height: "90%",
+                                // height: "90%",
                                 borderRadius: "8px",
                               }}
                             />
@@ -1277,7 +1306,7 @@ const ProductDetail = () => {
                           </div>
                         </div>
                         {storeInit?.IsProductWebCustomization == 1 &&
-                          metalTypeCombo?.length > 0 && (
+                          metalTypeCombo?.length > 0 &&  storeInit?.IsMetalCustomization === 1 &&(
                             <div className="smr_single_prod_customize">
                               <div className="smr_single_prod_customize_metal">
                                 <label className="menuItemTimeEleveDeatil">
@@ -1313,7 +1342,7 @@ const ProductDetail = () => {
                                   </select>
                                 )}
                               </div>
-                              {metalColorCombo?.length > 0 && (
+                              {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL COLOR:
@@ -1338,7 +1367,7 @@ const ProductDetail = () => {
                                       {metalColorCombo?.map((ele) => (
                                         <option
                                           key={ele?.id}
-                                          value={ele?.metalcolorname}
+                                          value={ele?.colorcode}
                                         >
                                           {ele?.metalcolorname}
                                         </option>
@@ -1396,7 +1425,7 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                              {SizeCombo?.rd?.length > 0 && (
+                              {SizeSorting(SizeCombo?.rd)?.length > 0 && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
@@ -1434,7 +1463,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                          { storeInit?.IsPriceBreakUp == 1 && (
+                          { storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
                             <Accordion
                             elevation={0}
                             sx={{
@@ -1459,17 +1488,17 @@ const ProductDetail = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "#7d7f85 !important",
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
                               }}
-                              className="filtercategoryLable"
+                              // className="filtercategoryLable"
                               
                             >
-                              <Typography>Price Breakup</Typography>
+                              <Typography sx={{fontFamily:"TT Commons Regular",fontSize:'18px'}}>Price Breakup</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1500,98 +1529,88 @@ const ProductDetail = () => {
                               </table> */}
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Metal</Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
                               <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
-                              <Typography>{(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2)}</Typography>
+                              <Typography>
+                                {
+                                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }
+                              </Typography>
+                               &nbsp;
+                              <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Diamond </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
 
                              <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
-                              <Typography>{(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2)}</Typography>
-                              </span>
-                             </div>
-
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Stone </Typography>
-
-                             <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
-                              <Typography>{(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2)}</Typography>
-                              </span>
-                             </div>
-
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">MISC </Typography>
-
-                             <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
-                              <Typography>{(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2)}</Typography>
-                              </span>
-                             </div>
-
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Labour </Typography>
-
-                             <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
-                              <Typography>{(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)}</Typography>
-                              </span>
-                             </div>
-
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Other </Typography>
-
-                             <span style={{display:'flex'}}>
-                              <Typography>{<span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />}</Typography>
                               <Typography>{
-                              (
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                              }</Typography>
+                              &nbsp;
+                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
+                              <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                             </div>
+
+                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
+
+                             <span style={{display:'flex'}}>
+                              <Typography>{
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
+                              }</Typography>
+                              &nbsp;
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{
+                              formatter.format((
 
                                 (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
                                 (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
@@ -1600,7 +1619,7 @@ const ProductDetail = () => {
                                 (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
                                 (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
 
-                              )?.toFixed(2)
+                              )?.toFixed(2))
                             }</Typography>
                               </span>
                              </div>
@@ -1614,15 +1633,11 @@ const ProductDetail = () => {
                             {isPriceloading ? (
                               ""
                             ) : (
-                              <span
-                                className="smr_currencyFont"
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    storeInit?.Currencysymbol
-                                  ),
-                                }}
-                              />
+                              <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
                             )}
+                            &nbsp;
                             {/* {PriceWithMarkupFunction(
                         mtrd?.AB,
                         finalprice,
@@ -1634,7 +1649,7 @@ const ProductDetail = () => {
                                 width={140}
                                 height={30}
                               />
-                            ) : (
+                            ) : formatter.format(
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
                             )}
@@ -1642,7 +1657,7 @@ const ProductDetail = () => {
                           </div>
                         }
 
-                        <div className="Smr_CartAndWish_portion">
+                        { prodLoading && <div className="Smr_CartAndWish_portion">
                           <button
                             className={
                               !addToCartFlag
@@ -1681,7 +1696,7 @@ const ProductDetail = () => {
                               onChange={(e) => handleWishList(e, singleProd)}
                             />
                           </div>
-                        </div>
+                        </div>}
                       </div>
                     </div>
                   </div>
@@ -1760,7 +1775,7 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {stockItemArr?.length > 0 && (
+                {( stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
                     <p className="smr_details_title"> Stock Items </p>
                     <div className="smr_stockitem_container">
@@ -2030,15 +2045,11 @@ const ProductDetail = () => {
                             </td>
                             <td className="Smr_stockItem_table_td">
                               <span>
-                                <span
-                                  className="smr_currencyFont"
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    ),
-                                  }}
-                                />
-                                <span> {ele?.Amount}</span>
+                              <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                                &nbsp;
+                                <span> {formatter.format(ele?.Amount)}</span>
                               </span>
                             </td>
                             <td
@@ -2096,7 +2107,9 @@ const ProductDetail = () => {
                             <div
                               className="smr_stockItemCard"
                               onClick={() =>
-                                setTimeout(() => handleMoveToDetail(ele), 500)
+                                // setTimeout(() => 
+                                  handleMoveToDetail(ele)
+                              // , 500)
                               }
                             >
                               <img
@@ -2140,16 +2153,12 @@ const ProductDetail = () => {
                                   className="smr_stockItem_price_type_mt"
                                 >
                                   <spam>
-                                    <span
-                                      className="smr_currencyFont"
-                                      dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        ),
-                                      }}
-                                    />
+                                  <span className="smr_currencyFont">
+                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
                                   </spam>
-                                  <span>{ele?.UnitCostWithMarkUp}</span>
+                                  <span>{formatter.format(ele?.UnitCostWithMarkUp)}</span>
                                 </div>
                               </div>
                             </div>
@@ -2159,6 +2168,7 @@ const ProductDetail = () => {
                     </div>
                   )}
 
+                {storeInit?.IsProductDetailDesignSet === 1 && 
                 <div className="smr_DesignSet_main">
                   { designSetList?.length > 0 && <div
                     style={{
@@ -2272,16 +2282,12 @@ const ProductDetail = () => {
                                           {ele?.designno} - {ele?.CategoryName}
                                           <br />
                                           {
-                                            <span
-                                              className="smr_currencyFont"
-                                              dangerouslySetInnerHTML={{
-                                                __html: decodeEntities(
-                                                  storeInit?.Currencysymbol
-                                                ),
-                                              }}
-                                            />
+                                            <span className="smr_currencyFont">
+                                              {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
                                           }
-                                          {ele?.UnitCostWithMarkUp}
+                                          &nbsp;
+                                          {formatter.format(ele?.UnitCostWithMarkUp)}
                                         </p>
                                       </div>
                                       {/* <div>
@@ -2299,12 +2305,20 @@ const ProductDetail = () => {
                       ))}
                     </Swiper>
                   </div>
-                </div>
+                </div>}
               </>
             )}
             <Footer />
           </div>
         </div>
+        <div className="smr_prodDetail_backtotop" onClick={()=>{
+        window.scroll({
+          top: 0,
+          behavior: "auto",
+        }); 
+    }}>
+         BACK TO TOP
+    </div>
       </div>
     </>
   );

@@ -7,6 +7,7 @@
     .linkingLoveMain {
         display: flex;
         margin-inline: 0px;
+        padding-block: 3%;
     }
 
     .linkingLove {
@@ -20,6 +21,7 @@
         align-items: center;
         justify-content: center;
         /* border: 1px solid; */
+        margin-right: 10px;
     }
 
     .linkingTitle {
@@ -27,6 +29,9 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
+        margin: 0;
+        padding: 0;
+        padding-block: 20px;
     }
 
     .linkingDesc {
@@ -90,8 +95,8 @@
 
     .linkingLoveImageDesign {
         max-height: 100%;
-        margin-top: 5px;
         width: 100%;
+        margin: 0;
     }
 
     .likingLoveImages {

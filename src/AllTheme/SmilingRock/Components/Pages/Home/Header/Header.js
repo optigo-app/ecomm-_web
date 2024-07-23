@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Header.modul.scss";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -72,7 +72,7 @@ const Header = () => {
 
   const { showTimer, countdown } = useCountdown();
 
-  console.log("showtimejhjdhsjhjf", showTimer, countdown);
+  // console.log("showtimejhjdhsjhjf", showTimer, countdown);
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -130,7 +130,7 @@ const Header = () => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
 
-    console.log("callll");
+    // console.log("callll");
 
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
@@ -203,6 +203,7 @@ const Header = () => {
   };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const divRef = useRef(null);
 
   const handleDropdownOpen = () => {
     setIsDropdownOpen(true);
@@ -210,6 +211,9 @@ const Header = () => {
 
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
+    if (divRef.current) {
+      divRef.current.scrollTo(0, 0);
+    }
   };
 
   const toggleOverlay = () => {
@@ -222,62 +226,75 @@ const Header = () => {
     setDrawerShowOverlay(!drawerShowOverlay);
   };
 
-  const handelMenu = (param, param1, param2) => {
-    setDrawerShowOverlay(false);
-    let finalData = {
-      menuname: param?.menuname ?? "",
-      FilterKey: param?.key ?? "",
-      FilterVal: param?.value ?? "",
-      FilterKey1: param1?.key ?? "",
-      FilterVal1: param1?.value ?? "",
-      FilterKey2: param2?.key ?? "",
-      FilterVal2: param2?.value ?? "",
-    };
-    localStorage.setItem("menuparams", JSON.stringify(finalData));
+  const handelMenu = (param, param1, param2, event) => {
 
-    const queryParameters1 = [
-      finalData?.FilterKey && `${finalData.FilterVal}`,
-      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ]
-      .filter(Boolean)
-      .join("/");
 
-    const queryParameters = [
-      finalData?.FilterKey && `${finalData.FilterVal}`,
-      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ]
-      .filter(Boolean)
-      .join(",");
+    if (
+      event?.ctrlKey ||     // Ctrl key
+      event?.shiftKey ||    // Shift key
+      event?.metaKey ||     // Meta key (Command key on macOS)
+      (event?.button && event?.button === 1) // Middle mouse button
+    ) {
+      // Let the default behavior of the <a> tag handle the new tab opening
+      return;
+    } else {
+      event?.preventDefault();
+      setDrawerShowOverlay(false);
+      let finalData = {
+        menuname: param?.menuname ?? "",
+        FilterKey: param?.key ?? "",
+        FilterVal: param?.value ?? "",
+        FilterKey1: param1?.key ?? "",
+        FilterVal1: param1?.value ?? "",
+        FilterKey2: param2?.key ?? "",
+        FilterVal2: param2?.value ?? "",
+      };
+      localStorage.setItem("menuparams", JSON.stringify(finalData));
 
-    const otherparamUrl = Object.entries({
-      b: finalData?.FilterKey,
-      g: finalData?.FilterKey1,
-      c: finalData?.FilterKey2,
-    })
-      .filter(([key, value]) => value !== undefined)
-      .map(([key, value]) => value)
-      .filter(Boolean)
-      .join(",");
+      const queryParameters1 = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        .filter(Boolean)
+        .join("/");
 
-    const paginationParam = [
-      `page=${finalData.page ?? 1}`,
-      `size=${finalData.size ?? 50}`,
-    ].join("&");
+      const queryParameters = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        .filter(Boolean)
+        .join(",");
 
-    console.log("otherparamsUrl--", otherparamUrl);
+      const otherparamUrl = Object.entries({
+        b: finalData?.FilterKey,
+        g: finalData?.FilterKey1,
+        c: finalData?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(",");
 
-    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
-      menuEncoded
-    )}`;
+      const paginationParam = [
+        `page=${finalData.page ?? 1}`,
+        `size=${finalData.size ?? 50}`,
+      ].join("&");
 
-    // let d = new Date();
-    // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-    handleDropdownClose();
-    navigate(url);
+      // console.log("otherparamsUrl--", otherparamUrl);
+
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
+
+      // let d = new Date();
+      // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+      handleDropdownClose();
+      navigate(url);
+    }
   };
 
   //mobileMenu.................
@@ -297,7 +314,7 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log("Menu Item:", cleanedMenuItem);
+      // console.log("Menu Item:", cleanedMenuItem);
     }
     let finalData = {
       menuname: menuDataObj?.menuname ?? "",
@@ -376,10 +393,10 @@ const Header = () => {
     setCartOpenState((prevState) => !prevState);
   };
 
-  const handleContextMenu = (e) => {};
+  const handleContextMenu = (e) => { };
 
   const handleMouseDown = (e) => {
-    console.log("rrrrrrrrrrrrrrrrrrr", e);
+    // console.log("rrrrrrrrrrrrrrrrrrr", e);
     if (e.button === 1) {
     }
   };
@@ -415,9 +432,8 @@ const Header = () => {
           </div>
 
           <div
-            className={`smr_smlingSearchoverlayNew ${
-              isHeaderFixedDropShow ? "fixed" : ""
-            }`}
+            className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
+              }`}
           >
             <div className="smr_smlingTopSerachOver-Fixed">
               <IoSearchOutline
@@ -709,45 +725,53 @@ const Header = () => {
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
-                <p
-                  className="smr_menuStaicMobilePageLink"
-                  style={{ marginTop: "10px" }}
-                  onClick={() => {
-                    setDrawerShowOverlay(false);
-                    navigation("/Lookbook");
-                  }}
-                >
-                  Lookbook
-                </p>
+                <>
+                  {storeinit?.IsDesignSetInMenu == 1 &&
+                    <p
+                      className="smr_menuStaicMobilePageLink"
+                      style={{ marginTop: "10px" }}
+                      onClick={() => {
+                        setDrawerShowOverlay(false);
+                        navigation("/Lookbook");
+                      }}
+                    >
+                      {storeinit?.DesignSetInMenu}
+                    </p>
+                  }
+                </>
               ) : (
                 ""
               )
             ) : (
-              <p
-                className="smr_menuStaicMobilePageLink"
-                style={{ marginTop: "10px" }}
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  navigation("/Lookbook");
-                }}
-              >
-                Lookbook
-              </p>
+              <>
+                {storeinit?.IsDesignSetInMenu == 1 &&
+                  <p
+                    className="smr_menuStaicMobilePageLink"
+                    style={{ marginTop: "10px" }}
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      navigation("/Lookbook");
+                    }}
+                  >
+                    {storeinit?.DesignSetInMenu}
+                  </p>
+                }
+              </>
             )}
 
-         {
-          islogin &&    <div>
-          <p
-            className="smr_menuStaicMobilePageLink"
-            onClick={() => {
-              setDrawerShowOverlay(false);
-              navigation("/account");
-            }}
-          >
-            Account
-          </p>
-        </div>
-         }
+            {
+              islogin && <div>
+                <p
+                  className="smr_menuStaicMobilePageLink"
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/account");
+                  }}
+                >
+                  Account
+                </p>
+              </div>
+            }
 
             <div>
               <p
@@ -889,34 +913,42 @@ const Header = () => {
 
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      navigation("/Lookbook");
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    {/* <a href="/Lookbook" className="smr_A_link"> */}
-                      LOOKBOOK
-                    {/* </a> */}
-                  </li>
+                  <>
+                    {storeinit?.IsDesignSetInMenu == 1 &&
+                      <li
+                        className="nav_li_smining nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          navigation("/Lookbook");
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        {/* <a href="/Lookbook" className="smr_A_link"> */}
+                        {storeinit?.DesignSetInMenu}
+                        {/* </a> */}
+                      </li>
+                    }
+                  </>
                 ) : (
                   ""
                 )
               ) : (
-                <li
-                  className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigation("/Lookbook");
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  {/* <a href="/Lookbook" className="smr_A_link"> */}
-                    LOOKBOOK
-                  {/* </a> */}
-                </li>
+                <>
+                  {storeinit?.IsDesignSetInMenu == 1 &&
+                    <li
+                      className="nav_li_smining nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        navigation("/Lookbook");
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      {/* <a href="/Lookbook" className="smr_A_link"> */}
+                      {storeinit?.DesignSetInMenu}
+                      {/* </a> */}
+                    </li>
+                  }
+                </>
               )}
             </ul>
             <ul className="nav_ul_shop_menu_Mobile">
@@ -943,7 +975,7 @@ const Header = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => navigation("/aboutUs")}
               >
-                <a href="/Lookbook" className="smr_A_link">
+                <a href="/aboutUs" className="smr_A_link">
                   ABOUT US
                 </a>
               </li>
@@ -951,35 +983,35 @@ const Header = () => {
                 storeinit?.IsPLW ? (
                   ""
                 ) : (
-                <>
-                {
-                  islogin &&   <li
-                  className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigation("/account")}
-                >
-                  {/* <a href="/account" className="smr_A_link"> */}
-                    ACCOUNT
-                  {/* </a> */}
-                </li>
-                }
-                </>
+                  <>
+                    {
+                      islogin && <li
+                        className="nav_li_smining nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => navigation("/account")}
+                      >
+                        {/* <a href="/account" className="smr_A_link"> */}
+                        ACCOUNT
+                        {/* </a> */}
+                      </li>
+                    }
+                  </>
                 )
               ) : islogin && storeinit?.IsPLW ? (
                 ""
               ) : (
                 <>
-                {
-                  (islogin === true) && <li
-                  className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigation("/account")}
-                >
-                  {/* <a href="/account" className="smr_A_link"> */}
-                    ACCOUNT
-                  {/* </a> */}
-                </li>
-                }
+                  {
+                    (islogin === true) && <li
+                      className="nav_li_smining nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => navigation("/account")}
+                    >
+                      {/* <a href="/account" className="smr_A_link"> */}
+                      ACCOUNT
+                      {/* </a> */}
+                    </li>
+                  }
                 </>
               )}
               {islogin ? (
@@ -1122,9 +1154,8 @@ const Header = () => {
         </div>
 
         <div
-          className={`Smining-Top-Header-fixed-main ${
-            isHeaderFixed ? "fixed" : ""
-          }  ${serachsShowOverlay ? "searchoverly" : ""}`}
+          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""
+            }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="smiling_Top_header_sub" style={{ width: "100%" }}>
             <div className="smiling_Top_header_div1">
@@ -1219,34 +1250,42 @@ const Header = () => {
 
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
-                    <li
-                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        navigation("/Lookbook");
-                        window.scrollTo(0, 0);
-                      }}
-                    >
-                      <a href="/Lookbook" className="smr_A_linkFixed">
-                        LOOKBOOK
-                      </a>
-                    </li>
+                    <>
+                      {storeinit?.IsDesignSetInMenu == 1 &&
+                        <li
+                          className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            navigation("/Lookbook");
+                            window.scrollTo(0, 0);
+                          }}
+                        >
+                          <a href="/Lookbook" className="smr_A_linkFixed">
+                            {storeinit?.DesignSetInMenu}
+                          </a>
+                        </li>
+                      }
+                    </>
                   ) : (
                     ""
                   )
                 ) : (
-                  <li
-                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      navigation("/Lookbook");
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    <a href="/Lookbook" className="smr_A_linkFixed">
-                      LOOKBOOK
-                    </a>
-                  </li>
+                  <>
+                    {storeinit?.IsDesignSetInMenu == 1 &&
+                      <li
+                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          navigation("/Lookbook");
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        <a href="/Lookbook" className="smr_A_linkFixed">
+                          {storeinit?.DesignSetInMenu}
+                        </a>
+                      </li>
+                    }
+                  </>
                 )}
 
                 <ul className="nav_ul_shop_menu_Mobile">
@@ -1282,18 +1321,18 @@ const Header = () => {
 
                 {storeinit?.IsPLW == 0 && IsB2BWebsiteChek == 0 ? (
                   <>
-                  {
-                    (islogin === true) && <li
-                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    // onClick={() => navigation("/LoginOption")}
-                    onClick={() => navigation("/account")}
-                  >
-                    <a href="/account" className="smr_A_linkFixed">
-                      ACCOUNT
-                    </a>
-                  </li>
-                  }
+                    {
+                      (islogin === true) && <li
+                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        // onClick={() => navigation("/LoginOption")}
+                        onClick={() => navigation("/account")}
+                      >
+                        {/* <a href="/account" className="smr_A_linkFixed"> */}
+                        ACCOUNT
+                        {/* </a> */}
+                      </li>
+                    }
                   </>
                 ) : (
                   islogin && (
@@ -1303,9 +1342,9 @@ const Header = () => {
                       // onClick={() => navigation("/LoginOption")}
                       onClick={() => navigation("/account")}
                     >
-                      <a href="/account" className="smr_A_linkFixed">
-                        ACCOUNT
-                      </a>
+                      {/* <a href="/account" className="smr_A_linkFixed"> */}
+                      ACCOUNT
+                      {/* </a> */}
                     </li>
                   )
                 )}
@@ -1453,12 +1492,12 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${
-            isHeaderFixed ? "fixed" : ""
-          }`}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
+            }`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
+            ref={divRef}
             style={{
               display: "flex",
               padding: "25px",
@@ -1485,12 +1524,16 @@ const Header = () => {
                 >
                   <ButtonBase
                     component="div"
-                    onClick={() =>
+                    onClick={(e) =>
                       handelMenu({
                         menuname: menuItem?.menuname,
                         key: menuItem?.param0name,
                         value: menuItem?.param0dataname,
-                      })
+                      },
+                        {},
+                        {},
+                        e
+                      )
                     }
                   >
                     <a
@@ -1498,6 +1541,13 @@ const Header = () => {
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
                       className="smr_menuSubTitle"
+                    // onClick={() =>
+                    //   handelMenu({
+                    //     menuname: menuItem?.menuname,
+                    //     key: menuItem?.param0name,
+                    //     value: menuItem?.param0dataname,
+                    //   })
+                    // }
                     >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </a>
@@ -1522,16 +1572,17 @@ const Header = () => {
                               justifyContent: "start",
                               height: "25px",
                             }}
-                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                            onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
                           >
                             {/* <a href='#' className='smr_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.param0dataname}/${
-                                subMenuItem.param1dataname
-                              }/?M=${btoa(
-                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                              )}`}
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                                }/?M=${btoa(
+                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                                )}`}
                               className="smr_menuSubTitle"
+
+                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
                               <p
                                 style={{
@@ -1555,7 +1606,7 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: "100%" }}
-                                  onClick={() =>
+                                  onClick={(e) =>
                                     handelMenu(
                                       {
                                         menuname: menuItem?.menuname,
@@ -1569,19 +1620,35 @@ const Header = () => {
                                       {
                                         key: subSubMenuItem.param2name,
                                         value: subSubMenuItem.param2dataname,
-                                      }
+                                      },
+                                      e
                                     )
                                   }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.param0dataname}/${
-                                      subMenuItem.param1dataname
-                                    }/${
-                                      subSubMenuItem.param2dataname
-                                    }/?M=${btoa(
-                                      `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                    )}`}
+                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                                      }/${subSubMenuItem.param2dataname
+                                      }/?M=${btoa(
+                                        `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                      )}`}
                                     className="smr_menuSubTitle"
+                                  // onClick={() =>
+                                  //   handelMenu(
+                                  //     {
+                                  //       menuname: menuItem?.menuname,
+                                  //       key: menuItem?.param0name,
+                                  //       value: menuItem?.param0dataname,
+                                  //     },
+                                  //     {
+                                  //       key: subMenuItem.param1name,
+                                  //       value: subMenuItem.param1dataname,
+                                  //     },
+                                  //     {
+                                  //       key: subSubMenuItem.param2name,
+                                  //       value: subSubMenuItem.param2dataname,
+                                  //     }
+                                  //   )
+                                  // }
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                                     <p className="muilist2ndSubMenutext">
@@ -1615,7 +1682,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <CartDrawer open={isCartOpen} />
+      {/* <CartDrawer open={isCartOpen} /> */}
     </div>
   );
 };

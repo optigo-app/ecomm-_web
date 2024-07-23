@@ -14,6 +14,7 @@ import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
+import Cookies from "js-cookie";
 
 const CartItem = ({
   item,
@@ -40,20 +41,20 @@ const CartItem = ({
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
-  const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  const visiterId = Cookies.get('visiterId');
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
-    setCountStatus(isCartUpdateStatus)
-  }, [onRemove])
+  }, [])
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -78,17 +79,15 @@ const CartItem = ({
     setIsSelectedItems()
   }
 
-  const handleRemoveItem = () => {
-    onRemove(item)
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
-  }
+
+  const handleRemoveItem = async (item) => {
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
+  };
 
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);
@@ -161,17 +160,11 @@ const CartItem = ({
           <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='smr_DesignNoTExt'>
-                {item?.designno}
+                {item?.designno} {item?.StockNo != "" &&
+                  <span className='smr_DesignNoTExt'>({item?.StockNo})</span>
+                }
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
-                </div>
                 <div>
                   <Typography variant="body2" className='smr_card-ContentsData'>
                     GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
@@ -180,22 +173,28 @@ const CartItem = ({
                     DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
+                <div>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
+                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
+                  </Typography>
+                  <Typography variant="body2" className='smr_card-ContentsData'>
+                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
+                  </Typography>
+                </div>
               </div>
-              {item?.StockNo != "" &&
-                <span className='smr_DesignNoTExt'>{item?.StockNo}</span>
-              }
               <Box className="smr_PriceBox">
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
                     <span className='smr_currencyFontPrice'>
-                      <span
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      {/* <span
                         className="smr_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
-                      />
+                      /> */}
                       {(item?.UnitCostWithMarkUp)}
                     </span>
                   }

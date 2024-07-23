@@ -125,7 +125,8 @@ const OrderHistory = () => {
     }
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    productData?.TitleLine === undefined ?  navigate(`/d/${productData?.designno}?p=${encodeObj}`)
+     : navigate(`/d/${ productData?.TitleLine && productData?.TitleLine?.replace(/\s+/g, `_`)}${ productData?.TitleLine && productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
 
@@ -225,7 +226,6 @@ const OrderHistory = () => {
         <div className="orderedItems user-select-none">
           {orderHistoryData?.length > 0 ?
             orderHistoryData?.map((e) => {
-              
               return (
                 <div className="border orderHistory p-1 px-0 my-4" key={e?.id} >
                   <div className=" d-flex w-100 justify-content-between align-items-center p-1 d_block position-relative">
@@ -274,7 +274,7 @@ const OrderHistory = () => {
                         <span className="text-danger">{e?.TotalQuantity}</span>)
                       </div>
                       <div className="py-1 w-50 d-flex fs_price_oh _color fw-bold center_price px_change ps-4 ">
-                        <div dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{" "}
+                        <div dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }} ></div>{" "}
                         <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                     </div>
                     </div>
@@ -337,11 +337,11 @@ const OrderHistory = () => {
                             // <div>&nbsp;</div>} */}
                       </div>
                       { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end pe-4"><PrintIcon onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
-                      { e?.IsPLW === 1 && <span className="_colo2 w-100 d-flex justify-content-end" style={{fontSize:'7px', lineHeight:'7px'}}>
+                      { e?.IsPLW === 1 && <span className="_colo2 w-100 d-flex justify-content-end" style={{fontSize:'7px', lineHeight:'7px', height:'8px'}}>
                         { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
                       </span> }
                       <div className="py-1 w-50 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none">
-                          <div dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }} ></div>{" "}
+                          <div dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }} ></div>{" "}
                           <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                       </div>
                     </div>}
@@ -396,7 +396,7 @@ const OrderHistory = () => {
                           </div>
                           <div className="d-flex align-items-center text-break" style={{width:'18%'}}>  
                             { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
-                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px', height:'8px'}}>
                               { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
                             </span> }
                           </div>
@@ -439,7 +439,7 @@ const OrderHistory = () => {
                               </Card.Title>
                               <Card.Text>{el?.designno}</Card.Text>
                               <Card.Text>
-                                <span dangerouslySetInnerHTML={{ __html: el?.Currencysymbol }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}
+                                <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}
                               </Card.Text>
                             </Card.Body>
                           </Card>
@@ -452,14 +452,14 @@ const OrderHistory = () => {
                 <div className="d_flex_oh justify-content-between align-items-center fs-4 w-25 w25_oh_2 fs_small order_none" style={{ width: '30% !important' }}>
                   <div style={{ width: '40%' }}>Total :</div>
                   <div style={{ width: '60%' }} className="d-flex align-items-center">
-                    <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }}></div>
+                    <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></div>
                     {formatAmount(e?.orderAmountwithvat)}
                   </div>
                 </div>
                 <div className="d_flex_oh justify-content-between align-items-center text-secondary fs_small order_not_none">
                   <div className="d-flex align-items-center w-100 pe-4">
                     <div>Total :</div>
-                    <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Currencysymbol }}></div>
+                    <div className="pe-1" dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></div>
                     {formatAmount(e?.orderAmountwithvat)}
                   </div>
                 </div>

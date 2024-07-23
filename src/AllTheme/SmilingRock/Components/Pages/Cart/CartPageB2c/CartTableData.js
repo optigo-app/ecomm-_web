@@ -26,6 +26,8 @@ const ExampleComponent = ({
     const shipsDate = cartData?.shipsdate;
     const dayOfMonth = moment(shipsDate).format('D'); 
 
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
     useEffect(() => {
         const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
@@ -87,12 +89,17 @@ const ExampleComponent = ({
                             <span>
                                 <span
                                     className="smr_currencyFont"
+                                >
+                                    {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                                </span>
+                                {/* <span
+                                    className="smr_currencyFont"
                                     dangerouslySetInnerHTML={{
                                         __html: decodeEntities(
                                             CurrencyData?.Currencysymbol
                                         ),
                                     }}
-                                />
+                                /> */}
                                 {(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
@@ -102,14 +109,19 @@ const ExampleComponent = ({
                     <td className="smr_B2C-text-right smr_B2cCartPrice" title="Total">
                         {storeInitData?.IsPriceShow == 1 &&
                             <span>
-                                <span
+                                {/* <span
                                     className="smr_currencyFont"
                                     dangerouslySetInnerHTML={{
                                         __html: decodeEntities(
                                             CurrencyData?.Currencysymbol
                                         ),
                                     }}
-                                />
+                                /> */}
+                                <span
+                                    className="smr_currencyFont"
+                                >
+                                    {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                                </span>
                                 {(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }

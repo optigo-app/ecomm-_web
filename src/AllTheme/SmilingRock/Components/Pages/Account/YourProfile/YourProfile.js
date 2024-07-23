@@ -98,6 +98,64 @@ export default function YourProfile() {
             ...prevData,
             [id]: value,
         }));
+
+        
+        // Validate the field
+        const errorsCopy = { ...errors };
+
+        switch (id) {
+            case 'defaddress_shippingfirstname':
+                if (!value.trim()) {
+                    errorsCopy.defaddress_shippingfirstname = 'First Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
+                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    errorsCopy.defaddress_shippingfirstname = 'Invalid First Name';
+                } else {
+                    errorsCopy.defaddress_shippingfirstname = '';
+                }
+                break;
+            case 'defaddress_shippinglastname':
+                if (!value.trim()) {
+                    errorsCopy.defaddress_shippinglastname = 'Last Name is required';
+                } else if(value?.length < 3){
+                    errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
+                } else if(value?.length > 25){
+                    errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
+                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    errorsCopy.defaddress_shippinglastname = 'Invalid Last Name';
+                } else {
+                    errorsCopy.defaddress_shippinglastname = '';
+                }
+                break;
+            case 'defaddress_street':
+                if (!value.trim()) {
+                    errorsCopy.defaddress_street = 'Address is required';
+                } else if(value?.length < 3){
+                    errorsCopy.defaddress_street = 'Address is too short';
+                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    errorsCopy.defaddress_street = 'Invalid Address';
+                } else {
+                    errorsCopy.defaddress_street = '';
+                }
+                break;
+            case 'defaddress_shippingmobile':
+                if (!value.trim()) {
+                    errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
+                } else if (!/^\d{10}$/.test(value.trim())) {
+                    errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
+                } else {
+                    errorsCopy.defaddress_shippingmobile = '';
+                }
+                break;
+            default:
+                break;
+        }
+
+        setErrors(errorsCopy);
+
     };
 
     // const handleSave = async (event) => {
@@ -134,7 +192,9 @@ export default function YourProfile() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         if (validate()) {
+            
             setEditMode(false);
             try {
                 setIsLoading(true);
@@ -157,7 +217,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out all required fields.');
+            toast.error('Please fill out form fields correctly.');
         }
     };
 
@@ -167,14 +227,105 @@ export default function YourProfile() {
     };
 
     const validate = () => {
+
+        // const errors = {}; // Initialize errors object
+    
+        // // Validate each required field
+        // if (!editedUserData.defaddress_shippingfirstname.trim()) {
+        //     errors.defaddress_shippingfirstname = 'First Name is required';
+        // } else if(editedUserData.defaddress_shippingfirstname?.length < 3){
+        //     errors.defaddress_shippingfirstname = 'First Name too short';
+        // } else if(editedUserData.defaddress_shippingfirstname?.length > 25){
+        //     errors.defaddress_shippingfirstname = 'FIrst Name too long';
+        // } else if (!/^[a-zA-Z]+$/.test(editedUserData.defaddress_shippingfirstname.trim())) {
+        //     errors.defaddress_shippingfirstname = 'First Name must contain only letters';
+        // }
+
+        // if (!editedUserData.defaddress_shippinglastname.trim()) {
+        //     errors.defaddress_shippinglastname = 'Last Name is required';
+        // } else if(editedUserData.defaddress_shippinglastname?.length < 3){
+        //     errors.defaddress_shippinglastname = 'Last Name is too short';
+        // } else if(editedUserData.defaddress_shippinglastname?.length > 25){
+        //     errors.defaddress_shippinglastname = 'Last Name is too long';
+        // } else if (!/^[a-zA-Z]+$/.test(editedUserData.defaddress_shippinglastname.trim())) {
+        //     errors.defaddress_shippinglastname = 'Last Name must contain only letters';
+        // }
+
+        // if (!editedUserData.defaddress_street.trim()) {
+        //     errors.defaddress_street = 'Address is required';
+        // } else if(editedUserData.defaddress_street?.length < 3){
+        //     errors.defaddress_street = 'Address is too short';
+        // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(editedUserData.defaddress_street.trim())) {
+        //     errors.defaddress_street = 'Invalid Address';
+        // } else {
+        //     errors.defaddress_street = '';
+        // }
+        
+
+        // if (!editedUserData.defaddress_shippingmobile.trim()) {
+        //     errors.defaddress_shippingmobile = 'Mobile No. is required';
+        // } else if (!/^\d{10}$/.test(editedUserData.defaddress_shippingmobile.trim())) {
+        //     errors.defaddress_shippingmobile = 'Mobile No. must contain exactly 10 numbers';
+        // }
+    
+        // console.log(errors, editedUserData);
+        // // If there are any errors, update state and return
+        // if (Object.keys(errors).length > 0) {
+        //     setErrors(errors);
+        //     return false;
+        // }else{
+        //     return true;
+        // }
+
         let tempErrors = {};
-        tempErrors.defaddress_shippingfirstname = editedUserData.defaddress_shippingfirstname ? "" : "This field is required.";
-        tempErrors.defaddress_shippinglastname = editedUserData.defaddress_shippinglastname ? "" : "This field is required.";
-        tempErrors.userid = editedUserData.userid ? "" : "This field is required.";
-        tempErrors.defaddress_shippingmobile = editedUserData.defaddress_shippingmobile ? "" : "This field is required.";
-        tempErrors.defaddress_street = editedUserData.defaddress_street ? "" : "This field is required.";
-        setErrors(tempErrors);
-        return Object.values(tempErrors).every(x => x === "");
+
+            // First Name validation
+            if (!editedUserData.defaddress_shippingfirstname?.length) {
+                tempErrors.defaddress_shippingfirstname = "First Name is required";
+            } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+                tempErrors.defaddress_shippingfirstname = "First Name is too short";
+            } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
+                tempErrors.defaddress_shippingfirstname = "First Name is too long";
+            }
+
+            // Last Name validation
+            if (!editedUserData.defaddress_shippinglastname?.length) {
+                tempErrors.defaddress_shippinglastname = "Last Name is required";
+            } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+                tempErrors.defaddress_shippinglastname = "Last Name is too short";
+            } else if (editedUserData.defaddress_shippinglastname.length > 25) {
+                tempErrors.defaddress_shippinglastname = "Last Name is too long";
+            }
+
+            // Mobile Number validation
+            if (!editedUserData.defaddress_shippingmobile?.length) {
+                tempErrors.defaddress_shippingmobile = "Mobile Number is required";
+            } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
+                tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
+            }
+
+            // User ID validation
+            if (!editedUserData.userid) {
+                tempErrors.userid = "User ID is required";
+            }
+
+            // Street Address validation
+            if (!editedUserData.defaddress_street) {
+                tempErrors.defaddress_street = "Street Address is required";
+            }
+
+            setErrors(tempErrors);
+
+            // Check if all errors are empty strings or undefined
+            return Object.values(tempErrors).every(x => !x);
+
+        // tempErrors.defaddress_shippingfirstname = editedUserData.defaddress_shippingfirstname ? "" : "This field is required.";
+        // tempErrors.defaddress_shippinglastname = editedUserData.defaddress_shippinglastname ? "" : "This field is required.";
+        // tempErrors.userid = editedUserData.userid ? "" : "This field is required.";
+        // tempErrors.defaddress_shippingmobile = editedUserData.defaddress_shippingmobile ? "" : "This field is required.";
+        // tempErrors.defaddress_street = editedUserData.defaddress_street ? "" : "This field is required.";
+        // setErrors(tempErrors);
+        // return Object.values(tempErrors).every(x => x === "");
     };
 
     useEffect(() => {
@@ -324,6 +475,7 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.userid}
                                     helperText={errors.userid}
+                                    disabled
                                 />
                                 <TextField
                                     id="defaddress_shippingmobile"
