@@ -11,7 +11,7 @@ export const fetchAddresses = async () => {
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            "con": `{\"id\":\"\",\"mode\":\"GETSHIPINGADDRESS\",\"appuserid\":\"${storedData.userid}\"}`,
+            "con": `{\"id\":\"\",\"mode\":\"GETSHIPINGADDRESS\",\"appuserid\":\"${storedData?.userid}\"}`,
             "f": "Delivery (FetchAddress)",
             "p": encodedCombinedValue,
             "dp": combinedValue

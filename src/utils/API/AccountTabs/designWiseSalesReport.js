@@ -8,7 +8,7 @@ export const getDesignWiseSalesReport = async(currencyRate, FrontEnd_RegNo, cust
     const encodedCombinedValue = btoa(combinedValue);
     const encodedCombinedValue2 = (combinedValue);
     const body = {
-        "con": `{\"id\":\"Store\",\"mode\":\"getdesignwisesalereport\",\"appuserid\":\"${data.email1}\"}`,
+        "con": `{\"id\":\"Store\",\"mode\":\"getdesignwisesalereport\",\"appuserid\":\"${data?.userid}\"}`,
         "f": "zen (cartcount)",
         p: encodedCombinedValue,
         dp: encodedCombinedValue2,
