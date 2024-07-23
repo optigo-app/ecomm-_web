@@ -1,6 +1,7 @@
 export function storImagePath(){
   let storeinit = JSON.parse(localStorage.getItem("storeInit"))
-  return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
+  return `${storeinit?.WebSiteStaticImagePath}`
+  // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
 
 export function findMetalColor(paramId) {

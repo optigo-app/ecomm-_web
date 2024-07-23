@@ -91,7 +91,7 @@ const Home = () => {
       {localData?.IsHomeNewArrival === 1 && < NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && < DesignSet />}
-      <BottomBanner />
+      {/* <BottomBanner /> */}
     </div>
   )
 }

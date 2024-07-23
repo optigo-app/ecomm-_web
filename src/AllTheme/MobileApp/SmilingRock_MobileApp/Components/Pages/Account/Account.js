@@ -128,9 +128,8 @@ export default function Account() {
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div className='smling-AccountTabMain'>
+            <div className='smlingMA-AccountTabMain'>
                 <div className='smlingAccountTabMobileView YourAccountPageTabs' style={{ marginTop: '15px' }}>
                     <div className='menuMainAccount' onClick={() => naviagation('/YourProfile')}>
                         <p className='menuMainAccountTitle'>Your Profile</p>
