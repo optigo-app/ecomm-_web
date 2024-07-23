@@ -61,7 +61,7 @@ function Home() {
             {/* <SustainAbility /> */}
             {/* <BestSaller /> */}
             <BottomBanner />
-            <BrandsComponent/>
+            {/* <BrandsComponent/> */}
             <Footer />
           </div>
         }

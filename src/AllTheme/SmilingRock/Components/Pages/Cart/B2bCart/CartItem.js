@@ -83,11 +83,11 @@ const CartItem = ({
   const handleRemoveItem = async (item) => {
     const returnValue = await onRemove(item);
     if (returnValue?.msg == "success") {
-        GetCountAPI(visiterId).then((res) => {
-          setCartCountVal(res?.cartcount);
-        })
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
     }
-};
+  };
 
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);
@@ -160,7 +160,9 @@ const CartItem = ({
           <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='smr_DesignNoTExt'>
-                {item?.designno}
+                {item?.designno} {item?.StockNo != "" &&
+                  <span className='smr_DesignNoTExt'>({item?.StockNo})</span>
+                }
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
@@ -180,9 +182,6 @@ const CartItem = ({
                   </Typography>
                 </div>
               </div>
-              {item?.StockNo != "" &&
-                <span className='smr_DesignNoTExt'>{item?.StockNo}</span>
-              }
               <Box className="smr_PriceBox">
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
