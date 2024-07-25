@@ -1,3 +1,4 @@
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 import S1 from "../Assets/SliderImg/1.webp";
 import S2 from "../Assets/SliderImg/2.webp";
 import S3 from "../Assets/SliderImg/3.webp";
@@ -9,7 +10,8 @@ import M3 from "../Assets/SliderImg/M3.png";
 export const SliderItemns = [
   {
     key: 150,
-    url: S1,
+    url:`${storImagePath()}/images/HomePage/slider/1.webp` ,
+
   },
   {
     key: 151,
