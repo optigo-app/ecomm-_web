@@ -109,9 +109,9 @@ const ProductDetail = () => {
 
   // console.log("sizeData",sizeData)
 
-  // console.log("pdVideoArr", selectedThumbImg);
+  // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -620,6 +620,7 @@ const ProductDetail = () => {
 
           if(res?.pdList?.length > 0){
             setisPriceLoading(false)
+            setIsImageLoad(false)
           }
 
           if(!res?.pdList[0]){
@@ -935,7 +936,7 @@ const ProductDetail = () => {
     else{
       if (pdImgList?.length > 0) {
         setSelectedThumbImg({"link":pdImgList[thumbImgIndex],"type":'img'});
-        setPdThumbImg(pdImgList);
+        setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
       }
     }
@@ -1178,11 +1179,13 @@ const ProductDetail = () => {
                 <div className="smr_prod_detail_main">
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
+                      {/* {isImageload && ( */}
                       {isImageload && (
                         <Skeleton
                           sx={{
-                            width: "100%",
-                            height: "800px",
+                            width: "95%",
+                            height: "750px",
+                            margin:"20px 0 0 0"
                           }}
                           variant="rounded"
                         />
@@ -1192,7 +1195,7 @@ const ProductDetail = () => {
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {selectedThumbImg?.type == "img" ? (
+                        {(selectedThumbImg?.type == "img")? (
                           <img
                             src={selectedThumbImg?.link ?? imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }

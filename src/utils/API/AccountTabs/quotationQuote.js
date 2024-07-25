@@ -10,7 +10,7 @@ export const getQuotationQuoteData = async(data, currencyRate, FrontEnd_RegNo, c
             const encodedCombinedValue2 = (combinedValue);
             
             const body = {
-                "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.email1}\"}`,
+                "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.userid}\"}`,
                 "f": "zen (cartcount)",
                 p: encodedCombinedValue,
                 dp:encodedCombinedValue2

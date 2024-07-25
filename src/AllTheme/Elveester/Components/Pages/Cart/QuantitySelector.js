@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import './smr_cartPage.scss';
+import './elv_cartPage.scss';
 
 const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, }) => {
 
   return (
-    <div className="smr_cart-quantity">
-      <button className="bttn bttn-left" onClick={handleDecrement}>
+    <div className="elv_cart-quantity">
+      <button className="elv_bttn elv_bttn-left" onClick={() => handleDecrement(selectedItem)}>
         <span>-</span> 
       </button>
       <input
         type="number"
-        className="input"
+        className="elv_input"
         id="input"
         defaultValue={selectedItem?.Quantity}
-        value={qtyCount}
+        value={selectedItem?.Quantity}
         readOnly
       />
-      <button className="bttn bttn-right" onClick={handleIncrement}>
+      <button className="elv_bttn elv_bttn-right" onClick={() => handleIncrement(selectedItem)}>
         <span>+</span>
       </button>
     </div>

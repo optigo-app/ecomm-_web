@@ -3,7 +3,7 @@ import './Header.modul.scss'
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
-import { el_companyLogo, el_loginState,el_CartCount,el_WishCount } from '../../../Recoil/atom';
+import { el_companyLogo, el_loginState, el_CartCount, el_WishCount } from '../../../Recoil/atom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
 import { Badge, ButtonBase, List, ListItem, Tooltip } from '@mui/material';
@@ -12,6 +12,7 @@ import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { FaPowerOff } from 'react-icons/fa';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Menubar from '../MenuBar/Menubar';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Header = () => {
 
@@ -19,8 +20,8 @@ const Header = () => {
   const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const navigation = useNavigate();
   const [islogin, setislogin] = useRecoilState(el_loginState);
-  const cartCount = useRecoilState(el_CartCount);
-  const wishCount = useRecoilState(el_WishCount);
+  const [cartCount, setCartCount] = useRecoilState(el_CartCount);
+  const [wishCount, setWishCount] = useRecoilState(el_WishCount);
   const [burgerMenu, setBurgerMenu] = useState(false);
   const [chnageBG, setChnageBG] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +38,21 @@ const Header = () => {
     setTimeout(() => {
       setLodingLogo(false);
     }, 100);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await GetCountAPI(); 
+        console.log('responseCount', res);
+        setCartCount(res?.cartcount); 
+        setWishCount(res?.wishCount); 
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   function ScrollToView(param) {
@@ -155,7 +171,7 @@ const Header = () => {
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -168,10 +184,10 @@ const Header = () => {
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get('visiterId')
     let finalId;
-    if(IsB2BWebsite === 0) {
+    if (IsB2BWebsite === 0) {
       finalId = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     }
-    else{
+    else {
       finalId = loginUserDetail?.id || '0'
     }
 
@@ -231,11 +247,11 @@ const Header = () => {
 
   useEffect(() => {
     const handleResize = () => {
-        if (window.innerWidth <= 1400) {
-            setBurgerMenu(true);
-        } else {
-            setBurgerMenu(false);
-        }
+      if (window.innerWidth <= 1400) {
+        setBurgerMenu(true);
+      } else {
+        setBurgerMenu(false);
+      }
     };
 
     handleResize(); // Initial check on component mount
@@ -243,7 +259,7 @@ const Header = () => {
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-}, []);
+  }, []);
 
   return (
     <div className="el_header_main">
@@ -303,7 +319,7 @@ const Header = () => {
                 <li
                   className="el_whioutL_li"
                   style={{ cursor: "pointer" }}
-                  // onClick={() => navigation("/contact")}
+                // onClick={() => navigation("/contact")}
                 >
                   Contact
                 </li>
@@ -326,11 +342,10 @@ const Header = () => {
         </div>
       ) : (
         <div
-          className={`${
-            burgerMenu
+          className={`${burgerMenu
               ? "elv_login_header_main_bg_active"
               : "el_login_header_main"
-          }`}
+            }`}
         >
           {!burgerMenu ? (
             <>
@@ -494,14 +509,14 @@ const Header = () => {
         </div>
       )}
 
+      <div
+        className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}
+        onMouseEnter={() => handleMouseEnter(hoveredIndex)}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => handleMouseLeave()}
+      >
         <div
-         className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}
-         onMouseEnter={() => handleMouseEnter(hoveredIndex)}
-         onMouseLeave={handleMouseLeave}
-         onClick={() => handleMouseLeave()}
-        >
-          <div
-           style={{
+          style={{
             display: "flex",
             padding: "50px",
             color: "#7d7f85",
@@ -511,77 +526,79 @@ const Header = () => {
             justifyContent: "space-between",
           }}
           className="menuDropdownData"
+        >
+          <div style={{
+            width: "100%",
+            display: "flex",
+            gap: "60px",
+            textTransform: "uppercase",
+          }}
+
           >
-            <div  style={{
-                width: "100%",
-                display: "flex",
-                gap: "60px",
-                textTransform: "uppercase",
-              }}
-                
-              >
-                  {selectedData?.param1?.map((param1Item, param1Index) => {
-                  return (
-                    <div key={param1Index}>
-                      <span
-                        className="level1MenuData"
-                        key={param1Index}
-                        style={{
-                          fontSize: "16px",
-                          textDecoration: "underline",
-                          marginBottom: "10px",
-                          fontFamily: '"PT Sans", sans-serif',
-                          color: "black",
-                          textAlign: "start",
-                          letterSpacing: 1,
-                          fontWeight: 500,
-                          cursor: "pointer",
-                        }}
-                      >
-                        {" "}
-                        <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`)}>
-                          {param1Item?.param1dataname}
-                        </span>
-                      </span>
-                      <div
-                        style={{
-                          height: "300px",
-                          display: "flex",
-                          flexWrap: "wrap",
-                          flexDirection: "column",
-                          marginLeft: "15px",
-                        }}
-                      >
-                        {param1Item?.param2?.map((param2Item, param2Index) => {
-                        return(
-                          <p
-                            className="level2menuData"
-                            key={param2Index}
-                            onClick={() =>
-                              handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
-                            }
-                            style={{
-                              fontSize: "15px",
-                              margin: "3px 15px 3px 0px",
-                              fontFamily: '"PT Sans", sans-serif',
-                              letterSpacing: 0.4,
-                              textAlign: "start",
-                              cursor: "pointer",
-                              textTransform: "capitalize",
-                              paddingRight: "15px",
-                            }}
-                          >
-                            <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`)}>
-                              {param2Item?.param2dataname}
-                            </span>
-                          </p>
-                        )})}
-                      </div>
-                    </div>
-                  )})}
-            </div>
+            {selectedData?.param1?.map((param1Item, param1Index) => {
+              return (
+                <div key={param1Index}>
+                  <span
+                    className="level1MenuData"
+                    key={param1Index}
+                    style={{
+                      fontSize: "16px",
+                      textDecoration: "underline",
+                      marginBottom: "10px",
+                      fontFamily: '"PT Sans", sans-serif',
+                      color: "black",
+                      textAlign: "start",
+                      letterSpacing: 1,
+                      fontWeight: 500,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {" "}
+                    <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`)}>
+                      {param1Item?.param1dataname}
+                    </span>
+                  </span>
+                  <div
+                    style={{
+                      height: "300px",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      flexDirection: "column",
+                      marginLeft: "15px",
+                    }}
+                  >
+                    {param1Item?.param2?.map((param2Item, param2Index) => {
+                      return (
+                        <p
+                          className="level2menuData"
+                          key={param2Index}
+                          onClick={() =>
+                            handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
+                          }
+                          style={{
+                            fontSize: "15px",
+                            margin: "3px 15px 3px 0px",
+                            fontFamily: '"PT Sans", sans-serif',
+                            letterSpacing: 0.4,
+                            textAlign: "start",
+                            cursor: "pointer",
+                            textTransform: "capitalize",
+                            paddingRight: "15px",
+                          }}
+                        >
+                          <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`)}>
+                            {param2Item?.param2dataname}
+                          </span>
+                        </p>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
+      </div>
     </div>
   );
 }

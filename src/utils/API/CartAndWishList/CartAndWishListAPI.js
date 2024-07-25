@@ -8,7 +8,7 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "") => {
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail.email1 ?? "";
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail?.userid ?? "";
 
     let FinalObj = {
         "ForEvt": `${type}`,
