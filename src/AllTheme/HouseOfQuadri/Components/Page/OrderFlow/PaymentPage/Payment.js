@@ -204,7 +204,7 @@ const Payment = () => {
                             </div>
                             <div className='hoqMo_paymentButtonDiv'>
                                 <button className='hoqMo_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
-                                    {isloding ? 'Loding...' : 'Pay On Account'}
+                                    {isloding ? 'Loading...' : 'Pay On Account'}
                                     {isloding && <span className="loader"></span>}
                                 </button>
                             </div>

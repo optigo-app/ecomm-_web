@@ -53,7 +53,6 @@ const HouseOfQuadri_App = () => {
         <Route path="/collections/" element={<CollectionPage />} />
         <Route path="/p/*" element={<DynamicCollection />} />
         <Route path="/d/*" element={<ProductPage />} /> 
-        {/* <Route path="/products/:productId" element={<ProductPage />} /> */}
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/Delivery" element={<Delivery />} />
