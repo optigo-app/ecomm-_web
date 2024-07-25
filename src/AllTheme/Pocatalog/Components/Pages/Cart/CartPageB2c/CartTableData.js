@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QuantitySelector from './QuantitySelector';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { CartCount } from '../../../Recoil/atom';
+import {proCat_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import moment from 'moment';
@@ -18,7 +18,7 @@ const ExampleComponent = ({
     onRemove
 
 }) => {
-    const setCartCountVal = useSetRecoilState(CartCount)
+    const setCartCountVal = useSetRecoilState(proCat_CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const [countstatus, setCountStatus] = useState();
     const visiterId = Cookies.get('visiterId');

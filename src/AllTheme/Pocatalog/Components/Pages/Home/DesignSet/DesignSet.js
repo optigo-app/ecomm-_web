@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import {  proCat_loginState } from '../../../Recoil/atom';
 
 const DesignSet = () => {
     const [imageUrl, setImageUrl] = useState();
@@ -20,7 +20,7 @@ const DesignSet = () => {
     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(proCat_loginState);
     const [swiper, setSwiper] = useState(null);
 
     useEffect(() => {

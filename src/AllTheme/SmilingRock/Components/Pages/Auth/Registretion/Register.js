@@ -36,6 +36,7 @@ export default function Register() {
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
+  const singupRedirectUrl = `/LoginOption/${search}`;
 
   const setIsLoginState = useSetRecoilState(loginState)
 
@@ -207,16 +208,18 @@ export default function Register() {
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          localStorage.setItem('LoginUser', true)
-          localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState(true)
-          localStorage.setItem('registerEmail', email)
+          navigation(singupRedirectUrl);
+          
+          // localStorage.setItem('LoginUser', true)
+          // localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          // setIsLoginState(true)
+          // localStorage.setItem('registerEmail', email)
 
-          if (redirectEmailUrl) {
-            navigation(redirectEmailUrl);
-          } else {
-            navigation('/')
-          }
+          // if (redirectEmailUrl) {
+          //   navigation(redirectEmailUrl);
+          // } else {
+          //   navigation('/')
+          // }
 
         } else {
           if (response.Data?.rd[0].ismobileexists === 1) {

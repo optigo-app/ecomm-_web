@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount } from '../../../Recoil/atom';
+import { proCat_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -61,7 +61,7 @@ const CartPage = () => {
 
   const navigate = useNavigate();
 
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount)
 
   const handlePlaceOrder = () => {
     let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)

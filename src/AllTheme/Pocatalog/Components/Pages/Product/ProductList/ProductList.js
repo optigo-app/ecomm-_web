@@ -17,7 +17,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../../Recoil/atom";
+import { proCat_CartCount, proCat_WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
@@ -87,8 +87,8 @@ const ProductList = () => {
 
   const [sortBySelect,setSortBySelect] = useState();
 
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount)
+  const setWishCountVal = useSetRecoilState(proCat_WishCount)
 
 
 

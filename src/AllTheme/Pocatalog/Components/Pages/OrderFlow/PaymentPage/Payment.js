@@ -7,10 +7,10 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
+import { proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -22,11 +22,11 @@ const Payment = () => {
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
 
-    const setCartCountVal = useSetRecoilState(CartCount);
+    const setCartCountVal = useSetRecoilState(proCat_CartCount);
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
-    const islogin = useRecoilValue(loginState)
+    const islogin = useRecoilValue(proCat_loginState)
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
