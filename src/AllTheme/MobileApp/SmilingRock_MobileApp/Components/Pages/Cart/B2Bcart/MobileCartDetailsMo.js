@@ -78,7 +78,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
                     ) :
                       <>
-                        {metalTypeCombo.map(option => (
+                        {metalTypeCombo?.map(option => (
                           <option key={option.Metalid} value={option.metaltypename}>{option.metaltype}</option>
                         ))}
                       </>
@@ -95,7 +95,7 @@ const MobileCartDetails = ({
                     ) :
                       <>
                         {
-                          metalColorCombo.map(option => (
+                          metalColorCombo?.map(option => (
                             <option key={option.id} value={option.colorname}> {option.colorname}</option>
                           ))
                         }
@@ -112,7 +112,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}</option>
                     ) :
                       <>
-                        {diamondQualityColorCombo.map(option => (
+                        {diamondQualityColorCombo?.map(option => (
                           <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
                         ))}
                       </>
@@ -128,7 +128,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}</option>
                     ) :
                       <>
-                        {ColorStoneCombo.map(option => (
+                        {ColorStoneCombo?.map(option => (
                           <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + '#' + option?.color}</option>
                         ))}
                       </>
