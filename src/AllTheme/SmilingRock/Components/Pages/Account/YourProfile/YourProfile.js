@@ -131,15 +131,20 @@ export default function YourProfile() {
                 }
                 break;
             case 'defaddress_street':
-                if (!value.trim()) {
+                if(!value.trim()){
                     errorsCopy.defaddress_street = 'Address is required';
-                } else if(value?.length < 3){
-                    errorsCopy.defaddress_street = 'Address is too short';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.defaddress_street = 'Invalid Address';
-                } else {
+                }else{
                     errorsCopy.defaddress_street = '';
                 }
+                // if (!value.trim()) {
+                //     errorsCopy.defaddress_street = 'Address is required';
+                // } else if(value?.length < 3){
+                //     errorsCopy.defaddress_street = 'Address is too short';
+                // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                //     errorsCopy.defaddress_street = 'Invalid Address';
+                // } else {
+                //     errorsCopy.defaddress_street = '';
+                // }
                 break;
             case 'defaddress_shippingmobile':
                 if (!value.trim()) {
@@ -202,7 +207,7 @@ export default function YourProfile() {
                 const data = JSON.parse(storedData);
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
-                const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, editedUserData);
+                const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
@@ -333,6 +338,7 @@ export default function YourProfile() {
     }, [])
 
     const fetchAddress = async() => {
+        setIsLoading(true);
         try {
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
@@ -344,9 +350,11 @@ export default function YourProfile() {
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
             if(response?.Data?.rd?.length > 0){
                 setAddressPresentFlag(true);
+                setIsLoading(false);
             }    
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         }
         
     }
@@ -373,8 +381,9 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
                                     // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
-                                    value={userData?.defaddress_shippingfirstname}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippingfirstname || ''}
+                                    // disabled={!editMode}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -384,8 +393,9 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
-                                    value={userData?.defaddress_shippinglastname}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippinglastname || ''}
+                                    // disabled={!editMode}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -397,8 +407,9 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.userid !== "undefined" ? userData.userid : ""}
-                                    value={userData?.userid}
-                                    disabled={!editMode}
+                                    value={userData?.userid || ''}
+                                    // disabled={!editMode}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -408,8 +419,9 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
-                                    value={userData?.defaddress_shippingmobile}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippingmobile || ''}
+                                    // disabled={!editMode}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -421,8 +433,9 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
-                                    value={userData?.defaddress_street}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_street || ''}
+                                    // disabled={!editMode}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -453,7 +466,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippingfirstname}
                                     helperText={errors.defaddress_shippingfirstname}
-                                    required
                                 />
                                 <TextField
                                     id="defaddress_shippinglastname"
@@ -464,7 +476,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippinglastname}
                                     helperText={errors.defaddress_shippinglastname}
-                                    required
                                 />
                                 <TextField
                                     id="userid"
@@ -486,7 +497,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippingmobile}
                                     helperText={errors.defaddress_shippingmobile}
-                                    required
                                 />
                                 <TextField
                                     id="defaddress_street"
@@ -497,7 +507,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_street}
                                     helperText={errors.defaddress_street}
-                                    required
                                 />
                             </>
                         )}
