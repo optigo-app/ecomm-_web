@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_WishCount, proCat_cartB2CDrawer, proCat_companyLogo, proCat_loginState } from '../../../Recoil/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -18,17 +18,17 @@ import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
+  const setCartOpenState = useSetRecoilState(proCat_cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
-  const compnyLogo = useRecoilValue(companyLogo);
-  const [islogin, setislogin] = useRecoilState(loginState);
+  const compnyLogo = useRecoilValue(proCat_companyLogo);
+  const [islogin, setislogin] = useRecoilState(proCat_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
-  const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+  const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
   const [searchText, setSearchText] = useState("")
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));

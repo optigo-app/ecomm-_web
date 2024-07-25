@@ -1652,10 +1652,13 @@ const ProductDetail = () => {
                                 width={140}
                                 height={30}
                               />
-                            ) : formatter.format(
+                            ) : 
+                            // formatter.format
+                            (
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
-                            )}
+                            )
+                            }
                             {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
                           </div>
                         }
@@ -2052,7 +2055,11 @@ const ProductDetail = () => {
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
-                                <span> {formatter.format(ele?.Amount)}</span>
+                                <span> {
+                                // formatter.format(
+                                  ele?.Amount
+                                  // )
+                                  }</span>
                               </span>
                             </td>
                             <td
@@ -2161,7 +2168,11 @@ const ProductDetail = () => {
                                   </span>
                                   &nbsp;
                                   </spam>
-                                  <span>{formatter.format(ele?.UnitCostWithMarkUp)}</span>
+                                  <span>{
+                                  // formatter.format(
+                                    ele?.UnitCostWithMarkUp
+                                    // )
+                                    }</span>
                                 </div>
                               </div>
                             </div>
@@ -2290,7 +2301,11 @@ const ProductDetail = () => {
                                             </span>
                                           }
                                           &nbsp;
-                                          {formatter.format(ele?.UnitCostWithMarkUp)}
+                                          {
+                                          // formatter.format(
+                                            ele?.UnitCostWithMarkUp
+                                            // )
+                                            }
                                         </p>
                                       </div>
                                       {/* <div>

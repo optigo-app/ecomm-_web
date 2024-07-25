@@ -1,13 +1,13 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { proCat_loginState } from '../../../Recoil/atom';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import './PromotionBaner1.modul.scss'
 
 const PromotionBaner1 = () => {
 
 
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(proCat_loginState);
 
     return (
         <div>
