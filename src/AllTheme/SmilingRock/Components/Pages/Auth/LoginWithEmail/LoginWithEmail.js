@@ -210,7 +210,7 @@ export default function LoginWithEmail() {
 
                 // handelCurrencyData()
                 // getAllProdData()
-                // window.location.reload(); 
+                window.location.reload(); 
             } else {
                 errors.confirmPassword = 'Password is Invalid'
             }
