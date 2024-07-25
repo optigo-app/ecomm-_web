@@ -50,7 +50,7 @@ const WishlistData = ({
           <div className='smrMo_noWishlistData'>
             <div>
               <p className='smr_title'>No Wishlist Found!</p>
-              <p className='smr_desc'>Please First Add To Wishlist Data</p>
+              <p className='smr_desc'>Please First Add Product in Wishlist</p>
               <button className='smr_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
             </div>
           </div>

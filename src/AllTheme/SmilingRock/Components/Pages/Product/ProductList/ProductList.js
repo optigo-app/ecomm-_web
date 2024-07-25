@@ -3240,7 +3240,9 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {formatter.format(productData?.UnitCostWithMarkUp)}
+                                            {/* {formatter.format( */}
+                                              {productData?.UnitCostWithMarkUp}
+                                             {/* )} */}
                                           </span>
                                         </span>
                                       </div>

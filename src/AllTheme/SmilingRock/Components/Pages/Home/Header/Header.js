@@ -198,7 +198,9 @@ const Header = () => {
     localStorage.removeItem("registerMobile");
     localStorage.removeItem("allproductlist");
     localStorage.clear();
-    navigation("/");
+    setTimeout(() => {
+      navigation("/");
+    }, 1000);
     window.location.reload();
   };
 

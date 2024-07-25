@@ -8,8 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import noImageFound from "../../../Assets/image-not-found.jpg";
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
 import CartTableData from "./CartTableData"
+import { proCat_loginState } from '../../../Recoil/atom';
 
 const Cart = ({
   isOpen,
@@ -37,7 +37,7 @@ const Cart = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(proCat_loginState);
   const [totalPrice, setTotalPrice] = useState();
   const [storeInitData, setStoreInitData] = useState();
 
