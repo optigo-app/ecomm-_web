@@ -17,7 +17,12 @@ import LoginWithEmailCode from "./Components/Page/Auth/LoginwithEmailCode/Hoq_Lo
 import LoginWithMobileCode from "./Components/Page/Auth/LoginWithMobileCode/Hoq_LoginWithMobileCode";
 import ForgotPass from "./Components/Page/Auth/ForgetPassword/Hoq_ForgetPassword";
 import { useLocation } from "react-router-dom";
+import ChatMenu from "./Components/Page/Home/ChatMenu/ChatMenu";
+import Delivery from "./Components/Page/OrderFlow/DeliveryPage/Delivery";
+import Payment from "./Components/Page/OrderFlow/PaymentPage/Payment";
+import Confirmation from "./Components/Page/OrderFlow/ConfirmationPage/Confirmation";
 
+//
 const HouseOfQuadri_App = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -31,6 +36,7 @@ const HouseOfQuadri_App = () => {
   return (
     <>
       <Navbar />
+      <ChatMenu />
       <Routes>
         {/* Auth Flow  */}
         <Route path="/LoginOption" element={<LoginOption />} />
@@ -46,10 +52,12 @@ const HouseOfQuadri_App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/collections/" element={<CollectionPage />} />
         <Route path="/p/*" element={<DynamicCollection />} />
-        <Route path="/d/*" element={<ProductPage />} />
-        {/* <Route path="/products/:productId" element={<ProductPage />} /> */}
+        <Route path="/d/*" element={<ProductPage />} /> 
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/Delivery" element={<Delivery />} />
+        <Route path="/Payment" element={<Payment />} />
+        <Route path="/Confirmation" element={<Confirmation />} />
       </Routes>
       <Footer />
     </>

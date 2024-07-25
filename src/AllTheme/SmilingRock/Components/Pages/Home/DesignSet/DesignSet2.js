@@ -16,6 +16,7 @@ import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const DesignSet2 = () => {
 
@@ -184,7 +185,8 @@ const DesignSet2 = () => {
                     {ProdCardImageFunc(slide) ? (
                       <img
                         // src={ProdCardImageFunc(slide)}
-                        src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
+                        // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
+                        src={`${storImagePath()}/images/HomePage/bottombBanner/BottomBannerDesignSet1.png`}
                         alt=""
                         className="imgBG"
                       />

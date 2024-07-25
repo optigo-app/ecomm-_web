@@ -1,29 +1,39 @@
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
+import S1 from "../Assets/SliderImg/1.webp";
+import S2 from "../Assets/SliderImg/2.webp";
+import S3 from "../Assets/SliderImg/3.webp";
+
+import M1 from "../Assets/SliderImg/M1.png";
+import M2 from "../Assets/SliderImg/M2.png";
+import M3 from "../Assets/SliderImg/M3.png";
+
 export const SliderItemns = [
   {
     key: 150,
-    url: "https://houseofquadri.com/cdn/shop/files/150_1944x.png?v=1720158119",
+    url:`${storImagePath()}/images/HomePage/slider/1.webp` ,
+
   },
   {
     key: 151,
-    url: "https://houseofquadri.com/cdn/shop/files/151_1944x.png?v=1720158130",
+    url: S2,
   },
   {
     key: 152,
-    url: "https://houseofquadri.com/cdn/shop/files/152_1944x.png?v=1720158129",
+    url: S3,
   },
 ];
 
 export const MobilSliderImage = [
   {
     key: 1321,
-    url: "https://i.ibb.co/KWcbDVt/65-1-300x-2.png",
+    url: M1,
   },
   {
     key: 4614,
-    url: "https://i.ibb.co/C8Gx23X/64-1-300x.png",
+    url: M2,
   },
   {
     key: 1642,
-    url: "https://i.ibb.co/m6Gp4BV/66-1-300x.png",
+    url: M3,
   },
 ];

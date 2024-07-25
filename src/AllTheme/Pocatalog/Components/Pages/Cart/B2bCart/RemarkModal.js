@@ -29,7 +29,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           flexDirection: 'column',
           borderRadius: '8px',
         }}
-        className="smr_remarkModalBox"
+        className="procat_remarkModalBox"
       >
         <Typography id="remark-modal-title" variant="h6" component="h2">
           Add The Item Remark..
@@ -44,11 +44,11 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
         />
-        <div className="smr_projectRemarkBtn-group">
-          <Button className="smr_remarksave-btn" onClick={onSave}>
+        <div className="procat_projectRemarkBtn-group">
+          <Button className="procat_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="smr_remarkcancel-btn" onClick={onClose}>
+          <Button className="procat_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>

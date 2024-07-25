@@ -6,7 +6,7 @@ export const handleOrderRemark = async (orderRemark) => {
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
         const { FrontEnd_RegNo } = storeInit;
 
-        let customerEmail = loginUserDetail?.email1
+        let customerEmail = loginUserDetail?.userid
 
         const combinedValue = {
             orderRemarks: orderRemark,

@@ -10,6 +10,7 @@ import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { smrMA_CartCount } from '../../../Recoil/atom';
+import Cookies from "js-cookie";
 
 const CartItem = ({
   item,
@@ -22,32 +23,27 @@ const CartItem = ({
   handleMoveToDetail
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [storeInitData, setStoreInitData] = useState();
+  const visiterId = Cookies.get('visiterId');
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
-    setCountStatus(isCartUpdateStatus)
-  }, [onRemove])
+  }, [])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
 
-  const handleConfirmRemove = () => {
+  const handleConfirmRemove = async() => {
     setDialogOpen(false);
-    onRemove(item)
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   };
 
   const handleCloseDialog = () => {
@@ -67,7 +63,7 @@ const CartItem = ({
       xxl={itemLength <= 2 ? 6 : 3}
       className='smrMo_cartListCardGrid'>
       <Card className='smrMo_cartListCard' >
-        <Box onClick={() => handleMoveToDetail(item)} className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
@@ -76,23 +72,23 @@ const CartItem = ({
           />
           <div>
             <CardContent className='smrMo_cartcontentData'>
-              <Typography variant="body2" className='smr_DesignNoTExt'>
+              <Typography variant="body2" className='smrmo_DesignNoTExt'>
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{marginRight: '5px' }}>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smrmo_card-ContentData'>
                     NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smrmo_card-ContentData'>
                     CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
                   </Typography>
                 </div>
                 <div style={{marginRight: '5px' }}>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smrmo_card-ContentData'>
                     GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
-                  <Typography variant="body2" className='smr_card-ContentData'>
+                  <Typography variant="body2" className='smrmo_card-ContentData'>
                     DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
                   </Typography>
                 </div>
@@ -101,7 +97,7 @@ const CartItem = ({
                 {storeInitData?.IsPriceShow == 1 &&
                   <span className='smrMo_currencyFontPrice'>
                     <span
-                      className="smr_currencyFont"
+                      className="smrmo_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol

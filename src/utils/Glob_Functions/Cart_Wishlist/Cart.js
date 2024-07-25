@@ -404,7 +404,6 @@ const useCart = () => {
       const selectedMetalId = selectedMetal.id;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalCOLORID(selectedMetalId);
-      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId);
     }
   };
 

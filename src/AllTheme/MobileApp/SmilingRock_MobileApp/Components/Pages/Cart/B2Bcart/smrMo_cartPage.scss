@@ -27,17 +27,17 @@ $cartUpdateBtncolor: #b1b1b1;
   transform: translate(-50%, -50%);
   text-align: center;
 
-  .smr_title {
+  .smrmo_title {
     color: $titleColor;
     font-size: $fontSize5;
   }
 
-  .smr_desc {
+  .smrmo_desc {
     color: $titleColor;
     font-size: $fontSize2;
   }
 
-  .smr_browseOurCollectionbtn {
+  .smrmo_browseOurCollectionbtn {
     background-color: #7d7f85;
     border: none;
     color: #fff;
@@ -63,7 +63,7 @@ $cartUpdateBtncolor: #b1b1b1;
   display: flex;
   padding-bottom: 150px;
 
-  .smr_mui_CartBox {
+  .smrmo_mui_CartBox {
     justify-content: space-around !important;
 
     .smrMo_cartListImage {
@@ -125,7 +125,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (min-width: 1440px) {
-    .smr_mui_CartBox {
+    .smrmo_mui_CartBox {
       display: flex;
       justify-content: space-around;
     }
@@ -151,8 +151,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1599px) and (min-width: 1530px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 300px;
       }
 
@@ -168,8 +168,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1530px) and (min-width: 1500px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 280px;
       }
 
@@ -185,8 +185,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1499px) and (min-width: 1440px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 280px;
       }
 
@@ -202,8 +202,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1439px) and (min-width: 1400px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 270px;
       }
 
@@ -219,8 +219,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1399px) and (min-width: 1200px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 260px;
       }
 
@@ -244,8 +244,8 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media (max-width: 1199px) and (min-width: 1140px) {
-    .smr_cart-right-side {
-      .smr_Cart-imageDiv {
+    .smrmo_cart-right-side {
+      .smrmo_Cart-imageDiv {
         max-width: 260px;
       }
 
@@ -274,13 +274,13 @@ $cartUpdateBtncolor: #b1b1b1;
   //     width: 70%;
   //   }
 
-  //   .smr_cart-right-side {
+  //   .smrmo_cart-right-side {
   //     max-width: 30%;
   //     width: 30%;
   //   }
 
-  //   .smr_cart-right-side {
-  //     .smr_Cart-imageDiv {
+  //   .smrmo_cart-right-side {
+  //     .smrmo_Cart-imageDiv {
   //       max-width: 250px;
   //     }
 
@@ -306,10 +306,10 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
   // @media (max-width: 1050px) {
-  //   .smr_pc-cartDetail {
+  //   .smrmo_pc-cartDetail {
   //     display: none !important;
   //   }
-  //   .smr_mui_CartBox {
+  //   .smrmo_mui_CartBox {
   //     display: flex !important;
   //     flex-direction: row !important;
   //   }
@@ -332,7 +332,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 370px !important;
     }
 
-    .smr_mui_CartBox {
+    .smrmo_mui_CartBox {
       display: flex !important;
       flex-direction: row !important;
     }
@@ -367,7 +367,7 @@ $cartUpdateBtncolor: #b1b1b1;
       justify-content: center !important;
     }
 
-    .smr_mui_CartBox {
+    .smrmo_mui_CartBox {
       display: flex !important;
       flex-direction: row !important;
     }
@@ -406,7 +406,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 370px !important;
     }
 
-    .smr_mui_CartBox {
+    .smrmo_mui_CartBox {
       display: flex !important;
       flex-direction: row !important;
     }
@@ -427,7 +427,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_card-ContentData {
+  .smrmo_card-ContentData {
     padding: 2px 0px 2px 0px !important;
   }
   .smrMo_Cart_R-details {
@@ -486,30 +486,30 @@ $cartUpdateBtncolor: #b1b1b1;
 // }
 
 @media screen and (min-width: 1051px) {
-  .smr_mobile-cartDetails {
+  .smrmo_mobile-cartDetails {
     display: none !important;
   }
 
-  .smr_cart-modal {
+  .smrmo_cart-modal {
     display: none !important;
   }
 }
 
-.smr_cart-container {
+.smrmo_cart-container {
   height: 100%;
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.smr_cart-container::-webkit-scrollbar {
+.smrmo_cart-container::-webkit-scrollbar {
   display: none !important;
 }
 
 
 // cart Details SCSS code (cart right side)
 
-.smr_cart-container {
+.smrmo_cart-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -519,13 +519,13 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_Cart-imageDiv {
+.smrmo_Cart-imageDiv {
   display: flex;
   align-items: center;
   justify-content: center;
   max-width: 400px;
 
-  .smr_cartImage {
+  .smrmo_cartImage {
     max-width: 100%;
     border-radius: 10px;
     border: 1px solid rgb(225, 225, 225);
@@ -546,7 +546,7 @@ $cartUpdateBtncolor: #b1b1b1;
     text-align: center;
   }
 
-  .smr_Cart-options {
+  .smrmo_Cart-options {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -575,14 +575,14 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_cartQtyPricemainDev {
+  .smrmo_cartQtyPricemainDev {
     display: flex;
     justify-content: space-between;
   }
 
   // cart quantity scss
 
-  .smr_cart-quantity {
+  .smrmo_cart-quantity {
     display: flex;
     width: 130px;
     height: 45px;
@@ -641,13 +641,13 @@ $cartUpdateBtncolor: #b1b1b1;
     justify-content: end;
   }
 
-  .smr_UpdateCartBtn {
+  .smrmo_UpdateCartBtn {
     display: flex;
     justify-content: flex-end;
     align-items: end;
   }
 
-  .smr_cartUpdate-button {
+  .smrmo_cartUpdate-button {
     display: block;
     height: 40px;
     width: 100px;
@@ -675,14 +675,14 @@ $cartUpdateBtncolor: #b1b1b1;
   justify-content: space-between !important;
   flex-direction: column !important;
 
-  .smr_DesignNoTExt {
+  .smrmo_DesignNoTExt {
     color: $titleColor;
     font-weight: bold;
     font-size: $fontSize1;
     font-family: $primaryFontFamily !important;
   }
 
-  .smr_card-ContentData {
+  .smrmo_card-ContentData {
     color: $titleColor;
     font-size: $fontSize0 !important;
     font-family: $primaryFontFamily;
@@ -702,34 +702,34 @@ $cartUpdateBtncolor: #b1b1b1;
   padding: 16px 0px !important;
 }
 
-.smr_cartlistdetails {
+.smrmo_cartlistdetails {
   font-size: 10px !important;
 }
 
 
 // update cart modal
 
-.smr_modal {
+.smrmo_modal {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.smr_Modal-cardList {
+.smrmo_Modal-cardList {
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
 }
 
-.smr_Modal-FilterList {
+.smrmo_Modal-FilterList {
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
 }
 
-.smr_paper {
+.smrmo_paper {
   position: relative;
   width: 1200px;
   max-width: 1200px;
@@ -740,36 +740,36 @@ $cartUpdateBtncolor: #b1b1b1;
 
 }
 
-.smr_Modal_Title {
+.smrmo_Modal_Title {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 
-  .smr_Modal_TitleTypo {
+  .smrmo_Modal_TitleTypo {
     color: $titleColor;
     margin: 0;
   }
 }
 
-.smr_closeIcon {
+.smrmo_closeIcon {
   position: absolute;
   top: 8px;
   right: 8px;
 }
 
-.smr_cartmodal_body {
+.smrmo_cartmodal_body {
   margin-top: 20px;
 }
 
-.smr_cart-Accordian {
+.smrmo_cart-Accordian {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
 }
 
-.smr_Cart-prCard {
+.smrmo_Cart-prCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
 }
 
-.smr_ShortCutCombo-section {
+.smrmo_ShortCutCombo-section {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -782,31 +782,31 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_cartModal-Divider {
+.smrmo_cartModal-Divider {
   margin: 10px 0px 20px 0px;
 }
 
-.smr_filter-AccrodianDetails {
+.smrmo_filter-AccrodianDetails {
   display: flex !important;
   justify-content: space-between !important;
 }
 
-.smr_cart-Accordion {
-  .smr_FilterTitle {
+.smrmo_cart-Accordion {
+  .smrmo_FilterTitle {
     color: $titleColor;
     font-weight: 500;
     font-size: $fontSize4;
     font-family: $primaryFontFamily;
   }
 
-  .smr_filterAccordianDeatilTitle {
+  .smrmo_filterAccordianDeatilTitle {
     color: $titleColor;
     font-size: $fontSize3;
     font-family: $primaryFontFamily;
     padding-left: 10px;
   }
 
-  .smr_filterCheckbox {
+  .smrmo_filterCheckbox {
     color: $titleColor;
     font-size: $fontSize3;
     font-family: $primaryFontFamily;
@@ -815,25 +815,25 @@ $cartUpdateBtncolor: #b1b1b1;
 
 // customization ui
 
-.smr_projectRemark {
+.smrmo_projectRemark {
   max-width: 600px;
   padding: 5px 40px 20px 20px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
 }
 
-.smr_remarkTitle {
+.smrmo_remarkTitle {
   color: $titleColor;
   font-size: $fontSize4;
   font-weight: bold;
 }
 
-.smr_prRemarkText {
+.smrmo_prRemarkText {
   color: $titleColor;
   font-size: $fontSize2;
 }
 
-.smr_AddReamrkBtn {
+.smrmo_AddReamrkBtn {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -853,7 +853,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_product-remark {
+.smrmo_product-remark {
   margin: 15px 0px 15px 0px;
 
   label {
@@ -873,7 +873,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_projectRemarkBtn-group {
+.smrmo_projectRemarkBtn-group {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -886,7 +886,7 @@ $cartUpdateBtncolor: #b1b1b1;
     cursor: pointer;
   }
 
-  .smr_remarksave-btn {
+  .smrmo_remarksave-btn {
     background-color: $cartUpdateBtncolor;
     color: $btn1hoverFontColor;
 
@@ -895,7 +895,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_remarkcancel-btn {
+  .smrmo_remarkcancel-btn {
     background-color: $btn1bgColor;
     color: $btn1FontColor;
     border: 1px solid $titleColor;
@@ -906,7 +906,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_projectUpdateCartBtn-group {
+.smrmo_projectUpdateCartBtn-group {
   display: flex !important;
   justify-content: end !important;
   gap: 10px;
@@ -919,7 +919,7 @@ $cartUpdateBtncolor: #b1b1b1;
     cursor: pointer;
   }
 
-  .smr_cartUpdate-btn {
+  .smrmo_cartUpdate-btn {
     background-color: $cartUpdateBtncolor;
     color: $btn1hoverFontColor;
 
@@ -928,7 +928,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .smr_cartCancel-btn {
+  .smrmo_cartCancel-btn {
     background-color: $btn1bgColor;
     color: $btn1FontColor;
     border: 1px solid $titleColor;
@@ -939,12 +939,12 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 }
 
-.smr_CartSkelton {
+.smrmo_CartSkelton {
   background-color: #f6f6f6 !important;
 }
 
 
-.smr_remarkModalBox {
+.smrmo_remarkModalBox {
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -952,7 +952,7 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 @media (max-width: 768px) {
-  .smr_remarkModalBox {
+  .smrmo_remarkModalBox {
     width: 95%;
     max-width: 100%;
     min-width: 0;

@@ -109,9 +109,9 @@ const ProductDetail = () => {
 
   // console.log("sizeData",sizeData)
 
-  // console.log("pdVideoArr", selectedThumbImg);
+  // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -555,6 +555,8 @@ const ProductDetail = () => {
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
 
+    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
+
     let decodeobj = decodeAndDecompress(navVal);
 
     if (decodeobj) {
@@ -618,6 +620,7 @@ const ProductDetail = () => {
 
           if(res?.pdList?.length > 0){
             setisPriceLoading(false)
+            setIsImageLoad(false)
           }
 
           if(!res?.pdList[0]){
@@ -625,6 +628,8 @@ const ProductDetail = () => {
             setisPriceLoading(false)
             setProdLoading(false)
             setIsDataFound(true)
+          }else{
+            setIsDataFound(false)
           }
 
           setDiaList(res?.pdResp?.rd3)
@@ -652,18 +657,24 @@ const ProductDetail = () => {
               setSizeCombo(res?.Data)
             }).catch((err)=>console.log("SizeErr",err))
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
-              setStockItemArr(res?.Data?.rd)    
-            }).catch((err)=>console.log("stockItemErr",err))
+            if(storeinitInside?.IsStockWebsite === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
+                setStockItemArr(res?.Data?.rd)    
+              }).catch((err)=>console.log("stockItemErr",err))
+            }
 
-            await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
-              setSimilarBrandArr(res?.Data?.rd)         
-            }).catch((err)=>console.log("similarbrandErr",err))
+            if(storeinitInside?.IsProductDetailSimilarDesign === 1){
+              await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
+                setSimilarBrandArr(res?.Data?.rd)         
+              }).catch((err)=>console.log("similarbrandErr",err))
+            }
 
-            await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
-              // console.log("designsetList",res?.Data?.rd[0])
-              setDesignSetList(res?.Data?.rd)
-            }).catch((err)=>console.log("designsetErr",err))
+            if(storeinitInside?.IsProductDetailDesignSet === 1){
+              await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
+                // console.log("designsetList",res?.Data?.rd[0])
+                setDesignSetList(res?.Data?.rd)
+              }).catch((err)=>console.log("designsetErr",err))
+            }
           }
       })
       .catch((err) => console.log("err", err))
@@ -678,7 +689,7 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  // console.log("location", location);
+  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -925,7 +936,7 @@ const ProductDetail = () => {
     else{
       if (pdImgList?.length > 0) {
         setSelectedThumbImg({"link":pdImgList[thumbImgIndex],"type":'img'});
-        setPdThumbImg(pdImgList);
+        setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
       }
     }
@@ -1168,11 +1179,13 @@ const ProductDetail = () => {
                 <div className="smr_prod_detail_main">
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
+                      {/* {isImageload && ( */}
                       {isImageload && (
                         <Skeleton
                           sx={{
-                            width: "100%",
-                            height: "800px",
+                            width: "95%",
+                            height: "750px",
+                            margin:"20px 0 0 0"
                           }}
                           variant="rounded"
                         />
@@ -1182,7 +1195,7 @@ const ProductDetail = () => {
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {selectedThumbImg?.type == "img" ? (
+                        {(selectedThumbImg?.type == "img")? (
                           <img
                             src={selectedThumbImg?.link ?? imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
@@ -1488,7 +1501,7 @@ const ProductDetail = () => {
                               // className="filtercategoryLable"
                               
                             >
-                              <Typography>Price Breakup</Typography>
+                              <Typography sx={{fontFamily:"TT Commons Regular",fontSize:'18px'}}>Price Breakup</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1519,87 +1532,87 @@ const ProductDetail = () => {
                               </table> */}
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Metal</Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
                               <span style={{display:'flex'}}>
                               <Typography>
                                 {
-                                  <span className="smr_currencyFont">
+                                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                   </span>
                                 }
                               </Typography>
                                &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                              <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Diamond </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Stone </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">MISC </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Labour </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                               </span>
                              </div>
 
                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label">Other </Typography>
+                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
 
                              <span style={{display:'flex'}}>
                               <Typography>{
-                                <span className="smr_currencyFont">
+                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               }</Typography>
                               &nbsp;
-                              <Typography>{
+                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{
                               formatter.format((
 
                                 (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
@@ -1765,7 +1778,7 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {stockItemArr?.length > 0 && (
+                {( stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
                     <p className="smr_details_title"> Stock Items </p>
                     <div className="smr_stockitem_container">
@@ -2158,6 +2171,7 @@ const ProductDetail = () => {
                     </div>
                   )}
 
+                {storeInit?.IsProductDetailDesignSet === 1 && 
                 <div className="smr_DesignSet_main">
                   { designSetList?.length > 0 && <div
                     style={{
@@ -2294,7 +2308,7 @@ const ProductDetail = () => {
                       ))}
                     </Swiper>
                   </div>
-                </div>
+                </div>}
               </>
             )}
             <Footer />

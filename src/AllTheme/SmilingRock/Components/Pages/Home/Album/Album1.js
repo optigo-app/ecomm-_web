@@ -10,6 +10,8 @@ import Cookies from "js-cookie";
 import { loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
+import Pako from 'pako';
+import { Link } from '@mui/material';
 
 const Album1 = () => {
     const [selectedAlbum, setSelectedAlbum] = useState();
@@ -46,8 +48,34 @@ const Album1 = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error('Error compressing and encoding:', error);
+            return null;
+        }
+    };
+
     const handleNavigate = (album) => {
         navigation(`/p/${album?.AlbumName}/?A=${btoa(`AlbumName=${album?.AlbumName}`)}`)
+    }
+
+    const handleNavigation = (designNo, autoCode, titleLine) => {
+
+        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
+        let obj = {
+            a: autoCode,
+            b: designNo,
+            m: loginUserDetail?.MetalId,
+            d: loginUserDetail?.cmboDiaQCid,
+            c: loginUserDetail?.cmboCSQCid,
+            f: {}
+        }
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
     const handleChangeTab = (album) => {
@@ -68,8 +96,11 @@ const Album1 = () => {
         <div className="album-container">
             <div className='smr_ablbumtitleDiv'>
                 <span className='smr_albumtitle'>Album</span>
+                {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
+                    View more
+                </Link> */}
             </div>
-            <div className="tabs">
+            <div className="tabs">  
                 {albumData?.map((album) => (
                     <button
                         key={album.Albumid}
@@ -87,13 +118,14 @@ const Album1 = () => {
                             key={album?.Albumid}
                             spaceBetween={10}
                             slidesPerView={5}
+                            lazy={true}
                             navigation={JSON?.parse(album?.Designdetail).length > 5 ? true : false}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
                         >
                             {JSON?.parse(album?.Designdetail)?.map((design) => (
                                 <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                    <div className="design-slide"  onClick={() => handleNavigate(album)}>
+                                    <div className="design-slide"  onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
                                         <img
                                             src={
                                                 design?.ImageCount > 0

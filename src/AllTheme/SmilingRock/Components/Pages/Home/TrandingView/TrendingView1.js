@@ -176,7 +176,9 @@ const TrendingView1 = () => {
                     </div>
                     <div className="smr_trendingProduct-grid">
                         <div className='smr_leftSideBestTR'>
-                            <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" />
+                            {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
+                            <img src={`${storImagePath()}/images/HomePage/Promo/Set/2/promoSetMainBanner3.jpg`} alt="modalimages" />
+                            
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
@@ -197,7 +199,7 @@ const TrendingView1 = () => {
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <h3>{data?.TitleLine}-{data?.designno}</h3>
+                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
                                         <span className='smr_btdetailDT'>GWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
                                         <span className='smr_btpipe'> | </span>

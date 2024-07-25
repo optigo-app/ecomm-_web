@@ -133,7 +133,7 @@ const ProductGrid = () => {
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <h3>{data?.TitleLine}-{data?.designno}</h3>
+                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
                                         <span className='smr_btdetailDT'>GWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
                                         <span className='smr_btpipe'> | </span>
@@ -159,7 +159,8 @@ const ProductGrid = () => {
                             ))}
                         </div>
                         <div className='smr_rightSideBestSeler'>
-                            <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" />
+                            {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
+                           <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner2.jpg`} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
