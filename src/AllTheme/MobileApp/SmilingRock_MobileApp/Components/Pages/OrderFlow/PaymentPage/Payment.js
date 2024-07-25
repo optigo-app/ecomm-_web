@@ -73,6 +73,7 @@ const Payment = () => {
 
     const handlePay = async () => {
         setIsloding(true);
+        if(selectedAddrData?.id != undefined || selectedAddrData?.id != null ){
         const paymentResponse = await handlePaymentAPI();
         console.log("paymentResponse", paymentResponse);
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
@@ -88,8 +89,14 @@ const Payment = () => {
             })
 
         } else {
-            toast.error('Something went wrong!')
+            toast.error('Something went wrong!');
+            setIsloding(false);
         }
+    }else{
+        // toast.error("Please First Add Shipping Address")
+        setIsloding(false);
+        navigate("/Delivery")
+    }
     }
 
     const handleOrderRemarkChange = () => {

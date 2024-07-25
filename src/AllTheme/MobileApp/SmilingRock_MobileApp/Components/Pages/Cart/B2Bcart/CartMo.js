@@ -124,8 +124,8 @@ const CartPage = () => {
               </div>
             ) :
               <div className='smrMo_noCartlistData'>
-                <p className='smrmo_title'>No Data Found!</p>
-                <p className='smrmo_desc'>Please First Add Data in cart</p>
+                <p className='smrmo_title'>No Product Found!</p>
+                <p className='smrmo_desc'>Please First Add Product in cart</p>
                 <button className='smrmo_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
               </div>
             }

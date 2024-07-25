@@ -797,7 +797,7 @@ const ProductList = () => {
     if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true)
     } else {
-      setFilterProdListEmpty(false)
+      setFilterProdListEmpty(false)        
       setAfterCountStatus(false);
     }
   }, [productListData])

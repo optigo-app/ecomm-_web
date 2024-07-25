@@ -18,6 +18,35 @@
 
 .smrMo_getAddrMainDiv {
   margin-bottom: 40px;
+
+  .smrMo_noAddresslistData {
+    position: absolute;
+    top: 67%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+  
+    .smrmo_title {
+      color: $titleColor;
+      font-size: $fontSize5;
+    }
+  
+    .smrmo_desc {
+      color: $titleColor;
+      font-size: $fontSize2;
+    }
+  
+    .smrmo_browseOurCollectionbtn {
+      background-color: #7d7f85;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      height: 40px;
+      outline: none;
+      width: 180px;
+    }
+  }
 }
 
 .smr_addressTextFields {
@@ -169,6 +198,9 @@
     color: $titleColor;
   }
 }
+
+
+
 
 // Media Query for max-width: 800px
 @media (max-width: 800px) {
