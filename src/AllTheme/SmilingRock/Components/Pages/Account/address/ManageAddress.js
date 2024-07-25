@@ -215,7 +215,6 @@ const ManageAddress = () => {
             if (isEditMode) {
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
-    
                 response = await handleEditAddress(
                     editId,
                     formData,
@@ -449,7 +448,8 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+            console.log(response);
+            
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -535,7 +535,12 @@ const ManageAddress = () => {
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
+                                                <Typography sx={{ paddingBottom: "15px" }}>
+                                                    {item?.street !== undefined && item?.street},
+                                                    {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
+                                                    {item?.state !== undefined && item?.state},
+                                                    {item?.country !== undefined && item?.country}
+                                                </Typography>
                                             </Box>
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
