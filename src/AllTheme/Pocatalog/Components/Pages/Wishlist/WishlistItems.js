@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
-import { CartCount, WishCount } from '../../Recoil/atom';
+import { proCat_CartCount, proCat_WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import noImageFound from "../../Assets/image-not-found.jpg"
 import Cookies from "js-cookie";
@@ -27,8 +27,8 @@ const WishlistItems = (
         handleMoveToDetail
     }) => {
 
-    const setWishCountVal = useSetRecoilState(WishCount)
-    const setCartCountVal = useSetRecoilState(CartCount)
+    const setWishCountVal = useSetRecoilState(proCat_WishCount)
+    const setCartCountVal = useSetRecoilState(proCat_CartCount)
     const visiterId = Cookies.get('visiterId');
 
 

@@ -247,7 +247,6 @@ export const useAddress = () => {
 
 
     const proceedToOrder = (navigation) => {
-        debugger;
         if (!addressData || addressData.length === 0) {
             toast.error('Please add an address');
             return;

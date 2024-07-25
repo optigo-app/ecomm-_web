@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Basket from './Drawer';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { cartB2CDrawer } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
+import { proCat_cartB2CDrawer } from '../../../Recoil/atom';
 
 function Cart(props) {
   const {
@@ -49,8 +49,8 @@ function Cart(props) {
   } = useCart();
 
   const navigate = useNavigate();
-  const isOpen = useRecoilValue(cartB2CDrawer)
-  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
+  const isOpen = useRecoilValue(proCat_cartB2CDrawer)
+  const setCartOpenState = useSetRecoilState(proCat_cartB2CDrawer);
 
   console.log('khdkjhaskd', props);
 

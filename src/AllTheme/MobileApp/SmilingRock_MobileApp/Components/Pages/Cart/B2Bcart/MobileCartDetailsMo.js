@@ -179,7 +179,7 @@ const MobileCartDetails = ({
           <div className='smrmo_UpdateCartBtn'>
             <Button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
           </div>
-          <div style={{ color:'#7d7f85', position:'absolute', top:0,right:0 }} onClick={handleClose}>
+          <div style={{ color:'#7d7f85', position:'absolute', top:20,right:20 }} onClick={handleClose}>
             <CloseIcon />
           </div>
         </div>

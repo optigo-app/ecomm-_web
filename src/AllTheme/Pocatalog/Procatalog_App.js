@@ -7,7 +7,7 @@ import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
 import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { companyLogo, loginState } from './Components/Recoil/atom'
+import { companyLogo, proCat_companyLogo, proCat_loginState } from './Components/Recoil/atom'
 import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
@@ -41,14 +41,29 @@ import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 
 const Procatalog_App = () => {
 
-    const islogin = useRecoilValue(loginState)
     const [localData, setLocalData] = useState();
     const navigation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
+
+    useEffect(() => {
+        let data = localStorage.getItem("storeInit");
+        let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let logo = JSON?.parse(data);
+        if (Logindata) {
+          if (Logindata?.IsPLWOn == 1) {
+            setCompanyTitleLogo(Logindata?.Private_label_logo);
+          } else {
+            setCompanyTitleLogo(logo?.companylogo);
+          }
+        } else {
+          setCompanyTitleLogo(logo?.companylogo);
+        }
+      });
 
     useEffect(() => {
         const cookieValue = Cookies.get('userLoginCookie');
