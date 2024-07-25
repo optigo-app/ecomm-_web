@@ -216,7 +216,7 @@ $cartUpdateBtncolor: #b1b1b1;
     position: sticky;
     top: 60px;
     max-width: 25%;
-    height: 90vh !important;
+    height: 90vh;
     width: 25%;
     display: flex;
     justify-content: center;
@@ -285,7 +285,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_Cart-imageDiv {
-      height: 375px;
+      height: 387px;
       width: 400px;
 
       .smr_cartDetailImage {
