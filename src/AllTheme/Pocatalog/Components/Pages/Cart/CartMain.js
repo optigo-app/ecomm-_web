@@ -1,5 +1,5 @@
 import React from "react";
-import B2bCart from "./B2bCart/Cart";
+import B2bCart from "./ProCatB2bCart/Cart";
 
 const CartMain = () => {
 
