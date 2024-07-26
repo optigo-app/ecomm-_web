@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -84,7 +84,9 @@ const ProductList = () => {
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
-  const [sortBySelect, setSortBySelect] = useState();
+  const [sortBySelect, setSortBySelect] = useState('Recommended');
+
+  const formatter = new Intl.NumberFormat('en-IN')
 
 
   // useEffect(()=>{
@@ -567,6 +569,10 @@ const ProductList = () => {
 
   const FilterValueWithCheckedOnly = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
+    
+    const priceValues = onlyTrueFilterValue
+    .filter(item => item.type === "Price")
+    .map(item => item.value);
 
     const output = {};
 
@@ -574,11 +580,19 @@ const ProductList = () => {
       if (!output[item.type]) {
         output[item.type] = '';
       }
+
+      if (item.type == 'Price') {
+        output['Price'] = priceValues
+        return;
+      }
+
       output[item.type] += `${item.id}, `;
     });
 
     for (const key in output) {
-      output[key] = output[key].slice(0, -2);
+      if (key !== 'Price') {
+        output[key] = output[key].slice(0, -2);
+      }
     }
 
     return output
@@ -592,7 +606,8 @@ const ProductList = () => {
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
 
     if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true)
+      // setIsOnlyProdLoading(true)
+      setIsProdLoading(true)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
@@ -611,7 +626,7 @@ const ProductList = () => {
         //    }
         //    return res
         //  })
-        .catch((err) => console.log("err", err)).finally(() => { setIsOnlyProdLoading(false) })
+        .catch((err) => console.log("err", err)).finally(() => { setIsProdLoading(false) })
     }
     // .then(async(res)=>{
     //   if(res){
@@ -726,7 +741,8 @@ const ProductList = () => {
   const handelCustomCombo = (obj) => {
     let output = FilterValueWithCheckedOnly()
     if (location?.state?.SearchVal === undefined) {
-      setIsOnlyProdLoading(true)
+      // setIsOnlyProdLoading(true)
+      setIsProdLoading(true)
       ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
@@ -739,7 +755,7 @@ const ProductList = () => {
         .finally(() => {
           setTimeout(() => {
             localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-            setIsOnlyProdLoading(false)
+            setIsProdLoading(false)
           }, 100);
         })
     }
@@ -874,12 +890,42 @@ const ProductList = () => {
 
   }
 
+  console.log("isSortByDrawerOpen",isSortByDrawerOpen);
+
+  const handleSortby = async (ele) => {
+    setSortBySelect(ele)
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    // setIsOnlyProdLoading(true)
+    setIsProdLoading(true)
+
+    let sortby = ele
+
+    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        // setIsOnlyProdLoading(false)
+        setIsProdLoading(false)
+        setIsSortByDrawerOpen(false)
+        
+      })
+  }
+
   const Newlist = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: 'auto' }}
       role="presentation"
-      onClick={()=>setIsSortByDrawerOpen((prev)=>!prev)}
-      onKeyDown={()=>setIsSortByDrawerOpen((prev)=>!prev)}
+      onClick={()=>setIsSortByDrawerOpen(()=>false)}
+      onKeyDown={()=>setIsSortByDrawerOpen(()=>false)}
     >
       <div>
         <label className="sortItemLabelProduct" style={{ color: '#888', paddingInline: '15px' }}>
@@ -889,51 +935,55 @@ const ProductList = () => {
           <label className="sortItemLabelProduct">
             Recommended
             <input
-              defaultChecked
+              checked={sortBySelect === 'Recommended'}
               type="radio"
               name="sortOption"
-              value="None"
-              // onClick={() => { handleSortChange('None'); }}
+              value="Recommended"
+              onClick={() => handleSortby('Recommended')}
             />
           </label>
 
           <label className="sortItemLabelProduct">
             New
             <input
+              checked={sortBySelect === 'New'}
               type="radio"
               name="sortOption"
               value="New"
-              // onClick={() => { handleSortChange('New'); }}
+              onClick={() => handleSortby('New')}
             />
           </label>
 
           <label className="sortItemLabelProduct">
             In stock
             <input
+              checked={sortBySelect === 'In Stock'}
               type="radio"
               name="sortOption"
-              value="InStock"
-              // onClick={() => { handleSortChange('InStock'); }}
+              value="In Stock"
+              onClick={() => handleSortby('In Stock')}
             />
           </label>
 
           <label className="sortItemLabelProduct">
             Trending                                                  
             <input
+              checked={sortBySelect === 'Trending'}
               type="radio"
               name="sortOption"
-              value="InStock"
-              // onClick={() => { handleSortChange('InStock'); }}
+              value="Trending"
+              onClick={() =>  handleSortby('Trending')}
             />
           </label>
 
           <label className="sortItemLabelProduct">
             Price High to Low
             <input
+              checked={sortBySelect === 'PRICE HIGH TO LOW'}
               type="radio"
               name="sortOption"
-              value="PriceHighToLow"
-              // onClick={() => { handleSortChange('PRICE HIGH TO LOW'); }}
+              value="PRICE HIGH TO LOW"
+              onClick={() => handleSortby('PRICE HIGH TO LOW')}
             />
           </label>
 
@@ -941,11 +991,11 @@ const ProductList = () => {
           <label className="sortItemLabelProduct">
             Price Low to High
             <input
+              checked={sortBySelect === 'PRICE LOW TO HIGH'}
               type="radio"
               name="sortOption"
-              value="PriceLowToHigh"
-              // onClick={() => { handleSortChange('PRICE LOW TO HIGH') }}
-            // onClick={() => { handleSortChange('PRICE LOW TO HIGH'); toggleShoryBy(); }}
+              value="PRICE LOW TO HIGH"
+              onClick={() =>  handleSortby('PRICE LOW TO HIGH')}
             />
           </label>
         </div>
@@ -989,7 +1039,7 @@ const ProductList = () => {
           </label>
 
           <label className="sortItemLabelProduct">
-            Dubble View
+            Double View
             <input
               checked={isDoubleView}
               type="radio"
@@ -1002,6 +1052,265 @@ const ProductList = () => {
       </div>
     </Box>
   );
+
+  const handleRangeFilterApi = async (Rangeval) => {
+
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
+    let netRange = { netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0], netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1] }
+    let grossRange = { grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0], grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1] }
+
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsProdLoading(false)
+      })
+
+
+  }
+  const handleRangeFilterApi1 = async (Rangeval1) => {
+
+    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+    // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    let DiaRange = { diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0], diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1] }
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
+    let grossRange = { grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0], grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1] }
+
+
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsProdLoading(false)
+      })
+
+
+  }
+  const handleRangeFilterApi2 = async (Rangeval2) => {
+
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+    // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
+    let DiaRange = { diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0], diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1] }
+    let netRange = { netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0], netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1] }
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsProdLoading(false)
+      })
+  }
+
+  const handleSliderChange = (event, newValue) => {
+    setSliderValue(newValue);
+    handleRangeFilterApi(newValue)
+  };
+  const handleSliderChange1 = (event, newValue) => {
+    setSliderValue1(newValue);
+    handleRangeFilterApi1(newValue)
+  };
+  const handleSliderChange2 = (event, newValue) => {
+    setSliderValue2(newValue);
+    handleRangeFilterApi2(newValue)
+  };
+
+  const handleInputChange = (index) => (event) => {
+    const newSliderValue = [...sliderValue];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue(newSliderValue);
+    handleRangeFilterApi(newSliderValue)
+  };
+  const handleInputChange1 = (index) => (event) => {
+    const newSliderValue = [...sliderValue1]
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue1(newSliderValue);
+    handleRangeFilterApi1(newSliderValue)
+  };
+  const handleInputChange2 = (index) => (event) => {
+    const newSliderValue = [...sliderValue2]
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue2(newSliderValue);
+    handleRangeFilterApi2(newSliderValue)
+  };
+
+  const RangeFilterView = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue}
+              onChange={handleSliderChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue[0]}
+              margin="dense"
+              onChange={handleInputChange(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue[1]}
+              margin="dense"
+              onChange={handleInputChange(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+  const RangeFilterView1 = (ele) => {
+    // console.log("netwt",ele)
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue1}
+              onChange={handleSliderChange1}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue1[0]}
+              margin="dense"
+              onChange={handleInputChange1(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue1[1]}
+              margin="dense"
+              onChange={handleInputChange1(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+  const RangeFilterView2 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue2}
+              onChange={handleSliderChange2}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue2[0]}
+              margin="dense"
+              onChange={handleInputChange2(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue2[1]}
+              margin="dense"
+              onChange={handleInputChange2(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
 
 
   return (
@@ -1062,7 +1371,7 @@ const ProductList = () => {
                       </select>
                     </div>}
 
-                    <div 
+                    {/* <div 
                       // className="smr_sorting_custom"
                       >
                       <div
@@ -1101,7 +1410,7 @@ const ProductList = () => {
                           </option>
                         </select>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="smr_mobile_filter_portion" >
                         {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
@@ -1124,7 +1433,7 @@ const ProductList = () => {
                           <div style={{ marginTop: "12px" }}>
                             {filterData?.map((ele) => (
                               <>
-                                {!(ele?.id)?.includes("Range") && (
+                                {!(ele?.id)?.includes("Range") && !ele?.id?.includes("Price") && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
@@ -1149,7 +1458,7 @@ const ProductList = () => {
                                       aria-controls="panel1-content"
                                       id="panel1-header"
                                       sx={{
-                                        color: "#7f7d85",
+                                        color: "#7d7f85",
                                         borderRadius: 0,
 
                                         "&.MuiAccordionSummary-root": {
@@ -1157,7 +1466,7 @@ const ProductList = () => {
                                         },
 
                                       }}
-                                      className="filtercategoryLable"
+                                      // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
                                       {ele.Name}
@@ -1237,6 +1546,295 @@ const ProductList = () => {
                                   ))}
                                 </AccordionDetails>
                               </Accordion>
+                            )}
+                            {ele?.id?.includes("Price") && (
+                                  <Accordion
+                                    elevation={0}
+                                    sx={{
+                                      borderBottom: "1px solid #c7c8c9",
+                                      borderRadius: 0,
+                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                      "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                    }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                  >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                      aria-controls="panel1-content"
+                                      id="panel1-header"
+                                      sx={{
+                                        color: "#7f7d85",
+                                        borderRadius: 0,
+
+                                        "&.MuiAccordionSummary-root": {
+                                          padding: 0,
+                                        },
+                                      }}
+                                      // className="filtercategoryLable"
+                                    >
+                                      {/* <span> */}
+                                      {ele.Name}
+                                      {/* </span> */}
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(ele?.options) ?? []).map(
+                                        (opt, i) => (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              gap: "12px",
+                                            }}
+                                            key={i}
+                                          >
+                                            {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                            <FormControlLabel
+                                              control={
+                                                <Checkbox
+                                                  name={`Price${i}${i}`}
+                                                  // checked={
+                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                  //     : false
+                                                  // }
+                                                  checked={
+                                                    filterChecked[`Price${i}${i}`]
+                                                      ?.checked === undefined
+                                                      ? false
+                                                      : filterChecked[
+                                                        `Price${i}${i}`
+                                                      ]?.checked
+                                                  }
+                                                  style={{
+                                                    color: "#7f7d85",
+                                                    padding: 0,
+                                                    width: "10px",
+                                                  }}
+                                                  onClick={(e) =>
+                                                    handleCheckboxChange(
+                                                      e,
+                                                      ele?.id,
+                                                      opt
+                                                    )
+                                                  }
+                                                  size="small"
+                                                />
+                                              }
+                                              // sx={{
+                                              //   display: "flex",
+                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                              //   width: "100%",
+                                              //   flexDirection: "row-reverse", // Align items to the right
+                                              //   fontFamily:'TT Commons Regular'
+                                              // }}
+                                              className="smr_mui_checkbox_label"
+                                              label={
+                                                opt?.Minval == 0
+                                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                                  : opt?.Maxval == 0
+                                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
+                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                              }
+                                            />
+                                          </div>
+                                        )
+                                      )}
+                                    </AccordionDetails>
+                                  </Accordion>
+                            )}
+                            {ele?.Name?.includes("Diamond") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before":
+                            {
+                              background: "none",
+                            },
+                          }}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                            <Box sx={{ width: 203, height: 88 }}>
+                              {RangeFilterView(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                            )}
+                            {ele?.Name?.includes("NetWt") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before":
+                            {
+                              background: "none",
+                            },
+                          }}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            // className="filtercategoryLable"
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                            <Box sx={{ width: 204, height: 88 }}>
+                              {RangeFilterView1(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                            )}
+                            {ele?.Name?.includes("Gross") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before":
+                            {
+                              background: "none",
+                            },
+                          }}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            // className="filtercategoryLable"
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            <Box sx={{ width: 204, height: 88 }}>
+                              {RangeFilterView2(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
                             )}
                           </>
                         ))}
@@ -1388,7 +1986,7 @@ const ProductList = () => {
                           <div style={{ marginTop: "12px" }}>
                             {filterData?.map((ele) => (
                               <>
-                                {!(ele?.id)?.includes("Range") && (
+                                {!ele?.id?.includes("Range") && !ele?.id?.includes("Price") && (
                                   <Accordion
                                     elevation={0}
                                     sx={{
@@ -1403,8 +2001,6 @@ const ProductList = () => {
                                         background: "none",
                                       },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -1413,19 +2009,14 @@ const ProductList = () => {
                                       aria-controls="panel1-content"
                                       id="panel1-header"
                                       sx={{
-                                        color: "#7f7d85",
+                                        color: "#7d7f85",
                                         borderRadius: 0,
-
                                         "&.MuiAccordionSummary-root": {
                                           padding: 0,
                                         },
-
                                       }}
-                                      className="filtercategoryLable"
                                     >
-                                      {/* <span> */}
                                       {ele.Name}
-                                      {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -1509,15 +2100,18 @@ const ProductList = () => {
                   </div>
                   {
                     filterProdListEmpty ? 
-                    <div style={{display:'flex',justifyContent:'center',width:'75%',alignItems:'center',height:'500px'}}>
+                    <div style={{display:'flex',justifyContent:'center',width:'100%',alignItems:'center',height:'500px'}}>
                       <span className="smr_prod_datanotfound">
                         Products Not found !!!
                       </span>
                     </div>
                     :
                     <div className="smr_productList">
-                    {isOnlyProdLoading ? (
-                      <ProductListSkeleton fromPage={"Prodlist"} />
+                    {
+                    //  isOnlyProdLoading ? 
+                     isProdLoading ? 
+                    (
+                      <ProductListSkeleton  />
                     ) : (
                       <div className="smr_outer_portion">
                       {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
@@ -1621,43 +2215,45 @@ const ProductList = () => {
                             <div className="smr_prod_Allwt" >
                               <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
-                              { (Number(productData?.updNWT.toFixed(3))  !== 0 )&& <span className="smr_prod_wt">
+                              { (storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
+                                <span className="smr_keys">GWT:</span>
+                                    <span className="smr_val">
+                                      {productData?.Gwt}
+                                    </span>
+                                </span>
+                              }
+
+                              {(Number(productData?.Nwt !== 0))&& 
+                                <>
+                                <span>|</span>
+                                <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
-                                    {productData?.updNWT.toFixed(3)}
-                                  </span>
-                                </span>}
-                                { (storeInit?.IsGrossWeight == 1 && Number(productData?.updGWT.toFixed(3)) !== 0) &&
-                                  <>
-                                  <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
-                                    {productData?.updGWT.toFixed(3)}
+                                    {productData?.Nwt}
                                   </span>
                                 </span>
-                                </>
-                                }
+                              </>
+                              }
                               {/* </span> */}
                               {/* <span className="smr_por"> */}
-                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.updDWT.toFixed(3)) !== 0) &&
+                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
                                <>
                                <span>|</span>
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">DWT:</span>
                                   <span className="smr_val">
-                                    {productData?.updDWT.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.updDPCS}` : null}
+                                    {productData?.Dwt}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
                                   </span>
                                 </span>
                                </>
                                 }
-                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.updCWT.toFixed(3)) !== 0) &&
+                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
                                   <>
                                     <span>|</span>
                                     <span className="smr_prod_wt">
                                       <span className="smr_keys">CWT:</span>
                                       <span className="smr_val">
-                                        {productData?.updCWT.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.updCPCS}` : null}
+                                        {productData?.CSwt}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
                                       </span>
                                     </span>
                                   </>
@@ -1680,22 +2276,12 @@ const ProductList = () => {
                                         </span>
                                         <span>/</span>
                                         <span className="smrMA_price">
-                                          <span
-                                            className="smr_currencyFont"
-                                            dangerouslySetInnerHTML={{
-                                              __html: decodeEntities(
-                                                storeInit?.Currencysymbol
-                                              ),
-                                            }}
-                                          />
+                                          <span className="smr_currencyFont">
+                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                          </span>
+
                                           <span className="smr_pricePort">
-                                            {productData?.ismrpbase == 1
-                                              ? productData?.mrpbaseprice
-                                              : PriceWithMarkupFunction(
-                                                productData?.markup,
-                                                productData?.price,
-                                                storeInit?.CurrencyRate
-                                              )?.toFixed(2)}
+                                            {formatter.format(productData?.UnitCostWithMarkUp)}
                                           </span>
                                         </span>
                                       </div>

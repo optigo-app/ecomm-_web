@@ -40,9 +40,11 @@ export default function ThemeRoutes() {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
+
     if (data) {
       if (Logindata) {
         if (Logindata?.IsPLWOn == 1) {
+          alert("dopne");
           setCompanyTitleLogo(Logindata?.Private_label_logo);
         }
       } else {
