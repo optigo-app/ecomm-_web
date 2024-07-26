@@ -44,7 +44,7 @@ function Home() {
       }
 
       {localData?.Blockno === 2 &&
-        <div className='ProCat_home_index_main'>
+        <div className='smiling_home_index_Submain'>
           <TopSection />
           {/* <TheDifference />
           <PromotionBaner1 />
@@ -65,7 +65,7 @@ function Home() {
 
 
 
-      {/* <div>
+      <div>
         <p style={{
           paddingBlock: '30px',
           margin: '0px',
@@ -79,7 +79,7 @@ function Home() {
           top: 0,
           behavior: 'smooth'
         })}>BACK TO TOP</p>
-      </div> */}
+      </div>
     </div>
   )
 }
