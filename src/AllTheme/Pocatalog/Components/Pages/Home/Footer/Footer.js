@@ -53,10 +53,10 @@ const Footer = ({ fromPage }) => {
               ))}
             </div>
             <div className='footerMoreOption'>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
+              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
               <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
               <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+              <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
             </div>
             <div className='footerMoreText'>
               <p style={{
@@ -85,12 +85,12 @@ const Footer = ({ fromPage }) => {
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
           
             <div className='footerMoreOption'>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
+              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p> */}
               {/* <p className='footerMoreOptionData' onClick={() => {navigation('/faq'); window.scrollTo(0, 0); }}>FAQ</p> */}
-              <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
+              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
               <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
               <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
-              <p className='footerMoreOptionData'  onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p>
+              <p className='footerMoreOptionData'  onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p> */}
               {/* <p className='footerMoreOptionData' onClick={() => navigation('/press')}>PRESS</p> */}
             </div>
             <div className='footerIconMain'>
