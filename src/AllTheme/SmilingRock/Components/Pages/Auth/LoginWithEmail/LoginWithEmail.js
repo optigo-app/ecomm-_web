@@ -72,7 +72,7 @@ export default function LoginWithEmail() {
     //     })
     // }
 
- 
+
     useEffect(() => {
 
         setCSSVariable();
@@ -85,10 +85,10 @@ export default function LoginWithEmail() {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
+    };
 
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
@@ -142,6 +142,7 @@ export default function LoginWithEmail() {
 
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!confirmPassword.trim()) {
             errors.confirmPassword = 'Password is required';
             return;
@@ -150,7 +151,7 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
@@ -161,7 +162,7 @@ export default function LoginWithEmail() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-                
+
 
                 GetCountAPI(visiterID).then((res) => {
                     if (res) {
@@ -210,7 +211,7 @@ export default function LoginWithEmail() {
 
                 // handelCurrencyData()
                 // getAllProdData()
-                window.location.reload(); 
+                window.location.reload();
             } else {
                 errors.confirmPassword = 'Password is Invalid'
             }
