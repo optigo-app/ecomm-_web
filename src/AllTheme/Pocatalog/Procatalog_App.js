@@ -92,7 +92,7 @@ const Procatalog_App = () => {
     }, [])
 
     return (
-        <>
+        <>    
             <div>
                 {localData?.Headerno === 1 && <Header />}
                 {localData?.Headerno === 2 && <Header2 />}

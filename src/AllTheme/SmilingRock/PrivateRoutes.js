@@ -15,22 +15,27 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         return () => clearTimeout(timeout);
     }, [isLoginStatus]);
 
-    console.log('isLoginStatus',isLoginStatus)
+    console.log('isLoginStatus', isLoginStatus)
 
     if (isLoading) {
         return <div></div>;
     }
 
-   const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location?.pathname)}${location?.search}`;
-   
-    if (isLoginStatus != true ) {
-        if (location.pathname.startsWith('/p') || location.pathname.startsWith('/d') || location.pathname.startsWith('/cartPage') || location.pathname.startsWith('/myWishList') || location.pathname.startsWith('/Lookbook')) {
-                let storeInt = JSON.parse(localStorage.getItem("storeInit"));
-                if (!storeInt) {
-                    Storeinit();
-                }
+    const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location?.pathname)}${location?.search}`;
+    
+    if (isLoginStatus != true) {
+        if (location.pathname.startsWith('/p')
+            || location.pathname.startsWith('/d')
+            || location.pathname.startsWith('/cartPage')
+            || location.pathname.startsWith('/myWishList')
+            || location.pathname.startsWith('/Lookbook')) {
+            let storeInt = JSON.parse(localStorage.getItem("storeInit"));
+            if (!storeInt) {
+                Storeinit();
+            }
             return <Navigate to={redirectUrl} />;
-        } else {
+        } 
+        else {
             return <Navigate to="/" />;
         }
     }
