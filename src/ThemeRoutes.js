@@ -40,9 +40,11 @@ export default function ThemeRoutes() {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
+
     if (data) {
       if (Logindata) {
         if (Logindata?.IsPLWOn == 1) {
+          alert("dopne");
           setCompanyTitleLogo(Logindata?.Private_label_logo);
         }
       } else {
@@ -160,6 +162,7 @@ export default function ThemeRoutes() {
           <meta name="description" content={title} />
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="manifest" href={favicon} />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         </Helmet>
       </div>
       {themeNo === 1 && <SmilingRock_App />}
