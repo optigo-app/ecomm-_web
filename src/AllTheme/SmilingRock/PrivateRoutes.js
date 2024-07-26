@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit';
 
-const PrivateRoutes = ({ isLoginStatus, isB2CWebsite }) => {
+const PrivateRoutes = ({ isLoginStatus }) => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -22,7 +23,7 @@ const PrivateRoutes = ({ isLoginStatus, isB2CWebsite }) => {
     }
 
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(location?.pathname)}${location?.search}`;
-    if (isB2CWebsite?.IsB2BWebsite != 0) {
+    if (storeInit?.IsB2BWebsite != 0) {
         if (isLoginStatus != true) {
             if (location.pathname.startsWith('/p')
                 || location.pathname.startsWith('/d')
