@@ -42,7 +42,7 @@ const TrendingView = () => {
 
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -169,13 +169,14 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
-    console.log('nnnnnnnnnnnnn', trandingViewData);
-
+    
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {
-      chunkedData.push(trandingViewData?.slice(i, i + 3));
+        chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
-
+    
+    console.log('trandingViewDatatrandingViewData', trandingViewData);
+    console.log('chunkedDatachunkedData', chunkedData);
     return (
         <div>
             {trandingViewData?.length != 0 &&
@@ -187,7 +188,7 @@ const TrendingView = () => {
                         <div className='smr_trendingViewTopMain_Sliderdiv'>
                             <p className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
-                                {chunkedData.map((chunk, index) => (
+                                {chunkedData?.map((chunk, index) => (
                                         <div className='linkRingLove'>
                                               {chunk?.map((data, dataIndex) => (
                                             <div className='smr_TrendingMainDiv'>

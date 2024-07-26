@@ -155,8 +155,10 @@ const Header = () => {
 
   const handleLogout = () => {
     setislogin(false);
-    Cookies.remove('userLoginCookie');
     localStorage.setItem('LoginUser', false);
+    navigation('/')
+    window.location.reload();
+    Cookies.remove('userLoginCookie');
     localStorage.removeItem('storeInit');
     localStorage.removeItem('loginUserDetail');
     localStorage.removeItem('remarks');
@@ -168,8 +170,6 @@ const Header = () => {
     localStorage.removeItem('registerMobile');
     localStorage.removeItem('allproductlist');
     localStorage.clear();
-    navigation('/')
-    window.location.reload();
   }
 
 
