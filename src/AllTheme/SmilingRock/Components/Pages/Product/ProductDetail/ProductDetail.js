@@ -634,6 +634,7 @@ const ProductDetail = () => {
 
           setDiaList(res?.pdResp?.rd3)
           setCsList(res?.pdResp?.rd4)
+          console.log("res?.pdResp?.rd4",res?.pdResp?.rd4);
 
           let prod = res?.pdList[0]
 
@@ -1303,7 +1304,7 @@ const ProductDetail = () => {
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
-                                {singleProd1?.Nwt ?? singleProd?.Nwt}
+                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
                           </div>
