@@ -82,6 +82,7 @@ export default function YourProfile() {
                 };
                 setUserData(updatedUserData);
             } else {
+                console.log(parsedUserData);
                 setUserData(parsedUserData);
             }
         }
@@ -350,6 +351,8 @@ export default function YourProfile() {
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
             if(response?.Data?.rd?.length > 0){
                 setAddressPresentFlag(true);
+                setIsLoading(false);
+            }else{
                 setIsLoading(false);
             }    
         } catch (error) {

@@ -235,7 +235,9 @@ const Usewishlist = () => {
     ].join('&');
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
     navigate(url)
   }
 
