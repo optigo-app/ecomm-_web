@@ -48,9 +48,11 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [storeInit, setStoreInit] = useState();
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeInit)
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -100,6 +102,24 @@ const SmilingRock_App = () => {
     let localD = JSON.parse(localStorage.getItem("storeInit"));
     setLocalData(localD);
   }, []);
+
+
+  if (islogin === true) {
+    const restrictedPaths = [
+        '/LoginOption',
+        '/ContinueWithEmail',
+        '/ContinueWithMobile',
+        '/LoginWithEmailCode',
+        '/LoginWithMobileCode',
+        '/ForgotPass',
+        '/LoginWithEmail',
+        '/register'
+    ];
+
+    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+        return navigation("/");
+    }
+}
 
   return (
     <>
@@ -182,7 +202,7 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} isB2CWebsite = {storeInit}/>}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />

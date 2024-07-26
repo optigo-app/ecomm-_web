@@ -70,6 +70,7 @@ const useCart = () => {
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
+  const cartStatus = localStorage.getItem('isCartDrawer')
 
 
   useEffect(() => {
@@ -85,8 +86,6 @@ const useCart = () => {
     } else {
       setCurrencyData(storeInit)
     }
-
-
   }, [])
 
 
@@ -131,7 +130,7 @@ const useCart = () => {
   console.log('hshahdhasghda', cartDrawer);
   useEffect(() => {
     getCartData();
-  }, []);
+  }, [cartStatus]);
 
   // for multiselect
   const handleSelectItem = async (item) => {
@@ -573,7 +572,9 @@ const useCart = () => {
     ].join('&');
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
     navigate(url)
   }
 

@@ -423,7 +423,7 @@ const QuotationJob = () => {
 
       return 0;
 
-    }else if ((orderBy === 'PO') || (orderBy === 'PO') || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
   }  else {
@@ -438,7 +438,7 @@ const QuotationJob = () => {
         }
         return 0;
     }
-}
+  }
 
   const fetchData = async () => {
     try {

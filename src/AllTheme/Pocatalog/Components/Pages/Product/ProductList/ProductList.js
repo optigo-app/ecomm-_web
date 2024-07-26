@@ -2,60 +2,75 @@ import React, { useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
-import imageNotFound from "../../../Assets/image-not-found.jpg"
+import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import {
+  findMetal,
+  findMetalColor,
+  findMetalType,
+} from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Drawer, FormControlLabel, Pagination, Typography, useMediaQuery } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Checkbox,
+  Drawer,
+  FormControlLabel,
+  Pagination,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Footer from "../../Home/Footer/Footer";
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../../Recoil/atom";
+import { proCat_CartCount, proCat_WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import CloseIcon from '@mui/icons-material/Close';
-import Cookies from 'js-cookie'
-
-
-
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import CloseIcon from "@mui/icons-material/Close";
+import Cookies from "js-cookie";
 
 const ProductList = () => {
-
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    setStoreInit(storeinit)
+    setStoreInit(storeinit);
 
     let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    setMetalTypeCombo(mtCombo)
+    setMetalTypeCombo(mtCombo);
 
-    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    setDiaQcCombo(diaQcCombo)
+    let diaQcCombo = JSON.parse(
+      localStorage.getItem("diamondQualityColorCombo")
+    );
+    setDiaQcCombo(diaQcCombo);
 
-    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
-    setCsQcCombo(CsQcCombo)
-  }, [])
+    let CsQcCombo = JSON.parse(
+      localStorage.getItem("ColorStoneQualityColorCombo")
+    );
+    setCsQcCombo(CsQcCombo);
+  }, []);
 
   let location = useLocation();
   let navigate = useNavigate();
-  let minwidth1201px = useMediaQuery('(min-width:1201px)')
-  let maxwidth1674px = useMediaQuery('(max-width:1674px)')
-  let maxwidth590px = useMediaQuery('(max-width:590px)')
-  let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let minwidth1201px = useMediaQuery("(min-width:1201px)");
+  let maxwidth1674px = useMediaQuery("(max-width:1674px)");
+  let maxwidth590px = useMediaQuery("(max-width:590px)");
+  let maxwidth464px = useMediaQuery("(max-width:464px)");
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -63,54 +78,53 @@ const ProductList = () => {
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [storeInit, setStoreInit] = useState({});
-  const [filterData, setFilterData] = useState([])
-  const [filterChecked, setFilterChecked] = useState({})
+  const [filterData, setFilterData] = useState([]);
+  const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [accExpanded, setAccExpanded] = useState(null);
   const [currPage, setCurrPage] = useState(1);
-  const [cartArr, setCartArr] = useState({})
-  const [wishArr, setWishArr] = useState({})
-  const [menuParams, setMenuParams] = useState({})
-  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false)
+  const [cartArr, setCartArr] = useState({});
+  const [wishArr, setWishArr] = useState({});
+  const [menuParams, setMenuParams] = useState({});
+  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState(
+    loginUserDetail?.MetalId
+  );
+  const [selectedDiaId, setSelectedDiaId] = useState(
+    loginUserDetail?.cmboDiaQCid
+  );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-  const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
+  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [rollOverImgPd, setRolloverImgPd] = useState({})
-  const [locationKey, setLocationKey] = useState()
-  const [prodListType,setprodListType] = useState();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [rollOverImgPd, setRolloverImgPd] = useState({});
+  const [locationKey, setLocationKey] = useState();
+  const [prodListType, setprodListType] = useState();
 
-  const [sortBySelect,setSortBySelect] = useState();
+  const [sortBySelect, setSortBySelect] = useState();
 
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount);
+  const setWishCountVal = useSetRecoilState(proCat_WishCount);
 
+  let cookie = Cookies.get("visiterId");
 
+  useEffect(() => {
+    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    setSelectedMetalId(mtid);
 
-  let cookie = Cookies.get('visiterId')
-
-
-  useEffect(()=>{
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
-    setSelectedMetalId(mtid)
-
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
-    setSelectedDiaId(diaid)
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    setSelectedDiaId(diaid);
 
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
-    setSelectedCsId(csid)
-
-  },[])
+    setSelectedCsId(csid);
+  }, []);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
   // console.log("rollOverImgPd",rollOverImgPd).
-
 
   // useEffect(()=>{
 
@@ -179,14 +193,16 @@ const ProductList = () => {
   //     console.log("AlbumVar",AlbumVar)
   //   }
 
-
   // },[location?.key])
-
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let diaQcLocal = JSON.parse(
+      localStorage.getItem("diamondQualityColorCombo")
+    );
+    let csQcLocal = JSON.parse(
+      localStorage.getItem("ColorStoneQualityColorCombo")
+    );
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
@@ -196,12 +212,10 @@ const ProductList = () => {
             let data = response?.Data?.rd;
             localStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
-
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setMetalTypeCombo(mtTypeLocal);
     }
 
@@ -210,13 +224,15 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+            localStorage.setItem(
+              "diamondQualityColorCombo",
+              JSON.stringify(data)
+            );
             setDiaQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setDiaQcCombo(diaQcLocal);
     }
 
@@ -225,13 +241,15 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+            localStorage.setItem(
+              "ColorStoneQualityColorCombo",
+              JSON.stringify(data)
+            );
             setCsQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setCsQcCombo(csQcLocal);
     }
 
@@ -260,37 +278,32 @@ const ProductList = () => {
     window.scroll({
       top: 0,
       behavior: "smooth",
-    })
-  }, [])
-
-
-  
+    });
+  }, []);
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"))
+    let param = JSON.parse(localStorage.getItem("menuparams"));
     if (location?.state?.SearchVal === undefined) {
-      setMenuParams(param)
+      setMenuParams(param);
     }
-  }, [location?.key, productListData, filterChecked])
+  }, [location?.key, productListData, filterChecked]);
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-
     const fetchData = async () => {
+      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-      let UrlVal = location?.search.slice(1).split("/")
+      let UrlVal = location?.search.slice(1).split("/");
 
       console.log("URLVal", UrlVal);
 
-      let MenuVal = '';
-      let MenuKey = '';
-      let SearchVar = '';
-      let TrendingVar = '';
-      let NewArrivalVar = '';
-      let BestSellerVar = '';
-      let AlbumVar = '';
+      let MenuVal = "";
+      let MenuKey = "";
+      let SearchVar = "";
+      let TrendingVar = "";
+      let NewArrivalVar = "";
+      let BestSellerVar = "";
+      let AlbumVar = "";
 
       let productlisttype;
 
@@ -298,68 +311,68 @@ const ProductList = () => {
         let firstChar = ele.charAt(0);
 
         switch (firstChar) {
-          case 'M':
+          case "M":
             MenuVal = ele;
             break;
-          case 'S':
+          case "S":
             SearchVar = ele;
             break;
-          case 'T':
+          case "T":
             TrendingVar = ele;
             break;
-          case 'N':
+          case "N":
             NewArrivalVar = ele;
             break;
-          case 'B':
+          case "B":
             BestSellerVar = ele;
             break;
-          case 'A':
+          case "A":
             AlbumVar = ele;
             break;
           default:
-            return '';
+            return "";
         }
-      })
+      });
 
       if (MenuVal?.length > 0) {
-        let menuDecode = atob(MenuVal?.split("=")[1])
+        let menuDecode = atob(MenuVal?.split("=")[1]);
 
-        let key = menuDecode?.split("/")[1].split(',')
-        let val = menuDecode?.split("/")[0].split(',')
+        let key = menuDecode?.split("/")[1].split(",");
+        let val = menuDecode?.split("/")[0].split(",");
 
-        setIsBreadcumShow(true)
+        setIsBreadcumShow(true);
 
-        productlisttype = [key, val]
+        productlisttype = [key, val];
       }
 
       if (SearchVar) {
-        productlisttype = SearchVar
+        productlisttype = SearchVar;
       }
 
       if (TrendingVar) {
-        productlisttype = TrendingVar.split("=")[1]
+        productlisttype = TrendingVar.split("=")[1];
       }
       if (NewArrivalVar) {
-        productlisttype = NewArrivalVar.split("=")[1]
+        productlisttype = NewArrivalVar.split("=")[1];
       }
 
       if (BestSellerVar) {
-        productlisttype = BestSellerVar.split("=")[1]
+        productlisttype = BestSellerVar.split("=")[1];
       }
 
-    if(AlbumVar){
-      productlisttype = AlbumVar.split("=")[1]
-    }
-    
-    setIsProdLoading(true)
-    //  if(location?.state?.SearchVal === undefined){ 
-      setprodListType(productlisttype)
-      await ProductListApi({},1,obj,productlisttype,cookie)
+      if (AlbumVar) {
+        productlisttype = AlbumVar.split("=")[1];
+      }
+
+      setIsProdLoading(true);
+      //  if(location?.state?.SearchVal === undefined){
+      setprodListType(productlisttype);
+      await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
             console.log("productList", res);
             setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
@@ -379,30 +392,31 @@ const ProductList = () => {
         // })
         .then(async (res) => {
           let forWardResp1;
-          if(res){
-            await FilterListAPI(productlisttype,cookie).then((res)=>{
-              setFilterData(res)
-              forWardResp1 = res
-            }).catch((err) => console.log("err", err))
+          if (res) {
+            await FilterListAPI(productlisttype, cookie)
+              .then((res) => {
+                setFilterData(res);
+                forWardResp1 = res;
+              })
+              .catch((err) => console.log("err", err));
           }
-          return forWardResp1
-        }).finally(() => {
-          setIsProdLoading(false)
-          setIsOnlyProdLoading(false)
+          return forWardResp1;
         })
-        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsProdLoading(false);
+          setIsOnlyProdLoading(false);
+        })
+        .catch((err) => console.log("err", err));
 
       // }
-
-    }
+    };
 
     fetchData();
 
     if (location?.key) {
-      setLocationKey(location?.key)
+      setLocationKey(location?.key);
     }
-
-  }, [location?.key])
+  }, [location?.key]);
 
   useEffect(() => {
     const finalProdWithPrice = productListData.map((product) => {
@@ -410,20 +424,24 @@ const ProductList = () => {
 
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
-          pdImgList.push(imgString)
+          let imgString =
+            storeInit?.DesignImageFol +
+            product?.designno +
+            "_" +
+            i +
+            "." +
+            product?.ImageExtension;
+          pdImgList.push(imgString);
         }
+      } else {
+        pdImgList.push(imageNotFound);
       }
-      else {
-        pdImgList.push(imageNotFound)
-      }
-
 
       let images = pdImgList;
 
       return {
         ...product,
-        images
+        images,
       };
     });
 
@@ -524,40 +542,43 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
-        pdImgList.push(imgString)
+        let imgString =
+          storeInit?.DesignImageFol +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.ImageExtension;
+        pdImgList.push(imgString);
       }
-    }
-    else {
+    } else {
       finalprodListimg = imageNotFound;
     }
     if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[j]
+      finalprodListimg = pdImgList[j];
       if (j > 0 && (!finalprodListimg || finalprodListimg == undefined)) {
-        finalprodListimg = pdImgList[0]
+        finalprodListimg = pdImgList[0];
       }
     }
-    return finalprodListimg
-  }
+    return finalprodListimg;
+  };
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
-  }
+  };
 
   const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
     if (pPrice <= 0) {
-      return 0
+      return 0;
+    } else if (pmu <= 0) {
+      return pPrice;
+    } else {
+      let percentPMU = pmu / 100 / curr;
+      return Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0);
     }
-    else if (pmu <= 0) {
-      return pPrice
-    }
-    else {
-      let percentPMU = ((pmu / 100) / curr)
-      return (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))
-    }
-  }
+  };
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
@@ -568,27 +589,33 @@ const ProductList = () => {
 
     setFilterChecked((prev) => ({
       ...prev,
-      [name]: { checked, type: listname, id: name?.replace(/[a-zA-Z]/g, ''), value: val }
-    }))
-  }
+      [name]: {
+        checked,
+        type: listname,
+        id: name?.replace(/[a-zA-Z]/g, ""),
+        value: val,
+      },
+    }));
+  };
 
   const FilterValueWithCheckedOnly = () => {
-    let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
+    let onlyTrueFilterValue = Object.values(filterChecked).filter(
+      (ele) => ele.checked
+    );
 
-   const priceValues = onlyTrueFilterValue
-    .filter(item => item.type === "Price")
-    .map(item => item.value);
-
+    const priceValues = onlyTrueFilterValue
+      .filter((item) => item.type === "Price")
+      .map((item) => item.value);
 
     const output = {};
 
-    onlyTrueFilterValue.forEach(item => {
+    onlyTrueFilterValue.forEach((item) => {
       if (!output[item.type]) {
-        output[item.type] = '';
+        output[item.type] = "";
       }
 
-      if(item.type == 'Price'){
-        output['Price'] = priceValues
+      if (item.type == "Price") {
+        output["Price"] = priceValues;
         return;
       }
 
@@ -596,76 +623,84 @@ const ProductList = () => {
     });
 
     for (const key in output) {
-      if(key !== 'Price'){
+      if (key !== "Price") {
         output[key] = output[key].slice(0, -2);
       }
     }
 
-    // if 
+    // if
 
-    return output
-  }
-  
-  useEffect(()=>{
-   let output = FilterValueWithCheckedOnly()
-   let obj={mt:selectedMetalId,dia:selectedDiaId,cs:selectedCsId}
+    return output;
+  };
 
-  //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
-    
-  if(location?.key === locationKey){
-    setIsOnlyProdLoading(true)
-     ProductListApi(output,1,obj,prodListType,cookie)
-       .then((res) => {
-         if (res) {
-           setProductListData(res?.pdList);
-           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-         }
-         return res;
-       })
-      //  .then( async(res) => {
-      //    if (res) {
-      //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
-      //        if(resp){
-      //          setPriceListData(resp)  
-      //        }
-      //      })
-      //    }
-      //    return res
-      //  })
-       .catch((err) => console.log("err", err)).finally(()=>{setIsOnlyProdLoading(false)})
-  }
-        // .then(async(res)=>{
-        //   if(res){
-        //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
-        //   }
-        // })
-      // }
+  useEffect(() => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-  }, [filterChecked])
+    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
+    console.log(
+      "locationkey",
+      location?.key !== locationKey,
+      location?.key,
+      locationKey
+    );
 
+    if (location?.key === locationKey) {
+      setIsOnlyProdLoading(true);
+      ProductListApi(output, 1, obj, prodListType, cookie)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          }
+          return res;
+        })
+        //  .then( async(res) => {
+        //    if (res) {
+        //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
+        //        if(resp){
+        //          setPriceListData(resp)
+        //        }
+        //      })
+        //    }
+        //    return res
+        //  })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlyProdLoading(false);
+        });
+    }
+    // .then(async(res)=>{
+    //   if(res){
+    //     FilterListAPI().then((res)=>setFilterData(res)).catch((err)=>console.log("err",err))
+    //   }
+    // })
+    // }
+  }, [filterChecked]);
 
   const handelFilterClearAll = () => {
-    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
-    setAccExpanded(false)
-  }
+    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+      setFilterChecked({});
+    }
+    setAccExpanded(false);
+  };
 
   const handelPageChange = (event, value) => {
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-    setIsProdLoading(true)
-    setCurrPage(value)
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    setIsProdLoading(true);
+    setCurrPage(value);
     setTimeout(() => {
       window.scroll({
         top: 0,
-        behavior: 'smooth'
-      })
-    }, 100)
-    ProductListApi(output, value, obj,prodListType,cookie)
+        behavior: "smooth",
+      });
+    }, 100);
+    ProductListApi(output, value, obj, prodListType, cookie)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
@@ -679,125 +714,128 @@ const ProductList = () => {
       //   }
       //   return res
       // })
-      .catch((err) => console.log("err", err)).finally(() => {
+      .catch((err) => console.log("err", err))
+      .finally(() => {
         setTimeout(() => {
-          setIsProdLoading(false)
+          setIsProdLoading(false);
         }, 100);
-      })
-  }
+      });
+  };
 
   const handleCartandWish = (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      "autocode": ele?.autocode,
-      "Metalid": ele?.MetalPurityid,
-      "MetalColorId": ele?.MetalColorid,
-      "DiaQCid": loginInfo?.cmboDiaQCid,
-      "CsQCid": loginInfo?.cmboCSQCid,
-      "Size": ele?.DefaultSize,
-      "Unitcost": ele?.UnitCost,
-      "markup": ele?.DesignMarkUp,
-      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
-      "Remark": ""
-    }
-
-    
+      autocode: ele?.autocode,
+      Metalid: ele?.MetalPurityid,
+      MetalColorId: ele?.MetalColorid,
+      DiaQCid: loginInfo?.cmboDiaQCid,
+      CsQCid: loginInfo?.cmboCSQCid,
+      Size: ele?.DefaultSize,
+      Unitcost: ele?.UnitCost,
+      markup: ele?.DesignMarkUp,
+      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      Remark: "",
+    };
 
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode,cookie).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      RemoveCartAndWishAPI(type, ele?.autocode, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     }
 
     if (type === "Cart") {
       setCartArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
-      }))
+        [ele?.autocode]: e.target.checked,
+      }));
     }
 
     if (type === "Wish") {
       setWishArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
-      }))
+        [ele?.autocode]: e.target.checked,
+      }));
     }
-
-  }
+  };
 
   useEffect(() => {
     if (productListData?.length === 0 || !productListData) {
-      setFilterProdListEmpty(true)
+      setFilterProdListEmpty(true);
     } else {
-      setFilterProdListEmpty(false)
+      setFilterProdListEmpty(false);
     }
-  }, [productListData])
-
+  }, [productListData]);
 
   const handelCustomCombo = (obj) => {
-
-    let output = FilterValueWithCheckedOnly()
+    let output = FilterValueWithCheckedOnly();
 
     if (location?.state?.SearchVal === undefined) {
-      setIsOnlyProdLoading(true)
-      ProductListApi(output,currPage,obj,prodListType,cookie)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .catch((err) => console.log("err", err))
-          .finally(()=>{
-            setTimeout(() => {
-              localStorage.setItem("short_cutCombo_val",JSON?.stringify(obj))
-              setIsOnlyProdLoading(false)
-            }, 100);
-          })
+      setIsOnlyProdLoading(true);
+      ProductListApi(output, currPage, obj, prodListType, cookie)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setTimeout(() => {
+            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            setIsOnlyProdLoading(false);
+          }, 100);
+        });
     }
-  }
+  };
 
   useEffect(() => {
-
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
-
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
-      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-        handelCustomCombo(obj)
+    if (
+      loginInfo?.MetalId !== selectedMetalId ||
+      loginInfo?.cmboDiaQCid !== selectedDiaId ||
+      loginInfo?.cmboCSQCid !== selectedCsId
+    ) {
+      if (
+        selectedMetalId !== "" ||
+        selectedDiaId !== "" ||
+        selectedCsId !== ""
+      ) {
+        handelCustomCombo(obj);
       }
     }
-
-
-  }, [selectedMetalId, selectedDiaId, selectedCsId])
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
 
-      const compressed = pako.deflate(uint8Array, { to: 'string' });
-
+      const compressed = pako.deflate(uint8Array, { to: "string" });
 
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
-      console.error('Error compressing and encoding:', error);
+      console.error("Error compressing and encoding:", error);
       return null;
     }
   };
@@ -814,85 +852,94 @@ const ProductList = () => {
       }
 
       // Decompress the data
-      const decompressed = pako.inflate(uint8Array, { to: 'string' });
+      const decompressed = pako.inflate(uint8Array, { to: "string" });
 
       // Convert decompressed data back to JSON object
       const jsonObject = JSON.parse(decompressed);
 
       return jsonObject;
     } catch (error) {
-      console.error('Error decoding and decompressing:', error);
+      console.error("Error decoding and decompressing:", error);
       return null;
     }
   };
 
   const handleMoveToDetail = (productData) => {
-    let output = FilterValueWithCheckedOnly()
+    let output = FilterValueWithCheckedOnly();
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
-      f: output
-    }
-    console.log('ksjkfjkjdkjfkjsdk--', obj);
+      f: output,
+    };
+    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
-    decodeAndDecompress()
+    decodeAndDecompress();
 
-    let encodeObj = compressAndEncode(JSON.stringify(obj))
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
-
-  }
+    navigate(
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
+        productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
 
   const handleImgRollover = (pd, i) => {
     if (pd?.images?.length >= 1) {
       // setRolloverImgPd((prev) => pd?.images[1])
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
+      setRolloverImgPd((prev) => {
+        return { [pd?.autocode]: pd?.images[1] };
+      });
     }
-  }
+  };
 
-  const handleLeaveImgRolloverImg = (pd,i) =>{
-    if(pd?.images?.length > 0){
+  const handleLeaveImgRolloverImg = (pd, i) => {
+    if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
+      setRolloverImgPd((prev) => {
+        return { [pd?.autocode]: pd?.images[0] };
+      });
     }
-  }
-
+  };
 
   const handleBreadcums = (mparams) => {
-
-    let key = Object?.keys(mparams)
-    let val = Object?.values(mparams)
+    let key = Object?.keys(mparams);
+    let val = Object?.values(mparams);
 
     let KeyObj = {};
     let ValObj = {};
 
     key.forEach((value, index) => {
-      let keyName = `FilterKey${index === 0 ? '' : index}`;
+      let keyName = `FilterKey${index === 0 ? "" : index}`;
       KeyObj[keyName] = value;
     });
 
     val.forEach((value, index) => {
-      let keyName = `FilterVal${index === 0 ? '' : index}`;
+      let keyName = `FilterVal${index === 0 ? "" : index}`;
       ValObj[keyName] = value;
     });
 
-    let finalData = { ...KeyObj, ...ValObj }
+    let finalData = { ...KeyObj, ...ValObj };
 
     const queryParameters1 = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    ]
+      .filter(Boolean)
+      .join("/");
 
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join(',');
+    ]
+      .filter(Boolean)
+      .join(",");
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -902,8 +949,8 @@ const ProductList = () => {
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => value)
       .filter(Boolean)
-      .join(',');
-    
+      .join(",");
+
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
     const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
@@ -911,34 +958,32 @@ const ProductList = () => {
 
     navigate(url);
 
-    console.log("mparams", KeyObj, ValObj)
+    console.log("mparams", KeyObj, ValObj);
+  };
 
-  }
+  const handleSortby = async (e) => {
+    setSortBySelect(e.target?.value);
 
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-  const handleSortby = async(e) =>{
-    setSortBySelect(e.target?.value)
+    setIsOnlyProdLoading(true);
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let sortby = e.target?.value;
 
-    setIsOnlyProdLoading(true)
-
-    let sortby = e.target?.value
-
-    await ProductListApi(output,currPage,obj,prodListType,cookie,sortby)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(()=>{
-            setIsOnlyProdLoading(false)
-        })
-  }
+    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false);
+      });
+  };
 
   // const showBreadCumsValue = () =>{
 
@@ -998,7 +1043,6 @@ const ProductList = () => {
   //   }
   //   if()
 
-    
   // }
 
   // console.log("showBreadCumsValue",showBreadCumsValue())
@@ -1183,7 +1227,7 @@ const ProductList = () => {
                 }}
                 className="select"
                 value={sortBySelect}
-                onChange={(e)=>handleSortby(e)}
+                onChange={(e) => handleSortby(e)}
               >
                 <option className="option" value="Recommended">
                   Recommended
@@ -1345,13 +1389,13 @@ const ProductList = () => {
       </Drawer>
       <div className="proCat_bodyContain">
         <div className="smr_outerContain">
-          <div className="smr_whiteInnerContain">
+          <div className="proCat_whiteInnerContain">
             {isProdLoading ? (
               // true ?
               <ProductListSkeleton />
             ) : (
               <>
-                {!minwidth1201px ? (
+                {/* {!minwidth1201px ? (
                   <div className="smr_mobile_prodSorting">
                     <Checkbox
                       sx={{ padding: "0px 9px 0px 9px" }}
@@ -1376,43 +1420,50 @@ const ProductList = () => {
                           navigate("/");
                         }}
                       >
-                        {"Home >"} {" "}
+                        {"Home >"}{" "}
                       </span>
 
                       {location?.search.charAt(1) == "A" && (
-                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
-                            <span>
-                              {"Album"}
-                            </span>
+                        <div
+                          className="smr_breadcums_port"
+                          style={{ marginLeft: "3px" }}
+                        >
+                          <span>{"Album"}</span>
                         </div>
                       )}
 
                       {location?.search.charAt(1) == "T" && (
-                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
-                            <span>
-                              {"Trending"}
-                            </span>
+                        <div
+                          className="smr_breadcums_port"
+                          style={{ marginLeft: "3px" }}
+                        >
+                          <span>{"Trending"}</span>
                         </div>
                       )}
 
                       {location?.search.charAt(1) == "B" && (
-                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
-                            <span>
-                              {"Best Seller"}
-                            </span>
+                        <div
+                          className="smr_breadcums_port"
+                          style={{ marginLeft: "3px" }}
+                        >
+                          <span>{"Best Seller"}</span>
                         </div>
                       )}
 
                       {location?.search.charAt(1) == "N" && (
-                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
-                            <span>
-                              {"New Arrival"}
-                            </span>
+                        <div
+                          className="smr_breadcums_port"
+                          style={{ marginLeft: "3px" }}
+                        >
+                          <span>{"New Arrival"}</span>
                         </div>
                       )}
-                      
+
                       {IsBreadCumShow && (
-                        <div className="smr_breadcums_port" style={{marginLeft:'3px'}}>
+                        <div
+                          className="smr_breadcums_port"
+                          style={{ marginLeft: "3px" }}
+                        >
                           {menuParams?.menuname && (
                             <span
                               onClick={() =>
@@ -1528,10 +1579,11 @@ const ProductList = () => {
                       <div className="smr_sorting_custom">
                         <div className="container">
                           <label className="label">Sort By:&nbsp;</label>
-                          <select className="select" 
-                           value={sortBySelect}
-                            onChange={(e)=>handleSortby(e)}
-                             >
+                          <select
+                            className="select"
+                            value={sortBySelect}
+                            onChange={(e) => handleSortby(e)}
+                          >
                             <option className="option" value="Recommended">
                               Recommended
                             </option>
@@ -1561,7 +1613,7 @@ const ProductList = () => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 <div className="smr_mainPortion">
                   <div className="smr_filter_portion">
@@ -1706,70 +1758,67 @@ const ProductList = () => {
                                     </AccordionDetails>
                                   </Accordion>
                                 )}
-                                {
-                                  ele?.id?.includes("Price") && (
-                                    <Accordion
-                                    elevation={0}
+                              {ele?.id?.includes("Price") && (
+                                <Accordion
+                                  elevation={0}
+                                  sx={{
+                                    borderBottom: "1px solid #c7c8c9",
+                                    borderRadius: 0,
+                                    "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
+                                    "&.MuiPaper-root.MuiAccordion-root:before":
+                                      {
+                                        background: "none",
+                                      },
+                                  }}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
+                                >
+                                  <AccordionSummary
+                                    expandIcon={
+                                      <ExpandMoreIcon sx={{ width: "20px" }} />
+                                    }
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
                                     sx={{
-                                      borderBottom: "1px solid #c7c8c9",
+                                      color: "#7f7d85",
                                       borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                    }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon
-                                          sx={{ width: "20px" }}
-                                        />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
 
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Name}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map(
-                                        (opt,i) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              gap: "12px",
-                                            }}
-                                            key={i}
-                                          >
-                                            {/* <small
+                                      "&.MuiAccordionSummary-root": {
+                                        padding: 0,
+                                      },
+                                    }}
+                                    className="filtercategoryLable"
+                                  >
+                                    {/* <span> */}
+                                    {ele.Name}
+                                    {/* </span> */}
+                                  </AccordionSummary>
+                                  <AccordionDetails
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "4px",
+                                      minHeight: "fit-content",
+                                      maxHeight: "300px",
+                                      overflow: "auto",
+                                    }}
+                                  >
+                                    {(JSON.parse(ele?.options) ?? []).map(
+                                      (opt, i) => (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            gap: "12px",
+                                          }}
+                                          key={i}
+                                        >
+                                          {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1777,56 +1826,70 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                            <FormControlLabel
-                                              control={
-                                                <Checkbox
-                                                  name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
-                                                  checked={
-                                                    filterChecked[
-                                                      `Price${i}${i}`
-                                                    ]?.checked === undefined
-                                                      ? false
-                                                      : filterChecked[
-                                                          `Price${i}${i}`
-                                                        ]?.checked
-                                                  }
-                                                  style={{
-                                                    color: "#7f7d85",
-                                                    padding: 0,
-                                                    width: "10px",
-                                                  }}
-                                                  onClick={(e) =>
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      ele?.id,
-                                                      opt
-                                                    )
-                                                  }
-                                                  size="small"
-                                                />
-                                              }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              //   fontFamily:'TT Commons Regular'
-                                              // }}
-                                              className="smr_mui_checkbox_label"
-                                              label={ opt?.Minval == 0 ?(`Under ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Maxval}`) : (opt?.Maxval == 0 ? `Over ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Minval}` : `${decodeEntities(storeInit?.Currencysymbol)}${opt?.Minval} - ${decodeEntities(storeInit?.Currencysymbol)}${opt?.Maxval}`)}
-                                            />
-                                          </div>
-                                        )
-                                      )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                  )
-                                }
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                name={`Price${i}${i}`}
+                                                // checked={
+                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                //     : false
+                                                // }
+                                                checked={
+                                                  filterChecked[`Price${i}${i}`]
+                                                    ?.checked === undefined
+                                                    ? false
+                                                    : filterChecked[
+                                                        `Price${i}${i}`
+                                                      ]?.checked
+                                                }
+                                                style={{
+                                                  color: "#7f7d85",
+                                                  padding: 0,
+                                                  width: "10px",
+                                                }}
+                                                onClick={(e) =>
+                                                  handleCheckboxChange(
+                                                    e,
+                                                    ele?.id,
+                                                    opt
+                                                  )
+                                                }
+                                                size="small"
+                                              />
+                                            }
+                                            // sx={{
+                                            //   display: "flex",
+                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                            //   width: "100%",
+                                            //   flexDirection: "row-reverse", // Align items to the right
+                                            //   fontFamily:'TT Commons Regular'
+                                            // }}
+                                            className="smr_mui_checkbox_label"
+                                            label={
+                                              opt?.Minval == 0
+                                                ? `Under ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Maxval}`
+                                                : opt?.Maxval == 0
+                                                ? `Over ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Minval}`
+                                                : `${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${
+                                                    opt?.Minval
+                                                  } - ${decodeEntities(
+                                                    storeInit?.Currencysymbol
+                                                  )}${opt?.Maxval}`
+                                            }
+                                          />
+                                        </div>
+                                      )
+                                    )}
+                                  </AccordionDetails>
+                                </Accordion>
+                              )}
                             </>
                           ))}
                         </div>
@@ -1956,10 +2019,11 @@ const ProductList = () => {
                                   // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                                   // src={ ProdCardImageFunc(productData,0)}
                                   src={
-                                    rollOverImgPd[productData?.autocode] ? rollOverImgPd[productData?.autocode] :
-                                    (productData?.images?.length > 0
+                                    rollOverImgPd[productData?.autocode]
+                                      ? rollOverImgPd[productData?.autocode]
+                                      : productData?.images?.length > 0
                                       ? productData?.images[0]
-                                      : imageNotFound)
+                                      : imageNotFound
                                   }
                                   alt=""
                                   onClick={() =>
@@ -1968,8 +2032,8 @@ const ProductList = () => {
                                   onMouseEnter={() => {
                                     handleImgRollover(productData);
                                   }}
-                                  onMouseLeave={()=>{
-                                    handleLeaveImgRolloverImg(productData, i)
+                                  onMouseLeave={() => {
+                                    handleLeaveImgRolloverImg(productData, i);
                                   }}
                                 />
                                 <div className="smr_prod_Title">

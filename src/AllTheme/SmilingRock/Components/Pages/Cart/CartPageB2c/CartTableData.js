@@ -20,7 +20,6 @@ const ExampleComponent = ({
 }) => {
     const setCartCountVal = useSetRecoilState(CartCount)
     const [storeInitData, setStoreInitData] = useState();
-    const [countstatus, setCountStatus] = useState();
     const visiterId = Cookies.get('visiterId');
 
     const shipsDate = cartData?.shipsdate;
@@ -31,21 +30,28 @@ const ExampleComponent = ({
     useEffect(() => {
         const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
-        const isCartUpdateStatus = localStorage.getItem('cartUpdation');
-        setCountStatus(isCartUpdateStatus)
-    }, [onRemove])
+    }, [])
 
-    const handleRemovecartData = (cartData) => {
-        onRemove(cartData)
-        setTimeout(() => {
-            if (countstatus) {
-                GetCountAPI(visiterId).then((res) => {
-                    console.log('responseCount', res);
-                    setCartCountVal(res?.cartcount);
-                })
-            }
-        }, 500)
+    // const handleRemovecartData = (cartData) => {
+    //     onRemove(cartData)
+    //     setTimeout(() => {
+    //         if (countstatus) {
+    //             GetCountAPI(visiterId).then((res) => {
+    //                 console.log('responseCount', res);
+    //                 setCartCountVal(res?.cartcount);
+    //             })
+    //         }
+    //     }, 500)
+    // }
+    
+  const handleRemovecartData = async (item) => {
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
     }
+  };
 
     return (
         <table className="smr_B2C-table smr_B2C-table-xs">

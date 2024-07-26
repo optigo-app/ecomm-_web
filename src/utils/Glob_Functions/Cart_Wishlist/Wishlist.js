@@ -23,6 +23,8 @@ const Usewishlist = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [countDataUpdted, setCountDataUpdated] = useState();
+  const [isProcessing, setIsProcessing] = useState(false);
+
 
   const islogin = useRecoilValue(loginState)
 
@@ -123,7 +125,11 @@ const Usewishlist = () => {
 
 
   // add to cart all
-  const handleAddtoCartAll = async () => {
+  const handleAddtoCartAll = async () => {    
+    if (isProcessing) return;
+  
+    setIsProcessing(true);
+    
     const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     let resStatus;
@@ -132,26 +138,28 @@ const Usewishlist = () => {
       const allItemsInCart = wishlistData.every(item => item.IsInCart === 1);
   
       if (!allItemsInCart) {
-      try {
-        const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
-        resStatus = response?.Data?.rd[0];
-        if (resStatus?.msg === "success") {
-          toast.success('All wishlist items added to cart');
-          getWishlistData();
+        try {
+          const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
+          resStatus = response?.Data?.rd[0];
+          if (resStatus?.msg === "success") {
+            toast.success('All wishlist items added to cart');
+            getWishlistData();
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          return { success: false };
         }
-      } catch (error) {
-        console.error("Error:", error);
-        return { success: false };
+      } else {
+        console.log('Already in cart');
       }
-    }else{
-      console.log('Already in cart');
-    }
   
       return resStatus;
     } catch (error) {
       setUpdateCount(false);
       console.error("Error:", error);
       return { success: false };
+    } finally {
+      setIsProcessing(false);
     }
   };
   
@@ -235,7 +243,9 @@ const Usewishlist = () => {
     ].join('&');
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
     navigate(url)
   }
 

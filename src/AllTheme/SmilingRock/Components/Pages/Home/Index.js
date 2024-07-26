@@ -1,37 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import './Index.modul.scss'
-import TopSection from './TopVideo/TopSection';
-import TheDifference from './TheDifference/TheDifference';
-import PromotionBaner1 from './PromotionBanner1/PromotionBaner1';
-import PromotionBaner2 from './PromotionBanner1/PromotionBaner2';
-import ShopByCategory from './ShopByCategory/ShopByCategory';
-import PromoSetSection from './BestSellerSection/BestSellerSection';
-import SustainAbility from './SustainAbility/SustainAbility';
-import BottomBanner from './BottomBanner/BottomBanner';
-import Footer from './Footer/Footer';
-import TrendingView from './TrandingView/TrendingView';
-import TrendingView1 from './TrandingView/TrendingView1';
-import DesignSet from './DesignSet/DesignSet1';
-import DesignSet1 from './DesignSet/DesignSet2';
-import Album from './Album/Album';
-import Album1 from './Album/Album1';
-import NewArrival from './NewArrival/NewArrival';
-import NewArrival1 from './NewArrival/NewArrival1';
-import BestSellerSection from './BestSellerSection/BestSellerSection';
-import BestSellerSection1 from './BestSellerSection/BestSellerSection1';
-import BrandsComponent from './BrandComponent/BrandComponents';
-
+import React, { useEffect, useState } from "react";
+import "./Index.modul.scss";
+import TopSection from "./TopVideo/TopSection";
+import TheDifference from "./TheDifference/TheDifference";
+import PromotionBaner1 from "./PromotionBanner1/PromotionBaner1";
+import PromotionBaner2 from "./PromotionBanner1/PromotionBaner2";
+import ShopByCategory from "./ShopByCategory/ShopByCategory";
+import PromoSetSection from "./BestSellerSection/BestSellerSection";
+import SustainAbility from "./SustainAbility/SustainAbility";
+import BottomBanner from "./BottomBanner/BottomBanner";
+import Footer from "./Footer/Footer";
+import TrendingView from "./TrandingView/TrendingView";
+import TrendingView1 from "./TrandingView/TrendingView1";
+import DesignSet from "./DesignSet/DesignSet1";
+import DesignSet1 from "./DesignSet/DesignSet2";
+import Album from "./Album/Album";
+import Album1 from "./Album/Album1";
+import NewArrival from "./NewArrival/NewArrival";
+import NewArrival1 from "./NewArrival/NewArrival1";
+import BestSellerSection from "./BestSellerSection/BestSellerSection";
+import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
+import BrandsComponent from "./BrandComponent/BrandComponents";
 
 function Home() {
-
   const [localData, setLocalData] = useState();
+  const [minHeight, setMinHeight] = useState("800px");
 
   useEffect(() => {
     setCSSVariable();
-    let localData = JSON.parse(localStorage.getItem('storeInit'));
+    let localData = JSON.parse(localStorage.getItem("storeInit"));
     setLocalData(localData);
-    console.log('localDatalocalData', localData);
-  }, [])
+    if (localData) {
+      setMinHeight("0px");
+    }
+  }, []);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -42,56 +43,55 @@ function Home() {
     );
   };
 
-
-  console.log("kjfdkjjjjjjjjjjjjjjj",window?.location?.protocol)
+  console.log("kjfdkjjjjjjjjjjjjjjj", window?.location?.protocol);
 
   return (
     <>
-    <div className='smiling_home_index_main'>
-      <div>
-        {localData?.Blockno === 1 &&
-          <div className='smiling_home_index_Submain'>
-            <TopSection />
-            <TheDifference />
-            <PromotionBaner1 />
-            {localData?.IsHomeAlbum === 1 && <Album />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-            {/* <DaimondEveyone /> */}
-            {/* <ShopByCategory /> */}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-            {localData?.IsHomeTrending === 1 && <TrendingView />}
-            {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-            {/* <SustainAbility /> */}
-            {/* <BestSaller /> */}
-            <BottomBanner />
-            {/* <BrandsComponent/> */}
-            <Footer />
-          </div>
-        }
-      </div>
-      <div>
-        {localData?.Blockno === 2 &&
-          <div className='smiling_home_index_Submain'>
-            <TopSection />
-            <TheDifference />
-            <PromotionBaner2 />
-            {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
-            {/* <DaimondEveyone /> */}
-            {/* <ShopByCategory /> */}
-            {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-            {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-            {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
-            {/* <SustainAbility /> */}
-            {/* <BestSaller /> */}
-            <BottomBanner />
-            <BrandsComponent/>
-            <Footer />
-          </div>
-        }
-      </div>
+      <div className="smiling_home_index_main">
+        <div style={{ minHeight: minHeight , backgroundColor: 'white' }}>
+          {localData?.Blockno === 1 && (
+            <div className="smiling_home_index_Submain">
+              <TopSection />
+              <TheDifference />
+              <PromotionBaner1 />
+              {localData?.IsHomeAlbum === 1 && <Album />}
+              {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+              {/* <DaimondEveyone /> */}
+              {/* <ShopByCategory /> */}
+              {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+              {localData?.IsHomeTrending === 1 && <TrendingView />}
+              {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+              {/* <SustainAbility /> */}
+              {/* <BestSaller /> */}
+              <BottomBanner />
+              {/* <BrandsComponent/> */}
+              <Footer />
+            </div>
+          )}
+        </div>
+        <div style={{ minHeight: minHeight , backgroundColor: 'white' }}>
+          {localData?.Blockno === 2 && (
+            <div className="smiling_home_index_Submain">
+              <TopSection />
+              <TheDifference />
+              <PromotionBaner2 />
+              {localData?.IsHomeAlbum === 1 && <Album1 />}
+              {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+              {/* <DaimondEveyone /> */}
+              {/* <ShopByCategory /> */}
+              {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
+              {localData?.IsHomeTrending === 1 && <TrendingView1 />}
+              {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
+              {/* <SustainAbility /> */}
+              {/* <BestSaller /> */}
+              <BottomBanner />
+              <BrandsComponent />
+              <Footer />
+            </div>
+          )}
+        </div>
 
-      {/* <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
+        {/* <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
         {localData?.Blockno === 2 &&
           <div className='smiling_home_index_Submain'>
             <TopSection />
@@ -112,24 +112,31 @@ function Home() {
           </div>
         }
       </div> */}
-      <div>
-        <p style={{
-          paddingBlock: '30px',
-          margin: '0px',
-          textAlign: 'center',
-          color: 'white',
-          cursor: 'pointer',
-          fontSize: '13px',
-          fontWeight: 500,
-          letterSpacing: '1px'
-        }} onClick={() => window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })}>BACK TO TOP</p>
+        <div>
+          <p
+            style={{
+              paddingBlock: "30px",
+              margin: "0px",
+              textAlign: "center",
+              color: "white",
+              cursor: "pointer",
+              fontSize: "13px",
+              fontWeight: 500,
+              letterSpacing: "1px",
+            }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+          >
+            BACK TO TOP
+          </p>
+        </div>
       </div>
-    </div>
     </>
-  )
+  );
 }
 
 export default Home;

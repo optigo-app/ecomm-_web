@@ -10,9 +10,9 @@ import { Grid, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { proCat_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
   item,
@@ -38,7 +38,7 @@ const CartItem = ({
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const [countstatus, setCountStatus] = useState();
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');

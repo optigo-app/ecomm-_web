@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import "./confirmation.scss"
 // import ThankYouImage from "../../../Assets/thankyou.jpg"
-import confirmImg from '../../../Assets/confirm.svg'
+// import confirmImg from '../../../Assets/confirm.svg'
 import { useNavigate } from 'react-router-dom';
-
+import odrerconfirmed from '../../../Assets/thankyou.svg'
+// import  OrderIMG  from '../../../Assets/order.svg'
 const Confirmation = () => {
     const navigate = useNavigate();
     const [orderNo, setOrderNo] = useState();
@@ -29,7 +30,7 @@ const Confirmation = () => {
                 <div className="hoqMo_thankYouContainer">
                     <div className="hoqMo_thankYouContent">
                         <div className="hoqMo_thankYouMessage">
-                            <img src={confirmImg} className='hoq_orderCnfThankyouImage' />
+                            <img src={odrerconfirmed} className='hoq_orderCnfThankyouImage' />
                         </div>
                         <div className="orderNumber">
                             <p>Your Order number is <span>{orderNo}</span></p>

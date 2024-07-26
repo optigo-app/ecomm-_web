@@ -247,28 +247,26 @@ export const useAddress = () => {
 
 
     const proceedToOrder = (navigation) => {
-        if (!addressData || addressData?.length === 0) {
+        if (!addressData || addressData.length === 0) {
+            toast.error('Please add an address');
             return;
         }
-
         const requiredFields = ['addressprofile', 'city', 'state', 'country', 'zip', 'street', 'shippingfirstname', 'shippinglastname', 'shippingmobile'];
-        const defaultAddressExists = addressData?.some((item) => item.isdefault === 1);
-
-        const addressIsValid = addressData?.every((address) => {
-            const hasEmptyField = requiredFields?.some((field) => !address[field] || address[field]?.trim() === '');
-            if (hasEmptyField) {
-                toast.error('Please fill in all required fields');
-            }
-            return !hasEmptyField;
-        });
-
-        if (addressIsValid && defaultAddressExists) {
-            navigation('/payment');
-            window.scrollTo(0, 0);
-        } else if (addressIsValid && !defaultAddressExists) {
+        const defaultAddress = addressData.find(item => item.isdefault === 1);
+    
+        if (!defaultAddress) {
             toast.error('Please first select the shipping address');
+            return;
         }
+        const hasEmptyField = requiredFields.some(field => !defaultAddress[field] || defaultAddress[field].trim() === '');
+        if (hasEmptyField) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
+        navigation('/payment');
+        window.scrollTo(0, 0);
     };
+    
 
     return {
         addressData,

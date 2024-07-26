@@ -128,8 +128,9 @@ const ManageAddress = () => {
         } else if(formData.firstName?.length < 3){
             errors.firstName = 'First Name too short';
         } else if(formData.firstName?.length > 25){
-            errors.firstName = 'FIrst Name too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+            errors.firstName = 'First Name too long';
+        // } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+        } else if (!/^[a-zA-Z\s.]+$/.test(formData.firstName.trim())) {
             errors.firstName = 'First Name must contain only letters';
         }
 
@@ -139,7 +140,8 @@ const ManageAddress = () => {
             errors.lastName = 'Last Name is too short';
         } else if(formData.lastName?.length > 25){
             errors.lastName = 'Last Name is too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z\s.]+$/.test(formData.lastName.trim())) {
             errors.lastName = 'Last Name must contain only letters';
         }
     
@@ -163,19 +165,43 @@ const ManageAddress = () => {
         // if (!formData.country.trim()) {
         //     errors.country = 'Country is required';
         // }
+        // if (!formData.country.trim()) {
+        //     errors.country = 'Country Name is required';
+        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        //     errors.country = 'Country Name must contain only letters';
+        // }else{
+        //     errors.country = '';
+        // }
+        // if (!formData.state.trim()) {
+        //     errors.state = 'State Name is required';
+        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        //     errors.state = 'State Name must contain only letters';
+        // }else{
+        //     errors.state = '';
+        // }
+        // if (!formData.city.trim()) {
+        //     errors.city = 'City Name is required';
+        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        //     errors.city = 'City Name must contain only letters';
+        // }else{
+        //     errors.city = '';
+        // }
+
         if (!formData.country.trim()) {
             errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
             errors.country = 'Country Name must contain only letters';
         }
+    
         if (!formData.state.trim()) {
             errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
             errors.state = 'State Name must contain only letters';
         }
+    
         if (!formData.city.trim()) {
             errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
             errors.city = 'City Name must contain only letters';
         }
     
@@ -215,7 +241,6 @@ const ManageAddress = () => {
             if (isEditMode) {
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
-    
                 response = await handleEditAddress(
                     editId,
                     formData,
@@ -240,10 +265,12 @@ const ManageAddress = () => {
                         zip: formData.zipCode,
                         shippingmobile: formData.mobileNo
                     };
-    
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -449,7 +476,7 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+            
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -535,7 +562,12 @@ const ManageAddress = () => {
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
+                                                <Typography sx={{ paddingBottom: "15px" }}>
+                                                    {item?.street !== undefined && item?.street},
+                                                    {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
+                                                    {item?.state !== undefined && item?.state},
+                                                    {item?.country !== undefined && item?.country}
+                                                </Typography>
                                             </Box>
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
