@@ -184,6 +184,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
+    navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
     localStorage.setItem("LoginUser", false);
@@ -198,9 +199,6 @@ const Header = () => {
     localStorage.removeItem("registerMobile");
     localStorage.removeItem("allproductlist");
     localStorage.clear();
-    setTimeout(() => {
-      navigation("/");
-    }, 1000);
     window.location.reload();
   };
 
