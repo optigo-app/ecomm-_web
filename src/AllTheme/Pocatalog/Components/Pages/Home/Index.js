@@ -65,7 +65,7 @@ function Home() {
 
 
 
-      {/* <div>
+      <div>
         <p style={{
           paddingBlock: '30px',
           margin: '0px',
@@ -79,7 +79,7 @@ function Home() {
           top: 0,
           behavior: 'smooth'
         })}>BACK TO TOP</p>
-      </div> */}
+      </div>
     </div>
   )
 }
