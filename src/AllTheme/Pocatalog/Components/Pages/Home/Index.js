@@ -44,7 +44,7 @@ function Home() {
       }
 
       {localData?.Blockno === 2 &&
-        <div className='ProCat_home_index_main'>
+        <div className='smiling_home_index_Submain'>
           <TopSection />
           {/* <TheDifference />
           <PromotionBaner1 />
