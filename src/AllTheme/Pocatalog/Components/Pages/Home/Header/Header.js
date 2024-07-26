@@ -13,7 +13,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
-import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 
 const Header = () => {
@@ -332,12 +331,12 @@ const Header = () => {
 
   // for cart drawer
 
-  const toggleCartDrawer = () => {
-    setIsCartOpen(prevState => !prevState);
-    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
-    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
-    setCartOpenState(prevState => !prevState);
-  };
+  // const toggleCartDrawer = () => {
+  //   setIsCartOpen(prevState => !prevState);
+  //   const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+  //   localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
+  //   setCartOpenState(prevState => !prevState);
+  // };
 
   const handleContextMenu = (e) => {
   };
@@ -702,7 +701,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={toggleCartDrawer}
+                         onClick={() => navigation("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -872,7 +871,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={toggleCartDrawer}
+                           onClick={() => navigation("/cartPage")}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1030,7 +1029,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <CartDrawer open={isCartOpen} />
     </div >
   )
 }
