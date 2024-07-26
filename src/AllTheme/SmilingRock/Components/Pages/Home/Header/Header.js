@@ -48,6 +48,7 @@ const Header = () => {
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const location = useLocation();
 
+
   let navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
 
@@ -1682,7 +1683,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* <CartDrawer open={isCartOpen} /> */}
+      {IsB2BWebsiteChek != 1 &&
+        <CartDrawer open={isCartOpen} />
+      }
     </div>
   );
 };
