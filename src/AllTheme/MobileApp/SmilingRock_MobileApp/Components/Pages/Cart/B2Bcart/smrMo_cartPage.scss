@@ -12,6 +12,20 @@ $cartUpdateBtncolor: #b1b1b1;
 .smrMo_cartMainPageDiv {
   background-color: #fff;
   margin-inline: 6%;
+
+  @media(max-width:599px) {
+    .smrMo_cartMainPage {
+      display: block;
+      margin-top: 18px;
+    }
+  }
+
+  @media(max-width:800px) and (min-width: 600px) {
+    .smrMo_cartMainPage {
+      display: block;
+      margin-top: 18px;
+    }
+  }
 }
 
 @media(max-width:1200px) {
@@ -105,14 +119,14 @@ $cartUpdateBtncolor: #b1b1b1;
       font-size: $fontSize2 !important;
       border: none !important;
       outline: none !important;
-      height:  45px !important;
+      height: 45px !important;
       border-radius: 5px !important;
-      width:  190px !important;
+      width: 190px !important;
       font-weight: bold !important;
     }
   }
 
-  .smrMo_currencyFontPrice{
+  .smrMo_currencyFontPrice {
     color: $titleColor;
   }
 
@@ -327,8 +341,8 @@ $cartUpdateBtncolor: #b1b1b1;
       display: flex !important;
       justify-content: center !important;
     }
-    
-    .smrMo_cartListCard{
+
+    .smrMo_cartListCard {
       width: 370px !important;
     }
 
@@ -351,6 +365,7 @@ $cartUpdateBtncolor: #b1b1b1;
       margin: 0;
       padding-bottom: 130px;
     }
+
     .smrMo_Cart_R-details {
       .smrMo_cart-Titleline {
         font-size: $fontSize4 !important;
@@ -386,6 +401,7 @@ $cartUpdateBtncolor: #b1b1b1;
       margin: 0;
       padding-bottom: 130px;
     }
+
     .smrMo_Cart_R-details {
       .smrMo_cart-Titleline {
         font-size: $fontSize4 !important;
@@ -402,7 +418,7 @@ $cartUpdateBtncolor: #b1b1b1;
       justify-content: center !important;
     }
 
-    .smrMo_cartListCard{
+    .smrMo_cartListCard {
       width: 370px !important;
     }
 
@@ -430,44 +446,51 @@ $cartUpdateBtncolor: #b1b1b1;
   .smrmo_card-ContentData {
     padding: 2px 0px 2px 0px !important;
   }
+
   .smrMo_Cart_R-details {
     .smrMo_cart-Titleline {
       font-size: $fontSize4 !important;
     }
   }
+
   @media (max-width: 699px) {
-    .smrMo_cartListCard{
+    .smrMo_cartListCard {
       width: 370px !important;
     }
   }
 
   @media (max-width: 599px) {
-    .smrMo_cartListCard{
-      width: 370px !important;
+    .smrMo_cartListCard {
+      width: 420px !important;
     }
   }
 
   @media (max-width: 445px) {
-    .smrMo_cartListCard{
-      width: 350px !important;
+    .smrMo_cartListCard {
+      width: 390px !important;
+    }
+
+    .smrMo_cartMainPage {
+      display: block;
     }
   }
+
   @media (max-width: 400px) {
-    .smrMo_cartListCard{
-      width: 320px !important;
+    .smrMo_cartListCard {
+      width: 340px !important;
     }
   }
 
   @media (max-width: 375px) {
-    .smrMo_cartListCard{
-      width: 310px !important;
+    .smrMo_cartListCard {
+      width: 340px !important;
     }
   }
 
   @media (max-width: 330px) {
-  .smrMo_cartListCard{
-    width: 290px !important;
-  }
+    .smrMo_cartListCard {
+      width: 290px !important;
+    }
   }
 }
 
