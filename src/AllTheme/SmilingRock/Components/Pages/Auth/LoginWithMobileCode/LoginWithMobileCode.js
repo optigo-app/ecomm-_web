@@ -8,6 +8,7 @@ import { loginState } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
+import Cookies from 'js-cookie';
 
 export default function LoginWithMobileCode() {
     const [errors, setErrors] = useState({});
@@ -59,11 +60,12 @@ export default function LoginWithMobileCode() {
     };
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!enterOTP.trim()) {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '').then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '',visiterId).then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('LoginUser', true)
                 setIsLoginState(true)

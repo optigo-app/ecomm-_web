@@ -10,7 +10,7 @@ const ProductListSkeleton = ({fromPage}) => {
 
 
     return (
-        <div className={fromPage === "Prodlist" ? "skeltonMainDiv_prodlistPage":'skeltonMainDiv'} style={{marginTop:'30px'}}>
+        <div className={fromPage === "Prodlist" ? "skeltonMainDiv_prodlistPage":'skeltonMainDiv'} style={{marginTop:'30px',width:'100%'}}>
             <Grid container spacing={2}>
                 {/* { fromPage !== "Prodlist" && <Grid item xs={12}>
                     <Card className='skeltoncards' style={{ width: '100%' }}>

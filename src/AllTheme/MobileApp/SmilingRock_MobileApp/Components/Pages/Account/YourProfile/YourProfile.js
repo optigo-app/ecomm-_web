@@ -89,6 +89,9 @@ export default function YourProfile() {
     };
 
 
+    console.log('userDatauserData',userData);
+
+
     return (
         <div>
             <ToastContainer />
@@ -115,7 +118,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
-                                    value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
+                                    value={userData.defaddress_shippingfirstname !== undefined ? userData.firstname : userData.firstname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -125,7 +128,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
+                                    value={userData.defaddress_shippinglastname !== undefined ? userData.lastname : userData.lastname}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />
@@ -147,7 +150,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
+                                    value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.mobileno || userData.mobileno) : ""}
                                     disabled={!editMode}
                                     onChange={handleInputChange}
                                 />

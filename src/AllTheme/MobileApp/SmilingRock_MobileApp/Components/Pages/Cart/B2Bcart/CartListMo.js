@@ -22,7 +22,7 @@ const CartList = ({
   handleCancel,
   handleMoveToDetail
 }) => {
-  console.log('itemgsgdhas-', selectedItem);
+  console.log('itemgsgdhas-', items);
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const CartList = ({
     setStoreInitData(storeinitData)
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)?.toFixed(2)
     setTotalPrice(priceData)
-  },[])
+  },[onRemove,handleSave])
 
   const handlePlaceOrder = () => {
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0).toFixed(2)

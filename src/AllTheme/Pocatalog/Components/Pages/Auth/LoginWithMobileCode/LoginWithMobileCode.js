@@ -4,10 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginWithMobileCode.modul.scss';
 import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
-import { loginState } from '../../../Recoil/atom';
+import { proCat_loginState } from '../../../Recoil/atom';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
+import Cookies from 'js-cookie';
+
 
 export default function LoginWithMobileCode() {
     const [errors, setErrors] = useState({});
@@ -16,7 +18,7 @@ export default function LoginWithMobileCode() {
     const [mobileNo, setMobileNo] = useState('');
     const [enterOTP, setEnterOTP] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
 
     const search = location?.search
@@ -59,11 +61,12 @@ export default function LoginWithMobileCode() {
     };
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!enterOTP.trim()) {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login').then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login','',visiterId).then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 localStorage.setItem('LoginUser', true)
                 setIsLoginState(true)

@@ -1,5 +1,5 @@
 // BottomTabNavigation.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { FaHome, FaUser, FaEnvelope } from 'react-icons/fa';
@@ -17,6 +17,10 @@ const HomeTab = () => {
   const islogin = useRecoilValue(smrMA_loginState);
   const location = useLocation();
 
+  useEffect(() => {
+    setActiveTab(location.pathname);
+  },[location.pathname])
+  
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };

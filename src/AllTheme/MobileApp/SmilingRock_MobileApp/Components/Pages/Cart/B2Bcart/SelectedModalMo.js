@@ -14,7 +14,7 @@ const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) =
         <Typography className='smrmo_FilterTitle'>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails className='smrmo_filterAccordianDetail' style={{ padding: '0' }}>
-        {items.map(item => (
+        {items?.map(item => (
           <div className='smrmo_filter-AccrodianDetails' key={item.id}>
             <Typography className='smrmo_filterAccordianDeatilTitle'>{item.name}</Typography>
             <Checkbox
@@ -76,26 +76,26 @@ const SelectedModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, o
 
   let filterArr = {}
   function getUniqueValues(array, key) {
-    return [...new Set(array.map(item => item[key]))];
+    return [...new Set(array?.map(item => item[key]))];
   }
 
-  const categories = getUniqueValues(selectedItems, 'CategoryName').map(category => ({
-    id: selectedItems.find(item => item.CategoryName === category).Categoryid,
+  const categories = getUniqueValues(selectedItems, 'CategoryName')?.map(category => ({
+    id: selectedItems?.find(item => item.CategoryName === category).Categoryid,
     name: category
   }));
 
-  const collections = getUniqueValues(selectedItems, 'CollectionName').map(collection => ({
-    id: selectedItems.find(item => item.CollectionName === collection).Collectionid,
+  const collections = getUniqueValues(selectedItems, 'CollectionName')?.map(collection => ({
+    id: selectedItems?.find(item => item.CollectionName === collection).Collectionid,
     name: collection
   }));
 
-  const subcategories = getUniqueValues(selectedItems, 'SubCategoryName').map(subcategory => ({
-    id: selectedItems.find(item => item.SubCategoryName === subcategory).SubCategoryid,
+  const subcategories = getUniqueValues(selectedItems, 'SubCategoryName')?.map(subcategory => ({
+    id: selectedItems?.find(item => item.SubCategoryName === subcategory).SubCategoryid,
     name: subcategory
   }));
 
-  const genders = getUniqueValues(selectedItems, 'GenderName').map(gender => ({
-    id: selectedItems.find(item => item.GenderName === gender).Genderid,
+  const genders = getUniqueValues(selectedItems, 'GenderName')?.map(gender => ({
+    id: selectedItems?.find(item => item.GenderName === gender).Genderid,
     name: gender
   }));
 
@@ -149,7 +149,7 @@ const SelectedModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, o
                     id="metalTypeMaster"
                     label="Metal Type"
                   >
-                    {metalTypeCombo.map(option => (
+                    {metalTypeCombo?.map(option => (
                       <MenuItem key={option.Metalid} value={option.metaltype}>
                         {option.metaltype}
                       </MenuItem>
@@ -165,7 +165,7 @@ const SelectedModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, o
                     id="metalColorMaster"
                     label="Metal Color"
                   >
-                    {metalColorCombo.map(option => (
+                    {metalColorCombo?.map(option => (
                       <MenuItem key={option.id} value={option.colorname}>
                         {option.colorname}
                       </MenuItem>
@@ -181,7 +181,7 @@ const SelectedModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, o
                     id="diamondMaster"
                     label="Diamond"
                   >
-                    {diamondQualityColorCombo.map(option => (
+                    {diamondQualityColorCombo?.map(option => (
                       <MenuItem key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality+'#'+ option?.color}>
                         {option?.Quality+'#'+ option?.color}
                       </MenuItem>

@@ -6,10 +6,10 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount, loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from "js-cookie";
+import { proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
 
 const CartPage = () => {
   const {
@@ -55,7 +55,7 @@ const CartPage = () => {
 
   const navigate = useNavigate();
 
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount)
 
   const handlePlaceOrder = () => {
     let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
@@ -74,7 +74,7 @@ const CartPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
   const visiterId = Cookies.get('visiterId');
-  const islogin = useRecoilValue(loginState)
+  const islogin = useRecoilValue(proCat_loginState)
 
   useEffect(() => {
     const iswishUpdateStatus = localStorage.getItem('cartUpdation');

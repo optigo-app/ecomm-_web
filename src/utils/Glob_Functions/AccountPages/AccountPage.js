@@ -110,17 +110,36 @@ export const NumberWithCommas = (value, val) => {
     return formattedString;
 };
 
-export const customComparator_Col = (a, b) => {
-    const regex = /([^\d]+)(\d+)/;
-    const [, wordA, numA] = a?.match(regex);
-    const [, wordB, numB] = b?.match(regex);
+// export const customComparator_Col = (a, b) => {
+//     const regex = /([^\d]+)(\d+)/;
+//     const [, wordA, numA] = a?.match(regex);
+//     const [, wordB, numB] = b?.match(regex);
     
-    if (wordA !== wordB) {
-        return wordA?.localeCompare(wordB);
+//     if (wordA !== wordB) {
+//         return wordA?.localeCompare(wordB);
+//     }
+    
+//     return parseInt(numB, 10) - parseInt(numA, 10);
+// };
+
+export const customComparator_Col = (a, b) => {
+    const regex = /([^\d]*)(\d+)/; // Adjusted regex to handle cases where there might not be a match
+    const matchA = a?.match(regex);
+    const matchB = b?.match(regex);
+    
+    if (!matchA || !matchB) {
+      return a?.localeCompare(b); // Default to string comparison if regex does not match
     }
     
-    return parseInt(numB, 10) - parseInt(numA, 10);
-};
+    const [, wordA, numA] = matchA;
+    const [, wordB, numB] = matchB;
+  
+    if (wordA !== wordB) {
+      return wordA?.localeCompare(wordB);
+    }
+    
+    return parseInt(numA, 10) - parseInt(numB, 10);
+  };
 
 export function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);

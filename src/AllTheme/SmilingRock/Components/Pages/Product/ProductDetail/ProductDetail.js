@@ -57,7 +57,7 @@ const ProductDetail = () => {
   const [selectMtColor, setSelectMtColor] = useState();
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
-  const [selectedThumbImg, setSelectedThumbImg] = useState();
+  const [selectedThumbImg, setSelectedThumbImg] = useState()
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -621,6 +621,10 @@ const ProductDetail = () => {
           if(res?.pdList?.length > 0){
             setisPriceLoading(false)
             setIsImageLoad(false)
+            setSelectedThumbImg({
+              link: "",
+              type: "img",
+            });
           }
 
           if(!res?.pdList[0]){
@@ -806,6 +810,7 @@ const ProductDetail = () => {
         pdImgList.push(imgString);
       }
     } else {
+      // setSelectedThumbImg({"link":imageNotFound,"type":'img'});
       finalprodListimg = imageNotFound;
     }
 
@@ -879,7 +884,7 @@ const ProductDetail = () => {
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink)
+    // setMetalWiseColorImg(imgLink)
 
     let isImg = await checkImageAvailability(imgLink)
 
@@ -1197,7 +1202,7 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img")? (
                           <img
-                            src={selectedThumbImg?.link ?? imageNotFound}
+                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
@@ -1206,7 +1211,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                              src={selectedThumbImg?.link}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1303,7 +1308,7 @@ const ProductDetail = () => {
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
-                                {singleProd1?.Nwt ?? singleProd?.Nwt}
+                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
                           </div>
@@ -1380,7 +1385,7 @@ const ProductDetail = () => {
                                 </div>
                               )}
                               {storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && (
+                                diaQcCombo?.length > 0 && diaList?.length && (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
@@ -1404,8 +1409,8 @@ const ProductDetail = () => {
                                     }
                                   </div>
                                 )}
-                              {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && (
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.length) ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
@@ -1426,7 +1431,10 @@ const ProductDetail = () => {
                                       ))}
                                     </select>
                                   </div>
-                                )}
+                                )
+                                :
+                                null
+                              }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && (
                                 <div className="smr_single_prod_customize_outer">
@@ -1652,10 +1660,13 @@ const ProductDetail = () => {
                                 width={140}
                                 height={30}
                               />
-                            ) : formatter.format(
+                            ) : 
+                            formatter.format
+                            (
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
-                            )}
+                            )
+                            }
                             {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
                           </div>
                         }
@@ -2052,7 +2063,11 @@ const ProductDetail = () => {
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
-                                <span> {formatter.format(ele?.Amount)}</span>
+                                <span> {
+                                // formatter.format(
+                                  ele?.Amount
+                                  // )
+                                  }</span>
                               </span>
                             </td>
                             <td
@@ -2161,7 +2176,11 @@ const ProductDetail = () => {
                                   </span>
                                   &nbsp;
                                   </spam>
-                                  <span>{formatter.format(ele?.UnitCostWithMarkUp)}</span>
+                                  <span>{
+                                  // formatter.format(
+                                    ele?.UnitCostWithMarkUp
+                                    // )
+                                    }</span>
                                 </div>
                               </div>
                             </div>
@@ -2290,7 +2309,11 @@ const ProductDetail = () => {
                                             </span>
                                           }
                                           &nbsp;
-                                          {formatter.format(ele?.UnitCostWithMarkUp)}
+                                          {
+                                          // formatter.format(
+                                            ele?.UnitCostWithMarkUp
+                                            // )
+                                            }
                                         </p>
                                       </div>
                                       {/* <div>

@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { loginState } from '../../../Recoil/atom';
+import { proCat_loginState } from '../../../Recoil/atom';
 
 
 export default function Register() {
@@ -37,7 +37,7 @@ export default function Register() {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
 
-  const setIsLoginState = useSetRecoilState(loginState)
+  const setIsLoginState = useSetRecoilState(proCat_loginState)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === 'Enter') {
