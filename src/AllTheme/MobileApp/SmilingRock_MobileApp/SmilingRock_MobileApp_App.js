@@ -30,6 +30,11 @@ import QuotationJob from './Components/Pages/Account/QuotationJob/QuotationJob';
 import Sales from './Components/Pages/Account/Sales/Sales';
 import SalesReport from './Components/Pages/Account/SalesReport/SalesReport';
 import DesignWiseSalesReport from './Components/Pages/Account/DesignWiseSalesReport/DesignWiseSalesReport';
+import TermsCondition from './Components/Pages/StaticPages/TermsCondition'
+import PrivacyPolicy from './Components/Pages/StaticPages/PrivacyPolicy'
+import DeliveryShipping from './Components/Pages/StaticPages/DeliveryShipping'
+import Coupons from './Components/Pages/StaticPages/Coupons'
+import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -79,6 +84,11 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/CartPage" ||
         location.pathname === "/Confirmation" ||
         location.pathname === "/myWishList" ||
+        location.pathname === "/PrivacyPolicy" ||
+        location.pathname === "/DeliveryShipping" ||
+        location.pathname === "/TermsCondition" ||
+        location.pathname === "/HelpCenter" ||
+        location.pathname === "/Coupons" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
         
@@ -87,9 +97,14 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
         <Route path="/AccountWothoutLogin" element={<AccountWothoutLogin />} />
         <Route path="/Menu" element={<Menu />} />
+        <Route path="/TermsCondition" element={<TermsCondition />} />
+        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+        <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
           <Route path="/CartPage" element={<CartPage />} />
           <Route path="/Account" element={<Account />} />
+          <Route path="/HelpCenter" element={<HelpCenter />} />
+          <Route path="/Coupons" element={<Coupons />} />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />

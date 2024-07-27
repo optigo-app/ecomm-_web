@@ -1409,8 +1409,8 @@ const ProductDetail = () => {
                                     }
                                   </div>
                                 )}
-                              {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && csList?.length && (
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.length) ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
@@ -1431,7 +1431,10 @@ const ProductDetail = () => {
                                       ))}
                                     </select>
                                   </div>
-                                )}
+                                )
+                                :
+                                null
+                              }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && (
                                 <div className="smr_single_prod_customize_outer">
