@@ -543,6 +543,7 @@ const useCart = () => {
   // browse our collection
   const handelMenu = () => {
     let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    if(menudata){
     console.log('otherparamsUrl--', menudata);
     const queryParameters1 = [
       menudata?.FilterKey && `${menudata?.FilterVal}`,
@@ -566,16 +567,19 @@ const useCart = () => {
       .filter(Boolean)
       .join(',');
 
-    const paginationParam = [
-      `page=${menudata.page ?? 1}`,
-      `size=${menudata.size ?? 50}`
-    ].join('&');
+    // const paginationParam = [
+    //   `page=${menudata.page ?? 1}`,
+    //   `size=${menudata.size ?? 50}`
+    // ].join('&');
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
       menuEncoded
     )}`;
     navigate(url)
+  }else{
+    navigate("/")
+  }
   }
 
   return {
