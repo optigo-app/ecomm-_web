@@ -59,9 +59,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
@@ -233,7 +233,9 @@ const ProductList = () => {
 
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
-  }, [])
+
+  }, [loginUserDetail,storeInit])
+
 
   useEffect(() => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -686,14 +688,14 @@ const ProductList = () => {
 
     let prodObj = {
       "autocode": ele?.autocode,
-      "Metalid": ele?.MetalPurityid,
+      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
       "MetalColorId": ele?.MetalColorid,
-      "DiaQCid": loginInfo?.cmboDiaQCid,
-      "CsQCid": loginInfo?.cmboCSQCid,
+      "DiaQCid": (selectedDiaId ?? loginInfo?.cmboDiaQCid),
+      "CsQCid": (selectedCsId ?? loginInfo?.cmboCSQCid),
       "Size": ele?.DefaultSize,
-      "Unitcost": ele?.price,
-      "markup": ele?.markup,
-      "UnitCostWithmarkup": PriceWithMarkupFunction(ele?.markup, ele?.price, storeInit?.CurrencyRate),
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
       "Remark": ""
     }
 
@@ -769,14 +771,12 @@ const ProductList = () => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-
     
     if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
       if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
     }
-
 
   }, [selectedMetalId, selectedDiaId, selectedCsId])
 
@@ -828,7 +828,10 @@ const ProductList = () => {
       c: selectedCsId,
       f: output
     }
-    console.log('ksjkfjkjdkjfkjsdk--', obj);
+
+    console.log('movetodetail', obj);
+    // console.log("selectedMetalId",selectedDiaId);
+
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress()
@@ -838,6 +841,7 @@ const ProductList = () => {
     navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
+
 
   const handleImgRollover = (pd,i) =>{
     if(pd?.images?.length >=1){
@@ -1349,7 +1353,7 @@ const ProductList = () => {
                       <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
                         {
                           diaQcCombo?.map((diaQc) => (
-                            <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                            <option className="option" key={diaQc.QualityId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
                           ))
                         }
                       </select>
@@ -1365,7 +1369,7 @@ const ProductList = () => {
                       <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
                         {
                           csQcCombo?.map((csCombo) => (
-                            <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                            <option className="option" key={csCombo.QualityId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
                           ))
                         }
                       </select>
