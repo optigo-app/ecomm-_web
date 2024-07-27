@@ -48,7 +48,7 @@ export default function ChangePassword() {
             }
         } else if (fieldName === 'oldPassword') {
             if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'oldPassword is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
             }
@@ -100,7 +100,7 @@ export default function ChangePassword() {
         const errors = {};
 
         if (!oldPassword.trim()) {
-            errors.oldPassword = 'oldPassword is required';
+            errors.oldPassword = 'Old Password is required';
         }
 
         if (!password.trim()) {

@@ -57,7 +57,7 @@ const ProductDetail = () => {
   const [selectMtColor, setSelectMtColor] = useState();
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
-  const [selectedThumbImg, setSelectedThumbImg] = useState();
+  const [selectedThumbImg, setSelectedThumbImg] = useState()
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -75,6 +75,8 @@ const ProductDetail = () => {
 
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
+
+  console.log("diaList",diaList?.length,csList?.length);
 
   const [prodLoading,setProdLoading] = useState(false)
 
@@ -621,6 +623,10 @@ const ProductDetail = () => {
           if(res?.pdList?.length > 0){
             setisPriceLoading(false)
             setIsImageLoad(false)
+            setSelectedThumbImg({
+              link: "",
+              type: "img",
+            });
           }
 
           if(!res?.pdList[0]){
@@ -634,7 +640,6 @@ const ProductDetail = () => {
 
           setDiaList(res?.pdResp?.rd3)
           setCsList(res?.pdResp?.rd4)
-          console.log("res?.pdResp?.rd4",res?.pdResp?.rd4);
 
           let prod = res?.pdList[0]
 
@@ -807,6 +812,7 @@ const ProductDetail = () => {
         pdImgList.push(imgString);
       }
     } else {
+      // setSelectedThumbImg({"link":imageNotFound,"type":'img'});
       finalprodListimg = imageNotFound;
     }
 
@@ -1198,7 +1204,7 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img")? (
                           <img
-                            src={selectedThumbImg?.link ?? imageNotFound}
+                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
@@ -1207,7 +1213,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                              src={selectedThumbImg?.link}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1381,7 +1387,7 @@ const ProductDetail = () => {
                                 </div>
                               )}
                               {storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && (
+                                diaQcCombo?.length > 0 && diaList?.length && (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
@@ -1406,7 +1412,7 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && (
+                                selectCsQc?.length > 0 && csList?.length && (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :

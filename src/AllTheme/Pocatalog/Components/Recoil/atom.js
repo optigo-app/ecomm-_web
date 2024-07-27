@@ -24,3 +24,8 @@ export const proCat_cartB2CDrawer = atom({
   key: 'cartB2CDrawer',
   default: false
 })
+
+export const proCat_DiamondRangeArr = atom({
+  key: 'DiamondRangeArr',
+  default: []
+})

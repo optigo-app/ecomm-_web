@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { useNavigate } from 'react-router';
+import { IoMdCall, IoMdMail } from 'react-icons/io';
+import { IoLocationOutline } from 'react-icons/io5';
 
 const Footer = ({ fromPage }) => {
 
@@ -40,42 +42,48 @@ const Footer = ({ fromPage }) => {
     <div>
 
       {localData?.Footerno === 1 &&
-        <div className='smr_Footer1_main'>
+        <div className='ProCat_Footer1_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
-            <div className='footerIconMain'>
-              {socialMediaData?.map((social, index) => (
-                <div className='footerSocialIcon'>
-                  <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                    <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
-                      onError={(e) => { e.target.style.display = 'none'; }} />
-                  </a>
-                </div>
-              ))}
-            </div>
             <div className='footerMoreOption'>
-              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
+              <div style={{ marginLeft: '100px' }}>
+                <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
+                <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
+                  <IoLocationOutline style={{ width: '22px', height: '22px' }} />
+                  <span style={{ color: '#7d7f85', fontSize: '14px' }}>
+                    {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
+                  </span>
+                </p>
+                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
+                  <IoMdCall />
+                  <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
+                    <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+                      {companyInfoData?.FrontEndContactno1}
+                    </a>
+                  </span>
+                </p>
+                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                  <IoMdMail />
+                  <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
+                    <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                      {companyInfoData?.FrontEndEmail1}
+                    </a>
+                  </span>
+                </p>
+              </div>
+              <div style={{marginLeft: '100px', width: '40%'}}>
+                <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>
+                <div className='footerIconMain'>
+                  {socialMediaData?.map((social, index) => (
+                    <div className='footerSocialIcon'>
+                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                        <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
+                          onError={(e) => { e.target.style.display = 'none'; }} />
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className='footerMoreText'>
-              <p style={{
-                color: '#7d7f85',
-                fontSize: '12px',
-                fontWeight: 500,
-                marginInline: '15px'
-              }}>© 2024, KayraCreation</p>
-
-              <p style={{
-                color: '#7d7f85',
-                fontSize: '12px',
-                fontWeight: 500,
-                cursor: 'pointer'
-              }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p>
-            </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src='https://smilingrocks.com/cdn/shop/t/157/assets/passport.svg?v=152807140915720846441675380017' style={{ height: '80px', cursor: 'pointer', paddingBlock: '10px' }} />
           </div>
         </div>
       }
@@ -83,16 +91,7 @@ const Footer = ({ fromPage }) => {
       {localData?.Footerno === 2 &&
         <div className='smr_Footer2_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
-          
-            <div className='footerMoreOption'>
-              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p> */}
-              {/* <p className='footerMoreOptionData' onClick={() => {navigation('/faq'); window.scrollTo(0, 0); }}>FAQ</p> */}
-              {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
-              <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
-              <p className='footerMoreOptionData'  onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p> */}
-              {/* <p className='footerMoreOptionData' onClick={() => navigation('/press')}>PRESS</p> */}
-            </div>
+
             <div className='footerIconMain'>
               {socialMediaData?.map((social, index) => (
                 <div className='footerSocialIcon'>
@@ -104,11 +103,8 @@ const Footer = ({ fromPage }) => {
               ))}
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src='https://smilingrocks.com/cdn/shop/t/157/assets/passport.svg?v=152807140915720846441675380017' style={{ height: '80px', cursor: 'pointer', paddingBlock: '10px' }} />
-          </div>
         </div>
-       } 
+      }
     </div>
   )
 }
