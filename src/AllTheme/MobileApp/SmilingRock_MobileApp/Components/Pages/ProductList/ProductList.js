@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -85,6 +85,9 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
   const [sortBySelect, setSortBySelect] = useState('Recommended');
+
+  const [afterCountStatus, setAfterCountStatus] = useState(false);
+
 
   const formatter = new Intl.NumberFormat('en-IN')
 
@@ -560,6 +563,7 @@ const ProductList = () => {
 
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
+    setAfterCountStatus(false);
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
 
@@ -601,6 +605,7 @@ const ProductList = () => {
   }
   
   useEffect(() => {
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -615,6 +620,7 @@ const ProductList = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterCountStatus(false);
           }
           return res;
         })
@@ -641,6 +647,7 @@ const ProductList = () => {
 
 
   const handelFilterClearAll = () => {
+    setAfterCountStatus(true);
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
@@ -736,6 +743,7 @@ const ProductList = () => {
       setFilterProdListEmpty(true)
     } else {
       setFilterProdListEmpty(false)
+      setAfterCountStatus(false);
     }
   }, [productListData])
 
@@ -1419,19 +1427,42 @@ const ProductList = () => {
                   <div className="smr_mobile_filter_portion" >
                         {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
                           <span className="smr_filter_text">
-                            <span>
+                          <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : `Product Found: ${afterFilterCount}`}
+                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                                : <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Product Found: ${afterFilterCount}`}</span>
+                                }
+                                </>}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
                                 ? "Clear All"
-                                : ""}
+                                :
+                                <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
+                                }
+                                </>
+                              }
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>
@@ -1972,19 +2003,42 @@ const ProductList = () => {
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
-                            <span>
+                          <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : `Product Found: ${afterFilterCount}`}
+                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                                : <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Product Found: ${afterFilterCount}`}</span>
+                                }
+                                </>}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
                                 ? "Clear All"
-                                : ""}
+                                :
+                                <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
+                                }
+                                </>
+                              }
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>

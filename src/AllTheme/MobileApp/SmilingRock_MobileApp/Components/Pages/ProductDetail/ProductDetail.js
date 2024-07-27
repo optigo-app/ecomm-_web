@@ -429,6 +429,7 @@ const ProductDetail = () => {
 
   console.log("finalSize",colUpdatedPrice())
 
+
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
@@ -1123,6 +1124,20 @@ const ProductDetail = () => {
       <div className="smrMA_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
+          {isDataFound ? (
+              <div
+                style={{
+                  height: "90vh",
+                  justifyContent: "center",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                className="smr_prodd_datanotfound_ss"
+              >
+                Data not Found!!
+              </div>
+            ) : 
+            (<>
             <div className="smr_prod_detail_main" style={{marginTop:'50px'}}>
               <div className="smr_prod_image_shortInfo">
                 <div className="smr_prod_image_Sec">
@@ -1236,7 +1251,7 @@ const ProductDetail = () => {
                           </span>
                         </span>
                         <span className="smr_prod_short_key">
-                          Diamond Quality Color:{" "}
+                          Diamond Quality & Color:{" "}
                           <span className="smr_prod_short_val">
                             {`${selectDiaQc}`}
                           </span>
@@ -1538,7 +1553,7 @@ const ProductDetail = () => {
                             }
                     </div>}
 
-                    <div className="Smr_CartAndWish_portion">
+                    { prodLoading && <div className="Smr_CartAndWish_portion">
                       <button
                         className="smr_AddToCart_btn"
                         onClick={() => handleCart(!addToCartFlag)}
@@ -1564,7 +1579,7 @@ const ProductDetail = () => {
                           onChange={(e) => handleWishList(e)}
                         />
                       </div>
-                    </div>
+                    </div>}
                   </div>
                 </div>
               </div>
@@ -1807,7 +1822,7 @@ const ProductDetail = () => {
             </div>
           }
 
-{storeInit?.IsProductDetailDesignSet === 1 && 
+           {storeInit?.IsProductDetailDesignSet === 1 && 
                 <div className="smr_DesignSet_main">
                   { designSetList?.length > 0 && <div
                     style={{
@@ -1950,7 +1965,7 @@ const ProductDetail = () => {
                   </div>
                 </div>}
 
-            
+                </>)}
           </div>
         </div>
       </div>

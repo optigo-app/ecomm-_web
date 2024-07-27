@@ -886,13 +886,13 @@ const ProductDetail = () => {
 
     // setMetalWiseColorImg(imgLink)
 
-    // let isImg = await checkImageAvailability(imgLink)
+    let isImg = await checkImageAvailability(imgLink)
 
-    // if(isImg){
-    //   setMetalWiseColorImg(imgLink)
-    // }else{
-    //   setMetalWiseColorImg()
-    // }
+    if(isImg){
+      setMetalWiseColorImg(imgLink)
+    }else{
+      setMetalWiseColorImg()
+    }
 
     let pd = singleProd;
     let pdImgListCol = [];
