@@ -12,6 +12,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
 import imageNotFound from "../../Assets/noImageFound.jpg";
+import { IoMdArrowBack } from "react-icons/io";
+
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -44,6 +46,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 
 const ProductPage = () => {
+  const Navigate = useNavigate();
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [storeInit, setStoreInit] = useState({});
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
@@ -85,6 +88,15 @@ const ProductPage = () => {
   const [PdImageArr, setPdImageArr] = useState([]);
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
+  const [loadingdata, setloadingdata] = useState(false);
+
+  useEffect(() => {
+    if (singleProd?.IsInWish == 1) {
+      setWishListFlag(true);
+    } else {
+      setWishListFlag(false);
+    }
+  }, [singleProd]);
 
   const settings = {
     dots: false,
@@ -210,6 +222,19 @@ const ProductPage = () => {
     }
   };
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
   const handleThumbnailClick = (index) => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(index);
@@ -273,7 +298,7 @@ const ProductPage = () => {
             ele?.ColorId == decodeobj?.c?.split(",")[1]
         )[0] ?? csQcLocal[0];
     }
-
+    setloadingdata(true);
     const FetchProductData = async () => {
       let obj = {
         mt: metalArr,
@@ -293,6 +318,7 @@ const ProductPage = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
+              setloadingdata(false);
             }
 
             if (!res?.pdList[0]) {
@@ -468,7 +494,7 @@ const ProductPage = () => {
       Remark: "",
     };
 
-    if (wishListFlag == true) {
+    if (!wishListFlag) {
       CartAndWishListAPI("Wish", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -813,8 +839,31 @@ const ProductPage = () => {
     console.log("pdImgList", pdImgList, pdImgListCol);
   };
 
+  const handleMoveToDetail = (productData) => {
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    Navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
+        productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+  if (!singleProd) {
+    return <NotFoundProduct Navigate={Navigate} />;
+  }
   return (
-    <div className="hoq_main_Product">
+    <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
       {/* {ShowMangifier && (
         <MagnifierSlider
           product={products}
@@ -823,110 +872,146 @@ const ProductPage = () => {
       )} */}
       <main>
         <div className="images_slider">
-          <div className="slider">
-            {PdImageArr?.length > 0 ? (
-              PdImageArr?.map((val, i) => {
-                return (
-                  <div
-                    key={i}
-                    className={`box ${i === currentSlide ? "active" : ""}`}
-                    onClick={() => handleThumbnailClick(i)}
-                  >
-                    {val?.type === "img" ? (
-                      <img src={val?.src} alt="" />
-                    ) : (
-                      <div
-                        className="video_box"
-                        style={{ position: "relative" }}
-                      >
-                        <video src={val?.src} className="hoq_prod_thumb_img" />
-                        <IoIosPlayCircle className="play_io_icon" />
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            ) : (
-              <>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div className="box">
-                    <Skeleton width={100} height={160} />
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
-          <div className="main_image">
-            {PdImageArr.length > 0 ? (
-              <Slider {...settings} ref={sliderRef}>
-                {PdImageArr?.map((val, i) => {
+          {loadingdata ? (
+            <>
+              <div className="slider">
+                {Array.from({ length: 3 })?.map((val, i) => {
                   return (
-                    <div key={i} className="slider_card">
-                      <div className="image">
-                        {val?.type == "img" ? (
-                          <img
-                            src={val?.src ?? imageNotFound}
-                            alt={""}
-                            onLoad={() => setIsImageLoad(false)}
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src =
-                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                            }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              maxWidth: "100%",
-                              width: "100%",
-                            }}
-                          >
-                            <video
-                              src={val?.src}
-                              loop={true}
-                              autoPlay={true}
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                              }}
-                            />
-                          </div>
-                        )}
-                      </div>
+                    <div
+                      key={i}
+                      onClick={() => handleThumbnailClick(i)}
+                      className="box"
+                    >
+                      <Skeleton
+                        width={100}
+                        height={160}
+                        sx={{
+                          backgroundColor: "#f0ededb4 !important;",
+                        }}
+                      />
                     </div>
                   );
                 })}
-              </Slider>
-            ) : (
+              </div>
               <div
-                className="no-image"
+                className="main_image_a"
                 style={{
-                  width: "100%",
                   height: "80vh",
-                  // backgroundColor : "red",
+                  width: "100%",
+                  marginTop: "3rem",
+                  marginLeft: "1rem",
+                  borderRadius: "4px",
                 }}
               >
                 <Skeleton
-                  animation="wave"
                   width={"100%"}
                   sx={{
-                    height: "170%",
-                    marginTop: "-15rem",
-                    bgcolor: "#f7f7f7",
+                    padding: "0",
+                    marginTop: "-12.5rem",
+                    height: "100vh",
+                    backgroundColor: "#f0ededb4 !important;",
                   }}
-                />
-                <img
-                  src=""
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                  }}
-                  alt=""
                 />
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              <div className="slider">
+                {PdImageArr?.map((val, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={`box ${i === currentSlide ? "active" : ""}`}
+                      onClick={() => handleThumbnailClick(i)}
+                    >
+                      {val?.type === "img" ? (
+                        <img src={val?.src} alt="" />
+                      ) : (
+                        <div
+                          className="video_box"
+                          style={{ position: "relative" }}
+                        >
+                          <video
+                            src={val?.src}
+                            className="hoq_prod_thumb_img"
+                          />
+                          <IoIosPlayCircle className="play_io_icon" />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="main_image">
+                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                  {PdImageArr?.length > 0 ? (
+                    PdImageArr?.map((val, i) => {
+                      return (
+                        <div key={i} className="slider_card">
+                          <div className="image">
+                            {val?.type == "img" ? (
+                              <img
+                                loading="lazy"
+                                src={
+                                  val?.src ||
+                                  "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                }
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src =
+                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                }}
+                              />
+                            ) : (
+                              <div
+                                style={{
+                                  maxWidth: "100%",
+                                  width: "100%",
+                                }}
+                              >
+                                <video
+                                  src={val?.src}
+                                  loop={true}
+                                  autoPlay={true}
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="main_image">
+                      <img
+                        src={
+                          "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                        }
+                        alt={""}
+                        style={{
+                          width: "100%",
+                          height: "90%",
+                          objectFit: "contain",
+                          border: "1px solid #312f2f21",
+                          marginTop: "45px",
+                        }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src =
+                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                        }}
+                      />
+                    </div>
+                  )}
+                </Slider>
+              </div>
+            </>
+          )}
         </div>
         <div className="product_details">
           <div className="product_info">
@@ -1189,7 +1274,7 @@ const ProductPage = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div className="details_d_C"> 
+                <div className="details_d_C">
                   <div className="hoq_material_details_portion">
                     {/* {diaList?.length > 0 && (
                       <p className="hoq_details_title"> Product Details</p>
@@ -1548,7 +1633,7 @@ const ProductPage = () => {
               </button>
               <button onClick={() => handleWishList(!wishListFlag)}>
                 <span className="hoq_addtocart_btn_txt">
-                  {wishListFlag ? "ADD TO Wislist" : "Remove from wishlist"}
+                  {!wishListFlag ? "ADD TO Wislist" : "Remove from wishlist"}
                 </span>
                 <FaHeart />
               </button>
@@ -1636,9 +1721,16 @@ const ProductPage = () => {
           )}
         </div>
       </div> */}
-
-      <RelatedProduct />
-      <RecentlyViewd />
+      {storeInit?.IsProductDetailSimilarDesign == 1 &&
+        SimilarBrandArr?.length > 0 && (
+          <RelatedProduct
+            SimilarBrandArr={SimilarBrandArr}
+            handleMoveToDetail={handleMoveToDetail}
+            storeInit={storeInit}
+            loginInfo={loginInfo}
+          />
+        )}
+      {/* <RecentlyViewd /> */}
     </div>
   );
 };
@@ -1696,6 +1788,18 @@ const MagnifierSlider = ({ product, close }) => {
         </Swiper>
       </div>
     </>
+  );
+};
+
+const NotFoundProduct = ({ Navigate }) => {
+  return (
+    <div className="not-found-product">
+      <h2>Product Not Found</h2>
+      <p>We couldn't find the product you're looking for.</p>
+      <button onClick={() => Navigate(-1)}>
+        <IoMdArrowBack size={18} /> Go Back To Previous Page
+      </button>
+    </div>
   );
 };
 

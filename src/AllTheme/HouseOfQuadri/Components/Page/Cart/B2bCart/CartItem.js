@@ -1,19 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { green } from '@mui/material/colors';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
-import { Link } from 'react-router-dom';
-import RemarkModal from './RemarkModal';
-import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { Hoq_CartCount } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
-import noImageFound from "../../../Assets/noImageFound.jpg"
-import { FormControl } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import {
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  useMediaQuery,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import RemarkModal from "./RemarkModal";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import { Hoq_CartCount } from "../../../Recoil/atom";
+import { useSetRecoilState } from "recoil";
+import noImageFound from "../../../Assets/noImageFound.jpg";
+import { FormControl } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 const CartItem = ({
   item,
@@ -35,25 +41,31 @@ const CartItem = ({
   handleRemarkChange,
   handleSave,
   handleCancel,
-  openHandleUpdateCartModal
+  openHandleUpdateCartModal,
 }) => {
+  const visiterId = Cookies.get("visiterId");
+
   const [open, setOpen] = useState(false);
-  const [remark, setRemark] = useState(item.Remarks || '');
+  const [remark, setRemark] = useState(item.Remarks || "");
   const [isSelectedItems, setIsSelectedItems] = useState();
   const [countstatus, setCountStatus] = useState();
-  const setCartCountVal = useSetRecoilState(Hoq_CartCount)
+  const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const [storeInitData, setStoreInitData] = useState();
 
-  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
-  const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
-  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+  const isLargeScreen = useMediaQuery("(min-width: 1600px)");
+  const isMediumScreen = useMediaQuery(
+    "(min-width: 1038px) and (max-width: 1599px)"
+  );
+  const isMobileScreen = useMediaQuery(
+    "(min-width: 320px) and (max-width: 1037px)"
+  );
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
-    setStoreInitData(storeinitData)
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
-    setCountStatus(isCartUpdateStatus)
-  }, [onRemove])
+    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInitData(storeinitData);
+    const isCartUpdateStatus = localStorage.getItem("cartUpdation");
+    setCountStatus(isCartUpdateStatus);
+  }, [onRemove]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -69,26 +81,23 @@ const CartItem = ({
   };
 
   useEffect(() => {
-    handleIsSelected()
-  }, [isSelected])
+    handleIsSelected();
+  }, [isSelected]);
 
   const handleIsSelected = () => {
-    let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
-    setIsSelectedItems()
-  }
+    let isselected = selectedItem?.id == item?.id;
+    console.log("isselectedItems", isselected);
+    setIsSelectedItems();
+  };
 
-  const handleRemoveItem = () => {
-    onRemove(item)
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
-  }
+  const handleRemoveItem = async (item) => {
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      });
+    }
+  };
 
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);
@@ -100,11 +109,11 @@ const CartItem = ({
       pressTimer.current = setTimeout(() => {
         // openHandleUpdateCartModal();
         // console.log('selectedItemsssssss', selectedItemsLength);
-        alert('Long Pressed Detected...')
+        alert("Long Pressed Detected...");
       }, 5000);
-      setPressing(action === 'start');
+      setPressing(action === "start");
     };
-  }
+  };
 
   const cancelPress = () => {
     clearTimeout(pressTimer.current);
@@ -115,15 +124,17 @@ const CartItem = ({
     if (text.length <= maxLength) {
       return text;
     }
-    return text.substring(0, maxLength) + '...';
+    return text.substring(0, maxLength) + "...";
   }
 
-
-
-  const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
-      '100%';
-
+  const width =
+    isLargeScreen && itemLength <= 3
+      ? "390px"
+      : isMediumScreen && itemLength <= 3
+      ? "330px"
+      : isMobileScreen && itemLength == 1
+      ? "300px"
+      : "100%";
 
   return (
     <Grid
@@ -133,110 +144,149 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='hoq_cartListCardGrid'>
-      <Card className='hoq_cartListCard'
+      className="hoq_cartListCardGrid"
+    >
+      <Card
+        className="hoq_cartListCard"
         key={item?.id}
         sx={{
-          boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important',
+          boxShadow:
+            !multiSelect &&
+            !isMobileScreen &&
+            selectedItem?.id == item?.id &&
+            "#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important",
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
           maxWidth: 450,
-          width: width , 
+          width: width,
         }}
         square
         // onDoubleClick={openHandleUpdateCartModal}
 
-        onMouseDown={handlePress('start')}
+        onMouseDown={handlePress("start")}
         onMouseUp={cancelPress}
         onMouseLeave={cancelPress}
-        onTouchStart={handlePress('start')}
+        onTouchStart={handlePress("start")}
         onTouchEnd={cancelPress}
       >
-        <Box className="hoq_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box
+          className="hoq_mui_CartBox"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
           <CardMedia
             component="img"
-            image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
+            image={
+              item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound
+            }
             alt={item?.TitleLine}
-            className='hoq_cartListImage'
+            className="hoq_cartListImage"
             onClick={() => onSelect(item)}
           />
-          <div className='hoq_rightContentDataDiv'>
-            <CardContent className='hoq_cartcontentData' onClick={() => onSelect(item)}>
-              <Typography variant="body2" className='hoq_DesignNoTExt'>
+          <div className="hoq_rightContentDataDiv">
+            <CardContent
+              className="hoq_cartcontentData"
+              onClick={() => onSelect(item)}
+            >
+              <Typography variant="body2" className="hoq_DesignNoTExt">
                 {item?.designno}
               </Typography>
-              <div className='hoq_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div
+                className="hoq_cartlistdetails"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                }}
+              >
                 <div>
-                  <Typography variant="body2" className='hoq_card-ContentsData'>
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
+                  <Typography variant="body2" className="hoq_card-ContentsData">
+                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, "")}{" "}
                   </Typography>
-                  <Typography variant="body2" className='hoq_card-ContentsData'>
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
+                  <Typography variant="body2" className="hoq_card-ContentsData">
+                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, "")} /{" "}
+                    {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, "")}{" "}
                   </Typography>
                 </div>
                 <div>
-                  <Typography variant="body2" className='hoq_card-ContentsData'>
-                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
+                  <Typography variant="body2" className="hoq_card-ContentsData">
+                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, "")}
                   </Typography>
-                  <Typography variant="body2" className='hoq_card-ContentsData'>
-                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
+                  <Typography variant="body2" className="hoq_card-ContentsData">
+                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, "")} /{" "}
+                    {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, "")}
                   </Typography>
                 </div>
               </div>
-              {item?.StockNo != "" &&
-                <span className='hoq_DesignNoTExt'>{item?.StockNo}</span>
-              }
+              {item?.StockNo != "" && (
+                <span className="hoq_DesignNoTExt">{item?.StockNo}</span>
+              )}
               <Box className="hoq_PriceBox">
                 <>
-                  {storeInitData?.IsPriceShow == 1 &&
-                    <span className='hoq_currencyFontPrice'>
+                  {storeInitData?.IsPriceShow == 1 && (
+                    <span className="hoq_currencyFontPrice">
                       <span
                         className="hoq_currencyFont"
                         dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
+                          __html: decodeEntities(CurrencyData?.Currencysymbol),
                         }}
                       />
-                      {(item?.UnitCostWithMarkUp)}
+                      {item?.UnitCostWithMarkUp}
                     </span>
-                  }
+                  )}
                 </>
               </Box>
               {item?.Remarks !== "" && (
-                <Typography variant="body2" className='hoq_remarktext'>
-                  <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
+                <Typography variant="body2" className="hoq_remarktext">
+                  <span>Remark:</span>{" "}
+                  {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>
               )}
             </CardContent>
             <Box className="hoq_cartbtngroupReRm">
-              <Link className='hoq_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+              <Link
+                className="hoq_ItemRemarkbtn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOpen();
+                }}
+                variant="body2"
+              >
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='hoq_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              <Link
+                className="hoq_ReomoveCartbtn"
+                href="#"
+                variant="body2"
+                onClick={() => handleRemoveItem(item, index)}
+              >
                 Remove
               </Link>
             </Box>
           </div>
         </Box>
         <div>
-          {multiSelect &&
+          {multiSelect && (
             <Checkbox
               checked={multiSelect && isSelected}
               onChange={() => onSelect(item)}
               sx={{
                 color: "rgba(125, 127, 133, 0.4) !important",
-                position: 'absolute',
+                position: "absolute",
                 bottom: 0,
-                left: 2
+                left: 2,
               }}
             />
-          }
+          )}
         </div>
-        {item?.StockId != 0 &&
+        {item?.StockId != 0 && (
           <div className="hoq_inStockbadgeDiv">
             <span className="hoq_inStockbadgeSpan">In Stock</span>
           </div>
-        }
+        )}
       </Card>
       <RemarkModal
         open={open}

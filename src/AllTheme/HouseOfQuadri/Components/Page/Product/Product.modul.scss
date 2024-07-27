@@ -1,10 +1,45 @@
 @import "../../scss/Variable.scss";
 
+.not-found-product {
+  text-align: center;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $fontTenorSans;
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 18px;
+    color: #666;
+  }
+  button {
+    padding: 8px 12px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: #c20000;
+    color: white;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+}
+
 .hoq_main_Product {
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
+
   .MagnifierSlider {
     position: fixed;
     width: 100%;

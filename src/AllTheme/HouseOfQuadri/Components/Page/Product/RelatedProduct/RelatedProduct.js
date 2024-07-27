@@ -3,32 +3,55 @@ import { RelatedProductList } from "../../../Constants/TabImages";
 import "./related.modul.scss";
 import { Link } from "react-router-dom";
 
-const RelatedProduct = () => {
+const RelatedProduct = ({
+  SimilarBrandArr,
+  loginInfo,
+  storeInit,
+  handleMoveToDetail,
+}) => {
+  const formatter = new Intl.NumberFormat("en-IN");
+
   return (
-    <div className="hoq_main_RelatedProduct">
+    <div className="hoq_main_RelatedProduct" style={{ marginBottom: "4rem" }}>
       <div className="heading">
-        <h1>You may also like </h1>
+        <h1>Similar Designs</h1>
       </div>
       <div className="tab_card">
-        {RelatedProductList?.map((val, i) => {
+        {SimilarBrandArr?.slice(0, 4)?.map((hoq, i) => {
           return (
-            <Link to={`/products/${val?.id}`}>
-              <div className="TabCard_main">
-                <div className="new">
-                  <p>new</p>
-                </div>
-                <div className="cardhover">
-                  <img src={val?.FrontImg} alt={val?.id} />
-                  <div className="overlay_img">
-                    <img src={val?.BackerImg} alt={val?.id} />
-                  </div>
-                </div>
-                <div className="tab_hover_Details">
-                  <h3>{i + 1} ct Heart Ring</h3>
-                  <small>INR 79,000</small>
-                </div>
+            <div
+              className="TabCard_main"
+              onClick={() => handleMoveToDetail(hoq)}
+            >
+              <div className="new">
+                <p>new</p>
               </div>
-            </Link>
+              <div className="cardhover">
+                <img
+                  src={
+                    hoq?.ImageCount > 0
+                      ? storeInit?.DesignImageFol +
+                        hoq?.designno +
+                        "_" +
+                        "1" +
+                        "." +
+                        hoq?.ImageExtension
+                      : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                  }
+                  alt={hoq?.id}
+                />
+                {/* <div className="overlay_img">
+                    <img src={hoq?.BackerImg} alt={hoq?.id} />
+                  </div> */}
+              </div>
+              <div className="tab_hover_Details">
+                <h3>{hoq?.designno}</h3>
+                <small>
+                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
+                  {formatter.format(hoq?.UnitCostWithMarkUp)}
+                </small>
+              </div>
+            </div>
           );
         })}
         {/* <div className="TabCard_main mobile-only">
