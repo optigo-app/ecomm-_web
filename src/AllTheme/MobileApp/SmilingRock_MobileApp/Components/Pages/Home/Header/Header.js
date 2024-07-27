@@ -28,6 +28,7 @@ const Header = () => {
 
   let cookie = Cookies.get('visiterId')
 
+
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setIsB2BFlaf(storeinit?.IsB2BWebsite);
