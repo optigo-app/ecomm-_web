@@ -6,6 +6,7 @@ $cartUpdateBtncolor: #b1b1b1;
   // background-color: $backgroundColor;
   // font-family: $fontDmSans;
   padding-bottom: 150px;
+  position: sticky;
 }
 
 .cartMainPageDiv {
@@ -205,7 +206,7 @@ $cartUpdateBtncolor: #b1b1b1;
     // align-items: center;
     position: sticky;
     top: 135px;
-    // height: 85.9vh;
+    height: 85.9vh;
   }
 
   .hoq_mobile-cartDetails {

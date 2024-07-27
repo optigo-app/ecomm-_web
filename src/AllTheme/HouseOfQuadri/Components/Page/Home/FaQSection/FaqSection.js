@@ -15,10 +15,33 @@ import { useState } from "react";
 const FaqSection = () => {
   return (
     <div className="hoq_main_FaqSection">
-      <FAQComponent data={productfaqData} title={"Product & Diamond FAQ"} />
-      <FAQComponent data={ordersPaymentsFAQ} title={"Orders & Payments"} />
-      <FAQComponent data={careRepairFAQ} title={"Care & Repair"} />
-      <FAQComponent data={returnsExchangeFAQ} title={"Returns & Exchange"} />
+      <FAQComponent
+        data={productfaqData}
+        title={
+          "orem . Aliquam dicta beatae praesentiumx odit?" ||
+          "Product & Diamond FAQ"
+        }
+      />
+      <FAQComponent
+        data={ordersPaymentsFAQ}
+        title={
+          "orem . Aliquam dicta beatae praesentiumx odit?" ||
+          "Orders & Payments"
+        }
+      />
+      <FAQComponent
+        data={careRepairFAQ}
+        title={
+          "orem . Aliquam dicta beatae praesentiumx odit?" || "Care & Repair"
+        }
+      />
+      <FAQComponent
+        data={returnsExchangeFAQ}
+        title={
+          "orem . Aliquam dicta beatae praesentiumx odit?" ||
+          "Returns & Exchange"
+        }
+      />
     </div>
   );
 };
@@ -47,20 +70,25 @@ const FAQComponent = ({ data = [], title }) => {
               aria-controls={`panel-${index}-content`}
               id={`panel-${index}-header`}
             >
-                <button className="accordian_btn">
-                  {expandedAccordion === `panel-${index}` ? (
-                    <IoChevronUp size={14} />
-                  ) : (
-                    <IoChevronDown size={14} />
-                  )}
-                </button>
+              <button className="accordian_btn">
+                {expandedAccordion === `panel-${index}` ? (
+                  <IoChevronUp size={14} />
+                ) : (
+                  <IoChevronDown size={14} />
+                )}
+              </button>
               <h1 className="question">
-              
-                {faqItem.question}
+                {`orem . Aliquam dicta beatae praesentium temporibus ex odit?` ||
+                  faqItem.question}
               </h1>
             </AccordionSummary>
             <AccordionDetails>
-              <p className="answer">{faqItem.answer}</p>
+              <p className="answer">
+                {`orem . Aliquam dicta beatae praesentium temporibus ex odit?
+orem . Aliquam dicta beatae praesentium temporibus ex odit?
+orem . Aliquam dicta beatae praesentium temporibus ex odit?
+orem . Aliquam dicta beatae praesentium temporibus ex odit?` || faqItem.answer}
+              </p>
             </AccordionDetails>
           </Accordion>
         </div>

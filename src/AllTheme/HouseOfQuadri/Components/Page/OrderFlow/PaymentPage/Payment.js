@@ -4,12 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from "../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI";
 import { Divider, Button } from '@mui/material';
-import { Hoq_CartCount, hoqMA_CartCount } from '../../../Recoil/atom';
+import { Hoq_CartCount, Hoq_loginState, hoqMA_CartCount } from '../../../Recoil/atom';
 import { IoArrowBack } from 'react-icons/io5';
+import Cookies from "js-cookie";
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -22,6 +23,8 @@ const Payment = () => {
     const [CurrencyData, setCurrencyData] = useState();
 
     const setCartCountVal = useSetRecoilState(Hoq_CartCount);
+    const islogin = useRecoilValue(Hoq_loginState)
+
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
@@ -72,8 +75,9 @@ const Payment = () => {
     }, [])
 
     const handlePay = async () => {
+        const visiterId = Cookies.get('visiterId');
         setIsloding(true);
-        const paymentResponse = await handlePaymentAPI();
+        const paymentResponse = await handlePaymentAPI(visiterId,islogin);
         console.log("paymentResponse", paymentResponse);
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
