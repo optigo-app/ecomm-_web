@@ -69,7 +69,7 @@ const TrendingView = () => {
                 const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
                 const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
 
-                // Setting states with the separated objects
+                console.log('oddNumberObjects', oddNumbers);
                 setOddNumberObjects(oddNumbers);
                 setEvenNumberObjects(evenNumbers);
             }
@@ -160,6 +160,8 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
+    console.log('oddNumberObjects evenNumberObjects', oddNumberObjects);
+
     return (
         <div className='smrMA_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
@@ -173,7 +175,7 @@ const TrendingView = () => {
                             oddNumberObjects?.slice(0, 2).map((data, inedx) => (
                                 evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
                                     <div className='linkRingLove'>
-                                        <div>
+                                        <div style={{width: '50%'}}>
                                             <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                 <img src={ring1ImageChange ?
                                                     `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -196,7 +198,7 @@ const TrendingView = () => {
                                                     /> {(data?.UnitCost)?.toFixed(2)}</p>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div style={{width: '50%'}}>
                                             <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
                                                 <img src={ring1ImageChangeOdd ?
                                                     `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
