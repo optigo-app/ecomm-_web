@@ -40,6 +40,7 @@ const Cart = ({
   const islogin = useRecoilValue(loginState);
   const [totalPrice, setTotalPrice] = useState();
   const [storeInitData, setStoreInitData] = useState();
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -49,7 +50,7 @@ const Cart = ({
   useEffect(() => {
     setTimeout(() => {
       if(items){
-        let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0)?.toFixed(2)
+        let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
         setTotalPrice(priceData)
       }
     }, 300);
@@ -57,14 +58,14 @@ const Cart = ({
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
       navigate('/LoginOption')
       closeDrawer();
     } else {
-      // let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-      // console.log("TotalPriceData", cartData)
-      // localStorage.setItem('TotalPriceData', priceData)
-      // navigate("/Delivery")
+      navigate("/Delivery")
+      let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
+      console.log("TotalPriceData", items)
+      localStorage.setItem('TotalPriceData', priceData)
       closeDrawer();
     }
     window.scrollTo(0, 0);
@@ -116,8 +117,8 @@ const Cart = ({
               ))
             ) : (
               <div className='smr_noB2CcartData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Data in cart</p>
+                <p className='smr_title'>No Product Found!</p>
+                <p className='smr_desc'>Please First Add Product in cart</p>
                 <button className='smr_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
               </div>
             )}
@@ -131,15 +132,16 @@ const Cart = ({
               <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>
                 {storeInitData?.IsPriceShow == 1 &&
                   <span>
-                    <span
+                    {/* <span
                       className="smr_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
-                    />
-                    {totalPrice}
+                    /> */}
+                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                     {" "}{totalPrice}
                   </span>
                 }{' - '}CHECKOUT</button>
             </div>

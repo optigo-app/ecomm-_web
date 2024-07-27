@@ -103,7 +103,7 @@ const NewArrival = () => {
             </Typography>
             {newArrivalData &&
                 <Grid container spacing={1} className='smr_NewArrival1product-list'>
-                    {newArrivalData?.map((product, index) => (
+                    {newArrivalData?.slice(0, 4)?.map((product, index) => (
                         <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
                             <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                                 <div className='smr_newArr1Image'>

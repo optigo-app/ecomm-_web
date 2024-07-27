@@ -9,6 +9,8 @@ import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { useSetRecoilState } from 'recoil';
 import { proCat_loginState } from '../../../Recoil/atom';
+import Cookies from 'js-cookie';
+
 
 export default function LoginWithEmailCode() {
     const [email, setEmail] = useState('');
@@ -87,6 +89,7 @@ export default function LoginWithEmailCode() {
     };
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!mobileNo.trim()) {
             errors.mobileNo = 'Password is required';
             return;
@@ -108,7 +111,7 @@ export default function LoginWithEmailCode() {
         // };
         // const response = await CommonAPI(body);
 
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
+        LoginWithEmailAPI(email, mobileNo, 'otp_email_login', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
