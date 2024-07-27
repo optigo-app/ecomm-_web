@@ -76,6 +76,8 @@ const ProductDetail = () => {
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
 
+  console.log("diaList",diaList?.length,csList?.length);
+
   const [prodLoading,setProdLoading] = useState(false)
 
   
@@ -638,7 +640,6 @@ const ProductDetail = () => {
 
           setDiaList(res?.pdResp?.rd3)
           setCsList(res?.pdResp?.rd4)
-          console.log("res?.pdResp?.rd4",res?.pdResp?.rd4);
 
           let prod = res?.pdList[0]
 
@@ -1386,7 +1387,7 @@ const ProductDetail = () => {
                                 </div>
                               )}
                               {storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && (
+                                diaQcCombo?.length > 0 && diaList?.length && (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
@@ -1411,7 +1412,7 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && (
+                                selectCsQc?.length > 0 && csList?.length && (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
