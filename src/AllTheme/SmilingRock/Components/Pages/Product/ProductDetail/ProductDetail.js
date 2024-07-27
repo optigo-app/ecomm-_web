@@ -884,15 +884,15 @@ const ProductDetail = () => {
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink)
+    // setMetalWiseColorImg(imgLink)
 
-    let isImg = await checkImageAvailability(imgLink)
+    // let isImg = await checkImageAvailability(imgLink)
 
-    if(isImg){
-      setMetalWiseColorImg(imgLink)
-    }else{
-      setMetalWiseColorImg()
-    }
+    // if(isImg){
+    //   setMetalWiseColorImg(imgLink)
+    // }else{
+    //   setMetalWiseColorImg()
+    // }
 
     let pd = singleProd;
     let pdImgListCol = [];
@@ -1658,7 +1658,7 @@ const ProductDetail = () => {
                                 height={30}
                               />
                             ) : 
-                            // formatter.format
+                            formatter.format
                             (
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
