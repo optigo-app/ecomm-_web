@@ -11,6 +11,7 @@ import { CartCount, loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
+import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -20,6 +21,7 @@ const Payment = () => {
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
+    const [taxAmmount, setTaxAmount] = useState();
 
     const setCartCountVal = useSetRecoilState(CartCount);
 
@@ -60,20 +62,31 @@ const Payment = () => {
     }
 
     useEffect(() => {
-        const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
-        console.log('selectedAddressData', selectedAddressData);
-        setSelectedAddrData(selectedAddressData)
+        const fetchData = async () => {
+            try {
+                const texData = await fetchEstimateTax();
+                if (texData) {
+                    setTaxAmount(texData[0]?.TaxAmount);
+                }
+            } catch (error) {
+                console.error('Error fetching tax data:', error);
+            }
 
-        const totalPriceData = localStorage.getItem('TotalPriceData');
-        if (totalPriceData) {
-            const totalPriceNum = parseFloat(totalPriceData);
-            const newPrice = totalPriceNum * 0.03;
-            setTotalPriceText(newPrice.toFixed(2));
-            setTotalPrice(totalPriceNum);
-            const finalTotalPrice = totalPriceNum;
-            setFinlTotal(finalTotalPrice);
-        }
-    }, [])
+            const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+            console.log('selectedAddressData', selectedAddressData);
+            setSelectedAddrData(selectedAddressData);
+
+            const totalPriceData = localStorage.getItem('TotalPriceData');
+            if (totalPriceData) {
+                const totalPriceNum = parseFloat(totalPriceData);
+                const finalTotalPrice = totalPriceNum;
+                setFinlTotal(finalTotalPrice);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     const handlePay = async () => {
         const visiterId = Cookies.get('visiterId');
@@ -177,13 +190,13 @@ const Payment = () => {
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
 
-                                    <span>{totalprice}</span>
+                                    <span>{finalTotal}</span>
                                 </p>
                             </div>
-                            {/* <div className='smr_paymenttotalpricesummary'>
+                            <div className='smr_paymenttotalpricesummary'>
                                 <p>Estimated Tax</p>
                                 <p>
-                                    <span
+                                    {/* <span
                                         className="smr_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -191,9 +204,13 @@ const Payment = () => {
                                             ),
                                         }}
                                     />
-                                    <span>{totalpriceText}</span>
+                                    <span>{totalpriceText}</span> */}
+                                    <span className="smr_currencyFont">
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>&nbsp;
+                                    <span>{taxAmmount}</span>
                                 </p>
-                            </div> */}
+                            </div>
                             <div className='smr_paymenttotalpricesummary'>
                                 <p>Estimated Total</p>
                                 <p>
@@ -208,7 +225,7 @@ const Payment = () => {
                                     <span className="smr_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{finalTotal}</span>
+                                    <span>{taxAmmount+finalTotal}</span>
                                 </p>
                             </div>
                             <div className='smr_shippingAddress'>
@@ -225,7 +242,7 @@ const Payment = () => {
                         <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                             {isloding && <span className="loader"></span>}
-                        </button>   
+                        </button>
                     </div>
                 </div>
                 <OrderRemarkModal
