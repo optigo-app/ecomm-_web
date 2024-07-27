@@ -25,7 +25,7 @@ export default function AccountWothoutLogin() {
             </div>
 
             <div className='mainTerms'>
-                <p className='titleContion' style={{margin: '0px 0px 5px 0px', }}>Feeadback & Information</p>
+                <p className='titleContion' style={{margin: '10px 0px 5px 0px', }}>Feeadback & Information</p>
                 <div style={{ display: 'flex', alignItems: 'center' ,height:'50px', justifyContent: 'space-between', paddingInline: '15px'}} onClick={() => navigation('/TermsCondition')}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <FaBook />

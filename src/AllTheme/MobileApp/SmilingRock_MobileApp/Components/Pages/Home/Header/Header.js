@@ -10,6 +10,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie'
+import Pako from 'pako';
 
 
 
@@ -57,19 +58,63 @@ const Header = () => {
   }, [])
 
 
-  const searchDataFucn = (e) => {
-    if(e.key === 'Enter'){
-      if(searchText){
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
-        console.log("searchtext",searchText);
-      }
-    }else{
-      if(searchText){
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
-        console.log("searchtext",searchText);
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
+const searchDataFucn = (e) => {
+    if (e.key === 'Enter') {
+      if (searchText) {
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+          f: {}
+        }
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+        navigation(`/d/${searchText}?p=${encodeObj}`)
+        setSearchText('');
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+        // }
       }
     }
   }
+
+  // const searchDataFucn = (e) => {
+  //   if(e.key === 'Enter'){
+  //     if(searchText){
+  //       navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+  //       console.log("searchtext",searchText);
+  //     }
+  //   }else{
+  //     if(searchText){
+  //       navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+  //       console.log("searchtext",searchText);
+  //     }
+  //   }
+  // }
 
   console.log('ddddddddd', location);
   return (

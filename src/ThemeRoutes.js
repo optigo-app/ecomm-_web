@@ -44,7 +44,6 @@ export default function ThemeRoutes() {
     if (data) {
       if (Logindata) {
         if (Logindata?.IsPLWOn == 1) {
-          alert("dopne");
           setCompanyTitleLogo(Logindata?.Private_label_logo);
         }
       } else {
