@@ -1565,12 +1565,12 @@ const ProductDetail = () => {
                       <div className="Smr_wishlistcont">
                         <Checkbox
                           icon={
-                            <StarBorderIcon
+                            <FavoriteBorderIcon
                               sx={{ fontSize: "25px", color: "#7d7f85" }}
                             />
                           }
                           checkedIcon={
-                            <StarIcon
+                            <FavoriteIcon
                               sx={{ fontSize: "25px", color: "#7d7f85" }}
                             />
                           }
