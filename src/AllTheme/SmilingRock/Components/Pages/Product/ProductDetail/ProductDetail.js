@@ -76,8 +76,6 @@ const ProductDetail = () => {
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
 
-  console.log("diaList",diaList?.length,csList?.length);
-
   const [prodLoading,setProdLoading] = useState(false)
 
   
