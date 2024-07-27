@@ -57,7 +57,7 @@ const ProductDetail = () => {
   const [selectMtColor, setSelectMtColor] = useState();
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [isImageload, setIsImageLoad] = useState(true);
-  const [selectedThumbImg, setSelectedThumbImg] = useState();
+  const [selectedThumbImg, setSelectedThumbImg] = useState()
   const [decodeUrl, setDecodeUrl] = useState({});
   // const [finalprice, setFinalprice] = useState(0);
   const [addToCartFlag, setAddToCartFlag] = useState(null);
@@ -621,6 +621,10 @@ const ProductDetail = () => {
           if(res?.pdList?.length > 0){
             setisPriceLoading(false)
             setIsImageLoad(false)
+            setSelectedThumbImg({
+              link: "",
+              type: "img",
+            });
           }
 
           if(!res?.pdList[0]){
@@ -807,6 +811,7 @@ const ProductDetail = () => {
         pdImgList.push(imgString);
       }
     } else {
+      // setSelectedThumbImg({"link":imageNotFound,"type":'img'});
       finalprodListimg = imageNotFound;
     }
 
@@ -1198,7 +1203,7 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img")? (
                           <img
-                            src={selectedThumbImg?.link ?? imageNotFound}
+                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
@@ -1207,7 +1212,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                              src={selectedThumbImg?.link}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
