@@ -2352,11 +2352,11 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            {( storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && <div
+            {( (storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && filterProdListEmpty) ? <div
               style={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: "5%",
+                marginTop: "10%",
               }}
               className="smr_pagination_portion"
             >
@@ -2365,10 +2365,13 @@ const ProductList = () => {
                 size={maxwidth464px ? "small" :"large"}
                 shape="circular"
                 onChange={handelPageChange}
-                showFirstButtongit 
+                showFirstButton 
                 showLastButton
               />
-            </div>}
+            </div>
+          :
+          null  
+          }
           </div>
         </div>
       </div>
