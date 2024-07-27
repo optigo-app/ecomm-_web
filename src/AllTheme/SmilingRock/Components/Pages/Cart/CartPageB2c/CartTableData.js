@@ -106,7 +106,7 @@ const ExampleComponent = ({
                                         ),
                                     }}
                                 /> */}
-                                {(cartData?.UnitCostWithMarkUp)}
+                                {" "}{(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
                         </td>
@@ -128,7 +128,7 @@ const ExampleComponent = ({
                                 >
                                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                                 </span>
-                                {(cartData?.UnitCostWithMarkUp)}
+                                {" "}{(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
                         </td>
