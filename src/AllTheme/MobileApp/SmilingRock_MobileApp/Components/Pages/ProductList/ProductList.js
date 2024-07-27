@@ -7,7 +7,7 @@ import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPri
 import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider, Typography, useMediaQuery } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider, Typography, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -59,9 +59,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen,setIsDrawerOpen] = useState(false)
@@ -85,6 +85,9 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
   const [sortBySelect, setSortBySelect] = useState('Recommended');
+
+  const [afterCountStatus, setAfterCountStatus] = useState(false);
+
 
   const formatter = new Intl.NumberFormat('en-IN')
 
@@ -233,7 +236,9 @@ const ProductList = () => {
 
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
-  }, [])
+
+  }, [loginUserDetail,storeInit])
+
 
   useEffect(() => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -558,6 +563,7 @@ const ProductList = () => {
 
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
+    setAfterCountStatus(false);
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
 
@@ -599,6 +605,7 @@ const ProductList = () => {
   }
   
   useEffect(() => {
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -613,6 +620,7 @@ const ProductList = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterCountStatus(false);
           }
           return res;
         })
@@ -639,6 +647,7 @@ const ProductList = () => {
 
 
   const handelFilterClearAll = () => {
+    setAfterCountStatus(true);
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
@@ -686,14 +695,14 @@ const ProductList = () => {
 
     let prodObj = {
       "autocode": ele?.autocode,
-      "Metalid": ele?.MetalPurityid,
+      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
       "MetalColorId": ele?.MetalColorid,
-      "DiaQCid": loginInfo?.cmboDiaQCid,
-      "CsQCid": loginInfo?.cmboCSQCid,
+      "DiaQCid": (selectedDiaId ?? loginInfo?.cmboDiaQCid),
+      "CsQCid": (selectedCsId ?? loginInfo?.cmboCSQCid),
       "Size": ele?.DefaultSize,
-      "Unitcost": ele?.price,
-      "markup": ele?.markup,
-      "UnitCostWithmarkup": PriceWithMarkupFunction(ele?.markup, ele?.price, storeInit?.CurrencyRate),
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
       "Remark": ""
     }
 
@@ -734,6 +743,7 @@ const ProductList = () => {
       setFilterProdListEmpty(true)
     } else {
       setFilterProdListEmpty(false)
+      setAfterCountStatus(false);
     }
   }, [productListData])
 
@@ -769,14 +779,12 @@ const ProductList = () => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-
     
     if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
       if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
     }
-
 
   }, [selectedMetalId, selectedDiaId, selectedCsId])
 
@@ -828,7 +836,10 @@ const ProductList = () => {
       c: selectedCsId,
       f: output
     }
-    console.log('ksjkfjkjdkjfkjsdk--', obj);
+
+    console.log('movetodetail', obj);
+    // console.log("selectedMetalId",selectedDiaId);
+
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress()
@@ -838,6 +849,7 @@ const ProductList = () => {
     navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
 
   }
+
 
   const handleImgRollover = (pd,i) =>{
     if(pd?.images?.length >=1){
@@ -1349,7 +1361,7 @@ const ProductList = () => {
                       <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
                         {
                           diaQcCombo?.map((diaQc) => (
-                            <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                            <option className="option" key={diaQc.QualityId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
                           ))
                         }
                       </select>
@@ -1365,7 +1377,7 @@ const ProductList = () => {
                       <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
                         {
                           csQcCombo?.map((csCombo) => (
-                            <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                            <option className="option" key={csCombo.QualityId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
                           ))
                         }
                       </select>
@@ -1415,19 +1427,42 @@ const ProductList = () => {
                   <div className="smr_mobile_filter_portion" >
                         {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
                           <span className="smr_filter_text">
-                            <span>
+                          <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : `Product Found: ${afterFilterCount}`}
+                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                                : <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Product Found: ${afterFilterCount}`}</span>
+                                }
+                                </>}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
                                 ? "Clear All"
-                                : ""}
+                                :
+                                <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
+                                }
+                                </>
+                              }
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>
@@ -1968,19 +2003,42 @@ const ProductList = () => {
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
-                            <span>
+                          <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
                                 ? "Filters"
-                                : `Product Found: ${afterFilterCount}`}
+                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                                : <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Product Found: ${afterFilterCount}`}</span>
+                                }
+                                </>}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
                                 ? "Clear All"
-                                : ""}
+                                :
+                                <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
+                                }
+                                </>
+                              }
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>

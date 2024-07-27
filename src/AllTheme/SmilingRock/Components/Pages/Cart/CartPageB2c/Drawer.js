@@ -58,14 +58,14 @@ const Cart = ({
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
       navigate('/LoginOption')
       closeDrawer();
     } else {
+      navigate("/Delivery")
       let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
       console.log("TotalPriceData", items)
       localStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
       closeDrawer();
     }
     window.scrollTo(0, 0);

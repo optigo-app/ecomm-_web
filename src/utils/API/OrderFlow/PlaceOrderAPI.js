@@ -18,6 +18,8 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
         let colorstonepricelistname = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.colorstonepricelistname : data?.colorstonepricelistname ?? ""
         let SettingPriceUniqueNo = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.SettingPriceUniqueNo : data?.SettingPriceUniqueNo ?? ""
 
+        let estimatedTaxId = data?.TaxId
+
         const combinedValue = JSON.stringify({
             addrid: `${selctedid.id}`,
             PaymentMethod: 'Cash on Delivery',
@@ -36,6 +38,7 @@ export const handlePaymentAPI = async (visiterId, islogin) => {
             domain:storeInit?.domain ?? "",
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
+            TaxId:`${estimatedTaxId}`
         });
 
         console.log('combinedValuecombinedValue...', combinedValue);

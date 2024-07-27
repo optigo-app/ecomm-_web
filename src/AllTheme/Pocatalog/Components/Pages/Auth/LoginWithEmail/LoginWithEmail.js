@@ -130,6 +130,7 @@ export default function LoginWithEmail() {
 
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!confirmPassword.trim()) {
             errors.confirmPassword = 'Password is required';
             return;
@@ -138,7 +139,7 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '',visiterId).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');

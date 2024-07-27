@@ -76,8 +76,6 @@ const ProductDetail = () => {
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
 
-  console.log("diaList",diaList?.length,csList?.length);
-
   const [prodLoading,setProdLoading] = useState(false)
 
   
@@ -886,7 +884,7 @@ const ProductDetail = () => {
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink)
+    // setMetalWiseColorImg(imgLink)
 
     let isImg = await checkImageAvailability(imgLink)
 
@@ -1663,7 +1661,7 @@ const ProductDetail = () => {
                                 height={30}
                               />
                             ) : 
-                            // formatter.format
+                            formatter.format
                             (
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp
