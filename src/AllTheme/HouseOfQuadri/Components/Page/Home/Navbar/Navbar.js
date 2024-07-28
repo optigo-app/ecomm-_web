@@ -24,6 +24,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Badge, Tooltip } from "@mui/material";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
+import DummyNav from "./DummyNav";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -343,54 +344,57 @@ const Navbar = () => {
   }, [islogin]);
 
   return (
-    <div
-      className={`hoq_main_navbar ${isScrolled ? "sticky animate" : "s"}  ${
-        !isMobileMenu ? "hide" : ""
-      }
+    <>
+      <div
+        className={`hoq_main_navbar ${isScrolled ? "sticky animate" : "s"}  ${
+          !isMobileMenu ? "hide" : ""
+        }
       ${!isNavbarSticky ? "isScrollTop" : ""}
       `}
-    >
-      <div className="nav_top_head">
-        <span className="contact_icon">
-          <a href="tel:0123456789">
-            <IoIosCall color="red" size={19} />
-            Contact
-          </a>
-        </span>
+      >
+        <div className="nav_top_head">
+          <span className="contact_icon">
+            <a href="tel:0123456789">
+              <IoIosCall color="red" size={19} />
+              Contact
+            </a>
+          </span>
+        </div>
+        <nav className="navbar">
+          <NavbarleftSlide
+            isMobileMenu={isMobileMenu}
+            setisMobileMenu={setisMobileMenu}
+            setshowSearchBar={setshowSearchBar}
+            showSearchBar={showSearchBar}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            searchDataFucn={searchDataFucn}
+          />
+          <NavbarCenter
+            MainLogo={MainLogo}
+            isMobileMenu={isMobileMenu}
+            navbarMenu={navbarMenu}
+            setisMobileMenu={setisMobileMenu}
+            menuItems={menuItems}
+            handleMenu={handleMenu}
+            logo={titleImg}
+          />
+          <NavbarRightSide
+            HaveItem={HaveItem}
+            setshowDrawer={setshowDrawer}
+            showDrawer={showDrawer}
+            open={() => setshowSearchBar(!showSearchBar)}
+            islogin={islogin}
+            handleLogout={handleLogout}
+            user={LoggedUserDetails?.firstname}
+            wishCountNum={wishCountNum}
+            cartCountNum={cartCountNum}
+          />
+        </nav>
+        <div className="nav_bottom_head">MEET US ON 10TH JULY IN PUNE</div>
       </div>
-      <nav className="navbar">
-        <NavbarleftSlide
-          isMobileMenu={isMobileMenu}
-          setisMobileMenu={setisMobileMenu}
-          setshowSearchBar={setshowSearchBar}
-          showSearchBar={showSearchBar}
-          searchText={searchText}
-          setSearchText={setSearchText}
-          searchDataFucn={searchDataFucn}
-        />
-        <NavbarCenter
-          MainLogo={MainLogo}
-          isMobileMenu={isMobileMenu}
-          navbarMenu={navbarMenu}
-          setisMobileMenu={setisMobileMenu}
-          menuItems={menuItems}
-          handleMenu={handleMenu}
-          logo={titleImg}
-        />
-        <NavbarRightSide
-          HaveItem={HaveItem}
-          setshowDrawer={setshowDrawer}
-          showDrawer={showDrawer}
-          open={() => setshowSearchBar(!showSearchBar)}
-          islogin={islogin}
-          handleLogout={handleLogout}
-          user={LoggedUserDetails?.firstname}
-          wishCountNum={wishCountNum}
-          cartCountNum={cartCountNum}
-        />
-      </nav>
-      <div className="nav_bottom_head">MEET US ON 10TH JULY IN PUNE</div>
-    </div>
+      {isScrolled && <DummyNav />}
+    </>
   );
 };
 

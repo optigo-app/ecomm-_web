@@ -7,19 +7,19 @@ import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 
 export const socialLink = [
   {
-    img: `${storImagePath()}/images/HomePage/socialmedia/1.jpg`,
+    img: `${storImagePath()}/images/HomePage/socialMediaimages/1.webp`,
     icon: <IoVideocamOutline size={24} />,
   },
   {
-    img: `${storImagePath()}/images/HomePage/socialmedia/2.jpg`,
+    img: `${storImagePath()}/images/HomePage/socialMediaimages/22.webp`,
     icon: <IoVideocamOutline  size={24}/>,
   },
   {
-    img:`${storImagePath()}/images/HomePage/socialmedia/3.jpg`,
+    img:`${storImagePath()}/images/HomePage/socialMediaimages/3.jpg`,
     icon: <FaInstagram  size={24}/>,
   },
   {
-    img: `${storImagePath()}/images/HomePage/socialmedia/4.jpg`,
+    img: `${storImagePath()}/images/HomePage/socialMediaimages/4.webp`,
     icon: <FaInstagram size={24} />,
   },
 ];
