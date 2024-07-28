@@ -16,6 +16,7 @@ import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
 import Account from './Components/Pages/Account/Account';
+import CartMain from './Components/Pages/Cart/CartMain'
 
 const DaimondTine_App = () => {
 
@@ -38,6 +39,7 @@ const DaimondTine_App = () => {
           <Route path="/p/*" element={<ProductList/>} />
           <Route path="/d/*" element={<ProductDetail/>} />
           <Route path="/account" element={<Account />} />
+          <Route path="/cartPage" element={<CartMain />} />
         </Route>
       </Routes>
     </div>

@@ -221,6 +221,7 @@ const DesignSet2 = () => {
                               {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                 <SwiperSlide key={`detail-${detail?.id}`}>
                                   <div className="centerall">
+                                    <div className="smr_ds2ImageDiv">
                                     <img
                                       loading="lazy"
                                       src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
@@ -234,8 +235,9 @@ const DesignSet2 = () => {
                                       }
                                       className="cardimg"
                                     />
+                                    </div>
                                   </div>
-                                  <div className="fs1 centerall">{detail?.TitleLine}-{detail?.designno}</div>
+                                  <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
                                   <div className="fs2 centerall">
                                     <p>
                                       <span
