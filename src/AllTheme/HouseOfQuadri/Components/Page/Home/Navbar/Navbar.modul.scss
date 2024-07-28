@@ -6,26 +6,32 @@
   color: #5a5959;
 }
 .hoq_main_navbar {
+  // transition:all 0.1s ease-in-out;
   &.sticky {
     position: fixed;
-    top: 0;
     left: 0;
+    top: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 2000;
     background-color: #fff;
+    transition: -0.2s ease-out;
     .nav_top_head {
       display: none;
     }
     .nav_bottom_head {
       display: none;
     }
-
     .navbar {
-      height: 170px;
-      border-bottom: 1px solid #85848417;
-      transition: height 0.8s ease !important;
+      border-bottom: 1px solid #6968680c;
+      .nav_left {
+        .SearchBar {
+          position: fixed;
+          top: -0px;
+        }
+      }
     }
   }
+
   .nav_top_head {
     padding: 4px 0;
     width: 100%;
@@ -51,20 +57,20 @@
     color: #1f1f1f;
     font-family: $fontCrimsonTextMedium;
     font-weight: 500;
+    transition: 0.5s ease-in;
     letter-spacing: 1.7px;
   }
   .navbar {
-    height: 170px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-top: 0.3px solid #d6caca3b;
+    border-top: 0.3px solid #d6caca15;
     margin: 0;
     padding: 0;
     z-index: 99999;
-    position: sticky;
+    position: static;
     gap: 10px;
-    transition: 0.5s ease-in-out;
     .nav_left {
       height: inherit;
       flex: 1;
@@ -77,7 +83,7 @@
         background: white;
         width: 100%;
         left: 0;
-        height: 180px;
+        height: 120px;
         z-index: 85;
         right: 0;
         display: flex;
@@ -105,7 +111,7 @@
       display: flex;
       align-items: center;
       flex: 1;
-      justify-content: flex-end;
+      justify-content: space-between;
       flex-direction: column;
       .logo {
         // margin-left: 25px;
@@ -158,7 +164,7 @@
               top: 1.5rem;
               box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
               color: black;
-              
+
               li {
                 font-size: $fontSize2;
                 letter-spacing: 0.3px;
@@ -228,15 +234,15 @@
       justify-content: center;
       align-content: center;
       .loggedUser {
-       @include LoggedStyle ;
+        @include LoggedStyle;
       }
       .loggesUserName {
-        &::first-letter{
-          color:#c20000;
+        &::first-letter {
+          color: #c20000;
           text-transform: uppercase;
-          margin-left: 2px ;
+          margin-left: 2px;
         }
-       @include LoggedStyle ;
+        @include LoggedStyle;
       }
       .logout_btn_hoq {
         margin-bottom: 6px;
@@ -269,7 +275,6 @@
     //   margin-top: 15px;
     // }
   }
-
   a {
     text-decoration: none;
     color: inherit;

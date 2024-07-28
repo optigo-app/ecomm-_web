@@ -7,16 +7,19 @@ const SocialTab = () => {
   return (
     <div className="hoq_main_SocialTab">
       <div className="header">
-        <h1>Follow Us : @house.of.quadri</h1>
+        <h1>Follow Us : @Lorem ipsum dolor sit amet.</h1>
       </div>
       <div className="social_row">
         {socialLink?.map(({ img, icon }, i) => {
           return (
             <div className="social_card">
               <img src={img} alt={img} />
-              <div className="icon_overlayer" >
-                <a href={"link"}>
-                {icon}
+              <div className="icon_overlayer">
+                <a
+                  target="_blank"
+                  href={"https://www.instagram.com"}
+                >
+                  {icon}
                 </a>
               </div>
             </div>

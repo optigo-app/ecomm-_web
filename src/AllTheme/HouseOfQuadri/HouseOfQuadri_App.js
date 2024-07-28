@@ -21,10 +21,20 @@ import ChatMenu from "./Components/Page/Home/ChatMenu/ChatMenu";
 import Delivery from "./Components/Page/OrderFlow/DeliveryPage/Delivery";
 import Payment from "./Components/Page/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Page/OrderFlow/ConfirmationPage/Confirmation";
+import Account from "./Components/Page/Account/Account";
+import ShippingPage from "./Components/Page/staticPage/shippingpage/ShippingPage";
+import PrivacyPolicy from "./Components/Page/staticPage/privacyPolicy/PrivacyPolicy";
+import ReturnPolicy from "./Components/Page/staticPage/returnPolicy/ReturnPolicy";
+import TermsConditionPage from "./Components/Page/staticPage/TermsCondition/TermsConditions";
+import FaqSection from "./Components/Page/staticPage/FaqSection/FaqSection";
+import ContactForm from "./Components/Page/staticPage/ContactForm/ContactForm";
+import SizeGuide from "./Components/Page/staticPage/SizeGuide/SizeGuide";
+import QualityMatters from "./Components/Page/staticPage/WhyQualityMatters/QualityMatters";
 
 //
 const HouseOfQuadri_App = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo({
       behavior: "smooth",
@@ -48,16 +58,27 @@ const HouseOfQuadri_App = () => {
         <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />
         {/* Auth Flow Ends */}
-
         <Route path="/" element={<HomePage />} />
         <Route path="/collections/" element={<CollectionPage />} />
         <Route path="/p/*" element={<DynamicCollection />} />
-        <Route path="/d/*" element={<ProductPage />} /> 
+        <Route path="/d/*" element={<ProductPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
+        <Route path="/account" element={<Account />} />
+        {/* static Page */}
+        <Route path="/Shipping-Policy" element={<ShippingPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/return-exchange-policy" element={<ReturnPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditionPage />} />
+        <Route path="/faq" element={<FaqSection />} />
+        <Route path="/contacts" element={<ContactForm />} />
+        <Route path="/size-guide" element={<SizeGuide />} />
+        <Route path="/why-quality-matters" element={<QualityMatters />} />
+        {/* <Route path="/customise" element={<SizeGuide />} /> */}
+        {/* ends */}
       </Routes>
       <Footer />
     </>

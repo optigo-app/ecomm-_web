@@ -1,7 +1,7 @@
-import React from 'react';
-import './hoq_cartPage.scss';
-import Customization from './Customization';
-import noImageFound from "../../../Assets/noImageFound.jpg"
+import React from "react";
+import "./hoq_cartPage.scss";
+import Customization from "./Customization";
+import noImageFound from "../../../Assets/noImageFound.jpg";
 
 const CartDetails = ({
   ispriceloding,
@@ -27,20 +27,22 @@ const CartDetails = ({
   handleSizeChange,
   onUpdateCart,
   decodeEntities,
-  handleMoveToDetail
+  handleMoveToDetail,
 }) => {
-
-
-  console.log('selectediTem', selectedItem);
+  console.log("selectediTem", selectedItem);
   return (
     <div className="hoq_cart-container">
       <div className="hoq_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='hoq_cartImage' /> */}
-        <img 
-        src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
-        alt="image" 
-        className='hoq_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
+        <img
+          src={
+            selectedItem?.ImageCount != 0
+              ? CartCardImageFunc(selectedItem)
+              : noImageFound
+          }
+          alt="image"
+          className="hoq_cartDetailImage"
+          onClick={() => handleMoveToDetail(selectedItem)}
         />
       </div>
       <Customization
@@ -71,4 +73,3 @@ const CartDetails = ({
 };
 
 export default CartDetails;
-

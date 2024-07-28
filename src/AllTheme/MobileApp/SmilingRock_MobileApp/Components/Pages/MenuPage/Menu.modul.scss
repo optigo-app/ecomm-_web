@@ -8,6 +8,8 @@
         background-color: transparent;
         border: none;
         font-family: $primaryFontFamily;
+        font-size: 15px;
+        font-weight: 500;
     }
 
     .smrMA_menuViewTitle{
@@ -19,6 +21,7 @@
         height: 30px;
         margin: 0px 0px 0px 15px!important;
         display: flex;
+        font-size: 17px;
         align-items: center;
         width: 100%;
         font-family: $primaryFontFamily;

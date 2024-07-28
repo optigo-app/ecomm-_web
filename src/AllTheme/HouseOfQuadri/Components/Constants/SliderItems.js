@@ -15,25 +15,25 @@ export const SliderItemns = [
   },
   {
     key: 151,
-    url: S2,
+    url: `${storImagePath()}/images/HomePage/slider/2.webp`,
   },
   {
     key: 152,
-    url: S3,
+    url: `${storImagePath()}/images/HomePage/slider/3.webp`,
   },
 ];
 
 export const MobilSliderImage = [
   {
     key: 1321,
-    url: M1,
+    url: `${storImagePath()}/images/HomePage/slider/M1.png`,
   },
   {
     key: 4614,
-    url: M2,
+    url: `${storImagePath()}/images/HomePage/slider/M2.png`,
   },
   {
     key: 1642,
-    url: M3,
+    url: `${storImagePath()}/images/HomePage/slider/M3.png`,
   },
 ];

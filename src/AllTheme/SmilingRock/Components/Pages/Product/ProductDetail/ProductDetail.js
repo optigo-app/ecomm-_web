@@ -76,8 +76,6 @@ const ProductDetail = () => {
   const [diaList,setDiaList] = useState([]);
   const [csList,setCsList] = useState([]);
 
-  console.log("diaList",diaList?.length,csList?.length);
-
   const [prodLoading,setProdLoading] = useState(false)
 
   
@@ -886,7 +884,7 @@ const ProductDetail = () => {
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink)
+    // setMetalWiseColorImg(imgLink)
 
     let isImg = await checkImageAvailability(imgLink)
 
@@ -1411,8 +1409,8 @@ const ProductDetail = () => {
                                     }
                                   </div>
                                 )}
-                              {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && csList?.length && (
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.length) ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
@@ -1433,7 +1431,10 @@ const ProductDetail = () => {
                                       ))}
                                     </select>
                                   </div>
-                                )}
+                                )
+                                :
+                                null
+                              }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && (
                                 <div className="smr_single_prod_customize_outer">
@@ -1660,7 +1661,7 @@ const ProductDetail = () => {
                                 height={30}
                               />
                             ) : 
-                            // formatter.format
+                            formatter.format
                             (
                               singleProd1?.UnitCostWithMarkUp ??
                               singleProd?.UnitCostWithMarkUp

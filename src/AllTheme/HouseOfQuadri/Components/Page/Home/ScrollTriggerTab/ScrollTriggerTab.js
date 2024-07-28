@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./ScrollTriggerTab.modul.scss";
 import { ScrollImageList } from "../../../Constants/ScrollImageList";
+import { Link } from "react-router-dom";
 
 const ScrollTriggerTab = () => {
   useEffect(() => {
@@ -64,7 +65,18 @@ const ScrollImageCard = ({ img, details }) => {
             {details?.desc} <br /> <br />
             {details?.desc2 && details?.desc2}
           </p>
-          <button>{details?.btn_des}</button>
+          <button>
+            <Link
+              to={details?.link}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                outline: "none",
+              }}
+            >
+              {details?.btn_des}
+            </Link>
+          </button>
         </div>
       </div>
     </div>

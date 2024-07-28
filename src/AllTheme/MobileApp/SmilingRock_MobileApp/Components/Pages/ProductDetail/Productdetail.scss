@@ -178,6 +178,12 @@
     // background-color: white;
 }
 
+.prod_detail_info_title{
+    font-weight: 600;
+    font-family: $primaryFontFamilyMedium;
+    font-size: 14px;
+}
+
 .smr_price_portion{
     font-size: 24px;
     display: flex;
@@ -228,17 +234,20 @@
     background-color: white;
 }
 
-.smr_proDeatilList{
+.smr_proDeatilList_mobileapp{
     width: 25%;
     font-weight: 600;
+    font-size: 12px;
+    font-family: $primaryFontFamilyMedium;
     color: $primaryfontcolor2;
     text-decoration: underline;
 }
 
-.smr_proDeatilList1{
+.smr_proDeatilList_mobileapp1{
     width: 25%;
     color: #808080;
-    font-size: 14px;
+    font-family: $primaryFontFamilyMedium;
+    font-size: 12px;
 }
 
 .smrMA_material_details_portion{
@@ -259,8 +268,8 @@
     margin-bottom: 150px;
 }
 
-.smr_details_title{
-    font-size: 30px;
+.smr_app_details_title{
+    font-size: 25px;
     font-family: $homePageFontFamily;
     color: $primaryfontcolor2;
 }
@@ -276,7 +285,13 @@
     margin: 0px 0px 3px;
 }
 
-.cart_and_wishlist_icon{
+.smr_prodd_datanotfound_ss {
+    font-family: $primaryFontFamilyMedium;
+    color: $primaryfontcolor;
+    font-size: 42px;
+}
+
+.cart_and_wishlist_icon_ss_app{
     position: absolute;
     width: 100%;
     display: flex;

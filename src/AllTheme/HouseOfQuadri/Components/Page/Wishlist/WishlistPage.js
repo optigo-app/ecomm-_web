@@ -55,7 +55,7 @@ const WishlistPage = () => {
       </div>
     );
   }else{
-    return <Wishlist/>
+    return <Wishlist />
   }
  
 };
