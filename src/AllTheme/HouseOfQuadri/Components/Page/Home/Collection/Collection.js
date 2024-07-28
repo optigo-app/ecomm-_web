@@ -41,7 +41,7 @@ const Collection = () => {
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetList(response?.Data?.rd);
-          console.log("sss" ,response?.Data?.rd);
+          console.log("sss", response?.Data?.rd);
         }
       })
       .catch((err) => console.log(err));
@@ -94,9 +94,19 @@ const Collection = () => {
       </div>
       <div className="collection_cards desktop-collection">
         {designSetList?.slice(0, 4)?.map((val, i) => {
-          console.log(val)
+          console.log(val);
           return (
-            <div className="c_card">
+            <div
+              className="c_card"
+              onClick={() =>
+                handleNavigation(
+                  val?.designno,
+                  val?.autocode,
+                  val?.TitleLine ? val?.TitleLine : ""
+                )
+              }
+              style={{cursor  :"pointer"}}
+            >
               <img
                 src={ProdCardImageFunc(val)}
                 alt={val?.title}
@@ -156,7 +166,16 @@ const MobileCollection = ({
       <Slider {...settings}>
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (
-            <div className="c_card">
+            <div
+              className="c_card"
+              onClick={() =>
+                handleNavigation(
+                  val?.designno,
+                  val?.autocode,
+                  val?.TitleLine ? val?.TitleLine : ""
+                )
+              }
+            >
               <div className="details">
                 <h3>{val?.designsetno}</h3>
                 <button

@@ -11,7 +11,7 @@ export const ScrollImageList = [
     btn_des: "READ MORE",
     top: "55px",
     isborder: true,
-    link: "/why-quality-matters",
+    link: "/why-quality-matters", 
   },
   {
     head: "Lorem ipsum dolor?",
@@ -27,7 +27,7 @@ export const ScrollImageList = [
   {
     title: "Lorem ipsum dolor sit amet consectetur?",
     subtitle: "",
-    img: `${storImagePath()}/images/HomePage/5.png`,
+    img: `${storImagePath()}/images/HomePage/ImageBannerTab/6.jpg`,
     desc: `Lorem ipsum dolor sit amet dicta beatae praesentium temporibus ex odit? `,
     desc2: "Mon - Fri, lorem ipsum",
     align: "right",

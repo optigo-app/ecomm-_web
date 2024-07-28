@@ -26,12 +26,12 @@ const MobileFooter = () => {
             <AccordionDetails>
               <div className="details">
                 <p className="address">
-                  House Of Quadri <br />
-                  1st Flr, 7 Kitab Mahal, 192 Dr DN Rd, Fort, Mumbai 400001
+                  Lorem ipsum dolor sit amet. <br />
+                  Lorem ipsum dolor sit amet consectetur. 400001
                 </p>
-                <p className="phoneno">Mob. +91 93721 61575</p>
+                <p className="phoneno">Mob. +12345674689</p>
                 <p className="email">
-                  Email : <span>hello@houseofquadri.com</span>
+                  Email : <span>Lorem ipsum dolor sit amet.</span>
                 </p>
                 <div className="social-links">
                   <a href="#">
@@ -176,7 +176,7 @@ const MobileFooter = () => {
           </div>
         </div>
         <div className="copyright">
-        <p>© 2024 House Of Quadri</p>
+        <p>© 2024 Lorem ipsum dolor sit amet.</p>
         </div>
       </div>
     </>

@@ -10,7 +10,7 @@ const SizeGuide = () => {
         <p>
           Lorem ipsum dolor sit amet consectetur officiis corporis reiciendis
           earum tempore. Architecto molestiae in, ullam autem quas aliquid
-          eaque, amet rem officia.
+          eaque, amet rem officia. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate, voluptas?
         </p>
       </div>
       <div className="ring_card_list">
@@ -43,6 +43,7 @@ const Card = ({ data }) => {
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
           ratione laborum iusto est, error odit at quae facere temporibus nemo.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi eius tenetur facilis.
         </p>
         <button>Download Guide</button>
       </div>
