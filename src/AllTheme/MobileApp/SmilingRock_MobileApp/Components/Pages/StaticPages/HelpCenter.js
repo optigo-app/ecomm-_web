@@ -27,7 +27,7 @@ const HelpCenter = () => {
             <p className="SmiCartListTitleN" style={{}}>
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />Help Center
             </p>
-            <div style={{ marginInline: '2%', marginTop: '10px', paddingBottom: '80px', minHeight: '400px' }}>
+            <div style={{ marginInline: '2%', marginTop: '10px', paddingBottom: '80px', minHeight: '400px', paddingTop: '60px' }}>
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
             </div>
         </div>

@@ -195,7 +195,7 @@ const TrendingView = () => {
                                                                 storeInit?.Currencysymbol
                                                             ),
                                                         }}
-                                                    /> {(data?.UnitCost)?.toFixed(2)}</p>
+                                                    /> {(data?.UnitCostWithMarkUp)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                         <div style={{width: '50%'}}>
@@ -218,7 +218,7 @@ const TrendingView = () => {
                                                             storeInit?.Currencysymbol
                                                         ),
                                                     }}
-                                                /> {(datan?.UnitCost)?.toFixed(2)}</p>
+                                                /> {(datan?.UnitCostWithMarkUp)?.toFixed(2)}</p>
                                             </div>
                                         </div>
                                     </div>

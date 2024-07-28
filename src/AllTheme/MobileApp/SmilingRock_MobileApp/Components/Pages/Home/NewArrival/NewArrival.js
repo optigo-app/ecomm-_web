@@ -114,7 +114,7 @@ const NewArrival = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {newArrivalData[0]?.UnitCost}</p>
+                                /> {newArrivalData[0]?.UnitCostWithMarkUp}</p>
                         </div>
                         <div className='smr_newArrialDiv1' onClick={() => handleNavigation(newArrivalData[1]?.designno, newArrivalData[1]?.autocode, newArrivalData[1]?.TitleLine)}>
                             <img src={ring2ImageChange ?
@@ -129,7 +129,7 @@ const NewArrival = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {newArrivalData[1]?.UnitCost}</p>
+                                /> {newArrivalData[1]?.UnitCostWithMarkUp}</p>
                         </div>
                     </div>
                     <button className='enagementBtn' onClick={() =>  navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>
