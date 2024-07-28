@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Category.modul.scss";
-import { CategoryList, diamondShapes } from "../../../Constants/CategoryList";
+import {  diamondShapes } from "../../../Constants/CategoryList";
 import { Hoq_loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";

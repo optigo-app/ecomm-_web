@@ -1,5 +1,6 @@
 import React from "react";
 import "./ImageBannerTab.modul.scss";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ImageBannerTab = () => {
   return (
@@ -7,12 +8,12 @@ const ImageBannerTab = () => {
       <div className="hoq_main_ImageBannerTab">
         <div className="banner">
           <img
-            src="https://houseofquadri.com/cdn/shop/files/homepage_icons_2_6402e508-28b4-437d-93f9-793d67faebf5_1600x.png?v=1712319161"
+            src={`${storImagePath()}/images/HomePage/others/cert.webp`}
             alt=""
           />
         </div>
         <button>
-          <a href="https://cdn.shopify.com/s/files/1/0643/8731/8014/files/IGI_CERTIFICATE_COPY.pdf?v=1655287503">
+          <a href={`${storImagePath()}/images/HomePage/others/pdf.pdf`}>
             View sample certificate
           </a>
         </button>
@@ -31,7 +32,7 @@ const MobileImageBannerTab = () => {
     <>
       <div className="banner">
         <img
-          src="https://houseofquadri.com/cdn/shop/files/We_never_leave_your_side_1080x.png?v=1684556277"
+          src={`${storImagePath()}/images/HomePage/others/mobcert.webp`}
           alt="HOQ"
         />
       </div>
@@ -41,7 +42,7 @@ const MobileImageBannerTab = () => {
       </p>
       <button>Read More</button>
       <button>
-        <a href="https://cdn.shopify.com/s/files/1/0643/8731/8014/files/IGI_CERTIFICATE_COPY.pdf?v=1655287503">
+      <a href={`${storImagePath()}/images/HomePage/others/pdf.pdf`}>
           View sample certificate
         </a>
       </button>

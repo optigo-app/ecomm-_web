@@ -1,8 +1,40 @@
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
+
 export const FeaturedBrandList = [
-  "https://houseofquadri.com/cdn/shop/files/1200px-Grazia-Logo.svg_93a631c7-7764-4da2-bd4d-5a53f7823a9a_180x.png?v=1667031678",
-  "https://houseofquadri.com/cdn/shop/files/unnamed_180x.png?v=1666181281",
-  "https://houseofquadri.com/cdn/shop/files/VOGUE_logo_logotype_180x.png?v=1671178672",
-  "https://houseofquadri.com/cdn/shop/files/femina_logo_image_copy_180x.png?v=1673072333",
-  "https://houseofquadri.com/cdn/shop/files/logo-khush_180x.png?v=1690613304",
-  "https://houseofquadri.com/cdn/shop/files/Financial-Express-Logo_180x.png?v=1666181049",
+  // `${storImagePath()}/images/HomePage/others/featuredbard/logo2.png`,
+  // `${storImagePath()}/images/HomePage/others/featuredbard/logo3.png`,
+  // `${storImagePath()}/images/HomePage/others/featuredbard/1 (1).webp`,
+  // `${storImagePath()}/images/HomePage/others/featuredbard/logo6.png`,
+  // `${storImagePath()}/images/HomePage/others/featuredbard/1 (5).png`,
+  // `${storImagePath()}/images/HomePage/others/featuredbard/1 (6).png`,
+  {
+    key: "image1",
+    link: "https://www.jckonline.com/",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/logo2.png`,
+  },
+  {
+    key: "image2",
+    link: "https://jgw.exhibitions.jewellerynet.com/",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/logo3.png`,
+  },
+  {
+    key: "image3",
+    link: "",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/1 (1).webp`,
+  },
+  {
+    key: "image4",
+    link: "https://www.responsiblejewellery.com/",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/logo6.png`,
+  },
+  {
+    key: "image5",
+    link: "",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/1 (5).png`,
+  },
+  {
+    key: "image6",
+    link: "https://www.zara.com/",
+    path: `${storImagePath()}/images/HomePage/others/featuredbard/1 (6).png`,
+  },
 ];

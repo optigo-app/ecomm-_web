@@ -3,7 +3,7 @@ import "./Footer.modul.scss";
 import Payment from "./Payment";
 import MobileFooter from "./MobileFooter";
 import { useNavigate } from "react-router-dom";
-import {FaInstagram,FaFacebook } from 'react-icons/fa'
+import { FaInstagram, FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
   const [email, setemail] = useState("");
@@ -78,22 +78,22 @@ const About = () => {
       <h4>ABOUT</h4>
       <ul>
         <li>
-          <a href="#">Blogs</a>
+          <a href="/">Blogs</a>
         </li>
         <li>
-          <a href="#">Our Story</a>
+          <a href="/">Our Story</a>
         </li>
         <li>
           <a href="/size-guide">Size Guide</a>
         </li>
         <li>
-          <a href="#">Lab Grown Diamond</a>
+          <a href="/">Lab Grown Diamond</a>
         </li>
         <li>
-          <a href="#">Diamond Education</a>
+          <a href="/">Diamond Education</a>
         </li>
         <li>
-          <a href="#">Quality & Certification</a>
+          <a href="/">Quality & Certification</a>
         </li>
       </ul>
     </div>
@@ -172,12 +172,20 @@ const ContactInformation = () => {
         Email: hello@loremipusmum.com
       </p>
       <div className="social-links">
-        <a href="#" style={{display  :"flex",
-          alignItems  :"center",gap  :"5px"
-        }}><FaInstagram size={17} color="#F60092"/>Instagram</a>
-        <a href="#" style={{display  :"flex",
-          alignItems  :"center",gap  :"5px"
-        }}><FaFacebook size={17} color="blue"/>Facebook</a>
+        <a
+          href="#"
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          <FaInstagram size={17} color="#F60092" />
+          Instagram
+        </a>
+        <a
+          href="#"
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          <FaFacebook size={17} color="blue" />
+          Facebook
+        </a>
       </div>
     </div>
   );

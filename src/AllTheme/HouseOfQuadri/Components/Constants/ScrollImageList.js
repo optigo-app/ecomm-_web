@@ -11,12 +11,12 @@ export const ScrollImageList = [
     btn_des: "READ MORE",
     top: "55px",
     isborder: true,
-    link: "/why-quality-matters",
+    link: "/why-quality-matters", 
   },
   {
     head: "Lorem ipsum dolor?",
     title: "Lorem ipsum dolor sit?.",
-    img: `${storImagePath()}/images/HomePage/ImageBannerTab/2.webp`,
+    img: `${storImagePath()}/images/HomePage/3.webp`,
     desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam dicta beatae praesentium temporibus ex odit?`,
     align: "left",
     btn_des: "CUSTOMISE NOW",
@@ -27,7 +27,7 @@ export const ScrollImageList = [
   {
     title: "Lorem ipsum dolor sit amet consectetur?",
     subtitle: "",
-    img: `${storImagePath()}/images/HomePage/ImageBannerTab/3.webp`,
+    img: `${storImagePath()}/images/HomePage/ImageBannerTab/6.jpg`,
     desc: `Lorem ipsum dolor sit amet dicta beatae praesentium temporibus ex odit? `,
     desc2: "Mon - Fri, lorem ipsum",
     align: "right",
