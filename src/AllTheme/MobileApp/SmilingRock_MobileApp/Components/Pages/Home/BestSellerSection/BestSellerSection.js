@@ -114,7 +114,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[0]?.UnitCost}</p>
+                                /> {bestSellerData[0]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
                             <div>
@@ -130,7 +130,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[1]?.UnitCost}</p>
+                                /> {bestSellerData[1]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[2]?.UnitCost}</p>
+                                /> {bestSellerData[2]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
                             <div>
@@ -165,7 +165,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[3]?.UnitCost}</p>
+                                /> {bestSellerData[3]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
 
@@ -185,7 +185,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[4]?.UnitCost}</p>
+                                /> {bestSellerData[4]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
                             <div>
@@ -201,7 +201,7 @@ const BestSellerSection = () => {
                                       storeInit?.Currencysymbol
                                     ),
                                   }}
-                                /> {bestSellerData[5]?.UnitCost}</p>
+                                /> {bestSellerData[5]?.UnitCostWithMarkUp}</p>
                                 </div>
                             </div>
 
