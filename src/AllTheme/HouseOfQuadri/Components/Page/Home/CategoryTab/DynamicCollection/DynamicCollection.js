@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import "./DynamicCollection.modul.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import { Product } from "../../../../Constants/DynamicValue";
 import ProductListApi from "../../../../../../../utils/API/ProductListAPI/ProductListApi";
@@ -155,6 +155,28 @@ const DynamicCollection = () => {
       }));
     }
   };
+
+  const filterSectionRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll the element into view with offset
+    if (filterSectionRef.current) {
+      filterSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      const offset = 500;
+      window.scrollBy({
+        top: offset,
+        behavior: "smooth",
+      });
+    }
+    window.scrollTo({
+      top: 500,
+      behavior: "smooth",
+    });
+  }, []);
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -1210,15 +1232,18 @@ const DynamicCollection = () => {
                         "Filters"
                       : `Product Found: ${afterFilterCount}`}
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span
+                    onClick={() => handelFilterClearAll()}
+                    style={{ cursor: "pointer" }}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length > 0 ? (
-                      "Clear All"
-                    ) : (
-                      <span
-                        style={{ fontWeight: 400 }}
-                      >{`Total Products: ${afterFilterCount}`}</span>
-                    )}
+                      ?.length > 0
+                      ? "Clear All"
+                      : afterFilterCount && (
+                          <span style={{ fontWeight: 400 }}>{`Total Products: ${
+                            afterFilterCount || 0
+                          }`}</span>
+                        )}
                   </span>
                 </span>
                 <div style={{ marginTop: "12px" }}>
@@ -1251,7 +1276,7 @@ const DynamicCollection = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7f7d85",
+                                color: "gray",
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 "&.MuiAccordionSummary-root": {
@@ -1479,7 +1504,9 @@ const DynamicCollection = () => {
                 </p>
               </>
             )}
-            <span onClick={() => SetShowMore(!ShowMore)}>Read More</span>
+            <span onClick={() => SetShowMore(!ShowMore)}>
+              {ShowMore ? "Read Less" : "Read More"}
+            </span>
           </div>
         </div>
         <div className="filter_btn_mobile">
@@ -1498,7 +1525,7 @@ const DynamicCollection = () => {
           </div>
         </div>
         {/* Filter on Below on iamge Banner */}
-        <div className="filter_section">
+        <div className="filter_section" ref={filterSectionRef}>
           {/* productlist cards */}
           <div className="cc_list">
             {/* top filter bar */}
@@ -1847,6 +1874,8 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         shape="rounded"
         className="pagination-btn"
         siblingCount={0}
+        showFirstButton
+        showLastButton
       />
     </div>
   );

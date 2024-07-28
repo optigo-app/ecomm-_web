@@ -77,11 +77,14 @@
   // position: fixed;
   bottom: 60px;
   width: 100%;
+  justify-content: space-between;
+  padding: 0 30px;
+  margin-bottom: 2rem;
 
   .hoqMo_AddNewAddrbtn {
-    height: 60px;
-    width: 50%;
+    height: 50px;
     border: none;
+    flex-basis: 20%;
     outline: none;
     border-radius: none !important;
     font-family: $fontDmSans !important;
@@ -90,6 +93,7 @@
     background-color: rgba(27, 24, 24, 0.096);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    border-radius: 4px;
 
     &:hover {
       color: $btn1hoverFontColor;
@@ -102,11 +106,12 @@
     background-color: #c20000 !important;
     color: #fff !important;
     font-size: $fontSize3 !important;
-    height: 60px;
-    width: 50%;
+    height: 50px;
     border: none;
+    flex-basis: 20%;
     outline: none;
     border-radius: none !important;
+    border-radius: 4px;
     &:hover{
       background-color: #8b0202;
     }
