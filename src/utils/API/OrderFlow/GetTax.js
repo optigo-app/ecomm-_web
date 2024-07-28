@@ -5,7 +5,9 @@ export const fetchEstimateTax = async () => {
         const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
-        const estimatedTaxId = storedData?.TaxId
+        const estimatedTaxId = storedData?.TaxId ?? 0
+        console.log('storedDatastoredDatastoredData',storedData);
+        console.log('storedDatastoredDatastoredData TaxIdTaxId',storedData?.TaxId);
 
         const combinedValue = JSON.stringify({
             FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`, TaxId:`${estimatedTaxId}`

@@ -4,12 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import { Divider, Button } from '@mui/material';
-import { smrMA_CartCount } from '../../../Recoil/atom';
+import { smrMA_CartCount, smrMA_loginState } from '../../../Recoil/atom';
 import { IoArrowBack } from 'react-icons/io5';
+import { fetchEstimateTax } from '../../../../../../../utils/API/OrderFlow/GetTax';
+import Cookies from "js-cookie";
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -22,6 +24,9 @@ const Payment = () => {
     const [CurrencyData, setCurrencyData] = useState();
 
     const setCartCountVal = useSetRecoilState(smrMA_CartCount);
+    const islogin = useRecoilValue(smrMA_loginState);
+
+    const [taxAmmount, setTaxAmount] = useState();
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
@@ -55,26 +60,55 @@ const Payment = () => {
         navigate(-1);
     }
 
-    useEffect(() => {
-        const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
-        console.log('selectedAddressData', selectedAddressData);
-        setSelectedAddrData(selectedAddressData)
 
-        const totalPriceData = localStorage.getItem('TotalPriceData');
-        if (totalPriceData) {
-            const totalPriceNum = parseFloat(totalPriceData);
-            const newPrice = totalPriceNum * 0.03;
-            setTotalPriceText(newPrice.toFixed(2));
-            setTotalPrice(totalPriceNum);
-            const finalTotalPrice = totalPriceNum + newPrice;
-            setFinlTotal(finalTotalPrice.toFixed(2));
-        }
-    }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const texData = await fetchEstimateTax();
+                if (texData) {
+                    setTaxAmount(texData[0]?.TaxAmount);
+                }
+            } catch (error) {
+                console.error('Error fetching tax data:', error);
+            }
+
+            const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+            console.log('selectedAddressData', selectedAddressData);
+            setSelectedAddrData(selectedAddressData);
+
+            const totalPriceData = localStorage.getItem('TotalPriceData');
+            if (totalPriceData) {
+                const totalPriceNum = parseFloat(totalPriceData);
+                const finalTotalPrice = totalPriceNum;
+                setFinlTotal(finalTotalPrice);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+    // useEffect(() => {
+    //     const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+    //     console.log('selectedAddressData', selectedAddressData);
+    //     setSelectedAddrData(selectedAddressData)
+
+    //     const totalPriceData = localStorage.getItem('TotalPriceData');
+    //     if (totalPriceData) {
+    //         const totalPriceNum = parseFloat(totalPriceData);
+    //         const newPrice = totalPriceNum * 0.03;
+    //         setTotalPriceText(newPrice.toFixed(2));
+    //         setTotalPrice(totalPriceNum);
+    //         const finalTotalPrice = totalPriceNum + newPrice;
+    //         setFinlTotal(finalTotalPrice.toFixed(2));
+    //     }
+    // }, [])
 
     const handlePay = async () => {
+        const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         if (selectedAddrData?.id != undefined || selectedAddrData?.id != null) {
-            const paymentResponse = await handlePaymentAPI();
+            const paymentResponse = await handlePaymentAPI(visiterId, islogin);
             console.log("paymentResponse", paymentResponse);
             if (paymentResponse?.Data?.rd[0]?.stat == 1) {
                 let num = paymentResponse.Data?.rd[0]?.orderno
@@ -260,16 +294,16 @@ const Payment = () => {
                                                         ),
                                                     }}
                                                 />
-                                                {totalprice}
+                                                {finalTotal}
                                             </p>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
-                                            <p className='orderSubTitle'>Estimated Tax(3%)</p>
+                                            <p className='orderSubTitle'>Estimated Tax</p>
                                             <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" dangerouslySetInnerHTML={{
                                                         __html: decodeEntities(
                                                             CurrencyData
                                                         ),
-                                                    }} />{totalpriceText}</p>
+                                                    }} />{taxAmmount}</p>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                                             <p className='orderSubTitle'>Estimated Total</p>
@@ -277,7 +311,7 @@ const Payment = () => {
                                                         __html: decodeEntities(
                                                             CurrencyData
                                                         ),
-                                                    }}  />{finalTotal}</p>
+                                                    }}  />{taxAmmount + finalTotal}</p>
                                         </div>
                                     </div>
                                     <div className='deliveryShiipingMain'>
