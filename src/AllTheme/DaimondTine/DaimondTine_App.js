@@ -16,7 +16,11 @@ import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
 import Account from './Components/Pages/Account/Account';
-import CartMain from './Components/Pages/Cart/CartMain'
+import CartMain from './Components/Pages/Cart/CartMain';
+import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
+import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
+import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 
 const DaimondTine_App = () => {
 
@@ -40,6 +44,10 @@ const DaimondTine_App = () => {
           <Route path="/d/*" element={<ProductDetail/>} />
           <Route path="/account" element={<Account />} />
           <Route path="/cartPage" element={<CartMain />} />
+          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
         </Route>
       </Routes>
     </div>

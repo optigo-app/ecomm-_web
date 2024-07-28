@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import "./dt_cartPageB2c.scss"
+import Footer from "../../Home/Footer/Footer"
 import CartItem from './CartItem';
 import { dt_loginState } from '../../../Recoil/atom';
+import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 
 function Cart(props) {
   const {
@@ -67,7 +68,7 @@ function Cart(props) {
         setTotalPrice(priceData)
       }
     }, 300);
-  }, [])
+  }, [cartData])
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -150,10 +151,16 @@ function Cart(props) {
               <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
                 <p className="card-subtitle">Subtotal</p>
                 <p className="card-subtitle" style={{ fontWeight: "500", fontSize: "18px" }}>
-                  <span style={{ fontFamily: "sans-serif" }}>
-                    {decodeEntities(CurrencyData?.Currencysymbol)}
-                  </span>
-                  {cartData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
+                  {storeInitData?.IsPriceShow == 1 &&
+                    <span>
+                      <span
+                        className="smr_currencyFont"
+                      >
+                        {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                      </span>
+                      {" "}{(totalPrice)}
+                    </span>
+                  }
                 </p>
               </div>
 
@@ -216,11 +223,12 @@ function Cart(props) {
             >
               Your cart is currently empty.
             </p>
-            <button className="dt_browseBtnMore">Return to Shop</button>
+            <button className="dt_browseBtnMore" onClick={handelMenu}>Return to Shop</button>
           </div>
 
         </div>
       }
+       <Footer />
     </div>
   );
 }

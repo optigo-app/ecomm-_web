@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, loginState } from '../../../Recoil/atom';
+import { dt_CartCount, dt_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
@@ -23,11 +23,11 @@ const Payment = () => {
     const [CurrencyData, setCurrencyData] = useState();
     const [taxAmmount, setTaxAmount] = useState();
 
-    const setCartCountVal = useSetRecoilState(CartCount);
+    const setCartCountVal = useSetRecoilState(dt_CartCount);
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
-    const islogin = useRecoilValue(loginState)
+    const islogin = useRecoilValue(dt_loginState)
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -143,42 +143,42 @@ const Payment = () => {
     }
 
     return (
-        <div className='smr_paymentMainDiv'>
-            <div className='smr_paymentSecondMainDiv'>
-                <div className='smr_PaymentContainer'>
-                    <div className='smr_paymentBackbtnDiv'>
-                        <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
+        <div className='dt_paymentMainDiv'>
+            <div className='dt_paymentSecondMainDiv'>
+                <div className='dt_PaymentContainer'>
+                    <div className='dt_paymentBackbtnDiv'>
+                        <IoMdArrowRoundBack className='dt_paymentBackbtn' onClick={handleBackNavigate} />
                         <Link
-                            className="smr_addorderRemarkbtn"
+                            className="dt_addorderRemarkbtn"
                             variant="body2"
                             onClick={handleOpen}
                         >
                             {orderRemark == "" ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                    <div className='smr_paymentDetailMainDiv'>
-                        <div className='smr_paymentDetailLeftSideContent'>
+                    <div className='dt_paymentDetailMainDiv'>
+                        <div className='dt_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
-                            <div className='smr_billingAddress'>
+                            <div className='dt_billingAddress'>
                                 <h3>Billing Address</h3>
                                 <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>Address : {selectedAddrData?.street}</p>
                                 <p>City : {selectedAddrData?.city}</p>
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                <p className='smr_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                <p className='dt_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemark}
                                 </p>
 
                             </div>
                         </div>
-                        <div className='smr_paymentDetailRightSideContent'>
+                        <div className='dt_paymentDetailRightSideContent'>
                             <h3>Order Summary</h3>
-                            <div className='smr_paymenttotalpricesummary'>
+                            <div className='dt_paymenttotalpricesummary'>
                                 <p>Subtotal</p>
                                 <p>
                                     {/* <span
-                                        className="smr_currencyFont"
+                                        className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
                                                 CurrencyData
@@ -186,18 +186,18 @@ const Payment = () => {
                                         }}
                                     /> */}
 
-                                    <span className="smr_currencyFont">
+                                    <span className="dt_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
 
                                     <span>{finalTotal}</span>
                                 </p>
                             </div>
-                            <div className='smr_paymenttotalpricesummary'>
+                            <div className='dt_paymenttotalpricesummary'>
                                 <p>Estimated Tax</p>
                                 <p>
                                     {/* <span
-                                        className="smr_currencyFont"
+                                        className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
                                                 CurrencyData
@@ -205,32 +205,32 @@ const Payment = () => {
                                         }}
                                     />
                                     <span>{totalpriceText}</span> */}
-                                    <span className="smr_currencyFont">
+                                    <span className="dt_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{(taxAmmount)?.toFixed(3)}</span>
+                                    <span>{taxAmmount}</span>
                                 </p>
                             </div>
-                            <div className='smr_paymenttotalpricesummary'>
+                            <div className='dt_paymenttotalpricesummary'>
                                 <p>Estimated Total</p>
                                 <p>
                                     {/* <span
-                                        className="smr_currencyFont"
+                                        className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
                                                 CurrencyData
                                             ),
                                         }}
                                     /> */}
-                                    <span className="smr_currencyFont">
+                                    <span className="dt_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{(taxAmmount+finalTotal)?.toFixed(3)}</span>
+                                    <span>{taxAmmount+finalTotal}</span>
                                 </p>
                             </div>
-                            <div className='smr_shippingAddress'>
+                            <div className='dt_shippingAddress'>
                                 <h3>Shipping Address</h3>
-                                <p className='smr_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p className='dt_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>{selectedAddrData?.street}</p>
                                 <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
                                 <p>{selectedAddrData?.state}</p>
@@ -238,8 +238,8 @@ const Payment = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                    <div className='dt_paymentButtonDiv'>
+                        <button className='dt_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                             {isloding && <span className="loader"></span>}
                         </button>
@@ -255,7 +255,7 @@ const Payment = () => {
                 <Footer />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p className='smr_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+                <p className='dt_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     )
