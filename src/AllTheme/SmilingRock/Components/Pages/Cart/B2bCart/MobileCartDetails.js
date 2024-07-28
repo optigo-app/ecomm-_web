@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import './smr_cartPage.scss';
+import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -54,24 +54,24 @@ const MobileCartDetails = ({
   }, [])
 
   return (
-    <Modal open={open} onClose={handleClose} className="smr_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smr_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
-        <div className="smr_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
+        <div className="smrMo_Cart-imageDiv">
           <img
             src={CartCardImageFunc(selectedItem)}
             alt="Cluster Diamond"
-            className='smr_cartImage'
+            className='smrMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             style={{ border: 'none' }}
           />
         </div>
         <>
           {selectedItem?.StockId == 0 ? (
-            <div className="smr_Cart_R-details">
-              <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="smrMo_Cart_R-details">
+              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
-                <div className="smr_Cart-options">
+                <div className="smrMo_Cart-options">
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-type">Metal Type:</label>
@@ -156,14 +156,14 @@ const MobileCartDetails = ({
                   }
                 </div>
               }
-              <div className='smr_cartQtyPricemainDev' style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className='smrMo_cartQtyPricemainDev'>
                 <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
                 {storeInitData?.IsPriceShow == 1 &&
                   <div className="product-price">
                     {!ispriceloding ? (
                       <span>
                         <span
-                          className="smr_currencyFont"
+                          className="smrMo_currencyFont"
                           dangerouslySetInnerHTML={{
                             __html: decodeEntities(
                               CurrencyData?.Currencysymbol
@@ -173,23 +173,23 @@ const MobileCartDetails = ({
                         {selectedItem?.FinalCost}
                       </span>
                     ) : (
-                      <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                      <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
                     )}
                   </div>
                 }
               </div>
-              <div className='smr_UpdateCartBtn'>
-                <Button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+              <div className='smrMo_UpdateCartBtn'>
+                <Button className="smrMo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
               </div>
-              <div style={{ color: '#7d7f85', position: 'absolute', top: 0, right: 0 }} onClick={handleClose}>
+              <div className='smrMo_CloseIcon' onClick={handleClose}>
                 <CloseIcon />
               </div>
             </div>
           ) :
-            <div className="smr_CartCusto_R-details">
-              <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="smrMo_CartCusto_R-details">
+              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
-              <div className="smr_StockCart-options">
+              <div className="smrMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&
                   <div className="option">
                     <label htmlFor="metal-type">Metal Type:</label>
@@ -221,18 +221,18 @@ const MobileCartDetails = ({
                   </div>
                 }
               </div>
-              <div className="smr_stockPriceQtyDiv">
+              <div className="smrMo_stockPriceQtyDiv">
                 <div className="option">
                   <label htmlFor="qty">Qty:</label>
                   <span>{selectedItem?.Quantity}</span>
                 </div>
                 <div className=''>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <div className="smr_Stockproduct-price">
+                    <div className="smrMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
                           <span
-                            className="smr_currencyFont"
+                            className="smrMo_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(
                                 CurrencyData?.Currencysymbol
@@ -242,7 +242,7 @@ const MobileCartDetails = ({
                           {(selectedItem?.FinalCost)}
                         </span>
                       ) :
-                        <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                        <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
                       }
                     </div>
                   }

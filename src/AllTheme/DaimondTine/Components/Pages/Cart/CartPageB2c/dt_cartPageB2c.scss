@@ -1,6 +1,35 @@
 @import '../../../scss/variable.scss';
 
 .dt_MainCartDiv {
+  .bg-imageCart {
+    background-position: 50%;
+    background-size: cover;
+    height: 140px;
+    position: relative;
+    background-color: #a8807c;
+
+    .overlay {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+    }
+
+    .text-container {
+      color: #000;
+      left: 50%;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      width: 100%;
+      z-index: 1;
+    }
+  }
+
   .cart {
     display: flex;
     flex-direction: row;
@@ -37,6 +66,11 @@
               margin: 0;
             }
           }
+        }
+
+        .total {
+          font-weight: 500;
+          color: rgb(168, 128, 124);
         }
 
         .dt_quantity {
@@ -86,7 +120,7 @@
 
     .cart-totals {
       width: 30%;
-      height: 50vh;
+      height: fit-content;
       max-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -97,6 +131,14 @@
       box-shadow: none !important;
       position: sticky;
       top: 100px;
+
+      .card-total {
+        color: rgb(168, 128, 124);
+
+        span {
+          font-weight: 500;
+        }
+      }
 
       .subtotal,
       .shipping,

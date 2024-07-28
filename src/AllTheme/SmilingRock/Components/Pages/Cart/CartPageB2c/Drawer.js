@@ -54,7 +54,7 @@ const Cart = ({
         setTotalPrice(priceData)
       }
     }, 300);
-  })
+  },[items])
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(localStorage.getItem("storeInit"));
