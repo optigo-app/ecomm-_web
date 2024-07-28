@@ -36,11 +36,8 @@ export default function ThemeRoutes() {
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
 
-  console.log('Start project..');
 
   useEffect(() => {
-  console.log('Start project useeffet');
-
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
@@ -58,11 +55,7 @@ export default function ThemeRoutes() {
     }
     console.log('Start Store Init');
     Storeinit().then((response) => {
-      console.log('Start Store Init 1');
-
       if (response.status === 200) {
-        console.log('Start Store Init 2');
-
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));

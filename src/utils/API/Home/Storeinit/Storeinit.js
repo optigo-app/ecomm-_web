@@ -3,8 +3,6 @@
 import axios from 'axios';
 
 export const Storeinit = async (param) => {
-  console.log('Start Store Init call');
-
   // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
   const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'zen'
@@ -17,8 +15,6 @@ export const Storeinit = async (param) => {
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
   // const APIURL = (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/storev26/ReactStore.aspx';
   // const APIURL = 'http://zen/api/ReactStore.aspx'
-
-  console.log('eeeeeeeee', window.location);
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
