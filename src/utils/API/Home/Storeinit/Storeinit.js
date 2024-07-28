@@ -3,12 +3,9 @@
 import axios from 'axios';
 
 export const Storeinit = async (param) => {
+  console.log('Start Store Init call');
 
   // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
-  const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-
-  const { YearCode, version, token , sv } = storeInit;
-
   const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'zen'
     || window.location.hostname === 'fgstore.web'
