@@ -94,6 +94,8 @@ const NewArrival = () => {
         setRing2ImageChange(false)
     }
 
+    console.log('newArrivalData', newArrivalData);
+
     return (
         <div className='smr_newwArr1MainDiv'>
             <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
