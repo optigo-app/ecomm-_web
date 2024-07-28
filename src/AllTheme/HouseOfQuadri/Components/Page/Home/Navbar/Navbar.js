@@ -354,7 +354,7 @@ const Navbar = () => {
       >
         <div className="nav_top_head">
           <span className="contact_icon">
-            <a href="tel:0123456789">
+            <a href="/contacts">
               <IoIosCall color="red" size={19} />
               Contact
             </a>
