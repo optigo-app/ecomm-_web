@@ -26,7 +26,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(4);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -36,7 +36,11 @@ export default function ThemeRoutes() {
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
 
+  console.log('Start project..');
+
   useEffect(() => {
+  console.log('Start project useeffet');
+
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
@@ -52,10 +56,14 @@ export default function ThemeRoutes() {
       dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
+    console.log('Start Store Init');
     Storeinit().then((response) => {
-      if (response.status === 200) {
+      console.log('Start Store Init 1');
 
-        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+      if (response.status === 200) {
+        console.log('Start Store Init 2');
+
+        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
