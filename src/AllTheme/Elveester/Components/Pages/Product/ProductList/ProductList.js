@@ -20,6 +20,7 @@ import Modal from "@mui/material/Modal";
 import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
+import Pagination from "@mui/material/Pagination";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
@@ -47,7 +48,10 @@ import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCom
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import ViewStreamIcon from '@mui/icons-material/ViewStream';
+import StopRoundedIcon from '@mui/icons-material/StopRounded';
 import { el_CartCount, el_WishCount } from "../../../Recoil/atom";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductList = () => {
   const location = useLocation();
@@ -87,10 +91,12 @@ const ProductList = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isHover, setIsHover] = useState(false);
   const [filterData, setFilterData] = useState([]);
+  const [currPage, setCurrPage] = useState(1);
+  const [rollOverImgPd, setRolloverImgPd] = useState({})
   const [filterPriceSlider, setFilterPriceSlider] = useState([]);
   const [filterGrossSlider, setFilterGrossSlider] = useState([]);
   const [filterNetWtSlider, setFilterNetWTSlider] = useState([]);
-  // const [afterFilterCount, setAfterFilterCount] = useState();
+  const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(
@@ -107,21 +113,9 @@ const ProductList = () => {
   const setWishCountVal = useSetRecoilState(el_WishCount);
   const [cartArr, setCartArr] = useState({})
   const [wishArr, setWishArr] = useState({})
-  const [cart,setCart] = useState(false);
-  const [INDEXING,SETINDEXING]= useState([]);
 
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
 
-  // console.log('cartArr: ', {cartArr, wishArr});
-
-  useEffect(() => {
-    console.log('cartArr: ', {cartArr, wishArr});
-  },[wishArr,cartArr])
-
-  useEffect(() => {
-    console.log('cart: ', cart);
-  },[cart])
-
-  // let storeinit;
   let getDesignImageFol = storeInit?.DesignImageFol;
 
   const handleCheckboxChange = (e, listname, val) => {
@@ -168,7 +162,7 @@ const ProductList = () => {
 
     for (const key in output) {
       if (key !== "Price") {
-        output[key] = output[key].slice(0, -2);
+        output[key] = output[key]?.slice(0, -2);
       }
     }
 
@@ -194,7 +188,7 @@ const ProductList = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
           return res;
         })
@@ -309,6 +303,39 @@ const ProductList = () => {
 
   // Working With API's
 
+  const activeIconsBtns = [
+    {
+      name: 'window',
+      class1: 'elv_filtered_prodlists_1',
+      class2: 'elv_filtered_image_1',
+      calcWidth: 'calc(100% / 2)',
+    },
+    {
+      name: 'apps',
+      class1: 'elv_filtered_prodlists_2',
+      class2: 'elv_filtered_image_2',
+      calcWidth: 'calc(100% / 3)',
+    },
+    {
+      name: 'view_grid',
+      class1: 'elv_filtered_prodlists_3',
+      class2: 'elv_filtered_image_3',
+      calcWidth: 'calc(100% / 4)',
+    },
+    {
+      name: 'single_view',
+      class1: 'elv_filtered_prodlists_4',
+      class2: 'elv_filtered_image_4',
+      calcWidth: 'calc(100% / 1)',
+    },
+    {
+      name: 'double_view',
+      class1: 'elv_filtered_prodlists_5',
+      class2: 'elv_filtered_image_5',
+      calcWidth: 'calc(100% / 2)',
+    },
+  ]
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(data);
@@ -352,7 +379,7 @@ const ProductList = () => {
     const fetchData = async () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-        let UrlVal = location?.search.slice(1).split("/");
+        let UrlVal = location?.search?.slice(1).split("/");
 
         let MenuVal = "";
         let productlisttype;
@@ -383,6 +410,7 @@ const ProductList = () => {
 
         if (res) {
           setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
         }
 
         if (res1) {
@@ -426,6 +454,32 @@ const ProductList = () => {
     txt.innerHTML = html;
     return txt.value;
   };
+
+  const handelPageChange = (event, value) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    setIsProdLoading(true);
+    setCurrPage(value)
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }, 100)
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err)).finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false)
+        }, 100);
+      })
+  }
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
@@ -522,7 +576,7 @@ const ProductList = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          // setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
         }
         return res;
       })
@@ -541,7 +595,7 @@ const ProductList = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            // setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
           return res;
         })
@@ -577,6 +631,9 @@ const ProductList = () => {
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
+  const handelFilterClearAll = () => {
+    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
+  }
 
   const handleCartandWish = async (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
@@ -609,60 +666,44 @@ const ProductList = () => {
     }
 
     if (e.target.checked) {
-       await CartAndWishListAPI(type, prodObj, cookie).then((res)=>{
+      await CartAndWishListAPI(type, prodObj, cookie).then((res) => {
         console.log(res?.Data?.rd[0])
-         if (res) {
-             let cartC = res?.Data?.rd[0]?.Cartlistcount
-             let wishC = res?.Data?.rd[0]?.Wishlistcount
-             setWishCountVal(wishC)
-             setCartCountVal(cartC);
-           } 
-      }).catch((err)=>console.log("addtocartwishErr",err))
+        if (res) {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount
+          let wishC = res?.Data?.rd[0]?.Wishlistcount
+          setWishCountVal(wishC)
+          setCartCountVal(cartC);
+        }
+      }).catch((err) => console.log("addtocartwishErr", err))
 
     } else {
-      
-      await RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res1)=>{
+
+      await RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res1) => {
         console.log('res1: ', res1);
         if (res1) {
-            let cartC = res1?.Data?.rd[0]?.Cartlistcount
-            let wishC = res1?.Data?.rd[0]?.Wishlistcount
-            setWishCountVal(wishC)
-            setCartCountVal(cartC)
+          let cartC = res1?.Data?.rd[0]?.Cartlistcount
+          let wishC = res1?.Data?.rd[0]?.Wishlistcount
+          setWishCountVal(wishC)
+          setCartCountVal(cartC)
         }
-      }).catch((err)=>console.log("removecartwishErr",err))
+      }).catch((err) => console.log("removecartwishErr", err))
 
     }
-
-   
   }
 
-  const getDynamicImages = (designno, count, extension) => {
-    if (count >= 2) {
-      const getDesignImageFol = storeInit?.DesignImageFol;
-      const url = `${getDesignImageFol}${designno}_${count}.${extension}`;
-      return url;
-    }
-    else {
-      const getDesignImageFol = storeInit?.DesignImageFol;
-      const url = `${getDesignImageFol}${designno}_${1}.${extension}`;
-      return url;
-    }
+  const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
+
+  const getDynamicImages = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
   const getDynamicRollImages = (designno, count, extension) => {
-    if (count >= 1 && count <= 3) {
-      const getDesignImageFol = storeInit?.DesignImageFol;
-      const url = `${getDesignImageFol}${designno}_${count}.${extension}`;
-      return url;
+    if (count > 1) {
+      return `${getDesignImageFol}${designno}_${2}.${extension}`;
     }
-    else {
-      const getDesignImageFol = storeInit?.DesignImageFol;
-      const url = `${getDesignImageFol}${designno}_${2}.${extension}`;
-      return url;
-    }
-
+    return;
   };
+
   const getDynamicVideo = (designno, count, extension) => {
-    const getDesignVideoFol = (storeInit?.DesignImageFol).slice(0, -13) + "video/";
     if (extension) {
       const url = `${getDesignVideoFol}${designno}_${count}.${extension}`;
       return url;
@@ -670,258 +711,258 @@ const ProductList = () => {
     return;
   };
 
-  // const handleRangeFilterApi = async (Rangeval) => {
-  //   console.log('Rangeval: ', Rangeval);
+  const handleRangeFilterApi = async (Rangeval) => {
+    console.log('Rangeval: ', Rangeval);
 
-  //   let output = FilterValueWithCheckedOnly()
-  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-  //   let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
-  //   let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
-  //   let grossRange = { grossMin: filterDiamondSlider[0], grossMax: filterDiamondSlider[1] }
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
+    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
+    let grossRange = { grossMin: filterDiamondSlider[0], grossMax: filterDiamondSlider[1] }
 
-  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-  //     .then((res) => {
-  //       if (res) {
-  //         setProductListData(res?.pdList);
-  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-  //       }
-  //       return res;
-  //     })
-  //     .catch((err) => console.log("err", err))
-  //     .finally(() => {
-  //       setIsOnlyProdLoading(false)
-  //     })
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false)
+      })
 
-  // }
+  }
 
-  // const handleRangeFilterApi1 = async (Rangeval1) => {
-  //   console.log('Rangeval1: ', Rangeval1);
+  const handleRangeFilterApi1 = async (Rangeval1) => {
+    console.log('Rangeval1: ', Rangeval1);
 
-  //   let output = FilterValueWithCheckedOnly()
-  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-  //   let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
-  //   let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-  //   let grossRange = { grossMin: filterGrossSlider[0], grossMax: filterGrossSlider[1] }
+    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
+    let grossRange = { grossMin: filterGrossSlider[0], grossMax: filterGrossSlider[1] }
 
-  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-  //     .then((res) => {
-  //       if (res) {
-  //         setProductListData(res?.pdList);
-  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-  //       }
-  //       return res;
-  //     })
-  //     .catch((err) => console.log("err", err))
-  //     .finally(() => {
-  //       setIsOnlyProdLoading(false)
-  //     })
-  // }
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false)
+      })
+  }
 
-  // const handleRangeFilterApi2 = async (Rangeval2) => {
-  //   console.log("newValue", Rangeval2);
+  const handleRangeFilterApi2 = async (Rangeval2) => {
+    console.log("newValue", Rangeval2);
 
-  //   let output = FilterValueWithCheckedOnly()
-  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly()
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-  //   let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
-  //   let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
-  //   let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
+    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
-  //   await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
-  //     .then((res) => {
-  //       if (res) {
-  //         setProductListData(res?.pdList);
-  //         //  setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-  //       }
-  //       return res;
-  //     })
-  //     .catch((err) => console.log("err", err))
-  //     .finally(() => {
-  //       setIsOnlyProdLoading(false)
-  //     })
-  // }
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false)
+      })
+  }
 
-  // const handleSliderChange = (event, newValue) => {
-  //   setFilterGrossSlider(newValue);
-  //   handleRangeFilterApi(newValue)
-  // };
-  // const handleSliderChange1 = (event, newValue) => {
-  //   setFilterNetWTSlider(newValue);
-  //   handleRangeFilterApi1(newValue)
-  // };
-  // const handleSliderChange2 = (event, newValue) => {
-  //   setFilterDiamondSlider(newValue);
-  //   handleRangeFilterApi2(newValue)
-  // };
+  const handleSliderChange = (event, newValue) => {
+    setFilterGrossSlider(newValue);
+    handleRangeFilterApi(newValue)
+  };
+  const handleSliderChange1 = (event, newValue) => {
+    setFilterNetWTSlider(newValue);
+    handleRangeFilterApi1(newValue)
+  };
+  const handleSliderChange2 = (event, newValue) => {
+    setFilterDiamondSlider(newValue);
+    handleRangeFilterApi2(newValue)
+  };
 
-  // const handleInputChange = (index) => (event) => {
-  //   const newSliderValue = [...filterGrossSlider];
-  //   newSliderValue[index] =
-  //     event.target.value === "" ? "" : Number(event.target.value);
-  //   setFilterGrossSlider(newSliderValue);
-  //   handleRangeFilterApi(newSliderValue)
-  // };
-  // const handleInputChange1 = (index) => (event) => {
-  //   const newSliderValue = [...filterNetWtSlider];
-  //   newSliderValue[index] =
-  //     event.target.value === "" ? "" : Number(event.target.value);
-  //   setFilterNetWTSlider(newSliderValue);
-  //   handleRangeFilterApi1(newSliderValue)
-  // };
-  // const handleInputChange2 = (index) => (event) => {
-  //   const newSliderValue = [...filterDiamondSlider];
-  //   newSliderValue[index] =
-  //     event.target.value === "" ? "" : Number(event.target.value);
-  //   setFilterDiamondSlider(newSliderValue);
-  //   handleRangeFilterApi2(newSliderValue)
-  // };
+  const handleInputChange = (index) => (event) => {
+    const newSliderValue = [...filterGrossSlider];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setFilterGrossSlider(newSliderValue);
+    handleRangeFilterApi(newSliderValue)
+  };
+  const handleInputChange1 = (index) => (event) => {
+    const newSliderValue = [...filterNetWtSlider];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setFilterNetWTSlider(newSliderValue);
+    handleRangeFilterApi1(newSliderValue)
+  };
+  const handleInputChange2 = (index) => (event) => {
+    const newSliderValue = [...filterDiamondSlider];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setFilterDiamondSlider(newSliderValue);
+    handleRangeFilterApi2(newSliderValue)
+  };
 
-  // const RangeFilterView = (ele) => {
-  //   const min = JSON.parse(ele?.options)[0]?.Min;
-  //   const max = JSON.parse(ele?.options)[0]?.Max;
+  const RangeFilterView = (ele) => {
+    const min = JSON.parse(ele?.options)[0]?.Min;
+    const max = JSON.parse(ele?.options)[0]?.Max;
 
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={filterDiamondSlider}
-  //             onChange={handleSliderChange2}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={min}
-  //             max={max}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //             onClick={(e) => e.stopPropagation()} // Prevent slider click propagation
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={filterDiamondSlider[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange2(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: min,
-  //               max: max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //             onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-  //           />
-  //           <Input
-  //             value={filterDiamondSlider[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange2(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: min,
-  //               max: max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //             onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-  // const RangeFilterView1 = (ele) => {
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={filterGrossSlider}
-  //             onChange={handleSliderChange}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={JSON?.parse(ele?.options)[0]?.Min.toFixed(3)}
-  //             max={JSON?.parse(ele?.options)[0]?.Max.toFixed(3)}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={filterGrossSlider[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-  //               max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //           <Input
-  //             value={filterGrossSlider[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-  //               max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-  // const RangeFilterView2 = (ele) => {
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={filterNetWtSlider}
-  //             onChange={handleSliderChange1}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={JSON?.parse(ele?.options)[0]?.Min}
-  //             max={JSON?.parse(ele?.options)[0]?.Max}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={filterNetWtSlider[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange1(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //           <Input
-  //             value={filterNetWtSlider[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange1(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={filterDiamondSlider}
+              onChange={handleSliderChange2}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={min}
+              max={max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+              onClick={(e) => e.stopPropagation()} // Prevent slider click propagation
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={filterDiamondSlider[0]}
+              margin="dense"
+              onChange={handleInputChange2(0)}
+              inputProps={{
+                step: 0.001,
+                min: min,
+                max: max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
+            />
+            <Input
+              value={filterDiamondSlider[1]}
+              margin="dense"
+              onChange={handleInputChange2(1)}
+              inputProps={{
+                step: 0.001,
+                min: min,
+                max: max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+  const RangeFilterView1 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={filterGrossSlider}
+              onChange={handleSliderChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min.toFixed(3)}
+              max={JSON?.parse(ele?.options)[0]?.Max.toFixed(3)}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={filterGrossSlider[0]}
+              margin="dense"
+              onChange={handleInputChange(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
+                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+            <Input
+              value={filterGrossSlider[1]}
+              margin="dense"
+              onChange={handleInputChange(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
+                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+  const RangeFilterView2 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={filterNetWtSlider}
+              onChange={handleSliderChange1}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={filterNetWtSlider[0]}
+              margin="dense"
+              onChange={handleInputChange1(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+            <Input
+              value={filterNetWtSlider[1]}
+              margin="dense"
+              onChange={handleInputChange1(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
 
   const compressAndEncode = (inputString) => {
     try {
@@ -959,6 +1000,13 @@ const ProductList = () => {
     );
   };
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
+
   return (
     <>
       <div className="elv_Productlists_Main_div">
@@ -970,7 +1018,7 @@ const ProductList = () => {
                   <span className="elv_Productlists_details_1">
                     {menuParams?.FilterVal}
                   </span>
-                  <span className="elv_Productlists_details_2">&nbsp;1</span>
+                  <span className="elv_Productlists_details_2">&nbsp;{afterFilterCount}</span>
                   <span className="elv_Productlists_details_3">
                     &nbsp;Design
                   </span>
@@ -981,24 +1029,30 @@ const ProductList = () => {
                     fontSize="16px"
                     aria-label="breadcrumb"
                   >
-                    <Typography
-                      className="elv_breadcrumbs"
-                      color="text.primary"
-                    >
-                      {menuParams?.menuname}
-                    </Typography>
-                    <Typography
-                      className="elv_breadcrumbs"
-                      color="text.primary"
-                    >
-                      {menuParams?.FilterVal}
-                    </Typography>
-                    <Typography
-                      className="elv_breadcrumbs"
-                      color="text.primary"
-                    >
-                      {menuParams?.FilterVal2}
-                    </Typography>
+                    {menuParams?.menuname && (
+                      <Typography
+                        className="elv_breadcrumbs"
+                        color="text.primary"
+                      >
+                        {menuParams?.menuname}
+                      </Typography>
+                    )}
+                    {menuParams?.FilterVal && (
+                      <Typography
+                        className="elv_breadcrumbs"
+                        color="text.primary"
+                      >
+                        {menuParams?.FilterVal}
+                      </Typography>
+                    )}
+                    {menuParams?.FilterVal2 && (
+                      <Typography
+                        className="elv_breadcrumbs"
+                        color="text.primary"
+                      >
+                        {menuParams?.FilterVal2}
+                      </Typography>
+                    )}
                   </Breadcrumbs>
                 </div>
               </div>
@@ -1007,7 +1061,7 @@ const ProductList = () => {
                   <p className="elv_Productlist_ptitle">
                     <img
                       className="elv_Productlist_logo"
-                      src="https://cdnfs.optigoapps.com/content-global3/estoreWJ3U0B6PVONQHL1TA/estore/images/HomePage/MainBanner/image/featuresImage.png"
+                      src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
                       alt="Logo"
                     />
                   </p>
@@ -1083,11 +1137,14 @@ const ProductList = () => {
                         cursor: "pointer",
                         textTransform: "uppercase",
                         letterSpacing: "2px",
+                        padding: '0px 4px',
                       }}
                     >
                       <MenuItem value="Recommended">Recommended</MenuItem>
                       <MenuItem value="New">New</MenuItem>
-                      <MenuItem value="In Stock">In Stock</MenuItem>
+                      {storeInit?.IsStockWebsite === 1 && (
+                        <MenuItem value="In Stock">In Stock</MenuItem>
+                      )}
                       <MenuItem value="PRICE LOW TO HIGH">
                         Price Low to High
                       </MenuItem>
@@ -1115,42 +1172,45 @@ const ProductList = () => {
                       </span>
                       <Modal open={openModal} onClose={handleClose}>
                         <Box sx={modalStyle}>
-                          <div className={`elv_filteration_rows_3`}>
-                            <FormControl
-                              sx={{
-                                m: 1,
-                                width: "95%",
-                                display: "flex",
-                                justifyContent: "center",
-                                border: "none",
-                              }}
-                            >
-                              <Select
-                                value={selectedMetalId}
-                                onChange={(e) => {
-                                  setSelectedMetalId(e.target.value);
-                                  setIsOnlyProdLoading(true);
-                                }}
-                                displayEmpty
-                                inputProps={{ "aria-label": "Without label" }}
-                                style={{
-                                  color: "#8E7B8E",
-                                  fontSize: "14px",
-                                  fontWeight: "400",
-                                  cursor: "pointer",
-                                  marginBlock: "3px",
-                                  textTransform: "uppercase",
-                                  letterSpacing: "2px",
+                          {storeInit?.IsMetalCustomization === 1 && (
+                            <div className={`elv_filteration_rows_3`}>
+                              <FormControl
+                                sx={{
+                                  m: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  border: "none",
                                 }}
                               >
-                                {metalType?.map((item, index) => (
-                                  <MenuItem key={index} value={item.Metalid}>
-                                    {item.metaltype}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </div>
+                                <Select
+                                  value={selectedMetalId}
+                                  onChange={(e) => {
+                                    setSelectedMetalId(e.target.value);
+                                    setIsOnlyProdLoading(true);
+                                  }}
+                                  displayEmpty
+                                  inputProps={{ "aria-label": "Without label" }}
+                                  style={{
+                                    color: "#8E7B8E",
+                                    fontSize: "14px",
+                                    fontWeight: "400",
+                                    cursor: "pointer",
+                                    marginBlock: "3px",
+                                    textTransform: "uppercase",
+                                    letterSpacing: "2px",
+                                    padding: '0px 4px',
+                                  }}
+                                >
+                                  {metalType?.map((item, index) => (
+                                    <MenuItem key={index} value={item.Metalid}>
+                                      {item.metaltype}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </div>
+                          )}
                           {storeInit?.IsDiamondCustomization === 1 && (
                             <div className="elv_filteration_rows_4">
                               <FormControl
@@ -1178,6 +1238,7 @@ const ProductList = () => {
                                     cursor: "pointer",
                                     textTransform: "uppercase",
                                     letterSpacing: "2px",
+                                    padding: '0px 4px',
                                   }}
                                 >
                                   {diamondType?.map((item, index) => {
@@ -1200,42 +1261,45 @@ const ProductList = () => {
                   </>
                 ) : (
                   <>
-                    <div className={`elv_filteration_rows_3`}>
-                      <FormControl
-                        sx={{
-                          m: 1,
-                          width: "95%",
-                          display: "flex",
-                          justifyContent: "center",
-                          border: "none",
-                        }}
-                      >
-                        <Select
-                          value={selectedMetalId}
-                          onChange={(e) => {
-                            setSelectedMetalId(e.target.value);
-                            setIsOnlyProdLoading(true);
-                          }}
-                          displayEmpty
-                          inputProps={{ "aria-label": "Without label" }}
-                          style={{
-                            backgroundColor: "#F4F4F4",
-                            color: "#8E7B8E",
-                            fontSize: "14px",
-                            fontWeight: "400",
-                            cursor: "pointer",
-                            textTransform: "uppercase",
-                            letterSpacing: "2px",
+                    {storeInit?.IsMetalCustomization === 1 && (
+                      <div className={`elv_filteration_rows_3`}>
+                        <FormControl
+                          sx={{
+                            m: 1,
+                            width: "95%",
+                            display: "flex",
+                            justifyContent: "center",
+                            border: "none",
                           }}
                         >
-                          {metalType?.map((item, index) => (
-                            <MenuItem key={index} value={item.Metalid}>
-                              {item.metaltype}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
+                          <Select
+                            value={selectedMetalId}
+                            onChange={(e) => {
+                              setSelectedMetalId(e.target.value);
+                              setIsOnlyProdLoading(true);
+                            }}
+                            displayEmpty
+                            inputProps={{ "aria-label": "Without label" }}
+                            style={{
+                              backgroundColor: "#F4F4F4",
+                              color: "#8E7B8E",
+                              fontSize: "14px",
+                              fontWeight: "400",
+                              cursor: "pointer",
+                              textTransform: "uppercase",
+                              letterSpacing: "2px",
+                              padding: '0px 4px',
+                            }}
+                          >
+                            {metalType?.map((item, index) => (
+                              <MenuItem key={index} value={item.Metalid}>
+                                {item.metaltype}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    )}
                     {storeInit?.IsDiamondCustomization === 1 && (
                       <div className="elv_filteration_rows_4">
                         <FormControl
@@ -1263,6 +1327,7 @@ const ProductList = () => {
                               cursor: "pointer",
                               textTransform: "uppercase",
                               letterSpacing: "2px",
+                              padding: '0px 4px',
                             }}
                           >
                             {diamondType?.map((item, index) => {
@@ -1323,69 +1388,54 @@ const ProductList = () => {
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
-                                    flexDirection: "column",
+                                    flexDirection: "row",
                                     gap: "5px",
                                   }}
                                 >
-                                  <span
-                                    onClick={() => {
-                                      handleActiveIcons("single-view");
-                                    }}
-                                    style={{
-                                      paddingRight: "8px",
-                                      fontSize: "14px",
-                                      color:
-                                        activeIcon === "window"
-                                          ? "#000"
-                                          : "#A2A2A2",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    Single View
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      handleActiveIcons("double-view");
-                                      // setIsOnlyProdLoading(true);
-                                    }}
-                                    style={{
-                                      paddingRight: "8px",
-                                      fontSize: "14px",
-                                      color:
-                                        activeIcon === "apps"
-                                          ? "#000"
-                                          : "#A2A2A2",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    Double View
-                                  </span>
+                                  {activeIconsBtns.map((iconConfig, index) => {
+                                    const isActive = iconConfig.name === activeIcon;
+                                    const IconComponent = iconConfig.name === 'single_view' ? StopRoundedIcon : iconConfig.name === 'double_view' ? ViewStreamIcon : null;
+
+                                    return (
+                                      IconComponent && (
+                                        <IconComponent
+                                          key={index}
+                                          onClick={() => handleActiveIcons(iconConfig.name)}
+                                          style={{
+                                            paddingRight: "8px",
+                                            fontSize: iconConfig.name === 'double_view' ? "2rem" : "2.2rem",
+                                            color: isActive ? "#000" : "#A2A2A2",
+                                            cursor: "pointer",
+                                          }}
+                                        />
+                                      )
+                                    );
+                                  })}
                                 </div>
                               </div>
                             </Popover>
                           </>
                         ) : (
                           <>
-                            <WindowIcon
-                              onClick={() => handleActiveIcons("window")}
-                              sx={{
-                                paddingRight: "8px",
-                                fontSize: "1.8rem",
-                                color:
-                                  activeIcon === "window" ? "#000" : "#A2A2A2",
-                                cursor: "pointer",
-                              }}
-                            />
-                            <AppsIcon
-                              onClick={() => handleActiveIcons("apps")}
-                              sx={{
-                                paddingRight: "8px",
-                                fontSize: "1.8rem",
-                                color:
-                                  activeIcon === "apps" ? "#000" : "#A2A2A2",
-                                cursor: "pointer",
-                              }}
-                            />
+                            {activeIconsBtns?.map((iconConfig, index) => {
+                              const isActive = iconConfig.name === activeIcon;
+                              const IconComponent = iconConfig.name === 'window' ? WindowIcon : iconConfig.name === 'apps' ? AppsIcon : null;
+
+                              return (
+                                IconComponent && (
+                                  <IconComponent
+                                    key={index}
+                                    onClick={() => handleActiveIcons(iconConfig.name)}
+                                    style={{
+                                      paddingRight: "8px",
+                                      fontSize: "1.8rem",
+                                      color: isActive ? "#000" : "#A2A2A2",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                )
+                              );
+                            })}
                           </>
                         )}
                       </div>
@@ -1400,34 +1450,39 @@ const ProductList = () => {
                         }`}
                     >
                       <div className="elv_grid_view">
-                        <WindowIcon
-                          onClick={() => handleActiveIcons("window")}
-                          sx={{
-                            paddingRight: "8px",
-                            fontSize: "1.8rem",
-                            color: activeIcon === "window" ? "#000" : "#A2A2A2",
-                            cursor: "pointer",
-                          }}
-                        />
-                        <AppsIcon
-                          onClick={() => handleActiveIcons("apps")}
-                          sx={{
-                            paddingRight: "8px",
-                            fontSize: "1.8rem",
-                            color: activeIcon === "apps" ? "#000" : "#A2A2A2",
-                            cursor: "pointer",
-                          }}
-                        />
-                        <ViewCompactIcon
-                          onClick={() => handleActiveIcons("view_grid")}
-                          sx={{
-                            paddingRight: "2px",
-                            fontSize: "1.9rem",
-                            color:
-                              activeIcon === "view_grid" ? "#000" : "#A2A2A2",
-                            cursor: "pointer",
-                          }}
-                        />
+                        {activeIconsBtns.map((iconConfig, index) => {
+                          const isActive = iconConfig.name === activeIcon;
+                          let IconComponent = null;
+
+                          switch (iconConfig.name) {
+                            case 'window':
+                              IconComponent = WindowIcon;
+                              break;
+                            case 'apps':
+                              IconComponent = AppsIcon;
+                              break;
+                            case 'view_grid':
+                              IconComponent = ViewCompactIcon;
+                              break;
+                            default:
+                              IconComponent = null;
+                          }
+
+                          return (
+                            IconComponent && (
+                              <IconComponent
+                                key={index}
+                                onClick={() => handleActiveIcons(iconConfig.name)}
+                                sx={{
+                                  paddingRight: iconConfig.name === 'view_grid' ? "2px" : "8px",
+                                  fontSize: iconConfig.name === 'view_grid' ? "1.9rem" : "1.8rem",
+                                  color: isActive ? "#000" : "#A2A2A2",
+                                  cursor: "pointer",
+                                }}
+                              />
+                            )
+                          );
+                        })}
                       </div>
                     </div>
                   </>
@@ -1446,9 +1501,18 @@ const ProductList = () => {
                       <>
                         <div className="elv_filtered_data_category ">
                           <div className="elv_filtered_category_div ">
-                            <span className="elv_filtered_data_span">
-                              Filter
-                            </span>
+                            <div className="elv_filtered_data_div_filter">
+                              <div className="elv_filtered_data_text">
+                                Filter
+                              </div>
+                              <div className="elv_filter_data_clearAll" onClick={() => handelFilterClearAll()}>
+                                {Object.values(filterChecked).filter(
+                                  (ele) => ele.checked
+                                )?.length > 0
+                                  ? "Clear All"
+                                  : <span>{`Total Products: ${afterFilterCount}`}</span>}
+                              </div>
+                            </div>
                             {filterData?.map((item, index) => {
                               return (
                                 <>
@@ -1472,12 +1536,11 @@ const ProductList = () => {
                                           ).map((opt) => {
                                             return (
                                               <>
-                                                <div
-                                                  className="elv_subCategory_name"
+                                                <FormControlLabel
+                                                  className="elv_subCategory_name_allfilter"
                                                   key={opt?.id}
-                                                >
-                                                  <div>{opt.Name}</div>
-                                                  <div>
+                                                  label={opt.Name}
+                                                  control={
                                                     <Checkbox
                                                       name={`${item?.id}${opt?.id}`}
                                                       checked={
@@ -1506,8 +1569,8 @@ const ProductList = () => {
                                                       }}
                                                       size="small"
                                                     />
-                                                  </div>
-                                                </div>
+                                                  }
+                                                />
                                               </>
                                             );
                                           })}
@@ -1607,7 +1670,7 @@ const ProductList = () => {
                                       </AccordionDetails>
                                     </Accordion>
                                   )}
-                                  {/* {item?.Name?.includes("Diamond") && (
+                                  {item?.Name?.includes("Diamond") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
                                         expandIcon={
@@ -1699,7 +1762,7 @@ const ProductList = () => {
                                         </Box>
                                       </AccordionDetails>
                                     </Accordion>
-                                  )} */}
+                                  )}
                                 </>
                               );
                             })}
@@ -1733,41 +1796,45 @@ const ProductList = () => {
                                     <AccordionDetails>
                                       {(JSON.parse(item?.options) ?? []).map(
                                         (opt) => (
-                                          <div
+                                          <FormControlLabel
                                             className="elv_subCategory_name"
                                             key={opt?.id}
-                                          >
-                                            <Checkbox
-                                              name={`${item?.id}${opt?.id}`}
-                                              checked={
-                                                filterChecked[
-                                                  `${item?.id}${opt?.id}`
-                                                ]?.checked === undefined
-                                                  ? false
-                                                  : filterChecked[
+                                            label={opt.Name}
+                                            sx={{ width: '12rem', display: 'flex', justifyContent: 'space-between', marginInline: '0.5rem', padding: '4px 16px 4px' }}
+                                            control={
+                                              <Checkbox
+                                                name={`${item?.id}${opt?.id}`}
+                                                checked={
+                                                  filterChecked[
                                                     `${item?.id}${opt?.id}`
-                                                  ]?.checked
-                                              }
-                                              style={{
-                                                color: "#7f7d85",
-                                                padding: 0,
-                                                width: "10px",
-                                              }}
-                                              onClick={(e) =>
-                                                handleCheckboxChange(
-                                                  e,
-                                                  item?.id,
-                                                  opt?.Name
-                                                )
-                                              }
-                                              size="small"
-                                            />
-                                            <span
-                                              style={{ paddingLeft: "10px" }}
-                                            >
-                                              {opt.Name}
-                                            </span>
-                                          </div>
+                                                  ]?.checked === undefined
+                                                    ? false
+                                                    : filterChecked[
+                                                      `${item?.id}${opt?.id}`
+                                                    ]?.checked
+                                                }
+                                                style={{
+                                                  color: "#7f7d85",
+                                                  padding: 0,
+                                                  width: "10px",
+                                                }}
+                                                onClick={(e) =>
+                                                  handleCheckboxChange(
+                                                    e,
+                                                    item?.id,
+                                                    opt?.Name
+                                                  )
+                                                }
+                                                size="small"
+                                              />
+                                            }
+                                          />
+
+                                          // {/* <span
+                                          //   style={{ paddingLeft: "10px" }}
+                                          // >
+
+                                          // </span> */}
                                         )
                                       )}
                                     </AccordionDetails>
@@ -1787,1015 +1854,140 @@ const ProductList = () => {
                           <>
                             <div className="elv_filtered_data_by_grid_other">
                               <div className="elv_filtered_data_grid_div">
-                                {activeIcon === "window" && (
-                                  // <>
-                                  //   {productListData?.map((item, index) => {
-                                  //     // const videoUrl = getDynamicVideo(
-                                  //     //   item?.designno,
-                                  //     //   item?.ImageCount,
-                                  //     //   item?.ImageExtension
-                                  //     // );
-                                  //     // const rollUpImage = getDynamicVideo(
-                                  //     //   item?.designno,
-                                  //     //   item?.ImageCount,
-                                  //     //   item?.ImageExtension
-                                  //     // );
-
-
-                                  //     return (
-                                  //       <div
-                                  //         className="elv_filtered_prodlists_1"
-                                  //         style={{
-                                  //           maxWidth: "calc(100% / 2)",
-                                  //           cursor: "pointer",
-                                  //         }}
-                                  //         key={index}
-                                  //         onClick={() =>
-                                  //           handleMoveToDetail(item)
-                                  //         }
-                                  //       >
-                                  //         <div className="elv_filtered_prods">
-                                  //           <div className="elv_filtered_icons">
-                                  //             <div>
-                                  //               <LocalMallOutlinedIcon border="#CBC7C7" />
-                                  //             </div>
-                                  //             <div>
-                                  //               <FavoriteBorderIcon border="#CBC7C7" />
-                                  //             </div>
-                                  //           </div>
-                                  //           <div
-                                  //             style={{
-                                  //               display: "flex",
-                                  //               justifyContent: "center",
-                                  //               alignItems: "center",
-                                  //             }}
-                                  //           >
-                                  //             <div
-                                  //               style={{
-                                  //                 display: "flex",
-                                  //                 justifyContent:
-                                  //                   "space-between",
-                                  //                 flexDirection: "column",
-                                  //                 alignItems: "center",
-                                  //               }}
-                                  //               onMouseOver={() =>
-                                  //                 setIsHover(true)
-                                  //               }
-                                  //               onMouseOut={() =>
-                                  //                 setIsHover(false)
-                                  //               }
-                                  //               onMouseLeave={() =>
-                                  //                 setIsHover(false)
-                                  //               }
-                                  //             >
-                                  //               {/* {isHover &&
-                                  //                 (videoUrl !== undefined ||
-                                  //                   rollUpImage !== undefined) ? (
-                                  //                 <>
-                                  //                   {videoUrl !== undefined ? (
-                                  //                     <div className="rollup_video">
-                                  //                       <video
-                                  //                         src={videoUrl}
-                                  //                         autoPlay
-                                  //                         muted
-                                  //                         loop
-                                  //                       ></video>
-                                  //                     </div>
-                                  //                   ) : null}
-
-                                  //                   {videoUrl === undefined &&
-                                  //                     rollUpImage !==
-                                  //                     undefined ? (
-                                  //                     <div className="rollup_img">
-                                  //                       <img
-                                  //                         src={rollUpImage}
-                                  //                         alt="Roll Up Image"
-                                  //                       />
-                                  //                     </div>
-                                  //                   ) : null}
-                                  //                 </>
-                                  //               ) : null} */}
-                                  //               <img
-                                  //                 className="elv_filtered_image_1"
-                                  //                 src={`${getDesignImageFol}/${item?.designno
-                                  //                   }_${item?.ImageCount > 0
-                                  //                     ? item?.ImageCount
-                                  //                     : 1
-                                  //                   }.${item?.ImageExtension}`}
-                                  //               />
-                                  //               {item?.TitleLine ? (
-                                  //                 <span
-                                  //                   className="elv_titleline"
-                                  //                   style={{
-                                  //                     fontFamily:
-                                  //                       '"PT Sans", sans-serif',
-                                  //                     color: "#B2B0B0",
-                                  //                     fontSize: "14px",
-                                  //                     visibility: "visible", // Always visible when item?.TitleLine exists
-                                  //                     display: "inline-block",
-                                  //                     minWidth: "1em",
-                                  //                     letterSpacing: "0.35px",
-                                  //                     lineHeight: "21px",
-                                  //                   }}
-                                  //                 >
-                                  //                   {item?.TitleLine}
-                                  //                 </span>
-                                  //               ) : (
-                                  //                 <span
-                                  //                   className="elv_titleline"
-                                  //                   style={{
-                                  //                     fontFamily:
-                                  //                       '"PT Sans", sans-serif',
-                                  //                     color: "#B2B0B0",
-                                  //                     fontSize: "14px",
-                                  //                     visibility: "hidden",
-                                  //                     display: "inline-block",
-                                  //                     minWidth: "1em",
-                                  //                     paddingBlock: "18px",
-                                  //                     letterSpacing: "0.35px",
-                                  //                     lineHeight: "21px",
-                                  //                   }}
-                                  //                 >
-                                  //                   {item?.TitleLine}
-                                  //                 </span>
-                                  //               )}
-                                  //             </div>
-                                  //           </div>
-                                  //           <div className="elv_filtered_prod_details">
-                                  //             <div className="elv_filtered_prod_weights">
-                                  //               <div
-                                  //                 style={{ display: "flex" }}
-                                  //               >
-                                  //                 <span className="elv_prod_weight_span_1">
-                                  //                   NWT&nbsp;:{" "}
-                                  //                 </span>
-                                  //                 <span className="elv_prod_weight_span_2">
-                                  //                   &nbsp;{item?.Nwt.toFixed(3)}
-                                  //                 </span>
-                                  //               </div>
-                                  //               <div
-                                  //                 style={{ display: "flex" }}
-                                  //               >
-                                  //                 <span className="elv_prod_weight_span_1">
-                                  //                   DWT&nbsp;:{" "}
-                                  //                 </span>
-                                  //                 <span className="elv_prod_weight_span_2">
-                                  //                   &nbsp;{item?.Dwt.toFixed(3)}
-                                  //                   /{item?.Dpcs}
-                                  //                 </span>
-                                  //               </div>
-                                  //               <div
-                                  //                 style={{ display: "flex" }}
-                                  //               >
-                                  //                 <span className="elv_prod_weight_span_1">
-                                  //                   GWT&nbsp;:{" "}
-                                  //                 </span>
-                                  //                 <span className="elv_prod_weight_span_2">
-                                  //                   &nbsp;{item?.Gwt.toFixed(3)}
-                                  //                 </span>
-                                  //               </div>
-                                  //             </div>
-                                  //             <div className="elv_filtered_prod_price">
-                                  //               <span className="elv_prod_weight_span_1">
-                                  //                 {item?.designno}
-                                  //               </span>
-                                  //               <span
-                                  //                 style={{
-                                  //                   fontWeight: "bold",
-                                  //                   textAlign: "left",
-                                  //                   fontSize: "17px",
-                                  //                 }}
-                                  //               >
-                                  //                 ₹{item?.UnitCostWithMarkUp}
-                                  //               </span>
-                                  //             </div>
-                                  //           </div>
-                                  //         </div>
-                                  //       </div>
-                                  //     );
-                                  //   })}
-                                  // </>
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_1'}
-                                        class2={'elv_filtered_image_1'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 2)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
+                                {activeIconsBtns.map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                                {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "5%",
+                                        width: '100%'
+                                      }}
+                                    >
+                                      <Pagination
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                        size={maxwidth464px ? "small" : "large"}
+                                        shape="circular"
+                                        onChange={handelPageChange}
+                                        page={currPage}
+                                        showFirstButton
+                                        showLastButton
                                       />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "apps" && (
-                                  // <>
-                                  //   {productListData?.map((item, index) => {
-                                  //     return (
-                                  //       <>
-                                  //         <div
-                                  //           className="elv_filtered_prodlists_2"
-                                  //           style={{
-                                  //             maxWidth: "calc(100% / 3)",
-                                  //             cursor: "pointer",
-                                  //           }}
-                                  //           key={index}
-                                  //           onClick={() =>
-                                  //             handleMoveToDetail(item)
-                                  //           }
-                                  //         >
-                                  //           <div className="elv_filtered_prods">
-                                  //             <div className="elv_filtered_icons">
-                                  //               <div>
-                                  //                 <LocalMallOutlinedIcon border="#CBC7C7" />
-                                  //               </div>
-                                  //               <div>
-                                  //                 <FavoriteBorderIcon border="#CBC7C7" />
-                                  //               </div>
-                                  //             </div>
-                                  //             <div
-                                  //               style={{
-                                  //                 display: "flex",
-                                  //                 justifyContent: "center",
-                                  //                 alignItems: "center",
-                                  //               }}
-                                  //             >
-                                  //               <div
-                                  //                 style={{
-                                  //                   display: "flex",
-                                  //                   justifyContent:
-                                  //                     "space-between",
-                                  //                   flexDirection: "column",
-                                  //                   alignItems: "center",
-                                  //                 }}
-                                  //               >
-                                  //                 <img
-                                  //                   className="elv_filtered_image_2"
-                                  //                   src={`${getDesignImageFol}/${item?.designno
-                                  //                     }_${item?.ImageCount > 0
-                                  //                       ? item?.ImageCount
-                                  //                       : 1
-                                  //                     }.${item?.ImageExtension}`}
-                                  //                 />
-                                  //                 {item?.TitleLine ? (
-                                  //                   <span
-                                  //                     className="elv_titleline"
-                                  //                     style={{
-                                  //                       fontFamily:
-                                  //                         '"PT Sans", sans-serif',
-                                  //                       color: "#B2B0B0",
-                                  //                       fontSize: "14px",
-                                  //                       visibility: "visible", // Always visible when item?.TitleLine exists
-                                  //                       display: "inline-block",
-                                  //                       minWidth: "1em",
-                                  //                       letterSpacing: "0.35px",
-                                  //                       lineHeight: "21px",
-                                  //                     }}
-                                  //                   >
-                                  //                     {item?.TitleLine}
-                                  //                   </span>
-                                  //                 ) : (
-                                  //                   <span
-                                  //                     className="elv_titleline"
-                                  //                     style={{
-                                  //                       fontFamily:
-                                  //                         '"PT Sans", sans-serif',
-                                  //                       color: "#B2B0B0",
-                                  //                       fontSize: "14px",
-                                  //                       visibility: "hidden",
-                                  //                       display: "inline-block",
-                                  //                       minWidth: "1em",
-                                  //                       paddingBlock: "18px",
-                                  //                       letterSpacing: "0.35px",
-                                  //                       lineHeight: "21px",
-                                  //                     }}
-                                  //                   >
-                                  //                     {item?.TitleLine}
-                                  //                   </span>
-                                  //                 )}
-                                  //               </div>
-                                  //             </div>
-                                  //             <div className="elv_filtered_prod_details">
-                                  //               <div className="elv_filtered_prod_weights">
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     NWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Nwt.toFixed(3)}
-                                  //                   </span>
-                                  //                 </div>
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     DWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Dwt.toFixed(3)}/
-                                  //                     {item?.Dpcs}
-                                  //                   </span>
-                                  //                 </div>
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     GWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Gwt.toFixed(3)}
-                                  //                   </span>
-                                  //                 </div>
-                                  //               </div>
-                                  //               <div className="elv_filtered_prod_price">
-                                  //                 <span className="elv_prod_weight_span_1">
-                                  //                   {item?.designno}
-                                  //                 </span>
-                                  //                 <span
-                                  //                   style={{
-                                  //                     fontWeight: "bold",
-                                  //                     textAlign: "left",
-                                  //                     fontSize: "17px",
-                                  //                   }}
-                                  //                 >
-                                  //                   ₹{item?.UnitCostWithMarkUp}
-                                  //                 </span>
-                                  //               </div>
-                                  //             </div>
-                                  //           </div>
-                                  //         </div>
-                                  //       </>
-                                  //     );
-                                  //   })}
-                                  // </>
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_2'}
-                                        class2={'elv_filtered_image_2'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 3)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "view_grid" && (
-                                  // <>
-                                  //   {productListData?.map((item, index) => {
-                                  //     return (
-                                  //       <>
-                                  //         <div
-                                  //           className="elv_filtered_prodlists_3"
-                                  //           style={{
-                                  //             maxWidth: "calc(100% / 4)",
-                                  //             cursor: "pointer",
-                                  //           }}
-                                  //           key={index}
-                                  //           onClick={() =>
-                                  //             handleMoveToDetail(item)
-                                  //           }
-                                  //         >
-                                  //           <div className="elv_filtered_prods">
-                                  //             <div className="elv_filtered_icons">
-                                  //               <div>
-                                  //                 <LocalMallOutlinedIcon border="#CBC7C7" />
-                                  //               </div>
-                                  //               <div>
-                                  //                 <FavoriteBorderIcon border="#CBC7C7" />
-                                  //               </div>
-                                  //             </div>
-                                  //             <div
-                                  //               style={{
-                                  //                 display: "flex",
-                                  //                 justifyContent: "center",
-                                  //                 alignItems: "center",
-                                  //               }}
-                                  //             >
-                                  //               <div
-                                  //                 style={{
-                                  //                   display: "flex",
-                                  //                   justifyContent:
-                                  //                     "space-between",
-                                  //                   flexDirection: "column",
-                                  //                   alignItems: "center",
-                                  //                 }}
-                                  //               >
-                                  //                 <img
-                                  //                   className="elv_filtered_image_3"
-                                  //                   src={`${getDesignImageFol}/${item?.designno
-                                  //                     }_${item?.ImageCount > 0
-                                  //                       ? item?.ImageCount
-                                  //                       : 1
-                                  //                     }.${item?.ImageExtension}`}
-                                  //                 />
-                                  //                 {item?.TitleLine ? (
-                                  //                   <span
-                                  //                     className="elv_titleline"
-                                  //                     style={{
-                                  //                       fontFamily:
-                                  //                         '"PT Sans", sans-serif',
-                                  //                       color: "#B2B0B0",
-                                  //                       fontSize: "14px",
-                                  //                       visibility: "visible", // Always visible when item?.TitleLine exists
-                                  //                       display: "inline-block",
-                                  //                       minWidth: "1em",
-                                  //                       letterSpacing: "0.35px",
-                                  //                       lineHeight: "21px",
-                                  //                     }}
-                                  //                   >
-                                  //                     {item?.TitleLine}
-                                  //                   </span>
-                                  //                 ) : (
-                                  //                   <span
-                                  //                     className="elv_titleline"
-                                  //                     style={{
-                                  //                       fontFamily:
-                                  //                         '"PT Sans", sans-serif',
-                                  //                       color: "#B2B0B0",
-                                  //                       fontSize: "14px",
-                                  //                       visibility: "hidden",
-                                  //                       display: "inline-block",
-                                  //                       minWidth: "1em",
-                                  //                       paddingBlock: "18px",
-                                  //                       letterSpacing: "0.35px",
-                                  //                       lineHeight: "21px",
-                                  //                     }}
-                                  //                   >
-                                  //                     {item?.TitleLine}
-                                  //                   </span>
-                                  //                 )}
-                                  //               </div>
-                                  //             </div>
-                                  //             <div className="elv_filtered_prod_details">
-                                  //               <div className="elv_filtered_prod_weights">
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     NWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Nwt.toFixed(3)}
-                                  //                   </span>
-                                  //                 </div>
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     DWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Dwt.toFixed(3)}/
-                                  //                     {item?.Dpcs}
-                                  //                   </span>
-                                  //                 </div>
-                                  //                 <div
-                                  //                   style={{ display: "flex" }}
-                                  //                 >
-                                  //                   <span className="elv_prod_weight_span_1">
-                                  //                     GWT&nbsp;:{" "}
-                                  //                   </span>
-                                  //                   <span className="elv_prod_weight_span_2">
-                                  //                     &nbsp;
-                                  //                     {item?.Gwt.toFixed(3)}
-                                  //                   </span>
-                                  //                 </div>
-                                  //               </div>
-                                  //               <div className="elv_filtered_prod_price">
-                                  //                 <span className="elv_prod_weight_span_1">
-                                  //                   {item?.designno}
-                                  //                 </span>
-                                  //                 <span
-                                  //                   style={{
-                                  //                     fontWeight: "bold",
-                                  //                     textAlign: "left",
-                                  //                     fontSize: "17px",
-                                  //                   }}
-                                  //                 >
-                                  //                   ₹{item?.UnitCostWithMarkUp}
-                                  //                 </span>
-                                  //               </div>
-                                  //             </div>
-                                  //           </div>
-                                  //         </div>
-                                  //       </>
-                                  //     );
-                                  //   })}
-                                  // </>
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_3'}
-                                        class2={'elv_filtered_image_3'}
-                                        productData={item}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        calcVal={"calc(100% / 4)"}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "single-view" && (
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_4'}
-                                        class2={'elv_filtered_image_4'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 1)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "double-view" && (
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_5'}
-                                        class2={'elv_filtered_image_5'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 2)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
+                                    </div>
+                                  )}
                               </div>
                             </div>
                           </>
                         ) : (
+
                           <>
                             <div className="elv_filtered_data_by_grid">
                               <div className="elv_filtered_data_grid_div">
-                                {activeIcon === "window" && (
+                                {openGridModal ? (
                                   <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_1'}
-                                        class2={'elv_filtered_image_1'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 2)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
+                                    {activeIconsBtns.map((iconConfig, index) => {
+                                      const isActive = iconConfig.name === activeIcon;
+                                      return (
+                                        isActive && (
+                                          <React.Fragment key={index}>
+                                            {productListData.map((item, productIndex) => (
+                                              <Product_Card
+                                                key={productIndex}
+                                                class1={iconConfig.class1}
+                                                class2={iconConfig.class2}
+                                                productData={item}
+                                                calcVal={iconConfig.calcWidth}
+                                                handleCartandWish={handleCartandWish}
+                                                cartArr={cartArr}
+                                                wishArr={wishArr}
+                                                imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                                videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                                RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                                handleMoveToDetail={handleMoveToDetail}
+                                              />
+                                            ))}
+                                          </React.Fragment>
+                                        )
+                                      );
+                                    })}
+                                  </>
+                                ) :
+                                  <>
+                                    {activeIconsBtns.map((iconConfig, index) => {
+                                      const isActive = iconConfig.name === activeIcon;
+                                      return (
+                                        isActive && (
+                                          <React.Fragment key={index}>
+                                            {productListData.map((item, productIndex) => (
+                                              <Product_Card
+                                                key={productIndex}
+                                                class1={iconConfig.class1}
+                                                class2={iconConfig.class2}
+                                                productData={item}
+                                                calcVal={iconConfig.calcWidth}
+                                                handleCartandWish={handleCartandWish}
+                                                cartArr={cartArr}
+                                                wishArr={wishArr}
+                                                imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                                videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                                RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                                handleMoveToDetail={handleMoveToDetail}
+                                              />
+                                            ))}
+                                          </React.Fragment>
+                                        )
+                                      );
+                                    })}
+                                  </>
+                                }
+
+                                {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "5%",
+                                        width: '100%'
+                                      }}
+                                    >
+                                      <Pagination
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                        size={maxwidth464px ? "small" : "large"}
+                                        shape="circular"
+                                        onChange={handelPageChange}
+                                        page={currPage}
+                                        showFirstButton
+                                        showLastButton
+
                                       />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "apps" && (
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        i={index}
-                                        class1={'elv_filtered_prodlists_2'}
-                                        class2={'elv_filtered_image_2'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 3)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
-                                {activeIcon === "view_grid" && (
-                                  <>
-                                    {productListData?.map((item, index) => (
-                                      <Product_Card
-                                        key={index}
-                                        class1={'elv_filtered_prodlists_3'}
-                                        class2={'elv_filtered_image_3'}
-                                        productData={item}
-                                        calcVal={"calc(100% / 4)"}
-                                        handleCartandWish={handleCartandWish}
-                                        cartArr={cartArr}
-                                        wishArr={wishArr}
-                                        imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                        RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                        handleMoveToDetail={handleMoveToDetail}
-                                      />
-                                    ))}
-                                  </>
-                                )}
-                                {openGridModal && (
-                                  <>
-                                    {activeIcon === "single-view" && (
-                                      // <>
-                                      //   {productListData?.map((item, index) => {
-                                      //     return (
-                                      //       <>
-                                      //         <div
-                                      //           className="elv_filtered_prodlists_4"
-                                      //           style={{
-                                      //             maxWidth: "calc(100% / 1)",
-                                      //             cursor: "pointer",
-                                      //           }}
-                                      //           key={index}
-                                      //           onClick={() =>
-                                      //             handleMoveToDetail(item)
-                                      //           }
-                                      //         >
-                                      //           <div className="elv_filtered_prods">
-                                      //             <div className="elv_filtered_icons">
-                                      //               <div>
-                                      //                 <LocalMallOutlinedIcon border="#CBC7C7" />
-                                      //               </div>
-                                      //               <div>
-                                      //                 <FavoriteBorderIcon border="#CBC7C7" />
-                                      //               </div>
-                                      //             </div>
-                                      //             <div
-                                      //               style={{
-                                      //                 display: "flex",
-                                      //                 justifyContent: "center",
-                                      //                 alignItems: "center",
-                                      //               }}
-                                      //             >
-                                      //               <div
-                                      //                 style={{
-                                      //                   display: "flex",
-                                      //                   justifyContent:
-                                      //                     "space-between",
-                                      //                   flexDirection: "column",
-                                      //                   alignItems: "center",
-                                      //                 }}
-                                      //               >
-                                      //                 <img
-                                      //                   className="elv_filtered_image_4"
-                                      //                   src={`${getDesignImageFol}/${item?.designno
-                                      //                     }_${item?.ImageCount > 0
-                                      //                       ? item?.ImageCount
-                                      //                       : 1
-                                      //                     }.${item?.ImageExtension
-                                      //                     }`}
-                                      //                 />
-                                      //                 {item?.TitleLine ? (
-                                      //                   <span
-                                      //                     className="elv_titleline"
-                                      //                     style={{
-                                      //                       fontFamily:
-                                      //                         '"PT Sans", sans-serif',
-                                      //                       color: "#B2B0B0",
-                                      //                       fontSize: "14px",
-                                      //                       visibility:
-                                      //                         "visible", // Always visible when item?.TitleLine exists
-                                      //                       display:
-                                      //                         "inline-block",
-                                      //                       minWidth: "1em",
-                                      //                       letterSpacing:
-                                      //                         "0.35px",
-                                      //                       lineHeight: "21px",
-                                      //                     }}
-                                      //                   >
-                                      //                     {item?.TitleLine}
-                                      //                   </span>
-                                      //                 ) : (
-                                      //                   <span
-                                      //                     className="elv_titleline"
-                                      //                     style={{
-                                      //                       fontFamily:
-                                      //                         '"PT Sans", sans-serif',
-                                      //                       color: "#B2B0B0",
-                                      //                       fontSize: "14px",
-                                      //                       visibility:
-                                      //                         "hidden",
-                                      //                       display:
-                                      //                         "inline-block",
-                                      //                       minWidth: "1em",
-                                      //                       paddingBlock:
-                                      //                         "18px",
-                                      //                       letterSpacing:
-                                      //                         "0.35px",
-                                      //                       lineHeight: "21px",
-                                      //                     }}
-                                      //                   >
-                                      //                     {item?.TitleLine}
-                                      //                   </span>
-                                      //                 )}
-                                      //               </div>
-                                      //             </div>
-                                      //             <div className="elv_filtered_prod_details">
-                                      //               <div className="elv_filtered_prod_weights">
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     NWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Nwt.toFixed(3)}
-                                      //                   </span>
-                                      //                 </div>
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     DWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Dwt.toFixed(3)}
-                                      //                     /{item?.Dpcs}
-                                      //                   </span>
-                                      //                 </div>
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     GWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Gwt.toFixed(3)}
-                                      //                   </span>
-                                      //                 </div>
-                                      //               </div>
-                                      //               <div className="elv_filtered_prod_price">
-                                      //                 <span className="elv_prod_weight_span_1">
-                                      //                   {item?.designno}
-                                      //                 </span>
-                                      //                 <span
-                                      //                   style={{
-                                      //                     fontWeight: "bold",
-                                      //                     textAlign: "left",
-                                      //                     fontSize: "17px",
-                                      //                   }}
-                                      //                 >
-                                      //                   ₹
-                                      //                   {
-                                      //                     item?.UnitCostWithMarkUp
-                                      //                   }
-                                      //                 </span>
-                                      //               </div>
-                                      //             </div>
-                                      //           </div>
-                                      //         </div>
-                                      //       </>
-                                      //     );
-                                      //   })}
-                                      // </>
-                                      <>
-                                        {productListData?.map((item, index) => (
-                                          <Product_Card
-                                            key={index}
-                                            class1={'elv_filtered_prodlists_4'}
-                                            class2={'elv_filtered_image_4'}
-                                            productData={item}
-                                            calcVal={"calc(100% / 1)"}
-                                            handleCartandWish={handleCartandWish}
-                                            cartArr={cartArr}
-                                            wishArr={wishArr}
-                                            imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                            videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                            RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                            handleMoveToDetail={handleMoveToDetail}
-                                          />
-                                        ))}
-                                      </>
-                                    )}
-                                    {activeIcon === "double-view" && (
-                                      // <>
-                                      //   {productListData?.map((item, index) => {
-                                      //     return (
-                                      //       <>
-                                      //         <div
-                                      //           className="elv_filtered_prodlists_5"
-                                      //           style={{
-                                      //             maxWidth: "calc(100% / 2)",
-                                      //             cursor: "pointer",
-                                      //           }}
-                                      //           key={index}
-                                      //           onClick={() =>
-                                      //             handleMoveToDetail(item)
-                                      //           }
-                                      //         >
-                                      //           <div className="elv_filtered_prods">
-                                      //             <div className="elv_filtered_icons">
-                                      //               <div>
-                                      //                 <LocalMallOutlinedIcon border="#CBC7C7" />
-                                      //               </div>
-                                      //               <div>
-                                      //                 <FavoriteBorderIcon border="#CBC7C7" />
-                                      //               </div>
-                                      //             </div>
-                                      //             <div
-                                      //               style={{
-                                      //                 display: "flex",
-                                      //                 justifyContent: "center",
-                                      //                 alignItems: "center",
-                                      //               }}
-                                      //             >
-                                      //               <div
-                                      //                 style={{
-                                      //                   display: "flex",
-                                      //                   justifyContent:
-                                      //                     "space-between",
-                                      //                   flexDirection: "column",
-                                      //                   alignItems: "center",
-                                      //                 }}
-                                      //               >
-                                      //                 <img
-                                      //                   className="elv_filtered_image_5"
-                                      //                   src={`${getDesignImageFol}/${item?.designno
-                                      //                     }_${item?.ImageCount > 0
-                                      //                       ? item?.ImageCount
-                                      //                       : 1
-                                      //                     }.${item?.ImageExtension
-                                      //                     }`}
-                                      //                 />
-                                      //                 {item?.TitleLine ? (
-                                      //                   <span
-                                      //                     className="elv_titleline"
-                                      //                     style={{
-                                      //                       fontFamily:
-                                      //                         '"PT Sans", sans-serif',
-                                      //                       color: "#B2B0B0",
-                                      //                       fontSize: "14px",
-                                      //                       visibility:
-                                      //                         "visible", // Always visible when item?.TitleLine exists
-                                      //                       display:
-                                      //                         "inline-block",
-                                      //                       minWidth: "1em",
-                                      //                       letterSpacing:
-                                      //                         "0.35px",
-                                      //                       lineHeight: "21px",
-                                      //                     }}
-                                      //                   >
-                                      //                     {item?.TitleLine}
-                                      //                   </span>
-                                      //                 ) : (
-                                      //                   <span
-                                      //                     className="elv_titleline"
-                                      //                     style={{
-                                      //                       fontFamily:
-                                      //                         '"PT Sans", sans-serif',
-                                      //                       color: "#B2B0B0",
-                                      //                       fontSize: "14px",
-                                      //                       visibility:
-                                      //                         "hidden",
-                                      //                       display:
-                                      //                         "inline-block",
-                                      //                       minWidth: "1em",
-                                      //                       paddingBlock:
-                                      //                         "18px",
-                                      //                       letterSpacing:
-                                      //                         "0.35px",
-                                      //                       lineHeight: "21px",
-                                      //                     }}
-                                      //                   >
-                                      //                     {item?.TitleLine}
-                                      //                   </span>
-                                      //                 )}
-                                      //               </div>
-                                      //             </div>
-                                      //             <div className="elv_filtered_prod_details">
-                                      //               <div className="elv_filtered_prod_weights">
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     NWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Nwt.toFixed(3)}
-                                      //                   </span>
-                                      //                 </div>
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     DWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Dwt.toFixed(3)}
-                                      //                     /{item?.Dpcs}
-                                      //                   </span>
-                                      //                 </div>
-                                      //                 <div
-                                      //                   style={{
-                                      //                     display: "flex",
-                                      //                   }}
-                                      //                 >
-                                      //                   <span className="elv_prod_weight_span_1">
-                                      //                     GWT&nbsp;:{" "}
-                                      //                   </span>
-                                      //                   <span className="elv_prod_weight_span_2">
-                                      //                     &nbsp;
-                                      //                     {item?.Gwt.toFixed(3)}
-                                      //                   </span>
-                                      //                 </div>
-                                      //               </div>
-                                      //               <div className="elv_filtered_prod_price">
-                                      //                 <span className="elv_prod_weight_span_1">
-                                      //                   {item?.designno}
-                                      //                 </span>
-                                      //                 <span
-                                      //                   style={{
-                                      //                     fontWeight: "bold",
-                                      //                     textAlign: "left",
-                                      //                     fontSize: "17px",
-                                      //                   }}
-                                      //                 >
-                                      //                   ₹
-                                      //                   {
-                                      //                     item?.UnitCostWithMarkUp
-                                      //                   }
-                                      //                 </span>
-                                      //               </div>
-                                      //             </div>
-                                      //           </div>
-                                      //         </div>
-                                      //       </>
-                                      //     );
-                                      //   })}
-                                      // </>
-                                      <>
-                                        {productListData?.map((item, index) => (
-                                          <Product_Card
-                                            key={index}
-                                            class1={'elv_filtered_prodlists_5'}
-                                            class2={'elv_filtered_image_5'}
-                                            productData={item}
-                                            calcVal={"calc(100% / 2)"}
-                                            handleCartandWish={handleCartandWish}
-                                            cartArr={cartArr}
-                                            wishArr={wishArr}
-                                            imageUrl={getDynamicImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                            videoUrl={getDynamicVideo(item?.designno, item?.VideoCount, item?.VideoExtension)}
-                                            RollImageUrl={getDynamicRollImages(item?.designno, item?.ImageCount, item?.ImageExtension)}
-                                            handleMoveToDetail={handleMoveToDetail}
-                                          />
-                                        ))}
-                                      </>
-                                    )}
-                                  </>
-                                )}
+                                    </div>
+                                  )}
                               </div>
                             </div>
                           </>
@@ -2826,7 +2018,7 @@ const Product_Card = ({
   wishArr,
   RollImageUrl,
   imageUrl,
-  handleMoveToDetail ,
+  handleMoveToDetail,
 }) => {
   const [isHover, setIsHover] = useState(false);
   return (
@@ -2841,20 +2033,20 @@ const Product_Card = ({
           <div className="elv_filtered_icons">
             <div>
               <Checkbox
-                 icon={<LocalMallOutlinedIcon sx={{ fontSize: "22px", color: "#009500", opacity: ".7" }} />}
-                 checkedIcon={<LocalMallIcon sx={{ fontSize: "22px", color: "#009500" }} />}
-                 disableRipple={false}
-                 sx={{ padding: "10px" }}
-                 onChange={(e) =>
+                icon={<LocalMallOutlinedIcon sx={{ fontSize: "22px", color: "#009500", opacity: ".7" }} />}
+                checkedIcon={<LocalMallIcon sx={{ fontSize: "22px", color: "#009500" }} />}
+                disableRipple={false}
+                sx={{ padding: "10px" }}
+                onChange={(e) =>
                   handleCartandWish(e, productData, "Cart")
                 }
                 checked={
                   cartArr[productData?.autocode] ??
-                  productData?.IsInCart === 1
+                    productData?.IsInCart === 1
                     ? true
                     : false
                 }
-               />
+              />
             </div>
             <div>
               <Checkbox
@@ -2882,7 +2074,7 @@ const Product_Card = ({
                 }
                 checked={
                   wishArr[productData?.autocode] ??
-                  productData?.IsInWish === 1
+                    productData?.IsInWish === 1
                     ? true
                     : false
                 }
@@ -2934,7 +2126,7 @@ const Product_Card = ({
               />
             </div>
           </div>
-          <div className="pd">
+          <div className="elv_pd">
             {productData?.TitleLine ? (
               <span className="elv_prod_titleline_visible" >
                 {productData?.TitleLine}

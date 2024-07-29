@@ -7,13 +7,15 @@ import CartList from './CartList';
 import Modal from '@mui/material/Modal';
 import SelectedItemsModal from './SelectedModal';
 import noImageFound from "../../Assets/image-not-found.jpg"
+import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
-import { Box, Breadcrumbs, FormControl, Typography } from '@mui/material';
+import { Box, Breadcrumbs, CircularProgress, FormControl, Typography } from '@mui/material';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import { useSetRecoilState } from 'recoil';
 import { el_CartCount } from '../../Recoil/atom';
 import RemarkDialog from './OrderRemarkDialog';
 import { OrderFlowCrumbs } from './OrderFlowCrumbs';
+import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartPage = () => {
   const {
@@ -63,6 +65,7 @@ const CartPage = () => {
   } = useCart();
 
   const navigate = useNavigate();
+  const visiterId = Cookies.get('visiterId');
 
   const getTotalPrice = [];
   const totalPrice = cartData?.reduce((total, item) => total + item?.FinalCost, 0)
@@ -73,13 +76,6 @@ const CartPage = () => {
   useEffect(() => {
     localStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
   }, [getTotalPrice])
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
 
   const [border, setBorder] = useState(false);
   const [open, setOpen] = useState(false);
@@ -101,16 +97,13 @@ const CartPage = () => {
     setBorder(!border);
   }
 
-  const handleConfirmRemoveAll = () => {
-    handleRemoveAll();
-    setTimeout(() => {
-      if (countStatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
+  const handleConfirmRemoveAll = async () => {
+    const returnValue = await handleRemoveAll();
+    if (returnValue?.msg == 'success') {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   };
 
   const style = {
@@ -134,8 +127,28 @@ const CartPage = () => {
     navigate('/Delivery');
   }
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
+
   return (
     <>
+      {isloding && (
+        <div style={{
+          width: " 100%",
+          height: "100%",
+          position: "fixed",
+          zIndex: '100',
+          background: '#83838333',
+        }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', }}>
+            <CircularProgress sx={{ color: '#2e2d2d' }} />
+          </Box>
+        </div>
+      )}
       <div className="elv_Productlists_Main_div">
         <div className="elv_Productlists_lists_div">
           <div className="elv_Productlists_lists_header">
@@ -153,7 +166,7 @@ const CartPage = () => {
                   <p className="elv_Productlist_ptitle">
                     <img
                       className="elv_Productlist_logo"
-                      src="https://cdnfs.optigoapps.com/content-global3/estoreWJ3U0B6PVONQHL1TA/estore/images/HomePage/MainBanner/image/featuresImage.png"
+                      src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
                       alt="Logo"
                     />
                   </p>
@@ -163,31 +176,43 @@ const CartPage = () => {
             <div className="elv_filteration_block_div">
               <div className="elv_Cartblock_rows">
                 <div className="elv_Cartblock_rows_1" >
-                  <span className="elv_total_price_title">
-                    Total Price:&nbsp;
-                    <span>
-                      <span
-                        className="elv_currencyFont"
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
-                        }}
-                      />
-                      &nbsp;<span style={{ fontWeight: 'bold' }}>{getTotalPrice[0]?.total.toFixed(2)}</span>
+                  {cartData.length > 1 && (
+                    <span className="elv_total_price_title">
+                      Total Price:&nbsp;
+                      <span>
+                        <span
+                          className="elv_currencyFont"
+                          dangerouslySetInnerHTML={{
+                            __html: decodeEntities(
+                              CurrencyData?.Currencysymbol
+                            ),
+                          }}
+                        />
+                        &nbsp;<span style={{ fontWeight: 'bold' }}>{getTotalPrice[0]?.total.toFixed(2)}</span>
+                      </span>
                     </span>
-                  </span>
+                  )}
                 </div>
                 <div className="elv_Cartblock_rows_2" >
                   <span className="elv_items_title">
-                    <span>{cartData?.length}</span>
-                    &nbsp;items
+                    {cartData.length > 1 && (
+                      <>
+                        <span>{cartData?.length}</span>
+                        <span>&nbsp;items</span>
+                      </>
+                    )}
                   </span>
                 </div>
                 <div className="elv_Cartblock_rows_3" >
-                  <span onClick={handleOpen} className="elv_clearAll_title">
-                    Clear All
-                  </span>
+                  {cartData?.length ? (
+                    <span onClick={handleOpen} className="elv_clearAll_title">
+                      Clear All
+                    </span>
+                  ) :
+                    <span onClick={handleClose} className="elv_clearAll_title">
+                      Clear All
+                    </span>
+                  }
                   <Modal
                     open={open}
                     onClose={handleClose}
@@ -207,9 +232,15 @@ const CartPage = () => {
                   </Modal>
                 </div>
                 <div className="elv_Cartblock_rows_4" >
-                  <span onClick={handleOpen1} className="elv_remarks_title">
-                    <span>{selectedItem?.OrderRemarks ? "View & Edit Remark" : "Add Remark"}</span>
-                  </span>
+                  {cartData?.length ? (
+                    <span onClick={handleOpen1} className="elv_remarks_title">
+                      <span>{selectedItem?.OrderRemarks ? "View & Edit Remark" : "Add Remark"}</span>
+                    </span>
+                  ) :
+                    <span onClick={handleClose1} className="elv_remarks_title">
+                      <span>{selectedItem?.OrderRemarks ? "View & Edit Remark" : "Add Remark"}</span>
+                    </span>
+                  }
                   <RemarkDialog
                     handleClose1={handleClose1}
                     handleSave={handleSave}
@@ -219,11 +250,19 @@ const CartPage = () => {
                     handleRemarkChange={handleRemarkChange}
                   />
                 </div>
-                <div className="elv_Cartblock_rows_5" onClick={handleMoveToOrder}>
-                  <span className="elv_placeOrder_title">
-                    Place Order
-                  </span>
-                </div>
+                {cartData?.length ? (
+                  <div className="elv_Cartblock_rows_5" onClick={handleMoveToOrder}>
+                    <span className="elv_placeOrder_title">
+                      Place Order
+                    </span>
+                  </div>
+                ) :
+                  <div className="elv_Cartblock_rows_5">
+                    <span className="elv_placeOrder_title">
+                      Place Order
+                    </span>
+                  </div>
+                }
               </div>
             </div>
             {cartData?.length !== 0 ? (

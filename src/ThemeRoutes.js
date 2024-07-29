@@ -36,7 +36,6 @@ export default function ThemeRoutes() {
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
 
-
   useEffect(() => {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));

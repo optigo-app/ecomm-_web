@@ -65,7 +65,7 @@ const ProductList = () => {
 
       let UrlVal = location?.search.slice(1).split("/")
 
-      console.log("URLVal", UrlVal);
+      // console.log("URLVal", UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -130,17 +130,17 @@ const ProductList = () => {
         productlisttype = BestSellerVar.split("=")[1]
       }
 
-    if(AlbumVar){
-      productlisttype = AlbumVar.split("=")[1]
-    }
-    
-    setIsProdLoading(true)
-    //  if(location?.state?.SearchVal === undefined){ 
+      if (AlbumVar) {
+        productlisttype = AlbumVar.split("=")[1]
+      }
+
+      setIsProdLoading(true)
+      //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
-      await ProductListApi({},1,obj,productlisttype,cookie)
+      await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
-            console.log("productList", res);
+            // console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
           }
@@ -162,17 +162,18 @@ const ProductList = () => {
         // })
         .then(async (res) => {
           let forWardResp1;
-          if(res){
-            await FilterListAPI(productlisttype,cookie).then((res)=>{
+          if (res) {
+            await FilterListAPI(productlisttype, cookie).then((res) => {
               setFilterData(res)
 
-              let diafilter = JSON.parse(res?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
-              let diafilter1 = JSON.parse(res?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
-              let diafilter2 = JSON.parse(res?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
-              console.log("diafilter",diafilter);
-              setSliderValue([diafilter?.Min,diafilter?.Max])
-              setSliderValue1([diafilter1?.Min,diafilter1?.Max])
-              setSliderValue2([diafilter2?.Min,diafilter2?.Max])
+              let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+              let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+              let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+
+              // console.log("diafilter",diafilter);
+              setSliderValue([diafilter?.Min, diafilter?.Max])
+              setSliderValue1([diafilter1?.Min, diafilter1?.Max])
+              setSliderValue2([diafilter2?.Min, diafilter2?.Max])
 
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
@@ -188,8 +189,6 @@ const ProductList = () => {
         })
         .catch((err) => console.log("err", err))
 
-      // }
-
     }
 
     fetchData();
@@ -201,7 +200,7 @@ const ProductList = () => {
   }, [location?.key])
 
   useEffect(() => {
-    const finalProdWithPrice = productListData?.map((product) => {
+    const finalProdWithPrice = productListData.map((product) => {
       let pdImgList = [];
 
       if (product?.ImageCount > 0) {
@@ -222,24 +221,214 @@ const ProductList = () => {
       };
     });
 
-    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
     setFinalProductListData(finalProdWithPrice);
   }, [productListData]);
+
+
+  const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+
+    const values = BreadCum[0].split(',');
+    const labels = BreadCum[1].split(',');
+
+    const updatedBreadCum = labels.reduce((acc, label, index) => {
+      acc[label] = values[index] || '';
+      return acc;
+    }, {});
+
+    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+    }, {});
+
+    // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+
+    return result
+  }
+
+  const handleBreadcums = (mparams) => {
+
+    let key = Object?.keys(mparams)
+    let val = Object?.values(mparams)
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+      let keyName = `FilterKey${index === 0 ? '' : index}`;
+      KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+      let keyName = `FilterVal${index === 0 ? '' : index}`;
+      ValObj[keyName] = value;
+    });
+
+    let finalData = { ...KeyObj, ...ValObj }
+
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join(',');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(',');
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+    navigate(url);
+
+    // console.log("mparams", KeyObj, ValObj)
+
+  }
 
   return (
     <div>
       <div class="bg-image" >
-              <div className="overlay"></div>
-              <div className="text-container">
-                <div className='textContainerData'>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <p className="designCounttext">
-                      {menuList?.menuname}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div className="overlay"></div>
+        <div className="text-container">
+          <div className='textContainerData'>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <p className="designCounttext">
+                {menuList?.menuname}
+              </p>
             </div>
+          </div>
+        </div>
+      </div>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '15px 0px', borderBottom: '1px solid #ebebeb' }}>
+        <div className='breadCrumb_menu_List'>
+          <span style={{ textTransform: 'uppercase',display:'flex'}}>
+              <span
+                className="smr_breadcums_port "
+                // style={{ marginLeft: "72px" }}
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                {"Home"}{" "}
+                <span style={{fontSize:'18px'}}>
+                  {">"}
+                </span>
+              </span>
+
+              {location?.search.charAt(1) == "A" && (
+                <div
+                  className="smr_breadcums_port"
+                  style={{ marginLeft: "3px" }}
+                >
+                  <span>{"Album"}</span>
+                </div>
+              )}
+
+              {location?.search.charAt(1) == "T" && (
+                <div
+                  className="smr_breadcums_port"
+                  style={{ marginLeft: "3px" }}
+                >
+                  <span>{"Trending"}</span>
+                </div>
+              )}
+
+              {location?.search.charAt(1) == "B" && (
+                <div
+                  className="smr_breadcums_port"
+                  style={{ marginLeft: "3px" }}
+                >
+                  <span>{"Best Seller"}</span>
+                </div>
+              )}
+
+              {location?.search.charAt(1) == "N" && (
+                <div
+                  className="smr_breadcums_port"
+                  style={{ marginLeft: "3px" }}
+                >
+                  <span>{"New Arrival"}</span>
+                </div>
+              )}
+
+              {IsBreadCumShow && (
+                  <div
+                    className="smr_breadcums_port"
+                    style={{ marginLeft: "3px"}}
+                  >
+                    {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+                    {BreadCumsObj()?.menuname && (
+                      <span
+                        onClick={() =>
+                          handleBreadcums({
+                            [BreadCumsObj()?.FilterKey]:
+                              BreadCumsObj()?.FilterVal,
+                          })
+                        }
+                      >
+                        {BreadCumsObj()?.menuname}
+                      </span>
+                    )}
+
+                    {BreadCumsObj()?.FilterVal1 && (
+                      <span
+                        onClick={() =>
+                          handleBreadcums({
+                            [BreadCumsObj()?.FilterKey]:
+                              BreadCumsObj()?.FilterVal,
+                            [BreadCumsObj()?.FilterKey1]:
+                              BreadCumsObj()?.FilterVal1,
+                          })
+                        }
+                      >&nbsp;
+                        <span style={{fontSize:'18px'}}>
+                         {">"}
+                        </span>&nbsp;
+                        {`${BreadCumsObj()?.FilterVal1}`}
+                      </span>
+                    )}
+
+                    {BreadCumsObj()?.FilterVal2 && (
+                      <span
+                        onClick={() =>
+                          handleBreadcums({
+                            [BreadCumsObj()?.FilterKey]:
+                              BreadCumsObj()?.FilterVal,
+                            [BreadCumsObj()?.FilterKey1]:
+                              BreadCumsObj()?.FilterVal1,
+                            [BreadCumsObj()?.FilterKey2]:
+                              BreadCumsObj()?.FilterVal2,
+                          })
+                        }
+                      >&nbsp;
+                        <span style={{fontSize:'18px'}}>
+                          {">"}
+                        </span>&nbsp;
+                        {`${BreadCumsObj()?.FilterVal2}`}
+                      </span>
+                    )}
+                  </div>
+                )}
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
