@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./hoq_wishlist.scss"
+import "./dt_wishlist.scss"
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -7,11 +7,10 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
-import { Hoq_CartCount, Hoq_WishCount } from '../../../Recoil/atom';
-import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import noImageFound from "../../../Assets/noImageFound.jpg"
+import { dt_CartCount, dt_WishCount } from '../../Recoil/atom';
+import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
+import noImageFound from "../../Assets/image-not-found.jpg"
 import Cookies from "js-cookie";
-
 
 const WishlistItems = (
     {
@@ -28,9 +27,12 @@ const WishlistItems = (
         handleMoveToDetail
     }) => {
 
-    const setWishCountVal = useSetRecoilState(Hoq_WishCount)
-    const setCartCountVal = useSetRecoilState(Hoq_CartCount)
+    const setWishCountVal = useSetRecoilState(dt_WishCount)
+    const setCartCountVal = useSetRecoilState(dt_CartCount)
     const visiterId = Cookies.get('visiterId');
+
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
 
 
@@ -53,37 +55,37 @@ const WishlistItems = (
     };
 
     return (
-        <Grid sx={{
-            borderRadius : "none"
-        }} item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
-            <Card className='hoq_WlListCard' square sx={{border : "none"}}>
+        <Grid item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
+            <Card className='dt_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
                         component="img"
                         image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
-                        className='hoq_WlListImage'
+                        className='dt_WlListImage'
                         onClick={() => handleMoveToDetail(item)}
                     />
-                    <CardContent className='hoq_cardContent'>
+                    <CardContent className='dt_cardContent'>
                         <div className='cardText'>
-                            <Typography variant="body2" className='hoq_card-ContentData'>
+                            <Typography variant="body2" className='dt_card-ContentData'>
                                 {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
                             </Typography>
-                            <Typography variant="body2" className='hoq_card-ContentData'>
-                                <span className='hoq_wishDT'>NWT : </span>
-                                <span className='hoq_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                <span className='hoq_pipe'> | </span>
-                                <span className='hoq_wishDT'>GWT: </span>
-                                <span className='hoq_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='hoq_pipe'> | </span>
-                                <span className='hoq_wishDT'>DWT: </span>
-                                <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='hoq_pipe'> | </span>
-                                <span className='hoq_wishDT'>CWT: </span>
-                                <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                            <Typography variant="body2" className='dt_card-ContentData'>
+                                <span className='dt_wishDT'>GWT: </span>
+                                {/* <span className='dt_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                <span className='dt_wishDT'>{(item?.Gwt || 0).toFixed(3)}</span>
+
+                                <span className='dt_pipes'> | </span>
+                                <span className='dt_wishDT'>NWT : </span>
+                                <span className='dt_wishDT'>{(item?.Nwt || 0).toFixed(3)}{' '}</span>
+                                <span className='dt_pipes'> | </span>
+                                <span className='dt_wishDT'>DWT: </span>
+                                <span>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}</span>
+                                <span className='dt_pipes'> | </span>
+                                <span className='dt_wishDT'>CWT: </span>
+                                <span>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0).toFixed(3)}{' '}</span>
                             </Typography>
-                            <Typography variant="body2" className='hoq_card-ContentData'>
+                            <Typography variant="body2" className='dt_card-ContentData'>
                                 {item?.metalcolorname !== "" && (
                                     <span>{item.metalcolorname}</span>
                                 )}
@@ -94,9 +96,8 @@ const WishlistItems = (
                                     <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
-                                <span className="hoq_currencyFont" dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currency),
-                                }} />
+                                {/* <span className="dt_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                <span className="dt_currencyFont" >{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>
                                 {' '}
                                 {item?.UnitCost !== "" && (
                                     <span>{(item?.FinalCost)}</span>
@@ -105,11 +106,11 @@ const WishlistItems = (
 
                         </div>
                         {/* <div className='designNoWlList'>
-                            <p className='hoq_DesignNoTExt'>{item?.designno}</p>
+                            <p className='dt_DesignNoTExt'>{item?.designno}</p>
                         </div> */}
                     </CardContent>
-                    <div className='hoq_Wl-CartbtnDiv'>
-                        <button className='hoq_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
+                    <div className='dt_Wl-CartbtnDiv'>
+                        <button className='dt_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
                             {(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}
                         </button>
 
