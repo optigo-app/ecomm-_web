@@ -73,7 +73,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
-                  <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                  <select id="metal-type" key={selectedItem?.id} name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
                     ) :
@@ -89,7 +89,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-color">Metal Color:</label>
-                  <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                  <select id="metal-color" value={selectedItem?.metalcolorname} name={selectedItem?.id} onChange={handleMetalColorChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
@@ -107,7 +107,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Diamond:</label>
-                  <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}</option>
                     ) :
@@ -123,7 +123,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsCsCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Color Stone:</label>
-                  <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}</option>
                     ) :
@@ -139,7 +139,7 @@ const MobileCartDetails = ({
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :

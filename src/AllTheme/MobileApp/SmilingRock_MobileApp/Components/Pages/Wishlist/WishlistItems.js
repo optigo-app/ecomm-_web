@@ -56,28 +56,28 @@ const WishlistItems = (
                         component="img"
                         image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
                         alt={item?.TitleLine}
-                        className='smr_WlListImage'
+                        className='smrMo_WlListImage'
                         onClick={() => handleMoveToDetail(item)}
                     />
-                    <CardContent className='smr_cardContent'>
+                    <CardContent className='smrMo_cardContent'>
                         <div className='cardText'>
-                            <Typography variant="body2" className='smr_card-ContentData'>
-                                {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
+                            <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>
+                            {item?.designno != "" && item?.designno}{item?.TitleLine != "" &&  " - " + item?.TitleLine}
                             </Typography>
-                            <Typography variant="body2" className='smr_card-ContentData'>
-                                <span className='smr_wishDT'>NWT : </span>
-                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                <span className='smr_pipe'> | </span>
-                                <span className='smr_wishDT'>GWT: </span>
-                                <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smr_pipe'> | </span>
-                                <span className='smr_wishDT'>DWT: </span>
+                            <Typography variant="body2" className='smrMo_card-ContentData'>
+                                <span className='smrMo_wishDT'>NWT : </span>
+                                <span className='smrMo_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                <span className='smrMo_pipe'> | </span>
+                                <span className='smrMo_wishDT'>GWT: </span>
+                                <span className='smrMo_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                <span className='smrMo_pipe'> | </span>
+                                <span className='smrMo_wishDT'>DWT: </span>
                                 <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smr_pipe'> | </span>
-                                <span className='smr_wishDT'>CWT: </span>
+                                <span className='smrMo_pipe'> | </span>
+                                <span className='smrMo_wishDT'>CWT: </span>
                                 <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
                             </Typography>
-                            <Typography variant="body2" className='smr_card-ContentData'>
+                            <Typography variant="body2" className='smrMo_card-ContentData'>
                                 {item?.metalcolorname !== "" && (
                                     <span>{item.metalcolorname}</span>
                                 )}
@@ -88,7 +88,7 @@ const WishlistItems = (
                                     <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
-                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{
+                                <span className="smrMo_currencyFont" dangerouslySetInnerHTML={{
                                     __html: decodeEntities(currency),
                                 }} />
                                 {' '}
@@ -99,7 +99,7 @@ const WishlistItems = (
 
                         </div>
                         {/* <div className='designNoWlList'>
-                            <p className='smr_DesignNoTExt'>{item?.designno}</p>
+                            <p className='smrMo_DesignNoTExt'>{item?.designno}</p>
                         </div> */}
                     </CardContent>
                     <div className='smrMo_Wl-CartbtnDiv'>
