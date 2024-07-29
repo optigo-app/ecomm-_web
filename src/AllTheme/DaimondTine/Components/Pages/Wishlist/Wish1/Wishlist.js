@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
+import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
-import Footer from "../Home/Footer/Footer";
+import Footer from "../../Home/Footer/Footer";
 import "./dt_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { dt_CartCount, dt_WishCount } from '../../Recoil/atom';
-import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
-import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
+import { dt_CartCount, dt_WishCount } from '../../../Recoil/atom';
+import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
 import Cookies from "js-cookie";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 
 const Wishlist = () => {
   const {
@@ -90,7 +90,7 @@ const Wishlist = () => {
 
   return (
     <div className="dt_MainWlDiv">
-      <div className="WlMainPageDiv">
+      <div className="dt_WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           <div className="dt_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
@@ -140,8 +140,8 @@ const Wishlist = () => {
           content="Are you sure you want to remove all Items?"
         />
 
-        <Footer />
       </div>
+        <Footer />
       <div
         style={{
           display: "flex",
@@ -153,7 +153,7 @@ const Wishlist = () => {
           style={{
             margin: "0px",
             fontWeight: 500,
-            color: "white",
+            color: "#a8807c",
             cursor: "pointer",
           }}
           onClick={scrollToTop}

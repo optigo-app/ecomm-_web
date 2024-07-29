@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
-import { dt_CartCount, dt_WishCount } from '../../Recoil/atom';
-import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
-import noImageFound from "../../Assets/image-not-found.jpg"
+import { dt_CartCount, dt_WishCount } from '../../../Recoil/atom';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import noImageFound from "../../../Assets/image-not-found.jpg"
 import Cookies from "js-cookie";
 
 const WishlistItems = (
@@ -67,8 +67,8 @@ const WishlistItems = (
                     />
                     <CardContent className='dt_cardContent'>
                         <div className='cardText'>
-                            <Typography variant="body2" className='dt_card-ContentData'>
-                                {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
+                            <Typography variant="body2" className='dt_card-ContentData dt_WlTitleline'>
+                            {item?.designno != "" && item?.designno}{item?.TitleLine != "" &&  " - " + item?.TitleLine}
                             </Typography>
                             <Typography variant="body2" className='dt_card-ContentData'>
                                 <span className='dt_wishDT'>GWT: </span>
@@ -111,7 +111,7 @@ const WishlistItems = (
                     </CardContent>
                     <div className='dt_Wl-CartbtnDiv'>
                         <button className='dt_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
-                            {(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}
+                            {(item?.IsInCart != 1 ? "Add to cart +" : "In cart")}
                         </button>
 
                     </div>

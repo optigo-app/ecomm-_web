@@ -97,6 +97,14 @@ function Cart(props) {
     };
   }, [isloding]);
 
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <div className='dt_MainCartDiv'>
       <div
@@ -246,6 +254,25 @@ function Cart(props) {
       }
 
       <Footer />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingBlock: "30px",
+        }}
+      >
+        <p
+          style={{
+            margin: "0px",
+            fontWeight: 500,
+            color: "#a8807c",
+            cursor: "pointer",
+          }}
+          onClick={scrollToTop}
+        >
+          BACK TO TOP
+        </p>
+      </div>
     </div>
   );
 }
