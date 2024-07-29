@@ -35,9 +35,18 @@ const Home = () => {
     console.log('mobilereeeeeeee token', token);
     if (ismobile === '1' && islogin === false && token !== undefined && token !== null && token !== '') {
       handleSubmit();
-      console.log('mobilereeeeeeee callllllllllllllllll', token);
     }
   }, [])
+
+  useEffect(() => {
+    const savedPosition = localStorage.getItem('scrollPosition');
+    if (savedPosition) {
+      window.scrollTo(0, parseInt(savedPosition, 10));
+    }
+    return () => {
+      localStorage.setItem('scrollPosition', window.scrollY);
+    };
+  }, []);
 
 
   const handleSubmit = async () => {
@@ -57,7 +66,6 @@ const Home = () => {
     //   const response = await CommonAPI(body);
     //   console.log('ressssssssssssssssss', response);
     WebLoginWithMobileToken(token).then((response) => {
-      console.log('mobilereeeeeeee rrrrrrrrrrrrrrrrrrrrrrrr'.response);
       if (response.Data.rd[0].stat === 1) {
         setislogin(true)
         localStorage.setItem('LoginUser', true)
