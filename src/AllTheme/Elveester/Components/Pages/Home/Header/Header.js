@@ -43,10 +43,11 @@ const Header = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await GetCountAPI(); 
+        const visiterID = Cookies.get('visiterId');
+        const res = await GetCountAPI(visiterID);
         console.log('responseCount', res);
-        setCartCount(res?.cartcount); 
-        setWishCount(res?.wishCount); 
+        setCartCount(res?.cartcount);
+        setWishCount(res?.wishcount);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -261,6 +262,13 @@ const Header = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
+
   return (
     <div className="el_header_main">
       {!islogin ? (
@@ -343,8 +351,8 @@ const Header = () => {
       ) : (
         <div
           className={`${burgerMenu
-              ? "elv_login_header_main_bg_active"
-              : "el_login_header_main"
+            ? "elv_login_header_main_bg_active"
+            : "el_login_header_main"
             }`}
         >
           {!burgerMenu ? (

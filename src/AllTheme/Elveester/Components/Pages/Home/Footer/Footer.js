@@ -38,15 +38,17 @@ const Footer = () => {
     const handleSubmitNewlater = async () => {
         const storeInit = JSON?.parse(localStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
-        console.log('newsletter', newslater);
         if (newslater) {
             const requestOptions = {
                 method: "GET",
                 redirect: "follow"
             };
             const newsletterUrl = `${newslater}${email}`;
-            fetch(newsletterUrl, requestOptions)
-                .then((response) => response.text())
+            console.log('newsletterUrl: ', newsletterUrl);
+            await fetch(newsletterUrl, requestOptions)
+                .then((response) => {response.text()
+                    console.log(response)
+                })
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
         }

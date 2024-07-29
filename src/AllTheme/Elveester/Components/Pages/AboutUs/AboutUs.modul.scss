@@ -1,0 +1,58 @@
+.elv_aboutus_maindiv {
+    .elv_aboutus_div {
+        .elv_aboutus_mainImg {
+            max-height: 750px;
+            min-height: 750px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .elv_aboutus_head_title {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 20px;
+            font-weight: 700;
+            height: 30px;
+            text-transform: uppercase;
+        }
+
+        .elv_aboutus_details {
+            display: flex;
+            justify-content: space-between;
+            margin-block: 2rem;
+
+            .elv_aboutus_details_leftside {
+                flex: 1;
+
+                .elv_aboutus_title {
+                    display: flex;
+                    justify-content: space-around;
+                }
+            }
+
+            .elv_aboutus_details_rightside {
+                flex: 1;
+
+                .elv_aboutus_sec_img {
+                    border-radius: 8px;
+                    max-height: 450px;
+                    min-height: 450px;
+                    object-fit: cover;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.elv_paragraph_style {
+    word-wrap: break-word;
+    color: #4c4a4a;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 5px 2rem;
+}
+
+.elv_aboutus_desc {
+    max-height: 30rem;
+}

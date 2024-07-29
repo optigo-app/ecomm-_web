@@ -269,6 +269,60 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
+    let navVal = location?.search.split("?p=")[1];
+    let decodeobj = decodeAndDecompress(navVal);
+
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+
+    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+
+
+    setTimeout(() => {
+      if (decodeUrl) {
+        let metalArr
+        let diaArr
+        let csArr
+
+
+        if (mtTypeLocal?.length) {
+          metalArr =
+            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+            mtTypeLocal[0];
+        }
+
+        if (diaQcLocal?.length) {
+          diaArr =
+            diaQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.d?.split(",")[1]
+            )[0] ?? diaQcLocal[0];
+        }
+
+        if (csQcLocal?.length) {
+          csArr =
+            csQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.c?.split(",")[1]
+            )[0] ?? csQcLocal[0];
+        }
+
+
+
+        setMetalType(metalArr?.metaltype);
+
+        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
+
+        setSelectCsQC(`${csArr?.Quality},${csArr?.color}`);
+      }
+    }, 500)
+  }, [singleProd])
+
+
+  useEffect(() => {
     const navVal = location?.search.split('?p=')[1];
     console.log(navVal)
     let decodeObj = decodeAndDecompress(navVal);
@@ -286,24 +340,26 @@ const ProductDetail = () => {
       metalArr = mTypeLocal?.find((ele) => {
         return ele?.Metalid === decodeObj?.m
       })?.Metalid ?? mTypeLocal[0]?.Metalid
-      setMetalType(metalArr?.metaltype)
     }
     if (diaQcLocal) {
       diaArr = diaQcLocal?.find((ele) => {
         return ele?.QualityId == decodeObj?.d?.split(',')[0] &&
           ele?.ColorId == decodeObj?.d?.split(",")[1]
       }) ?? diaQcLocal[0]
-      setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
-      setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
     }
     if (csQcLocal) {
       csArr = csQcLocal?.find((ele) => {
         return ele?.QualityId == decodeObj?.c?.split(',')[0] &&
           ele?.ColorId == decodeObj?.c?.split(",")[1]
       }) ?? csQcLocal[0];
-      setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
-      setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
     }
+
+
+    setMetalType(metalArr?.metaltype)
+    setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
+    setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
+    setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
+    setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
 
     const FetchProductData = async () => {
       let obj = {
@@ -634,10 +690,23 @@ const ProductDetail = () => {
     if (res?.pdList?.length > 0) {
       setisPriceLoading(false)
     }
+    setnetWTData(res?.pdResp?.rd2)
     setDiaList(res?.pdResp?.rd3)
     setCsList(res?.pdResp?.rd4)
   }
 
+  const SizeSorting = (SizeArr) => {
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
+
+  }
 
   return (
     <div className='elv_ProductDetMain_div'>
@@ -897,168 +966,174 @@ const ProductDetail = () => {
                     </div>
                     <hr className='elv_ProductDet_divider' />
                   </div>
-                  <div className='elv_ProductDet_dropdown_max1000'>
-                    <div>
-                      <div style={{
-                        margin: 1,
-                        width: "95%",
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: 'column',
-                        border: "none",
-                        paddingBottom: '8px'
-                      }}>
-                        <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                        {singleProd?.IsMrpBase == 1 ?
-                          <span className="elv_metaltype_span">
-                            {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                          </span>
-                          :
-                          <select
-                            className="elv_metaltype_drp"
-                            value={metalType}
-                            onChange={(e) => handleCustomChange(e, 'mt')}
-                          // onChange={(e) => setSelectMtType(e.target.value)}
-                          >
-                            {metalTypeCombo.map((ele) => (
-                              <option key={ele?.Metalid} value={ele?.metaltype}>
-                                {ele?.metaltype}
-                              </option>
-                            ))}
-                          </select>}
-                      </div>
-                      <hr className='elv_ProductDet_divider_1' />
-                    </div>
-                    <div>
-                      <div>
-                        <div style={{
-                          margin: 1,
-                          width: "95%",
-                          display: "flex",
-                          justifyContent: "center",
-                          flexDirection: 'column',
-                          border: "none",
-                          paddingBottom: '8px'
-                        }}>
-                          <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
-                          {singleProd?.IsMrpBase == 1 ?
-                            <span className="elv_metaltype_span">
-                              {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
-                            </span>
-                            :
-                            <select
-                              className="elv_metaltype_drp"
-                              value={metalColor}
-                              onChange={(e) => handleMetalWiseColorImg(e)}
-                            >
-                              {metalColorCombo?.map((ele) => (
-                                <option key={ele?.id} value={ele?.metalcolorname}>
-                                  {ele?.metalcolorname}
-                                </option>
-                              ))}
-                            </select>}
-                        </div>
-                      </div>
-                      <hr className='elv_ProductDet_divider_1' />
-                    </div>
-                    {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
-                      <>
+                  {storeInit?.IsProductWebCustomization == 1 &&
+                    metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                      <div className='elv_ProductDet_dropdown_max1000'>
                         <div>
-                          <div>
-                            <div style={{
-                              margin: 1,
-                              width: "95%",
-                              display: "flex",
-                              justifyContent: "center",
-                              flexDirection: 'column',
-                              border: "none",
-                              paddingBottom: '8px'
-                            }}>
-                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                          <div style={{
+                            margin: 1,
+                            width: "95%",
+                            display: "flex",
+                            justifyContent: "center",
+                            flexDirection: 'column',
+                            border: "none",
+                            paddingBottom: '8px'
+                          }}>
+                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
+                            {singleProd?.IsMrpBase == 1 ?
+                              <span className="elv_metaltype_span">
+                                {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                              </span>
+                              :
                               <select
                                 className="elv_metaltype_drp"
-                                value={selectDiaQc}
-                                onChange={(e) => handleCustomChange(e, 'dt')}
+                                value={metalType}
+                                onChange={(e) => handleCustomChange(e, 'mt')}
+                              // onChange={(e) => setSelectMtType(e.target.value)}
                               >
-                                {diaQcCombo.map((ele) => (
-                                  <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                    {`${ele?.Quality}#${ele?.color}`}
+                                {metalTypeCombo.map((ele) => (
+                                  <option key={ele?.Metalid} value={ele?.metaltype}>
+                                    {ele?.metaltype}
                                   </option>
                                 ))}
-                              </select>
-                            </div>
+                              </select>}
                           </div>
                           <hr className='elv_ProductDet_divider_1' />
                         </div>
-                      </>
-                    )}
-                    {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
-                      <>
-                        <div>
+                        {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                           <div>
-                            <div style={{
-                              margin: 1,
-                              width: "95%",
-                              display: "flex",
-                              justifyContent: "center",
-                              flexDirection: 'column',
-                              border: "none",
-                              paddingBottom: '8px'
-                            }}>
-                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                              <select
-                                className="elv_metaltype_drp"
-                                value={selectCsQC}
-                                onChange={(e) => handleCustomChange(e, 'cs')}
-                              >
-                                {csQcCombo.map((ele) => (
-                                  <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                    {`${ele?.Quality}#${ele?.color}`}
-                                  </option>
-                                ))}
-                              </select>
+                            <div>
+                              <div style={{
+                                margin: 1,
+                                width: "95%",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: 'column',
+                                border: "none",
+                                paddingBottom: '8px'
+                              }}>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                                {singleProd?.IsMrpBase == 1 ?
+                                  <span className="elv_metaltype_span">
+                                    {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                  </span>
+                                  :
+                                  <select
+                                    className="elv_metaltype_drp"
+                                    value={metalColor}
+                                    onChange={(e) => handleMetalWiseColorImg(e)}
+                                  >
+                                    {metalColorCombo?.map((ele) => (
+                                      <option key={ele?.id} value={ele?.metalcolorname}>
+                                        {ele?.metalcolorname}
+                                      </option>
+                                    ))}
+                                  </select>}
+                              </div>
                             </div>
                             <hr className='elv_ProductDet_divider_1' />
                           </div>
-                        </div>
-                      </>
-                    )}
-                    {SizeCombo?.length > 0 && (
-                      <>
-                        <div>
-                          <div>
-                            <div style={{
-                              margin: 1,
-                              width: "95%",
-                              display: "flex",
-                              justifyContent: "center",
-                              flexDirection: 'column',
-                              border: "none",
-                              paddingBottom: '8px'
-                            }}>
-                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
-                              {singleProd?.IsMrpBase == 1 ?
-                                <span className="elv_metaltype_span">
-                                  {singleProd?.DefaultSize}
-                                </span>
-                                :
-                                <select
-                                  className="elv_metaltype_drp"
-                                  value={sizeData}
-                                  onChange={(e) => handleCustomChange(e, 'size')}
-                                >
-                                  {SizeCombo?.rd?.map((ele) => (
-                                    <option key={ele?.id} value={ele?.sizename}>
-                                      {ele?.sizename}
-                                    </option>
-                                  ))}
-                                </select>}
+                        )}
+                        {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
+                          <>
+                            <div>
+                              <div>
+                                <div style={{
+                                  margin: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexDirection: 'column',
+                                  border: "none",
+                                  paddingBottom: '8px'
+                                }}>
+                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                                  <select
+                                    className="elv_metaltype_drp"
+                                    value={selectDiaQc}
+                                    onChange={(e) => handleCustomChange(e, 'dt')}
+                                  >
+                                    {diaQcCombo.map((ele) => (
+                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                        {`${ele?.Quality}#${ele?.color}`}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                              <hr className='elv_ProductDet_divider_1' />
                             </div>
-                          </div>
-                        </div>
-                      </>
+                          </>
+                        )}
+                        {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
+                          <>
+                            <div>
+                              <div>
+                                <div style={{
+                                  margin: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexDirection: 'column',
+                                  border: "none",
+                                  paddingBottom: '8px'
+                                }}>
+                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
+                                  <select
+                                    className="elv_metaltype_drp"
+                                    value={selectCsQC}
+                                    onChange={(e) => handleCustomChange(e, 'cs')}
+                                  >
+                                    {csQcCombo.map((ele) => (
+                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                        {`${ele?.Quality}#${ele?.color}`}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <hr className='elv_ProductDet_divider_1' />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                        {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                          <>
+                            <div>
+                              <div>
+                                <div style={{
+                                  margin: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexDirection: 'column',
+                                  border: "none",
+                                  paddingBottom: '8px'
+                                }}>
+                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
+                                  {singleProd?.IsMrpBase == 1 ?
+                                    <span className="elv_metaltype_span">
+                                      {singleProd?.DefaultSize}
+                                    </span>
+                                    :
+                                    <select
+                                      className="elv_metaltype_drp"
+                                      value={sizeData}
+                                      onChange={(e) => handleCustomChange(e, 'size')}
+                                    >
+                                      {SizeCombo?.rd?.map((ele) => (
+                                        <option key={ele?.id} value={ele?.sizename}>
+                                          {ele?.sizename}
+                                        </option>
+                                      ))}
+                                    </select>}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     )}
-                  </div>
+
                   <div className='elv_ProductDet_prod_price'>
                     <span className='elv_ProductDet_prod_price_1'>
                       {
@@ -1111,172 +1186,173 @@ const ProductDetail = () => {
                   </div>
                   <hr className='elv_ProductDet_divider' />
                 </div>
-                <div className='elv_ProductDet_dropdown'>
-                  <div>
-                    <div style={{
-                      margin: 1,
-                      width: "95%",
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: 'column',
-                      border: "none",
-                      paddingBottom: '8px'
-                    }}>
-                      <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                      {singleProd?.IsMrpBase == 1 ?
-                        <span className="elv_metaltype_span">
-                          {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                        </span>
-                        :
-                        <select
-                          className="elv_metaltype_drp"
-                          value={metalType}
-                          onChange={(e) => handleCustomChange(e, 'mt')}
-                        // onChange={(e) => setSelectMtType(e.target.value)}
-                        >
-                          {metalTypeCombo.map((ele) => (
-                            <option key={ele?.Metalid} value={ele?.metaltype}>
-                              {ele?.metaltype}
-                            </option>
-                          ))}
-                        </select>}
-                    </div>
-                    <hr className='elv_ProductDet_divider_1' />
-                  </div>
-                  <div>
-                    <div>
-                      <div style={{
-                        margin: 1,
-                        width: "95%",
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: 'column',
-                        border: "none",
-                        paddingBottom: '8px'
-                      }}>
-                        <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
-                        {singleProd?.IsMrpBase == 1 ?
-                          <span className="elv_metaltype_span">
-                            {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
-                          </span>
-                          :
-                          <select
-                            className="elv_metaltype_drp"
-                            value={metalColor}
-                            onChange={(e) => handleMetalWiseColorImg(e)}
-                          >
-                            {metalColorCombo?.map((ele) => (
-                              <option key={ele?.id} value={ele?.metalcolorname}>
-                                {ele?.metalcolorname}
-                              </option>
-                            ))}
-                          </select>}
-                      </div>
-                    </div>
-                    <hr className='elv_ProductDet_divider_1' />
-                  </div>
-                  {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
-                    <>
+                {storeInit?.IsProductWebCustomization == 1 &&
+                  metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                    <div className='elv_ProductDet_dropdown_max1000'>
                       <div>
-                        <div>
-                          <div style={{
-                            margin: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: 'column',
-                            border: "none",
-                            paddingBottom: '8px'
-                          }}>
-                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                        <div style={{
+                          margin: 1,
+                          width: "95%",
+                          display: "flex",
+                          justifyContent: "center",
+                          flexDirection: 'column',
+                          border: "none",
+                          paddingBottom: '8px'
+                        }}>
+                          <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
+                          {singleProd?.IsMrpBase == 1 ?
+                            <span className="elv_metaltype_span">
+                              {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                            </span>
+                            :
                             <select
                               className="elv_metaltype_drp"
-                              value={selectDiaQc}
-                              onChange={(e) => handleCustomChange(e, 'dt')}
+                              value={metalType}
+                              onChange={(e) => handleCustomChange(e, 'mt')}
                             >
-                              {diaQcCombo.map((ele) => (
-                                <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                  {`${ele?.Quality}#${ele?.color}`}
+                              {metalTypeCombo.map((ele) => (
+                                <option key={ele?.Metalid} value={ele?.metaltype}>
+                                  {ele?.metaltype}
                                 </option>
                               ))}
                             </select>
-                          </div>
+                          }
                         </div>
                         <hr className='elv_ProductDet_divider_1' />
                       </div>
-                    </>
-                  )}
-                  {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
-                    <>
-                      <div>
+                      {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                         <div>
-                          <div style={{
-                            margin: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: 'column',
-                            border: "none",
-                            paddingBottom: '8px'
-                          }}>
-                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                            <select
-                              className="elv_metaltype_drp"
-                              value={selectCsQC}
-                              onChange={(e) => handleCustomChange(e, 'cs')}
-                            >
-                              {csQcCombo.map((ele) => (
-                                <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                  {`${ele?.Quality}#${ele?.color}`}
-                                </option>
-                              ))}
-                            </select>
+                          <div>
+                            <div style={{
+                              margin: 1,
+                              width: "95%",
+                              display: "flex",
+                              justifyContent: "center",
+                              flexDirection: 'column',
+                              border: "none",
+                              paddingBottom: '8px'
+                            }}>
+                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                              {singleProd?.IsMrpBase == 1 ?
+                                <span className="elv_metaltype_span">
+                                  {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                </span>
+                                :
+                                <select
+                                  className="elv_metaltype_drp"
+                                  value={metalColor}
+                                  onChange={(e) => handleMetalWiseColorImg(e)}
+                                >
+                                  {metalColorCombo?.map((ele) => (
+                                    <option key={ele?.id} value={ele?.metalcolorname}>
+                                      {ele?.metalcolorname}
+                                    </option>
+                                  ))}
+                                </select>}
+                            </div>
                           </div>
-                          {SizeCombo?.length > 0 ? (
-                            <>
+                          <hr className='elv_ProductDet_divider_1' />
+                        </div>
+                      )}
+                      {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
+                        <>
+                          <div>
+                            <div>
+                              <div style={{
+                                margin: 1,
+                                width: "95%",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: 'column',
+                                border: "none",
+                                paddingBottom: '8px'
+                              }}>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                                <select
+                                  className="elv_metaltype_drp"
+                                  value={selectDiaQc}
+                                  onChange={(e) => handleCustomChange(e, 'dt')}
+                                >
+                                  {diaQcCombo.map((ele) => (
+                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                      {`${ele?.Quality}#${ele?.color}`}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                            <hr className='elv_ProductDet_divider_1' />
+                          </div>
+                        </>
+                      )}
+                      {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
+                        <>
+                          <div>
+                            <div>
+                              <div style={{
+                                margin: 1,
+                                width: "95%",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: 'column',
+                                border: "none",
+                                paddingBottom: '8px'
+                              }}>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
+                                <select
+                                  className="elv_metaltype_drp"
+                                  value={selectCsQC}
+                                  onChange={(e) => handleCustomChange(e, 'cs')}
+                                >
+                                  {csQcCombo.map((ele) => (
+                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                      {`${ele?.Quality}#${ele?.color}`}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
                               <hr className='elv_ProductDet_divider_1' />
-                            </>
-                          ) : ('')}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {SizeCombo?.rd?.length > 0 && (
-                    <>
-                      <div>
-                        <div>
-                          <div style={{
-                            margin: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: 'column',
-                            border: "none",
-                            paddingBottom: '8px'
-                          }}>
-                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
-                            {singleProd?.IsMrpBase == 1 ?
-                              <span className="elv_metaltype_span">
-                                {singleProd?.DefaultSize}
-                              </span>
-                              :
-                              <select
-                                className="elv_metaltype_drp"
-                                value={sizeData}
-                                onChange={(e) => handleCustomChange(e, 'size')}
-                              >
-                                {SizeCombo?.rd?.map((ele) => (
-                                  <option key={ele?.id} value={ele?.sizename}>
-                                    {ele?.sizename}
-                                  </option>
-                                ))}
-                              </select>}
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </>
+                        </>
+                      )}
+                      {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                        <>
+                          <div>
+                            <div>
+                              <div style={{
+                                margin: 1,
+                                width: "95%",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: 'column',
+                                border: "none",
+                                paddingBottom: '8px'
+                              }}>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
+                                {singleProd?.IsMrpBase == 1 ?
+                                  <span className="elv_metaltype_span">
+                                    {singleProd?.DefaultSize}
+                                  </span>
+                                  :
+                                  <select
+                                    className="elv_metaltype_drp"
+                                    value={sizeData}
+                                    onChange={(e) => handleCustomChange(e, 'size')}
+                                  >
+                                    {SizeCombo?.rd?.map((ele) => (
+                                      <option key={ele?.id} value={ele?.sizename}>
+                                        {ele?.sizename}
+                                      </option>
+                                    ))}
+                                  </select>}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   )}
-                </div>
                 <div className='elv_ProductDet_prod_price'>
                   <span className='elv_ProductDet_prod_price_1'>
                     {

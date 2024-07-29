@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import WishlistItems from './WishlistItems';
-import { useNavigate } from 'react-router-dom';
 
 
 const WishlistData = ({
@@ -19,16 +18,12 @@ const WishlistData = ({
   handelMenu
 }) => {
 
-  const handleRedirect = () => {
-    handelMenu();
-  }
-
   console.log('itemLength', items?.length);
 
   return (
-    <div className="smrMo_WlListData">
+    <div className="dt_WlListData">
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {items.map(item => (
             <WishlistItems
               key={item.id}
@@ -47,12 +42,10 @@ const WishlistData = ({
           ))}
         </Grid>
         {items.length == 0 &&
-          <div className='smrMo_noWishlistData'>
-            <div>
-              <p className='smrMo_title'>No Wishlist Found!</p>
-              <p className='smrMo_desc'>Please First Add Product in Wishlist</p>
-              <button className='smrMo_browseOurCollectionbtn' onClick={handleRedirect}>Browse our collection</button>
-            </div>
+          <div className='dt_noWishlistData'>
+            <p className='dt_title'>No Wishlist Found!</p>
+            <p className='dt_desc'>Please First Add Product in Wishlist</p>
+            <button className='dt_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }
       </>

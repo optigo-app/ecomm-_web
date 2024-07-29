@@ -1,19 +1,18 @@
 import React from 'react';
-import './smrMo_wishlist.scss';
+import './dt_wishlist.scss';
 import { Box, Skeleton, Grid, Card, CardContent } from '@mui/material';
 
 const SkeletonLoader = () => {
-  const skeletonArray = new Array(6).fill(0);
+  const skeletonArray = new Array(4).fill(0);
 
   return (
-    <Grid container spacing={1} className="smrMo_addwishlistSkeltonMainBox">
+    <Grid container spacing={1} className="dt_addwishlistSkeltonMainBox">
       {skeletonArray.map((_, index) => (
-        <Grid item xs={6} sm={6} md={3} key={index}>
-          <Card className='smrMo_addwishlistSkelton'>
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Card className='dt_addwishlistSkelton'>
             <Skeleton
-              className='smrMo_addwishlistSkelton'
+              className='dt_addwishlistSkelton'
               variant="rectangular"
-              width="100%"
               animation="wave" />
           </Card>
         </Grid>

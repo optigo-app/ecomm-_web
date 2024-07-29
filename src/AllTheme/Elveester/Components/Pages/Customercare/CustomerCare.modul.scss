@@ -1,0 +1,76 @@
+.elv_customer_mainDiv {
+    .elv_customer_div {
+        .elv_customer_image_1 {
+            max-height: 780px;
+            min-height: 780px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .elv_customer_details_div {
+            margin-inline: 4%;
+        }
+
+        .elv_customer_details {
+            word-wrap: break-word;
+            color: #424141;
+            font-size: 18px;
+            line-height: 20px;
+        }
+
+        .elv_customer_head_title{
+            color: #4b4747;
+            font-size: 20px;
+            font-weight: 700;
+            height: 30px;
+            margin-block: 15px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .elv_customer_cards_div {
+            margin-inline: 2%;
+            margin-block: 3%;
+            display: flex;
+            justify-content: space-around;
+
+            .elv_customer_card {
+                border: 0.5px solid #e8e8e8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                max-width: 25rem;
+
+                .elv_customer_card_img {
+                    border: .5px solid #e8e8e8;
+                    max-height: 350px;
+                    min-height: 350px;
+                }
+
+                .elv_customer_card_title{
+                    word-wrap: break-word;
+                    font-size: 25px;
+                    font-weight: 700;
+                    padding-block: 1rem;
+                }
+
+                .elv_customer_card_desc {
+                    word-wrap: break-word;
+                    color: #424141;
+                    font-size: 18px;
+                    line-height: 20px;
+                    text-align: center;
+                }
+                .elv_customer_card_desc_1{
+                    word-wrap: break-word;
+                    color: #424141;
+                    font-size: 14px;
+                    line-height: 20px;
+                    text-align: center;
+                }
+            }
+
+        }
+    }
+}

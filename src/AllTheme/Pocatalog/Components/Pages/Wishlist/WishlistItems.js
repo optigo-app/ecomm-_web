@@ -83,11 +83,11 @@ const WishlistItems = (
                                 {item?.metalcolorname !== "" && (
                                     <span>{item.metalcolorname}</span>
                                 )}
-                                {item?.metalcolorname !== "" && item?.metaltypeName !== "" && (
+                                {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
                                     <span> - </span>
                                 )}
-                                {item?.metaltypeName !== "" && (
-                                    <span>{item.metaltypeName}</span>
+                                {item?.metaltypename !== "" && (
+                                    <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
                                 <span className="ProCat_currencyFont" dangerouslySetInnerHTML={{
