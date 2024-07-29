@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil';
 import './Wishlist.modul.scss';
 import { el_CartCount, el_WishCount } from '../../Recoil/atom';
@@ -45,14 +45,21 @@ const WishlistItems = ({
         }
     };
 
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [])
+
     return (
         <>
             <div className='elv_wishlist_card_div'>
                 <div className="elv_wishlist_card_content">
                     <CloseIcon className='elv_wishlist_cancel' onClick={() => handleRemoveItemFun(item)} />
                     <img className='elv_wishlist_image' src={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound} onClick={() => handleMoveToDetail(item)} alt="" />
-                    <div className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_header_title_hidden'}>
-                        <span>{item?.TitleLine != "" && item?.TitleLine}</span>
+                    <div className='elv_wish_card'>
+                        <span className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{item?.TitleLine != "" && item?.TitleLine}</span>
                     </div>
                     <div className='elv_wishlist_card_weights'>
                         <div className='elv_wishlist_card_weights_1'>

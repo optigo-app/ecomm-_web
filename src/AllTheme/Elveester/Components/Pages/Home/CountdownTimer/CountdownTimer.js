@@ -1,5 +1,6 @@
 import React from 'react'
 import './CountdownTimer.modul.scss'
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const CountdownTimer = () => {
   return (
@@ -32,7 +33,7 @@ const CountdownTimer = () => {
                         </span>
                         <span >
                             <p className='elv_CountdownTmer_ptitle'>
-                            <img className='elv_CountdownTimer_logo' src='https://cdnfs.optigoapps.com/content-global3/estoreWJ3U0B6PVONQHL1TA/estore/images/HomePage/MainBanner/image/featuresImage.png'  alt='Logo'/>
+                            <img className='elv_CountdownTimer_logo' src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}  alt='Logo'/>
                             </p>
                         </span>
                     </div>

@@ -1,8 +1,9 @@
 import { atom } from "recoil";
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 
 export const el_companyLogo = atom({
     key:'dt_companyLogo',
-    default:[]
+    default:[`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`]
   })
 
   export const el_loginState = atom({

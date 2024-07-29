@@ -8,19 +8,16 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
   {
-    imageUrl: "/elvee/images/HomePage/SocialMedia/socialMedia1.jpg",
+    imageUrl: "images/HomePage/SocialMedia/socialMedia1.jpg",
   },
   {
-    imageUrl: "/elvee/images/HomePage/SocialMedia/socialMedia2.jpg",
+    imageUrl: "images/HomePage/SocialMedia/socialMedia2.jpg",
   },
   {
-    imageUrl: "/elvee/images/HomePage/SocialMedia/socialMedia3.jpg",
+    imageUrl: "images/HomePage/SocialMedia/socialMedia3.jpg",
   },
   {
-    imageUrl: "/elvee/images/HomePage/SocialMedia/socialMedia4.jpg",
-  },
-  {
-    imageUrl: "/elvee/images/HomePage/SocialMedia/socialMedia5.jpg",
+    imageUrl: "images/HomePage/SocialMedia/socialMedia4.jpg",
   },
 ];
 
@@ -42,7 +39,7 @@ export default function SocialMediaSection() {
           768: {
             slidesPerView: 4,
             spaceBetween: 0,
-          },  
+          },
           1024: {
             slidesPerView: 5,
             spaceBetween: 0,
@@ -57,9 +54,11 @@ export default function SocialMediaSection() {
         className="mySwiper"
       >
         {sliderData.map((slide, index) => (
-          <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px' }}>
-            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{objectFit:'contain', width:'100%', padding: '0px'}} />
-          </SwiperSlide>
+          <div style={{ background: 'red' }}>
+            <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px' }}>
+              <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
+            </SwiperSlide>
+          </div>
         ))}
       </Swiper>
     </div>
