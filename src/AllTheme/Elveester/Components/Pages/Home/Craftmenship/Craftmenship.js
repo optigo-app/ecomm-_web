@@ -9,13 +9,13 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
     {
-        imageUrl: "/elvee/images/HomePage/Craftmenship/craftingImg01.jpg",
+        imageUrl: "images/HomePage/Craftmenship/craftingImg01.jpg",
     },
     {
-        imageUrl: "/elvee/images/HomePage/Craftmenship/craftingImg02.jpg",
+        imageUrl: "images/HomePage/Craftmenship/craftingImg02.jpg",
     },
     {
-        imageUrl: "/elvee/images/HomePage/Craftmenship/craftingImg03.jpg",
+        imageUrl: "images/HomePage/Craftmenship/craftingImg03.jpg",
     },
 ];
 

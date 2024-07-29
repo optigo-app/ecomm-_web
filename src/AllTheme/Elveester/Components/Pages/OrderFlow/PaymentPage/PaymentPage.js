@@ -10,6 +10,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const PaymentPage = () => {
 
@@ -86,6 +87,19 @@ const PaymentPage = () => {
     return (
         <>
             <>
+                {isLoading && (
+                    <div style={{
+                        width: " 100%",
+                        height: "100%",
+                        position: "fixed",
+                        zIndex: '100',
+                        background: '#83838333',
+                    }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', }}>
+                            <CircularProgress sx={{ color: '#2e2d2d' }} />
+                        </Box>
+                    </div>
+                )}
                 <div className="elv_payment_Main_div">
                     <div className="elv_payment_lists_div">
                         <div className="elv_payment_lists_header">
@@ -103,7 +117,7 @@ const PaymentPage = () => {
                                         <p className="elv_payment_ptitle">
                                             <img
                                                 className="elv_payment_logo"
-                                                src="https://cdnfs.optigoapps.com/content-global3/estoreWJ3U0B6PVONQHL1TA/estore/images/HomePage/MainBanner/image/featuresImage.png"
+                                                src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
                                                 alt="Logo"
                                             />
                                         </p>
