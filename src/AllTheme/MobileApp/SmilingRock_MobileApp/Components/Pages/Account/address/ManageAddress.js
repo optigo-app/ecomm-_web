@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
-import { defaultAddressState } from '../../../Recoil/atom';
+import { smrMA_defaultAddressState } from '../../../Recoil/atom';
 import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
 import MobViewHeader from './../MobViewHeader/MobViewHeader';
 
@@ -35,7 +35,7 @@ const ManageAddress = () => {
         mobileNo: ''
     });
 
-    const setDefaultAddress = useSetRecoilState(defaultAddressState);
+    const setDefaultAddress = useSetRecoilState(smrMA_defaultAddressState);
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
@@ -158,19 +158,21 @@ const ManageAddress = () => {
     
         if (!formData.country.trim()) {
             errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-            errors.country = 'Country Name must contain only letters';
+        }else if (!/^[a-zA-Z\s]*$/.test(formData.country.trim())) {
+            errors.country = 'Invalid Country';
         }
+
         if (!formData.state.trim()) {
             errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-            errors.state = 'State Name must contain only letters';
+        }else if (!/^[a-zA-Z\s]*$/.test(formData.state.trim())) {
+            errors.state = 'Invalid State';
         }
+
         if (!formData.city.trim()) {
             errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-            errors.city = 'City Name must contain only letters';
-        }
+        } else if (!/^[a-zA-Z\s]*$/.test(formData.city.trim())) {
+            errors.city = 'Invalid City';
+        } 
     
       
         if (!formData.zipCode.trim()) {
@@ -227,6 +229,9 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -391,9 +396,7 @@ const ManageAddress = () => {
     }
 
     const handleDefaultSelection = async (addressId) => {
-
         setIsLoading(true);
-        
         try {
 
             let loginCred = loginDetail();
@@ -402,10 +405,11 @@ const ManageAddress = () => {
 
             const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
 
-            if (response?.Data?.rd) {
+            if ( response?.Status === '200' && response?.Data?.rd) {
                 
                 setIsLoading(false);
                 fetchData();
+
             } else {
                 toast.error('No Data Found')
             }

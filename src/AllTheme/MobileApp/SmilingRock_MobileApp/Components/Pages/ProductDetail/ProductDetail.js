@@ -1553,7 +1553,7 @@ const ProductDetail = () => {
                             }
                     </div>}
 
-                    { prodLoading && <div className="Smr_CartAndWish_portion">
+                    { !isPriceloading && <div className="Smr_CartAndWish_portion">
                       <button
                         className="smr_AddToCart_btn"
                         onClick={() => handleCart(!addToCartFlag)}

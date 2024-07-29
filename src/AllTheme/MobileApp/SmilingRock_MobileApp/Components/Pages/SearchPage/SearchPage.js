@@ -33,7 +33,7 @@ export default function SearchPage() {
       };
 
     const searchDataFucn = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || searchText) {
           if (searchText) {
             // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
     
@@ -60,6 +60,7 @@ export default function SearchPage() {
             // }
           }
         }
+        
       }
     // const searchDataFucn = (e) => {
     //     if (e.key === 'Enter') {
