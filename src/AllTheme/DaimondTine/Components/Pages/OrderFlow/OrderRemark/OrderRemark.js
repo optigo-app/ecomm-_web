@@ -45,11 +45,11 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           className='dt_orderRemarkMoalInput'
         />
         <div className="dt_projectRemarkBtn-group">
-          <Button className="dt_remarksave-btn" onClick={onSave}>
-            Save
-          </Button>
           <Button className="dt_remarkcancel-btn" onClick={onClose}>
             Cancel
+          </Button>
+          <Button className="dt_remarksave-btn" onClick={onSave}>
+            Save
           </Button>
         </div>
       </Box>

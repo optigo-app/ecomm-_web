@@ -19,6 +19,7 @@
         max-height: 400px;
         object-fit: contain;
         cursor: pointer;
+        height: 300px;
     }
 
     .cardText {
@@ -188,6 +189,13 @@
     font-size: $fontSize1 !important;
     font-family: $primaryFontFamily;
     padding-bottom: 6px;
+}
+
+.smr_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 @media (max-width: 1750px) {
@@ -411,6 +419,7 @@
 
 .smr_addwishlistSkeltonMainBox {
     padding: 0px 60px;
+
     .smr_addwishlistSkelton {
         height: 450px;
         box-shadow: none !important;

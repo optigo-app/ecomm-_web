@@ -1,4 +1,4 @@
-@import '../../scss/variable.scss';
+@import '../../../scss/variable.scss';
 
 .dt_WlListCard {
     display: flex;
@@ -7,6 +7,7 @@
     /* Ensures all cards are at least the same height */
     justify-content: space-between;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+    overflow: hidden;
 
     .cardContent {
         display: flex;
@@ -19,6 +20,12 @@
         max-height: 400px;
         object-fit: contain;
         cursor: pointer;
+        height: 300px;
+        transition: transform 0.5s ease;
+
+        &:hover {
+            transform: scale(1.2);
+        }
     }
 
     .cardText {
@@ -30,17 +37,16 @@
 }
 
 .dt_MainWlDiv {
-    background-color: $backgroundColor;
     font-family: $primaryFontFamily;
 }
 
-.WlMainPageDiv {
+.dt_WlMainPageDiv {
     background-color: #fff;
-    margin-inline: 6%;
+    margin-inline: 20%;
 }
 
 @media(max-width:1200px) {
-    .WlMainPageDiv {
+    .dt_WlMainPageDiv {
         margin-inline: 1% !important;
     }
 }
@@ -70,7 +76,6 @@
         .dt_ReomoveAllWLbtn {
             display: flex;
             align-items: center;
-            margin-inline: 6%;
             font-size: $fontSize1;
             color: $titleColor !important;
             text-decoration-color: $titleColor !important;
@@ -78,27 +83,21 @@
 
         .dt_WlAddToCartBtn {
             font-family: $primaryFontFamily !important;
-            background-color: $btn1hoverColor;
-            color: $btn1hoverFontColor;
+            background-color: $btn1bgColor;
+            color: $btn1FontColor;
             font-size: $fontSize2;
-            border: none;
+            border: 1px solid $btn1bgColor;
             outline: none;
             height: 45px;
             border-radius: 5px;
             width: 200px;
             font-weight: 500;
-            margin-inline: 6%;
             cursor: pointer;
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #666;
-            }
-
-
-            &.dt_cartActivebtn {
-                background-color: $btn1ActivebgColor;
-                color: $btn1hoverFontColor;
+                background-color: $btn1FontColor;
+                color: $btn1bgColor;
             }
         }
     }
@@ -132,10 +131,6 @@
     }
 }
 
-.dt_WlListData {
-    padding: 60px 100px 10px 100px;
-    margin-bottom: -8%;
-}
 
 .dt_WlListCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
@@ -176,8 +171,8 @@
         cursor: pointer;
 
         &:hover {
-            color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
+            color: $btn1FontColor;
+            background-color: $btn1bgColor;
         }
     }
 }
@@ -188,6 +183,13 @@
     font-size: $fontSize1 !important;
     font-family: $primaryFontFamily;
     padding-bottom: 6px;
+}
+
+.dt_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 @media (max-width: 1750px) {
@@ -411,6 +413,7 @@
 
 .dt_addwishlistSkeltonMainBox {
     padding: 0px 60px;
+
     .dt_addwishlistSkelton {
         height: 450px;
         box-shadow: none !important;
