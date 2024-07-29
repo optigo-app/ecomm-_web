@@ -1728,12 +1728,12 @@ const ProductDetail = () => {
                         >{`Diamond Detail(${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}/${diaList
+                        )}  ${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
                           )
-                          .toFixed(2)}ct)`}</li>
+                          .toFixed(3)}ct)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -1762,7 +1762,7 @@ const ProductDetail = () => {
                         >{`ColorStone Detail(${csList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}/${csList
+                        )}  ${csList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0

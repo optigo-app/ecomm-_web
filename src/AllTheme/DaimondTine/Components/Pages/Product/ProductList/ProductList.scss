@@ -1,3 +1,5 @@
+@import "../../../scss/variable";
+
 .finejwelery {
     text-transform: uppercase;
     line-height: 1;
@@ -668,6 +670,18 @@
     font-size: 16px;
     transition: all 0.3s;
 }
+
+.smr_breadcums_port {
+    // position: absolute;
+    // top: -40px;
+    // z-index: 999;
+    font-family: $primaryFontFamily;
+    font-size: 0.85rem;
+    color: $primaryfontcolorLight;
+    // margin-left:72px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
 
 
 

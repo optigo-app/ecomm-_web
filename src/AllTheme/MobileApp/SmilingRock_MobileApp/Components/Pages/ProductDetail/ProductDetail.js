@@ -125,7 +125,7 @@ const ProductDetail = () => {
 
     setSelectMtColor(mcArr?.metalcolorname)
     
-  },[singleProd,singleProd1])
+  },[singleProd])
 
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
@@ -958,11 +958,11 @@ const ProductDetail = () => {
     setSelectMtColor(e.target.value)
 
     let imgLink = storeInit?.DesignImageFol +
-    (singleProd ?? singleProd1)?.designno +
+    (singleProd)?.designno +
     "_" +
     (thumbImgIndex+1) +"_"+ mcArr?.colorcode +
     "." +
-    (singleProd ?? singleProd1)?.ImageExtension;
+    (singleProd)?.ImageExtension;
 
     let pd = singleProd;
     let pdImgListCol = [];
@@ -1230,7 +1230,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="smr_prod_shortInfo">
                   <div className="smrMA_prod_shortInfo_inner">
-                    <p className="smr_prod_titleLine">
+                    <p className="smr_prod_titleLine_app">
                       {singleProd?.TitleLine}
                     </p>
                     <div className="smr_prod_summury_info">
