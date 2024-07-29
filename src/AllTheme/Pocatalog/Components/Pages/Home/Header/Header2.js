@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header2.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, companyLogo, loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_companyLogo, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -18,13 +18,13 @@ const Header2 = () => {
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
-    const compnyLogo = useRecoilValue(companyLogo);
-    const [islogin, setislogin] = useRecoilState(loginState);
+    const compnyLogo = useRecoilValue(proCat_companyLogo);
+    const [islogin, setislogin] = useRecoilState(proCat_loginState);
     const [menuData, setMenuData] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
 
-    const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-    const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+    const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
     let navigate = useNavigate();
 

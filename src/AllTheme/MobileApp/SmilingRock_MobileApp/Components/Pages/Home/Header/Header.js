@@ -10,6 +10,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie'
+import Pako from 'pako';
 
 
 
@@ -27,6 +28,7 @@ const Header = () => {
 
   let cookie = Cookies.get('visiterId')
 
+
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setIsB2BFlaf(storeinit?.IsB2BWebsite);
@@ -41,7 +43,7 @@ const Header = () => {
     };
   }, []);
 
-  
+
 
   useEffect(() => {
     GetCountAPI(cookie).then((res) => {
@@ -57,19 +59,63 @@ const Header = () => {
   }, [])
 
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: 'string' });
+
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error('Error compressing and encoding:', error);
+      return null;
+    }
+  };
+
   const searchDataFucn = (e) => {
-    if(e.key === 'Enter'){
-      if(searchText){
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
-        console.log("searchtext",searchText);
-      }
-    }else{
-      if(searchText){
-        navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
-        console.log("searchtext",searchText);
+    if (e.key === 'Enter' || searchText) {
+      if (searchText) {
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+          f: {}
+        }
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+        navigation(`/d/${searchText}?p=${encodeObj}`)
+        setSearchText('');
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+        // }
       }
     }
   }
+
+  // const searchDataFucn = (e) => {
+  //   if(e.key === 'Enter'){
+  //     if(searchText){
+  //       navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+  //       console.log("searchtext",searchText);
+  //     }
+  //   }else{
+  //     if(searchText){
+  //       navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+  //       console.log("searchtext",searchText);
+  //     }
+  //   }
+  // }
 
   console.log('ddddddddd', location);
   return (
@@ -91,7 +137,9 @@ const Header = () => {
                   }
                 }}
               />
-              <SearchIcon onClick={(e)=>searchDataFucn(e)}  />
+              <div style={{width: '30px'}} onClick={(e) => searchDataFucn(e)} >
+                <SearchIcon />
+              </div>
             </div>
             <Badge
               badgeContent={cartCountNum}
@@ -126,9 +174,9 @@ const Header = () => {
           <div className='smrMA_HeaderMain'>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'>
-                <a href="/">
-                  <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
-                </a>
+                {/* <a href="/"> */}
+                <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
+                {/* </a> */}
                 {isB2bFlag == 1 ?
                   islogin == false ?
                     ''

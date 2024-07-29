@@ -133,7 +133,7 @@ const ProductGrid = () => {
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <h3>{data?.TitleLine}-{data?.designno}</h3>
+                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
                                         <span className='smr_btdetailDT'>GWT: </span>
                                         <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
                                         <span className='smr_btpipe'> | </span>

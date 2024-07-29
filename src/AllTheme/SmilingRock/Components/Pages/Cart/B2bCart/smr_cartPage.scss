@@ -216,7 +216,7 @@ $cartUpdateBtncolor: #b1b1b1;
     position: sticky;
     top: 60px;
     max-width: 25%;
-    height: 90vh !important;
+    height: 90vh;
     width: 25%;
     display: flex;
     justify-content: center;
@@ -277,7 +277,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
   }
 
-  @media (min-width: 1800px) {
+  @media (max-width: 2000px) and (min-width: 1921px) {
     .smr_cartListImage {
       max-width: 180px;
       max-height: 180px;
@@ -285,8 +285,83 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_Cart-imageDiv {
-      height: 375px;
-      width: 400px;
+      height: 400px;
+      max-width: 400px;
+      width: 100%;
+
+      .smr_cartDetailImage {
+        max-width: 400px;
+        max-height: 500px;
+        height: 480px;
+      }
+    }
+
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        height: 400px;
+        max-width: 400px;
+        width: 100%;
+
+        .smr_cartDetailImage {
+          max-width: 400px;
+          max-height: 400px;
+          height: 400px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1920px) and (min-width: 1080px) {
+    .smr_cartListCardGrid2{
+      width: 410px !important;
+    }
+    .smr_cartListImage {
+      max-width: 180px;
+      max-height: 180px;
+      height: 180px;
+    }
+
+    .smr_Cart-imageDiv {
+      height: 406px;
+      max-width: 400px;
+      width: 100%;
+
+      .smr_cartDetailImage {
+        max-width: 400px;
+        max-height: 500px;
+        height: 480px;
+      }
+    }
+
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        height: 400px;
+        max-width: 400px;
+        width: 100%;
+
+        .smr_cartDetailImage {
+          max-width: 500px;
+          max-height: 500px;
+          height: 500px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1899px) and (min-width: 1800px) {
+    .smr_cartListCardGrid2{
+      width: 410px !important;
+    }
+    .smr_cartListImage {
+      max-width: 180px;
+      max-height: 180px;
+      height: 180px;
+    }
+
+    .smr_Cart-imageDiv {
+      height: 340px;
+      max-width: 400px;
+      width: 100%;
 
       .smr_cartDetailImage {
         max-width: 400px;
@@ -297,8 +372,9 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 375px;
-        width: 400px;
+        height: 325px;
+        max-width: 400px;
+        width: 100%;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -309,16 +385,10 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  @media (max-width: 1730px) and (min-width: 1700px) {
-    .smr_cartListImage {
-      max-width: 180px;
-      max-height: 180px;
-      height: 180px;
-    }
-
+  @media (max-width: 1799px) and (min-width: 1730px) {
     .smr_Cart-imageDiv {
-      height: 315px;
-      width: 355px;
+      height: 335px;
+      width: 370px;
 
       .smr_cartDetailImage {
         max-width: 400px;
@@ -329,8 +399,41 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 355px;
+        height: 321px;
+        width: 370px;
+
+        .smr_cartDetailImage {
+          max-width: 400px;
+          max-height: 400px;
+          height: 300px;
+        }
+      }
+    }
+
+  }
+
+  @media (max-width: 1730px) and (min-width: 1700px) {
+    .smr_cartListImage {
+      max-width: 180px;
+      max-height: 180px;
+      height: 180px;
+    }
+
+    .smr_Cart-imageDiv {
+      height: 335px;
+      width: 360px;
+
+      .smr_cartDetailImage {
+        max-width: 400px;
+        max-height: 400px;
+        height: 300px;
+      }
+    }
+
+    .smr_cart-right2-side {
+      .smr_Cart-imageDiv {
+        height: 321px;
+        width: 360px;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -349,8 +452,8 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_Cart-imageDiv {
-      height: 315px;
-      width: 335px;
+      height: 335px;
+      width: 345px;
 
       .smr_cartDetailImage {
         max-width: 400px;
@@ -361,8 +464,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 335px;
+        height: 321px;
+        width: 345px;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -376,7 +479,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1599px) and (min-width: 1530px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 335px;
         width: 330px;
 
         .smr_cartDetailImage {
@@ -393,7 +496,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 321px;
         width: 330px;
 
         .smr_cartDetailImage {
@@ -419,7 +522,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1530px) and (min-width: 1500px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 335px;
         width: 320px;
 
         .smr_cartDetailImage {
@@ -436,7 +539,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 321px;
         width: 320px;
 
         .smr_cartDetailImage {
@@ -461,7 +564,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1499px) and (min-width: 1440px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 335px;
         width: 320px;
 
         .smr_cartDetailImage {
@@ -478,7 +581,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 321px;
         width: 320px;
 
         .smr_cartDetailImage {
@@ -503,7 +606,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1439px) and (min-width: 1400px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 335px;
         width: 310px;
 
         .smr_cartDetailImage {
@@ -520,7 +623,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 321px;
         width: 310px;
 
         .smr_cartDetailImage {
@@ -545,8 +648,8 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1399px) and (min-width: 1300px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 290px !important;
+        height: 335px;
+        width: 280px !important;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -562,8 +665,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 290px;
+        height: 321px;
+        width: 280px;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -641,7 +744,7 @@ $cartUpdateBtncolor: #b1b1b1;
   @media (max-width: 1199px) and (min-width: 1140px) {
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 335px;
         width: 270px;
 
         .smr_cartDetailImage {
@@ -658,7 +761,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
+        height: 321px;
         width: 270px;
 
         .smr_cartDetailImage {
@@ -704,8 +807,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 299px;
+        height: 335px;
+        width: 275px;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -721,8 +824,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smr_cart-right2-side {
       .smr_Cart-imageDiv {
-        height: 315px;
-        width: 299px;
+        height: 321px;
+        width: 275px;
 
         .smr_cartDetailImage {
           max-width: 400px;
@@ -753,12 +856,36 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
+  @media (max-width: 1039px) {
+    .smr_cart-right-side {
+      display: none;
+    }
+
+    .smr_cart-right2-side {
+      display: none;
+    }
+
+    .smr_rightContentDataDiv {
+      max-width: 100%;
+      padding: 2px 5px;
+    }
+
+    .smr_cartMainPage {
+      .smr_cartListImage {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
 
 
   @media (max-width: 1039px) and (min-width: 887px) {
     .smr_pc-cartDetail {
       display: none !important;
     }
+
+
 
     .smr_cart-left-sides {
       width: 100%;
@@ -800,6 +927,11 @@ $cartUpdateBtncolor: #b1b1b1;
       max-width: 33.33333333333333% !important;
       flex-basis: 33.33333333333333% !important;
     }
+    .smr_cartListCardGrid2 {
+      width: 33.33333333333333% !important;
+      max-width: 33.33333333333333% !important;
+      flex-basis: 33.33333333333333% !important;
+    }
 
     .smr_mui_CartBox {
       display: flex !important;
@@ -809,7 +941,6 @@ $cartUpdateBtncolor: #b1b1b1;
     .smr_cartListImage {
       max-width: 100%;
       max-height: 100%;
-      height: 100%;
       object-fit: cover;
     }
 
@@ -870,6 +1001,11 @@ $cartUpdateBtncolor: #b1b1b1;
       max-width: 50% !important;
       flex-basis: 50% !important;
     }
+    .smr_cartListCardGrid2 {
+      width: 50% !important;
+      max-width: 50% !important;
+      flex-basis: 50% !important;
+    }
 
     .smr_mui_CartBox {
       display: flex !important;
@@ -907,6 +1043,11 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .smr_cartListCardGrid {
+      width: 50% !important;
+      max-width: 50% !important;
+      flex-basis: 50% !important;
+    }
+    .smr_cartListCardGrid2 {
       width: 50% !important;
       max-width: 50% !important;
       flex-basis: 50% !important;
@@ -1023,7 +1164,7 @@ $cartUpdateBtncolor: #b1b1b1;
   align-items: center;
   justify-content: center;
   max-width: 400px;
-  max-height: 400px;
+  max-height: 600px;
   height: 380px;
   width: 400px;
   border-radius: 12px;
@@ -1047,14 +1188,16 @@ $cartUpdateBtncolor: #b1b1b1;
   max-width: 600px;
 
   .smr_cart-Titleline {
-    font-size: $fontSize4;
+    font-size: $fontSize5;
     color: $titleColor;
     margin: 10px;
     text-align: center;
+    max-width: 100%;
+    width: 97%;
     max-height: 100px;
-    height: 55px;
+    height: 34px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

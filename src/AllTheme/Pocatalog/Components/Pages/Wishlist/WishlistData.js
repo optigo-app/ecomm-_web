@@ -21,7 +21,7 @@ const WishlistData = ({
   console.log('itemLength', items?.length);
 
   return (
-    <div className="smr_WlListData">
+    <div className="ProCat_WlListData">
       <>
         <Grid container spacing={2}>
           {items.map(item => (
@@ -42,10 +42,10 @@ const WishlistData = ({
           ))}
         </Grid>
         {items.length == 0 &&
-          <div className='smr_noWishlistData'>
-            <p className='smr_title'>No Wishlist Found!</p>
-            <p className='smr_desc'>Please First Add To Wishlist Data</p>
-            <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+          <div className='ProCat_noWishlistData'>
+            <p className='ProCat_title'>No Wishlist Found!</p>
+            <p className='ProCat_desc'>Please First Add To Wishlist Data</p>
+            <button className='ProCat_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }
       </>

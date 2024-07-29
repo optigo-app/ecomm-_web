@@ -13,7 +13,7 @@
   padding-bottom: 15px;
 }
 
-.smr_whiteInnerContain {
+.proCat_whiteInnerContain {
   background-color: #fff;
   margin-inline: 6%;
   width: 100%;
@@ -42,11 +42,11 @@
  
 }
 
-.smr_main_sorting_div{
+.smr_main_sorting_div_proCat{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    width:75%;
+    width: 100%;
     margin:15px 70px 0px 15px
 }
 
@@ -384,7 +384,7 @@
 // }
 
 @media screen and (max-width: 1441px) {
-  .smr_whiteInnerContain {
+  .proCat_whiteInnerContain {
     margin-inline: 2%;
   }
 
@@ -502,7 +502,7 @@
     font-size: 9px !important;
   }
 
-  .smr_whiteInnerContain {
+  .proCat_whiteInnerContain {
     margin-inline: 0.5%;
   }
 

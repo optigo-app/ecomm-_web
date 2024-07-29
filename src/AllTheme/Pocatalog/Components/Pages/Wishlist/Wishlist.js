@@ -3,12 +3,12 @@ import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishl
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
 import Footer from "../Home/Footer/Footer";
-import "./smr_wishlist.scss";
+import "./ProCat_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../Recoil/atom";
+import { proCat_CartCount, proCat_WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
@@ -32,8 +32,8 @@ const Wishlist = () => {
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setWishCountVal = useSetRecoilState(WishCount)
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setWishCountVal = useSetRecoilState(proCat_WishCount)
+  const setCartCountVal = useSetRecoilState(proCat_CartCount)
   const visiterId = Cookies.get('visiterId');
 
 
@@ -80,21 +80,21 @@ const Wishlist = () => {
     <div className="ProCat_MainWlDiv">
       <div className="WlMainPageDiv">
         <div className="smrProcat_WlBtnGroupMainDiv">
-          <div className="smr_Wl-title">My Wishlist</div>
+          <div className="ProCat_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
             <>
-              <div className="smr_WlButton-group">
+              <div className="ProCat_WlButton-group">
                 <Link
-                  className="smr_ReomoveAllWLbtn"
+                  className="ProCat_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
                   CLEAR ALL
                 </Link>
-                {/* <button className='smr_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
-                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
-                {/* <button className='smr_WlBtn'>SHOW PRODUCT LIST</button> */}
+                {/* <button className='ProCat_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
+                <button className="ProCat_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
+                {/* <button className='ProCat_WlBtn'>SHOW PRODUCT LIST</button> */}
               </div>
             </>
           }

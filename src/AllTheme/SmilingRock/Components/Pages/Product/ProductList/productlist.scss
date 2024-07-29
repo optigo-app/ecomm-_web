@@ -134,7 +134,7 @@
 
 .smr_filter_portion_outter{
   // padding: 6% 18%;
-  padding: 6% 12% 6% 18%;
+  padding: 6% 12% 6% 18% !important;
 }
 
 .smr_mobile_filter_portion_outter{
@@ -470,6 +470,10 @@
 //   font-family: $primaryFontFamily;
 //   height: 13vh;
 // }
+
+.pSkelton{
+  background-color: #f6f6f6 !important;
+}
 
 @media screen and (max-width: 1441px) {
   .smr_whiteInnerContain {

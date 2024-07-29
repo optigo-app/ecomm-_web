@@ -4,12 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import { Divider, Button } from '@mui/material';
-import { smrMA_CartCount } from '../../../Recoil/atom';
+import { smrMA_CartCount, smrMA_loginState } from '../../../Recoil/atom';
 import { IoArrowBack } from 'react-icons/io5';
+import { fetchEstimateTax } from '../../../../../../../utils/API/OrderFlow/GetTax';
+import Cookies from "js-cookie";
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -22,6 +24,9 @@ const Payment = () => {
     const [CurrencyData, setCurrencyData] = useState();
 
     const setCartCountVal = useSetRecoilState(smrMA_CartCount);
+    const islogin = useRecoilValue(smrMA_loginState);
+
+    const [taxAmmount, setTaxAmount] = useState();
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
@@ -55,40 +60,76 @@ const Payment = () => {
         navigate(-1);
     }
 
-    useEffect(() => {
-        const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
-        console.log('selectedAddressData', selectedAddressData);
-        setSelectedAddrData(selectedAddressData)
 
-        const totalPriceData = localStorage.getItem('TotalPriceData');
-        if (totalPriceData) {
-            const totalPriceNum = parseFloat(totalPriceData);
-            const newPrice = totalPriceNum * 0.03;
-            setTotalPriceText(newPrice.toFixed(2));
-            setTotalPrice(totalPriceNum);
-            const finalTotalPrice = totalPriceNum + newPrice;
-            setFinlTotal(finalTotalPrice.toFixed(2));
-        }
-    }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const texData = await fetchEstimateTax();
+                if (texData) {
+                    setTaxAmount(texData[0]?.TaxAmount);
+                }
+            } catch (error) {
+                console.error('Error fetching tax data:', error);
+            }
+
+            const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+            console.log('selectedAddressData', selectedAddressData);
+            setSelectedAddrData(selectedAddressData);
+
+            const totalPriceData = localStorage.getItem('TotalPriceData');
+            if (totalPriceData) {
+                const totalPriceNum = parseFloat(totalPriceData);
+                const finalTotalPrice = totalPriceNum;
+                setFinlTotal(finalTotalPrice);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+    // useEffect(() => {
+    //     const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+    //     console.log('selectedAddressData', selectedAddressData);
+    //     setSelectedAddrData(selectedAddressData)
+
+    //     const totalPriceData = localStorage.getItem('TotalPriceData');
+    //     if (totalPriceData) {
+    //         const totalPriceNum = parseFloat(totalPriceData);
+    //         const newPrice = totalPriceNum * 0.03;
+    //         setTotalPriceText(newPrice.toFixed(2));
+    //         setTotalPrice(totalPriceNum);
+    //         const finalTotalPrice = totalPriceNum + newPrice;
+    //         setFinlTotal(finalTotalPrice.toFixed(2));
+    //     }
+    // }, [])
 
     const handlePay = async () => {
+        const visiterId = Cookies.get('visiterId');
         setIsloding(true);
-        const paymentResponse = await handlePaymentAPI();
-        console.log("paymentResponse", paymentResponse);
-        if (paymentResponse?.Data?.rd[0]?.stat == 1) {
-            let num = paymentResponse.Data?.rd[0]?.orderno
-            localStorage.setItem('orderNumber', num);
-            navigate('/Confirmation');
-            setIsloding(false);
+        if (selectedAddrData?.id != undefined || selectedAddrData?.id != null) {
+            const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+            console.log("paymentResponse", paymentResponse);
+            if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+                let num = paymentResponse.Data?.rd[0]?.orderno
+                localStorage.setItem('orderNumber', num);
+                navigate('/Confirmation');
+                setIsloding(false);
 
-            GetCountAPI().then((res) => {
-                console.log('responseCount', res);
-                setCountData(res)
-                setCartCountVal(res?.cartcount)
-            })
+                GetCountAPI().then((res) => {
+                    console.log('responseCount', res);
+                    setCountData(res)
+                    setCartCountVal(res?.cartcount)
+                })
 
+            } else {
+                toast.error('Something went wrong!');
+                setIsloding(false);
+            }
         } else {
-            toast.error('Something went wrong!')
+            // toast.error("Please First Add Shipping Address")
+            setIsloding(false);
+            navigate("/Delivery")
         }
     }
 
@@ -123,10 +164,10 @@ const Payment = () => {
 
     return (
         <div className='smrMo_paymentMainDiv'>
-            <p className="SmiCartListTitle">
+            {/* <p className="SmiCartListTitle">
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />Order Summary
-            </p>
-            <div className='smrMo_paymentSecondMainDiv'>
+            </p> */}
+            {/* <div className='smrMo_paymentSecondMainDiv'>
                 <div className='smrMo_PaymentContainer'>
                     <div className='smrMo_paymentDetailMainDiv'>
                         <div className='smrMo_paymentDetailLeftSideContent'>
@@ -148,8 +189,8 @@ const Payment = () => {
                             <div className='smrMo_orderSummary'>
                                 <h3>Order Summary</h3>
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p>Subtotal</p>
-                                    <p>
+                                    <p className='smrMA_TotlaText'>Subtotal</p>
+                                    <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"
                                             dangerouslySetInnerHTML={{
@@ -162,8 +203,8 @@ const Payment = () => {
                                     </p>
                                 </div>
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p className=''>Estimated Tax</p>
-                                    <p>
+                                    <p className='smrMA_TotlaText'>Estimated Tax</p>
+                                    <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"
                                             dangerouslySetInnerHTML={{
@@ -177,8 +218,8 @@ const Payment = () => {
                                 </div>
                                 <Divider className='smrMo_Divider' />
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p>Estimated Total</p>
-                                    <p>
+                                    <p className='smrMA_TotlaText'>Estimated Total</p>
+                                    <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"
                                             dangerouslySetInnerHTML={{
@@ -218,8 +259,88 @@ const Payment = () => {
                     onRemarkChange={handleRemarkChangeInternal}
                     onSave={handleSaveInternal}
                 />
+            </div> */}
+            <div className='paddingTopMobileSet'>
+                <div className='smilingPaymentMain'>
+                    <p className="SmiCartListTitle">
+                        <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() =>  navigate(-1)} />Order Summary
+                    </p>
+                    <div className='smilingPaymentMainWeb'>
+                        <div className='smilingPaySub1Main'>
+                            <div className='smilingPaySub1'>
+                                <div className='smilingPaySub1Box1'>
+                                    <p className='PaymentMainTitleMain' style={{ fontSize: '22px', fontWeight: 500, color: '#5e5e5e' }}>Payment Card Method</p>
+
+                                    <div className='BilingMainApyment' style={{ marginTop: '40px' }}>
+                                        <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Billing Address :</p>
+                                        <p className='AddressTitle'>Name : <span className='AdressData'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</span></p>
+                                        <p className='AddressTitle'>Address : <span className='AdressData'>{selectedAddrData?.street}</span></p>
+                                        <p className='AddressTitle'>City : <span className='AdressData'>{selectedAddrData?.city}-{selectedAddrData?.zip}</span></p>
+                                        <p className='AddressTitle'>State : <span className='AdressData'>{selectedAddrData?.state},{selectedAddrData?.country}</span></p>
+                                        <p className='AddressTitle'>Mobile : <span className='AdressData'>{selectedAddrData?.shippingmobile}</span></p>
+                                    </div>
+                                </div>
+                                <div className='smilingPaySub1Box2'>
+                                    <div className='orderSubmmuryMain'>
+                                        <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Order Summary</p>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
+                                            <p className='orderSubTitle'>Subtotal</p>
+                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
+                                                <span
+                                                    className="currencyFont"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: decodeEntities(
+                                                            CurrencyData
+                                                        ),
+                                                    }}
+                                                />
+                                                {finalTotal}
+                                            </p>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
+                                            <p className='orderSubTitle'>Estimated Tax</p>
+                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" dangerouslySetInnerHTML={{
+                                                        __html: decodeEntities(
+                                                            CurrencyData
+                                                        ),
+                                                    }} />{taxAmmount}</p>
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                                            <p className='orderSubTitle'>Estimated Total</p>
+                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" dangerouslySetInnerHTML={{
+                                                        __html: decodeEntities(
+                                                            CurrencyData
+                                                        ),
+                                                    }}  />{taxAmmount + finalTotal}</p>
+                                        </div>
+                                    </div>
+                                    <div className='deliveryShiipingMain'>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Shipping Address :</p>
+                                            <button className='changeAddressBtnPayment' onClick={() => navigate('/Delivery')}>Change</button>
+                                        </div>
+                                        <div style={{ marginTop: '0px' }}>
+                                            <p className='OrderNamMAinTitle' style={{ fontSize: '25px', margin: '0px', fontWeight: 500, color: '#5e5e5e' }}>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                            <p className='AddressTitle'><span className='AdressData'>{selectedAddrData?.street}</span></p>
+                                            <p className='AddressTitle'><span className='AdressData'>{selectedAddrData?.city}-{selectedAddrData?.zip}</span></p>
+                                            <p className='AddressTitle'><span className='AdressData'>{selectedAddrData?.state},{selectedAddrData?.country}</span></p>
+                                            <p className='AddressTitle'><span className='AdressData'>{selectedAddrData?.shippingmobile}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='smrMo_paymentButtonDiv'>
+                                <button className='smrMo_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                                    {isloding ? 'Loding...' : 'Pay On Account'}
+                                    {isloding && <span className="loader"></span>}
+                                </button>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     )
 }
 

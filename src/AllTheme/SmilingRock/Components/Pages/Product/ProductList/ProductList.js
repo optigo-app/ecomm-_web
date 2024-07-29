@@ -8,7 +8,7 @@ import { findMetal, findMetalColor, findMetalType } from "../../../../../../util
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -105,6 +105,8 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
+
+  const [afterCountStatus, setAfterCountStatus] = useState(false);
 
   const [value, setValue] = React.useState([]);
 
@@ -608,6 +610,7 @@ const ProductList = () => {
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
+    setAfterCountStatus(true);
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
 
@@ -654,6 +657,7 @@ const ProductList = () => {
   }
 
   useEffect(() => {
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -667,6 +671,7 @@ const ProductList = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterCountStatus(false);
           }
           return res;
         })
@@ -693,6 +698,7 @@ const ProductList = () => {
 
 
   const handelFilterClearAll = () => {
+    setAfterCountStatus(true);
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
@@ -791,7 +797,8 @@ const ProductList = () => {
     if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true)
     } else {
-      setFilterProdListEmpty(false)
+      setFilterProdListEmpty(false)        
+      setAfterCountStatus(false);
     }
   }, [productListData])
 
@@ -1616,13 +1623,36 @@ const ProductList = () => {
                       ?.length === 0
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                       ? "Filters"
-                      : `Product Found: ${afterFilterCount}`}
+                      :
+                      <>{afterCountStatus == true ? (
+                        <Skeleton
+                          variant="rounded"
+                          width={140}
+                          height={22}
+                          className="pSkelton"
+                        />
+                      ) :
+                        <span>{`Product Found:: ${afterFilterCount}`}</span>
+                      }
+                      </>
+                    }
                   </span>
                   <span onClick={() => handelFilterClearAll()}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
-                      : <span>{`Total Products: ${afterFilterCount}`}</span>}
+                      : <>{afterCountStatus == true ? (
+                        <Skeleton
+                          variant="rounded"
+                          width={140}
+                          height={22}
+                          className="pSkelton"
+                        />
+                      ) :
+                        <span>{`Total Products: ${afterFilterCount}`}</span>
+                      }
+                      </>
+                    }
                   </span>
                 </span>
                 <div style={{ marginTop: "12px" }}>
@@ -2044,7 +2074,7 @@ const ProductList = () => {
             <div className="smr_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
-                <ProductListSkeleton />
+                <ProductListSkeleton className="pSkelton" />
               ) : (
                 <>
                   {!minwidth1201px ? (
@@ -2284,7 +2314,7 @@ const ProductList = () => {
                   )}
 
                   <div className="smr_mainPortion">
-                    <div className="smr_filter_portion" style={{marginTop:'20px'}}>
+                    <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
                       <div className="empty_sorting_div">
                         <span
                           className="smr_breadcums_port "
@@ -2394,14 +2424,36 @@ const ProductList = () => {
                               )?.length === 0
                                 ? "Filters"
                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                : `Product Found: ${afterFilterCount}`}
+                                : <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                }
+                                </>}
                             </span>
                             <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
                                 ? "Clear All"
-                                : <span>{`Total Products: ${afterFilterCount}`}</span>}
+                                :
+                                <>{afterCountStatus == true ? (
+                                  <Skeleton
+                                    variant="rounded"
+                                    width={140}
+                                    height={22}
+                                    className="pSkelton"
+                                  />
+                                ) :
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
+                                }
+                                </>
+                              }
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>
@@ -2845,7 +2897,7 @@ const ProductList = () => {
                     ) : (
                       <div className="smr_productList">
                         {isOnlyProdLoading ? (
-                          <ProductListSkeleton fromPage={"Prodlist"} />
+                          <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
                         ) : (
                           <>
                             <div className="smr_main_sorting_div">
@@ -3097,7 +3149,7 @@ const ProductList = () => {
                                                 : productData?.images?.length > 0
                                                   ? productData?.images[0]
                                                   : imageNotFound
-                                                }
+                                            }
                                             alt=""
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
@@ -3123,13 +3175,14 @@ const ProductList = () => {
                                               "smr1_prod_title_with_no_width"
                                           }
                                         >
-                                          {productData?.TitleLine?.length > 0 &&
+                                          {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
-                                          {productData?.TitleLine}{" "}
+                                          {productData?.TitleLine}{" "} */}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
-                                        <span className="smr_prod_designno">
+                                        {/* <span className="smr_prod_designno">
                                           {productData?.designno}
-                                        </span>
+                                        </span> */}
                                       </div>
                                       <div className="smr_prod_Allwt">
                                         <div
@@ -3153,7 +3206,7 @@ const ProductList = () => {
                                                   GWT:
                                                 </span>
                                                 <span className="smr_val">
-                                                  {productData?.Gwt}
+                                                  {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
@@ -3163,7 +3216,7 @@ const ProductList = () => {
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">NWT:</span>
                                                 <span className="smr_val">
-                                                  {productData?.Nwt}
+                                                  {(productData?.Nwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             </>
@@ -3179,7 +3232,7 @@ const ProductList = () => {
                                                     DWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.Dwt}
+                                                    {(productData?.Dwt)?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs === 1
                                                       ? `/${productData?.Dpcs}`
                                                       : null}
@@ -3196,7 +3249,7 @@ const ProductList = () => {
                                                     CWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.CSwt}
+                                                    {(productData?.CSwt)?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
                                                       : null}
@@ -3240,7 +3293,9 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {formatter.format(productData?.UnitCostWithMarkUp)}
+                                            {/* {formatter.format( */}
+                                              {productData?.UnitCostWithMarkUp}
+                                             {/* )} */}
                                           </span>
                                         </span>
                                       </div>

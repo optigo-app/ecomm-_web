@@ -23,7 +23,7 @@ const CartList = ({
 }) => {
   console.log('itemgsgdhas-', selectedItem);
   return (
-    <div className="hoq_RightCartList">
+    <div className="hoq_RightCartList" >
       <Grid container spacing={1}>
         {items.map((item, index) => (
           <CartItem

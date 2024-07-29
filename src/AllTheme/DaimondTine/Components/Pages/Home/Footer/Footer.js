@@ -61,7 +61,7 @@ export default function Footer() {
     return (
         <div className='dt_footer_main'>
             <div className='daimondFooterMain'>
-                <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%' }}>
+                <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%', marginTop:'50px' }}>
                     <div className='subScriMain'>
                         <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
                         <p className='subScriMainSubTitle'>and stay in the loop with us</p> b

@@ -47,7 +47,6 @@ export const handleAddAddress = async(formData, FrontEnd_RegNo, customerid, stor
 
 export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, customerid, storeInit, data) => {
     try {
-        
         const combinedValue = JSON.stringify({
             addrid: `${editId}`, 
             firstname: `${formData.firstName}`, 
@@ -69,7 +68,7 @@ export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, custome
             "f": "Delivery (EditAddress)",
             dp: encodedCombinedValue
         };
-
+        console.log(body);
         const response = await CommonAPI(body);
         return response;
 

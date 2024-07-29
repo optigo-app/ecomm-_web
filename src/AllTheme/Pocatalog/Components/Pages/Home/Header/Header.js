@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, cartB2CDrawer, companyLogo, loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_WishCount, proCat_cartB2CDrawer, proCat_companyLogo, proCat_loginState } from '../../../Recoil/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -13,22 +13,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
-import CartDrawer from '../../Cart/CartPageB2c/Cart';
 
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const setCartOpenState = useSetRecoilState(cartB2CDrawer);
+  const setCartOpenState = useSetRecoilState(proCat_cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
-  const compnyLogo = useRecoilValue(companyLogo);
-  const [islogin, setislogin] = useRecoilState(loginState);
+  const compnyLogo = useRecoilValue(proCat_companyLogo);
+  const [islogin, setislogin] = useRecoilState(proCat_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
-  const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+  const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
   const [searchText, setSearchText] = useState("")
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -155,8 +154,10 @@ const Header = () => {
 
   const handleLogout = () => {
     setislogin(false);
-    Cookies.remove('userLoginCookie');
     localStorage.setItem('LoginUser', false);
+    navigation('/')
+    window.location.reload();
+    Cookies.remove('userLoginCookie');
     localStorage.removeItem('storeInit');
     localStorage.removeItem('loginUserDetail');
     localStorage.removeItem('remarks');
@@ -168,8 +169,6 @@ const Header = () => {
     localStorage.removeItem('registerMobile');
     localStorage.removeItem('allproductlist');
     localStorage.clear();
-    navigation('/')
-    window.location.reload();
   }
 
 
@@ -332,12 +331,12 @@ const Header = () => {
 
   // for cart drawer
 
-  const toggleCartDrawer = () => {
-    setIsCartOpen(prevState => !prevState);
-    const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
-    localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
-    setCartOpenState(prevState => !prevState);
-  };
+  // const toggleCartDrawer = () => {
+  //   setIsCartOpen(prevState => !prevState);
+  //   const isCartDrawerOpen = JSON.parse(localStorage.getItem('isCartDrawer'));
+  //   localStorage.setItem('isCartDrawer', !isCartDrawerOpen);
+  //   setCartOpenState(prevState => !prevState);
+  // };
 
   const handleContextMenu = (e) => {
   };
@@ -450,13 +449,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -545,9 +544,9 @@ const Header = () => {
                 ))}
               </List>
             </div>
-            <div>
+            {/* <div>
               <p className='smr_menuStaicMobilePage'>About us</p>
-            </div>
+            </div> */}
 
             <div>
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
@@ -615,13 +614,13 @@ const Header = () => {
           </div>
           <div className='smiling_Top_header_div3'>
             <ul className="nav_ul_shop">
-              <li
+              {/* <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={() => navigation("/aboutUs")}
               >
                 ABOUT US
-              </li>
+              </li> */}
               {
                 IsB2BWebsiteChek == 0 ?
                   <li
@@ -686,13 +685,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -702,7 +701,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={toggleCartDrawer}
+                         onClick={() => navigation("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -736,13 +735,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -780,13 +779,13 @@ const Header = () => {
             </div>
             <div className='smiling_Top_header_div3'>
               <ul className="nav_ul_shop">
-                <li
+                {/* <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigation("/aboutUs")}
                 >
                   ABOUT US
-                </li>
+                </li> */}
 
 
                 {
@@ -856,13 +855,13 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge>
-                      <li
+                      {/* <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li>
+                      </li> */}
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -872,7 +871,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={toggleCartDrawer}
+                           onClick={() => navigation("/cartPage")}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -906,13 +905,13 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge>
-                      <li
+                      {/* <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li>
+                      </li> */}
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -1030,7 +1029,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <CartDrawer open={isCartOpen} />
     </div >
   )
 }

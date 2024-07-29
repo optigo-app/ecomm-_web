@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.modul.scss";
 import TopSlider from "./Slider/Slider";
 import TabSection from "./TabSection/TabSection";
@@ -13,6 +13,7 @@ import SocialTab from "./SocialTab/SocialTab";
 import FaqSection from "./FaQSection/FaqSection";
 import InfoSection from "./InfoSection/InfoSection";
 const HomePage = () => {
+  
   return (
     <div className="hoq_main_homepage">
       <TopSlider />   

@@ -6,7 +6,7 @@ export const removeFromCartList = async (data,param, visiterId, islogin) => {
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
     const { FrontEnd_RegNo } = storeInit;
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.email1 ?? "";
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail?.userid ?? "";
     let combinedValue;
     
     console.log('IdData-',data);

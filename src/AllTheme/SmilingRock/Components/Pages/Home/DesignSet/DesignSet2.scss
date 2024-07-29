@@ -29,13 +29,12 @@
     .cardimg {
         width: 100%;
         object-fit: contain;
-        height: 230px;
-        padding: 5px;
+        max-width: 230px;
     }
 
     .subimgpart {
         position: absolute;
-        bottom: 7%;
+        top: 30%;
         right: 7%;
         z-index: 1;
     }
@@ -100,6 +99,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        .smr_ds2ImageDiv{
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
     }
 
     .swiper-button-prev,

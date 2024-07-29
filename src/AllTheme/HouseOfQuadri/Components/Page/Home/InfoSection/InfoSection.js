@@ -11,8 +11,14 @@ const InfoSection = () => {
         {aboutUsContent.map((val, i) => {
           return (
             <div className="about_card">
-              <h3>{val?.title}</h3>
-              <p>{val?.description}</p>
+              <h3>
+                {"orem . Aliquam dicta beatae praesentium temporibus ex odit?" ||
+                  val?.title}
+              </h3>
+              <p>
+                {`"orem . Aliquam dicta beatae praesentium temporibus ex odit?" "orem . Aliquam dicta beatae praesentium temporibus ex odit?" "orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?" "orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?"` ||
+                  val?.description}
+              </p>
             </div>
           );
         })}
@@ -20,12 +26,18 @@ const InfoSection = () => {
       {show && (
         <>
           <div className="main_content_2">
-            <h1>Our Collections </h1>
+            <h1>Our Collections</h1>
             {collections.map((val, i) => {
               return (
                 <div className="about_card_2">
-                  <a href="#">{val?.title}</a>
-                  <p>{val?.description}</p>
+                  <a href="#">
+                    {`"orem . Aliquam dicta beatae praesentium ex odit?"` ||
+                      val?.title}
+                  </a>
+                  <p>
+                    {`"orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?""orem . Aliquam dicta beatae praesentium temporibus ex odit?"` ||
+                      val?.description}
+                  </p>
                 </div>
               );
             })}
@@ -33,7 +45,7 @@ const InfoSection = () => {
         </>
       )}
       <span onClick={() => setshow(!show)}>
-        {show ? "Less Show" : "Read Less"}
+        {show ? 'Read Less' : 'Read More'}
       </span>
     </div>
   );

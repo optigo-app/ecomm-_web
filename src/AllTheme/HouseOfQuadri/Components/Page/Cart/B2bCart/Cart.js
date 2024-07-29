@@ -19,7 +19,6 @@ import { Hoq_CartCount, Hoq_loginState } from "../../../Recoil/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import MobileCartDetails from "./MobileCartDetails";
-import { green } from "@mui/material/colors";
 import { handlePaymentAPI } from "../../../../../../utils/API/OrderFlow/PlaceOrderAPI";
 import { toast } from "react-toastify";
 import { useAddress } from "../../../../../../utils/Glob_Functions/OrderFlow/useAddress";
@@ -73,6 +72,8 @@ const CartPage = () => {
     handelMenu,
   } = useCart();
 
+  const visiterId = Cookies.get("visiterId");
+
   const navigate = useNavigate();
   const [storeInit, setStoreInit] = useState();
   const [defaultAddr, setDefaultAddr] = useState();
@@ -113,17 +114,14 @@ const CartPage = () => {
     setDialogOpen(true);
   };
 
-  const handleConfirmRemoveAll = () => {
+  const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    handleRemoveAll();
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log("responseCount", res);
-          setCartCountVal(res?.cartcount);
-        });
-      }
-    }, 500);
+    const returnValue = await handleRemoveAll();
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      });
+    }
   };
 
   const handleCloseDialog = () => {
@@ -171,24 +169,28 @@ const CartPage = () => {
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen && <div className="hoq_cart-title">My Cart</div>}
           <div className="hoq_cartmainRowDiv">
-            <div className="hoq_cartButton-groups">
-              <Link
-                className="hoq_ReomoveAllCartbtn"
-                variant="body2"
-                onClick={handleRemoveAllDialog}
-              >
-                Clear All
-              </Link>
-            </div>
+            {!isloding && cartData?.length != 0 && (
+              <div className="hoq_cartButton-groups">
+                <Link
+                  className="hoq_ReomoveAllCartbtn"
+                  variant="body2"
+                  onClick={handleRemoveAllDialog}
+                >
+                  Clear All
+                </Link>
+              </div>
+            )}
             {!isMobileScreen && <div className="hoq_cart-title">My Cart</div>}
-            <div className="hoq_placeOrderMainbtnDivs">
-              <button
-                className="hoq_place-order-btn"
-                onClick={handlePlaceOrder}
-              >
-                Place Order
-              </button>
-            </div>
+            {!isloding && cartData?.length != 0 && (
+              <div className="hoq_placeOrderMainbtnDivs">
+                <button
+                  className="hoq_place-order-btn"
+                  onClick={handlePlaceOrder}
+                >
+                  Place Order
+                </button>
+              </div>
+            )}
           </div>
 
           {/* {!isloding && cartData.length != 0 &&

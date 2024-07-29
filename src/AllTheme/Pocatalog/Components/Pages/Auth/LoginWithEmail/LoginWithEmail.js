@@ -13,7 +13,7 @@ import './LoginWithEmail.modul.scss'
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { CartCount, WishCount, loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_WishCount, proCat_loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
@@ -30,8 +30,8 @@ export default function LoginWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
 
-    const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-    const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+    const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
 
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
@@ -40,7 +40,7 @@ export default function LoginWithEmail() {
 
 
     // const setPdData = useSetRecoilState(productDataNew)
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(proCat_loginState)
     // const setDesignList = useSetRecoilState(designSet)
 
     // const setCartCount = useSetRecoilState(CartListCounts)
@@ -130,6 +130,7 @@ export default function LoginWithEmail() {
 
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!confirmPassword.trim()) {
             errors.confirmPassword = 'Password is required';
             return;
@@ -138,7 +139,7 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '',visiterId).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');

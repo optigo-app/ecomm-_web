@@ -6,7 +6,7 @@ export const StockItemApi = async(ac,type,obj={},visiterId) => {
     let islogin =  JSON.parse(localStorage.getItem("LoginUser")) ?? false;
 
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.email1 ?? "";
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail?.userid ?? "";
     
 
     let data = {

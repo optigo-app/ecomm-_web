@@ -23,6 +23,8 @@ const Usewishlist = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [countDataUpdted, setCountDataUpdated] = useState();
+  const [isProcessing, setIsProcessing] = useState(false);
+
 
   const islogin = useRecoilValue(loginState)
 
@@ -124,37 +126,43 @@ const Usewishlist = () => {
 
   // add to cart all
   const handleAddtoCartAll = async () => {
+    if (isProcessing) return;
+
+    setIsProcessing(true);
+
     const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     let resStatus;
-  
+
     try {
       const allItemsInCart = wishlistData.every(item => item.IsInCart === 1);
-  
+
       if (!allItemsInCart) {
-      try {
-        const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
-        resStatus = response?.Data?.rd[0];
-        if (resStatus?.msg === "success") {
-          toast.success('All wishlist items added to cart');
-          getWishlistData();
+        try {
+          const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
+          resStatus = response?.Data?.rd[0];
+          if (resStatus?.msg === "success") {
+            toast.success('All wishlist items added to cart');
+            getWishlistData();
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          return { success: false };
         }
-      } catch (error) {
-        console.error("Error:", error);
-        return { success: false };
+      } else {
+        console.log('Already in cart');
       }
-    }else{
-      console.log('Already in cart');
-    }
-  
+
       return resStatus;
     } catch (error) {
       setUpdateCount(false);
       console.error("Error:", error);
       return { success: false };
+    } finally {
+      setIsProcessing(false);
     }
   };
-  
+
 
 
   const decodeEntities = (html) => {
@@ -206,37 +214,43 @@ const Usewishlist = () => {
 
   const handelMenu = () => {
     let menudata = JSON.parse(localStorage.getItem('menuparams'));
-    console.log('otherparamsUrl--', menudata);
-    const queryParameters1 = [
-      menudata?.FilterKey && `${menudata?.FilterVal}`,
-      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
-      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    if (menudata) {
+      console.log('otherparamsUrl--', menudata);
+      const queryParameters1 = [
+        menudata?.FilterKey && `${menudata?.FilterVal}`,
+        menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+        menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+      ].filter(Boolean).join('/');
 
-    const queryParameters = [
-      menudata?.FilterKey && `${menudata?.FilterVal}`,
-      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
-      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
-    ].filter(Boolean).join(',');
+      const queryParameters = [
+        menudata?.FilterKey && `${menudata?.FilterVal}`,
+        menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+        menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+      ].filter(Boolean).join(',');
 
-    const otherparamUrl = Object.entries({
-      b: menudata?.FilterKey,
-      g: menudata?.FilterKey1,
-      c: menudata?.FilterKey2,
-    })
-      .filter(([key, value]) => value !== undefined)
-      .map(([key, value]) => value)
-      .filter(Boolean)
-      .join(',');
+      const otherparamUrl = Object.entries({
+        b: menudata?.FilterKey,
+        g: menudata?.FilterKey1,
+        c: menudata?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(',');
 
-    const paginationParam = [
-      `page=${menudata.page ?? 1}`,
-      `size=${menudata.size ?? 50}`
-    ].join('&');
+      // const paginationParam = [
+      //   `page=${menudata.page ?? 1}`,
+      //   `size=${menudata.size ?? 50}`
+      // ].join('&');
 
-    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-    navigate(url)
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
+      navigate(url)
+    } else {
+      navigate("/")
+    }
   }
 
   return {

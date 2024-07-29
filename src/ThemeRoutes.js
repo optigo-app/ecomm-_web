@@ -26,7 +26,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(4);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -36,6 +36,7 @@ export default function ThemeRoutes() {
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
 
+
   useEffect(() => {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
@@ -44,7 +45,6 @@ export default function ThemeRoutes() {
     if (data) {
       if (Logindata) {
         if (Logindata?.IsPLWOn == 1) {
-          alert("dopne");
           setCompanyTitleLogo(Logindata?.Private_label_logo);
         }
       } else {
@@ -56,7 +56,7 @@ export default function ThemeRoutes() {
     Storeinit().then((response) => {
       if (response.status === 200) {
 
-        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
@@ -162,6 +162,7 @@ export default function ThemeRoutes() {
           <meta name="description" content={title} />
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="manifest" href={favicon} />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         </Helmet>
       </div>
       {themeNo === 1 && <SmilingRock_App />}

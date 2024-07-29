@@ -1,0 +1,215 @@
+@import '../../../scss/variable.scss';
+
+.dt_MainCartDiv {
+  .bg-imageCart {
+    background-position: 50%;
+    background-size: cover;
+    height: 140px;
+    position: relative;
+    background-color: #a8807c;
+
+    .overlay {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+    }
+
+    .text-container {
+      color: #000;
+      left: 50%;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      width: 100%;
+      z-index: 1;
+    }
+  }
+
+  .cart {
+    display: flex;
+    flex-direction: row;
+    margin-inline: 20%;
+    gap: 10px;
+    margin-top: 50px;
+
+    .cart-items {
+      width: 70%;
+      margin-bottom: 20px;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        tr {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .product {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 100%;
+            max-width: 160px;
+          }
+
+          .product-details {
+            p {
+              margin: 0;
+            }
+          }
+        }
+
+        .total {
+          font-weight: 500;
+          color: rgb(168, 128, 124);
+        }
+
+        .dt_quantity {
+          .dt_cartB2c-quantity {
+            display: flex;
+            width: 130px;
+            height: 45px;
+            border: 1px solid #ccc;
+            font-family: $primaryFontFamily;
+
+            .input {
+              width: calc(100px * 0.5);
+              padding: 0;
+              margin: 0;
+              text-align: center;
+              border: none;
+              font-family: $primaryFontFamily;
+              color: $titleColor;
+            }
+
+            a.bttn,
+            .bttn {
+              width: calc(100px * 0.5);
+              padding: 0;
+              text-align: center;
+              color: $titleColor;
+              box-shadow: none;
+              background-color: white;
+              font-size: 24px;
+              cursor: pointer;
+              border: none;
+              font-family: $primaryFontFamily;
+            }
+          }
+        }
+
+        .remove {
+          button {
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .cart-totals {
+      width: 30%;
+      height: fit-content;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background: #f9f9f9;
+      border: 1px dashed #d9d9d9 !important;
+      border-radius: 6px;
+      box-shadow: none !important;
+      position: sticky;
+      top: 100px;
+
+      .card-total {
+        color: rgb(168, 128, 124);
+
+        span {
+          font-weight: 500;
+        }
+      }
+
+      .subtotal,
+      .shipping,
+      .total {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        span:last-child {
+          font-weight: bold;
+        }
+      }
+
+      .shipping {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          margin-bottom: 5px;
+        }
+
+        a {
+          color: blue;
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+      button {
+        background-color: #a8807c;
+        border: none;
+        color: #fff;
+        padding: 20px;
+        width: 100%;
+      }
+    }
+  }
+
+  .dt_browseBtnMore {
+    background: none;
+    border: 1px solid #7f8538;
+    color: #a8807c;
+    font-size: 15px;
+    font-weight: 500;
+    height: 50px;
+    margin-bottom: 50px;
+    outline: none;
+    width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart {
+    flex-direction: column;
+
+    .cart-items {
+      table {
+
+        th,
+        td {
+          padding: 5px;
+        }
+      }
+    }
+
+    .cart-totals {
+      padding: 10px;
+
+      button {
+        padding: 5px;
+      }
+    }
+  }
+}

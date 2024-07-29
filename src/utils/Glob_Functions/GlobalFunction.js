@@ -1,6 +1,7 @@
-export function storImagePath(){
+export function storImagePath() {
   let storeinit = JSON.parse(localStorage.getItem("storeInit"))
-  return `${storeinit?.WebSiteStaticImagePath}`
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname}`
+  return `${statiPath}/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
 
@@ -15,7 +16,6 @@ export function findMetalType(paramId) {
   let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
   let item = metalTypeArr.filter(item => item?.Metalid == paramId)
   // console.log("findMetal pro",paramId,item);
-
   return item
 }
 
@@ -33,7 +33,7 @@ export function findDiaQcId(param) {
 
   let item = diaQCArr?.filter(ele => ele?.Quality == quality && ele?.color == color)
   // console.log("diaa dia",item,param);
-  
+
   return item
 }
 

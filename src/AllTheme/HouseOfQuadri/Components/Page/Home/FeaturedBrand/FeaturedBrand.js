@@ -9,8 +9,11 @@ const FeaturedBrand = () => {
       <div className="horizontal_list">
         {FeaturedBrandList?.map((val, i) => {
           return (
-            <div className="brand_card">
-              <img src={val} alt="" />
+            <div
+              className="brand_card"
+              onClick={() => (window.location = val?.link)}
+            >
+              <img src={val?.path} alt="" loading="lazy" />
             </div>
           );
         })}

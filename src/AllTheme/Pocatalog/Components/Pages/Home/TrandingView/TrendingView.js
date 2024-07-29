@@ -17,8 +17,8 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
+import { proCat_loginState } from '../../../Recoil/atom';
 
 const TrendingView = () => {
 
@@ -35,7 +35,7 @@ const TrendingView = () => {
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(proCat_loginState);
 
     const isOdd = (num) => num % 2 !== 0;
 

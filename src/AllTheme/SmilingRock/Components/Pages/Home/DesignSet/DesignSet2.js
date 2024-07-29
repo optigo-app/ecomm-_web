@@ -186,7 +186,7 @@ const DesignSet2 = () => {
                       <img
                         // src={ProdCardImageFunc(slide)}
                         // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                        src={`${storImagePath()}/images/HomePage/bottombBanner/BottomBannerDesignSet.png`}
+                        src={`${storImagePath()}/images/HomePage/bottombBanner/BottomBannerDesignSet1.png`}
                         alt=""
                         className="imgBG"
                       />
@@ -221,6 +221,7 @@ const DesignSet2 = () => {
                               {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                                 <SwiperSlide key={`detail-${detail?.id}`}>
                                   <div className="centerall">
+                                    <div className="smr_ds2ImageDiv">
                                     <img
                                       loading="lazy"
                                       src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
@@ -234,8 +235,9 @@ const DesignSet2 = () => {
                                       }
                                       className="cardimg"
                                     />
+                                    </div>
                                   </div>
-                                  <div className="fs1 centerall">{detail?.TitleLine}-{detail?.designno}</div>
+                                  <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
                                   <div className="fs2 centerall">
                                     <p>
                                       <span

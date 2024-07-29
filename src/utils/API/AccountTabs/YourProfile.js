@@ -1,7 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo, userData) => {
-    
+export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo) => {
     try {
         
         const combinedValue = JSON.stringify({
@@ -11,9 +10,9 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo, userD
         addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
         city: `${editedUserData.city}`, 
         state: `${editedUserData.state}`, 
-        country: `${userData.defaddress_country}`, 
-        zip: `${userData.defaddress_zip}`, 
-        mobileno: `${userData.defaddress_shippingmobile}`, 
+        country: `${editedUserData.defaddress_country}`, 
+        zip: `${editedUserData.defaddress_zip}`, 
+        mobileno: `${editedUserData.defaddress_shippingmobile}`, 
         FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
         Customerid: `${editedUserData.id}`
     });
@@ -26,7 +25,6 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo, userD
         dp: combinedValue,
     };
     const response = await CommonAPI(body);
-    
     return response;
 
     } catch (error) {

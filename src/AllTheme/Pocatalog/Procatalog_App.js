@@ -7,7 +7,7 @@ import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
 import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { companyLogo, loginState } from './Components/Recoil/atom'
+import { companyLogo, proCat_companyLogo, proCat_loginState } from './Components/Recoil/atom'
 import { Storeinit } from '../../utils/API/Home/Storeinit/Storeinit'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
@@ -37,18 +37,38 @@ import Account from './Components/Pages/Account/Account';
 import Cookies from 'js-cookie'
 import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
+import ProCat_PrivateRoutes from './ProCat_PrivateRoutes'
 
 
 const Procatalog_App = () => {
 
-    const islogin = useRecoilValue(loginState)
     const [localData, setLocalData] = useState();
     const navigation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
+    const islogin = useRecoilValue(proCat_loginState)
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+    const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+
+
+    useEffect(() => {
+        let data = localStorage.getItem("storeInit");
+
+        let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let logo = JSON?.parse(data);
+        if (Logindata) {
+            if (Logindata?.IsPLWOn == 1) {
+                setCompanyTitleLogo(Logindata?.Private_label_logo);
+            } else {
+                setCompanyTitleLogo(logo?.companylogo);
+            }
+        } else {
+            setCompanyTitleLogo(logo?.companylogo);
+        }
+    });
 
     useEffect(() => {
         const cookieValue = Cookies.get('userLoginCookie');
@@ -72,7 +92,7 @@ const Procatalog_App = () => {
     }, [])
 
     return (
-        <>
+        <>    
             <div>
                 {localData?.Headerno === 1 && <Header />}
                 {localData?.Headerno === 2 && <Header2 />}
@@ -94,16 +114,29 @@ const Procatalog_App = () => {
                 <Route path="/FunFact" element={<FunFact />} />
                 <Route path="/Lookbook" element={<Lookbook />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-                {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-                    <Route path="/p/*" element={<ProductList />} />
-                    <Route path="/d/*" element={<ProductDetail />} />
-                    <Route path="/cartPage" element={<Cart />} />
-                    <Route path="/myWishList" element={<Wishlist />} />
-                    <Route path="/Delivery" element={<Delivery />} />
-                    <Route path="/Payment" element={<Payment />} />
-                    <Route path="/Confirmation" element={<Confirmation />} />
-                    <Route path="/account" element={<Account />} />
-                {/* </Route> */}
+                {storeInit?.IsB2BWebsite != 0 ?
+                    <Route path='/' element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}>
+                        <Route path="/p/*" element={<ProductList />} />
+                        <Route path="/d/*" element={<ProductDetail />} />
+                        <Route path="/cartPage" element={<Cart />} />
+                        <Route path="/myWishList" element={<Wishlist />} />
+                        <Route path="/Delivery" element={<Delivery />} />
+                        <Route path="/Payment" element={<Payment />} />
+                        <Route path="/Confirmation" element={<Confirmation />} />
+                        <Route path="/account" element={<Account />} />
+                    </Route>
+                    :
+                    <>
+                        <Route path="/p/*" element={<ProductList />} />
+                        <Route path="/d/*" element={<ProductDetail />} />
+                        <Route path="/cartPage" element={<Cart />} />
+                        <Route path="/myWishList" element={<Wishlist />} />
+                        <Route path="/Delivery" element={<Delivery />} />
+                        <Route path="/Payment" element={<Payment />} />
+                        <Route path="/Confirmation" element={<Confirmation />} />
+                        <Route path="/account" element={<Account />} />
+                    </>
+                }
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
         </>
