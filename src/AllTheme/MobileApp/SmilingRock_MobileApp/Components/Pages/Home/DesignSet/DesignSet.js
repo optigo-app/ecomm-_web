@@ -74,6 +74,8 @@ const DesignSet = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+
         let obj = {
             a: autoCode,
             b: designNo,
@@ -83,7 +85,17 @@ const DesignSet = () => {
             f: {},
         };
         let encodeObj = compressAndEncode(JSON.stringify(obj));
-        navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+
+        if (storeinit?.IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+            } else {
+                navigation('/signin')
+            }
+        } else {
+            navigation(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
+        }
+
     };
 
     const decodeEntities = (html) => {

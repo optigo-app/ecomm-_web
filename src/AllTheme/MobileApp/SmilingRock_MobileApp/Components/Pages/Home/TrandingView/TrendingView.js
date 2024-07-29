@@ -112,10 +112,18 @@ const TrendingView = () => {
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
 
+        if (IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+            } else {
+                navigation('/signin')
+            }
+        } else {
+            navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        }
         // if(IsB2BWebsite === 1){
         //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }else{
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }
     }
 
@@ -162,6 +170,19 @@ const TrendingView = () => {
 
     console.log('oddNumberObjects evenNumberObjects', oddNumberObjects);
 
+
+    const handleNavigate = () => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        if (storeinit?.IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(`/p/Trending/?T=${btoa('Trending')}`)
+            } else {
+                navigation('/signin')
+            }
+        } else {
+            navigation(`/p/Trending/?T=${btoa('Trending')}`)
+        }
+    }
     return (
         <div className='smrMA_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
@@ -175,7 +196,7 @@ const TrendingView = () => {
                             oddNumberObjects?.slice(0, 2).map((data, inedx) => (
                                 evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
                                     <div className='linkRingLove'>
-                                        <div style={{width: '50%'}}>
+                                        <div style={{ width: '50%' }}>
                                             <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                 <img src={ring1ImageChange ?
                                                     `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -198,7 +219,7 @@ const TrendingView = () => {
                                                     /> {(data?.UnitCostWithMarkUp)?.toFixed(2)}</p>
                                             </div>
                                         </div>
-                                        <div style={{width: '50%'}}>
+                                        <div style={{ width: '50%' }}>
                                             <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
                                                 <img src={ring1ImageChangeOdd ?
                                                     `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
@@ -226,7 +247,9 @@ const TrendingView = () => {
                             ))
                         }
                     </Slider>
-                    <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
+
+                    <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>
+
                 </div>
             </div>
         </div>

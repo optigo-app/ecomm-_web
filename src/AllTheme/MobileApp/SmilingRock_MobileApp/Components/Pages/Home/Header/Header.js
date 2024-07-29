@@ -43,7 +43,7 @@ const Header = () => {
     };
   }, []);
 
-  
+
 
   useEffect(() => {
     GetCountAPI(cookie).then((res) => {
@@ -73,8 +73,8 @@ const Header = () => {
     }
   };
 
-const searchDataFucn = (e) => {
-    if (e.key === 'Enter') {
+  const searchDataFucn = (e) => {
+    if (e.key === 'Enter' || searchText) {
       if (searchText) {
         // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
@@ -137,7 +137,9 @@ const searchDataFucn = (e) => {
                   }
                 }}
               />
-              <SearchIcon onClick={(e)=>searchDataFucn(e)}  />
+              <div style={{width: '30px'}} onClick={(e) => searchDataFucn(e)} >
+                <SearchIcon />
+              </div>
             </div>
             <Badge
               badgeContent={cartCountNum}
@@ -172,9 +174,9 @@ const searchDataFucn = (e) => {
           <div className='smrMA_HeaderMain'>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'>
-                <a href="/">
-                  <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
-                </a>
+                {/* <a href="/"> */}
+                <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
+                {/* </a> */}
                 {isB2bFlag == 1 ?
                   islogin == false ?
                     ''
