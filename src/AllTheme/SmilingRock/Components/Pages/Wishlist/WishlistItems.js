@@ -72,16 +72,18 @@ const WishlistItems = (
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 <span className='smr_wishDT'>GWT: </span>
-                                <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smr_pipe'> | </span>
+                                {/* <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)}</span>
+
+                                <span className='smr_pipes'> | </span>
                                 <span className='smr_wishDT'>NWT : </span>
-                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                <span className='smr_pipe'> | </span>
+                                <span className='smr_wishDT'>{(item?.Nwt || 0).toFixed(3)}{' '}</span>
+                                <span className='smr_pipes'> | </span>
                                 <span className='smr_wishDT'>DWT: </span>
-                                <span>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                <span className='smr_pipe'> | </span>
+                                <span>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}</span>
+                                <span className='smr_pipes'> | </span>
                                 <span className='smr_wishDT'>CWT: </span>
-                                <span>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                <span>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0).toFixed(3)}{' '}</span>
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 {item?.metalcolorname !== "" && (
