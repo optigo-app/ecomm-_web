@@ -9,9 +9,7 @@ function Home() {
   return (
     <div>
          <TopSection />
-
          <NewArrival />
-
          <WidgetsComponents />
          <SocialMedia />
          <Footer />
