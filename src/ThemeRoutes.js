@@ -26,7 +26,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(4);
+  const [themeNo, setThemeNo] = useState(2);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -35,7 +35,6 @@ export default function ThemeRoutes() {
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
-
 
   useEffect(() => {
     let data = localStorage.getItem("storeInit");
