@@ -40,7 +40,7 @@ const AddressManagement = () => {
     }
 
     return (
-        <div className='smr_DeliverMainDiv'>
+        <div className='proCat_DeliverMainDiv'>
             <div className='smr_secondMaindivAdd'>
                 <div className='smr_addMainDiv'>
                     <div className='smr_TitleDetailMainDiv'>
@@ -92,7 +92,7 @@ const AddressManagement = () => {
                 <Footer />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+                <p style={{ margin: '0px', fontWeight: 500, color: 'black', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );

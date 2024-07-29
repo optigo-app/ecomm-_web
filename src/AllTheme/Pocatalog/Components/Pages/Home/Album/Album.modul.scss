@@ -41,10 +41,10 @@
     .smr_AlbumImageMain {
         height: 350px;
         width: 19%;
-        padding: 5px;
+        padding: 0px;
         margin: 5px;
         cursor: pointer;
-        box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
+        border: 1px solid lightgray;
     }
 
     .smr_albumTitle {
@@ -64,7 +64,7 @@
 
     .smr_AlbumImageMain_img {
         width: 100%;
-        max-height: 300px;
+        height: 320px;
         object-fit: contain;
     }
 

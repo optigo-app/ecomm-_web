@@ -444,6 +444,7 @@ const Header = () => {
                               height: "20px",
                               cursor: "pointer",
                               width: "20px",
+                              color: 'black'
                             }}
                           />
                         </li>
@@ -471,7 +472,10 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
+                            sx={{ height: '30px', width: '30px' ,
+                              color: 'black'
+
+                            }}
                           />
                         </li>
                       </Tooltip>
@@ -680,6 +684,7 @@ const Header = () => {
                               height: "20px",
                               cursor: "pointer",
                               width: "20px",
+                              color: 'black'
                             }}
                           />
                         </li>
@@ -705,7 +710,9 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
+                            sx={{ height: '30px', width: '30px',
+                              color: 'black'
+                             }}
                           />
                         </li>
                       </Tooltip>
@@ -730,6 +737,7 @@ const Header = () => {
                               height: "20px",
                               cursor: "pointer",
                               width: "20px",
+                              color: 'black'
                             }}
                           />
                         </li>
@@ -755,7 +763,9 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' }}
+                            sx={{ height: '30px', width: '30px' ,
+                              color: 'black'
+                            }}
                           />
                         </li>
                       </Tooltip>

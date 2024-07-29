@@ -2076,7 +2076,7 @@ const ProductList = () => {
             )}
           </div>
         </Drawer>
-        <div className="smr_bodyContain">
+        <div className="proCat_bodyContain">
           <div className="smr_outerContain">
             <div className="smr_whiteInnerContain">
               {isProdLoading ? (
@@ -3355,7 +3355,7 @@ const ProductList = () => {
         </div> */}
         </div>
       </div>
-      <div className="smr_backtotop" onClick={() => {
+      <div className="proCat_backtotop" onClick={() => {
         window.scroll({
           top: 0,
           behavior: "auto",
