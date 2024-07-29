@@ -563,7 +563,9 @@ const ProductList = () => {
 
   const handleCheckboxChange = (e,listname,val) =>{
     const { name, checked } = e.target;
-    setAfterCountStatus(false);
+    // setAfterCountStatus(false);
+    setAfterCountStatus(true);
+
 
     // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
 
@@ -605,7 +607,6 @@ const ProductList = () => {
   }
   
   useEffect(() => {
-    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -620,7 +621,6 @@ const ProductList = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            setAfterCountStatus(false);
           }
           return res;
         })
@@ -634,7 +634,11 @@ const ProductList = () => {
         //    }
         //    return res
         //  })
-        .catch((err) => console.log("err", err)).finally(() => { setIsProdLoading(false) })
+        .catch((err) => console.log("err", err))
+        .finally(() => { 
+          setIsProdLoading(false) 
+          setAfterCountStatus(false)
+        })
     }
     // .then(async(res)=>{
     //   if(res){
@@ -2352,7 +2356,7 @@ const ProductList = () => {
                     </div>
                   </>
                 )}
-            {( (storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && filterProdListEmpty) ? <div
+            {( (storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && !filterProdListEmpty) ? <div
               style={{
                 display: "flex",
                 justifyContent: "center",
