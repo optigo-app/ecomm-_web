@@ -8,7 +8,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
-
 const sliderData = [
     {
         imageUrl: "/Diaomndtine/HomePage/MainBanner/Images/HomepageMainBanner1.jpg",
