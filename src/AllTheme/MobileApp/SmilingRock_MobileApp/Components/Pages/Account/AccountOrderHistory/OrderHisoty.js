@@ -126,7 +126,10 @@ const OrderHistory = () => {
     }
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
-    navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    // navigate(`/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+    productData?.TitleLine === undefined ?  navigate(`/d/${productData?.designno}?p=${encodeObj}`)
+    : navigate(`/d/${ productData?.TitleLine && productData?.TitleLine?.replace(/\s+/g, `_`)}${ productData?.TitleLine && productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+
 
   }
 
@@ -289,13 +292,16 @@ const OrderHistory = () => {
                         <div className="px-1">{formatAmount(e?.orderAmountwithvat)}</div>
                     </div>
                   </div>
-                    <div className="w-100 d-flex justify-content-between align-items-center py-2" style={{minHeight:'55px'}}>
-                            <div className="w-50 d-flex justify-content-end align-items-center">
+                  
+                    
+                  { smallDevice320px && <div className="w-100 d-flex justify-content-between align-items-center py-2"  style={{minHeight:'55px'}}>
+                            <div>
                               {e?.IsPLW === 1 ? (
-                                <div className="d-flex align-items-center">
+                                <div className="d-flex align-items-center flex-row-reverse">
                                   <div className={`sidebar d-flex flex-column ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
                                     {/* <Stack direction="col" style={{paddingBottom:'1px'}} spacing={1}> */}
                                     <div style={{padding:'2px'}}>
+
                                     {(showActions === e?.id) && (
                                       <>
                                           <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
@@ -327,19 +333,25 @@ const OrderHistory = () => {
                 
                           <div className="d-flex align-items-center justify-content-end">
                               { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                              {/* { e?.OrderStatusId === 1 ? */}
+                              {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
+                              {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
+                              {/* //  :
+                                // <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div>}
+                                // <div>&nbsp;</div>} */}
                           </div>
                           <div className="d-flex align-items-center text-break" style={{width:'18%'}}>  
                             { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
-                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+                            { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px', height:'8px'}}>
                               { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
                             </span> }
                           </div>
                           
-                    </div>
+                    </div>}
                   
               
                  
-                  <div>
+                <div>
       <div style={{ height: '10px', cursor: 'pointer' }} title="info" className="border-top"></div>
       {orderInfo === e?.id ? (
         <>
@@ -418,3 +430,52 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
+
+
+//  <div className="w-100 d-flex justify-content-between align-items-center py-2" style={{minHeight:'55px'}}>
+// <div className="w-50 d-flex justify-content-end align-items-center">
+//   {e?.IsPLW === 1 ? (
+//     <div className="d-flex align-items-center">
+//       <div className={`sidebar d-flex flex-column ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+//         {/* <Stack direction="col" style={{paddingBottom:'1px'}} spacing={1}> */}
+//         <div style={{padding:'2px'}}>
+//         {(showActions === e?.id) && (
+//           <>
+//               <Chip size="small" label="Approve" color="success" onClick={() => handleApproveReject(e, 'approve')} />
+//               <Chip
+//                 size="small"
+//                 label="Reject"
+//                 sx={{
+//                   backgroundColor: 'black',
+//                   color: 'white',
+//                   '&:hover': {
+//                     backgroundColor: 'black',
+//                     color: 'white',
+//                     cursor: 'default',
+//                   },
+//                 }}
+//             onClick={() => handleApproveReject(e, 'reject')}
+//           />
+//         </>
+//       )}
+//                 </div>
+//         {/* </Stack> */}
+//     </div>
+//     <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
+//   </div>
+//   ) : (
+//     <div>&nbsp;</div>
+//   )}
+// </div>
+
+// <div className="d-flex align-items-center justify-content-end">
+//   { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+// </div>
+// <div className="d-flex align-items-center text-break" style={{width:'18%'}}>  
+// { e?.IsPLW === 1 ?  <div className="d-flex justify-content-end"><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div> : ''}
+// { e?.IsPLW === 1 && <span className="_colo2 " style={{fontSize:'7px', lineHeight:'7px'}}>
+//   { showPrint && <>{clickedPrintId === e?.id && 'Coming Soon...'}</>}
+// </span> }
+// </div>
+
+// </div>
