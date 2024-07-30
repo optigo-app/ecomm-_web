@@ -1,5 +1,39 @@
 @import '../../../scss/variable';
 
+
+.smr_AlbumImageMainPopup {
+    height: 270px;
+    width: 19%;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
+}
+
+.proCat_AlbumLockIcone_popup {
+    height: 25px;
+    position: absolute;
+    right: 40%;
+    top: 40%;
+}
+
+.smr_AlbumImageMainPopup_img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.lock_icon {
+    background-color: #fff;
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, .6);
+    display: inline-block;
+    padding: 13px;
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+    object-fit: contain;
+}
+
 .proCat_alubmMainDiv {
 
     margin-inline: 60px;
@@ -7,10 +41,10 @@
     .smr_AlbumImageMain {
         height: 350px;
         width: 19%;
-        padding: 5px;
+        padding: 0px;
         margin: 5px;
         cursor: pointer;
-        box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
+        border: 1px solid lightgray;
     }
 
     .smr_albumTitle {
@@ -30,7 +64,7 @@
 
     .smr_AlbumImageMain_img {
         width: 100%;
-        min-height: 300px;
+        height: 320px;
         object-fit: contain;
     }
 

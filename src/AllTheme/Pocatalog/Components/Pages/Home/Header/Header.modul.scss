@@ -27,11 +27,11 @@
 
     .smr_logo_header {
         object-fit: contain;
-        max-width: 110px;
+        max-width: 200px;
     }
 
     .smiling_Top_header_div3 {
-        width: 50%;
+        width: 80%;
         justify-content: flex-end;
         display: flex;
         align-items: center;
@@ -63,7 +63,7 @@
     }
 
     .nav_li_smining {
-        color: white;
+        color: black;
         font-size: $fontSize2;
         font-weight: 500;
         letter-spacing: 1px;
@@ -333,8 +333,8 @@
     }
 
     .badgeColorFix .MuiBadge-badge {
-        background-color: white !important;
-        color: #c0bbb1 !important;
+        background-color:rgb(214 204 204) !important;
+        color: black !important;
         margin-left: 10px !important;
 
     }
@@ -374,11 +374,6 @@
         .smiling_Top_header_div2 {
             width: 20% !important;
         }
-
-        .smiling_Top_header_div3 {
-            width: 40% !important;
-        }
-
 
     }
 

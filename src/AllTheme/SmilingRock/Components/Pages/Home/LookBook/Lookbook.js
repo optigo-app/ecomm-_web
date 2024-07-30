@@ -1665,7 +1665,7 @@ const Lookbook = () => {
                                     }}
                                     className="smr_lb3ctl_img"
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
                                 )}
                                 <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
@@ -1860,11 +1860,29 @@ const Lookbook = () => {
                         >
                           {filteredDesignSetLstData?.map((slide, index) => (
                             <SwiperSlide key={index}>
-                              <img
-                                src={ProdCardImageFunc(slide)}
-                                alt=""
-                                className="ctl_Paginationimg"
-                              />
+
+                              {ProdCardImageFunc(slide) ? (
+                                <img
+                                  src={ProdCardImageFunc(slide)}
+                                  alt=""
+                                  className="ctl_Paginationimg"
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: "100%",
+                                    width: "100%",
+                                    ...getRandomBgColor(index),
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    cursor: "pointer",
+                                  }}
+                                  className="smr_lb3ctl_img"
+                                >
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                </div>
+                              )}
                             </SwiperSlide>
                           ))}
                         </Swiper>

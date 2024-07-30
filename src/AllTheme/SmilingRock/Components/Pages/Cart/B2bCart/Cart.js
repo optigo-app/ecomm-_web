@@ -77,7 +77,7 @@ const CartPage = () => {
   const setCartCountVal = useSetRecoilState(CartCount)
   const islogin = useRecoilValue(loginState);
   const visiterId = Cookies.get('visiterId');
-  const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  const isLargeScreen = useMediaQuery('(min-width:1040px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
   const handlePlaceOrder = () => {
@@ -346,8 +346,8 @@ const CartPage = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Remove Item"
-          content="Are you sure you want to remove all Item?"
+          title="Confirm"
+          content="Are you sure you want to remove all Items?"
         />
 
         <Footer />

@@ -81,21 +81,24 @@ export default function Account() {
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
         setFname(loginUserDetail?.firstname);
         setLasnane(loginUserDetail?.lastname);
-        setUserMobile(loginUserDetail?.defaddress_shippingmobile)
-    },[])
+        setUserMobile(loginUserDetail?.mobileno);
+    }, [])
+
     const handleLogout = () => {
-        setIsLoginState('false')
-        localStorage.setItem('LoginUser', 'false');
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        naviagation('/')
+        navigation("/");
+        setIsLoginState(false);
+        localStorage.setItem("LoginUser", false);
+        localStorage.removeItem("storeInit");
+        localStorage.removeItem("loginUserDetail");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("selectedAddressId");
+        localStorage.removeItem("orderNumber");
+        localStorage.removeItem("registerEmail");
+        localStorage.removeItem("UploadLogicalPath");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("registerMobile");
+        localStorage.removeItem("allproductlist");
+        localStorage.clear();
         window.location.reload();
     }
 
@@ -118,11 +121,11 @@ export default function Account() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
-                        <div className='boxMainTopSection'>
+                        <div className='boxMainTopSection' onClick={() => naviagation('/Coupons')}>
                             <IoGiftOutline style={{ marginLeft: '15px' }} />
                             <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Coupons</p>
                         </div>
-                        <div className='boxMainTopSection' style={{ marginRight: '0px' }}>
+                        <div className='boxMainTopSection' style={{ marginRight: '0px' }} onClick={() => naviagation('/HelpCenter')}>
                             <FaHeadset style={{ marginLeft: '15px' }} />
                             <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Help Center</p>
                         </div>

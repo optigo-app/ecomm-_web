@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Wishlist.modul.scss';
 import WishlistData from './WishlistData';
 import Usewishlist from '../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
@@ -72,6 +72,13 @@ const Wishlist = () => {
     boxShadow: 24,
     p: 3,
   };
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
 
 
   return (

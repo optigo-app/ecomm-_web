@@ -22,12 +22,12 @@ const Album = () => {
     const visiterID = Cookies.get('visiterId');
     let finalID;
     if (IsB2BWebsite == 0) {
-        finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
-        finalID = loginUserDetail?.id || '0';
+      finalID = loginUserDetail?.id || '0';
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum" , finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response?.Data?.rd);
@@ -38,7 +38,17 @@ const Album = () => {
 
 
   const handleNavigate = (name) => {
-    navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    if (storeinit?.IsB2BWebsite == 1) {
+      if (islogin) {
+        navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+      } else {
+        navigation('/signin')
+      }
+    } else {
+      navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
+    }
+
   }
 
   return (

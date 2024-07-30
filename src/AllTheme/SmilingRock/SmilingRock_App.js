@@ -101,6 +101,24 @@ const SmilingRock_App = () => {
     setLocalData(localD);
   }, []);
 
+
+  if (islogin === true) {
+    const restrictedPaths = [
+        '/LoginOption',
+        '/ContinueWithEmail',
+        '/ContinueWithMobile',
+        '/LoginWithEmailCode',
+        '/LoginWithMobileCode',
+        '/ForgotPass',
+        '/LoginWithEmail',
+        '/register'
+    ];
+
+    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+        return navigation("/");
+    }
+}
+
   return (
     <>
     <Helmet>
@@ -182,7 +200,7 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />

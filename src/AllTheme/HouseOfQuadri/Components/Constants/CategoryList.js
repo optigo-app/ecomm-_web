@@ -1,57 +1,59 @@
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
+
 export const CategoryList = [
   {
-    img : "https://houseofquadri.com/cdn/shop/collections/ER0004_3_360x.jpg?v=1704703114", 
-    name : 'Earrings'
-  } ,
-  {
-    img : "https://houseofquadri.com/cdn/shop/collections/ER0001_2_360x.jpg?v=1704703166" ,
-    name : "NeckLace"
+    img: "https://houseofquadri.com/cdn/shop/collections/ER0004_3_360x.jpg?v=1704703114",
+    name: "Earrings",
   },
- {
-  img :  "https://houseofquadri.com/cdn/shop/collections/RL0002_3_360x.jpg?v=1704703186" ,
-  name : "Rings"
- },
   {
-    img : "https://houseofquadri.com/cdn/shop/collections/BR_360x.jpg?v=1704703141" ,
-    name : "Bracelets"
+    img: "https://houseofquadri.com/cdn/shop/collections/ER0001_2_360x.jpg?v=1704703166",
+    name: "NeckLace",
+  },
+  {
+    img: "https://houseofquadri.com/cdn/shop/collections/RL0002_3_360x.jpg?v=1704703186",
+    name: "Rings",
+  },
+  {
+    img: "https://houseofquadri.com/cdn/shop/collections/BR_360x.jpg?v=1704703141",
+    name: "Bracelets",
   },
 ];
 
 export const diamondShapes = [
   {
     shape: "Round",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Round_8799c972-1c9a-456e-8928-d838891dc0c2.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/1.webp`,
   },
   {
     shape: "Oval",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Oval.webp?v=1703580834",
+    img: `${storImagePath()}/images/HomePage/shape/2.webp`,
   },
   {
     shape: "Emerald",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Emerald.png?v=1703580834",
+    img: `${storImagePath()}/images/HomePage/shape/3.webp`,
   },
   {
     shape: "Princess",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Princess-Cut.png?v=1703833677",
+    img: `${storImagePath()}/images/HomePage/shape/4.webp`,
   },
   {
     shape: "Cushion",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Cushioin.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/5.webp`,
   },
   {
     shape: "Pear",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Pear.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/6.webp`,
   },
   {
     shape: "Radiant",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Radiant.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/7.webp`,
   },
   {
     shape: "Marquise",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Marquise.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/8.webp`,
   },
   {
     shape: "Heart",
-    img: "https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Heart.png?v=1703580835",
+    img: `${storImagePath()}/images/HomePage/shape/9.webp`,
   },
 ];

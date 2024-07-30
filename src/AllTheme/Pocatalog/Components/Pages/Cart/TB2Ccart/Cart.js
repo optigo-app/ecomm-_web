@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartList from './CartList';
-import './smr_cartb2c.scss';
+import './ProCat_cartb2c.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
@@ -106,22 +106,22 @@ const CartPage = () => {
 
   console.log('selected--', selectedItem);
   return (
-    <div className='smr_MainB2cBGDiv'>
+    <div className='ProCat_MainB2cBGDiv'>
       <div className='cartMainb2cPageDiv'>
         <div className="cartB2cBtnGroupMainDiv">
-          <div className="smr_B2ccart-title">My Cart</div>
+          <div className="ProCat_B2ccart-title">My Cart</div>
           {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr_B2ccartButton-group">
-                <Link className='smr_B2cReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
+              <div className="ProCat_B2ccartButton-group">
+                <Link className='ProCat_B2cReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
                   Clear All
                 </Link>
-                <div className='smr_b2cplaceOrderMobileMainbtnDiv'>
-                  <button className="smr_B2cplace-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='ProCat_b2cplaceOrderMobileMainbtnDiv'>
+                  <button className="ProCat_B2cplace-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              {/* <div className='smr_B2cplaceOrderMainbtnDiv'>
-                <button className="smr_B2cplace-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              {/* <div className='ProCat_B2cplaceOrderMainbtnDiv'>
+                <button className="ProCat_B2cplace-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div> */}
             </>
           }
@@ -129,8 +129,8 @@ const CartPage = () => {
         {!isloding ? (
           <>
             {cartData.length !== 0 ? (
-              <div className="smr_B2ccartMainPages">
-                <div className="smr_B2CcartSide">
+              <div className="ProCat_B2ccartMainPages">
+                <div className="ProCat_B2CcartSide">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -149,10 +149,10 @@ const CartPage = () => {
                 </div>
               </div>
             ) :
-              <div className='smr_noWishlistData'>
-                <p className='smr_title'>No Item Found!</p>
-                <p className='smr_desc'>Please First Add To Cart Data</p>
-                <button className='smr_browseOurCollectionbtn'>Browse our collection</button>
+              <div className='ProCat_noWishlistData'>
+                <p className='ProCat_title'>No Item Found!</p>
+                <p className='ProCat_desc'>Please First Add To Cart Data</p>
+                <button className='ProCat_browseOurCollectionbtn'>Browse our collection</button>
               </div>
             }
           </>

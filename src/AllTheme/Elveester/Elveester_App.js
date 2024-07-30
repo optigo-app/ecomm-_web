@@ -19,6 +19,11 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import PaymentPage from './Components/Pages/OrderFlow/PaymentPage/PaymentPage'
 import ConfirmationPage from './Components/Pages/OrderFlow/ConfirmationPage/ConfirmationPage'
 import Wishlist from './Components/Pages/Wishlist/Wishlist'
+import AboutUs from './Components/Pages/AboutUs/AboutUs'
+import History from './Components/Pages/History/History'
+import Terms from './Components/Pages/Terms/Terms'
+import CustomerCare from './Components/Pages/Customercare/CustomerCare'
+import Customize from './Components/Pages/Customize/Customize'
 
 const SmilingRock_App = () => {
 
@@ -58,6 +63,11 @@ const SmilingRock_App = () => {
                 <Route path="/Confirmation" element={<ConfirmationPage />} />
                 <Route path="/p/*" element={<ProductList />} />
                 <Route path="/d/*" element={<ProductDetail />} />
+                <Route path="/aboutUs" element={<AboutUs />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/term&condition" element={<Terms />} />
+                <Route path="/customerServices" element={<CustomerCare />} />
+                <Route path="/customize" element={<Customize />} />
             </Routes>
             {showFooter && <Footer />}
         </div>

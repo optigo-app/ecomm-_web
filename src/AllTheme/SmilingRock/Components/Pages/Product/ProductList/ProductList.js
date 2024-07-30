@@ -3175,13 +3175,14 @@ const ProductList = () => {
                                               "smr1_prod_title_with_no_width"
                                           }
                                         >
-                                          {productData?.TitleLine?.length > 0 &&
+                                          {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
-                                          {productData?.TitleLine}{" "}
+                                          {productData?.TitleLine}{" "} */}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
-                                        <span className="smr_prod_designno">
+                                        {/* <span className="smr_prod_designno">
                                           {productData?.designno}
-                                        </span>
+                                        </span> */}
                                       </div>
                                       <div className="smr_prod_Allwt">
                                         <div
@@ -3205,7 +3206,7 @@ const ProductList = () => {
                                                   GWT:
                                                 </span>
                                                 <span className="smr_val">
-                                                  {productData?.Gwt}
+                                                  {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
@@ -3215,7 +3216,7 @@ const ProductList = () => {
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">NWT:</span>
                                                 <span className="smr_val">
-                                                  {productData?.Nwt}
+                                                  {(productData?.Nwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             </>
@@ -3231,7 +3232,7 @@ const ProductList = () => {
                                                     DWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.Dwt}
+                                                    {(productData?.Dwt)?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs === 1
                                                       ? `/${productData?.Dpcs}`
                                                       : null}
@@ -3248,7 +3249,7 @@ const ProductList = () => {
                                                     CWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.CSwt}
+                                                    {(productData?.CSwt)?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
                                                       : null}

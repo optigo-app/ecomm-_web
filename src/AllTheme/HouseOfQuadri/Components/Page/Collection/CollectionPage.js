@@ -1,19 +1,20 @@
 import { Link, Outlet } from "react-router-dom";
 import "./collection.modul.scss";
+import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 const CollectionPage = () => {
   const collections = [
     {
       title: "Askew",
-      img: "https://houseofquadri.com/cdn/shop/collections/HOQ_April_22_-_720_1080x.jpg?v=1653571782",
+      img: `${storImagePath()}/images/catalog/1.png`,
     },
     {
       title: "Emra",
-      img: "https://houseofquadri.com/cdn/shop/collections/HOQ_April_22_-_503_1080x.jpg?v=1656310597",
+      img:`${storImagePath()}/images/catalog/2.png`,
     },
     {
       title: "Stellar",
-      img: "https://houseofquadri.com/cdn/shop/collections/HOQ_April_22_-_359_1080x.jpg?v=1653571979",
+      img:`${storImagePath()}/images/catalog/3.png`,
     },
   ];
   return (
@@ -42,7 +43,7 @@ export const Card = ({ img, link, title }) => {
   return (
     <div className="b_card">
       <Link to={link}>
-      <img src={img} alt="" />
+        <img src={img} alt="" />
         <h2>{title}</h2>
       </Link>
     </div>

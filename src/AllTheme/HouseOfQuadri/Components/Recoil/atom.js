@@ -31,3 +31,8 @@ export const Hoq_DiamondRangeArr = atom({
 });
 
 
+export const Hoq_defaultAddressState =atom({
+  key : "Hoq_defaultAddressState",
+  default : []
+})
+

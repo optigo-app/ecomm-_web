@@ -10,7 +10,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
     || window.location.hostname === 'elvee.web'
-    || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/storev26/ReactStore.aspx';
+    || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
 
 // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
@@ -21,13 +21,14 @@ const APIURL = (window.location.hostname === 'localhost'
 export const CommonAPI = async (body) => {
     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
     try {
-        const { YearCode, version, token } = storeInit;
+        const { YearCode, version, token , sv } = storeInit;
 
         const header = {
             Authorization: `Bearer ${token}`,
             Yearcode: YearCode,
             Version: version,
-            sp: "1"
+            sp: "1",
+            sv: sv
         };
         const response = await axios.post(APIURL, body, { headers: header });
         return response?.data;

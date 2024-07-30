@@ -13,7 +13,7 @@ const NewArrival = () => {
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const[storeInit,setStoreInit]=useState({});
+    const [storeInit, setStoreInit] = useState({});
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(smrMA_loginState);
@@ -55,6 +55,7 @@ const NewArrival = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         let obj = {
             a: autoCode,
             b: designNo,
@@ -64,7 +65,30 @@ const NewArrival = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+
+        if (storeinit?.IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+            } else {
+                navigation('/signin')
+            }
+        } else {
+            navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        }
+
+    }
+
+    const handleNavigate = () => {
+        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        if (storeinit?.IsB2BWebsite == 1) {
+            if (islogin) {
+                navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)
+            } else {
+                navigation('/signin')
+            }
+        } else {
+            navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)
+        }
     }
 
 
@@ -73,11 +97,11 @@ const NewArrival = () => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
-      }
+    }
 
 
-      
-      const handleMouseEnterRing1 = (data) => {
+
+    const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
             setRing1ImageChange(true)
         }
@@ -102,37 +126,37 @@ const NewArrival = () => {
                 <div className='smlingBridesImages'>
                     <div className='smr_newArrivaldivMain'>
                         <div className='smr_newArrialDiv1' onClick={() => handleNavigation(newArrivalData[0]?.designno, newArrivalData[0]?.autocode, newArrivalData[0]?.TitleLine)}>
-                            <img src={ring1ImageChange ? 
-                            `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_2.${newArrivalData && newArrivalData[0]?.ImageExtension}`
-                            :
-                            `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''}  onMouseEnter={() => handleMouseEnterRing1(newArrivalData[0])} onMouseLeave={handleMouseLeaveRing1}/>
+                            <img src={ring1ImageChange ?
+                                `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_2.${newArrivalData && newArrivalData[0]?.ImageExtension}`
+                                :
+                                `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''} onMouseEnter={() => handleMouseEnterRing1(newArrivalData[0])} onMouseLeave={handleMouseLeaveRing1} />
                             <p className='smr_nwArrivalTitle'>{newArrivalData[0]?.TitleLine}</p>
                             <p className='smr_nwArrivalTitle'><span
-                                  className="smr_currencyFont"
-                                  dangerouslySetInnerHTML={{
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
-                                      storeInit?.Currencysymbol
+                                        storeInit?.Currencysymbol
                                     ),
-                                  }}
-                                /> {newArrivalData[0]?.UnitCost}</p>
+                                }}
+                            /> {newArrivalData[0]?.UnitCostWithMarkUp}</p>
                         </div>
                         <div className='smr_newArrialDiv1' onClick={() => handleNavigation(newArrivalData[1]?.designno, newArrivalData[1]?.autocode, newArrivalData[1]?.TitleLine)}>
                             <img src={ring2ImageChange ?
-                            `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_2.${newArrivalData && newArrivalData[1]?.ImageExtension}`
-                            :
-                            `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''}  onMouseEnter={() => handleMouseEnterRing2(newArrivalData[1])} onMouseLeave={handleMouseLeaveRing2}/>
+                                `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_2.${newArrivalData && newArrivalData[1]?.ImageExtension}`
+                                :
+                                `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''} onMouseEnter={() => handleMouseEnterRing2(newArrivalData[1])} onMouseLeave={handleMouseLeaveRing2} />
                             <p className='smr_nwArrivalTitle'>{newArrivalData[1]?.TitleLine}</p>
                             <p className='smr_nwArrivalTitle'><span
-                                  className="smr_currencyFont"
-                                  dangerouslySetInnerHTML={{
+                                className="smr_currencyFont"
+                                dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
-                                      storeInit?.Currencysymbol
+                                        storeInit?.Currencysymbol
                                     ),
-                                  }}
-                                /> {newArrivalData[1]?.UnitCost}</p>
+                                }}
+                            /> {newArrivalData[1]?.UnitCostWithMarkUp}</p>
                         </div>
                     </div>
-                    <button className='enagementBtn' onClick={() =>  navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>NEW ARRIVAL COLLECTION</button>
+                    <button className='enagementBtn' onClick={handleNavigate}>NEW ARRIVAL COLLECTION</button>
                 </div>
                 <div className='smilingBrides'>
                     <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>

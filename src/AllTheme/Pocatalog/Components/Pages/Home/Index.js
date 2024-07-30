@@ -26,7 +26,6 @@ function Home() {
 
   return (
     <div className='ProCat_home_index_main'>
-      {localData?.Blockno === 1 &&
         <div className='smiling_home_index_Submain'>
           <TopSection />
           {/* <TheDifference />
@@ -41,31 +40,7 @@ function Home() {
           {/* <BottomBanner /> */}
           <Footer />
         </div>
-      }
-
-      {localData?.Blockno === 2 &&
-        <div className='ProCat_home_index_main'>
-          <TopSection />
-          {/* <TheDifference />
-          <PromotionBaner1 />
-          {localData?.IsHomeBestSeller === 1 && <PromoSetSection />} */}
-          {localData?.IsHomeAlbum === 1 && <Album />}
-          {/* <DaimondEveyone /> */}
-          {/* <ShopByCategory />
-          {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-          {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-          {localData?.IsHomeTrending === 1 && <TrendingView />} */}
-
-          {/* <SustainAbility /> */}
-          {/* <BestSaller /> */}
-          {/* <BottomBanner /> */}
-          <Footer />
-        </div>
-      }
-
-
-
-      {/* <div>
+      <div>
         <p style={{
           paddingBlock: '30px',
           margin: '0px',
@@ -79,7 +54,7 @@ function Home() {
           top: 0,
           behavior: 'smooth'
         })}>BACK TO TOP</p>
-      </div> */}
+      </div>
     </div>
   )
 }

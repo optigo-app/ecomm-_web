@@ -119,8 +119,8 @@ const CartItem = ({
 
 
 
-  const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
+  const width = isLargeScreen && itemLength == 1 ? '405px' :
+    isMediumScreen && itemLength == 1 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
 
@@ -132,7 +132,7 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
+      className={itemLength <= 3 ? "smr_cartListCardGrid2" : 'smr_cartListCardGrid'}>
       <Card className='smr_cartListCard'
         key={item?.id}
         sx={{

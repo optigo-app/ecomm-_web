@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { IoArrowBack } from 'react-icons/io5';
 import { PiArrowCounterClockwiseBold } from "react-icons/pi";
+import Pako from 'pako';
 
 export default function SearchPage() {
 
@@ -16,13 +17,58 @@ export default function SearchPage() {
         setSearchText('');
     };
 
-    const searchDataFucn = (e) => {
-        if (e.key === 'Enter') {
-            if (searchText) {
-                navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
-            }
+
+    const compressAndEncode = (inputString) => {
+        try {
+          const uint8Array = new TextEncoder().encode(inputString);
+    
+          const compressed = Pako.deflate(uint8Array, { to: 'string' });
+    
+    
+          return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+          console.error('Error compressing and encoding:', error);
+          return null;
         }
-    }
+      };
+
+    const searchDataFucn = (e) => {
+        if (e.key === 'Enter' || searchText) {
+          if (searchText) {
+            // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+    
+            // const handleMoveToDetail = () => {
+    
+            let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+            let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    
+            let obj = {
+              a: "",
+              b: searchText,
+              m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+              d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+              c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+              f: {}
+            }
+    
+            let encodeObj = compressAndEncode(JSON.stringify(obj))
+    
+            navigation(`/d/${searchText}?p=${encodeObj}`)
+            toggleOverlay();
+            // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+    
+            // }
+          }
+        }
+        
+      }
+    // const searchDataFucn = (e) => {
+    //     if (e.key === 'Enter') {
+    //         if (searchText) {
+    //             navigation(`/p/${searchText}/?S=${btoa(searchText)}`)
+    //         }
+    //     }
+    // }
 
     return (
         <div>
@@ -46,7 +92,7 @@ export default function SearchPage() {
                 </div>
             </div>
 
-            <div>
+            {/* <div>
                 <p className='searchTreadingTitle'>TRENDING SEARCHES</p>
                 <div className='recenSearchAllMain'>
 
@@ -75,7 +121,7 @@ export default function SearchPage() {
                         <p className='menuRecentSearch'>Bangles</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

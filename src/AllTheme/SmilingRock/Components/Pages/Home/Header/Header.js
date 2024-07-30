@@ -48,6 +48,7 @@ const Header = () => {
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const location = useLocation();
 
+
   let navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
 
@@ -184,6 +185,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
+    navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
     localStorage.setItem("LoginUser", false);
@@ -198,9 +200,6 @@ const Header = () => {
     localStorage.removeItem("registerMobile");
     localStorage.removeItem("allproductlist");
     localStorage.clear();
-    setTimeout(() => {
-      navigation("/");
-    }, 1000);
     window.location.reload();
   };
 
@@ -298,6 +297,8 @@ const Header = () => {
       navigate(url);
     }
   };
+
+
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -403,6 +404,21 @@ const Header = () => {
     }
   };
 
+
+  const hanldeStaticPageNavigation = (event, path) => {
+    if (
+      event?.ctrlKey ||
+      event?.shiftKey ||
+      event?.metaKey ||
+      (event?.button && event?.button === 1)
+    ) {
+      return;
+    } else {
+      event?.preventDefault();
+      navigation(path);
+      window.scrollTo(0, 0);
+    }
+  }
   return (
     <div className="smr_headerMain_div">
       {serachsShowOverlay && (
@@ -880,11 +896,7 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => {
-                  // navigation("/servicePolicy");
-                  navigation(() => "/servicePolicy");
-                  window.scrollTo(0, 0);
-                }}
+                onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
               >
                 <a href="/servicePolicy" className="smr_A_link">
                   SERVICE POLICY
@@ -894,10 +906,7 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => {
-                  navigation("/ExpertAdvice");
-                  window.scrollTo(0, 0);
-                }}
+                onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
               >
                 <a href="/ExpertAdvice" className="smr_A_link">
                   EXPERT ADVICE
@@ -907,6 +916,7 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
+                onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
               >
                 <a href="/FunFact" className="smr_A_link">
                   FUN FACT
@@ -920,10 +930,7 @@ const Header = () => {
                       <li
                         className="nav_li_smining nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          navigation("/Lookbook");
-                          window.scrollTo(0, 0);
-                        }}
+                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
                         {/* <a href="/Lookbook" className="smr_A_link"> */}
                         {storeinit?.DesignSetInMenu}
@@ -975,7 +982,7 @@ const Header = () => {
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
-                onClick={() => navigation("/aboutUs")}
+                onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
               >
                 <a href="/aboutUs" className="smr_A_link">
                   ABOUT US
@@ -1214,10 +1221,7 @@ const Header = () => {
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigation("/servicePolicy");
-                    window.scrollTo(0, 0);
-                  }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
                 >
                   <a href="/servicePolicy" className="smr_A_linkFixed">
                     SERVICE POLICY
@@ -1227,10 +1231,7 @@ const Header = () => {
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigation("/ExpertAdvice");
-                    window.scrollTo(0, 0);
-                  }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
                 >
                   <a href="/ExpertAdvice" className="smr_A_linkFixed">
                     EXPERT ADVICE
@@ -1240,10 +1241,7 @@ const Header = () => {
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigation("/FunFact");
-                    window.scrollTo(0, 0);
-                  }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
                 >
                   <a href="/FunFact" className="smr_A_linkFixed">
                     FUN FACT
@@ -1314,7 +1312,7 @@ const Header = () => {
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={() => navigation("/aboutUs")}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
                 >
                   <a href="/aboutUs" className="smr_A_linkFixed">
                     ABOUT US
@@ -1684,7 +1682,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* <CartDrawer open={isCartOpen} /> */}
+      {IsB2BWebsiteChek != 1 &&
+        <CartDrawer open={isCartOpen} />
+      }
     </div>
   );
 };
