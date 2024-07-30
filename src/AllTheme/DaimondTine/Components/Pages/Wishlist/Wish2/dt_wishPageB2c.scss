@@ -242,6 +242,14 @@
   }
 }
 
+@media (max-width: 999px){
+  .dt_MainWishDiv {
+    .cart {
+      flex-direction: row;
+    }
+  }
+}
+
 @media (max-width: 1400px) {
   .dt_MainWishDiv {
     .cart {
