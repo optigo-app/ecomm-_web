@@ -209,6 +209,7 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
