@@ -122,7 +122,22 @@
     padding-left: 0;
     padding-right: 0;
 }
-
+.sticky-header_web_sm {
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 0;
+    background-color: white;
+    z-index: 10; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
+// .sticky-tabs_web_sm {
+//     position: -webkit-sticky; /* For Safari */
+//     position: sticky;
+//     top: 50px; /* Adjust this value based on the height of the header */
+//     background-color: white;
+//     z-index: 9; /* Adjust z-index as needed */
+//     border-bottom: 1px solid #ddd; /* Optional: to add a border below the sticky tabs */
+// }
 
 @media screen and (max-width: 1441px) {
 
@@ -140,10 +155,26 @@
         position: relative;
         left: 130px;
     }
+    .sticky-header_web_sm {
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 0;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
 }
 @media screen and (min-width: 1050px) {
     .smlingAccountTabMobileView{
         display: none;
+    }
+    .sticky-header_web_sm {
+        position: unset; /* For Safari */
+        position: unset;
+        top: 0;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
     }
 }
 
@@ -174,6 +205,14 @@
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
         display: flex;
         align-items: start!important;
+    }
+    .sticky-header_web_sm {
+        position: unset; /* For Safari */
+        position: unset;
+        top: 0;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
     }
 }
 
@@ -209,6 +248,14 @@
     padding-right: 0 !important;
     margin-top: 50px !important;
    }
+   .sticky-header_web_sm {
+    position: unset; /* For Safari */
+    position: unset;
+    top: 0;
+    background-color: white;
+    z-index: 1; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
 }
 
 /* 1px solid #e1e1e1 */

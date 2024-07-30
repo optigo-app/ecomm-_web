@@ -224,7 +224,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
+                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase
@@ -244,7 +244,7 @@ const Menu = () => {
                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                         style={{ width: '100%' }}
                                                     >
-                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
                                                     </ButtonBase>
                                                     {selectedMenu === menuItem.menuname && (
                                                         <>
@@ -308,7 +308,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
+                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase
@@ -328,7 +328,7 @@ const Menu = () => {
                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                         style={{ width: '100%' }}
                                                     >
-                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 500, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
                                                     </ButtonBase>
                                                     {selectedMenu === menuItem.menuname && (
                                                         <>

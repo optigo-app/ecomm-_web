@@ -37,8 +37,13 @@ const Payment = () => {
     };
 
     const handleSaveInternal = () => {
-        handleOrderRemarkFun(orderRemark);
-        handleClose();
+        debugger
+        if (orderRemark && orderRemark !== "null") {
+            handleOrderRemarkFun(orderRemark);
+            handleClose();
+        } else {
+            toast.info("Please add a remark first!");
+        }        
     };
     console.log('orderreamrk', orderRemark);
 
@@ -121,7 +126,7 @@ const Payment = () => {
                 // const updatedCartData = cartData.map(cart =>
                 //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
                 // );
-                localStorage.setItem('orderRemark', orderRemark)
+                localStorage.setItem('orderRemark', orderRemark ?? "")
             }
         } catch (error) {
             console.error("Error:", error);

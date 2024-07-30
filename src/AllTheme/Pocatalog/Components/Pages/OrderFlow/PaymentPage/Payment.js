@@ -128,7 +128,7 @@ const Payment = () => {
     }
 
     return (
-        <div className='smr_paymentMainDiv'>
+        <div className='proCat_paymentMainDiv'>
             <div className='smr_paymentSecondMainDiv'>
                 <div className='smr_PaymentContainer'>
                     <div className='smr_paymentBackbtnDiv'>
@@ -228,7 +228,7 @@ const Payment = () => {
                 <Footer />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p className='smr_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+                <p className='smr_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'black', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     )
