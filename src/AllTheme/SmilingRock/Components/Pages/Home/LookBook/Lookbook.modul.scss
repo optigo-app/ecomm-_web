@@ -102,15 +102,15 @@
 
     .smr_lb3BuyComboDiv {
       width: 100%;
-      color: $titleColor;
-      background-color: #fff;
+      color: #fff;
+      background-color: $titleColor;
       text-align: center;
       padding: 10px 0px;
       font-weight: 500;
 
       &:hover{
-        color:#fff;
-        background-color: $titleColor;
+        color: $titleColor;
+        background-color: #fff;
         cursor: pointer;
       }
 
