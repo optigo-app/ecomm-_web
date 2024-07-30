@@ -7,17 +7,17 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const services = [
     {
-        image: "/Diaomndtine/HomePage/Promo/Set/2/promoSetBanner2Img1.png",
+        image: "/images/HomePage/Banner/promoSetBanner2Img1.png",
         title: "CUSTOMISATION",
         buttonText: "Whatsapp up to start",
     },
     {
-        image: "/Diaomndtine/HomePage/Promo/Set/2/promoSetBanner2Img2.png",
+        image: "/images/HomePage/Banner/promoSetBanner2Img2.png",
         title: "TRY AT HOME",
         buttonText: "Book a visit",
     },
     {
-        image: "/Diaomndtine/HomePage/Promo/Set/2/promoSetBanner2Img3.png",
+        image: "/images/HomePage/Banner/promoSetBanner2Img2Hover.png",
         title: "BOOK AN APPOINTMENT",
         buttonText: "Book now",
     }

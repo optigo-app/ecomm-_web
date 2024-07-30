@@ -1,0 +1,140 @@
+@import "../../../scss/variable";
+
+.dt_DesignSet2MainDiv {
+    .imgBG {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+    }
+
+    .maindiv {
+        width: 100%;
+        height: 100%;
+        // max-height: 800px;
+        position: relative;
+    }
+
+    .card {
+        width: 230px;
+        height: 348px;
+        border: 1px solid #e8e8e8;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px;
+        background-color: white;
+    }
+
+    .cardimg {
+        width: 100%;
+        object-fit: contain;
+        max-width: 230px;
+    }
+
+    .subimgpart {
+        position: absolute;
+        top: 30%;
+        right: 7%;
+        z-index: 1;
+    }
+
+    .btnflex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .fs1 {
+        margin: 4px 0;
+        font-size: $fontSize1;
+        color: $titleColor;
+        font-family: $primaryFontFamily;
+        text-align: center;
+        letter-spacing: .5px;
+    }
+
+    .fs2 p {
+        margin: 4px 0;
+        font-size: $fontSize2;
+        color: $titleColor;
+        font-family: $primaryFontFamily;
+        font-weight: bold;
+        text-align: center;
+        letter-spacing: 1.2px;
+    }
+
+    .fs3 {
+        color: $titleColor;
+        font-size: $fontSize1;
+        font-family: $primaryFontFamily;
+        letter-spacing: 1.2px;
+        text-decoration: underline;
+        text-decoration-color: $titleColor;
+        margin-top: 10px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .btncst {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+        color: #989898;
+        border: 0px;
+        outline: none;
+        border: 0.5px solid #989898;
+    }
+
+    .btncst:hover {
+        color: #5f5e5e;
+    }
+
+    .centerall {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .smr_ds2ImageDiv{
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background-color: #dadada;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:after {
+            font-size: 16px;
+        }
+    }
+
+    .swiper_w {
+        width: 215px;
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            width: 200px;
+            height: 315px;
+        }
+
+        .swiper_w {
+            width: 185px;
+        }
+    }
+}
