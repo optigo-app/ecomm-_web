@@ -26,6 +26,7 @@ const CartItem = ({
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -96,15 +97,16 @@ const CartItem = ({
               <Box>
                 {storeInitData?.IsPriceShow == 1 &&
                   <span className='smrMo_currencyFontPrice'>
-                    <span
+                    {/* <span
                       className="smrmo_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
-                    />
-                    {(item?.UnitCost).toFixed(3)?.replace(/\.?0+$/, '')}
+                    /> */}
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    {(item?.UnitCostWithMarkUp)}
                   </span>
                 }
               </Box>

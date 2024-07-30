@@ -26,16 +26,17 @@ const CartList = ({
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    let priceData = items.reduce((total, item) => total + item.FinalCost, 0)?.toFixed(2)
+    let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     setTotalPrice(priceData)
   },[onRemove,handleSave])
 
   const handlePlaceOrder = () => {
-    let priceData = items.reduce((total, item) => total + item.FinalCost, 0).toFixed(2)
+    let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     console.log("TotalPriceData",items)
     localStorage.setItem('TotalPriceData', priceData)
     navigate("/payment")
@@ -74,15 +75,16 @@ const CartList = ({
           <Box className="smrMo_product-containerBox">
             {storeInitData?.IsPriceShow == 1 &&
               <div className="smrMo_product-price">
-                  <span style={{fontWeight: 600 , fontSize: '20px'}}>
-                    <span
+                  <span style={{fontWeight: 600 , fontSize: '20px', color:'#7d7f85'}}>
+                    {/* <span
                       className="smrMO_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
-                    />
+                    /> */}
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {totalPrice}
                   </span>
               </div>
