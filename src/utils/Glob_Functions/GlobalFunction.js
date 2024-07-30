@@ -47,3 +47,6 @@ export function findCsQcId(param) {
   // console.log("diaa cs",item,param);
   return item
 }
+
+
+export const formatter = new Intl.NumberFormat('en-IN')?.format;

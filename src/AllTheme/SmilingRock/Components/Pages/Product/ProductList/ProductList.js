@@ -4,7 +4,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
@@ -34,6 +34,7 @@ import Cookies from 'js-cookie'
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
+
 
 
 
@@ -115,7 +116,7 @@ const ProductList = () => {
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
-  const formatter = new Intl.NumberFormat('en-IN')
+
 
   let cookie = Cookies.get('visiterId')
 
@@ -3293,9 +3294,9 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {/* {formatter.format( */}
-                                              {productData?.UnitCostWithMarkUp}
-                                             {/* )} */}
+                                            {formatter(
+                                              productData?.UnitCostWithMarkUp
+                                             )}
                                           </span>
                                         </span>
                                       </div>
