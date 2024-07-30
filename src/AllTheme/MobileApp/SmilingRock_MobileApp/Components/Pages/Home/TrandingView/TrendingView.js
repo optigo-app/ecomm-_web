@@ -65,10 +65,8 @@ const TrendingView = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
-
                 const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
                 const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
-
                 console.log('oddNumberObjects', oddNumbers);
                 setOddNumberObjects(oddNumbers);
                 setEvenNumberObjects(evenNumbers);
@@ -168,7 +166,8 @@ const TrendingView = () => {
         setRing4ImageChange(false)
     }
 
-    console.log('oddNumberObjects evenNumberObjects', oddNumberObjects);
+    console.log('oddNumberObjects oddNumberObjects', oddNumberObjects);
+    console.log('oddNumberObjects evenNumberObjects', evenNumberObjects);
 
 
     const handleNavigate = () => {
@@ -192,60 +191,117 @@ const TrendingView = () => {
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
                     <Slider {...settings} >
-                        {
-                            oddNumberObjects?.slice(0, 2).map((data, inedx) => (
-                                evenNumberObjects?.slice(0, 2).map((datan, inedxn) => (
-                                    <div className='linkRingLove'>
-                                        <div style={{ width: '50%' }}>
-                                            <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                <img src={ring1ImageChange ?
-                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                    :
-                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                } className='likingLoveImages'
-                                                    onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
-                                                />
-                                            </div>
-                                            <div className='linkLoveRing1Desc'>
-                                                <p className='ring1Desc'>{data?.TitleLine}</p>
-                                                <p className='ring1Desc'>
-                                                    <span
-                                                        className="smr_currencyFont"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                storeInit?.Currencysymbol
-                                                            ),
-                                                        }}
-                                                    /> {(data?.UnitCostWithMarkUp)?.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                        <div style={{ width: '50%' }}>
-                                            <div className='linkLoveRing1' onClick={() => handleNavigation(datan?.designno, datan?.autocode, datan?.TitleLine)}>
-                                                <img src={ring1ImageChangeOdd ?
-                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_2.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
-                                                    :
-                                                    `${imageUrl}${datan.designno === undefined ? '' : datan?.designno}_1.${datan?.ImageExtension === undefined ? '' : datan.ImageExtension}`
-                                                } className='likingLoveImages'
+                        <div className='linkRingLove'>
+                            <div>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[0]?.designno, trandingViewData[0]?.autocode, trandingViewData[0]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[0]?.designno === undefined ? '' : trandingViewData[0]?.designno}_1.${trandingViewData && trandingViewData[0]?.ImageExtension === undefined ? '' : trandingViewData[0]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[0]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[1]?.designno, trandingViewData[1]?.autocode, trandingViewData[1]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[1]?.designno === undefined ? '' : trandingViewData[1]?.designno}_1.${trandingViewData && trandingViewData[1]?.ImageExtension === undefined ? '' : trandingViewData[1]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
 
-                                                    onMouseEnter={() => handleMouseEnterRing2(datan)} onMouseLeave={handleMouseLeaveRing2}
-                                                />
-                                            </div>
-                                            <div className='linkLoveRing1Desc'>
-                                                <p className='ring1Desc'>{datan?.TitleLine}</p>
-                                                <p className='ring1Desc'><span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            storeInit?.Currencysymbol
-                                                        ),
-                                                    }}
-                                                /> {(datan?.UnitCostWithMarkUp)?.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            ))
-                        }
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[1]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='linkRingLove'>
+                            <div>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[2]?.designno, trandingViewData[2]?.autocode, trandingViewData[2]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[2]?.designno === undefined ? '' : trandingViewData[2]?.designno}_1.${trandingViewData && trandingViewData[2]?.ImageExtension === undefined ? '' : trandingViewData[2]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
+
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[2]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[3]?.designno, trandingViewData[3]?.autocode, trandingViewData[3]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[3]?.designno === undefined ? '' : trandingViewData[3]?.designno}_1.${trandingViewData && trandingViewData[3]?.ImageExtension === undefined ? '' : trandingViewData[3]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
+
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[3]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div className='linkRingLove'>
+                            <div>
+                                <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[4]?.designno, trandingViewData[4]?.autocode, trandingViewData[4]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[4]?.designno === undefined ? '' : trandingViewData[4]?.designno}_1.${trandingViewData && trandingViewData[4]?.ImageExtension === undefined ? '' : trandingViewData[4]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
+
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[4]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[5]?.designno, trandingViewData[5]?.autocode, trandingViewData[5]?.TitleLine)}>
+                                    <img src={`${imageUrl}${trandingViewData && trandingViewData[5]?.designno === undefined ? '' : trandingViewData[5]?.designno}_1.${trandingViewData && trandingViewData[5]?.ImageExtension === undefined ? '' : trandingViewData[5]?.ImageExtension}`} className='likingLoveImages' />
+                                </div>
+                                <div className='linkLoveRing1Desc'>
+                                    <p className='ring1Desc'>{trandingViewData[0]?.designno}</p>
+
+                                    <p className='smr_bestSellerPrice'> <span
+                                        className="smr_currencyFont"
+                                        dangerouslySetInnerHTML={{
+                                            __html: decodeEntities(
+                                                storeInit?.Currencysymbol
+                                            ),
+                                        }}
+                                    /> {trandingViewData[5]?.UnitCostWithMarkUp}</p>
+                                </div>
+                            </div>
+
+                        </div>
                     </Slider>
 
                     <p className='smr_TrendingViewAll' onClick={handleNavigate}>SHOP COLLECTION</p>

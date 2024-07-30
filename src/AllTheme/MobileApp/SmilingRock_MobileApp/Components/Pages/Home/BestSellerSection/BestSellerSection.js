@@ -125,7 +125,7 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[0]?.designno === undefined ? '' : bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension === undefined ? '' : bestSellerData[0]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[0]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -141,7 +141,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[1]?.designno === undefined ? '' : bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension === undefined ? '' : bestSellerData[1]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[1]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -160,7 +161,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[2]?.designno === undefined ? '' : bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension === undefined ? '' : bestSellerData[2]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[2]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -176,7 +178,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[3]?.designno === undefined ? '' : bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension === undefined ? '' : bestSellerData[3]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[3]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -196,7 +199,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[4]?.designno === undefined ? '' : bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension === undefined ? '' : bestSellerData[4]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[4]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -212,7 +216,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[5]?.designno === undefined ? '' : bestSellerData[5]?.designno}_1.${bestSellerData && bestSellerData[5]?.ImageExtension === undefined ? '' : bestSellerData[5]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[5]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
