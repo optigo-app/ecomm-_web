@@ -8,19 +8,19 @@ const SocialMedia = () => {
 
     const photos = [
         {
-            image: "/Diaomndtine/HomePage/BottombBanner/BottombBanner1.jpg",
+            image: "/images/HomePage/Instagram/BottombBanner1.jpg",
         },
         {
-            image: "/Diaomndtine/HomePage/BottombBanner/BottombBanner2.jpg",
+            image: "/images/HomePage/Instagram/BottombBanner2.jpg",
         },
         {
-            image: "/Diaomndtine/HomePage/BottombBanner/BottombBanner3.jpg",
+            image: "/images/HomePage/Instagram/BottombBanner3.jpg",
         },
         {
-            image: "/Diaomndtine/HomePage/BottombBanner/BottombBanner4.jpg",
+            image: "/images/HomePage/Instagram/BottombBanner4.jpg",
         },
         {
-            image: "/Diaomndtine/HomePage/BottombBanner/BottombBanner5.jpg",
+            image: "/images/HomePage/Instagram/BottombBanner5.jpg",
         }
     ];
 
