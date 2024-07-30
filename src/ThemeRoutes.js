@@ -23,15 +23,16 @@ import Cookies from "js-cookie";
 import HemratnaProcatalog_App from "./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App";
 import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
+import loadingGif from '../src/AllTheme/loading.gif'
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(1);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
-
+  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
@@ -54,8 +55,9 @@ export default function ThemeRoutes() {
     }
     Storeinit().then((response) => {
       if (response.status === 200) {
+        setLoading(false);
 
-        // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+        setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
         
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
@@ -100,7 +102,8 @@ export default function ThemeRoutes() {
           });
         }
       }})
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      // .finally(() => setLoading(false));
   }, []);
 
   const callAllApi = () => {
@@ -164,6 +167,14 @@ export default function ThemeRoutes() {
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         </Helmet>
       </div>
+
+      {/* {loading ? (
+        <div className="loading-container" style={{ textAlign: 'center', marginTop: '35%' }}>
+          <img src={loadingGif} alt="Loading..." style={{width: '100%'}}/>
+        </div>
+      ) : (
+        <> */}
+        
       {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
@@ -177,6 +188,9 @@ export default function ThemeRoutes() {
       {themeNo === 6 && <Procatalog_App />}
 
       {themeNo === 7 && <HouseOfQuadri_App />}
+
+      {/* </>
+      )} */}
     </>
   );
 }

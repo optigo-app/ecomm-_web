@@ -141,7 +141,7 @@ const Wishlist = () => {
           style={{
             margin: "0px",
             fontWeight: 500,
-            color: "white",
+            color: "black",
             cursor: "pointer",
           }}
           onClick={scrollToTop}

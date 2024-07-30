@@ -3,9 +3,17 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const TopSection = () => {
 
+
+  const [localData, setLocalData] = useState();
+
+  useEffect(() => {
+    let localData = JSON.parse(localStorage.getItem('storeInit'));
+    setLocalData(localData);
+  }, [])
+
   return (
     <div>
-      <img src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`} style={{ width: '100%' }} />
+      <img src={`${localData?.ProCatLogbanner}`} style={{ width: '100%' }} />
     </div>
   )
 }
