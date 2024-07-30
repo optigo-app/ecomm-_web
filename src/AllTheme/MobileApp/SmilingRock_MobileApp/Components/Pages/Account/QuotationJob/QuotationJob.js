@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, formatAmount} from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import {checkMonth, customComparator_Col, formatAmount} from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 
 import Swal from 'sweetalert2';
 
@@ -29,8 +29,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const CustomSortIcon = ({ order }) => {
   return (
     <>
-      {order === 'asc' && <ArrowUpwardIcon />}
-      {order === 'desc' && <ArrowDownwardIcon />}
+      {order === 'asc' && <ArrowUpwardIcon className='sorticon_ma' />}
+      {order === 'desc' && <ArrowDownwardIcon className='sorticon_ma' />}
     </>
   );
 };
@@ -87,19 +87,19 @@ const QuotationJob = () => {
     setPage(0);
     setRowsPerPage(10);
     setCategory(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, MetalColor, event.target.value, selectedStatus, orderProm);
   };
   const handleMetalColor = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalColor(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, metalPurity, event.target.value, category, selectedStatus, orderProm);
   };
   const handleMetalPurity = (event) => {
     setPage(0);
     setRowsPerPage(10);
     setMetalPurity(event.target.value);
-    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
+    handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, selectedStatus, orderProm);
   };
   moment.locale('en-gb');
 
@@ -233,15 +233,39 @@ const QuotationJob = () => {
 
 
 
-      if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      // if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      //   flags.metalPurity = true;
+      // }
+      // if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+      //   flags.MetalColor = true;
+      // }
+      // if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+      //   flags.category = true;
+      // }
+
+      
+      // if (e?.MetalType?.toString()?.toLowerCase()?.startsWith(metalPurities?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
+      //   flags.metalPurity = true;
+      // }
+      if ((e?.MetalType?.toString()?.toLowerCase() === metalPurities?.toString()?.toLowerCase()) || metalPurities?.toLowerCase() === "all") {
         flags.metalPurity = true;
       }
-      if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+
+      // if (e?.MetalColor?.toString()?.toLowerCase()?.startsWith(MetalColors?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
+      //   flags.MetalColor = true;
+      // }
+      if ((e?.MetalColor?.toString()?.toLowerCase() === MetalColors?.toString()?.toLowerCase()) || MetalColors?.toLowerCase() === "all") {
         flags.MetalColor = true;
       }
-      if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+
+
+      // if (e?.Category?.toString()?.toLowerCase()?.startsWith(categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
+      //   flags.category = true;
+      // }
+      if ((e?.Category?.toString()?.toLowerCase() === categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
         flags.category = true;
       }
+      
 
 
 
@@ -383,29 +407,94 @@ const QuotationJob = () => {
     }
     return new Date(year, month, day);
   }
-  function descendingComparator(a, b, orderBy) {
-    if (!orderBy) return 0; // Add null check for orderBy
+//   function descendingComparator(a, b, orderBy) {
+//     if (!orderBy) return 0; // Add null check for orderBy
     
-    if (orderBy === 'Date' || orderBy === 'PDate') {
-        try {
-            const dateA = parseCustomDate(a[orderBy]);
-            const dateB = parseCustomDate(b[orderBy]);
+//     if (orderBy === 'Date' || orderBy === 'PDate') {
+//         try {
+//             const dateA = parseCustomDate(a[orderBy]);
+//             const dateB = parseCustomDate(b[orderBy]);
 
-            if (dateB < dateA) {
-                return -1;
-            }
-            if (dateB > dateA) {
-                return 1;
-            }
-            return 0;
-        } catch (error) {
-            console.error('Error parsing date:', error.message);
-            return 0;
-        }
-    } else if(orderBy === 'FinalAmount' || orderBy === "JobNo"){
+//             if (dateB < dateA) {
+//                 return -1;
+//             }
+//             if (dateB > dateA) {
+//                 return 1;
+//             }
+//             return 0;
+//         } catch (error) {
+//             console.error('Error parsing date:', error.message);
+//             return 0;
+//         }
+//     } else if(orderBy === 'FinalAmount' || orderBy === "JobNo"){
       
-      const valueA = parseFloat(a[orderBy]) || 0;
-      const valueB = parseFloat(b[orderBy]) || 0;
+//       const valueA = parseFloat(a[orderBy]) || 0;
+//       const valueB = parseFloat(b[orderBy]) || 0;
+
+//       if (valueB < valueA) {
+//           return -1;
+//       }
+//       if (valueB > valueA) {
+//           return 1;
+//       }
+
+//       return 0;
+
+//     }else if ((orderBy === 'PO') || (orderBy === 'PO') || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+//       // Handle sorting for SKU# column
+//       return customComparator_Col(a[orderBy], b[orderBy]);
+//   }  else {
+//         const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+//         const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+
+//         if (valueB < valueA) {
+//             return -1;
+//         }
+//         if (valueB > valueA) {
+//             return 1;
+//         }
+//         return 0;
+//     }
+// }
+function descendingComparator(a, b, orderBy) {
+  if (!orderBy) return 0; // Add null check for orderBy
+  
+  if (orderBy === 'Date' || orderBy === 'PDate') {
+      try {
+          const dateA = parseCustomDate(a[orderBy]);
+          const dateB = parseCustomDate(b[orderBy]);
+
+          if (dateB < dateA) {
+              return -1;
+          }
+          if (dateB > dateA) {
+              return 1;
+          }
+          return 0;
+      } catch (error) {
+          console.error('Error parsing date:', error.message);
+          return 0;
+      }
+  } else if(orderBy === 'FinalAmount' || orderBy === "JobNo"){
+    
+    const valueA = parseFloat(a[orderBy]) || 0;
+    const valueB = parseFloat(b[orderBy]) || 0;
+
+    if (valueB < valueA) {
+        return -1;
+    }
+    if (valueB > valueA) {
+        return 1;
+    }
+
+    return 0;
+
+  }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+    // Handle sorting for SKU# column
+    return customComparator_Col(a[orderBy], b[orderBy]);
+}  else {
+      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
       if (valueB < valueA) {
           return -1;
@@ -413,36 +502,20 @@ const QuotationJob = () => {
       if (valueB > valueA) {
           return 1;
       }
-
       return 0;
-
-    }else if ((orderBy === 'PO') || (orderBy === 'PO') || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
-      // Handle sorting for SKU# column
-      return customComparator_Col(a[orderBy], b[orderBy]);
-  }  else {
-        const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
-        const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
-
-        if (valueB < valueA) {
-            return -1;
-        }
-        if (valueB > valueA) {
-            return 1;
-        }
-        return 0;
-    }
-}
-  const customComparator_Col = (a, b) => {
-  const regex = /([^\d]+)(\d+)/;
-  const [, wordA, numA] = a?.match(regex);
-  const [, wordB, numB] = b?.match(regex);
-  
-  if (wordA !== wordB) {
-      return wordA?.localeCompare(wordB);
   }
+}
+//   const customComparator_Col = (a, b) => {
+//   const regex = /([^\d]+)(\d+)/;
+//   const [, wordA, numA] = a?.match(regex);
+//   const [, wordB, numB] = b?.match(regex);
   
-  return parseInt(numB, 10) - parseInt(numA, 10);
-};
+//   if (wordA !== wordB) {
+//       return wordA?.localeCompare(wordB);
+//   }
+  
+//   return parseInt(numB, 10) - parseInt(numA, 10);
+// };
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -896,11 +969,12 @@ const scrollToTop = () => {
                         align={column.align}
                         style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
                         onClick={() => handleRequestSort(column?.id)}
+                        className='parentcell_icon_ma'
                       >
                         {column.label}
                         {orderBy === column.id ? (
-                          <span style={{ display: 'flex', alignItems: 'right' }}>
-                            {orderBy === column?.id && (<CustomSortIcon order={order} />)}
+                          <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span'>
+                            {orderBy === column?.id && (<CustomSortIcon  order={order} />)}
                           </span>
                         ) : null}
                       </TableCell>
