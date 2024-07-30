@@ -224,7 +224,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
+                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase
@@ -308,7 +308,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '100px' }}>
+                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase

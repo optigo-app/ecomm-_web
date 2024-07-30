@@ -130,7 +130,7 @@ const NewArrival = () => {
                                 `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_2.${newArrivalData && newArrivalData[0]?.ImageExtension}`
                                 :
                                 `${imageUrl}${newArrivalData && newArrivalData[0]?.designno}_1.${newArrivalData && newArrivalData[0]?.ImageExtension}`} className='smilingMainImages' alt={''} onMouseEnter={() => handleMouseEnterRing1(newArrivalData[0])} onMouseLeave={handleMouseLeaveRing1} />
-                            <p className='smr_nwArrivalTitle'>{newArrivalData[0]?.TitleLine}</p>
+                            <p className='smr_nwArrivalTitle'>{newArrivalData[0]?.designno}</p>
                             <p className='smr_nwArrivalTitle'><span
                                 className="smr_currencyFont"
                                 dangerouslySetInnerHTML={{
@@ -145,7 +145,7 @@ const NewArrival = () => {
                                 `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_2.${newArrivalData && newArrivalData[1]?.ImageExtension}`
                                 :
                                 `${imageUrl}${newArrivalData && newArrivalData[1]?.designno}_1.${newArrivalData && newArrivalData[1]?.ImageExtension}`} className='smilingMainImages' alt={''} onMouseEnter={() => handleMouseEnterRing2(newArrivalData[1])} onMouseLeave={handleMouseLeaveRing2} />
-                            <p className='smr_nwArrivalTitle'>{newArrivalData[1]?.TitleLine}</p>
+                            <p className='smr_nwArrivalTitle'>{newArrivalData[1]?.designno}</p>
                             <p className='smr_nwArrivalTitle'><span
                                 className="smr_currencyFont"
                                 dangerouslySetInnerHTML={{
@@ -156,7 +156,7 @@ const NewArrival = () => {
                             /> {newArrivalData[1]?.UnitCostWithMarkUp}</p>
                         </div>
                     </div>
-                    <button className='enagementBtn' onClick={handleNavigate}>NEW ARRIVAL COLLECTION</button>
+                    <p className='enagementBtn' onClick={handleNavigate}>NEW ARRIVAL COLLECTION</p>
                 </div>
                 <div className='smilingBrides'>
                     <p className='smilingBridesMainTitle'>NEW ARRIVAL </p>

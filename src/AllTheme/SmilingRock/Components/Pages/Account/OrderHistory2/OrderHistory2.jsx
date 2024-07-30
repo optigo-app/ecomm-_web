@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./OrderHistory2.scss";
+// import "./OrderHistory2.scss";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Box, CircularProgress } from "@mui/material";
 import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
