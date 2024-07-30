@@ -108,7 +108,7 @@ export default function YourProfile() {
             case 'defaddress_shippingfirstname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
@@ -121,7 +121,7 @@ export default function YourProfile() {
             case 'defaddress_shippinglastname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
@@ -209,6 +209,7 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
