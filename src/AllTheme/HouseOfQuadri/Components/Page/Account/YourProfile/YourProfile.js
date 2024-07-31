@@ -68,6 +68,7 @@ export default function YourProfile() {
         
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
+            console.log(defaultAddress);
             if (defaultAddress) {
                 const updatedUserData = {
                     ...parsedUserData,

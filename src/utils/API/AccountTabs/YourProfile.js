@@ -6,7 +6,7 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo) => {
         const combinedValue = JSON.stringify({
         firstname: `${editedUserData.defaddress_shippingfirstname}`, 
         lastname: `${editedUserData.defaddress_shippinglastname}`, 
-        street: `${editedUserData.defaddress_state}`, 
+        street: `${editedUserData.defaddress_street}`, 
         addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
         city: `${editedUserData.city}`, 
         state: `${editedUserData.state}`, 
@@ -16,6 +16,20 @@ export const saveEditProfile = async(editedUserData, data, FrontEnd_RegNo) => {
         FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
         Customerid: `${editedUserData.id}`
     });
+
+    const b = {
+        firstname: `${editedUserData.defaddress_shippingfirstname}`, 
+        lastname: `${editedUserData.defaddress_shippinglastname}`, 
+        street: `${editedUserData.defaddress_street}`, 
+        addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
+        city: `${editedUserData.city}`, 
+        state: `${editedUserData.state}`, 
+        country: `${editedUserData.defaddress_country}`, 
+        zip: `${editedUserData.defaddress_zip}`, 
+        mobileno: `${editedUserData.defaddress_shippingmobile}`, 
+        FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
+        Customerid: `${editedUserData.id}`
+    }
     
     const encodedCombinedValue = btoa(combinedValue);
     const body = {
