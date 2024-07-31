@@ -777,6 +777,10 @@ const ProductList = () => {
             localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
             setIsProdLoading(false)
           }, 100);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          })
         })
     }
   }
@@ -1201,7 +1205,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={handleSliderChange}
+              onChange={()=>(event, newValue)=>setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1248,7 +1253,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={handleSliderChange1}
+              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1294,7 +1300,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={handleSliderChange2}
+              onChange={()=>(event, newValue)=>setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}

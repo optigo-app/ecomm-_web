@@ -704,6 +704,10 @@ const ProductList = () => {
     setAccExpanded(false)
   }
 
+  useEffect(()=>{
+    handelFilterClearAll()
+  },[location?.key])
+
   const handelPageChange = (event, value) => {
 
     // console.log("pagination",value);
@@ -1239,7 +1243,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={handleSliderChange}
+              onChange={(event, newValue)=>setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1251,7 +1256,7 @@ const ProductList = () => {
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
               value={sliderValue[0]}
-              margin="dense"
+              margin="none"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
@@ -1263,7 +1268,7 @@ const ProductList = () => {
             />
             <Input
               value={sliderValue[1]}
-              margin="dense"
+              margin="none"
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
@@ -1286,7 +1291,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={handleSliderChange1}
+              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1332,7 +1338,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={handleSliderChange2}
+              onChange={(event, newValue)=>setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -2739,7 +2746,6 @@ const ProductList = () => {
                                         },
                                       }}
                                       // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
                                       {ele.Name}

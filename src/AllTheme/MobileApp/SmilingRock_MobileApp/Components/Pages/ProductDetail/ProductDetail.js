@@ -1250,12 +1250,12 @@ const ProductDetail = () => {
                             {selectMtColor}
                           </span>
                         </span>
-                        <span className="smr_prod_short_key">
+                        {diaList?.length > 0 && <span className="smr_prod_short_key">
                           Diamond Quality & Color:{" "}
                           <span className="smr_prod_short_val">
                             {`${selectDiaQc}`}
                           </span>
-                        </span>
+                        </span>}
                         <span className="smr_prod_short_key">
                           Net Wt:{" "}
                           <span className="smr_prod_short_val">{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
@@ -1424,7 +1424,7 @@ const ProductDetail = () => {
                                 </tr>
                               </table> */}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)!== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
                               <span style={{display:'flex'}}>
                               <Typography>
@@ -1437,9 +1437,9 @@ const ProductDetail = () => {
                                &nbsp;
                               <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             { (singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1451,9 +1451,9 @@ const ProductDetail = () => {
                               &nbsp;
                                <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1465,9 +1465,9 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1479,9 +1479,9 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             { formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1493,9 +1493,21 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {
+                             (
+
+                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
+                                (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
+                                (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
+                                (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
+                                (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
+                                (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+
+                              ) !== 0 ?
+                              
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1519,6 +1531,9 @@ const ProductDetail = () => {
                             }</Typography>
                               </span>
                              </div>
+                            :
+                            null 
+                            }
 
                             </AccordionDetails>
                           </Accordion>
@@ -1651,7 +1666,7 @@ const ProductDetail = () => {
             </div>
 
 
-            { stockItemArr?.length > 0 && <div className="smr_stockItem_div">
+            { stockItemArr?.length > 0 && <div className="dt_stockItem_div">
               <p className="smr_details_title"> Stock Items </p>
               <div className="smr_stockitem_container">
                 <div className="smr_stock_item_card">
@@ -1779,7 +1794,7 @@ const ProductDetail = () => {
             </div>
             }
 
-          { (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="smr_stockItem_div">
+          { (storeInit?.IsProductDetailSimilarDesign == 1 && SimilarBrandArr?.length > 0) && <div className="dt_stockItem_div">
               <p className="smr_details_title"> Similar Designs</p>
               <div className="smr_stockitem_container">
                 <div className="smr_stock_item_card">
