@@ -17,6 +17,7 @@ import { MdOutlineFilterList } from "react-icons/md";
 import { MdOutlineFilterListOff } from "react-icons/md";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { IoChevronForward } from "react-icons/io5";
 
 import {
   findMetalColor,
@@ -77,6 +78,7 @@ const DynamicCollection = () => {
   const [metalTypeCombo, SetmetalTypeCombo] = useState([]);
   const [ColorStoneQualityColorCombo, SetColorStoneQualityColorCombo] =
     useState([]);
+  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const [diamondQualityColorCombo, SetdiamondQualityColorCombo] = useState([]);
@@ -278,7 +280,7 @@ const DynamicCollection = () => {
         let key = menuDecode?.split("/")[1].split(",");
         let val = menuDecode?.split("/")[0].split(",");
 
-        // setIsBreadcumShow(true)
+        setIsBreadcumShow(true);
 
         productlisttype = [key, val];
       }
@@ -302,7 +304,7 @@ const DynamicCollection = () => {
         productlisttype = AlbumVar.split("=")[1];
       }
 
-      // setIsProdLoading(true);
+      setIsProdLoading(true);
 
       setprodListType(productlisttype);
       await ProductListApi({}, currentPage, obj, productlisttype, cookie)
@@ -311,8 +313,6 @@ const DynamicCollection = () => {
             setproductsPerPage(res?.pdResp?.rd1[0]?.designcount);
             setProductListData(res?.pdList);
             setIsProdLoading(false);
-            console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
-
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
@@ -350,6 +350,10 @@ const DynamicCollection = () => {
         .finally(() => {
           setIsProdLoading(false);
           // setIsOnlyProdLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: 'smooth'
+          })
         })
         .catch((err) => console.log("err", err));
       // }
@@ -384,6 +388,65 @@ const DynamicCollection = () => {
       );
     }
   };
+  // Bread new comp
+
+  const handleBreadcums = (mparams) => {
+    let key = Object?.keys(mparams);
+    let val = Object?.values(mparams);
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+      let keyName = `FilterKey${index === 0 ? "" : index}`;
+      KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+      let keyName = `FilterVal${index === 0 ? "" : index}`;
+      ValObj[keyName] = value;
+    });
+
+    let finalData = { ...KeyObj, ...ValObj };
+
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ]
+      .filter(Boolean)
+      .join("/");
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ]
+      .filter(Boolean)
+      .join(",");
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(",");
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
+    // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+    navigate(url);
+
+    // console.log("mparams", KeyObj, ValObj)
+  };
+
   // image hover ends
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
@@ -866,6 +929,37 @@ const DynamicCollection = () => {
         [ele?.autocode]: e.target.checked,
       }));
     }
+  };
+
+  const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
+
+    const values = BreadCum[0].split(",");
+    const labels = BreadCum[1].split(",");
+
+    const updatedBreadCum = labels.reduce((acc, label, index) => {
+      acc[label] = values[index] || "";
+      return acc;
+    }, {});
+
+    const result = Object.entries(updatedBreadCum).reduce(
+      (acc, [key, value], index) => {
+        acc[`FilterKey${index === 0 ? "" : index}`] =
+          key.charAt(0).toUpperCase() + key.slice(1);
+        acc[`FilterVal${index === 0 ? "" : index}`] = value;
+        return acc;
+      },
+      {}
+    );
+
+    // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    result.menuname = decodeURI(location?.pathname)
+      .slice(3)
+      .slice(0, -1)
+      .split("/")[0];
+
+    return result;
   };
 
   useEffect(() => {
@@ -1580,6 +1674,15 @@ const DynamicCollection = () => {
             </span>
           </div>
         </div>
+        <div className="bread_crumb_section">
+          <BreadcrumbMenu
+            BreadCumsObj={BreadCumsObj}
+            IsBreadCumShow={IsBreadCumShow}
+            handleBreadcums={handleBreadcums}
+            location={location}
+            navigate={navigate}
+          />
+        </div>
         <div className="filter_btn_mobile">
           <div className="fb_btn">
             <Checkbox
@@ -2012,89 +2115,98 @@ const LoadingSkeleton = () => {
     );
   });
 };
+const BreadcrumbMenu = ({
+  BreadCumsObj,
+  handleBreadcums,
+  IsBreadCumShow,
+  navigate,
+  location,
+}) => {
+  return (
+    <>
+      <div className="hoq_sorting_div" style={{
+        display  :"flex" ,
+        flexDirection  :"row",
+        width  :"100%"
+      }}>
+        <span
+          className="hoq_breadcums_port "
+          // style={{ marginLeft: "72px" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {"Home"} <IoChevronForward/>
+        </span>
 
-// const BreadcrumbMenu = () => {
-//   return (
-//     <>
-//       <div className="empty_sorting_div">
-//         <span
-//           className="smr_breadcums_port "
-//           // style={{ marginLeft: "72px" }}
-//           onClick={() => {
-//             navigate("/");
-//           }}
-//         >
-//           {"Home >"}{" "}
-//         </span>
+        {location?.search.charAt(1) == "A" && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
+            <span>{"Album"}</span>
+          </div>
+        )}
 
-//         {location?.search.charAt(1) == "A" && (
-//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
-//             <span>{"Album"}</span>
-//           </div>
-//         )}
+        {location?.search.charAt(1) == "T" && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
+            <span>{"Trending"}</span>
+          </div>
+        )}
 
-//         {location?.search.charAt(1) == "T" && (
-//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
-//             <span>{"Trending"}</span>
-//           </div>
-//         )}
+        {location?.search.charAt(1) == "B" && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
+            <span>{"Best Seller"}</span>
+          </div>
+        )}
 
-//         {location?.search.charAt(1) == "B" && (
-//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
-//             <span>{"Best Seller"}</span>
-//           </div>
-//         )}
+        {location?.search.charAt(1) == "N" && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
+            <span>{"New Arrival"}</span>
+          </div>
+        )}
 
-//         {location?.search.charAt(1) == "N" && (
-//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
-//             <span>{"New Arrival"}</span>
-//           </div>
-//         )}
+        {IsBreadCumShow && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px"}}>
+            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+            {BreadCumsObj()?.menuname && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                  })
+                }
+              >
+                {BreadCumsObj()?.menuname}
+              </span>
+            )}
 
-//         {IsBreadCumShow && (
-//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
-//             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-//             {BreadCumsObj()?.menuname && (
-//               <span
-//                 onClick={() =>
-//                   handleBreadcums({
-//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
-//                   })
-//                 }
-//               >
-//                 {BreadCumsObj()?.menuname}
-//               </span>
-//             )}
+            {BreadCumsObj()?.FilterVal1 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                  })
+                }
+              >
+                {` > ${BreadCumsObj()?.FilterVal1}`}
+              </span>
+            )}
 
-//             {BreadCumsObj()?.FilterVal1 && (
-//               <span
-//                 onClick={() =>
-//                   handleBreadcums({
-//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
-//                     [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
-//                   })
-//                 }
-//               >
-//                 {` > ${BreadCumsObj()?.FilterVal1}`}
-//               </span>
-//             )}
-
-//             {BreadCumsObj()?.FilterVal2 && (
-//               <span
-//                 onClick={() =>
-//                   handleBreadcums({
-//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
-//                     [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
-//                     [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
-//                   })
-//                 }
-//               >
-//                 {` > ${BreadCumsObj()?.FilterVal2}`}
-//               </span>
-//             )}
-//           </div>
-//         )}
-//       </div>
-//     </>
-//   );
-// };
+            {BreadCumsObj()?.FilterVal2 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                    [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
+                  })
+                }
+              >
+                {` > ${BreadCumsObj()?.FilterVal2}`}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};

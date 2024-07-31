@@ -258,10 +258,12 @@ const Navbar = () => {
 
     console.log("otherparamsUrl--", otherparamUrl);
 
+
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-
+    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
     navigate(url);

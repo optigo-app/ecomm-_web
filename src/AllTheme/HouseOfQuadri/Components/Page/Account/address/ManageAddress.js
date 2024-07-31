@@ -125,7 +125,7 @@ const ManageAddress = () => {
         // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
-        } else if(formData.firstName?.length < 3){
+        } else if(formData.firstName?.length < 2){
             errors.firstName = 'First Name too short';
         } else if(formData.firstName?.length > 25){
             errors.firstName = 'FIrst Name too long';
@@ -135,7 +135,7 @@ const ManageAddress = () => {
 
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
-        } else if(formData.lastName?.length < 3){
+        } else if(formData.lastName?.length < 2){
             errors.lastName = 'Last Name is too short';
         } else if(formData.lastName?.length > 25){
             errors.lastName = 'Last Name is too long';
@@ -321,7 +321,7 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.firstName = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.firstName = 'First Name is too long';
@@ -334,7 +334,7 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.lastName = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.lastName = 'Last Name is too long';
@@ -449,7 +449,7 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+console.log("res",response)
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
