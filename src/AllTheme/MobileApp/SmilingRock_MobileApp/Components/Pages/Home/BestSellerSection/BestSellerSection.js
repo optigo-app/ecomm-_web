@@ -49,8 +49,8 @@ const BestSellerSection = () => {
 
         let data = JSON.parse(localStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
-
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID).then(async(response) => {
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID)
+        .then(async(response) => {
             if (response?.Data?.rd) {
                 const data = response.Data.rd;
                 const urls = await Promise.all(data?.map(async (item) => {
@@ -60,10 +60,11 @@ const BestSellerSection = () => {
                 }));
                 setBestSellerData(data);
                 setImageUrls(urls);
-
             }
-        }).catch((err) => console.log(err))
-
+        })
+        .catch((err) => {
+            console.error('Error fetching best seller data:', err);
+        });
     }, [])
 
     const checkImageAvailability = (url) => {
@@ -130,40 +131,33 @@ const BestSellerSection = () => {
 
 
       const renderSlides = () => {
+        if (!bestSellerData?.length) return null;
         const slides = [];
-        for (let i = 0; i < bestSellerData?.length > 5 ? 5 : bestSellerData?.length; i += 2) {
+        for (let i = 0; i < Math.min(bestSellerData?.length, 5); i += 2) {
             slides.push(
                 <div className='linkRingLove' key={i}>
                     <div>
                         <div className='linkLoveRing1' onClick={() => handleNavigation(bestSellerData[i]?.designno, bestSellerData[i]?.autocode, bestSellerData[i]?.TitleLine)}>
-                            <img src={imageUrls[i]} className='likingLoveImages' alt='Trending Item' />
+                            <img src={imageUrls[i] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                         </div>
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{bestSellerData[i]?.designno}</p>
                             <p className='smr_bestSellerPrice'>
-                                <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(storeInit?.Currencysymbol),
-                                    }}
-                                /> {bestSellerData[i]?.UnitCostWithMarkUp}
+                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                {bestSellerData[i]?.UnitCostWithMarkUp}
                             </p>
                         </div>
                     </div>
                     {bestSellerData[i + 1] && (
                         <div>
                             <div className='linkLoveRing2' onClick={() => handleNavigation(bestSellerData[i + 1]?.designno, bestSellerData[i + 1]?.autocode, bestSellerData[i + 1]?.TitleLine)}>
-                                <img src={imageUrls[i + 1]} className='likingLoveImages' alt='Trending Item' />
+                                <img src={imageUrls[i + 1] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                             </div>
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{bestSellerData[i + 1]?.designno}</p>
                                 <p className='smr_bestSellerPrice'>
-                                    <span
-                                        className="smr_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(storeInit?.Currencysymbol),
-                                        }}
-                                    /> {bestSellerData[i + 1]?.UnitCostWithMarkUp}
+                                    <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                    {bestSellerData[i + 1]?.UnitCostWithMarkUp}
                                 </p>
                             </div>
                         </div>
@@ -173,7 +167,6 @@ const BestSellerSection = () => {
         }
         return slides;
     };
-
   return (
     <div className='smrMA_bestSallerMain'>
     <div className='linkingLoveMain'>

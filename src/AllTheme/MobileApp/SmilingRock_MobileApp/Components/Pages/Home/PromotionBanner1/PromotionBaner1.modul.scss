@@ -1,11 +1,27 @@
 .smrMA_PromoMain {
 
+    position: relative;
     .FestiveMainImage {
         position: relative;
     }
 
     .FestiveBannerImage {
         width: 100%;
+    }
+
+    .ma_newArrival_btn{
+        height: 35px;
+        border: 1px solid black;
+        background-color: transparent;
+        font-size: 15px;
+        font-family: auto;
+        width: 120px;
+        position: absolute;
+        border-radius: 2px;
+        color: black;
+        font-weight: 500;
+        bottom: 10%;
+        left: 10px;
     }
 
     .festiveBox {
