@@ -16,6 +16,7 @@ import { el_CartCount } from '../../Recoil/atom';
 import RemarkDialog from './OrderRemarkDialog';
 import { OrderFlowCrumbs } from './OrderFlowCrumbs';
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 
 const CartPage = () => {
   const {
@@ -82,6 +83,8 @@ const CartPage = () => {
   const [showRemark1, setShowRemark1] = useState(false);
   const [countStatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(el_CartCount);
+  const [orderRemark, setOrderRemark] = useState();
+  const [randomNumber, setRandomNumber] = useState('');
 
   const handleOpen = () => setOpen(true);
   const handleOpen1 = () => setShowRemark1(true);
@@ -96,6 +99,15 @@ const CartPage = () => {
   const handleBorder = () => {
     setBorder(!border);
   }
+
+  const handleRemarkChangeInternal = (e) => {
+    setOrderRemark(e.target.value);
+  };
+
+  const handleSaveInternal = () => {
+    handleOrderRemarkFun(orderRemark);
+    handleClose1();
+  };
 
   const handleConfirmRemoveAll = async () => {
     const returnValue = await handleRemoveAll();
@@ -123,8 +135,36 @@ const CartPage = () => {
     handleClose();
   }
 
+  const generateRandomNumber = (length) => {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += Math.floor(Math.random() * 10);
+    }
+    return result;
+  };
+  
+    useEffect(() => {
+      setRandomNumber(generateRandomNumber(10));
+    }, []);
+
   const handleMoveToOrder = () => {
     navigate('/Delivery');
+    localStorage.setItem('iscartData', randomNumber);
+  }
+
+  const handleOrderRemarkFun = async () => {
+    try {
+      const response = await handleOrderRemark(orderRemark);
+      let resStatus = response?.Data?.rd[0]
+      if (resStatus?.stat == 1) {
+        // const updatedCartData = cartData.map(cart =>
+        //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
+        // );
+        localStorage.setItem('orderRemark', orderRemark)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   useEffect(() => {
@@ -157,7 +197,7 @@ const CartPage = () => {
                 <div className="elv_Productlists_details">
                   <span className="elv_Productlists_details_1" >
                     my cart
-                    <OrderFlowCrumbs param1={"My cart"} param2={''} param3={''} />
+                    {/* <OrderFlowCrumbs param1={"My cart"} param2={''} param3={''} /> */}
                   </span>
                 </div>
               </div>
@@ -166,17 +206,17 @@ const CartPage = () => {
                   <p className="elv_Productlist_ptitle">
                     <img
                       className="elv_Productlist_logo"
-                      src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
+                      src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}
                       alt="Logo"
                     />
                   </p>
                 </span>
               </div>
             </div>
-            <div className="elv_filteration_block_div">
-              <div className="elv_Cartblock_rows">
-                <div className="elv_Cartblock_rows_1" >
-                  {cartData.length > 1 && (
+            {cartData.length ? (
+              <div className="elv_filteration_block_div">
+                <div className="elv_Cartblock_rows">
+                  <div className="elv_Cartblock_rows_1" >
                     <span className="elv_total_price_title">
                       Total Price:&nbsp;
                       <span>
@@ -188,83 +228,79 @@ const CartPage = () => {
                             ),
                           }}
                         />
-                        &nbsp;<span style={{ fontWeight: 'bold' }}>{getTotalPrice[0]?.total.toFixed(2)}</span>
+                        &nbsp;<span style={{ fontWeight: 'bold' }}>{getTotalPrice[0]?.total}</span>
                       </span>
                     </span>
-                  )}
-                </div>
-                <div className="elv_Cartblock_rows_2" >
-                  <span className="elv_items_title">
-                    {cartData.length > 1 && (
-                      <>
-                        <span>{cartData?.length}</span>
-                        <span>&nbsp;items</span>
-                      </>
-                    )}
-                  </span>
-                </div>
-                <div className="elv_Cartblock_rows_3" >
-                  {cartData?.length ? (
-                    <span onClick={handleOpen} className="elv_clearAll_title">
-                      Clear All
-                    </span>
-                  ) :
-                    <span onClick={handleClose} className="elv_clearAll_title">
-                      Clear All
-                    </span>
-                  }
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={style}>
-                      <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Are You Sure To Delete All This Item?
-                      </Typography>
-                      <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
-                        <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '2.5rem', fontSize: '18px' }} onClick={handleClose}>No</button>
-                        <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '15px', fontSize: '18px' }} onClick={handleCloseRemove}
-                        >Yes</button>
-                      </div>
-                    </Box>
-                  </Modal>
-                </div>
-                <div className="elv_Cartblock_rows_4" >
-                  {cartData?.length ? (
-                    <span onClick={handleOpen1} className="elv_remarks_title">
-                      <span>{selectedItem?.OrderRemarks ? "View & Edit Remark" : "Add Remark"}</span>
-                    </span>
-                  ) :
-                    <span onClick={handleClose1} className="elv_remarks_title">
-                      <span>{selectedItem?.OrderRemarks ? "View & Edit Remark" : "Add Remark"}</span>
-                    </span>
-                  }
-                  <RemarkDialog
-                    handleClose1={handleClose1}
-                    handleSave={handleSave}
-                    showRemark1={showRemark1}
-                    selectedItem={selectedItem}
-                    productRemark={productRemark}
-                    handleRemarkChange={handleRemarkChange}
-                  />
-                </div>
-                {cartData?.length ? (
-                  <div className="elv_Cartblock_rows_5" onClick={handleMoveToOrder}>
-                    <span className="elv_placeOrder_title">
-                      Place Order
+                  </div>
+                  <div className="elv_Cartblock_rows_2" >
+                    <span className="elv_items_title">
+                      <span>{cartData?.length}</span>
+                      <span>&nbsp;items</span>
                     </span>
                   </div>
-                ) :
-                  <div className="elv_Cartblock_rows_5">
-                    <span className="elv_placeOrder_title">
-                      Place Order
-                    </span>
+                  <div className="elv_Cartblock_rows_3" >
+                    {cartData?.length ? (
+                      <span onClick={handleOpen} className="elv_clearAll_title">
+                        Clear All
+                      </span>
+                    ) :
+                      <span onClick={handleClose} className="elv_clearAll_title">
+                        Clear All
+                      </span>
+                    }
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                          Are You Sure To Delete All This Item?
+                        </Typography>
+                        <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
+                          <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '2.5rem', fontSize: '18px' }} onClick={handleClose}>No</button>
+                          <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '15px', fontSize: '18px' }} onClick={handleCloseRemove}
+                          >Yes</button>
+                        </div>
+                      </Box>
+                    </Modal>
                   </div>
-                }
+                  <div className="elv_Cartblock_rows_4" >
+                    {cartData?.length ? (
+                      <span onClick={handleOpen1} className="elv_remarks_title">
+                        <span>{orderRemark ? "View & Edit Order Remark" : "Add Order Remark"}</span>
+                      </span>
+                    ) :
+                      <span onClick={handleClose1} className="elv_remarks_title">
+                        <span>{orderRemark ? "View & Edit Order Remark" : "Add Order Remark"}</span>
+                      </span>
+                    }
+                    <RemarkDialog
+                      open1={showRemark1}
+                      onClose1={handleClose1}
+                      remark1={orderRemark}
+                      onRemarkChange1={handleRemarkChangeInternal}
+                      onSave1={handleSaveInternal}
+                    />
+                  </div>
+                  {cartData?.length ? (
+                    <div className="elv_Cartblock_rows_5" onClick={handleMoveToOrder}>
+                      <span className="elv_placeOrder_title">
+                        Place Order
+                      </span>
+                    </div>
+                  ) :
+                    <div className="elv_Cartblock_rows_5">
+                      <span className="elv_placeOrder_title">
+                        Place Order
+                      </span>
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
+            ) : ('')}
+
             {cartData?.length !== 0 ? (
               <div className='elv_cartDetailsData_div'>
                 <div className='elv_CartProducts_div'>

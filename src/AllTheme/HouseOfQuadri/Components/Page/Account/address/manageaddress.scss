@@ -6,8 +6,9 @@
     opacity: .8 !important;
     margin-left: auto !important;
     display: block !important;
-    background: #f6efe6 !important;
-    color: rgba(31, 25, 25, 0.7) !important;
+    background: #b90101 !important;
+    color: white !important;
+    border-radius: 2px !important;
 }
 
 .manageAddressBlock{
@@ -24,12 +25,13 @@
     font-weight: 700 !important;
     opacity: .8 !important;
     padding: 7px 20px 7px 20px !important;
-    background: rgb(246,239,230) !important;
-    color: rgba(31, 25, 25, 0.7) !important;
+    background: #c20000 !important;
+    color: white !important;
+    border-radius: 2px !important;
 }
 .muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
-    background: #fff !important;
-    color: #1f1919;
+    background: #9b0202 !important;
+    color: #fff;
     opacity: .8;
 }
 
@@ -60,10 +62,10 @@
 }
 
 .smilingDeleveryformSaveBtn{
-    background: #f6efe6;
+    background: #c20000;
     border: none;
     border-radius: 5px;
-    color: rgba(31, 25, 25, .7);
+    color: #fff;
     font-family: PT Sans, sans-serif !important;
     font-weight: 600;
     margin-inline: 5px;

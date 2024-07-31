@@ -22,7 +22,6 @@ export const ScrollImageList = [
     btn_des: "CUSTOMISE NOW",
     top: "15px",
     isborder: false,
-    link: "/customise",
   },
   {
     title: "Lorem ipsum dolor sit amet consectetur?",

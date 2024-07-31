@@ -63,7 +63,9 @@ export default function YourProfile() {
 
 
     useEffect(() => {
+
         const storedUserData = localStorage.getItem('loginUserDetail');
+        
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
             if (defaultAddress) {
@@ -107,7 +109,7 @@ export default function YourProfile() {
             case 'defaddress_shippingfirstname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
@@ -120,7 +122,7 @@ export default function YourProfile() {
             case 'defaddress_shippinglastname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
@@ -130,26 +132,31 @@ export default function YourProfile() {
                     errorsCopy.defaddress_shippinglastname = '';
                 }
                 break;
-            case 'defaddress_street':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_street = 'Address is required';
-                } else if(value?.length < 3){
-                    errorsCopy.defaddress_street = 'Address is too short';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.defaddress_street = 'Invalid Address';
-                } else {
-                    errorsCopy.defaddress_street = '';
-                }
-                break;
-            case 'defaddress_shippingmobile':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
-                } else if (!/^\d{10}$/.test(value.trim())) {
-                    errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
-                } else {
-                    errorsCopy.defaddress_shippingmobile = '';
-                }
-                break;
+                case 'defaddress_street':
+                    if(!value.trim()){
+                        errorsCopy.defaddress_street = 'Address is required';
+                    }else{
+                        errorsCopy.defaddress_street = '';
+                    }
+                    // if (!value.trim()) {
+                    //     errorsCopy.defaddress_street = 'Address is required';
+                    // } else if(value?.length < 3){
+                    //     errorsCopy.defaddress_street = 'Address is too short';
+                    // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    //     errorsCopy.defaddress_street = 'Invalid Address';
+                    // } else {
+                    //     errorsCopy.defaddress_street = '';
+                    // }
+                    break;
+                case 'defaddress_shippingmobile':
+                    if (!value.trim()) {
+                        errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
+                    } else if (!/^\d{10}$/.test(value.trim())) {
+                        errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
+                    } else {
+                        errorsCopy.defaddress_shippingmobile = '';
+                    }
+                    break;
             default:
                 break;
         }
@@ -282,7 +289,7 @@ export default function YourProfile() {
             // First Name validation
             if (!editedUserData.defaddress_shippingfirstname?.length) {
                 tempErrors.defaddress_shippingfirstname = "First Name is required";
-            } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+            } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too short";
             } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too long";
@@ -291,7 +298,7 @@ export default function YourProfile() {
             // Last Name validation
             if (!editedUserData.defaddress_shippinglastname?.length) {
                 tempErrors.defaddress_shippinglastname = "Last Name is required";
-            } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+            } else if (editedUserData.defaddress_shippinglastname.length < 2) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too short";
             } else if (editedUserData.defaddress_shippinglastname.length > 25) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too long";
@@ -328,12 +335,10 @@ export default function YourProfile() {
         // return Object.values(tempErrors).every(x => x === "");
     };
 
-    useEffect(() => {
-        fetchAddress();
-    }, [])
-
+   
     const fetchAddress = async() => {
         try {
+            setIsLoading(true);
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
@@ -344,16 +349,26 @@ export default function YourProfile() {
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
             if(response?.Data?.rd?.length > 0){
                 setAddressPresentFlag(true);
-            }    
+                setIsLoading(false);
+            }else{
+                setIsLoading(false);
+            }   
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         }
         
     }
 
+    useEffect(() => {
+        fetchAddress();
+    }, [])
+
     return (
         <div className='hoq_yourProfile'>
-            <ToastContainer />
+            <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
 
             {isLoading && (
                 <div className="loader-overlay">
@@ -373,8 +388,8 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
                                     // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
-                                    value={userData?.defaddress_shippingfirstname}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippingfirstname || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -384,8 +399,8 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
-                                    value={userData?.defaddress_shippinglastname}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippinglastname || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -397,8 +412,8 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.userid !== "undefined" ? userData.userid : ""}
-                                    value={userData?.userid}
-                                    disabled={!editMode}
+                                    value={userData?.userid || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -408,8 +423,8 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
-                                    value={userData?.defaddress_shippingmobile}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_shippingmobile || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -421,8 +436,8 @@ export default function YourProfile() {
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
                                     // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
-                                    value={userData?.defaddress_street}
-                                    disabled={!editMode}
+                                    value={userData?.defaddress_street || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -430,13 +445,16 @@ export default function YourProfile() {
                     )}
                 </div>}
                 { addressPresentFlag &&  <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: '#c20000', marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
             <Modal
                 open={editMode}
                 onClose={handleClose}
+                sx={{
+                    zIndex : 999999
+                }}
             >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                     {/* <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}> */}
@@ -453,7 +471,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippingfirstname}
                                     helperText={errors.defaddress_shippingfirstname}
-                                    required
                                 />
                                 <TextField
                                     id="defaddress_shippinglastname"
@@ -464,7 +481,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippinglastname}
                                     helperText={errors.defaddress_shippinglastname}
-                                    required
                                 />
                                 <TextField
                                     id="userid"
@@ -486,7 +502,6 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_shippingmobile}
                                     helperText={errors.defaddress_shippingmobile}
-                                    required
                                 />
                                 <TextField
                                     id="defaddress_street"
@@ -497,14 +512,13 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_street}
                                     helperText={errors.defaddress_street}
-                                    required
                                 />
                             </>
                         )}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
                         {/* <button onClick={handleSave} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
-                        <button type='submit' className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button type='submit' className='hoq_SmilingAddEditAddrwess' >Save</button>
+                        <button onClick={() => setEditMode(false)} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
                     </div>
                     </form>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Category.modul.scss";
-import {  diamondShapes } from "../../../Constants/CategoryList";
+import { diamondShapes } from "../../../Constants/CategoryList";
 import { Hoq_loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
@@ -12,14 +12,16 @@ const CategoryTab = () => {
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
   const islogin = useRecoilValue(Hoq_loginState);
-
+  const showShapeSection = false ;
   useEffect(() => {
     let data = JSON.parse(localStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
-    const loginUserDetail = JSON.parse(localStorage?.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(
+      localStorage?.getItem("loginUserDetail")
+    );
     const storeInit = JSON.parse(localStorage?.getItem("storeInit"));
-    const  IsB2BWebsite  = storeInit?.IsB2BWebsite;
+    const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
@@ -57,7 +59,17 @@ const CategoryTab = () => {
           );
         })}
       </div>
+      {showShapeSection && <ShapeSection />}
+      {/*  */}
+    </div>
+  );
+};
 
+export default CategoryTab;
+
+const ShapeSection = () => {
+  return (
+    <>
       <div className="header">
         <h1> Shop By Shape</h1>
       </div>
@@ -66,11 +78,9 @@ const CategoryTab = () => {
           return <ShapeCard img={img} shape={shape} />;
         })}
       </div>
-    </div>
+    </>
   );
 };
-
-export default CategoryTab;
 
 const CategoryCard = ({ src, onClick, name }) => {
   return (

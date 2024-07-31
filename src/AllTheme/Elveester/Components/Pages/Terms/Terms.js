@@ -21,7 +21,7 @@ const Terms = () => {
         <div className="elv_terms_main_div">
             <div className="elv_terms_div">
                 <div className='elv_terms_image_div'>
-                    <img className='elv_terms_image_1' src={`${storImagePath()}images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" />
+                    <img className='elv_terms_image_1' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" />
                     <div>
                         <img className='elv_terms_image_2' src="https://www.elvee.in/static/media/Logo1.4e98fceb0f4280d06296.png" alt="" />
                     </div>
