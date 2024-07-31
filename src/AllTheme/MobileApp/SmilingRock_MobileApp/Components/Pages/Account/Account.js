@@ -69,6 +69,7 @@ export default function Account() {
     const [lastNamr, setLasnane] = useState('');
     const [userMobile, setUserMobile] = useState('');
 
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -82,7 +83,18 @@ export default function Account() {
         setFname(loginUserDetail?.firstname);
         setLasnane(loginUserDetail?.lastname);
         setUserMobile(loginUserDetail?.mobileno);
-    }, [])
+
+        const handlePopState = () => {
+            navigation('/');
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+
+    }, [navigation])
 
     const handleLogout = () => {
         navigation("/");
