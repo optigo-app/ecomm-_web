@@ -37,7 +37,6 @@ const Payment = () => {
     };
 
     const handleSaveInternal = () => {
-        debugger
         if (orderRemark && orderRemark !== "null") {
             handleOrderRemarkFun(orderRemark);
             handleClose();

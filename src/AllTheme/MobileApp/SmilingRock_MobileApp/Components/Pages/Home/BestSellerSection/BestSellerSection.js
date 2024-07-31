@@ -131,7 +131,7 @@ const BestSellerSection = () => {
 
       const renderSlides = () => {
         const slides = [];
-        for (let i = 0; i < 5; i += 2) {
+        for (let i = 0; i < bestSellerData?.length > 5 ? 5 : bestSellerData?.length; i += 2) {
             slides.push(
                 <div className='linkRingLove' key={i}>
                     <div>
