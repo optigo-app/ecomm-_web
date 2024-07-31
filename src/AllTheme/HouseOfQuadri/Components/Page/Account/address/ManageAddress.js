@@ -498,15 +498,17 @@ const ManageAddress = () => {
 
     return (
         <>
-        <ToastContainer />
+ <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
             <div>
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#f6efe6',
-                    color: "rgba(31, 25, 25, 0.7)",
+                    background: '#f6f6f6',
+                    color: "#7D7F89",
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
@@ -562,7 +564,7 @@ const ManageAddress = () => {
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
                                                 <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
-                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
+                                                        background: "#c20000", maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
                                                     }}
                                                     onClick={() => handleOpen(item, index)}
@@ -619,7 +621,7 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
+                <Dialog open={open} onClose={handleClose} sx={{zIndex : 999999}} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

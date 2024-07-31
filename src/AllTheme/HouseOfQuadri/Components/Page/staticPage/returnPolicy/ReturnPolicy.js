@@ -6,7 +6,7 @@ export default function ReturnPolicy() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/images/staticHtml/returnpolicy.html`)
+    fetch(`${storImagePath()}/html/returnpolicy.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -17,12 +17,19 @@ export default function ReturnPolicy() {
       });
   }, []);
 
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
+  
   return (
     <div className="hoq_returnPolicy">
-        <div
-          className="return-policy"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+      <div
+        className="return-policy"
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
       <div className="back-to-home">
         <Link to={"/"}>Back to Home</Link>
       </div>

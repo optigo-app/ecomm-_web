@@ -21,6 +21,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   findMetalColor,
   findMetalType,
+  storImagePath,
 } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import {
   Accordion,
@@ -60,6 +61,7 @@ const DynamicCollection = () => {
   const location = useLocation();
   const { query } = useParams();
   const navigate = useNavigate();
+  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false);
   let cookie = Cookies.get("visiterId");
   const [ShowMore, SetShowMore] = useState(false);
   const [storeInit, setStoreInit] = useState({});
@@ -93,90 +95,19 @@ const DynamicCollection = () => {
   const [cartArr, setCartArr] = useState({});
   const [wishArr, setWishArr] = useState({});
   const [accExpanded, setAccExpanded] = useState(null);
+  const [afterCountStatus, setAfterCountStatus] = useState(false);
 
   const [selectedDiaId, setSelectedDiaId] = useState(
     loginUserDetail?.cmboDiaQCid
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-  // mui pagination handle
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
-  const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-
-    let prodObj = {
-      autocode: ele?.autocode,
-      Metalid: selectedMetalId ?? ele?.MetalPurityid,
-      MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
-      Size: ele?.DefaultSize,
-      Unitcost: ele?.UnitCost,
-      markup: ele?.DesignMarkUp,
-      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
-      Remark: "",
-    };
-
-    if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj, cookie)
-        .then((res) => {
-          let cartC = res?.Data?.rd[0]?.Cartlistcount;
-          let wishC = res?.Data?.rd[0]?.Wishlistcount;
-          setWishCountVal(wishC);
-          setCartCountVal(cartC);
-        })
-        .catch((err) => console.log("err", err));
-    } else {
-      RemoveCartAndWishAPI(type, ele?.autocode, cookie)
-        .then((res) => {
-          let cartC = res?.Data?.rd[0]?.Cartlistcount;
-          let wishC = res?.Data?.rd[0]?.Wishlistcount;
-          setWishCountVal(wishC);
-          setCartCountVal(cartC);
-        })
-        .catch((err) => console.log("err", err));
-    }
-
-    if (type === "Cart") {
-      setCartArr((prev) => ({
-        ...prev,
-        [ele?.autocode]: e.target.checked,
-      }));
-    }
-
-    if (type === "Wish") {
-      setWishArr((prev) => ({
-        ...prev,
-        [ele?.autocode]: e.target.checked,
-      }));
-    }
-  };
-
-  const filterSectionRef = useRef(null);
-
-  useEffect(() => {
-    // Scroll the element into view with offset
-    if (filterSectionRef.current) {
-      filterSectionRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      const offset = 500;
-      window.scrollBy({
-        top: offset,
-        behavior: "smooth",
-      });
-    }
-    window.scrollTo({
-      top: 500,
-      behavior: "smooth",
-    });
-  }, []);
+  // mui pagination ee
+  // const handlePageChange = (event, value) => {
+  //   window.scrollTo({ behavior: "smooth", top: 700 });
+  //   setCurrentPage(value);
+  //   console.log("pagiantion", value);
+  // };
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -241,6 +172,8 @@ const DynamicCollection = () => {
   };
 
   useEffect(() => {
+    setAfterCountStatus(true);
+
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -259,6 +192,8 @@ const DynamicCollection = () => {
           if (res) {
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            setAfterCountStatus(false);
+            // log 1
           }
           return res;
         })
@@ -370,13 +305,15 @@ const DynamicCollection = () => {
       // setIsProdLoading(true);
 
       setprodListType(productlisttype);
-      await ProductListApi({}, 1, obj, productlisttype, cookie)
+      await ProductListApi({}, currentPage, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
             setproductsPerPage(res?.pdResp?.rd1[0]?.designcount);
             setProductListData(res?.pdList);
             setIsProdLoading(false);
-            // setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
+
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
@@ -413,17 +350,12 @@ const DynamicCollection = () => {
         .finally(() => {
           setIsProdLoading(false);
           // setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
         })
         .catch((err) => console.log("err", err));
       // }
     };
 
     fetchData();
-
     if (location?.key) {
       setLocationKey(location?.key);
     }
@@ -524,7 +456,6 @@ const DynamicCollection = () => {
   };
 
   // pRODUCT nAVIGATING lOGICS
-
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
@@ -566,6 +497,7 @@ const DynamicCollection = () => {
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
+    setAfterCountStatus(true);
 
     setFilterChecked((prev) => ({
       ...prev,
@@ -592,6 +524,8 @@ const DynamicCollection = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
+          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
+
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           console.log("filter", res?.pdResp?.rd1[0]?.designcount);
         }
@@ -620,6 +554,8 @@ const DynamicCollection = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
+            console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
+
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             console.log("filter", res?.pdResp?.rd1[0]?.designcount);
           }
@@ -831,6 +767,7 @@ const DynamicCollection = () => {
   }, []);
 
   const handelFilterClearAll = () => {
+    setAfterCountStatus(false);
     if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
       setFilterChecked({});
     }
@@ -841,13 +778,95 @@ const DynamicCollection = () => {
     callAllApi();
   }, [loginInfo]);
 
-  useEffect(() => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: 500,
-      left: 0,
-    });
-  }, [currentPage]);
+  const handlePageChange = (event, value) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    setIsProdLoading(true);
+    setCurrentPage(value);
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 100);
+    ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      // .then(async (res) => {
+      //   if (res) {
+      //     await GetPriceListApi(value, {}, output, res?.pdResp?.rd1[0]?.AutoCodeList, obj).then((resp) => {
+      //       if (resp) {
+      //         setPriceListData(resp)
+      //       }
+      //     })
+      //   }
+      //   return res
+      // })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false);
+        }, 100);
+      });
+  };
+
+  const handleCartandWish = (e, ele, type) => {
+    console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let prodObj = {
+      autocode: ele?.autocode,
+      Metalid: selectedMetalId ?? ele?.MetalPurityid,
+      MetalColorId: ele?.MetalColorid,
+      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      Size: ele?.DefaultSize,
+      Unitcost: ele?.UnitCost,
+      markup: ele?.DesignMarkUp,
+      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      Remark: "",
+    };
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    } else {
+      RemoveCartAndWishAPI(type, ele?.autocode, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked,
+      }));
+    }
+
+    if (type === "Wish") {
+      setWishArr((prev) => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked,
+      }));
+    }
+  };
 
   useEffect(() => {
     callAllApi();
@@ -1006,7 +1025,18 @@ const DynamicCollection = () => {
   //   setSliderValue2(newValue);
   //   handleRangeFilterApi1(newValue);
   // };
+  useEffect(() => {
+    if (productListData?.length === 0 || !productListData) {
+      setFilterProdListEmpty(true);
+    } else {
+      setFilterProdListEmpty(false);
+      setAfterCountStatus(false);
+    }
+  }, [productListData]);
 
+  useEffect(() => {
+    handelFilterClearAll();
+  }, [location?.pathname || location?.search]);
   return (
     <>
       <div className="hoq_dynamic_Collections">
@@ -1224,7 +1254,7 @@ const DynamicCollection = () => {
           >
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
-                <span className="smr_filter_text">
+                {/* <span className="smr_filter_text">
                   <span style={{ fontWeight: 500 }}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
@@ -1244,6 +1274,47 @@ const DynamicCollection = () => {
                             afterFilterCount || 0
                           }`}</span>
                         )}
+                  </span>
+                </span> */}
+                <span className="smr_filter_text">
+                  <span>
+                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                      ?.length === 0 ? (
+                      // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
+                      "Filters"
+                    ) : (
+                      <>
+                        {afterCountStatus == true ? (
+                          <Skeleton
+                            variant="rounded"
+                            width={140}
+                            height={22}
+                            className="pSkelton"
+                          />
+                        ) : (
+                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        )}
+                      </>
+                    )}
+                  </span>
+                  <span onClick={() => handelFilterClearAll()}>
+                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                      ?.length > 0 ? (
+                      "Clear All"
+                    ) : (
+                      <>
+                        {afterCountStatus == true ? (
+                          <Skeleton
+                            variant="rounded"
+                            width={140}
+                            height={22}
+                            className="pSkelton"
+                          />
+                        ) : (
+                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                        )}
+                      </>
+                    )}
                   </span>
                 </span>
                 <div style={{ marginTop: "12px" }}>
@@ -1525,7 +1596,7 @@ const DynamicCollection = () => {
           </div>
         </div>
         {/* Filter on Below on iamge Banner */}
-        <div className="filter_section" ref={filterSectionRef}>
+        <div className="filter_section">
           {/* productlist cards */}
           <div className="cc_list">
             {/* top filter bar */}
@@ -1561,15 +1632,22 @@ const DynamicCollection = () => {
                 <NoProductFound />
               )}
             </div>
-            {Math.ceil(productsPerPage / storeInit?.PageSize) > 1 && (
-              <div className="pagination_sec">
-                <PaginationBar
-                  totalPages={Math.ceil(productsPerPage / storeInit?.PageSize)}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            )}
+            {/* Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && ( */}
+            {/* {storeInit?.IsProductListPagination == 1 && */}
+            {/* {storeInit?.IsProductListPagination == 1 &&
+              Math.ceil(afterFilterCount / storeInit.PageSize) */}
+            {storeInit?.IsProductListPagination == 1 &&
+              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                <div className="pagination_sec">
+                  <PaginationBar
+                    totalPages={Math.ceil(
+                      afterFilterCount / storeInit?.PageSize
+                    )}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
           </div>
         </div>
       </div>
@@ -1584,7 +1662,7 @@ const Banner = () => {
     <div
       className="Banner"
       style={{
-        backgroundImage: `url("https://houseofquadri.com/cdn/shop/files/Collection-02_2592x.png?v=1655799226")`,
+        backgroundImage: `url(${storImagePath()}/images/HomePage/ImageBannerTab/2.webp)`,
       }}
     >
       <h1>Imperfectly Perfect. </h1>
@@ -1786,7 +1864,7 @@ const C_Card = ({
             <>
               <span className="smr_prod_wt">
                 <span className="smr_keys">GWT:</span>
-                <span className="smr_val">{productData?.Gwt}</span>
+                <span className="smr_val">{productData?.Gwt?.toFixed(3)}</span>
               </span>
             </>
           )}
@@ -1795,7 +1873,7 @@ const C_Card = ({
               <span>|</span>
               <span className="smr_prod_wt">
                 <span className="smr_keys">NWT:</span>
-                <span className="smr_val">{productData?.Nwt}</span>
+                <span className="smr_val">{productData?.Nwt?.toFixed(3)}</span>
               </span>
             </>
           )}
@@ -1809,9 +1887,9 @@ const C_Card = ({
                 <span className="smr_prod_wt">
                   <span className="smr_keys">DWT:</span>
                   <span className="smr_val">
-                    {productData?.Dwt}
+                    {productData?.Dwt?.toFixed(3)}
                     {storeInit?.IsDiamondPcs === 1
-                      ? `/${productData?.Dpcs}`
+                      ? `/${productData?.Dpcs?.toFixed(3)}`
                       : null}
                   </span>
                 </span>
@@ -1823,9 +1901,9 @@ const C_Card = ({
               <span className="smr_prod_wt">
                 <span className="smr_keys">CWT:</span>
                 <span className="smr_val">
-                  {productData?.CSwt}
+                  {productData?.CSwt?.toFixed(3)}
                   {storeInit?.IsStonePcs === 1
-                    ? `/${productData?.CSpcs}`
+                    ? `/${productData?.CSpcs?.toFixed(3)}`
                     : null}
                 </span>
               </span>
@@ -1873,7 +1951,7 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         onChange={onPageChange}
         shape="rounded"
         className="pagination-btn"
-        siblingCount={0}
+        siblingCount={1}
         showFirstButton
         showLastButton
       />
@@ -1934,3 +2012,89 @@ const LoadingSkeleton = () => {
     );
   });
 };
+
+// const BreadcrumbMenu = () => {
+//   return (
+//     <>
+//       <div className="empty_sorting_div">
+//         <span
+//           className="smr_breadcums_port "
+//           // style={{ marginLeft: "72px" }}
+//           onClick={() => {
+//             navigate("/");
+//           }}
+//         >
+//           {"Home >"}{" "}
+//         </span>
+
+//         {location?.search.charAt(1) == "A" && (
+//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
+//             <span>{"Album"}</span>
+//           </div>
+//         )}
+
+//         {location?.search.charAt(1) == "T" && (
+//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
+//             <span>{"Trending"}</span>
+//           </div>
+//         )}
+
+//         {location?.search.charAt(1) == "B" && (
+//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
+//             <span>{"Best Seller"}</span>
+//           </div>
+//         )}
+
+//         {location?.search.charAt(1) == "N" && (
+//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
+//             <span>{"New Arrival"}</span>
+//           </div>
+//         )}
+
+//         {IsBreadCumShow && (
+//           <div className="smr_breadcums_port" style={{ marginLeft: "3px" }}>
+//             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+//             {BreadCumsObj()?.menuname && (
+//               <span
+//                 onClick={() =>
+//                   handleBreadcums({
+//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+//                   })
+//                 }
+//               >
+//                 {BreadCumsObj()?.menuname}
+//               </span>
+//             )}
+
+//             {BreadCumsObj()?.FilterVal1 && (
+//               <span
+//                 onClick={() =>
+//                   handleBreadcums({
+//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+//                     [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+//                   })
+//                 }
+//               >
+//                 {` > ${BreadCumsObj()?.FilterVal1}`}
+//               </span>
+//             )}
+
+//             {BreadCumsObj()?.FilterVal2 && (
+//               <span
+//                 onClick={() =>
+//                   handleBreadcums({
+//                     [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+//                     [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+//                     [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
+//                   })
+//                 }
+//               >
+//                 {` > ${BreadCumsObj()?.FilterVal2}`}
+//               </span>
+//             )}
+//           </div>
+//         )}
+//       </div>
+//     </>
+//   );
+// };

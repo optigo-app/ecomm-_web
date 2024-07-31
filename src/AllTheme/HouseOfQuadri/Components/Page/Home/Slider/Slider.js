@@ -36,11 +36,11 @@ const TopSlider = () => {
 
   return (
     <div className="hoq_main_slider">
-      <div className="controller_btn">
+      {/* <div className="controller_btn">
         <button onClick={() => slider?.current?.slickPrev()}>
           <BsChevronCompactLeft className="btn_icons" />
         </button>
-      </div>
+      </div> */}
       <Slider {...settings} ref={slider}>
         {isMobile
           ? MobilSliderImage.map((val, i) => (
@@ -54,11 +54,11 @@ const TopSlider = () => {
               </div>
             ))}
       </Slider>{" "}
-      <div className="controller_btn_2">
+      {/* <div className="controller_btn_2">
         <button onClick={() => slider?.current?.slickNext()}>
           <BsChevronCompactRight className="btn_icons" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

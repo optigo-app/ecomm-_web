@@ -55,19 +55,26 @@ const Navbar = () => {
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
   };
+
+  useEffect(() => {
+    localStorage.setItem("isCart_hOQ", cartCountNum);
+  }, [cartCountNum]);
+
   useEffect(() => {
     const value = JSON.parse(localStorage.getItem("LoginUser"));
     setislogin(value);
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
     console.log(storeInit?.companylogo);
-    window.scroll({ behavior: "smooth" });
+    window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
+  const HandleAccountRoute = () => {
+    navigate("/account");
+  };
   const handleScroll = () => {
     const scrollTop = window.pageYOffset;
     const currentScrollY = window.scrollY;
-    console.log(scrollTop, currentScrollY, document.documentElement.scrollTop);
     if (window.innerWidth < 768) {
       if (currentScrollY > prevScrollY.current) {
         setisNavbarSticky(false);
@@ -76,10 +83,8 @@ const Navbar = () => {
       }
       prevScrollY.current = currentScrollY;
     }
-    if (scrollTop > 220) {
+    if (scrollTop > 200) {
       setIsScrolled(true);
-      setshowSearchBar(false);
-      setSearchText("");
     } else {
       setIsScrolled(false);
     }
@@ -378,6 +383,7 @@ const Navbar = () => {
             menuItems={menuItems}
             handleMenu={handleMenu}
             logo={titleImg}
+            islogin={islogin}
           />
           <NavbarRightSide
             HaveItem={HaveItem}
@@ -389,6 +395,7 @@ const Navbar = () => {
             user={LoggedUserDetails?.firstname}
             wishCountNum={wishCountNum}
             cartCountNum={cartCountNum}
+            HandleAccountRoute={HandleAccountRoute}
           />
         </nav>
         <div className="nav_bottom_head">MEET US ON 10TH JULY IN PUNE</div>
@@ -458,19 +465,55 @@ const NavbarRightSide = ({
   user,
   wishCountNum,
   cartCountNum,
+  HandleAccountRoute,
 }) => {
   return (
     <>
       <div className="nav_right">
         {islogin && (
           <>
-            <span className="loggedUser">Hey , </span>{" "}
-            <small className="loggesUserName"> {user}</small>{" "}
+            <span className="loggedUser" onClick={HandleAccountRoute}>
+              Hey ,
+            </span>
+            <small className="loggesUserName" onClick={HandleAccountRoute}>
+              {" "}
+              {user}
+            </small>{" "}
           </>
         )}
 
-        <Link to={"/wishlist"}>
-          <Tooltip title="Wishlist">
+        {islogin && (
+          <>
+            <Link to={"/wishlist"}>
+              <Tooltip title="Wishlist">
+                <Badge
+                  style={{ size: "2px" }}
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      fontSize: "10px",
+                      padding: "7px",
+                      borderRadius: "4px",
+                      marginRight: "7px",
+                      marginTop: "-2px",
+                      bgcolor: "#C20000",
+                      width: 0,
+                      height: 0,
+                    },
+                  }}
+                  badgeContent={wishCountNum}
+                  color="primary"
+                >
+                  <CiHeart className="wishlist_icon icons" />
+                </Badge>
+              </Tooltip>
+            </Link>
+
+            <Tooltip title="Search">
+              <CiSearch
+                className="search_icon icons mobile-search"
+                onClick={open}
+              />
+            </Tooltip>
             <Badge
               style={{ size: "2px" }}
               sx={{
@@ -485,47 +528,20 @@ const NavbarRightSide = ({
                   height: 0,
                 },
               }}
-              badgeContent={wishCountNum}
+              badgeContent={cartCountNum}
               color="primary"
             >
-              <CiHeart className="wishlist_icon icons" />
+              <Tooltip title="Cart">
+                <Link to={"/cart"}>
+                  <PiBagSimpleThin
+                    className="Cart_icon icons "
+                    // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                  />
+                </Link>
+              </Tooltip>
             </Badge>
-          </Tooltip>
-        </Link>
-
-        <Tooltip title="Search">
-          <CiSearch
-            className="search_icon icons mobile-search"
-            onClick={open}
-          />
-        </Tooltip>
-        <Badge
-          style={{ size: "2px" }}
-          sx={{
-            "& .MuiBadge-badge": {
-              fontSize: "10px",
-              padding: "7px",
-              borderRadius: "4px",
-              marginRight: "7px",
-              marginTop: "-2px",
-              bgcolor: "#C20000",
-              width: 0,
-              height: 0,
-            },
-          }}
-          badgeContent={cartCountNum}
-          color="primary"
-        >
-          <Tooltip title="Cart">
-            <Link to={"/cart"}>
-              <PiBagSimpleThin
-                className="Cart_icon icons "
-                // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
-              />
-            </Link>
-          </Tooltip>
-        </Badge>
-
+          </>
+        )}
         {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
         {showDrawer && (
           <CartDrawer
@@ -563,13 +579,25 @@ const NavbarCenter = ({
   menuItems,
   handleMenu,
   logo,
+  islogin,
 }) => {
   return (
     <>
       <div className="nav_center">
-        <div className="logo">
+        <div
+          className="logo"
+          style={{
+            marginTop: !islogin && "30px",
+          }}
+        >
           <Link to={"/"}>
-            <img src={logo} alt="" />
+            <img
+              src={logo}
+              alt=""
+              onClick={() =>
+                window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
+              }
+            />
           </Link>
         </div>
         <div className="navbar_menus">
@@ -579,54 +607,55 @@ const NavbarCenter = ({
               <CiHeart className="wishlist_icon_mobile icons" />
             </Link>
           </div>
-          <ul>
-            {menuItems?.map((menuItem, i) => {
-              const { menuname, param1 } = menuItem;
+          {islogin && (
+            <ul>
+              {menuItems?.map((menuItem, i) => {
+                const { menuname, param1 } = menuItem;
 
-              return (
-                <React.Fragment key={i}>
-                  <li>
-                    <span
-                      onClick={() =>
-                        handleMenu({
-                          menuname: menuname,
-                          key: menuItem?.param0name,
-                          value: menuItem?.param0dataname,
-                        })
-                      }
-                    >
-                      {menuname}
-                    </span>
-                    {param1 && (
-                      <IoChevronDown className="chevron-downn-mobile" />
-                    )}
-                    {param1 &&
-                      param1?.length > 0 &&
-                      param1[0].param1name !== "" && (
-                        <ul className="submenu">
-                          {param1[0].param1name === ""
-                            ? "no"
-                            : param1?.map(
-                                ({ param1dataname, param1name }, j) => (
-                                  <li>
-                                    <span
-                                      onClick={() =>
-                                        handleMenu(
-                                          {
-                                            menuname: menuname,
-                                            key: menuItem?.param0name,
-                                            value: menuItem?.param0dataname,
-                                          },
-                                          {
-                                            key: param1name,
-                                            value: param1dataname,
-                                          }
-                                        )
-                                      }
-                                    >
-                                      {param1dataname}
-                                    </span>
-                                    {/* {param2 && (
+                return (
+                  <React.Fragment key={i}>
+                    <li>
+                      <span
+                        onClick={() =>
+                          handleMenu({
+                            menuname: menuname,
+                            key: menuItem?.param0name,
+                            value: menuItem?.param0dataname,
+                          })
+                        }
+                      >
+                        {menuname}
+                      </span>
+                      {param1 && (
+                        <IoChevronDown className="chevron-downn-mobile" />
+                      )}
+                      {param1 &&
+                        param1?.length > 0 &&
+                        param1[0].param1name !== "" && (
+                          <ul className="submenu">
+                            {param1[0].param1name === ""
+                              ? "no"
+                              : param1?.map(
+                                  ({ param1dataname, param1name }, j) => (
+                                    <li>
+                                      <span
+                                        onClick={() =>
+                                          handleMenu(
+                                            {
+                                              menuname: menuname,
+                                              key: menuItem?.param0name,
+                                              value: menuItem?.param0dataname,
+                                            },
+                                            {
+                                              key: param1name,
+                                              value: param1dataname,
+                                            }
+                                          )
+                                        }
+                                      >
+                                        {param1dataname}
+                                      </span>
+                                      {/* {param2 && (
                                 <ul className="sub_submenu">
                                   {param2?.map(
                                     ({ param2dataname, param2name }, j) => (
@@ -657,16 +686,17 @@ const NavbarCenter = ({
                                   )}
                                 </ul>
                               )} */}
-                                  </li>
-                                )
-                              )}
-                        </ul>
-                      )}
-                  </li>
-                </React.Fragment>
-              );
-            })}
-          </ul>
+                                    </li>
+                                  )
+                                )}
+                          </ul>
+                        )}
+                    </li>
+                  </React.Fragment>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
     </>
@@ -689,20 +719,23 @@ const SearchBar = ({
     }
   }, [showSearchBar]);
   return (
-    <div className="SearchBar">
-      <IoSearchOutline size={24} />{" "}
-      <input
-        type="text"
-        ref={searchInputRef}
-        placeholder="Enter Design Number"
-        value={searchText}
-        autoFocus
-        onChange={(e) => setSearchText(e.target.value)}
-        onKeyDown={searchDataFucn}
-      />
-      <button onClick={closeSearch}>
-        <TfiClose size={18} />
-      </button>
-    </div>
+    <>
+      <div className="SearchBar">
+        <IoSearchOutline size={24} />{" "}
+        <input
+          type="text"
+          ref={searchInputRef}
+          placeholder="Enter Design Number"
+          value={searchText}
+          autoFocus
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={searchDataFucn}
+        />
+        <button onClick={closeSearch}>
+          <TfiClose size={18} />
+        </button>
+      </div>
+      <div className="bg_search_overlay"></div>
+    </>
   );
 };

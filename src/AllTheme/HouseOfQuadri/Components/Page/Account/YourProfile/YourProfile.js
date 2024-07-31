@@ -353,7 +353,9 @@ export default function YourProfile() {
 
     return (
         <div className='hoq_yourProfile'>
-            <ToastContainer />
+            <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
 
             {isLoading && (
                 <div className="loader-overlay">
@@ -430,13 +432,16 @@ export default function YourProfile() {
                     )}
                 </div>}
                 { addressPresentFlag &&  <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: '#c20000', marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
             <Modal
                 open={editMode}
                 onClose={handleClose}
+                sx={{
+                    zIndex : 999999
+                }}
             >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                     {/* <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}> */}
@@ -501,10 +506,10 @@ export default function YourProfile() {
                                 />
                             </>
                         )}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
                         {/* <button onClick={handleSave} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
-                        <button type='submit' className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button type='submit' className='hoq_SmilingAddEditAddrwess' >Save</button>
+                        <button onClick={() => setEditMode(false)} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
                     </div>
                     </form>
                 </div>

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import "./PrivacyPolicy.scss";
 import { Link } from "react-router-dom";
-export default function PrivacyPolicy() {
+export default function LabGrownDiamond() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/privacy.html`)
+    fetch(`${storImagePath()}/html/lab-grown-diamond.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

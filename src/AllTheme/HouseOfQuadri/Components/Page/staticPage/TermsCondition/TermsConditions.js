@@ -6,7 +6,7 @@ export default function TermsConditionPage() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/images/staticHtml/terms.html`)
+    fetch(`${storImagePath()}/html/terms.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -16,6 +16,12 @@ export default function TermsConditionPage() {
         console.error("Error fetching the HTML file:", error);
       });
   }, []);
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
 
   return (
     <div className="hoq_terms">

@@ -80,6 +80,7 @@ const CartPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
+  const cartItemsCounts = useRecoilValue(Hoq_CartCount);
   const islogin = useRecoilValue(Hoq_loginState);
   const isLargeScreen = useMediaQuery("(min-width:1050px)");
   const isMobileScreen = useMediaQuery("(max-width:768px)");
