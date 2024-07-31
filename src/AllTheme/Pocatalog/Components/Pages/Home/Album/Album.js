@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { proCat_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { Box, Modal } from "@mui/material";
+import { Get_Procatalog } from "../../../../../../utils/API/Home/Get_Procatalog/Get_Procatalog";
 
 const Album = () => {
   const [albumData, setAlbumData] = useState([]);
@@ -34,6 +35,7 @@ const Album = () => {
     });
   }
 
+  // 17620240727141443263
   useEffect(() => {
     const fetchAlbumData = async () => {
       const loginUserDetail = JSON.parse(
@@ -42,30 +44,25 @@ const Album = () => {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const { IsB2BWebsite } = storeInit;
       const visiterID = Cookies.get("visiterId");
+
+      const queryParams = new URLSearchParams(window.location.search);
+      const ALCVAL = queryParams.get('ALC');
       const finalID =
         IsB2BWebsite == 0
           ? islogin
             ? loginUserDetail?.id || "0"
             : visiterID
           : loginUserDetail?.id || "0";
-
-      try {
-        const response = await Get_Tren_BestS_NewAr_DesigSet_Album(
-          "GETProcatalog",
-          finalID
-        );
-        if (response?.Data?.rd) {
-          setAlbumData(response.Data.rd);
-
-          const status = {};
-          for (const data of response.Data.rd) {
-            const fullImageUrl = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-            status[fullImageUrl] = await checkImageAvailability(fullImageUrl);
-          }
-          setImageStatus(status);
+      if (ALCVAL) {
+        sessionStorage.setItem('ALCVALUE', ALCVAL);
+        await fetchAndSetAlbumData(ALCVAL, finalID);
+      } else {
+        const storedALCValue = sessionStorage.getItem('ALCVALUE');
+        if (storedALCValue) {
+          await fetchAndSetAlbumData(storedALCValue, finalID);
+        } else {
+          await fetchAndSetAlbumData(ALCVAL, finalID);
         }
-      } catch (err) {
-        console.error(err);
       }
     };
 
@@ -73,6 +70,25 @@ const Album = () => {
       fetchAlbumData();
     }
   }, [imageUrl, islogin]);
+
+  const fetchAndSetAlbumData = async (value, finalID) => {
+    try {
+      const response = await Get_Procatalog("GETProcatalog", finalID, value);
+      if (response?.Data?.rd) {
+        setAlbumData(response.Data.rd);
+
+        const status = {};
+        for (const data of response.Data.rd) {
+          const fullImageUrl = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+          status[fullImageUrl] = await checkImageAvailability(fullImageUrl);
+        }
+        setImageStatus(status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   const handleNavigate = (data) => {
     const url = `/p/${data?.AlbumName}/?A=${btoa(
@@ -220,7 +236,7 @@ const Album = () => {
                 </svg>
               )}
             </div>
-            <div style={{marginTop: '3px'}}>
+            <div style={{ marginTop: '3px' }}>
               <p className="smr_albumName">{data?.AlbumName}</p>
             </div>
           </div>

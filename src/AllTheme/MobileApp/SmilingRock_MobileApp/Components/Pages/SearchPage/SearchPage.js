@@ -20,48 +20,46 @@ export default function SearchPage() {
 
     const compressAndEncode = (inputString) => {
         try {
-          const uint8Array = new TextEncoder().encode(inputString);
-    
-          const compressed = Pako.deflate(uint8Array, { to: 'string' });
-    
-    
-          return btoa(String.fromCharCode.apply(null, compressed));
+            const uint8Array = new TextEncoder().encode(inputString);
+            const compressed = Pako.deflate(uint8Array, { to: 'string' });
+
+            return btoa(String.fromCharCode.apply(null, compressed));
         } catch (error) {
-          console.error('Error compressing and encoding:', error);
-          return null;
+            console.error('Error compressing and encoding:', error);
+            return null;
         }
-      };
+    };
 
     const searchDataFucn = (e) => {
         if (e.key === 'Enter' || searchText) {
-          if (searchText) {
-            // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-    
-            // const handleMoveToDetail = () => {
-    
-            let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-            let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    
-            let obj = {
-              a: "",
-              b: searchText,
-              m: (loginInfo?.MetalId ?? storeInit?.MetalId),
-              d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
-              c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
-              f: {}
+            if (searchText) {
+                // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+                // const handleMoveToDetail = () => {
+
+                let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+                let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+                let obj = {
+                    a: "",
+                    b: searchText,
+                    m: (loginInfo?.MetalId ?? storeInit?.MetalId),
+                    d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
+                    c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
+                    f: {}
+                }
+
+                let encodeObj = compressAndEncode(JSON.stringify(obj))
+
+                navigation(`/d/${searchText}?p=${encodeObj}`)
+                toggleOverlay();
+                // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+                // }
             }
-    
-            let encodeObj = compressAndEncode(JSON.stringify(obj))
-    
-            navigation(`/d/${searchText}?p=${encodeObj}`)
-            toggleOverlay();
-            // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-    
-            // }
-          }
         }
-        
-      }
+
+    }
     // const searchDataFucn = (e) => {
     //     if (e.key === 'Enter') {
     //         if (searchText) {
@@ -73,7 +71,7 @@ export default function SearchPage() {
     return (
         <div>
             <div className='HeaderMainSearch'>
-                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px', color: '#7d7f85' }} onClick={() => navigation(-1)} />
+                <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px', color: '#7d7f85' }} onClick={() => navigation('/')} />
                 <div className="searchPageBoxOnlyHeaderFiexedMain">
                     <input
                         type="text"
