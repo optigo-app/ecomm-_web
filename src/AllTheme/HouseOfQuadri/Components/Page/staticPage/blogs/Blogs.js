@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import "./PrivacyPolicy.scss";
 import { Link } from "react-router-dom";
-export default function PrivacyPolicy() {
+
+export default function Blogs() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/privacy.html`)
+    fetch(`${storImagePath()}/html/blogs.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -16,6 +16,7 @@ export default function PrivacyPolicy() {
         console.error("Error fetching the HTML file:", error);
       });
   }, []);
+
   useEffect(()=>{
     window.scrollTo({
       behavior  :"smooth",

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './Account.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import Footer from './../Home/Footer/Footer';
 import { Hoq_loginState } from '../../../Components/Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 
@@ -239,7 +238,6 @@ export default function Account() {
 
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

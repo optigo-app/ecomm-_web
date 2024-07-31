@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ContactForm.scss";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
@@ -32,6 +32,12 @@ const ContactForm = () => {
       toast.error(`SomeThing Went Wrong! `);
     }
   };
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
 
   return (
     <div className="hoq_contactfrom">

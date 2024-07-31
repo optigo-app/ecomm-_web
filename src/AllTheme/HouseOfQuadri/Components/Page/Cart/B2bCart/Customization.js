@@ -119,9 +119,9 @@ const Customization = ({
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" defaultValue={selectedItem?.Size} value={selectedItem?.size} onChange={handleSizeChange}>
+                  <select id="size"  value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
-                      <option value={selectedItem?.size}>{selectedItem?.size}</option>
+                      <option value={selectedItem?.Size}>{selectedItem?.Size}</option>
                     ) :
                       <>
                         {sizeCombo?.rd?.map(option => (

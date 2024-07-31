@@ -204,20 +204,20 @@ const CartItem = ({
               >
                 <div>
                   <Typography variant="body2" className="hoq_card-ContentsData">
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, "")}{" "}
+                    NWT: {(item?.Nwt || 0).toFixed(3)}
                   </Typography>
                   <Typography variant="body2" className="hoq_card-ContentsData">
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, "")} /{" "}
-                    {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, "")}{" "}
+                    CWT: {(item?.CSwt || 0).toFixed(3)} /
+                    {(item?.CSpcs || 0).toFixed(3)}
                   </Typography>
                 </div>
                 <div>
                   <Typography variant="body2" className="hoq_card-ContentsData">
-                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, "")}
+                    GWT: {(item?.Gwt || 0).toFixed(3)}
                   </Typography>
                   <Typography variant="body2" className="hoq_card-ContentsData">
-                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, "")} /{" "}
-                    {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, "")}
+                    DWT: {(item?.Dwt || 0).toFixed(3)} /
+                    {(item?.Dpcs || 0).toFixed(3)}
                   </Typography>
                 </div>
               </div>
@@ -241,7 +241,7 @@ const CartItem = ({
               </Box>
               {item?.Remarks !== "" && (
                 <Typography variant="body2" className="hoq_remarktext">
-                  <span>Remark:</span>{" "}
+                  <span>Remark:</span>
                   {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>
               )}
