@@ -1,12 +1,14 @@
 @import '../../../scss/variable.scss';
 
 .dt_MainCartDiv {
+  font-family: $primaryFontFamily;
+
   .bg-imageCart {
     background-position: 50%;
     background-size: cover;
     height: 140px;
     position: relative;
-    background-color: #a8807c;
+    background: none;
 
     .overlay {
       height: 100%;
@@ -49,7 +51,7 @@
         tr {
           padding: 10px;
           text-align: left;
-          border-bottom: 1px solid #ddd;
+          border-bottom: 1px solid #ccc;
         }
 
         .product {
@@ -190,6 +192,70 @@
   }
 }
 
+@media (max-width: 1400px) {
+  .dt_MainCartDiv {
+    .cart {
+      margin-inline: 10%;
+    }
+  }
+}
+
+@media (max-width: 1250px) {
+  .dt_MainCartDiv {
+    .cart {
+      flex-direction: row;
+
+      .cart-items {
+        table {
+
+          th,
+          td {
+            padding: 5px;
+          }
+        }
+      }
+
+      .cart-totals {
+        padding: 10px;
+
+        button {
+          padding: 10px;
+          font-size: $fontSize2;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 999px) {
+  .dt_MainCartDiv {
+    .cart {
+      flex-direction: column;
+
+      .cart-items {
+        width: 100%;
+        table {
+
+          th,
+          td {
+            padding: 5px;
+          }
+        }
+      }
+
+      .cart-totals {
+        padding: 10px;
+        width: 100%;
+
+        button {
+          padding: 10px;
+          font-size: $fontSize2;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .cart {
     flex-direction: column;
@@ -200,6 +266,45 @@
         th,
         td {
           padding: 5px;
+        }
+      }
+    }
+
+    .cart-totals {
+      padding: 10px;
+
+      button {
+        padding: 5px;
+      }
+    }
+  }
+}
+
+@media (max-width: 690px) {
+  .cart {
+    flex-direction: column;
+
+    .cart-items {
+      table {
+
+        th,
+        td {
+          padding: 5px;
+        }
+        .product {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 100%;
+            max-width: 160px;
+          }
+
+          .product-details {
+            p {
+              margin: 0;
+            }
+          }
         }
       }
     }

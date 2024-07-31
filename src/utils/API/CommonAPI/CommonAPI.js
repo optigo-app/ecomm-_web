@@ -10,6 +10,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
     || window.location.hostname === 'elvee.web'
+    || window.location.hostname === 'diamondtine.web'
     || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
 

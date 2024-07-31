@@ -80,7 +80,7 @@ const Wishlist = () => {
       </p>
       <div className="smrMo_WlBtnGroupMainDiv">
         {/* <div className="WlBtnGroupMainDiv">
-          <div className="smr_Wl-title">My Wishlist</div>
+          <div className="smrMo_Wl-title">My Wishlist</div>
           {wishlistData?.length != 0 &&
             <>
               <div className="smrMo_WlButton-group">
@@ -124,8 +124,8 @@ const Wishlist = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Remove Item"
-          content="Are you sure you want to remove all Item?"
+          title="Remove All Items"
+          content="Are you sure you want to remove all Items?"
         />
         {wishlistData?.length !== 0 &&
           <div className='smrMo_WlButton-group'>

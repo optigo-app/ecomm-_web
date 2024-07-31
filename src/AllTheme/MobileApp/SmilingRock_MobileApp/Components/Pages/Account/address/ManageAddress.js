@@ -127,7 +127,7 @@ const ManageAddress = () => {
         // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
-        } else if(formData.firstName?.length < 1){
+        } else if(formData.firstName?.length < 2){
             errors.firstName = 'First Name too short';
         } else if(formData.firstName?.length > 25){
             errors.firstName = 'FIrst Name too long';
@@ -137,7 +137,7 @@ const ManageAddress = () => {
 
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
-        } else if(formData.lastName?.length < 1){
+        } else if(formData.lastName?.length < 2){
             errors.lastName = 'Last Name is too short';
         } else if(formData.lastName?.length > 25){
             errors.lastName = 'Last Name is too long';
@@ -155,24 +155,23 @@ const ManageAddress = () => {
             errors.address = 'Address is required';
         }
     
-    
         if (!formData.country.trim()) {
             errors.country = 'Country Name is required';
-        }else if (!/^[a-zA-Z\s]*$/.test(formData.country.trim())) {
-            errors.country = 'Invalid Country';
+        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
+            errors.country = 'Country Name must contain only letters';
         }
-
+    
         if (!formData.state.trim()) {
             errors.state = 'State Name is required';
-        }else if (!/^[a-zA-Z\s]*$/.test(formData.state.trim())) {
-            errors.state = 'Invalid State';
+        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
+            errors.state = 'State Name must contain only letters';
         }
-
+    
         if (!formData.city.trim()) {
             errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z\s]*$/.test(formData.city.trim())) {
-            errors.city = 'Invalid City';
-        } 
+        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
+            errors.city = 'City Name must contain only letters';
+        }
     
       
         if (!formData.zipCode.trim()) {
@@ -309,7 +308,7 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
-                } else if(value?.length < 1){
+                } else if(value?.length < 2){
                     errorsCopy.firstName = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.firstName = 'First Name is too long';
@@ -322,7 +321,7 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
-                } else if(value?.length < 1){
+                } else if(value?.length < 2){
                     errorsCopy.lastName = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.lastName = 'Last Name is too long';

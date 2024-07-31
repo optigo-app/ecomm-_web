@@ -67,8 +67,8 @@ const WishlistItems = (
                     />
                     <CardContent className='smr_cardContent'>
                         <div className='cardText'>
-                            <Typography variant="body2" className='smr_card-ContentData'>
-                                {item?.TitleLine != "" && item?.TitleLine} - {item?.designno != "" && item?.designno}
+                            <Typography variant="body2" className='smr_card-ContentData smr_WlTitleline'>
+                            {item?.designno != "" && item?.designno}{item?.TitleLine != "" &&  " - " + item?.TitleLine}
                             </Typography>
                             <Typography variant="body2" className='smr_card-ContentData'>
                                 <span className='smr_wishDT'>GWT: </span>
@@ -89,11 +89,11 @@ const WishlistItems = (
                                 {item?.metalcolorname !== "" && (
                                     <span>{item.metalcolorname}</span>
                                 )}
-                                {item?.metalcolorname !== "" && item?.metaltypeName !== "" && (
+                                {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
                                     <span> - </span>
                                 )}
-                                {item?.metaltypeName !== "" && (
-                                    <span>{item.metaltypeName}</span>
+                                {item?.metaltypename !== "" && (
+                                    <span>{item?.metaltypename}</span>
                                 )}
                                 {' / '}
                                 {/* <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}

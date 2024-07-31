@@ -17,7 +17,7 @@ import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetai
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
 import Account from './Components/Pages/Account/Account';
 import CartMain from './Components/Pages/Cart/CartMain';
-import Wishlist from "./Components/Pages/Wishlist/Wishlist";
+import Wishlist from "./Components/Pages/Wishlist/MainWish";
 import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
 import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";

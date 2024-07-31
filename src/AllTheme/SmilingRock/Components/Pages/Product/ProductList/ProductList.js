@@ -4,7 +4,7 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { findMetal, findMetalColor, findMetalType, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
@@ -34,6 +34,7 @@ import Cookies from 'js-cookie'
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
+
 
 
 
@@ -115,7 +116,7 @@ const ProductList = () => {
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
-  const formatter = new Intl.NumberFormat('en-IN')
+
 
   let cookie = Cookies.get('visiterId')
 
@@ -703,6 +704,10 @@ const ProductList = () => {
     setAccExpanded(false)
   }
 
+  useEffect(()=>{
+    handelFilterClearAll()
+  },[location?.key])
+
   const handelPageChange = (event, value) => {
 
     // console.log("pagination",value);
@@ -1238,7 +1243,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={handleSliderChange}
+              onChange={(event, newValue)=>setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1250,7 +1256,7 @@ const ProductList = () => {
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
               value={sliderValue[0]}
-              margin="dense"
+              margin="none"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
@@ -1262,7 +1268,7 @@ const ProductList = () => {
             />
             <Input
               value={sliderValue[1]}
-              margin="dense"
+              margin="none"
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
@@ -1285,7 +1291,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={handleSliderChange1}
+              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1331,7 +1338,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={handleSliderChange2}
+              onChange={(event, newValue)=>setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -2738,7 +2746,6 @@ const ProductList = () => {
                                         },
                                       }}
                                       // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
                                       {ele.Name}
@@ -3293,9 +3300,9 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {/* {formatter.format( */}
-                                              {productData?.UnitCostWithMarkUp}
-                                             {/* )} */}
+                                            {formatter(
+                                              productData?.UnitCostWithMarkUp
+                                             )}
                                           </span>
                                         </span>
                                       </div>

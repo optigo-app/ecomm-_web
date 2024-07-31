@@ -115,7 +115,7 @@ $cartUpdateBtncolor: #b1b1b1;
     .smrMO_Placeorderbtn {
       font-family: $primaryFontFamily !important;
       background-color: #ffd814 !important;
-      color: #000 !important;
+      color: $titleColor !important;
       font-size: $fontSize2 !important;
       border: none !important;
       outline: none !important;

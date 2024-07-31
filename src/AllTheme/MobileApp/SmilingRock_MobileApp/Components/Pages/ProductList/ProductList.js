@@ -228,16 +228,22 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
+
+    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+
+    let mtid = loginUserDetail?.MetalId ?? storeinit?.MetalId
     setSelectedMetalId(mtid)
     
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeinit?.cmboDiaQCid
     setSelectedDiaId(diaid)
 
-    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    let csid = loginUserDetail?.cmboCSQCid ?? storeinit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  }, [loginUserDetail,storeInit])
+    console.log("selectedCustom",mtid,diaid,csid);
+
+  }, [location?.key])
 
 
   useEffect(() => {
@@ -771,6 +777,10 @@ const ProductList = () => {
             localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
             setIsProdLoading(false)
           }, 100);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          })
         })
     }
   }
@@ -1195,7 +1205,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={handleSliderChange}
+              onChange={()=>(event, newValue)=>setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1242,7 +1253,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={handleSliderChange1}
+              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1288,7 +1300,8 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={handleSliderChange2}
+              onChange={()=>(event, newValue)=>setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -1449,7 +1462,9 @@ const ProductList = () => {
                                 }
                                 </>}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
+                            <span onClick={() => { if(Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0){handelFilterClearAll()}else{ return;}}}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
@@ -2287,7 +2302,7 @@ const ProductList = () => {
 
                               {(Number(productData?.Nwt !== 0))&& 
                                 <>
-                                <span>|</span>
+                                <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">NWT:</span>
                                   <span className="smr_val">
@@ -2300,7 +2315,7 @@ const ProductList = () => {
                               {/* <span className="smr_por"> */}
                                { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
                                <>
-                               <span>|</span>
+                               <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">DWT:</span>
                                   <span className="smr_val">
@@ -2311,7 +2326,7 @@ const ProductList = () => {
                                 }
                                 {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
                                   <>
-                                    <span>|</span>
+                                    <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
                                     <span className="smr_prod_wt">
                                       <span className="smr_keys">CWT:</span>
                                       <span className="smr_val">

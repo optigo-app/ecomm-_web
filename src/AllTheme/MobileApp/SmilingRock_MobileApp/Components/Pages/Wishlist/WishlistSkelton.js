@@ -3,7 +3,7 @@ import './smrMo_wishlist.scss';
 import { Box, Skeleton, Grid, Card, CardContent } from '@mui/material';
 
 const SkeletonLoader = () => {
-  const skeletonArray = new Array(4).fill(0);
+  const skeletonArray = new Array(6).fill(0);
 
   return (
     <Grid container spacing={1} className="smrMo_addwishlistSkeltonMainBox">

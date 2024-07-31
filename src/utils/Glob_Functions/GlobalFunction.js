@@ -1,6 +1,6 @@
 export function storImagePath() {
   let storeinit = JSON.parse(localStorage.getItem("storeInit"))
-  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'elvee.web' : window.location.hostname}`
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'diamondtine.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
@@ -47,3 +47,6 @@ export function findCsQcId(param) {
   // console.log("diaa cs",item,param);
   return item
 }
+
+
+export const formatter = new Intl.NumberFormat('en-IN')?.format;
