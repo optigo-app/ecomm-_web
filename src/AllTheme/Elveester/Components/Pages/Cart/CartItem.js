@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { green } from '@mui/material/colors';
+import Cookies from 'js-cookie';
 import { useSetRecoilState } from 'recoil';
 import { Box, Checkbox, useMediaQuery } from '@mui/material';
 import noImageFound from "../../Assets/image-not-found.jpg"
@@ -49,6 +50,7 @@ const CartItem = ({
   const setCartCountVal = useSetRecoilState(el_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const [open1, setOpen1] = useState(false);
+  const visiterId = Cookies.get('visiterId');
 
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
@@ -84,16 +86,13 @@ const CartItem = ({
     setIsSelectedItems(isselected)
   }
 
-  const handleRemoveItem = () => {
-    onRemove(item)
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
+  const handleRemoveItem = async (item) => {
+    const returnValue = await onRemove(item);
+    if (returnValue?.msg == 'success') {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   }
 
   const [pressing, setPressing] = useState(false);
@@ -128,6 +127,13 @@ const CartItem = ({
     isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
       '100%';
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
+
 
   return (
     // <Grid item
@@ -152,7 +158,7 @@ const CartItem = ({
 
         <div className='elv_cardImage_div' >
           <img className='elv_cardImage_img' src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt=""
-          onClick={() => handleIsSelected()}
+            onClick={() => handleIsSelected()}
           />
         </div>
         <div className='elv_ProductCard_details'>
@@ -186,7 +192,7 @@ const CartItem = ({
                     </Typography>
                   )}
                   <span className='elv_remark_modal_title' onClick={handleOpen1}>{item?.Remarks ? 'Edit Remark' : 'Add Remark'}</span>
-                  <span className='elv_remove_items' onClick={handleRemoveItem}>Remove</span>
+                  <span className='elv_remove_items' onClick={() => handleRemoveItem(item, index)}>Remove</span>
                 </div>
               </div>
             </div>

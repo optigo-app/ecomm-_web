@@ -1,5 +1,4 @@
 import React from 'react';
-import "./smr_cartSkelton.scss"
 import { Grid, Skeleton } from '@mui/material';
 
 const CartPageSkeleton = () => {

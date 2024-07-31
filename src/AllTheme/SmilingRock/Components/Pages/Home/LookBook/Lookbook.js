@@ -1665,11 +1665,10 @@ const Lookbook = () => {
                                     }}
                                     className="smr_lb3ctl_img"
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
                                 )}
-                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
-                                <div className="smr_lb3BuyComboDiv" onClick={() =>
+                                {/* <div className="smr_lb3BuyComboDiv" onClick={() =>
                                   handleByCombo(
                                     parseDesignDetails(
                                       slide?.Designdetail,
@@ -1680,7 +1679,9 @@ const Lookbook = () => {
                                   <button>
                                     Buy Combo
                                   </button>
-                                </div>
+                                </div> */}
+                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
+
                               </div>
                               <div
                                 className={
@@ -1813,6 +1814,35 @@ const Lookbook = () => {
                                     </div>
                                   </div>
                                 ))}
+                                <div
+                                  className="smr_lb3TotalBtnGroup"
+                                >
+                                  <div className="smr_lb3TotalPrice">
+                                    <span>
+                                      <span
+                                        className="smr_currencyFont"
+                                      >
+                                        {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                      &nbsp;
+                                      {calculateTotalUnitCostWithMarkUp(
+                                        JSON.parse(slide.Designdetail)
+                                      )}
+                                    </span>
+                                  </div>
+                                  <div className="smr_lb3BuyComboDiv" onClick={() =>
+                                    handleByCombo(
+                                      parseDesignDetails(
+                                        slide?.Designdetail,
+                                        "Cart"
+                                      )
+                                    )
+                                  }>
+                                    <span>
+                                      Buy Combo
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1860,11 +1890,29 @@ const Lookbook = () => {
                         >
                           {filteredDesignSetLstData?.map((slide, index) => (
                             <SwiperSlide key={index}>
-                              <img
-                                src={ProdCardImageFunc(slide)}
-                                alt=""
-                                className="ctl_Paginationimg"
-                              />
+
+                              {ProdCardImageFunc(slide) ? (
+                                <img
+                                  src={ProdCardImageFunc(slide)}
+                                  alt=""
+                                  className="ctl_Paginationimg"
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: "100%",
+                                    width: "100%",
+                                    ...getRandomBgColor(index),
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    cursor: "pointer",
+                                  }}
+                                  className="smr_lb3ctl_img"
+                                >
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                </div>
+                              )}
                             </SwiperSlide>
                           ))}
                         </Swiper>

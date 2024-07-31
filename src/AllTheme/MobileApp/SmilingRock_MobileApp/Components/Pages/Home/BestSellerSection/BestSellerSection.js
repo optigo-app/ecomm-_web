@@ -20,7 +20,6 @@ const BestSellerSection = () => {
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(smrMA_loginState);
-
     const settings = {
         dots: true,
         infinite: false,
@@ -71,8 +70,7 @@ const BestSellerSection = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-
-      console.log('aaaaaaaaaaa',designNo, autoCode, titleLine);
+      let storeinit = JSON.parse(localStorage.getItem("storeInit"));
         let obj = {
             a: autoCode,
             b: designNo,
@@ -82,7 +80,28 @@ const BestSellerSection = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-        navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        if(storeinit?.IsB2BWebsite == 1){
+          if(islogin){
+            navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+          }else{
+            navigation('/signin')
+          }
+        }else{
+          navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
+        }
+    }
+
+    const handleNavigate = () =>{
+      let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+      if(storeinit?.IsB2BWebsite == 1){
+        if(islogin){
+      navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)
+        }else{
+          navigation('/signin')
+        }
+      }else{
+      navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)
+      }
     }
 
 
@@ -106,7 +125,7 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[0]?.designno === undefined ? '' : bestSellerData[0]?.designno}_1.${bestSellerData && bestSellerData[0]?.ImageExtension === undefined ? '' : bestSellerData[0]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[0]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -122,7 +141,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[1]?.designno === undefined ? '' : bestSellerData[1]?.designno}_1.${bestSellerData && bestSellerData[1]?.ImageExtension === undefined ? '' : bestSellerData[1]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[1]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -141,7 +161,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[2]?.designno === undefined ? '' : bestSellerData[2]?.designno}_1.${bestSellerData && bestSellerData[2]?.ImageExtension === undefined ? '' : bestSellerData[2]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[2]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -157,7 +178,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[3]?.designno === undefined ? '' : bestSellerData[3]?.designno}_1.${bestSellerData && bestSellerData[3]?.ImageExtension === undefined ? '' : bestSellerData[3]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[3]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -177,7 +199,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[4]?.designno === undefined ? '' : bestSellerData[4]?.designno}_1.${bestSellerData && bestSellerData[4]?.ImageExtension === undefined ? '' : bestSellerData[4]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[4]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -193,7 +216,8 @@ const BestSellerSection = () => {
                                 <img src={ `${imageUrl}${bestSellerData && bestSellerData[5]?.designno === undefined ? '' : bestSellerData[5]?.designno}_1.${bestSellerData && bestSellerData[5]?.ImageExtension === undefined ? '' : bestSellerData[5]?.ImageExtension}`} className='likingLoveImages'/>
                                 </div>
                                 <div className='linkLoveRing1Desc'>
-                                    <p className='ring1Desc'>{bestSellerData[5]?.TitleLine}</p>
+                                    <p className='ring1Desc'>{bestSellerData[0]?.designno}</p>
+
                                     <p className='smr_bestSellerPrice'> <span
                                   className="smr_currencyFont"
                                   dangerouslySetInnerHTML={{
@@ -207,9 +231,8 @@ const BestSellerSection = () => {
 
                         </div>
                     </Slider>
-
-            <p className='smr_BestSallerViewAll'  onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
-        </div>
+             <p className='smr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
+      </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
         </div>

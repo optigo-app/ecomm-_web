@@ -7,22 +7,22 @@ $fontFamily1 : 'Poppins', sans-serif;
 //backgroundcolors
 
 $backgroundColor: var(--background-color);
-$btn1bgColor: #fff;
-$btn1ActivebgColor: #7d7f85;
+$btn1bgColor: #a8807c;
+$btn1ActivebgColor: #a8807c;
+$btn1FontColor: #fff;
+$btn1hoverColor: #fff;
+$btn1hoverFontColor: #a8807c;
 
 //fontcolors
 $primaryfontcolor: #8f8c8be6;
 $primaryfontcolor2: #7d7f85;
 $homePageFontColor: #7d7f85;
 $titleColor: #7d7f85;
-$btn1FontColor: #7d7f85;
-$btn1hoverColor: #7d7f85;
-$btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
 //fontFamily
-$homePageFontFamily: "Poppins', sans-serif";
-$primaryFontFamily: "Poppins', sans-serif";
+$homePageFontFamily: "Poppins", sans-serif;
+$primaryFontFamily: "Poppins", sans-serif;
 
 //fontSize
 $fontSize0: 10px;

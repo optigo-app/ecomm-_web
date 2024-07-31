@@ -16,7 +16,17 @@
     justify-content: flex-end;
     align-items: center;
 }
-
+._color2{
+    color: grey;
+}
+._color3{
+    // background-color: red !important;
+    background-color: #e43434 !important;
+    color: white  !important;
+}
+.bgcolororderdetail{
+    background-color: #f9f9f9;
+}
 .orderHistory .MuiAccordion-gutters::before{
  opacity: 1 !important;
 }
@@ -27,6 +37,7 @@
     overflow-y: auto;
     /* border: 1px solid #e8e8e8; */
     padding: 15px;
+    margin-bottom: 60px;
 }
 .paginate_OH{
     width: 100%;
@@ -81,6 +92,19 @@
   }
   .card-text {
     font-size: 1rem;
+  }
+
+  .actions-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px; /* Adjust position from the right */
+    transition: transform 1s ease-out;
+    z-index: 1000;
+  }
+  
+  .actions-container.active {
+    transform: translateX(-100%); /* Slide in from right to left */
   }
 
 // @media (min-width : 891px) and (max-width: 987px){

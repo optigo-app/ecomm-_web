@@ -4,6 +4,9 @@ import { TextField, Modal, CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../../utils/API/AccountTabs/YourProfile';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
+import { smrMA_defaultAddressState } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
+import { getAddressData } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 
 export default function YourProfile() {
     const [userData, setUserData] = useState(null);
@@ -11,15 +14,65 @@ export default function YourProfile() {
     const [editedUserData, setEditedUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const defaultAddress = useRecoilValue(smrMA_defaultAddressState);
+    const [addressPresentFlag, setAddressPresentFlag] = useState(false);
+
+   
+    // useEffect(() => {
+    //     const storedUserData = localStorage.getItem('loginUserDetail');
+    //     if (storedUserData) {
+    //         const parsedUserData = JSON.parse(storedUserData);
+    //         if (defaultAddress) {
+    //             const updatedUserData = {
+    //                 ...parsedUserData,
+    //                 defaddress_shippingfirstname: defaultAddress?.shippingfirstname,
+    //                 defaddress_shippinglastname: defaultAddress?.shippinglastname,
+    //                 defaddress_shippingmobile: defaultAddress?.shippingmobile,
+    //                 defaddress_addressprofile: defaultAddress?.addressprofile,
+    //                 defaddress_street: defaultAddress?.street,
+    //                 defaddress_city: defaultAddress?.city,
+    //                 defaddress_state: defaultAddress?.state,
+    //                 defaddress_country: defaultAddress?.country,
+    //                 defaddress_zip: defaultAddress?.zip,
+    //                 IsDefault: defaultAddress?.isdefault
+    //             };
+    //             setUserData(updatedUserData);
+    //         } else {
+    //             console.log(parsedUserData);
+    //             setUserData(parsedUserData);
+    //         }
+    //     }
+    // }, [defaultAddress]);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('loginUserDetail');
         if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
+            const parsedUserData = JSON.parse(storedUserData);
+            if (defaultAddress) {
+                const updatedUserData = {
+                    ...parsedUserData,
+                    defaddress_shippingfirstname: defaultAddress?.shippingfirstname,
+                    defaddress_shippinglastname: defaultAddress?.shippinglastname,
+                    defaddress_shippingmobile: defaultAddress?.shippingmobile,
+                    defaddress_addressprofile: defaultAddress?.addressprofile,
+                    defaddress_street: defaultAddress?.street,
+                    defaddress_city: defaultAddress?.city,
+                    defaddress_state: defaultAddress?.state,
+                    defaddress_country: defaultAddress?.country,
+                    defaddress_zip: defaultAddress?.zip,
+                    IsDefault: defaultAddress?.isdefault
+                };
+                setUserData(updatedUserData);
+            } else {
+                console.log(parsedUserData);
+                setUserData(parsedUserData);
+            }
         }
-    }, []);
+    }, [defaultAddress]);
 
-    console.log('userDatauserDatauserData',userData);
+
+
+    console.log('userDatauserDatauserData', userData);
 
     const handleEdit = () => {
         setEditedUserData({ ...userData });
@@ -41,11 +94,12 @@ export default function YourProfile() {
             case 'defaddress_shippingfirstname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is required';
-                } else if (value?.length < 1) {
+                } else if (value?.length < 2) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
                 } else if (value?.length > 25) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
                     errorsCopy.defaddress_shippingfirstname = 'Invalid First Name';
                 } else {
                     errorsCopy.defaddress_shippingfirstname = '';
@@ -54,11 +108,12 @@ export default function YourProfile() {
             case 'defaddress_shippinglastname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is required';
-                } else if (value?.length < 1) {
+                } else if (value?.length < 2) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
                 } else if (value?.length > 25) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
                     errorsCopy.defaddress_shippinglastname = 'Invalid Last Name';
                 } else {
                     errorsCopy.defaddress_shippinglastname = '';
@@ -97,56 +152,114 @@ export default function YourProfile() {
 
     };
 
-    const handleSave = async () => {
 
-        setEditMode(false);
-        try {
-            setIsLoading(true);
-            const storedData = localStorage.getItem('loginUserDetail');
-            const data = JSON.parse(storedData);
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-            const { FrontEnd_RegNo } = storeInit;
+    const validate = () => {
 
-            // const combinedValue = JSON.stringify({
-            //     firstname: `${editedUserData.defaddress_shippingfirstname}`, 
-            //     lastname: `${editedUserData.defaddress_shippinglastname}`, 
-            //     street: `${editedUserData.defaddress_state}`, 
-            //     addressprofile: `${editedUserData.defaddress_shippingfirstname + ' ' + editedUserData.defaddress_shippinglastname}`, 
-            //     city: `${editedUserData.city}`, 
-            //     state: `${editedUserData.state}`, 
-            //     country: `${userData.defaddress_country}`, 
-            //     zip: `${userData.defaddress_zip}`, 
-            //     mobile: `${userData.defaddress_shippingmobile}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${editedUserData.id}`
-            // });
+        let tempErrors = {};
+        if (!editedUserData.defaddress_shippingfirstname?.length) {
+            tempErrors.defaddress_shippingfirstname = "First Name is required";
+        } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+            tempErrors.defaddress_shippingfirstname = "First Name is too short";
+        } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
+            tempErrors.defaddress_shippingfirstname = "First Name is too long";
+        } 
 
-            // const encodedCombinedValue = btoa(combinedValue);
+        // Last Name validation
+        if (!editedUserData.defaddress_shippinglastname?.length) {
+            tempErrors.defaddress_shippinglastname = "Last Name is required";
+        } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+            tempErrors.defaddress_shippinglastname = "Last Name is too short";
+        } else if (editedUserData.defaddress_shippinglastname.length > 25) {
+            tempErrors.defaddress_shippinglastname = "Last Name is too long";
+        }
 
-            // const body = {
-            //     "con": `{\"id\":\"\",\"mode\":\"EDITPROFILE\",\"appuserid\":\"${data.userid}\"}`,
-            //     "f": "YourProfile (EditProfile)",
-            //     p: encodedCombinedValue
-            // };
+        // Mobile Number validation
+        if (!editedUserData.defaddress_shippingmobile?.length) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number is required";
+        } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
+        }
 
-            // const response = await CommonAPI(body);
+        // User ID validation
+        if (!editedUserData.userid) {
+            tempErrors.userid = "User ID is required";
+        }
 
-            const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, userData);
+        // Street Address validation
+        if (!editedUserData.defaddress_street) {
+            tempErrors.defaddress_street = "Street Address is required";
+        }
 
-            if (response?.Data?.rd[0]?.stat === 1) {
+        setErrors(tempErrors);
 
-                toast.success('Edit success');
-                setUserData(editedUserData);
-                localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+        // Check if all errors are empty strings or undefined
+        return Object.values(tempErrors).every(x => !x);
+    };
 
-            } else {
-                toast.error('error');
+    // const handleSave = async (event) => {
+    //     event.preventDefault();
+
+    //     if (validate()) {
+
+    //         setEditMode(false);
+    //         try {
+    //             setIsLoading(true);
+    //             const storedData = localStorage.getItem('loginUserDetail');
+    //             const data = JSON.parse(storedData);
+    //             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    //             const { FrontEnd_RegNo } = storeInit;
+    //             const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+    //             if (response?.Data?.rd[0]?.stat === 1) {
+    //                 toast.success('Edit success');
+    //                 setUserData(editedUserData);
+    //                 localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+    //             } else {
+    //                 toast.error('Error in saving profile.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error:', error);
+    //             toast.error('An error occurred. Please try again.');
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     }
+    //     //  else {
+    //     //     toast.error('Please fill out form fields correctly.');
+    //     // }
+    // };
+    
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (validate()) {
+            
+            setEditMode(false);
+            try {
+                setIsLoading(true);
+                const storedData = localStorage.getItem('loginUserDetail');
+                const data = JSON.parse(storedData);
+                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+                const { FrontEnd_RegNo } = storeInit;
+                const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+                console.log(response);
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    toast.success('Edit success');
+                    setUserData(editedUserData);
+                    localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                } else {
+                    toast.error('Error in saving profile.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                toast.error('An error occurred. Please try again.');
+            } finally {
+                setIsLoading(false);
             }
-
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            setIsLoading(false);
+        } else {
+            toast.error('Please fill out form fields correctly.');
         }
     };
+
 
     const handleClose = () => {
         setEditMode(false);
@@ -154,6 +267,34 @@ export default function YourProfile() {
 
 
     console.log('userDatauserData', userData);
+
+    useEffect(() => {
+        fetchAddress();
+    }, [])
+
+    const fetchAddress = async() => {
+        setIsLoading(true);
+        try {
+            const storedData = localStorage.getItem('loginUserDetail');
+            const data = JSON.parse(storedData);
+            const customerid = data.id;
+            
+            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
+            
+            const response = await getAddressData(FrontEnd_RegNo, customerid, data);
+            if(response?.Data?.rd?.length > 0){
+                setAddressPresentFlag(true);
+                setIsLoading(false);
+            }else{
+                setIsLoading(false);
+            }    
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
+        
+    }
 
 
     return (
@@ -171,87 +312,93 @@ export default function YourProfile() {
             {/* <div className='comptitle fw-bold'>Your Profile</div> */}
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px', padding: '10px' }}>
-                <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    {userData && (
-                        <>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    autoFocus
-                                    id="defaddress_shippingfirstname"
-                                    label="First Name"
-                                    variant="outlined"
-                                    className='labgrowRegister'
-                                    style={{ margin: '15px', color: 'black' }}
-                                    // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
-                                    value={userData?.defaddress_shippingfirstname || ''}
-                                    // disabled={!editMode}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    id="defaddress_shippinglastname"
-                                    label="Last Name"
-                                    variant="outlined"
-                                    className='labgrowRegister'
-                                    style={{ margin: '15px' }}
-                                    // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
-                                    value={userData?.defaddress_shippinglastname || ''}
-                                    // disabled={!editMode}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    id="userid"
-                                    label="Email"
-                                    variant="outlined"
-                                    className='labgrowRegister'
-                                    style={{ margin: '15px' }}
-                                    // value={userData.userid !== "undefined" ? userData.userid : ""}
-                                    value={userData?.userid || ''}
-                                    // disabled={!editMode}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    id="defaddress_shippingmobile"
-                                    label="Mobile No."
-                                    variant="outlined"
-                                    className='labgrowRegister'
-                                    style={{ margin: '15px' }}
-                                    // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
-                                    value={userData?.defaddress_shippingmobile || ''}
-                                    // disabled={!editMode}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    id="defaddress_street"
-                                    label="Address"
-                                    variant="outlined"
-                                    className='labgrowRegister'
-                                    style={{ margin: '15px' }}
-                                    // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
-                                    value={userData?.defaddress_street || ''}
-                                    // disabled={!editMode}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </>
-                    )}
-                </div>
-                <div className='btnPaddingYP'>
+               {
+                addressPresentFlag &&  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                {userData && (
+                    <>
+                        <div className='mobileEditProfileDiv'>
+                            <TextField
+                                autoFocus
+                                id="defaddress_shippingfirstname"
+                                label="First Name"
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px', color: 'black' }}
+                                // value={userData.defaddress_shippingfirstname ? userData.defaddress_shippingfirstname : userData.firstname}
+                                value={userData?.defaddress_shippingfirstname || ''}
+                                // value={userData?.defaddress_shippingfirstname || ''}
+                                // disabled={!editMode}
+                                disabled
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                id="defaddress_shippinglastname"
+                                label="Last Name"
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px' }}
+                                // value={userData.defaddress_shippinglastname ? userData.defaddress_shippinglastname : userData.lastname}
+                                value={userData?.defaddress_shippinglastname || ''}
+                                // value={userData?.defaddress_shippinglastname || ''}
+                                // disabled={!editMode}
+                                disabled
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className='mobileEditProfileDiv'>
+                            <TextField
+                                id="userid"
+                                label="Email"
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px' }}
+                                // value={userData.userid !== "undefined" ? userData.userid : ""}
+                                value={userData?.userid || ''}
+                                // disabled={!editMode}
+                                disabled
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                id="defaddress_shippingmobile"
+                                label="Mobile No."
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px' }}
+                                // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
+                                // value={userData?.defaddress_shippingmobile || ''}
+                                value={userData?.defaddress_shippingmobile || ''}
+                                // disabled={!editMode}
+                                disabled
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className='mobileEditProfileDiv'>
+                            <TextField
+                                id="defaddress_street"
+                                label="Address"
+                                variant="outlined"
+                                className='labgrowRegister'
+                                style={{ margin: '15px' }}
+                                // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
+                                // value={userData?.defaddress_street || ''}
+                                value={userData?.defaddress_street || ''}
+                                // disabled={!editMode}
+                                disabled
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                    </>
+                )}
+            </div>
+               }
+                { addressPresentFlag && <div className='btnPaddingYP'>
                     <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
-                </div>
+                </div>}
             </div>
 
             <Modal open={editMode} onClose={handleClose} style={{ padding: '10px' }} >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                    <form  onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
                             <>
@@ -308,9 +455,9 @@ export default function YourProfile() {
                                 />
                             </>
                         )}
-                    </div>
+                    </form>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
-                        <button onClick={handleSave} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                        <button type='submit' className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
                         <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                 </div>

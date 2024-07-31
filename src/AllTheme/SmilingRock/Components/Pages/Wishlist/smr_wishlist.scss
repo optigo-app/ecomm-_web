@@ -19,6 +19,7 @@
         max-height: 400px;
         object-fit: contain;
         cursor: pointer;
+        height: 300px;
     }
 
     .cardText {
@@ -31,7 +32,7 @@
 
 .smr_MainWlDiv {
     background-color: $backgroundColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
 }
 
 .WlMainPageDiv {
@@ -77,7 +78,7 @@
         }
 
         .smr_WlAddToCartBtn {
-            font-family: $homePageFontFamily !important;
+            font-family: $primaryFontFamily !important;
             background-color: $btn1hoverColor;
             color: $btn1hoverFontColor;
             font-size: $fontSize2;
@@ -145,7 +146,7 @@
 
 .smr_wishDT {
     font-size: $fontSize1;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
 }
 
 .closeWlIconDiv {
@@ -186,8 +187,15 @@
     text-align: center;
     color: $titleColor !important;
     font-size: $fontSize1 !important;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     padding-bottom: 6px;
+}
+
+.smr_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 @media (max-width: 1750px) {
@@ -203,7 +211,7 @@
     .smr_cardContent {
         padding: 0 !important;
 
-        .smr_pipe {
+        .smr_pipes {
             margin: 0 5px;
         }
 
@@ -234,7 +242,7 @@
     .smr_cardContent {
         padding: 0 !important;
 
-        .smr_pipe {
+        .smr_pipes {
             margin: 0 5px;
         }
 
@@ -265,7 +273,7 @@
     .smr_cardContent {
         padding: 0 !important;
 
-        .smr_pipe {
+        .smr_pipes {
             margin: 0 5px;
         }
 
@@ -331,7 +339,7 @@
             // margin-left: 40px;
         }
 
-        .smr_pipe {
+        .smr_pipes {
             margin: 0 5px;
         }
 
@@ -386,7 +394,7 @@
             // margin-left: 40px;
         }
 
-        .smr_pipe {
+        .smr_pipes {
             margin: 0 5px;
         }
 
@@ -411,6 +419,7 @@
 
 .smr_addwishlistSkeltonMainBox {
     padding: 0px 60px;
+
     .smr_addwishlistSkelton {
         height: 450px;
         box-shadow: none !important;

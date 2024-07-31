@@ -38,6 +38,7 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -55,14 +56,14 @@ const MobileCartDetails = ({
 
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position:"relative" }}>
+      <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrmo_Cart-imageDiv">
-          <img 
-          src={CartCardImageFunc(selectedItem)} 
-          alt="Cluster Diamond" 
-          className='smrmo_cartImage' 
-          onClick={() => handleMoveToDetail(selectedItem)}
-          style={{border:'none'}} 
+          <img
+            src={CartCardImageFunc(selectedItem)}
+            alt="Cluster Diamond"
+            className='smrmo_cartImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+            style={{ border: 'none' }}
           />
         </div>
         <div className="smrMo_Cart_R-details">
@@ -73,7 +74,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
-                  <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                  <select id="metal-type" key={selectedItem?.id} name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
                     ) :
@@ -89,7 +90,7 @@ const MobileCartDetails = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-color">Metal Color:</label>
-                  <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                  <select id="metal-color" value={selectedItem?.metalcolorname} name={selectedItem?.id} onChange={handleMetalColorChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
@@ -105,41 +106,49 @@ const MobileCartDetails = ({
                 </div>
               }
               {storeInitData?.IsDiamondCustomization == 1 &&
-                <div className="option">
-                  <label htmlFor="diamond">Diamond:</label>
-                  <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
-                    {mrpbasedPriceFlag == 1 ? (
-                      <option value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}</option>
-                    ) :
-                      <>
-                        {diamondQualityColorCombo?.map(option => (
-                          <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
-                        ))}
-                      </>
-                    }
-                  </select>
-                </div>
+                <>
+                  {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+                    <div className="option">
+                      <label htmlFor="diamond">Diamond:</label>
+                      <select id="diamond" name={selectedItem?.id} value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+                        {mrpbasedPriceFlag == 1 ? (
+                          <option value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}</option>
+                        ) : (
+                          <>
+                            {diamondQualityColorCombo?.map(option => (
+                              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}>{option?.Quality + ',' + option?.color}</option>
+                            ))}
+                          </>
+                        )}
+                      </select>
+                    </div>
+                  }
+                </>
               }
               {storeInitData?.IsCsCustomization == 1 &&
-                <div className="option">
-                  <label htmlFor="diamond">Color Stone:</label>
-                  <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
-                    {mrpbasedPriceFlag == 1 ? (
-                      <option value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}</option>
-                    ) :
-                      <>
-                        {ColorStoneCombo?.map(option => (
-                          <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + '#' + option?.color}</option>
-                        ))}
-                      </>
-                    }
-                  </select>
-                </div>
+                <>
+                  {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
+                    <div className="option">
+                      <label htmlFor="diamond">Color Stone:</label>
+                      <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                        {mrpbasedPriceFlag == 1 ? (
+                          <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
+                        ) :
+                          <>
+                            {ColorStoneCombo?.map(option => (
+                              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}>{option?.Quality + ',' + option?.color}</option>
+                            ))}
+                          </>
+                        }
+                      </select>
+                    </div>
+                  }
+                </>
               }
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
                     {mrpbasedPriceFlag == 1 ? (
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
@@ -160,14 +169,15 @@ const MobileCartDetails = ({
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
-                    <span
+                    {/* <span
                       className="smrmo_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
-                    />
+                    /> */}
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
@@ -179,7 +189,7 @@ const MobileCartDetails = ({
           <div className='smrmo_UpdateCartBtn'>
             <Button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
           </div>
-          <div style={{ color:'#7d7f85', position:'absolute', top:20,right:20 }} onClick={handleClose}>
+          <div style={{ color: '#7d7f85', position: 'absolute', top: 20, right: 20 }} onClick={handleClose}>
             <CloseIcon />
           </div>
         </div>

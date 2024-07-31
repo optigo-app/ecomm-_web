@@ -208,7 +208,7 @@ const Payment = () => {
                                     <span className="smr_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{taxAmmount}</span>
+                                    <span>{(taxAmmount)?.toFixed(3)}</span>
                                 </p>
                             </div>
                             <div className='smr_paymenttotalpricesummary'>
@@ -225,7 +225,7 @@ const Payment = () => {
                                     <span className="smr_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{taxAmmount+finalTotal}</span>
+                                    <span>{(taxAmmount+finalTotal)?.toFixed(3)}</span>
                                 </p>
                             </div>
                             <div className='smr_shippingAddress'>

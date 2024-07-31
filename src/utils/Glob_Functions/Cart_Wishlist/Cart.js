@@ -212,9 +212,6 @@ const useCart = () => {
     }
   };
 
-
-
-
   const handleRemoveAll = async () => {
     let param = "Cart"
     try {
@@ -312,7 +309,6 @@ const useCart = () => {
     }
   };
 
-
   const handleCancel = () => {
     setShowRemark(false);
   };
@@ -380,8 +376,14 @@ const useCart = () => {
   // for dropdown changes
   const handleMetalTypeChange = async (event) => {
     const selectedTypeName = event.target.value;
+    const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
-    console.log('eventKey--', selectedTypeName);
+    // console.log('eventKey--', selectedTypeName, selectedID);
+
+    const updatedMTData = cartData?.map(cart =>
+      cart.id == selectedID ? { ...cart, metaltypename: selectedTypeName } : cart
+    );
+    setCartData(updatedMTData);
 
     const selectedMetal = metalTypeCombo.find(option => option.metaltype === selectedTypeName);
     if (selectedMetal) {
@@ -395,8 +397,14 @@ const useCart = () => {
 
   const handleMetalColorChange = (event) => {
     const selectedTypeName = event.target.value;
+    const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
     console.log('eventKey--', selectedTypeName);
+
+    const updatedMTCData = cartData?.map(cart =>
+      cart.id == selectedID ? { ...cart, metalcolorname: selectedTypeName } : cart
+    );
+    setCartData(updatedMTCData);
 
     const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
     if (selectedMetal) {
@@ -409,6 +417,7 @@ const useCart = () => {
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
+    const selectedID = event.target.name;
     const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
@@ -416,6 +425,14 @@ const useCart = () => {
       diamondquality: quality,
       diamondcolor: color
     }));
+
+    const updatedQtytData = cartData?.map(cart =>
+      cart.id == selectedID ? {
+        ...cart, diamondquality: quality,
+        diamondcolor: color
+      } : cart
+    );
+    setCartData(updatedQtytData);
 
     const selectedDia = diamondQualityColorCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedDia) {
@@ -431,9 +448,15 @@ const useCart = () => {
 
   const handleSizeChange = (event) => {
     const sizedata = event?.target?.value;
+    const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));
     setSizeId(sizedata);
     console.log("sizeIdkdnk", sizedata);
+
+    const updatedSizeData = cartData?.map(cart =>
+      cart.id == selectedID ? { ...cart, Size: sizedata } : cart
+    );
+    setCartData(updatedSizeData);
 
     const sizeChangeData = sizeCombo?.rd.filter(size => size.sizename === sizedata);
     setSizeChangeData(sizeChangeData);
@@ -446,6 +469,7 @@ const useCart = () => {
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
+    const selectedID = event.target.name;
     const [quality, color] = value.split(',');
 
     setSelectedItem(prevItem => ({
@@ -453,6 +477,14 @@ const useCart = () => {
       colorstonequality: quality,
       colorstonecolor: color
     }));
+
+    const updatedQtytData = cartData?.map(cart =>
+      cart.id == selectedID ? {
+        ...cart, colorstonequality: quality,
+        colorstonecolor: color
+      } : cart
+    );
+    setCartData(updatedQtytData);
 
     const selectedCS = ColorStoneCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedCS) {
@@ -481,6 +513,15 @@ const useCart = () => {
           FinalCost: finalPrice,
           UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
         }));
+
+        const updatedPricetData = cartData?.map(cart =>
+          cart.id == selectedItem?.id ? {
+            ...cart, FinalCost: finalPrice,
+            UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
+          } : cart
+        );
+        setCartData(updatedPricetData);
+
         console.log('priceRes--', finalPrice);
       }
     } catch (error) {
@@ -543,43 +584,43 @@ const useCart = () => {
   // browse our collection
   const handelMenu = () => {
     let menudata = JSON.parse(localStorage.getItem('menuparams'));
-    if(menudata){
-    console.log('otherparamsUrl--', menudata);
-    const queryParameters1 = [
-      menudata?.FilterKey && `${menudata?.FilterVal}`,
-      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
-      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    if (menudata) {
+      console.log('otherparamsUrl--', menudata);
+      const queryParameters1 = [
+        menudata?.FilterKey && `${menudata?.FilterVal}`,
+        menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+        menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+      ].filter(Boolean).join('/');
 
-    const queryParameters = [
-      menudata?.FilterKey && `${menudata?.FilterVal}`,
-      menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
-      menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
-    ].filter(Boolean).join(',');
+      const queryParameters = [
+        menudata?.FilterKey && `${menudata?.FilterVal}`,
+        menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
+        menudata?.FilterKey2 && `${menudata?.FilterVal2}`,
+      ].filter(Boolean).join(',');
 
-    const otherparamUrl = Object.entries({
-      b: menudata?.FilterKey,
-      g: menudata?.FilterKey1,
-      c: menudata?.FilterKey2,
-    })
-      .filter(([key, value]) => value !== undefined)
-      .map(([key, value]) => value)
-      .filter(Boolean)
-      .join(',');
+      const otherparamUrl = Object.entries({
+        b: menudata?.FilterKey,
+        g: menudata?.FilterKey1,
+        c: menudata?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(',');
 
-    // const paginationParam = [
-    //   `page=${menudata.page ?? 1}`,
-    //   `size=${menudata.size ?? 50}`
-    // ].join('&');
+      // const paginationParam = [
+      //   `page=${menudata.page ?? 1}`,
+      //   `size=${menudata.size ?? 50}`
+      // ].join('&');
 
-    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
-      menuEncoded
-    )}`;
-    navigate(url)
-  }else{
-    navigate("/")
-  }
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      const url = `/p/${menudata?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
+      navigate(url)
+    } else {
+      navigate("/")
+    }
   }
 
   return {

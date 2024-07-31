@@ -141,7 +141,7 @@ const Album = () => {
           }}
         >
           <div>
-            <p style={{fontWeight: 500, textDecoration: 'underline', textAlign: 'center'}}>{openAlbumName}</p>
+            <p style={{ fontWeight: 500, textDecoration: 'underline', textAlign: 'center' }}>{openAlbumName}</p>
           </div>
           <div style={{ display: "flex", flexWrap: 'wrap' }}>
             {designSubData?.map((data, index) => (
@@ -220,7 +220,9 @@ const Album = () => {
                 </svg>
               )}
             </div>
-            <p className="smr_albumName">{data?.AlbumName}</p>
+            <div style={{marginTop: '3px'}}>
+              <p className="smr_albumName">{data?.AlbumName}</p>
+            </div>
           </div>
         ))}
       </div>

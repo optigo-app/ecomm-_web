@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './MenuBar.modul.scss'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
-import { el_companyLogo, el_loginState } from '../../../Recoil/atom';
+import { el_CartCount, el_WishCount, el_companyLogo, el_loginState } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
@@ -10,6 +10,7 @@ import { Badge, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GoHeart } from 'react-icons/go';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const Menubar = () => {
     const [lodingLogo, setLodingLogo] = useState(true);
@@ -42,6 +43,23 @@ const Menubar = () => {
     const [expandedMenu, setExpandedMenu] = useState(null);
     const [selectedData, setSelectedData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+
+    const [wishCount, setWishCount] = useRecoilState(el_WishCount);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const res = await GetCountAPI(); 
+            console.log('responseCount', res);
+            // setCartCount(res?.cartcount); 
+            setWishCount(res?.wishCount); 
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const handleToogle = () => {
         setIsOpen(!isOpen);
@@ -142,7 +160,8 @@ const Menubar = () => {
 
         let menuEncoded = `${queryParameters}/${otherparamUrl}`;
         // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-        const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+        const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+        // const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
         // let d = new Date();
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -217,7 +236,7 @@ const Menubar = () => {
                                 <ul className="el_login_header_menu_main_div2">
                                     <>
                                         <Badge
-                                            badgeContent={'3'}
+                                            badgeContent={wishCount}
                                             max={1000}
                                             overlap={"rectangular"}
                                             color="secondary"

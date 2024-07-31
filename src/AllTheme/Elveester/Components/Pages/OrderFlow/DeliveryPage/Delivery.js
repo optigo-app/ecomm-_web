@@ -8,6 +8,7 @@ import CardSkeleton from './CardSkeleton';
 import AddressCard from './AddressCard';
 import DeleteDialog from './DeleteDialog';
 import { OrderFlowCrumbs } from '../../Cart/OrderFlowCrumbs';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Delivery = () => {
     const {
@@ -54,7 +55,7 @@ const Delivery = () => {
                                     <p className="elv_delivery_ptitle">
                                         <img
                                             className="elv_delivery_logo"
-                                            src="https://cdnfs.optigoapps.com/content-global3/estoreWJ3U0B6PVONQHL1TA/estore/images/HomePage/MainBanner/image/featuresImage.png"
+                                            src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
                                             alt="Logo"
                                         />
                                     </p>
@@ -82,11 +83,20 @@ const Delivery = () => {
                                 <div className="elv_delblock_rows_4" >
 
                                 </div>
-                                <div className="elv_delblock_rows_5" onClick={() => proceedToOrder(navigate)}>
-                                    <span className="elv_continue_title">
-                                        continue
-                                    </span>
-                                </div>
+                                {addressData?.length ? (
+                                    <div className="elv_delblock_rows_5" onClick={() => proceedToOrder(navigate)}>
+                                        <span className="elv_continue_title">
+                                            continue
+                                        </span>
+                                    </div>
+                                ) :
+                                    <div className="elv_delblock_rows_5">
+                                        <span className="elv_continue_title">
+                                            continue
+                                        </span>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                         <div className='elv_TitleDetailMainDiv'>

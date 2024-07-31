@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
@@ -47,7 +48,7 @@ const CartItem = ({
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
-  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
 
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
@@ -117,29 +118,20 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-
-
-  const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
-      '100%';
-
-
   return (
     <Grid
       item
-      xs={12}
+      xs={6}
       sm={itemLength <= 2 ? 6 : 6}
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
       className='smr_cartListCardGrid'>
-      <Card className='smr_cartListCard'
+      <Card className={itemLength <= 2 ? 'smr_cartListCard1' : 'smr_cartListCard'}
         key={item?.id}
         sx={{
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
-          maxWidth: 450,
-          width: width
         }}
         // onDoubleClick={openHandleUpdateCartModal}
 
@@ -195,7 +187,7 @@ const CartItem = ({
                           ),
                         }}
                       /> */}
-                      {(item?.UnitCostWithMarkUp)}
+                      {formatter(item?.UnitCostWithMarkUp)}
                     </span>
                   }
                 </>

@@ -8,16 +8,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
-
 const sliderData = [
     {
-        imageUrl: "/Diaomndtine/HomePage/MainBanner/Images/HomepageMainBanner1.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner1.jpg",
     },
     {
-        imageUrl: "/Diaomndtine/HomePage/MainBanner/Images/HomepageMainBanner2.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.jpg",
     },
     {
-        imageUrl: "/Diaomndtine/HomePage/MainBanner/Images/HomepageMainBanner3.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.jpg",
     },
 ];
 
@@ -41,7 +40,7 @@ const TopSection = () => {
                 ))}
             </Swiper>
             <div className="dt_imageContainer">
-                <img src={`${storImagePath()}/Diaomndtine/HomePage/Promo/Banner/PromoBanner1.png`} className="dt_centeredImg" alt="Diamondtine Banner" />
+                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.png`} className="dt_centeredImg" alt="Diamondtine Banner" />
             </div>
         </div>
     )
