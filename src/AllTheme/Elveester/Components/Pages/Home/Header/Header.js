@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Header.modul.scss'
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -9,10 +9,12 @@ import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
 import { Badge, ButtonBase, List, ListItem, Tooltip } from '@mui/material';
 import { GoHeart } from 'react-icons/go';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
+import { GoSearch } from "react-icons/go";
 import { FaPowerOff } from 'react-icons/fa';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Menubar from '../MenuBar/Menubar';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import Pako from 'pako';
 
 const Header = () => {
 
@@ -24,6 +26,10 @@ const Header = () => {
   const [wishCount, setWishCount] = useRecoilState(el_WishCount);
   const [burgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [showBtn, setShowBtn] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const value = JSON.parse(localStorage.getItem('LoginUser'));
@@ -66,6 +72,92 @@ const Header = () => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
   }
+
+  const handleIconClick = () => {
+    setSearchOpen(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setInputValue(value);
+
+    // Update showBtn based on input length
+    if (searchOpen) {
+      if (value.length > 0) {
+        setShowBtn(true);
+      } else {
+        setShowBtn(false);
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setSearchOpen(false);
+    setShowBtn(false);
+  };
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      searchDataFucn();
+    }
+  };
+
+  const searchDataFucn = () => {
+    if (inputValue) {
+      // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+      // const handleMoveToDetail = () => {
+
+      let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+      let obj = {
+        a: "",
+        b: inputValue,
+        m: loginInfo?.MetalId ?? storeInit?.MetalId,
+        d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+        c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+        f: {},
+      };
+
+      let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+      navigate(`/d/${inputValue}?p=${encodeObj}`);
+      setInputValue("")
+      setShowBtn(false);
+      // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+      // }
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (showBtn) {
+      searchDataFucn();
+    }
+    else if (inputValue.length < 1) {
+      setShowBtn(false);
+    }
+  };
+
+  console.log('searchOpen: ', searchOpen);
+
 
   //After Login Header...........
   const [menuData, setMenuData] = useState([]);
@@ -438,6 +530,62 @@ const Header = () => {
             <>
               {!burgerMenu && (
                 <>
+                  {/* <Tooltip title="Search"> */}
+                  <li
+                    className="el_login_header_main_div2_li"
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      marginTop: "0",
+                    }}
+                  // onClick={() => navigation("/account")}
+                  >
+                    <div className={`elv_search_area ${searchOpen ? 'open' : ''}`}>
+                      <div onClick={handleIconClick}>
+                        <GoSearch
+                          className="elv_search_icon"
+                          color="#7D7F85"
+                          fontSize="25px"
+                        />
+                      </div>
+                      {searchOpen && (
+                        <>
+                          <div className='elv_search_design'>
+                            <input
+                              className='elv_search_inp'
+                              placeholder='Search...'
+                              type="search"
+                              value={inputValue}
+                              onChange={handleInputChange}
+                              ref={inputRef}
+                              onKeyDown={handleKeyDown}
+                            />
+                          </div>
+                          <div className='elv_search_btn'>
+                            {!showBtn ? (
+                              <button
+                                type='button'
+                                className='elv_cancel_bar'
+                                onClick={handleClose}
+                              >
+                                Cancel
+                              </button>
+                            ) : (
+                              <button
+                                type='button'
+                                className='elv_search_bar'
+                                onClick={handleButtonClick}
+                              >
+                                Search
+                              </button>
+                            )}
+
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                  {/* </Tooltip> */}
                   <Badge
                     badgeContent={wishCount}
                     max={1000}
@@ -517,7 +665,8 @@ const Header = () => {
             </li>
           </ul>
         </div>
-      )}
+      )
+      }
 
       <div
         className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}
@@ -525,10 +674,10 @@ const Header = () => {
         onMouseLeave={handleMouseLeave}
         onClick={() => handleMouseLeave()}
       >
-          <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}>  
-            <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="Image 1" class="dropdown-image-1" />
-            <img src={`${storImagePath()}/images/Menu/Menu2.jpg`}  alt="Image 2" class="dropdown-image-2" />
-          </div>
+        <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}>
+          <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="Image 1" class="dropdown-image-1" />
+          <img src={`${storImagePath()}/images/Menu/Menu2.jpg`} alt="Image 2" class="dropdown-image-2" />
+        </div>
         <div
           style={{
             display: "flex",
@@ -613,7 +762,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
