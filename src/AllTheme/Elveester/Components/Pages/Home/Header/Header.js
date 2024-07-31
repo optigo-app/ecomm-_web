@@ -23,7 +23,6 @@ const Header = () => {
   const [cartCount, setCartCount] = useRecoilState(el_CartCount);
   const [wishCount, setWishCount] = useRecoilState(el_WishCount);
   const [burgerMenu, setBurgerMenu] = useState(false);
-  const [chnageBG, setChnageBG] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,8 +66,6 @@ const Header = () => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
   }
-
-
 
   //After Login Header...........
   const [menuData, setMenuData] = useState([]);
@@ -129,6 +126,7 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
+
   const handelMenu = (param, param1, param2) => {
     let finalData = {
       "menuname": param?.menuname ?? "",
@@ -172,7 +170,8 @@ const Header = () => {
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    // const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
     // let d = new Date();
     // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -242,8 +241,9 @@ const Header = () => {
     localStorage.removeItem('UploadLogicalPath');
     localStorage.removeItem('remarks');
     localStorage.removeItem('registerMobile');
-    navigation('/')
-    window.location.reload();
+    // navigation('/')
+    window.location.href = '/'
+    // window.location.reload();
   }
 
   useEffect(() => {
@@ -375,34 +375,36 @@ const Header = () => {
                   )}
                 </a>
                 <ul className="el_login_header_main_div1_ul">
-                  {menuItems.map((item, index) => (
-                    <li
-                      className="el_Login_header_li"
-                      style={{
-                        textDecoration:
-                          hoveredIndex === index ? "underline" : "none",
-                      }}
-                      key={index}
-                      label={item.menuname}
-                      onMouseEnter={() => {
-                        handleMouseEnter(index, item);
-                      }}
-                      // onMouseLeave={() => {
-                      //   handleMouseLeave();
-                      // }}
-                      onClick={() => {
-                        handelMenu({
-                          menuname: item?.manuname,
-                          key: item?.param0name,
-                          value: item?.param0dataname,
-                        });
-                        handleMouseLeave(index);
-                      }
-                      }
-                    >
-                      {item.menuname}
-                    </li>
-                  ))}
+                  {menuItems.map((item, index) => {
+                    return (
+                      <li
+                        className="el_Login_header_li"
+                        style={{
+                          textDecoration:
+                            hoveredIndex === index ? "underline" : "none",
+                        }}
+                        key={index}
+                        label={item.menuname}
+                        onMouseEnter={() => {
+                          handleMouseEnter(index, item);
+                        }}
+                        // onMouseLeave={() => {
+                        //   handleMouseLeave();
+                        // }}
+                        onClick={() => {
+                          handelMenu({
+                            menuname: item?.menuname,
+                            key: item?.param0name,
+                            value: item?.param0dataname,
+                          });
+                          handleMouseLeave(index);
+                        }
+                        }
+                      >
+                        {item.menuname}
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             </>
@@ -523,6 +525,10 @@ const Header = () => {
         onMouseLeave={handleMouseLeave}
         onClick={() => handleMouseLeave()}
       >
+          <div className={`el_shop_dropdown ${expandedMenu !== null ? "open" : ""}`}>  
+            <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="Image 1" class="dropdown-image-1" />
+            <img src={`${storImagePath()}/images/Menu/Menu2.jpg`}  alt="Image 2" class="dropdown-image-2" />
+          </div>
         <div
           style={{
             display: "flex",

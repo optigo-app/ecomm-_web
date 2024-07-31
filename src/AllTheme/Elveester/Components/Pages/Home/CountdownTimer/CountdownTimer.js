@@ -33,7 +33,7 @@ const CountdownTimer = () => {
                         </span>
                         <span >
                             <p className='elv_CountdownTmer_ptitle'>
-                            <img className='elv_CountdownTimer_logo' src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}  alt='Logo'/>
+                            <img className='elv_CountdownTimer_logo' src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}  alt='Logo'/>
                             </p>
                         </span>
                     </div>

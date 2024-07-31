@@ -3,7 +3,7 @@ import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 
 export const el_companyLogo = atom({
     key:'dt_companyLogo',
-    default:[`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`]
+    default:[`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`]
   })
 
   export const el_loginState = atom({
@@ -20,3 +20,8 @@ export const el_companyLogo = atom({
     key: 'dt_WishCount',
     default: 0
   })
+
+  export const defaultAddressState = atom({
+    key: 'defaultAddressState',
+    default: null,
+  });

@@ -9,40 +9,40 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg01.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg01.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg02.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg02.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg03.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg03.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg04.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg04.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg05.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg05.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg06.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg06.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg07.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg07.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg08.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg08.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg09.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg09.jpg",
   },
   {
-    imageUrl: "images/HomePage/Gallery/GalleryImg10.jpg",
+    imageUrl: "/images/HomePage/Gallery/GalleryImg10.jpg",
   },
 ];
 
 export default function GaleryView() {
   return (
-    <div className='el_mainGalleryConatinerID'>
+    <div className='el_mainGalleryConatinerID' id='mainGalleryConatinerID'>
       <div>
         <p className='galeryComponents'>Gallery</p>
       </div>

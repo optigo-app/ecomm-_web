@@ -112,6 +112,26 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px;
         display: none;
         transition: all 0.5s ease;
+        .dropdown-image-1 {
+            width: 320px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: transparent;
+            position: absolute;
+            right: 3rem;
+            top: 4rem;
+            object-fit: contain;
+        }
+        .dropdown-image-2 {
+            width: 320px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: transparent;
+            position: absolute;
+            right: 24rem;
+            top: 4rem;
+            object-fit: contain;
+        }
     }
 
     .el_shop_dropdown.open {
@@ -122,6 +142,8 @@
         margin-top: 0px;
         transition: all 0.5s ease;
     }
+    
+   
 
     .elv_listMain{
         display: flex;

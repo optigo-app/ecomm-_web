@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import "./ProductList.modul.scss";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
@@ -76,13 +76,14 @@ const ProductList = () => {
 
   // API's States
   const [menuParams, setMenuParams] = useState({});
+  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [productListData, setProductListData] = useState([]);
   const [metalType, setMetaltype] = useState([]);
   const [diamondType, setDiamondType] = useState([]);
   const [allFilter, setAllFilter] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [prodListType, setprodListType] = useState();
-  const [isProdLoading, setIsProdLoading] = useState(true);
+  const [isProdLoading, setIsProdLoading] = useState(false);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [locationKey, setLocationKey] = useState();
   const [sortBySelect, setSortBySelect] = useState();
@@ -400,6 +401,7 @@ const ProductList = () => {
           let menuDecode = atob(MenuVal?.split("=")[1]);
           let key = menuDecode?.split("/")[1].split(",");
           let val = menuDecode?.split("/")[0].split(",");
+          setIsBreadcumShow(true)
           productlisttype = [key, val];
         }
         setprodListType(productlisttype);
@@ -761,7 +763,6 @@ const ProductList = () => {
   }
 
   const handleRangeFilterApi2 = async (Rangeval2) => {
-    console.log("newValue", Rangeval2);
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
@@ -1000,6 +1001,91 @@ const ProductList = () => {
     );
   };
 
+  const handleBreadcums = (mparams) => {
+
+    let key = Object?.keys(mparams)
+    let val = Object?.values(mparams)
+
+    let KeyObj = {};
+    let ValObj = {};
+
+    key.forEach((value, index) => {
+      let keyName = `FilterKey${index === 0 ? '' : index}`;
+      KeyObj[keyName] = value;
+    });
+
+    val.forEach((value, index) => {
+      let keyName = `FilterVal${index === 0 ? '' : index}`;
+      ValObj[keyName] = value;
+    });
+
+    let finalData = { ...KeyObj, ...ValObj }
+
+    const queryParameters1 = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join('/');
+
+    const queryParameters = [
+      finalData?.FilterKey && `${finalData.FilterVal}`,
+      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+    ].filter(Boolean).join(',');
+
+    const otherparamUrl = Object.entries({
+      b: finalData?.FilterKey,
+      g: finalData?.FilterKey1,
+      c: finalData?.FilterKey2,
+    })
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => value)
+      .filter(Boolean)
+      .join(',');
+
+    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+
+    navigate(url);
+
+    // console.log("mparams", KeyObj, ValObj)
+
+  }
+
+  const DynamicListPageTitleLineFunc = () => {
+    if (location?.search.split("=")[0]?.slice(1) == "M") {
+      return menuParams?.menuname
+    } else {
+      return location?.pathname.split('/')[2]
+    }
+  }
+
+  const BreadCumsObj = () => {
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+
+    const values = BreadCum[0].split(',');
+    const labels = BreadCum[1].split(',');
+
+    const updatedBreadCum = labels.reduce((acc, label, index) => {
+      acc[label] = values[index] || '';
+      return acc;
+    }, {});
+
+    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[`FilterVal${index === 0 ? '' : index}`] = value;
+      return acc;
+    }, {});
+
+    // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
+
+    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+
+    return result
+  }
+
   useEffect(() => {
     window.scroll({
       top: 0,
@@ -1024,7 +1110,7 @@ const ProductList = () => {
                   </span>
                 </div>
                 <div role="presentation">
-                  <Breadcrumbs
+                  {/* <Breadcrumbs
                     separator="›"
                     fontSize="16px"
                     aria-label="breadcrumb"
@@ -1034,7 +1120,7 @@ const ProductList = () => {
                         className="elv_breadcrumbs"
                         color="text.primary"
                       >
-                        {menuParams?.menuname}
+                        <Link to={'/'}>{menuParams?.menuname}</Link>
                       </Typography>
                     )}
                     {menuParams?.FilterVal && (
@@ -1053,7 +1139,67 @@ const ProductList = () => {
                         {menuParams?.FilterVal2}
                       </Typography>
                     )}
-                  </Breadcrumbs>
+                  </Breadcrumbs> */}
+
+                  {IsBreadCumShow && (
+                    <div
+                      className="elv_breadcrumbs"
+                      style={{ marginLeft: "3px" }}
+                    >
+                      <span
+                        onClick={() => {
+                          navigate("/");
+                        }}
+                      >
+                        {"Home >"}{" "}
+                      </span>
+                      {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+                      {BreadCumsObj()?.menuname && (
+                        <span
+                          onClick={() =>
+                            handleBreadcums({
+                              [BreadCumsObj()?.FilterKey]:
+                                BreadCumsObj()?.FilterVal,
+                            })
+                          }
+                        >
+                          {BreadCumsObj()?.menuname}
+                        </span>
+                      )}
+
+                      {BreadCumsObj()?.FilterVal1 && (
+                        <span
+                          onClick={() =>
+                            handleBreadcums({
+                              [BreadCumsObj()?.FilterKey]:
+                                BreadCumsObj()?.FilterVal,
+                              [BreadCumsObj()?.FilterKey1]:
+                                BreadCumsObj()?.FilterVal1,
+                            })
+                          }
+                        >
+                          {` > ${BreadCumsObj()?.FilterVal1}`}
+                        </span>
+                      )}
+
+                      {BreadCumsObj()?.FilterVal2 && (
+                        <span
+                          onClick={() =>
+                            handleBreadcums({
+                              [BreadCumsObj()?.FilterKey]:
+                                BreadCumsObj()?.FilterVal,
+                              [BreadCumsObj()?.FilterKey1]:
+                                BreadCumsObj()?.FilterVal1,
+                              [BreadCumsObj()?.FilterKey2]:
+                                BreadCumsObj()?.FilterVal2,
+                            })
+                          }
+                        >
+                          {` > ${BreadCumsObj()?.FilterVal2}`}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="elv_Productlists_lists_header_logo">
@@ -1061,7 +1207,7 @@ const ProductList = () => {
                   <p className="elv_Productlist_ptitle">
                     <img
                       className="elv_Productlist_logo"
-                      src={`${storImagePath()}images/HomePage/MainBanner/featuresImage.png`}
+                      src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}
                       alt="Logo"
                     />
                   </p>
@@ -1099,8 +1245,8 @@ const ProductList = () => {
                         {showFilter ? "Show Filter" : "hide filter"}
                       </span>
                       <span className="elv_filter_icon_1">
-                        &nbsp;
-                        <FilterListIcon />
+                        {/* &nbsp; */}
+                        <FilterListIcon style={{ fontSize: '26px' }} />
                       </span>
                     </>
                   )}
@@ -1111,48 +1257,53 @@ const ProductList = () => {
                     : "elv_filteration_rows_2"
                     }`}
                 >
-                  <FormControl
-                    sx={{
-                      m: 1,
-                      width: "95%",
-                      display: "flex",
-                      justifyContent: "center",
-                      border: "none",
-                    }}
-                  >
-                    <Select
-                      value={trend}
-                      onChange={(e) => {
-                        handleSortby(e);
-                        handleChangeTrend(e);
-                        setIsOnlyProdLoading(true);
-                      }}
-                      displayEmpty
-                      inputProps={{ "aria-label": "Without label" }}
-                      className="elv_trend_drp"
-                      style={{
-                        backgroundColor: "#F4F4F4",
-                        color: "#8E7B8E",
-                        fontWeight: "400",
-                        cursor: "pointer",
-                        textTransform: "uppercase",
-                        letterSpacing: "2px",
-                        padding: '0px 4px',
+                  <div className="elv_filter_row2_inner_div">
+                    <div className="elv_filter_row2_label">
+                      <label>Sort by : </label>
+                    </div>
+                    <FormControl
+                      sx={{
+                        m: 1,
+                        width: "95%",
+                        display: "flex",
+                        justifyContent: "center",
+                        border: "none",
                       }}
                     >
-                      <MenuItem value="Recommended">Recommended</MenuItem>
-                      <MenuItem value="New">New</MenuItem>
-                      {storeInit?.IsStockWebsite === 1 && (
-                        <MenuItem value="In Stock">In Stock</MenuItem>
-                      )}
-                      <MenuItem value="PRICE LOW TO HIGH">
-                        Price Low to High
-                      </MenuItem>
-                      <MenuItem value="PRICE HIGH TO LOW">
-                        Price High to Low
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                      <Select
+                        value={trend}
+                        onChange={(e) => {
+                          handleSortby(e);
+                          handleChangeTrend(e);
+                          setIsOnlyProdLoading(true);
+                        }}
+                        displayEmpty
+                        inputProps={{ "aria-label": "Without label" }}
+                        className="elv_trend_drp"
+                        style={{
+                          backgroundColor: "#F4F4F4",
+                          color: "#8E7B8E",
+                          fontWeight: "400",
+                          cursor: "pointer",
+                          textTransform: "uppercase",
+                          letterSpacing: "2px",
+                          padding: '0px 4px',
+                        }}
+                      >
+                        <MenuItem value="Recommended">Recommended</MenuItem>
+                        <MenuItem value="New">New</MenuItem>
+                        {storeInit?.IsStockWebsite === 1 && (
+                          <MenuItem value="In Stock">In Stock</MenuItem>
+                        )}
+                        <MenuItem value="PRICE LOW TO HIGH">
+                          Price Low to High
+                        </MenuItem>
+                        <MenuItem value="PRICE HIGH TO LOW">
+                          Price High to Low
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
                 </div>
                 {filter ? (
                   <>
@@ -1174,85 +1325,97 @@ const ProductList = () => {
                         <Box sx={modalStyle}>
                           {storeInit?.IsMetalCustomization === 1 && (
                             <div className={`elv_filteration_rows_3`}>
-                              <FormControl
-                                sx={{
-                                  m: 1,
-                                  width: "95%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  border: "none",
-                                }}
-                              >
-                                <Select
-                                  value={selectedMetalId}
-                                  onChange={(e) => {
-                                    setSelectedMetalId(e.target.value);
-                                    setIsOnlyProdLoading(true);
-                                  }}
-                                  displayEmpty
-                                  inputProps={{ "aria-label": "Without label" }}
-                                  style={{
-                                    color: "#8E7B8E",
-                                    fontSize: "14px",
-                                    fontWeight: "400",
-                                    cursor: "pointer",
-                                    marginBlock: "3px",
-                                    textTransform: "uppercase",
-                                    letterSpacing: "2px",
-                                    padding: '0px 4px',
+                              <div className="">
+                                <div className="" style={{ paddingLeft: '0.7rem' }}>
+                                  <label>
+                                    Metal :
+                                  </label>
+                                </div>
+                                <FormControl
+                                  sx={{
+                                    m: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    border: "none",
                                   }}
                                 >
-                                  {metalType?.map((item, index) => (
-                                    <MenuItem key={index} value={item.Metalid}>
-                                      {item.metaltype}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
+                                  <Select
+                                    value={selectedMetalId}
+                                    onChange={(e) => {
+                                      setSelectedMetalId(e.target.value);
+                                      setIsOnlyProdLoading(true);
+                                    }}
+                                    displayEmpty
+                                    inputProps={{ "aria-label": "Without label" }}
+                                    style={{
+                                      color: "#8E7B8E",
+                                      fontSize: "14px",
+                                      fontWeight: "400",
+                                      cursor: "pointer",
+                                      marginBlock: "3px",
+                                      textTransform: "uppercase",
+                                      letterSpacing: "2px",
+                                      padding: '0px 4px',
+                                    }}
+                                  >
+                                    {metalType?.map((item, index) => (
+                                      <MenuItem key={index} value={item.Metalid}>
+                                        {item.metaltype}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </div>
                             </div>
                           )}
                           {storeInit?.IsDiamondCustomization === 1 && (
                             <div className="elv_filteration_rows_4">
-                              <FormControl
-                                sx={{
-                                  m: 1,
-                                  width: "95%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  border: "none",
-                                }}
-                              >
-                                <Select
-                                  value={selectedDiaId}
-                                  onChange={(e) => {
-                                    setSelectedDiaId(e.target.value);
-                                    setIsOnlyProdLoading(true);
-                                  }}
-                                  displayEmpty
-                                  inputProps={{ "aria-label": "Without label" }}
-                                  style={{
-                                    color: "#8E7B8E",
-                                    fontSize: "14px",
-                                    fontWeight: "400",
-                                    marginBlock: "3px",
-                                    cursor: "pointer",
-                                    textTransform: "uppercase",
-                                    letterSpacing: "2px",
-                                    padding: '0px 4px',
+                              <div className="">
+                                <div className="" style={{ paddingLeft: '0.7rem', marginTop: '1rem' }}>
+                                  <label>Diamond :</label>
+                                </div>
+                                <FormControl
+                                  sx={{
+                                    m: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    border: "none",
                                   }}
                                 >
-                                  {diamondType?.map((item, index) => {
-                                    return (
-                                      <MenuItem
-                                        key={index}
-                                        value={`${item?.QualityId},${item?.ColorId}`}
-                                      >
-                                        {`${item.Quality}#${item?.color}`}
-                                      </MenuItem>
-                                    );
-                                  })}
-                                </Select>
-                              </FormControl>
+                                  <Select
+                                    value={selectedDiaId}
+                                    onChange={(e) => {
+                                      setSelectedDiaId(e.target.value);
+                                      setIsOnlyProdLoading(true);
+                                    }}
+                                    displayEmpty
+                                    inputProps={{ "aria-label": "Without label" }}
+                                    style={{
+                                      color: "#8E7B8E",
+                                      fontSize: "14px",
+                                      fontWeight: "400",
+                                      marginBlock: "3px",
+                                      cursor: "pointer",
+                                      textTransform: "uppercase",
+                                      letterSpacing: "2px",
+                                      padding: '0px 4px',
+                                    }}
+                                  >
+                                    {diamondType?.map((item, index) => {
+                                      return (
+                                        <MenuItem
+                                          key={index}
+                                          value={`${item?.QualityId},${item?.ColorId}`}
+                                        >
+                                          {`${item.Quality}#${item?.color}`}
+                                        </MenuItem>
+                                      );
+                                    })}
+                                  </Select>
+                                </FormControl>
+                              </div>
                             </div>
                           )}
                         </Box>
@@ -1263,85 +1426,98 @@ const ProductList = () => {
                   <>
                     {storeInit?.IsMetalCustomization === 1 && (
                       <div className={`elv_filteration_rows_3`}>
-                        <FormControl
-                          sx={{
-                            m: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            border: "none",
-                          }}
-                        >
-                          <Select
-                            value={selectedMetalId}
-                            onChange={(e) => {
-                              setSelectedMetalId(e.target.value);
-                              setIsOnlyProdLoading(true);
-                            }}
-                            displayEmpty
-                            inputProps={{ "aria-label": "Without label" }}
-                            style={{
-                              backgroundColor: "#F4F4F4",
-                              color: "#8E7B8E",
-                              fontSize: "14px",
-                              fontWeight: "400",
-                              cursor: "pointer",
-                              textTransform: "uppercase",
-                              letterSpacing: "2px",
-                              padding: '0px 4px',
+                        <div className="elv_filter_row3_inner_div">
+                          <div className="elv_filter_row3_label">
+                            <label>
+                              Metal :
+                            </label>
+                          </div>
+                          <FormControl
+                            sx={{
+                              m: 1,
+                              width: "95%",
+                              display: "flex",
+                              justifyContent: "center",
+                              border: "none",
                             }}
                           >
-                            {metalType?.map((item, index) => (
-                              <MenuItem key={index} value={item.Metalid}>
-                                {item.metaltype}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                            <Select
+                              value={selectedMetalId}
+                              onChange={(e) => {
+                                setSelectedMetalId(e.target.value);
+                                setIsOnlyProdLoading(true);
+                              }}
+                              displayEmpty
+                              inputProps={{ "aria-label": "Without label" }}
+                              style={{
+                                backgroundColor: "#F4F4F4",
+                                color: "#8E7B8E",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                                cursor: "pointer",
+                                textTransform: "uppercase",
+                                letterSpacing: "2px",
+                                padding: '0px 4px',
+                              }}
+                            >
+                              {metalType?.map((item, index) => (
+                                <MenuItem key={index} value={item.Metalid}>
+                                  {item.metaltype}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+
                       </div>
                     )}
                     {storeInit?.IsDiamondCustomization === 1 && (
                       <div className="elv_filteration_rows_4">
-                        <FormControl
-                          sx={{
-                            m: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            border: "none",
-                          }}
-                        >
-                          <Select
-                            value={selectedDiaId}
-                            onChange={(e) => {
-                              setSelectedDiaId(e.target.value);
-                              setIsOnlyProdLoading(true);
-                            }}
-                            displayEmpty
-                            inputProps={{ "aria-label": "Without label" }}
-                            style={{
-                              backgroundColor: "#F4F4F4",
-                              color: "#8E7B8E",
-                              fontSize: "14px",
-                              fontWeight: "400",
-                              cursor: "pointer",
-                              textTransform: "uppercase",
-                              letterSpacing: "2px",
-                              padding: '0px 4px',
+                        <div className="elv_filter_row4_inner_div">
+                          <div className="elv_filter_row4_label">
+                            <label>Diamond :</label>
+                          </div>
+                          <FormControl
+                            sx={{
+                              m: 1,
+                              width: "95%",
+                              display: "flex",
+                              justifyContent: "center",
+                              border: "none",
                             }}
                           >
-                            {diamondType?.map((item, index) => {
-                              return (
-                                <MenuItem
-                                  key={index}
-                                  value={`${item?.QualityId},${item?.ColorId}`}
-                                >
-                                  {`${item.Quality}#${item?.color}`}
-                                </MenuItem>
-                              );
-                            })}
-                          </Select>
-                        </FormControl>
+                            <Select
+                              value={selectedDiaId}
+                              onChange={(e) => {
+                                setSelectedDiaId(e.target.value);
+                                setIsOnlyProdLoading(true);
+                              }}
+                              displayEmpty
+                              inputProps={{ "aria-label": "Without label" }}
+                              style={{
+                                backgroundColor: "#F4F4F4",
+                                color: "#8E7B8E",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                                cursor: "pointer",
+                                textTransform: "uppercase",
+                                letterSpacing: "2px",
+                                padding: '0px 4px',
+                              }}
+                            >
+                              {diamondType?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    value={`${item?.QualityId},${item?.ColorId}`}
+                                  >
+                                    {`${item.Quality}#${item?.color}`}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
+                        </div>
                       </div>
                     )}
                   </>
@@ -1475,7 +1651,7 @@ const ProductList = () => {
                                 onClick={() => handleActiveIcons(iconConfig.name)}
                                 sx={{
                                   paddingRight: iconConfig.name === 'view_grid' ? "2px" : "8px",
-                                  fontSize: iconConfig.name === 'view_grid' ? "1.9rem" : "1.8rem",
+                                  fontSize: iconConfig.name === 'view_grid' ? "2.1rem" : "2rem",
                                   color: isActive ? "#000" : "#A2A2A2",
                                   cursor: "pointer",
                                 }}
@@ -1491,7 +1667,11 @@ const ProductList = () => {
             </div>
             {isProdLoading ? (
               <>
-                <ProductListSkeleton />
+                <div style={{ display: 'flex', flexDirection: 'row', flex: '100%' }}>
+                  <ProductListSkeleton />
+                  <ProductFilterSkeleton />
+                </div>
+
               </>
             ) : (
               <>
@@ -1510,7 +1690,7 @@ const ProductList = () => {
                                   (ele) => ele.checked
                                 )?.length > 0
                                   ? "Clear All"
-                                  : <span>{`Total Products: ${afterFilterCount}`}</span>}
+                                  : <span>{`Total Products: ${afterFilterCount || 0}`}</span>}
                               </div>
                             </div>
                             {filterData?.map((item, index) => {
@@ -1691,10 +1871,6 @@ const ProductList = () => {
                                           overflow: "auto",
                                         }}
                                       >
-                                        {console.log(
-                                          "RangeEle",
-                                          JSON?.parse(item?.options)[0]
-                                        )}
                                         <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView(item)}
                                         </Box>
@@ -1722,10 +1898,6 @@ const ProductList = () => {
                                           overflow: "auto",
                                         }}
                                       >
-                                        {console.log(
-                                          "RangeEle",
-                                          JSON?.parse(item?.options)[0]
-                                        )}
                                         <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView1(item)}
                                         </Box>
@@ -1753,10 +1925,6 @@ const ProductList = () => {
                                           overflow: "auto",
                                         }}
                                       >
-                                        {console.log(
-                                          "RangeEle",
-                                          JSON?.parse(item?.options)[0]
-                                        )}
                                         <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
                                           {RangeFilterView2(item)}
                                         </Box>
@@ -1776,70 +1944,159 @@ const ProductList = () => {
                             <span className="elv_filtered_data_span">
                               Filter
                             </span>
+                            <div className="elv_filter_data_clearAll" onClick={() => handelFilterClearAll()}>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0
+                                ? "Clear All"
+                                : <span>{`Total Products: ${afterFilterCount || 0}`}</span>}
+                            </div>
                             <Box role="presentation">
                               <Drawer
                                 open={openDrawer}
                                 onClose={toggleDrawer(false)}
-                                sx={{ width: "300px" }}
+                                sx={{ width: "500px" }}
                               >
-                                {filterData?.map((item, index) => (
-                                  <Accordion key={index} className="accordian">
-                                    <AccordionSummary
-                                      expandIcon={<ExpandMoreIcon />}
-                                      aria-controls={`panel${index + 1
-                                        }-content`}
-                                      id={`panel${index + 1}-header`}
-                                      className="elv_category_names"
-                                    >
-                                      {item?.Name}
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                      {(JSON.parse(item?.options) ?? []).map(
-                                        (opt) => (
-                                          <FormControlLabel
-                                            className="elv_subCategory_name"
-                                            key={opt?.id}
-                                            label={opt.Name}
-                                            sx={{ width: '12rem', display: 'flex', justifyContent: 'space-between', marginInline: '0.5rem', padding: '4px 16px 4px' }}
-                                            control={
-                                              <Checkbox
-                                                name={`${item?.id}${opt?.id}`}
-                                                checked={
-                                                  filterChecked[
-                                                    `${item?.id}${opt?.id}`
-                                                  ]?.checked === undefined
-                                                    ? false
-                                                    : filterChecked[
-                                                      `${item?.id}${opt?.id}`
-                                                    ]?.checked
-                                                }
-                                                style={{
-                                                  color: "#7f7d85",
-                                                  padding: 0,
-                                                  width: "10px",
-                                                }}
-                                                onClick={(e) =>
-                                                  handleCheckboxChange(
-                                                    e,
-                                                    item?.id,
-                                                    opt?.Name
-                                                  )
-                                                }
-                                                size="small"
-                                              />
+                                {filterData?.map((item, index) => {
+                                  return (
+                                    <>
+                                      {!item?.id?.includes("Range") &&
+                                        !item?.id?.includes("Price") && (
+                                          <Accordion key={index} className="accordian">
+                                            <AccordionSummary
+                                              expandIcon={<ExpandMoreIcon />}
+                                              aria-controls={`panel${index + 1
+                                                }-content`}
+                                              id={`panel${index + 1}-header`}
+                                              className="elv_category_names"
+                                            >
+                                              {item?.Name}
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                              {(JSON.parse(item?.options) ?? []).map(
+                                                (opt) => (
+                                                  <FormControlLabel
+                                                    className="elv_subCategory_name"
+                                                    key={opt?.id}
+                                                    label={opt.Name}
+                                                    sx={{ width: '12rem', display: 'flex', justifyContent: 'space-between', marginInline: '0.5rem', padding: '4px 16px 4px' }}
+                                                    control={
+                                                      <Checkbox
+                                                        name={`${item?.id}${opt?.id}`}
+                                                        checked={
+                                                          filterChecked[
+                                                            `${item?.id}${opt?.id}`
+                                                          ]?.checked === undefined
+                                                            ? false
+                                                            : filterChecked[
+                                                              `${item?.id}${opt?.id}`
+                                                            ]?.checked
+                                                        }
+                                                        style={{
+                                                          color: "#7f7d85",
+                                                          padding: 0,
+                                                          width: "10px",
+                                                        }}
+                                                        onClick={(e) =>
+                                                          handleCheckboxChange(
+                                                            e,
+                                                            item?.id,
+                                                            opt?.Name
+                                                          )
+                                                        }
+                                                        size="small"
+                                                      />
+                                                    }
+                                                  />
+                                                )
+                                              )}
+                                            </AccordionDetails>
+                                          </Accordion>
+                                        )}
+                                      {item?.Name?.includes("Diamond") && (
+                                        <Accordion elevation={0} >
+                                          <AccordionSummary
+                                            expandIcon={
+                                              <ExpandMoreIcon sx={{ width: "20px" }} />
                                             }
-                                          />
-
-                                          // {/* <span
-                                          //   style={{ paddingLeft: "10px" }}
-                                          // >
-
-                                          // </span> */}
-                                        )
+                                          >
+                                            <span className="elv_category_names">
+                                              {item.Name}
+                                            </span>
+                                          </AccordionSummary>
+                                          <AccordionDetails
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              gap: "4px",
+                                              minHeight: "fit-content",
+                                              maxHeight: "300px",
+                                              overflow: "auto",
+                                            }}
+                                          >
+                                            <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                              {RangeFilterView(item)}
+                                            </Box>
+                                          </AccordionDetails>
+                                        </Accordion>
                                       )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                ))}
+                                      {item?.Name?.includes("Gross") && (
+                                        <Accordion elevation={0} >
+                                          <AccordionSummary
+                                            expandIcon={
+                                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                                            }
+                                          >
+                                            <span className="elv_category_names">
+                                              {item.Name}
+                                            </span>
+                                          </AccordionSummary>
+                                          <AccordionDetails
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              gap: "4px",
+                                              minHeight: "fit-content",
+                                              maxHeight: "300px",
+                                              overflow: "auto",
+                                            }}
+                                          >
+                                            <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                              {RangeFilterView1(item)}
+                                            </Box>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      )}
+                                      {item?.Name?.includes("NetWt") && (
+                                        <Accordion elevation={0} >
+                                          <AccordionSummary
+                                            expandIcon={
+                                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                                            }
+                                          >
+                                            <span className="elv_category_names">
+                                              {item.Name}
+                                            </span>
+                                          </AccordionSummary>
+                                          <AccordionDetails
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              gap: "4px",
+                                              minHeight: "fit-content",
+                                              maxHeight: "300px",
+                                              overflow: "auto",
+                                            }}
+                                          >
+                                            <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                              {RangeFilterView2(item)}
+                                            </Box>
+                                          </AccordionDetails>
+                                        </Accordion>
+                                      )}
+                                    </>
+                                  )
+                                })}
                               </Drawer>
                             </Box>
                           </div>
