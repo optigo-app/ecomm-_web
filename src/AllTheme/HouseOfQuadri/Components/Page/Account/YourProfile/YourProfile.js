@@ -63,7 +63,9 @@ export default function YourProfile() {
 
 
     useEffect(() => {
+
         const storedUserData = localStorage.getItem('loginUserDetail');
+        
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
             if (defaultAddress) {
@@ -130,26 +132,31 @@ export default function YourProfile() {
                     errorsCopy.defaddress_shippinglastname = '';
                 }
                 break;
-            case 'defaddress_street':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_street = 'Address is required';
-                } else if(value?.length < 3){
-                    errorsCopy.defaddress_street = 'Address is too short';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.defaddress_street = 'Invalid Address';
-                } else {
-                    errorsCopy.defaddress_street = '';
-                }
-                break;
-            case 'defaddress_shippingmobile':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
-                } else if (!/^\d{10}$/.test(value.trim())) {
-                    errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
-                } else {
-                    errorsCopy.defaddress_shippingmobile = '';
-                }
-                break;
+                case 'defaddress_street':
+                    if(!value.trim()){
+                        errorsCopy.defaddress_street = 'Address is required';
+                    }else{
+                        errorsCopy.defaddress_street = '';
+                    }
+                    // if (!value.trim()) {
+                    //     errorsCopy.defaddress_street = 'Address is required';
+                    // } else if(value?.length < 3){
+                    //     errorsCopy.defaddress_street = 'Address is too short';
+                    // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                    //     errorsCopy.defaddress_street = 'Invalid Address';
+                    // } else {
+                    //     errorsCopy.defaddress_street = '';
+                    // }
+                    break;
+                case 'defaddress_shippingmobile':
+                    if (!value.trim()) {
+                        errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
+                    } else if (!/^\d{10}$/.test(value.trim())) {
+                        errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
+                    } else {
+                        errorsCopy.defaddress_shippingmobile = '';
+                    }
+                    break;
             default:
                 break;
         }
@@ -331,6 +338,7 @@ export default function YourProfile() {
    
     const fetchAddress = async() => {
         try {
+            setIsLoading(true);
             const storedData = localStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
@@ -342,19 +350,18 @@ export default function YourProfile() {
             if(response?.Data?.rd?.length > 0){
                 setAddressPresentFlag(true);
                 setIsLoading(false);
-                console.log("resposne",response)
             }else{
                 setIsLoading(false);
             }   
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         }
         
     }
-console.log("hoq")
+
     useEffect(() => {
         fetchAddress();
-        console.log("fetchswjvdwkdvkwjdvjkwdjkwjkdv")
     }, [])
 
     return (
