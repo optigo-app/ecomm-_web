@@ -28,7 +28,6 @@ const Home = () => {
 
   useEffect(() => {
 
-
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get('ismobile');
     const token = queryParams.get('token');
@@ -38,18 +37,6 @@ const Home = () => {
     if (ismobile === '1' && islogin === false && token !== undefined && token !== null && token !== '') {
       handleSubmit();
     }
-    
-
-    const handlePopState = () => {
-      navigation('/');
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-
   }, [])
 
   useEffect(() => {
