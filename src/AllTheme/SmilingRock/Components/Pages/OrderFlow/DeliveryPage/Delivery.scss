@@ -31,7 +31,7 @@
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -46,6 +46,10 @@
   margin-bottom: 18px !important;
   font-family: $homePageFontFamily !important;
   color: $titleColor !important;
+
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 0px !important;
+  }
 }
 
 .smr_deliveryTitle {
@@ -61,12 +65,14 @@
 .smr_AddrCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   padding: 20px 20px 0px 20px !important;
+  border-radius: 0px !important;
 }
 
 .smr_ActiveAddrCard {
   padding: 20px 20px 0px 20px !important;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   background: #f5f4f4 !important;
+  border-radius: 0px !important;
   position: relative;
 }
 
@@ -77,7 +83,7 @@
   font-size: $fontSize3;
   color: #fff;
   background: blue;
-  border-radius: 6px;
+  border-radius: 0px !important;
   border: none;
   cursor: pointer;
   position: absolute;
@@ -112,7 +118,7 @@
     color: $btn1FontColor;
     background-color: $btn1bgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -138,7 +144,7 @@
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -156,7 +162,7 @@
   color: $btn1FontColor;
   background-color: $btn1bgColor;
   border: 1px solid $btn1FontColor;
-  border-radius: 6px;
+  border-radius: 0px !important;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
