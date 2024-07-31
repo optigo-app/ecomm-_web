@@ -65,18 +65,16 @@ const ScrollImageCard = ({ img, details }) => {
             {details?.desc} <br /> <br />
             {details?.desc2 && details?.desc2}
           </p>
-          <button>
-            <Link
-              to={details?.link}
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                outline: "none",
-              }}
-            >
-              {details?.btn_des}
-            </Link>
-          </button>
+          <Link
+            to={details?.link}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              outline: "none",
+            }}
+          >
+            <button>{details?.btn_des}</button>
+          </Link>
         </div>
       </div>
     </div>

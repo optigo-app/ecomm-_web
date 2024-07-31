@@ -26,7 +26,10 @@
       .nav_left {
         .SearchBar {
           position: fixed;
-          top: -0px;
+          transition: 0.5s ease-in-out;
+          top: 0px;
+          z-index: 45;
+         
         }
       }
     }
@@ -103,6 +106,16 @@
           outline: none;
           background-color: transparent;
         }
+       
+      }
+      .bg_search_overlay{
+        position: fixed;
+         z-index: 5;
+         top: 30px;
+         background-color: rgba(26, 25, 25, 0.158);
+         right: 0;
+         left: 0;
+         bottom: 0;
       }
     }
     .nav_center {
@@ -235,8 +248,10 @@
       align-content: center;
       .loggedUser {
         @include LoggedStyle;
+        cursor: pointer;
       }
       .loggesUserName {
+        cursor: pointer;
         &::first-letter {
           color: #c20000;
           text-transform: uppercase;

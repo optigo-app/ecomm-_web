@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Footer.modul.scss";
 import Payment from "./Payment";
 import MobileFooter from "./MobileFooter";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaInstagram, FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
@@ -78,22 +78,22 @@ const About = () => {
       <h4>ABOUT</h4>
       <ul>
         <li>
-          <a href="/">Blogs</a>
+          <Link to="/blogs">Blogs</Link>
         </li>
         <li>
-          <a href="/">Our Story</a>
+          <Link to="/our-story">Our Story</Link>
         </li>
         <li>
-          <a href="/size-guide">Size Guide</a>
+          <Link to="/size-guide">Size Guide</Link>
         </li>
         <li>
-          <a href="/">Lab Grown Diamond</a>
+          <Link to="/lab-grown-diamond">Lab Grown Diamond</Link>
         </li>
         <li>
-          <a href="/">Diamond Education</a>
+          <Link to="/diamond-education">Diamond Education</Link>
         </li>
         <li>
-          <a href="/">Quality & Certification</a>
+          <Link to="/quality-certification">Quality & Certification</Link>
         </li>
       </ul>
     </div>
@@ -105,22 +105,22 @@ const Policy = () => {
       <h4>POLICIES</h4>
       <ul>
         <li>
-          <a href="/Privacy-Policy">Privacy Policy</a>
+          <Link to="/Privacy-Policy">Privacy Policy</Link>
         </li>
         <li>
-          <a href="/Shipping-Policy">Shipping Policy</a>
+          <Link to="/Shipping-Policy">Shipping Policy</Link>
         </li>
         <li>
-          <a href="/Return-Exchange-Policy">Return & Exchange Policy</a>
+          <Link to="/Return-Exchange-Policy">Return & Exchange Policy</Link>
         </li>
         <li>
-          <a href="/Terms-Conditions">Terms & Conditions</a>
+          <Link to="/Terms-Conditions">Terms & Conditions</Link>
         </li>
         <li>
-          <a href="/faq">FAQs</a>
+          <Link to="/faq">FAQs</Link>
         </li>
         <li>
-          <a href="/contacts">Contact</a>
+          <Link to="/contacts">Contact</Link>
         </li>
       </ul>
     </div>
@@ -129,7 +129,7 @@ const Policy = () => {
 const NewsLetter = ({ onsubmit, email, setemail }) => {
   return (
     <div className="footer-section">
-      <h4>SIGN UP</h4>
+      <h4>NEWSLETTER</h4>
       <p>
         Subscribe to get special offers, new collection launches, and
         once-in-a-while deals.
@@ -172,20 +172,22 @@ const ContactInformation = () => {
         Email: hello@loremipusmum.com
       </p>
       <div className="social-links">
-        <a
-          href="#"
+        <Link
+          to="https://www.instagram.com/"
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          target="_blank"
         >
           <FaInstagram size={17} color="#F60092" />
           Instagram
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          to="https://www.facebook.com/"
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          target="_blank"
         >
           <FaFacebook size={17} color="blue" />
           Facebook
-        </a>
+        </Link>
       </div>
     </div>
   );

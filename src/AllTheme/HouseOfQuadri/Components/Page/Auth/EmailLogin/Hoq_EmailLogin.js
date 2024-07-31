@@ -310,7 +310,9 @@ export default function LoginWithEmail() {
   };
   return (
     <div className="Hoq_loginEmail">
-      <ToastContainer />
+       <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

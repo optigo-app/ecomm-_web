@@ -12,7 +12,7 @@ function App() {
       <RecoilRoot>
         <BrowserRouter>
           <ThemeRoutes />
-          <ToastContainer />
+          <ToastContainer style={{zIndex : "99999999"}}/>
         </BrowserRouter>
       </RecoilRoot>
     </>

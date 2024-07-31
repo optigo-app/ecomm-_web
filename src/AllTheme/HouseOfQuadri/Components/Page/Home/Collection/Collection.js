@@ -81,7 +81,7 @@ const Collection = () => {
     };
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigate(
-      `/p/${titleLine?.replace(/\s+/g, `_`)}${
+      `/d/${titleLine?.replace(/\s+/g, `_`)}${
         titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );

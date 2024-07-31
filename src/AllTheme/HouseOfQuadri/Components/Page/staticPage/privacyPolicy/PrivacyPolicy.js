@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/images/staticHtml/privacy.html`)
+    fetch(`${storImagePath()}/html/privacy.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -16,6 +16,12 @@ export default function PrivacyPolicy() {
         console.error("Error fetching the HTML file:", error);
       });
   }, []);
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
 
   return (
     <div className="hoq_privacyPolicy">
