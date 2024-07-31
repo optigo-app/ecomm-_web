@@ -108,7 +108,7 @@ export default function YourProfile() {
             case 'defaddress_shippingfirstname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
@@ -121,7 +121,7 @@ export default function YourProfile() {
             case 'defaddress_shippinglastname':
                 if (!value.trim()) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
@@ -223,7 +223,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            toast.error('Please fill necessary details.');
         }
     };
 
@@ -285,45 +285,45 @@ export default function YourProfile() {
 
         let tempErrors = {};
 
-            // First Name validation
-            if (!editedUserData.defaddress_shippingfirstname?.length) {
-                tempErrors.defaddress_shippingfirstname = "First Name is required";
-            } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
-                tempErrors.defaddress_shippingfirstname = "First Name is too short";
-            } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
-                tempErrors.defaddress_shippingfirstname = "First Name is too long";
-            }
+        // First Name validation
+        if (!editedUserData.defaddress_shippingfirstname?.length) {
+            tempErrors.defaddress_shippingfirstname = "First Name is required";
+        } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
+            tempErrors.defaddress_shippingfirstname = "First Name is too short";
+        } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
+            tempErrors.defaddress_shippingfirstname = "First Name is too long";
+        }
 
-            // Last Name validation
-            if (!editedUserData.defaddress_shippinglastname?.length) {
-                tempErrors.defaddress_shippinglastname = "Last Name is required";
-            } else if (editedUserData.defaddress_shippinglastname.length < 3) {
-                tempErrors.defaddress_shippinglastname = "Last Name is too short";
-            } else if (editedUserData.defaddress_shippinglastname.length > 25) {
-                tempErrors.defaddress_shippinglastname = "Last Name is too long";
-            }
+        // Last Name validation
+        if (!editedUserData.defaddress_shippinglastname?.length) {
+            tempErrors.defaddress_shippinglastname = "Last Name is required";
+        } else if (editedUserData.defaddress_shippinglastname.length < 2) {
+            tempErrors.defaddress_shippinglastname = "Last Name is too short";
+        } else if (editedUserData.defaddress_shippinglastname.length > 25) {
+            tempErrors.defaddress_shippinglastname = "Last Name is too long";
+        }
 
-            // Mobile Number validation
-            if (!editedUserData.defaddress_shippingmobile?.length) {
-                tempErrors.defaddress_shippingmobile = "Mobile Number is required";
-            } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
-                tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
-            }
+        // Mobile Number validation
+        if (!editedUserData.defaddress_shippingmobile?.length) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number is required";
+        } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
+        }
 
-            // User ID validation
-            if (!editedUserData.userid) {
-                tempErrors.userid = "User ID is required";
-            }
+        // User ID validation
+        if (!editedUserData.userid) {
+            tempErrors.userid = "User ID is required";
+        }
 
-            // Street Address validation
-            if (!editedUserData.defaddress_street) {
-                tempErrors.defaddress_street = "Street Address is required";
-            }
+        // Street Address validation
+        if (!editedUserData.defaddress_street) {
+            tempErrors.defaddress_street = "Street Address is required";
+        }
 
-            setErrors(tempErrors);
+        setErrors(tempErrors);
 
-            // Check if all errors are empty strings or undefined
-            return Object.values(tempErrors).every(x => !x);
+        // Check if all errors are empty strings or undefined
+        return Object.values(tempErrors).every(x => !x);
 
         // tempErrors.defaddress_shippingfirstname = editedUserData.defaddress_shippingfirstname ? "" : "This field is required.";
         // tempErrors.defaddress_shippinglastname = editedUserData.defaddress_shippinglastname ? "" : "This field is required.";
@@ -360,6 +360,11 @@ export default function YourProfile() {
             setIsLoading(false);
         }
         
+    }
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setErrors({});
     }
 
     return (
@@ -516,7 +521,7 @@ export default function YourProfile() {
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
                         {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                     </form>
                 </div>
