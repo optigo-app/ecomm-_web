@@ -12,8 +12,11 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
+  styled,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
+  tooltipClasses,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -422,8 +425,8 @@ const Lookbook = () => {
   );
 
   console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData selectedCategoriesselectedCategories",
-    filteredDesignSetLstData
+    "filteredDesignSetLstDatafilteredDesignSetLstData",
+    selectedCategories
   );
 
   const calculateTotalUnitCostWithMarkUp = (details) => {
@@ -480,9 +483,31 @@ const Lookbook = () => {
     }
   };
 
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      maxWidth: 220,
+      fontSize: theme.typography.pxToRem(12),
+      border: '1px solid #dadde9',
+    },
+  }));
+  
+  const CustomTooltipContent = ({ categories }) => (
+    <div>
+      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+        {categories.map((category, index) => (
+          <li key={index}>{category}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
   console.log(
     "filteredDesignSetLstDatafilteredDesignSetLstData",
-    filteredDesignSetLstData
+    selectedCategories
   );
 
   return (
@@ -1147,8 +1172,9 @@ const Lookbook = () => {
               className="smr_lookBookMobileTopLine"
               style={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "end",
                 margin: "0px 5px 25px 5px",
+                gap: '20px'
               }}
             >
               <FilterAltIcon
@@ -1157,12 +1183,20 @@ const Lookbook = () => {
                 className="smr_lookBookMobileFilter"
                 onClick={() => setIsDrawerOpen(true)}
               />
-              <button
-                onClick={handleOpen}
-                className="smr_lookBookSelectViewBtn"
+              <HtmlTooltip
+                title={<CustomTooltipContent categories={selectedCategories} />}
               >
-                Set View
-              </button>
+                <button
+                  onClick={handleOpen}
+                  className="smr_lookBookSelectViewBtn"
+                  style={{
+                    background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
+                    color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85"
+                  }}
+                >
+                  Set View
+                </button>
+              </HtmlTooltip>
 
               {/* <select
                 value={selectedValue}
@@ -1180,7 +1214,21 @@ const Lookbook = () => {
                 exclusive
                 onChange={handleChange}
                 aria-label="text alignment"
-                sx={{ height: "35px" }}
+                sx={{
+                  height: "35px",
+                  borderRadius: '0px',
+                  '.Mui-selected': {
+                    backgroundColor: '#7d7f856e',
+                    color: '#fff',
+                  },
+                  '.MuiToggleButton-root': {
+                    borderRadius: '0px',
+                    '&:not(.Mui-selected)': {
+                      backgroundColor: 'transparent',
+                      color: '#000',
+                    }
+                  }
+                }}
               >
                 <ToggleButton value={1} aria-label="left aligned">
                   {/* <RxGrid /> */}|
@@ -1680,7 +1728,6 @@ const Lookbook = () => {
                                     Buy Combo
                                   </button>
                                 </div> */}
-                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
 
                               </div>
                               <div
@@ -1695,83 +1742,85 @@ const Lookbook = () => {
                                     : "smr_lb3compeletethelook_prodt"
                                 }
                               >
-                                {sortDesignDetailsBySrNo(
-                                  parseDesignDetails(slide?.Designdetail)
-                                )?.map((ele, subIndex) => (
-                                  <div
-                                    key={subIndex}
-                                    className="smr_lb3completethelook_outer"
-                                    style={{
-                                      borderTop: subIndex !== 0 ? "none" : "",
-                                      width: "513px",
-                                      padding: "5px",
-                                      border: "1px solid #e1e1e1",
-                                      backgroundColor: "#fff",
-                                    }}
-                                  >
+                                <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
+                                <div className="smr_lb3_prodtDiv2">
+                                  {sortDesignDetailsBySrNo(
+                                    parseDesignDetails(slide?.Designdetail)
+                                  )?.map((ele, subIndex) => (
                                     <div
-                                      className="smr_lookbookMainDivdata"
+                                      key={subIndex}
+                                      className="smr_lb3completethelook_outer"
                                       style={{
-                                        display: "flex",
-                                        gap: "40px",
-                                        justifyContent: "space-around",
+                                        borderTop: subIndex !== 0 ? "none" : "",
+                                        width: "513px",
+                                        padding: "5px",
+                                        border: "1px solid #e1e1e1",
+                                        backgroundColor: "#fff",
                                       }}
                                     >
-                                      <div style={{ marginLeft: "12px" }}>
-                                        <img
-                                          src={
-                                            ele?.ImageCount > 0
-                                              ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
-                                              : imageNotFound
-                                          }
-                                          alt=""
-                                          className="smr_lb3srthelook_img"
-                                          onClick={() =>
-                                            handleNavigation(
-                                              ele?.designno,
-                                              ele?.autocode,
-                                              ele?.TitleLine
-                                                ? ele?.TitleLine
-                                                : ""
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                      <div className="smr_lb3srthelook_prodinfo" onClick={() =>
-                                        handleNavigation(
-                                          ele?.designno,
-                                          ele?.autocode,
-                                          ele?.TitleLine
-                                            ? ele?.TitleLine
-                                            : ""
-                                        )
-                                      }>
-                                        <div
-                                          style={{
-                                            fontSize: "14px",
-                                            color: "#7d7f85",
-                                            textTransform: "uppercase",
-                                          }}
-                                          className="smr_lb3srthelook_prodinfo_inner"
-                                        >
-                                          <p>
-                                            <span>
-                                              {ele?.designno} - {ele?.CategoryName}
-                                            </span>
-                                            <br />
-                                            <span className='smr_lb3detailDT'>NWT : </span>
-                                            <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                            <span className='smr_lb3pipe'> | </span>
-                                            <span className='smr_lb3detailDT'>GWT: </span>
-                                            <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                            <span className='smr_lb3pipe'> | </span>
-                                            <span className='smr_lb3detailDT'>DWT: </span>
-                                            <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                            <span className='smr_lb3pipe'> | </span>
-                                            <span className='smr_lb3detailDT'>CWT: </span>
-                                            <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                            <br />
-                                            {/* <span
+                                      <div
+                                        className="smr_lookbookMainDivdata"
+                                        style={{
+                                          display: "flex",
+                                          gap: "40px",
+                                          justifyContent: "space-around",
+                                        }}
+                                      >
+                                        <div style={{ marginLeft: "12px" }}>
+                                          <img
+                                            src={
+                                              ele?.ImageCount > 0
+                                                ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                                : imageNotFound
+                                            }
+                                            alt=""
+                                            className="smr_lb3srthelook_img"
+                                            onClick={() =>
+                                              handleNavigation(
+                                                ele?.designno,
+                                                ele?.autocode,
+                                                ele?.TitleLine
+                                                  ? ele?.TitleLine
+                                                  : ""
+                                              )
+                                            }
+                                          />
+                                        </div>
+                                        <div className="smr_lb3srthelook_prodinfo" onClick={() =>
+                                          handleNavigation(
+                                            ele?.designno,
+                                            ele?.autocode,
+                                            ele?.TitleLine
+                                              ? ele?.TitleLine
+                                              : ""
+                                          )
+                                        }>
+                                          <div
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#7d7f85",
+                                              textTransform: "uppercase",
+                                            }}
+                                            className="smr_lb3srthelook_prodinfo_inner"
+                                          >
+                                            <p>
+                                              <span>
+                                                {ele?.designno} - {ele?.CategoryName}
+                                              </span>
+                                              <br />
+                                              <span className='smr_lb3detailDT'>NWT : </span>
+                                              <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                              <span className='smr_lb3pipe'> | </span>
+                                              <span className='smr_lb3detailDT'>GWT: </span>
+                                              <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                              <span className='smr_lb3pipe'> | </span>
+                                              <span className='smr_lb3detailDT'>DWT: </span>
+                                              <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                              <span className='smr_lb3pipe'> | </span>
+                                              <span className='smr_lb3detailDT'>CWT: </span>
+                                              <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                              <br />
+                                              {/* <span
                                               className="smr_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
@@ -1779,41 +1828,42 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
-                                            <span
-                                              className="smr_currencyFont"
+                                              <span
+                                                className="smr_currencyFont"
+                                              >
+                                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                              </span>
+                                              &nbsp;
+                                              {ele?.UnitCostWithMarkUp}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "end",
+                                            alignItems: "center",
+                                            marginBottom: "5px",
+                                          }}
+                                        >
+                                          {cartItems.includes(ele?.autocode) ? (
+                                            <IconButton
+                                              onClick={() => handleRemoveCart(ele)}
                                             >
-                                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>
-                                            &nbsp;
-                                            {ele?.UnitCostWithMarkUp}
-                                          </p>
+                                              <LocalMallIcon className="smr_lookBookINCartIconBtn" />
+                                            </IconButton>
+                                          ) : (
+                                            <IconButton
+                                              onClick={() => handleAddToCart(ele)}
+                                            >
+                                              <LocalMallIcon className="smr_lookBookAddtoCartIconBtn" />
+                                            </IconButton>
+                                          )}
                                         </div>
                                       </div>
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "end",
-                                          alignItems: "center",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        {cartItems.includes(ele?.autocode) ? (
-                                          <IconButton
-                                            onClick={() => handleRemoveCart(ele)}
-                                          >
-                                            <LocalMallIcon className="smr_lookBookINCartIconBtn" />
-                                          </IconButton>
-                                        ) : (
-                                          <IconButton
-                                            onClick={() => handleAddToCart(ele)}
-                                          >
-                                            <LocalMallIcon className="smr_lookBookAddtoCartIconBtn" />
-                                          </IconButton>
-                                        )}
-                                      </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
+                                </div>
                                 <div
                                   className="smr_lb3TotalBtnGroup"
                                 >
