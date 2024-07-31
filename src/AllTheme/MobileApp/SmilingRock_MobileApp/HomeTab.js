@@ -169,6 +169,7 @@ const styles = {
     backgroundColor: '#f0f0f0',
     height: '60px',
     borderTop: '1px solid #ccc',
+    zIndex: 111111111111111
   },
   tab: {
     display: 'flex',
