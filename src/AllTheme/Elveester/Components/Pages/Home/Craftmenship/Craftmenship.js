@@ -9,19 +9,19 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
     {
-        imageUrl: "images/HomePage/Craftmenship/craftingImg01.jpg",
+        imageUrl: "/images/HomePage/Craftmenship/craftingImg01.jpg",
     },
     {
-        imageUrl: "images/HomePage/Craftmenship/craftingImg02.jpg",
+        imageUrl: "/images/HomePage/Craftmenship/craftingImg02.jpg",
     },
     {
-        imageUrl: "images/HomePage/Craftmenship/craftingImg03.jpg",
+        imageUrl: "/images/HomePage/Craftmenship/craftingImg03.jpg",
     },
 ];
 
 export default function Craftmenship() {
     return (
-        <div className='el_craftmenshipId_main'>
+        <div className='el_craftmenshipId_main' id="craftmenshipId">
             <div>
                 <p className='craftmenship'>Our Craftmenship</p>
             </div>

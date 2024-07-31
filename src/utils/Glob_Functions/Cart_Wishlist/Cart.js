@@ -504,6 +504,7 @@ const useCart = () => {
 
   const handlePrice = async (sizedata, diaId, csQid, selectedMetalId) => {
     try {
+      setIsPriceLoding(true)
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
       if (response?.Message === "Success") {
         const resData = response?.Data?.rd[0];
@@ -523,9 +524,11 @@ const useCart = () => {
         setCartData(updatedPricetData);
 
         console.log('priceRes--', finalPrice);
+        setIsPriceLoding(false)
       }
     } catch (error) {
       console.error("Failed to update quantity:", error);
+      setIsPriceLoding(false)
     }
   };
 
