@@ -5,7 +5,6 @@ import { proCat_CartCount, proCat_WishCount, proCat_cartB2CDrawer, proCat_compan
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
-import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { PiStarThin } from "react-icons/pi";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -92,23 +91,6 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
-  useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
-
-    console.log("callll");
-
-    if (storeinit?.IsB2BWebsite === 0) {
-      getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
-    }
-
-  }, [islogin]);
 
   useEffect(() => {
     fetchData();
@@ -132,23 +114,23 @@ const Header = () => {
   };
 
 
-  const getMenuApi = async () => {
+  // const getMenuApi = async () => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-    const { IsB2BWebsite } = storeInit;
-    const visiterID = Cookies.get('visiterId');
-    let finalID;
-    if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-    } else {
-      finalID = loginUserDetail?.id || '0';
-    }
+  //   const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+  //   const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+  //   const { IsB2BWebsite } = storeInit;
+  //   const visiterID = Cookies.get('visiterId');
+  //   let finalID;
+  //   if (IsB2BWebsite == 0) {
+  //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+  //   } else {
+  //     finalID = loginUserDetail?.id || '0';
+  //   }
 
-    await GetMenuAPI(finalID).then((response) => {
-      setMenuData(response?.Data?.rd)
-    }).catch((err) => console.log(err))
-  }
+  //   await GetMenuAPI(finalID).then((response) => {
+  //     setMenuData(response?.Data?.rd)
+  //   }).catch((err) => console.log(err))
+  // }
 
 
 

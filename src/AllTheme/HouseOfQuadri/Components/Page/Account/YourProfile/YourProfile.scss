@@ -43,13 +43,14 @@
     font-family: "PT Sans", sans-serif !important;
     font-weight: 700 !important;
     opacity: .9;
-    background: #f6efe6 !important;
-    color: rgba(31, 25, 25, 0.7) !important;
+    background: #c20000 !important;
+    color: white !important;
     border: none;
     font-weight: 500;
+    border-radius: 2px;
 }
 
 .hoq_SmilingAddEditAddrwess:hover {
-    background-color: #fff !important;
+    // background-color: #fff !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SizeGuide.scss";
 import { SizeGuideImage } from "../../../Constants/SizeGuide";
 import { Link } from "react-router-dom";
 const SizeGuide = () => {
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
   return (
     <div className="hoq_size_guide">
       <div className="heading">

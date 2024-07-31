@@ -27,6 +27,7 @@ const Home = () => {
 
 
   useEffect(() => {
+
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get('ismobile');
     const token = queryParams.get('token');

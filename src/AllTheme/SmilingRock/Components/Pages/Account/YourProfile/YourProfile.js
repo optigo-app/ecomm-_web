@@ -289,7 +289,7 @@ export default function YourProfile() {
             // First Name validation
             if (!editedUserData.defaddress_shippingfirstname?.length) {
                 tempErrors.defaddress_shippingfirstname = "First Name is required";
-            } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+            } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too short";
             } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too long";
@@ -298,7 +298,7 @@ export default function YourProfile() {
             // Last Name validation
             if (!editedUserData.defaddress_shippinglastname?.length) {
                 tempErrors.defaddress_shippinglastname = "Last Name is required";
-            } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+            } else if (editedUserData.defaddress_shippinglastname.length < 2) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too short";
             } else if (editedUserData.defaddress_shippinglastname.length > 25) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too long";

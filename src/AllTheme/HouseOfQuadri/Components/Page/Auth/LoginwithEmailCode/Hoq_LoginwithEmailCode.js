@@ -180,7 +180,9 @@ export default function LoginWithEmailCode() {
 
   return (
     <div className="Hoq_loginwithemailCode" style={{ paddingTop: "10px" }}>
-      <ToastContainer />
+      <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

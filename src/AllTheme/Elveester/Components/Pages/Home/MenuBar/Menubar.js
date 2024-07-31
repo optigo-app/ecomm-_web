@@ -44,22 +44,24 @@ const Menubar = () => {
     const [selectedData, setSelectedData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 
+    const setCartCount = useRecoilState(el_CartCount);
     const [wishCount, setWishCount] = useRecoilState(el_WishCount);
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const res = await GetCountAPI(); 
-            console.log('responseCount', res);
-            // setCartCount(res?.cartcount); 
-            setWishCount(res?.wishCount); 
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+            try {
+                const visiterID = Cookies.get('visiterId');
+                const res = await GetCountAPI(visiterID);
+                console.log('responseCount', res);
+                setCartCount(res?.cartcount);
+                setWishCount(res?.wishcount);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-    
+
         fetchData();
-      }, []);
+    }, []);
 
     const handleToogle = () => {
         setIsOpen(!isOpen);
@@ -160,8 +162,8 @@ const Menubar = () => {
 
         let menuEncoded = `${queryParameters}/${otherparamUrl}`;
         // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-        const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-        // const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+        // const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+        const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
 
         // let d = new Date();
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -228,7 +230,7 @@ const Menubar = () => {
                                     <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
                                 </div>
                                 <div className="el_login_header_menu_main_div1">
-                                    <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                         {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                     </a>
                                 </div>
@@ -244,7 +246,11 @@ const Menubar = () => {
                                         >
                                             <Tooltip title="WishList">
                                                 <li
-                                                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                                                    onClick={() => {
+                                                        handleToggle();
+                                                        navigation("/myWishList");
+                                                    }}
+                                                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} >
                                                     <GoHeart color="#7D7F85" fontSize='25px' />
                                                 </li>
                                             </Tooltip>
@@ -253,7 +259,10 @@ const Menubar = () => {
                                         <li
                                             className="el_login_header_menu_main_div2_li"
                                             style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                            onClick={() => navigation("/account")}
+                                            onClick={() => {
+                                                handleToggle();
+                                                navigation("/account")
+                                            }}
                                         >
                                             <IoPersonOutline color="#7D7F85" fontSize='25px' />
                                         </li>
@@ -273,9 +282,9 @@ const Menubar = () => {
                                                     handleMouseEnter(index, item);
                                                     handleMenuClick(item);
                                                     handleMouseLeave(index);
-                                                    handleToogle();
+                                                    handleToogle(e);
                                                     handelMenu({
-                                                        menuname: item?.manuname,
+                                                        menuname: item?.menuname,
                                                         key: item?.param0name,
                                                         value: item?.param0dataname,
                                                     })
@@ -301,7 +310,12 @@ const Menubar = () => {
                                                                         <div style={{ width: '95%', textTransform: 'uppercase' }}>
                                                                             {selectedData?.param1?.map((param1Item, param1Index) => (
                                                                                 <div key={param1Index}>
-                                                                                    <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`)} className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
+                                                                                    <span
+                                                                                        onClick={() => {
+                                                                                            handleToggle();
+                                                                                            navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`);
+                                                                                        }}
+                                                                                        className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
                                                                                         <span className='elv_param1'>{param1Item?.param1dataname}</span>
                                                                                     </span>
                                                                                     <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
@@ -309,7 +323,12 @@ const Menubar = () => {
                                                                                             <p className="level2menuData" key={param2Index} onClick={() =>
                                                                                                 handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
                                                                                             } style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                                                                                                <span onClick={() => navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`)} className='elv_param2'> {param2Item?.param2dataname}</span>
+                                                                                                <span
+                                                                                                    onClick={() => {
+                                                                                                        handleToggle();
+                                                                                                        navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/${param2Item.param2dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`)}`);
+                                                                                                    }}
+                                                                                                    className='elv_param2'> {param2Item?.param2dataname}</span>
                                                                                             </p>
                                                                                         ))}
                                                                                     </div>

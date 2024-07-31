@@ -27,6 +27,11 @@
         background-color: transparent;
         border: 1px solid #ebdcc3;
         outline: none;
+        padding: 0px 20px;
+
+        &:placeholder-shown {
+            padding-left: 10px;
+        }
     }
     
     .elevBox1Btn {
@@ -42,13 +47,25 @@
     .ElveFooter2 {
         width: 25%;
     }
+
+    .ElveFooter2_login{
+        width: 20%;
+    }
     
     .ElveFooter3 {
         width: 25%;
     }
+
+    .ElveFooter3_login{
+        width: 20%;
+    }
     
     .ElveFooter4 {
         width: 25%;
+    }
+
+    .ElveFooter4_login{
+        width: 20%;
     }
     
     .ElevFooterBoxTitle {
@@ -180,6 +197,16 @@
             align-items: center;
             width: 100%;
         }
+
+        .ElveFooter2_login{
+            width: 100%;
+        }
+        .ElveFooter3_login{
+            width: 100%;
+        }
+        .ElveFooter4_login{
+            width: 100%;
+        }
     
         .ElveFooter2 {
             width: 100%;
@@ -210,6 +237,16 @@
     @media screen and (max-width: 600px) {
     
         .ElveFooter1Input {
+            width: 100%;
+        }
+
+        .ElveFooter2_login{
+            width: 100%;
+        }
+        .ElveFooter3_login{
+            width: 100%;
+        }
+        .ElveFooter4_login{
             width: 100%;
         }
     
