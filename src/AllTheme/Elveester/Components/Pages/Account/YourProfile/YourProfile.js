@@ -223,7 +223,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            toast.error('Please fill necessary details.');
         }
     };
 
@@ -360,6 +360,11 @@ export default function YourProfile() {
             setIsLoading(false);
         }
         
+    }
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setErrors({});
     }
 
     return (
@@ -516,7 +521,7 @@ export default function YourProfile() {
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
                         {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                     </form>
                 </div>
