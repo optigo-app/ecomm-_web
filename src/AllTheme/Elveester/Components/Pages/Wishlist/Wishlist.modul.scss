@@ -103,9 +103,9 @@
                 width: 24.2%;
 
                 .elv_wishlist_cancel {
-                    position: relative;
+                    position: absolute;
                     cursor: pointer;
-                    left: 20rem;
+                    right: 0;
                     margin: 10px;
                 }
 
@@ -175,14 +175,19 @@
 
     .elv_wishlist_card_prod_title {
         color: #1f1919;
-        font-family: 'PT Sans', sans-serif;
+        font-family: "PT Sans", sans-serif;
         font-size: 14px;
         visibility: visible;
+        width: 100%;
         display: inline-block;
+        padding-inline: 15px;
         letter-spacing: 0.35px;
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
     }
-    .elv_wishlist_card_prod_title_hidden{
+
+    .elv_wishlist_card_prod_title_hidden {
         color: #1f1919;
         font-family: 'PT Sans', sans-serif;
         font-size: 14px;

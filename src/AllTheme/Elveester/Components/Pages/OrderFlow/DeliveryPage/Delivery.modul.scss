@@ -342,3 +342,32 @@
         }
     }
 }
+
+
+.elv_noCartlistData {
+    text-align: center;
+    height: 100%;
+    margin-bottom: 327px;
+    margin-top: 3rem;
+  
+    .elv_title {
+      color: #7d7f85;
+      font-size:28px;;
+    }
+  
+    .elv_desc {
+      color: #7d7f85;
+      font-size: 18px;
+    }
+  
+    .elv_browseOurCollectionbtn {
+      background-color: #7d7f85;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      height: 50px;
+      outline: none;
+      width: 220px;
+    }
+  }

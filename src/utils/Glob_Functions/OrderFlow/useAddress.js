@@ -94,13 +94,17 @@ export const useAddress = () => {
 
     const validateField = (field, value) => {
         let error = '';
+        const lettersOnlyRegex = /^[A-Za-z\s]+$/;
+        const numbersOnlyRegex = /^[0-9]*$/;
 
         switch (field) {
             case 'firstName':
                 if (!value) error = 'First name is required';
+                else if (value.length <= 1 && /^[A-Za-z0-9]+$/.test(value)) error = 'First name must contain at least two characters.'
                 break;
             case 'lastName':
                 if (!value) error = 'Last name is required';
+                else if (value.length <= 1 && /^[A-Za-z0-9]+$/.test(value)) error = 'Last name must contain at least two characters.'
                 break;
             case 'mobileNo':
                 if (!value) error = 'Mobile number is required';
@@ -111,15 +115,20 @@ export const useAddress = () => {
                 break;
             case 'country':
                 if (!value) error = 'Country is required';
+                else if (!lettersOnlyRegex.test(value)) error = 'Country should only contain letters'
                 break;
             case 'state':
                 if (!value) error = 'State is required';
+                else if (!lettersOnlyRegex.test(value)) error = 'State should only contain letters'
                 break;
             case 'city':
                 if (!value) error = 'City is required';
+                else if (!lettersOnlyRegex.test(value)) error = 'City should only contain letters'
                 break;
             case 'zipCode':
                 if (!value) error = 'ZIP code is required';
+                else if (value.length > 6) error = 'Zip Code cannot exceed 6 characters';
+                else if (!numbersOnlyRegex.test(value)) error = 'Only numeric characters are allowed in the Zip Code.'
                 break;
             default:
                 break;
@@ -133,18 +142,47 @@ export const useAddress = () => {
 
     const validateForm = () => {
         let formErrors = {};
-        if (!formData.firstName) formErrors.firstName = 'First name is required';
-        if (!formData.lastName) formErrors.lastName = 'Last name is required';
+        const lettersOnlyRegex = /^[A-Za-z\s]+$/;
+        const numbersOnlyRegex = /^[0-9]*$/;
+
+        if (!formData.firstName) {
+            formErrors.firstName = 'First name is required'
+        } else if (formData.firstName.length <= 1 && /^[A-Za-z0-9]+$/.test(formData.firstName)) {
+            formErrors.firstName = 'First name must contain at least two characters.'
+        }
+        if (!formData.lastName) {
+            formErrors.lastName = 'Last name is required'
+        } else if (formData.lastName.length <= 1 && /^[A-Za-z0-9]+$/.test(formData.lastName)) {
+            formErrors.firstName = 'Last name must contain at least two characters.'
+        }
         if (!formData.mobileNo) {
             formErrors.mobileNo = 'Mobile number is required';
         } else if (formData.mobileNo.length < 10) {
             formErrors.mobileNo = 'Mobile number must be at least 10 digits';
         }
-        if (!formData.address) formErrors.address = 'Address is required';
-        if (!formData.country) formErrors.country = 'Country is required';
-        if (!formData.state) formErrors.state = 'State is required';
-        if (!formData.city) formErrors.city = 'City is required';
-        if (!formData.zipCode) formErrors.zipCode = 'ZIP code is required';
+        if (!formData.address) formErrors.address = 'Address is required'
+        if (!formData.country) {
+            formErrors.country = 'Country is required';
+        } else if(!lettersOnlyRegex.test(formData.country)){
+            formErrors.country = 'Country should only contain letters';
+        }
+        if (!formData.state) {
+            formErrors.state = 'State is required';
+        } else if(!lettersOnlyRegex.test(formData.state)){
+            formErrors.state = 'State should only contain letters';
+        }
+        if (!formData.city) {
+            formErrors.city = 'City is required';
+        } else if(!lettersOnlyRegex.test(formData.city)){
+            formErrors.city = 'City should only contain letters';
+        }
+        if (!formData.zipCode) {
+            formErrors.zipCode = 'ZIP code is required';
+        } else if(formData.zipCode.length > 6){
+            formErrors.zipCode = 'Zip Code cannot exceed 6 characters';
+        } else if(!numbersOnlyRegex.test(formData.zipCode)){
+            formErrors.zipCode = 'Only numeric characters are allowed in the Zip Code.';
+        }
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
     };
@@ -253,7 +291,7 @@ export const useAddress = () => {
         }
         const requiredFields = ['addressprofile', 'city', 'state', 'country', 'zip', 'street', 'shippingfirstname', 'shippinglastname', 'shippingmobile'];
         const defaultAddress = addressData.find(item => item.isdefault === 1);
-    
+
         if (!defaultAddress) {
             toast.error('Please first select the shipping address');
             return;
@@ -266,7 +304,7 @@ export const useAddress = () => {
         navigation('/payment');
         window.scrollTo(0, 0);
     };
-    
+
 
     return {
         addressData,

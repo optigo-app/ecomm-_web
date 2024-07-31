@@ -96,7 +96,7 @@ export default function Register() {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
       } else if (value !== password) {
-        setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+        setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords does not match' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
       }
@@ -180,7 +180,7 @@ export default function Register() {
     if (!confirmPassword.trim()) {
       errors.confirmPassword = 'Confirm Password is required';
     } else if (confirmPassword !== password) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = 'Passwords does not match';
     }
 
     if (Object.keys(errors).length === 0 && passwordError.length === 0) {

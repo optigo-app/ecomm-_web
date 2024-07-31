@@ -14,40 +14,40 @@ const AffiliationData = () => {
 
     const sliderData = [
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo01.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo01.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo02.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo02.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo03.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo03.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo04.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo04.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo05.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo05.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo06.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo06.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo07.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo07.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo08.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo08.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo09.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo09.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo10.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo10.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo11.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo11.png",
         },
         {
-            imageUrl: "images/HomePage/Affiliation/AffiliationLogo12.png",
+            imageUrl: "/images/HomePage/Affiliation/AffiliationLogo12.png",
         },
     ];
 

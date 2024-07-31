@@ -2,14 +2,11 @@ import { Box, Modal } from '@mui/material';
 import React from 'react'
 
 const RemarkDialog = ({
-    showRemark1,
-    handleClose1,
-    handleClose2,
-    selectedItem,
-    productRemark,
     open1,
-    handleRemarkChange,
-    handleSave,
+    onClose1,
+    remark1,
+    onRemarkChange1,
+    onSave1
 }) => {
     const style2 = {
         position: 'absolute',
@@ -27,8 +24,8 @@ const RemarkDialog = ({
         <>
         <Modal
             className='elev_modal'
-            open={showRemark1 || open1}
-            onClose={handleClose1}
+            open={open1}
+            onClose={onClose1}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -39,18 +36,16 @@ const RemarkDialog = ({
                         className="elv_product-remarkTextArea"
                         rows="6"
                         style={{ borderRadius: '10px', marginBlock: '0.5rem', border: '', outline: 'none' }}
-                        defaultValue={selectedItem?.OrderRemarks}
-                        value={selectedItem?.OrderRemarks}
-                        // defaultValue={selectedItem?.OrderRemarks || productRemark}
-                        // value={selectedItem?.OrderRemarks || productRemark}
-                        onChange={handleRemarkChange}
+                        defaultValue={remark1}
+                        value={remark1}
+                        onChange={onRemarkChange1}
                     ></textarea>
                 </div>
                 <div className="elv_projectRemarkBtn-group">
-                    <button className="elv_remarksave-btn" onClick={() => { handleSave(selectedItem) }}>
+                    <button className="elv_remarksave-btn" onClick={onSave1}>
                         Save
                     </button>
-                    <button className="elv_remarkcancel-btn" onClick={handleClose1 || handleClose2}>
+                    <button className="elv_remarkcancel-btn" onClick={onClose1}>
                         Cancel
                     </button>
                 </div>

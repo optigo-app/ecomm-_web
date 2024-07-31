@@ -101,10 +101,13 @@ const Wishlist = () => {
           <h2 className='elv_wishlist_header_title'>
             My Wishlist
           </h2>
-          <div className='elv_wishlist_buttons'>
-            <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>
-            <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add to cart all</button>
-          </div>
+          {wishlistData.length ? (
+             <div className='elv_wishlist_buttons'>
+             <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>
+             <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add to cart all</button>
+           </div>
+          ) : ('')}
+         
           {!isWLLoading ? (
             <WishlistData
               isloding={isWLLoading}
