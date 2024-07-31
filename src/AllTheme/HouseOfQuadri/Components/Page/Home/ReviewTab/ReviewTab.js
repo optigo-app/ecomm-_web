@@ -27,10 +27,10 @@ const ReviewTab = () => {
       </div>
       <div className="review_Slider">
         <div className="Slider_Custom_btn next">
-          <button onClick={() => slider?.current?.slickNext()}>
+          <button onClick={() => slider?.current?.slickPrev()}>
             <FiChevronLeft size={24} />
           </button>
-          <button onClick={() => slider?.current?.slickPrev()}>
+          <button onClick={() => slider?.current?.slickNext()}>
             <FiChevronRight size={24} />
           </button>
         </div>
@@ -72,7 +72,7 @@ const ReviewTab = () => {
                   <div className="posted_on">
                     <FcGoogle size={24} />
                     <small>posted on</small>
-                    <a href="#">{val?.postedOn}</a>
+                    <a href="https://www.google.com/maps/place/Orail+Services+-+OptigoApps/@21.1806865,72.8169049,17z/data=!3m1!5s0x3be04e43afc9f70b:0x67cbd25f468c1b2!4m8!3m7!1s0x3be04e438cc948fb:0x5712a989b70ef3a2!8m2!3d21.1806815!4d72.8194798!9m1!1b1!16s%2Fg%2F1thx71nk?entry=ttu" target="_blank">{val?.postedOn}</a>
                     <hr />
                   </div>
                 </div>

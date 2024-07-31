@@ -223,7 +223,7 @@ const Payment = () => {
                         __html: decodeEntities(CurrencyData),
                       }}
                     />
-                    {taxAmmount + finalTotal}
+                    {(taxAmmount + finalTotal).toFixed(2)}
                   </p>
                 </div>
               </div>

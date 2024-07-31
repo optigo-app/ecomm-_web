@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import "./PrivacyPolicy.scss";
 import { Link } from "react-router-dom";
-export default function PrivacyPolicy() {
+export default function QualityCertification() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/privacy.html`)
+    fetch(`${storImagePath()}/html/quality-certification.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -22,15 +21,12 @@ export default function PrivacyPolicy() {
       top : 0
     })
   },[])
-
   return (
     <div className="hoq_privacyPolicy">
-      <div>
-        <div
-          className="privacy-policy"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
-      </div>
+      <div
+        className="privacy-policy"
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
       <div className="back-to-home">
         <Link to={"/"}>Back to Home</Link>
       </div>

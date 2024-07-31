@@ -23,9 +23,9 @@ const RelatedProduct = ({
               className="TabCard_main"
               onClick={() => handleMoveToDetail(hoq)}
             >
-              <div className="new">
+              {/* <div className="new">
                 <p>new</p>
-              </div>
+              </div> */}
               <div className="cardhover">
                 <img
                   src={
