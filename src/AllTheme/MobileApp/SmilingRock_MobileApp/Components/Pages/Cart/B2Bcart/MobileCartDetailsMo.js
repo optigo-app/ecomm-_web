@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button } from '@mui/material';
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
+import { useRecoilState } from 'recoil';
+import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -11,6 +13,7 @@ const MobileCartDetails = ({
   qtyCount,
   handleIncrement,
   handleDecrement,
+  setOpenMobileModal,
   multiSelect,
   handleAddReamrk,
   productRemark,
@@ -39,6 +42,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -53,6 +57,14 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
+
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg === 'success') {
+      setSnackbarOpen(true);
+    }
+  }
 
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -177,17 +189,18 @@ const MobileCartDetails = ({
                         ),
                       }}
                     /> */}
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
-                  <Skeleton className='smrmo_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='smrmo_CartSkelton' variant="text" width="50%" animation="wave" />
                 )}
               </div>
             }
           </div>
           <div className='smrmo_UpdateCartBtn'>
-            <Button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+            <Button className="smrmo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
+
           </div>
           <div style={{ color: '#7d7f85', position: 'absolute', top: 20, right: 20 }} onClick={handleClose}>
             <CloseIcon />

@@ -1116,7 +1116,7 @@ const ProductList = () => {
   // };
 
   const handleRangeFilterApi = async (Rangeval) => {
-
+    setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -1133,6 +1133,7 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterCountStatus(false);
         }
         return res;
       })

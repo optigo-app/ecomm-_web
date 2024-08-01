@@ -29,6 +29,8 @@ const Payment = () => {
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
+    const [storeInitData, setStoreInitData] = useState();
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     const setCartCountVal = useSetRecoilState(smrMA_CartCount);
     const islogin = useRecoilValue(smrMA_loginState);
@@ -40,6 +42,12 @@ const Payment = () => {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    
+  useEffect(() => {
+    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInitData(storeinitData)
+  }, [])
 
     const handleRemarkChangeInternal = (e) => {
         setOrderRemark(e.target.value);
@@ -304,32 +312,31 @@ const Payment = () => {
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
                                                 <p className='orderSubTitle'>Subtotal</p>
                                                 <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
-                                                    <span
+                                                    {/* <span
                                                         className="currencyFont"
                                                         dangerouslySetInnerHTML={{
                                                             __html: decodeEntities(
                                                                 CurrencyData
                                                             ),
                                                         }}
-                                                    />
+                                                    /> */}
+                                                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                                                     {finalTotal}
                                                 </p>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
                                                 <p className='orderSubTitle'>Estimated Tax</p>
-                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" dangerouslySetInnerHTML={{
-                                                    __html: decodeEntities(
-                                                        CurrencyData
-                                                    ),
-                                                }} />{taxAmmount}</p>
+                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont"/>
+                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                {taxAmmount}
+                                                </p>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                                                 <p className='orderSubTitle'>Estimated Total</p>
-                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" dangerouslySetInnerHTML={{
-                                                    __html: decodeEntities(
-                                                        CurrencyData
-                                                    ),
-                                                }} />{taxAmmount + finalTotal}</p>
+                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
+                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                {taxAmmount + finalTotal}
+                                                </p>
                                             </div>
                                         </div>
                                         <div className='deliveryShiipingMain'>
