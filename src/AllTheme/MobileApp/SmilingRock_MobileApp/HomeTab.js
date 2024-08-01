@@ -185,14 +185,16 @@ const styles = {
     fontSize: '20px',
   },
   activeIcon: {
-    color: '#0000ff78',
+    color: 'rgb(214 176 139)',
+    // color: '#0000ff78',
     fontSize: '20px',
   },
   text: {
     fontSize: '12px',
   },
   activeText: {
-    color: '#0000ff78',
+    color: 'rgb(214 176 139)',
+    // color: '#0000ff78',
     fontSize: '12px',
     marginBottom: '-5px',
     paddingBlock: '5px'
