@@ -87,11 +87,11 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/PrivacyPolicy" ||
         location.pathname === "/DeliveryShipping" ||
         location.pathname === "/TermsCondition" ||
+        location.pathname === "/Menu" ||
         location.pathname === "/HelpCenter" ||
         location.pathname === "/Coupons" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
-        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
