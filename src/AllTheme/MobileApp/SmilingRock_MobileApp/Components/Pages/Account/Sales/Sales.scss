@@ -130,3 +130,20 @@
         width: 60%;
     }
 }
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+
+  .pd_s_mapp  .MuiInputBase-root{
+
+    margin: 0px!important;
+  }
+
+  .pd_s_mapp .MuiTablePagination-actions{
+
+    margin: 0px!important;
+  }

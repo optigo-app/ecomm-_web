@@ -57,7 +57,7 @@ const MobViewHeader = (props) => {
                     </div>
                 </div>
             </div> */}
-            <div className='w-100 p-1 d-flex align-items-center justify-content-between'>
+            <div className='w-100 p-1 d-flex align-items-center h-100 justify-content-between' style={{minHeight:'60px'}}>
                 <div onClick={() => naviagation(-1)}><ArrowBackIosIcon sx={{color:'#7d7f85', paddingLeft:'5px', width:'40px'}} /></div>
                 <div className='proptitle'>{props?.title}</div>
                 <div>&nbsp;&nbsp;&nbsp;</div>

@@ -538,7 +538,9 @@ const DesignWiseSalesReport = () => {
 
     return (
         <>
-        <MobViewHeader title="Design Wise Report" />
+        <div className='sticky-header'>
+            <MobViewHeader title="Design Wise Report" />
+        </div>
             <Box className="designWiseSalesReport mt-2  ">
                 <Accordion>
                     <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
