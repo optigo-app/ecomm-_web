@@ -266,7 +266,8 @@ const useCart = () => {
       if (resStatus?.msg == "success") {
         setOpenMobileModal(false);
         setHandleUpdate(resStatus)
-        toast.success('Cart Updated Successfully')
+        // toast.success('Cart Updated Successfully')
+        return resStatus;
       } else {
         console.log('Failed to update product or product not found');
       }

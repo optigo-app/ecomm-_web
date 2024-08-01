@@ -51,7 +51,7 @@ const CartItem = ({
                     <p>{cartData?.description}</p>
                 </div>
             </td>
-            <td className="price">
+            <td className="Dt_Cartprice">
                 {storeInitData?.IsPriceShow == 1 &&
                     <span>
                         {/* <span
