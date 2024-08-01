@@ -13,6 +13,7 @@ import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
   const {
@@ -62,6 +63,7 @@ const Wishlist = () => {
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
+      toast.success("All wishlist items added in cart")
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       })

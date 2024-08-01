@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, useMediaQuery } from '@mui/material';
+import { Button, Grid, Snackbar, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
@@ -27,6 +27,7 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -37,7 +38,7 @@ const CartItem = ({
     setDialogOpen(true);
   };
 
-  const handleConfirmRemove = async() => {
+  const handleConfirmRemove = async () => {
     setDialogOpen(false);
     const returnValue = await onRemove(item);
     if (returnValue?.msg == "success") {
@@ -53,6 +54,21 @@ const CartItem = ({
 
   const isLargeScreen = useMediaQuery('(max-width:890px)');
   const ismediumScreen = useMediaQuery('(min-width:1780px)');
+
+  const handleUpdateModal = (item) => {
+    if (item?.StockId != 0) {
+      setShowToast(true);
+    } else {
+      onSelect(item);
+    }
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowToast(false);
+  };
 
   return (
     <Grid
@@ -77,21 +93,37 @@ const CartItem = ({
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div style={{marginRight: '5px' }}>
-                  <Typography variant="body2" className='smrmo_card-ContentData'>
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
-                  <Typography variant="body2" className='smrmo_card-ContentData'>
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
+                <div style={{ marginRight: '5px' }}>
+                  {storeInitData?.IsGrossWeight == 1 &&
+                    <Typography variant="body2" className='smrmo_card-ContentData'>
+                      GWT: {(item?.Gwt || 0).toFixed(3)}
+                    </Typography>
+                  }
+                  {Number(item?.Nwt) !== 0 && (
+                    <Typography variant="body2" className='smrmo_card-ContentData'>
+                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                    </Typography>
+                  )}
                 </div>
-                <div style={{marginRight: '5px' }}>
-                  <Typography variant="body2" className='smrmo_card-ContentData'>
-                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
-                  <Typography variant="body2" className='smrmo_card-ContentData'>
-                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
+                <div style={{ marginRight: '5px' }}>
+                  {storeInitData?.IsDiamondWeight == 1 &&
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                        <Typography variant="body2" className='smrmo_card-ContentData'>
+                          DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}
+                        </Typography>
+                      }
+                    </>
+                  }
+                  {storeInitData?.IsStoneWeight == 1 &&
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                        <Typography variant="body2" className='smrmo_card-ContentData'>
+                          CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0).toFixed(3)}{' '}
+                        </Typography>
+                      }
+                    </>
+                  }
                 </div>
               </div>
               <Box>
@@ -105,23 +137,30 @@ const CartItem = ({
                         ),
                       }}
                     /> */}
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {(item?.UnitCostWithMarkUp)}
                   </span>
                 }
+                <p className='smrMo_QuanittyP'>Qty: <span>{item?.Quantity}</span></p>
               </Box>
             </CardContent>
           </div>
-
+          {item?.StockId != 0 &&
+            <div className="smrMO_inStockbadgeDiv">
+              <span className="smrMO_inStockbadgeSpan">In Stock</span>
+            </div>
+          }
         </Box>
         <Box className="smrMo_cartbtngroupReRm">
-          <Button
-            className='smrMo_ItemUpdatebtn'
-            fullWidth
-            onClick={() => onSelect(item)}
-          >
-            Update
-          </Button>
+          {item?.StockId == 0 &&
+            <Button
+              className='smrMo_ItemUpdatebtn'
+              fullWidth
+              onClick={() => handleUpdateModal(item)}
+            >
+              Update
+            </Button>
+          }
           <Button
             className='smrMO_ReomoveCartbtn'
             onClick={() => handleRemoveAllDialog(item)}
@@ -138,6 +177,13 @@ const CartItem = ({
         onConfirm={handleConfirmRemove}
         title="Confirm"
         content="Are you sure you want to clear this Item?"
+      />
+      <Snackbar
+        open={showToast}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        message="Item in Stock"
+        className='smr_MoSnakbarTM'
       />
     </Grid>
   );

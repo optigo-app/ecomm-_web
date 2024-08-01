@@ -168,6 +168,7 @@
         .orderSubmmuryMain{
             background-color: rgb(245, 244, 244);
             padding: 15px;
+            margin-block: 25px;
         }
     
         .deliveryShiipingMain{
@@ -325,9 +326,9 @@
         // width: 180px;
         font-family: $primaryFontFamily !important;
         font-size: $fontSize3;
-        color: #000 !important;
+        color: #fff !important;
         font-weight: 600 !important;
-        background-color: #ffd814 !important;
+        background-color: rgb(214 176 139) !important;
         border: none;
         border-radius: none;
         cursor: pointer;
