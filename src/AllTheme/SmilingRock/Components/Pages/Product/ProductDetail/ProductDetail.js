@@ -899,7 +899,7 @@ const ProductDetail = () => {
     let pdImgList = [];
 
     if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
           singleProd?.designno +
