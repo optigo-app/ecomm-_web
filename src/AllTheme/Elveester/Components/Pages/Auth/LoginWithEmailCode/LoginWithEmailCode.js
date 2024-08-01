@@ -34,6 +34,7 @@ export default function LoginWithEmailCode() {
                     if (value === 'true') {
                         localStorage.setItem('LoginCodeEmail', 'false');
                         LoginWithEmailCodeAPI(email).then((response) => {
+                            console.log('response: ', response);
                             if (response.Data.Table1[0].stat === '1') {
                                 toast.success('OTP send Sucssessfully');
                             } else {

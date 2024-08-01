@@ -30,7 +30,8 @@ export const handleAddAddress = async(formData, FrontEnd_RegNo, customerid, stor
 
         // const encodedCombinedValue = btoa(combinedValue);
         const encodedCombinedValue = (combinedValue);
-        
+
+            
             const body = {
                     "con": `{\"id\":\"\",\"mode\":\"addAddress\",\"appuserid\":\"${data?.userid}\"}`,
                     "f": "Delivery (addAddress)",
@@ -61,6 +62,21 @@ export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, custome
             FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
             Customerid: `${customerid}`
         });
+        
+        const b = {
+            addrid: `${editId}`,
+            firstname: `${formData.firstName}`, 
+            lastname: `${formData.lastName}`, 
+            street: `${formData.address}`, 
+            addressprofile: `${formData.firstName + formData.lastName}`, 
+            city: `${formData.city}`, 
+            state: `${formData.state}`, 
+            country: `${formData.country}`, 
+            zip: `${formData.zipCode}`, 
+            mobileno: `${formData.mobileNo}`, 
+            FrontEnd_RegNo: `${FrontEnd_RegNo}`, 
+            Customerid: `${customerid}`
+        }
 
         const encodedCombinedValue = (combinedValue);
         const body = {
@@ -68,7 +84,6 @@ export const handleEditAddress = async(editId, formData, FrontEnd_RegNo, custome
             "f": "Delivery (EditAddress)",
             dp: encodedCombinedValue
         };
-        console.log(body);
         const response = await CommonAPI(body);
         return response;
 

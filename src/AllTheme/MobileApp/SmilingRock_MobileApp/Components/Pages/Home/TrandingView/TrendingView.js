@@ -140,40 +140,33 @@ const TrendingView = () => {
     }
 
     const renderSlides = () => {
+        if (!trandingViewData?.length) return null;
         const slides = [];
-        for (let i = 0; i < 5; i += 2) {
+        for (let i = 0; i < Math.min(trandingViewData?.length, 5); i += 2) {
             slides.push(
                 <div className='linkRingLove' key={i}>
                     <div>
                         <div className='linkLoveRing1' onClick={() => handleNavigation(trandingViewData[i]?.designno, trandingViewData[i]?.autocode, trandingViewData[i]?.TitleLine)}>
-                            <img src={imageUrls[i]} className='likingLoveImages' alt='Trending Item' />
+                            <img src={imageUrls[i] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                         </div>
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
                             <p className='smr_bestSellerPrice'>
-                                <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(storeInit?.Currencysymbol),
-                                    }}
-                                /> {trandingViewData[i]?.UnitCostWithMarkUp}
+                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                {trandingViewData[i]?.UnitCostWithMarkUp}
                             </p>
                         </div>
                     </div>
                     {trandingViewData[i + 1] && (
                         <div>
                             <div className='linkLoveRing2' onClick={() => handleNavigation(trandingViewData[i + 1]?.designno, trandingViewData[i + 1]?.autocode, trandingViewData[i + 1]?.TitleLine)}>
-                                <img src={imageUrls[i + 1]} className='likingLoveImages' alt='Trending Item' />
+                                <img src={imageUrls[i + 1] || imageNotFound} className='likingLoveImages' alt='Trending Item' />
                             </div>
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>
                                 <p className='smr_bestSellerPrice'>
-                                    <span
-                                        className="smr_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(storeInit?.Currencysymbol),
-                                        }}
-                                    /> {trandingViewData[i + 1]?.UnitCostWithMarkUp}
+                                    <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                    {trandingViewData[i + 1]?.UnitCostWithMarkUp}
                                 </p>
                             </div>
                         </div>

@@ -21,7 +21,7 @@ const History = () => {
     return (
         <div className="elv_history_maindiv">
             <div className="elv_history_div">
-                <img className='elv_history_mainImg' src={`${storImagePath()}images/HomePage/History/HistoryMainBanner.jpg`} alt="aboutus.png" />
+                <img className='elv_history_mainImg' src={`${storImagePath()}/images/HomePage/History/HistoryMainBanner.jpg`} alt="aboutus.png" />
                 <div className='elv_history_details_div'>
                     <h3 className='elv_history_head_title'>our history</h3>
                     <div className='elv_history_details'>
@@ -52,7 +52,7 @@ const History = () => {
                         </div>
                         <div className="elv_history_journey_2">
                             <div>
-                                <img className='elv_history_jor_img' src={`${storImagePath()}images/HomePage/History/HistorySubBanner1.jpg`} alt="" />
+                                <img className='elv_history_jor_img' src={`${storImagePath()}/images/HomePage/History/HistorySubBanner1.jpg`} alt="" />
                             </div>
                         </div>
                     </div>

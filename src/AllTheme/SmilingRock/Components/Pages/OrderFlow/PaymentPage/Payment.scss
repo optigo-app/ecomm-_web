@@ -79,7 +79,7 @@
         color: $btn1hoverFontColor;
         background-color: $btn1ActivebgColor;
         border: 1px solid $btn1FontColor;
-        border-radius: 6px;
+        border-radius: 0px !important;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
 

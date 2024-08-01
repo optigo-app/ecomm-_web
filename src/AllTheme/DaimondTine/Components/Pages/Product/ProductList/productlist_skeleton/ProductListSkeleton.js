@@ -45,7 +45,7 @@ const ProductListSkeleton = ({fromPage}) => {
                 <Grid item xs={isDesktop ? 12 :(fromPage === "Prodlist"? 12 : 9)} container spacing={2}>
                     {cardsArray.map((item) => (
                         <Grid item xs={isMobile ? 6 : 4} key={item}>
-                            <Card className={fromPage === "Prodlist" ? "skeltoncards_listpage":'skeltoncards'}>
+                            <Card className={fromPage === "Prodlist" ? "dt_skeltoncards_listpage":'dt_skeltoncards'}>
                                 <CardMedia style={{width:'100%', height:'40vh'}} className='cardMainSkeleton'>
                                     <Skeleton className="pSkelton" animation="wave" variant="rect" width={'100%'} height='40vh' />
                                 </CardMedia>

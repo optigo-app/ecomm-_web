@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import './smr_RemarkModal.scss';
 
 const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
+
   return (
     <Modal
       open={open}
@@ -20,7 +21,8 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: 500,
+          maxWidth: 800,
+          width:500,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,

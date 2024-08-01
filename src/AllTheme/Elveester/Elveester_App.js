@@ -24,6 +24,8 @@ import History from './Components/Pages/History/History'
 import Terms from './Components/Pages/Terms/Terms'
 import CustomerCare from './Components/Pages/Customercare/CustomerCare'
 import Customize from './Components/Pages/Customize/Customize'
+import Account from './Components/Pages/Account/Account'
+import Privacy from './Components/Pages/Privacy/Privacy'
 
 const SmilingRock_App = () => {
 
@@ -68,6 +70,8 @@ const SmilingRock_App = () => {
                 <Route path="/term&condition" element={<Terms />} />
                 <Route path="/customerServices" element={<CustomerCare />} />
                 <Route path="/customize" element={<Customize />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/privacy" element={<Privacy />} />
             </Routes>
             {showFooter && <Footer />}
         </div>

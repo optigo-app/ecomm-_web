@@ -234,6 +234,7 @@
 
       .cart-items {
         width: 100%;
+
         table {
 
           th,
@@ -280,7 +281,7 @@
   }
 }
 
-@media (max-width: 690px) {
+@media (max-width: 700px) {
   .cart {
     flex-direction: column;
 
@@ -291,6 +292,7 @@
         td {
           padding: 5px;
         }
+
         .product {
           display: flex;
           align-items: center;
@@ -317,4 +319,74 @@
       }
     }
   }
+}
+
+@media (max-width: 699px) {
+  .dt_MainCartDiv {
+    .dt_res-card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .dt_res-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow:none;
+      max-width: 300px;
+      text-align: center;
+      flex: 1 1 calc(50% - 32px);
+    }
+
+    .dt_res-card-image {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .dt_res-card-title {
+      font-size: 1.25em;
+      margin: 12px 0;
+    }
+
+    .dt_res-card-price {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .dt_res-card-qty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .dt_res-card-qty button {
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .dt_res-card-qty span {
+      margin: 0 8px;
+    }
+
+    .dt_res-card-button {
+      background: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+  }
+
 }

@@ -31,7 +31,7 @@ function Home() {
           {/* <TheDifference />
           <PromotionBaner1 /> */}
           {/* {localData?.IsHomeAlbum === 1 &&  */}
-          <Album />
+          {/* <Album /> */}
           {/* } */}
           {/* {localData?.IsHomeTrending === 1 && <TrendingView />}
           {localData?.IsHomeNewArrival === 1 && <NewArrival />}

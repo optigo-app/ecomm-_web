@@ -129,7 +129,7 @@ const ManageAddress = () => {
             errors.firstName = 'First Name too short';
         } else if(formData.firstName?.length > 25){
             errors.firstName = 'FIrst Name too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
             errors.firstName = 'First Name must contain only letters';
         }
 
@@ -139,7 +139,7 @@ const ManageAddress = () => {
             errors.lastName = 'Last Name is too short';
         } else if(formData.lastName?.length > 25){
             errors.lastName = 'Last Name is too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
             errors.lastName = 'Last Name must contain only letters';
         }
     
@@ -165,17 +165,17 @@ const ManageAddress = () => {
         // }
         if (!formData.country.trim()) {
             errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
             errors.country = 'Country Name must contain only letters';
         }
         if (!formData.state.trim()) {
             errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
             errors.state = 'State Name must contain only letters';
         }
         if (!formData.city.trim()) {
             errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
             errors.city = 'City Name must contain only letters';
         }
     
@@ -244,6 +244,9 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -276,6 +279,7 @@ const ManageAddress = () => {
     
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
+                    
                     fetchData(); // Assuming fetchData updates necessary data after addition
                 } else {
                     toast.error('Error adding');

@@ -23,7 +23,7 @@ const AboutUs = () => {
     return (
         <div className="elv_aboutus_maindiv">
             <div className="elv_aboutus_div">
-                <img className='elv_aboutus_mainImg' src={`${storImagePath()}images/HomePage/AboutUs/AboutUsMainBannerImg.jpg`} alt="aboutus.jpg" />
+                <img className='elv_aboutus_mainImg' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsMainBannerImg.jpg`} alt="aboutus.jpg" />
                 <div className='elv_aboutus_details_div'>
                     <h2 className='elv_aboutus_head_title'>ABOUT US</h2>
                     <div className='elv_aboutus_details'>
@@ -80,7 +80,7 @@ const AboutUs = () => {
                         </div>
                         <div className="elv_aboutus_details_rightside">
                             <div style={{ marginRight: '5%'}}>
-                               <img className='elv_aboutus_sec_img' src={`${storImagePath()}images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" />
+                               <img className='elv_aboutus_sec_img' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" />
                             </div>
                         </div>
                     </div>

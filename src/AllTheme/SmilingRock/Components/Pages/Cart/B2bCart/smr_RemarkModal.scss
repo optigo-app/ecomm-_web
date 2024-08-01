@@ -44,6 +44,7 @@ $cartUpdateBtncolor: #b1b1b1;
 @media(max-width:445px) {
     .smr_remarkModalBox {
         padding: 20px 8px 20px 8px !important;
+        width: 300px;
 
         h2 {
             color: $titleColor !important;
