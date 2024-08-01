@@ -187,9 +187,10 @@ const Menu = () => {
                         <button style={{
                             height: '35px',
                             width: '150px',
-                            backgroundColor: '#e1e1e1',
+                            backgroundColor: 'rgb(214 176 139)',
                             border: 'none',
                             outline: 'none',
+                            color: 'white',
                             fontSize: '18px',
                             fontWeight: 500,
                             borderRadius: '5px',
@@ -209,10 +210,11 @@ const Menu = () => {
                                 className='tabMainSmilingMobile'
                             >
                                 {menuItems.map((item, index) => (
-                                    <Tab label={item.menuname} onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")} />
+                                    <Tab label={item.menuname} style={{fontSize: '16px'}} onClick={() => handleLoginMenuClickMainMenu(item.menuname, null, "iconclicked")} />
                                 ))}
                             </Tabs>
                         </div>
+                        
 
 
 
@@ -224,7 +226,7 @@ const Menu = () => {
                         className='smrMA_menuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
-                            <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
+                            <TabPanel value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px' }}>
                                 {selectedMenu === menuItem.menuname && (
                                     <>
                                         <ButtonBase

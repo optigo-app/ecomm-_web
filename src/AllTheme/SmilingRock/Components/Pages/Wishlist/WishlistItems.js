@@ -11,6 +11,7 @@ import { CartCount, WishCount } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const WishlistItems = ({
     item,
@@ -36,6 +37,7 @@ const WishlistItems = ({
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
+            toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
             });

@@ -171,7 +171,9 @@ export default function ChangePassword() {
         <>
         <ToastContainer />
 
-        <MobViewHeader title="Change Your Password" />
+        <div className='sticky-header'>
+            <MobViewHeader title="Change Your Password" />
+        </div>
         
         <div className='p-3 pt-3'>
             {isLoading && (

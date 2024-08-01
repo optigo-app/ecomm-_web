@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './AccountDT.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import Footer from './../Home/Footer/Footer';
+import Footer from '../Home/Footer/Footer';
 
 
 import Sales from './Sales/Sales';

@@ -558,7 +558,9 @@ const AccountLedger = () => {
 
   return (
     <div>
-        <MobViewHeader title="Ledger" />
+        <div className='sticky-header'>
+            <MobViewHeader title="Ledger" />
+        </div>
         <div>
             <div className='border'>
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p-2 ps-4 border-bottom fs_Al_mq' style={{letterSpacing:'1px'}}>

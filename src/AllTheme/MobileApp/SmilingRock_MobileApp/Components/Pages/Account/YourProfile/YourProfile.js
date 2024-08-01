@@ -229,8 +229,8 @@ export default function YourProfile() {
     // };
     
     const handleSubmit = async (event) => {
-        event.preventDefault();
-
+        event.preventDefault()
+        console.log(event);
         if (validate()) {
             
             setEditMode(false);
@@ -241,8 +241,8 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
+                    console.log('response yp mapp', response);
                     toast.success('Edit success');
                     setUserData(editedUserData);
                     localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
@@ -296,6 +296,10 @@ export default function YourProfile() {
         
     }
 
+    const handleCancel = () => {
+        setEditMode(false)
+        setErrors({});
+    }
 
     return (
         <div>
@@ -306,8 +310,9 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-
-            <MobViewHeader title="Your Profile" />
+             <div className="sticky-header">
+                <MobViewHeader title="Your Profile" />
+             </div>
 
             {/* <div className='comptitle fw-bold'>Your Profile</div> */}
 
@@ -397,7 +402,7 @@ export default function YourProfile() {
             </div>
 
             <Modal open={editMode} onClose={handleClose} style={{ padding: '10px' }} >
-                <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
+                <div className='smilingEditProfilePopup pop_yp_MAPP' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24 }}>
                     <form  onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
@@ -455,23 +460,14 @@ export default function YourProfile() {
                                 />
                             </>
                         )}
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
+                            <button type='submit'  className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                            <button onClick={() => handleCancel()} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        </div>
                     </form>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
-                        <button type='submit' className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
-                    </div>
+
                 </div>
             </Modal>
         </div>
     );
 }
-
-// import React from 'react'
-
-// const YourProfile = () => {
-//   return (
-//     <div>YourProfile</div>
-//   )
-// }
-
-// export default YourProfile

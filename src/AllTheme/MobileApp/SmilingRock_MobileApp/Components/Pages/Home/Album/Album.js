@@ -53,7 +53,7 @@ const Album = () => {
 
   return (
     <div className="smrMA_alubmMainDiv">
-      {/* <p className="smr_albumTitle">ALBUM</p> */}
+      <p className="smr_albumTitle">Album</p>
       <div className="smr_albumALL_div">
         {albumData?.slice(0, 4).map((data, index) => (
           <div

@@ -114,8 +114,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .smrMO_Placeorderbtn {
       font-family: $primaryFontFamily !important;
-      background-color: #ffd814 !important;
-      color: $titleColor !important;
+      background-color: rgb(214 176 139)!important;
+      color: #fff !important;
       font-size: $fontSize2 !important;
       border: none !important;
       outline: none !important;
@@ -137,6 +137,8 @@ $cartUpdateBtncolor: #b1b1b1;
   .smrMo_GridCardComponent {
     padding: 5px 15px;
   }
+
+ 
 
   @media (min-width: 1440px) {
     .smrmo_mui_CartBox {
@@ -701,7 +703,7 @@ $cartUpdateBtncolor: #b1b1b1;
   .smrmo_DesignNoTExt {
     color: $titleColor;
     font-weight: bold;
-    font-size: $fontSize1;
+    font-size: $fontSize2;
     font-family: $primaryFontFamily !important;
   }
 
@@ -729,6 +731,23 @@ $cartUpdateBtncolor: #b1b1b1;
   font-size: 10px !important;
 }
 
+.smrMo_QuanittyP{
+  color: $titleColor;
+  font-weight: bold;
+  font-size: $fontSize1;
+  font-family: $primaryFontFamily !important;
+}
+
+.smrMO_inStockbadgeDiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 128, 0, 0.2705882353);
+  color: black;
+  padding: 2px 5px;
+  font-size: $fontSize0;
+  font-weight: bold;
+}
 
 // update cart modal
 
@@ -979,5 +998,19 @@ $cartUpdateBtncolor: #b1b1b1;
     width: 95%;
     max-width: 100%;
     min-width: 0;
+  }
+  .smr_MoSnakbarTM{
+    bottom: 120px !important;
+
+    .css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: $fontSize0;
+      padding: 0;
+      max-width: 170px;
+      margin: auto;
+      border-radius: 20px;
+    }
   }
 }

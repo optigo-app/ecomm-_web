@@ -1,4 +1,3 @@
-
 @import '../../scss/variable.scss';
 
 .smrMA_menuPageMain {
@@ -12,14 +11,21 @@
         font-weight: 500;
     }
 
-    .smrMA_menuViewTitle{
+
+
+    .tabMainSmilingMobile .Mui-selected {
+        color: black !important;
+        font-weight: 600 !important;
+    }
+
+    .smrMA_menuViewTitle {
         font-family: $primaryFontFamily;
         font-weight: 600;
     }
 
-    .smrMA_SuMenuTitle{
+    .smrMA_SuMenuTitle {
         height: 30px;
-        margin: 0px 0px 0px 15px!important;
+        margin: 0px 0px 0px 15px !important;
         display: flex;
         font-size: 17px;
         align-items: center;
@@ -29,13 +35,12 @@
     }
 
     .tabMainSmilingMobile .MuiTabs-indicator {
-        background-color: rgb(211, 211, 209) !important;
-        color: rgb(211, 211, 209) !important;
-
+       display: none !important;
     }
 
     .tabMainMenu {
-        margin-top: 10px;
+        margin-top: 60px;
+        border-bottom: 1px solid lightgray;
     }
 
     .smrMA_menuMainSwipe {
@@ -47,7 +52,7 @@
         display: none !important;
     }
 
-    .smrMA_menuMainTitle{
+    .smrMA_menuMainTitle {
         font-family: $primaryFontFamily;
     }
 }

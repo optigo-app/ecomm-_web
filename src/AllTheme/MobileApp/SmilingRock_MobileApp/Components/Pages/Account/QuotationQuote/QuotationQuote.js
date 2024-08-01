@@ -446,7 +446,9 @@ const QuotationQuote = () => {
 
     return (
         <>
-        <MobViewHeader title="Quotation" />
+        <div className="sticky-header">   
+            <MobViewHeader title="Quotation" />
+        </div>
             <Box className='smilingSavedAddressMain salesApiSectionQMA headSetQMAMain' sx={{ padding: "20px", }}>
             <Accordion sx={{marginBottom:'20px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>

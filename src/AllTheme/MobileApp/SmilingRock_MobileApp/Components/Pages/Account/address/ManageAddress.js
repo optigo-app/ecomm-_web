@@ -484,7 +484,9 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-        <MobViewHeader title="Manage Address" />
+        <div className="sticky-header">
+            <MobViewHeader title="Manage Address" />
+        </div>
             <div>
             {/* <p style={{
                     textAlign: 'center',
