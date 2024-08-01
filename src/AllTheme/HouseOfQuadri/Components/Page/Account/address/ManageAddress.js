@@ -244,6 +244,9 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -276,6 +279,7 @@ const ManageAddress = () => {
     
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
+                    
                     fetchData(); // Assuming fetchData updates necessary data after addition
                 } else {
                     toast.error('Error adding');

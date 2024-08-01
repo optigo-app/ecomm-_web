@@ -209,7 +209,6 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
@@ -224,7 +223,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            toast.error('Please fill necessary details.');
         }
     };
 
@@ -362,6 +361,12 @@ export default function YourProfile() {
         }
         
     }
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setErrors({});
+    }
+
 
     return (
         <div className='smr_yourProfile'>
@@ -517,7 +522,7 @@ export default function YourProfile() {
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
                         {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                     </form>
                 </div>

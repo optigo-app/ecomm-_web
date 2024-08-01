@@ -1900,6 +1900,7 @@ const ProductList = () => {
         <div className="smr_outerContain">
           <div className="smrMA_whiteInnerContain ">
             {
+            
             isProdLoading ? 
             // true ? 
             (

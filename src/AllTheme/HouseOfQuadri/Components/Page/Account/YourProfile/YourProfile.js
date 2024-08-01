@@ -68,6 +68,7 @@ export default function YourProfile() {
         
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
+            console.log(defaultAddress);
             if (defaultAddress) {
                 const updatedUserData = {
                     ...parsedUserData,
@@ -224,7 +225,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            toast.error('Please fill necessary details.');
         }
     };
 
@@ -363,6 +364,12 @@ export default function YourProfile() {
     useEffect(() => {
         fetchAddress();
     }, [])
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setErrors({});
+    }
+
 
     return (
         <div className='hoq_yourProfile'>
@@ -518,7 +525,7 @@ export default function YourProfile() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
                         {/* <button onClick={handleSave} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='hoq_SmilingAddEditAddrwess' >Save</button>
-                        <button onClick={() => setEditMode(false)} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
+                        <button onClick={() => handleCancel()} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
                     </div>
                     </form>
                 </div>
