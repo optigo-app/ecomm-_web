@@ -105,7 +105,8 @@ const NewAddressModal = ({
                             error={!!errors.zipCode}
                             helperText={errors.zipCode}
                             fullWidth
-                            type='number'
+                            type='text'
+                            inputProps={{ maxLength: 6 }}
                         />
                         <TextField
                             id="outlined-basic"

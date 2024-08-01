@@ -125,21 +125,21 @@ const ManageAddress = () => {
         // Validate each required field
         if (!formData.firstName.trim()) {
             errors.firstName = 'First Name is required';
-        } else if(formData.firstName?.length < 3){
+        } else if(formData.firstName?.length < 2){
             errors.firstName = 'First Name too short';
         } else if(formData.firstName?.length > 25){
             errors.firstName = 'FIrst Name too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
             errors.firstName = 'First Name must contain only letters';
         }
 
         if (!formData.lastName.trim()) {
             errors.lastName = 'Last Name is required';
-        } else if(formData.lastName?.length < 3){
+        } else if(formData.lastName?.length < 2){
             errors.lastName = 'Last Name is too short';
         } else if(formData.lastName?.length > 25){
             errors.lastName = 'Last Name is too long';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
             errors.lastName = 'Last Name must contain only letters';
         }
     
@@ -165,17 +165,17 @@ const ManageAddress = () => {
         // }
         if (!formData.country.trim()) {
             errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
             errors.country = 'Country Name must contain only letters';
         }
         if (!formData.state.trim()) {
             errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
             errors.state = 'State Name must contain only letters';
         }
         if (!formData.city.trim()) {
             errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
             errors.city = 'City Name must contain only letters';
         }
     
@@ -244,6 +244,9 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -276,6 +279,7 @@ const ManageAddress = () => {
     
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
+                    
                     fetchData(); // Assuming fetchData updates necessary data after addition
                 } else {
                     toast.error('Error adding');
@@ -321,7 +325,7 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.firstName = 'First Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.firstName = 'First Name is too long';
@@ -334,7 +338,7 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
-                } else if(value?.length < 3){
+                } else if(value?.length < 2){
                     errorsCopy.lastName = 'Last Name is too short';
                 } else if(value?.length > 25){
                     errorsCopy.lastName = 'Last Name is too long';
@@ -449,7 +453,7 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+console.log("res",response)
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -498,15 +502,17 @@ const ManageAddress = () => {
 
     return (
         <>
-        <ToastContainer />
+ <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
             <div>
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#f6efe6',
-                    color: "rgba(31, 25, 25, 0.7)",
+                    background: '#f6f6f6',
+                    color: "#7D7F89",
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
@@ -562,7 +568,7 @@ const ManageAddress = () => {
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
                                                 <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
-                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
+                                                        background: "#c20000", maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
                                                     }}
                                                     onClick={() => handleOpen(item, index)}
@@ -619,7 +625,7 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
+                <Dialog open={open} onClose={handleClose} sx={{zIndex : 999999}} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -7,7 +7,6 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
         const userData = JSON.parse(localStorage.getItem("loginUserDetail")) ?? ""
         let userLogin = localStorage.getItem('LoginUser')
 
-
         const combinedValue = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
             "Customerid": `${customerID}`,

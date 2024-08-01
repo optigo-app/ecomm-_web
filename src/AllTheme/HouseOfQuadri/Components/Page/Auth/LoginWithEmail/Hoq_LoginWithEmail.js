@@ -103,7 +103,9 @@ export default function ContinueWithEmail() {
 
   return (
     <div className="Hoq_continuemail">
-      <ToastContainer />
+        <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className="loadingBarManage" />

@@ -13,7 +13,7 @@ const ImageBannerTab = () => {
           />
         </div>
         <button>
-          <a href={`${storImagePath()}/images/HomePage/others/pdf.pdf`}>
+          <a href={`${storImagePath()}/images/certificate/guide.pdf`}>
             View sample certificate
           </a>
         </button>
@@ -42,7 +42,7 @@ const MobileImageBannerTab = () => {
       </p>
       <button>Read More</button>
       <button>
-      <a href={`${storImagePath()}/images/HomePage/others/pdf.pdf`}>
+        <a href={`${storImagePath()}/images/certificate/guide.pdf`}>
           View sample certificate
         </a>
       </button>

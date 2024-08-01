@@ -3,6 +3,7 @@ import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormCon
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
+import Toast from '../../ToastComponent/Toast';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -39,6 +40,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -53,6 +55,16 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg == "success") {
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+    }
+  }
 
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -177,7 +189,7 @@ const MobileCartDetails = ({
                         ),
                       }}
                     /> */}
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
@@ -187,12 +199,27 @@ const MobileCartDetails = ({
             }
           </div>
           <div className='smrmo_UpdateCartBtn'>
-            <Button className="smrmo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+            <Button className="smrmo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
+
           </div>
           <div style={{ color: '#7d7f85', position: 'absolute', top: 20, right: 20 }} onClick={handleClose}>
             <CloseIcon />
           </div>
         </div>
+      {showToast && (
+        <Toast
+          message="This is a toast message!"
+          show={showToast}
+          duration={5000}
+          onClose={() => setShowToast(false)}
+          bgColor="#333"
+          textColor="#fff"
+          width="300px"
+          fontSize="18px"
+          padding="20px"
+          borderRadius="10px"
+        />
+      )}
       </div>
     </Modal>
   );

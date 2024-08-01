@@ -29,12 +29,9 @@ const ProductDetail = () => {
   console.log('singleProd1: ', singleProd1);
   console.log('singleProd: ', singleProd);
   const [diaList, setDiaList] = useState([]);
-  console.log('diaList: ', diaList);
   const [csList, setCsList] = useState([]);
-  console.log('csList: ', csList);
   const [netWTData, setnetWTData] = useState([])
   const [SizeCombo, setSizeCombo] = useState([]);
-  console.log('SizeCombo: ', SizeCombo);
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
   const [metalType, setMetalType] = useState();
   const [isImageload, setIsImageLoad] = useState(true);
@@ -99,7 +96,6 @@ const ProductDetail = () => {
   useEffect(() => {
     if (metalTypeCombo.length) {
       const mtType = metalTypeCombo.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
-      console.log("fhffryfryfryfgryfgyr", mtType)
       setMetalType(mtType);
     }
     if (metalColorCombo.length) {
@@ -161,7 +157,6 @@ const ProductDetail = () => {
         } catch (error) {
           console.log("err", error)
         }
-        console.log("addtocart", cartFlag)
         setAddToCartFlag(cartFlag);
       }
     }
@@ -176,7 +171,6 @@ const ProductDetail = () => {
         } catch (error) {
           console.log("err", error);
         }
-        console.log("rremovve add", cartFlag);
         setAddToCartFlag(cartFlag);
       }
     }
@@ -321,12 +315,9 @@ const ProductDetail = () => {
     }, 500)
   }, [singleProd])
 
-
   useEffect(() => {
     const navVal = location?.search.split('?p=')[1];
-    console.log(navVal)
     let decodeObj = decodeAndDecompress(navVal);
-    console.log(decodeObj)
 
     if (decodeObj) {
       setDecodeUrl(decodeObj)
@@ -367,7 +358,6 @@ const ProductDetail = () => {
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       }
-      console.log(obj)
 
       // setisPriceLoading(true)
 
@@ -380,12 +370,11 @@ const ProductDetail = () => {
       //   setisPriceLoading(false)
       // }
 
-      setnetWTData(res1?.pdResp?.rd2);
+      setnetWTData(res1?.pdList[0]);
       setDiaList(res1?.pdResp?.rd3)
       setCsList(res1?.pdResp?.rd4)
 
       let prod = res1?.pdList?.[0];
-      console.log('prod: ', prod);
 
       const res2 = await getSizeData(prod, cookie);
       if (res2) {
@@ -513,7 +502,6 @@ const ProductDetail = () => {
 
     let imgLink = storeInit?.DesignImageFol + (singleProd ?? singleProd1)?.designno + "_" + (thumbImgIndex + 1) + "_" + mcArr?.colorname + "." +
       (singleProd ?? singleProd1)?.ImageExtension;
-    console.log('imgLink: ', imgLink);
 
     setMetalWiseColorImg(imgLink);
 
@@ -560,7 +548,6 @@ const ProductDetail = () => {
 
     const pd = singleProd;
 
-    console.log(pd?.ImageCount)
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -590,7 +577,6 @@ const ProductDetail = () => {
     if (pdVideoList?.length > 0) {
       setPdVideoArr(pdVideoList)
     }
-    console.log('finalprodListimg: ', finalprodListimg);
 
     return finalprodListimg;
   }
@@ -606,7 +592,6 @@ const ProductDetail = () => {
   };
 
   const handleCustomChange = async (e, type) => {
-    console.log('type: ', type);
     let metalArr;
     let diaArr;
     let csArr;
@@ -616,7 +601,6 @@ const ProductDetail = () => {
       metalArr = mTypeLocal?.find((ele) => {
         return ele?.metaltype === e.target.value
       })?.Metalid;
-      console.log("efgrugfer", metalArr)
       setMetalType(e.target.value)
     }
     if (type === 'mc') {
@@ -627,7 +611,6 @@ const ProductDetail = () => {
         return ele?.Quality === e.target.value?.split(',')[0] &&
           ele?.color === e.target.value?.split(",")[1]
       })
-      console.log('diaArr: ', diaArr);
       setSelectDiaQc(e.target.value)
     }
     if (type === 'cs') {
@@ -635,7 +618,6 @@ const ProductDetail = () => {
         return ele?.Quality === e.target.value?.split(',')[0] &&
           ele?.color === e.target.value?.split(",")[1]
       })
-      console.log('csArr: ', csArr);
       setSelectCsQC(e.target.value)
     }
     if (type === "size") {
@@ -674,7 +656,6 @@ const ProductDetail = () => {
       csQc: `${csArr?.QualityId},${csArr?.ColorId}`
     }
 
-    console.log("obj prod2", obj)
 
     let prod = {
       a: singleProd?.autocode,
@@ -682,7 +663,7 @@ const ProductDetail = () => {
     }
 
     setisPriceLoading(true)
-    const res = await SingleProdListAPI(prod, size, obj, cookie)
+    const res = await SingleProdListAPI(prod, (size ?? sizeData), obj, cookie)
     if (res) {
       setSingleProd1(res?.pdList[0])
     }
@@ -690,7 +671,7 @@ const ProductDetail = () => {
     if (res?.pdList?.length > 0) {
       setisPriceLoading(false)
     }
-    setnetWTData(res?.pdResp?.rd2)
+    setnetWTData(res?.pdList[0])
     setDiaList(res?.pdResp?.rd3)
     setCsList(res?.pdResp?.rd4)
   }
@@ -707,6 +688,11 @@ const ProductDetail = () => {
     return SizeSorted
 
   }
+  useEffect(() => {
+    console.log('netWTData: ', netWTData);
+    console.log("first", singleProd1?.Nwt)
+  }, [])
+
 
   return (
     <div className='elv_ProductDetMain_div'>
@@ -732,7 +718,6 @@ const ProductDetail = () => {
                       style={{
                         width: "100%",
                         objectFit: "cover",
-                        marginTop: "40px",
                         height: "90%",
                         borderRadius: "8px",
                       }}
@@ -775,7 +760,7 @@ const ProductDetail = () => {
                       autoPlay={true}
                       loop={true}
                       className="elv_ProductDet_image_max1400"
-                      style={{ height: "70px", objectFit: "cover" }}
+                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                     />
                     <IoIosPlayCircle
                       style={{
@@ -783,6 +768,7 @@ const ProductDetail = () => {
                         color: "white",
                         width: "35px",
                         height: "35px",
+                        cursor: 'pointer',
                       }}
                     />
                   </div>
@@ -827,7 +813,7 @@ const ProductDetail = () => {
                     autoPlay={true}
                     loop={true}
                     className="smr_prod_thumb_img"
-                    style={{ height: "70px", objectFit: "cover" }}
+                    style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                   />
                   <IoIosPlayCircle
                     style={{
@@ -835,6 +821,7 @@ const ProductDetail = () => {
                       color: "white",
                       width: "35px",
                       height: "35px",
+                      cursor: 'pointer',
                     }}
                   />
                 </div>
@@ -858,7 +845,7 @@ const ProductDetail = () => {
                     style={{
                       width: "100%",
                       objectFit: "cover",
-                      marginTop: "40px",
+                      marginLeft: '3rem',
                       height: "90%",
                       borderRadius: "8px",
                     }}
@@ -889,7 +876,7 @@ const ProductDetail = () => {
                       style={{
                         width: "100%",
                         objectFit: "cover",
-                        marginTop: "40px",
+                        marginTop: '40px',
                         height: "90%",
                         borderRadius: "8px",
                       }}
@@ -932,7 +919,7 @@ const ProductDetail = () => {
                       autoPlay={true}
                       loop={true}
                       className="elv_ProductDet_image_max1000"
-                      style={{ height: "70px", objectFit: "cover" }}
+                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                     />
                     <IoIosPlayCircle
                       style={{
@@ -940,6 +927,7 @@ const ProductDetail = () => {
                         color: "white",
                         width: "35px",
                         height: "35px",
+                        cursor: 'pointer',
                       }}
                     />
                   </div>
@@ -961,7 +949,7 @@ const ProductDetail = () => {
                         <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
                       </div>
                       <div className='elv_ProductDet_prod_text_div_max1000'>
-                        <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{netWTData?.[0]?.I}</span>
+                        <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
                       </div>
                     </div>
                     <hr className='elv_ProductDet_divider' />
@@ -1181,7 +1169,7 @@ const ProductDetail = () => {
                       <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
                     </div>
                     <div>
-                      <span>Net Wt : </span> <span className='elv_ProductDet_text'>{netWTData?.[0]?.I}</span>
+                      <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
                     </div>
                   </div>
                   <hr className='elv_ProductDet_divider' />

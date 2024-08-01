@@ -16,10 +16,18 @@
 
     .smr_WlListImage {
         width: 100%;
-        max-height: 400px;
+        // max-height: 400px;
         object-fit: contain;
         cursor: pointer;
-        height: 300px;
+        // height: 300px;
+    }
+
+    .smr_WlListImage2 {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        cursor: pointer;
+        // height: 400px;
     }
 
     .cardText {
@@ -58,20 +66,20 @@
 
     .smr_Wl-title {
         color: $titleColor;
-        padding-bottom: 35px;
         font-size: $fontSize8;
     }
 
     .smr_WlButton-group {
         display: flex;
-        gap: 1rem;
+        padding-inline: 15px;
         justify-content: space-between;
-        margin-bottom: 2rem;
+        align-items: center;
+        border-radius: 0px;
 
         .smr_ReomoveAllWLbtn {
             display: flex;
             align-items: center;
-            margin-inline: 6%;
+            width: 200px;
             font-size: $fontSize1;
             color: $titleColor !important;
             text-decoration-color: $titleColor !important;
@@ -85,10 +93,9 @@
             border: none;
             outline: none;
             height: 45px;
-            border-radius: 5px;
+            border-radius: 0px;
             width: 200px;
             font-weight: 500;
-            margin-inline: 6%;
             cursor: pointer;
             transition: background-color 0.3s;
 
@@ -134,13 +141,76 @@
 }
 
 .smr_WlListData {
-    padding: 60px 100px 10px 100px;
+    padding: 60px 14px 10px 15px;
     margin-bottom: -8%;
+
+    .smr_wlListGrid {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        opacity: 1;
+        transition: opacity .5s ease;
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+
+    // .fade-in {
+    //     opacity: 1;
+    // }
+
+
+    // .smr_wlListGrid {
+    //     display: flex !important;
+    //     justify-content: center !important;
+    //     align-items: center !important;
+    //     opacity: 1;
+    //     transition: opacity 0.8s ease-in-out;
+    //     transform: translateX(0);
+    //     animation: slide-in 0.8s forwards ease-in-out;
+    // }
+
+    // .fade-out {
+    //     animation: slide-out 0.8s forwards ease-in-out;
+    // }
+
+    // @keyframes slide-out {
+    //     from {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+
+    //     to {
+    //         transform: translateX(-500px);
+    //         opacity: 0;
+    //     }
+    // }
+
+    // @keyframes slide-in {
+    //     from {
+    //         transform: translateX(500px);
+    //         opacity: 0;
+    //     }
+
+    //     to {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+    // }
+
+
+    .smr_wlToggleButtonDiv {
+        display: flex;
+        justify-content: end;
+        padding-bottom: 20px;
+    }
 }
 
 .smr_WlListCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     position: relative;
+    border-radius: 0px !important;
 
 }
 
@@ -437,5 +507,19 @@
 
     .smr_addwishlistSkelton {
         height: 250px !important;
+    }
+
+    .smr_WlButton-group {
+        padding-top: 30px;
+    }
+
+    // .smr_toggleWishButtonDiv {
+    //     height: 30px !important;
+    // }
+
+    .smr_WlListData {
+        .smr_wlToggleButtonDiv {
+            padding-top: 30px;
+        }
     }
 }

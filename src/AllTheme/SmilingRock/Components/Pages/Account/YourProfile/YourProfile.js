@@ -209,7 +209,6 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
@@ -224,7 +223,7 @@ export default function YourProfile() {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            toast.error('Please fill necessary details.');
         }
     };
 
@@ -289,7 +288,7 @@ export default function YourProfile() {
             // First Name validation
             if (!editedUserData.defaddress_shippingfirstname?.length) {
                 tempErrors.defaddress_shippingfirstname = "First Name is required";
-            } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+            } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too short";
             } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
                 tempErrors.defaddress_shippingfirstname = "First Name is too long";
@@ -298,7 +297,7 @@ export default function YourProfile() {
             // Last Name validation
             if (!editedUserData.defaddress_shippinglastname?.length) {
                 tempErrors.defaddress_shippinglastname = "Last Name is required";
-            } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+            } else if (editedUserData.defaddress_shippinglastname.length < 2) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too short";
             } else if (editedUserData.defaddress_shippinglastname.length > 25) {
                 tempErrors.defaddress_shippinglastname = "Last Name is too long";
@@ -362,6 +361,12 @@ export default function YourProfile() {
         }
         
     }
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setErrors({});
+    }
+
 
     return (
         <div className='smr_yourProfile'>
@@ -517,7 +522,7 @@ export default function YourProfile() {
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
                         {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
                     </form>
                 </div>

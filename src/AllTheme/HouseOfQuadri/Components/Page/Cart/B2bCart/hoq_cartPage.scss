@@ -186,16 +186,12 @@ $cartUpdateBtncolor: #b1b1b1;
 
 .hoq_cartMainPage {
   display: flex;
-
   .hoq_cart-left-sides {
     max-width: 75%;
     width: 75%;
     display: flex;
     justify-content: start;
     align-items: start;
-    // max-height: 755px;
-    // overflow-y: auto;
-    // overflow-x: hidden;
   }
 
   .hoq_cart-right-side {
@@ -203,10 +199,10 @@ $cartUpdateBtncolor: #b1b1b1;
     width: 25%;
     display: flex;
     justify-content: center;
-    // align-items: center;
     position: sticky;
-    top: 135px;
-    height: 85.9vh;
+    top: 130px;
+    height: 100vh;
+    overflow: hidden;
   }
 
   .hoq_mobile-cartDetails {
@@ -443,7 +439,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100%;
       max-width: 100%;
       max-height: 100%;
-      overflow: auto;
+      // overflow: auto;
     }
 
     .hoq_mui_CartBox {
@@ -470,7 +466,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100%;
       max-width: 100%;
       max-height: 100%;
-      overflow: auto;
+      // overflow: auto;
     }
 
     .hoq_cartListCardGrid {
@@ -535,7 +531,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100%;
       max-width: 100%;
       max-height: 100%;
-      overflow: auto;
+      // overflow: auto;
     }
 
     .hoq_pc-cartDetail {
@@ -574,7 +570,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 100%;
       max-width: 100%;
       max-height: 100%;
-      overflow: auto;
+      // overflow: auto;
     }
 
     .hoq_pc-cartDetail {
@@ -621,6 +617,7 @@ $cartUpdateBtncolor: #b1b1b1;
     .hoq_card-ContentsData {
       padding: 2px 0px 2px 0px !important;
       font-size: $fontSize0 !important;
+      font-weight: 400;
     }
   }
 
@@ -943,7 +940,7 @@ $cartUpdateBtncolor: #b1b1b1;
 }
 
 .hoq_rightContentDataDiv {
-  max-width: 150px;
+  // max-width: 150px;
 }
 
 .hoq_cartcontentData {
@@ -952,6 +949,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 .hoq_cartlistdetails {
   font-size: 10px !important;
+  margin-top: 8px;
 }
 
 .hoq_cartbtngroupReRm {

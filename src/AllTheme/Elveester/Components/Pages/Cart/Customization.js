@@ -55,13 +55,13 @@ const Customization = ({
                   <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
-                    ) : (
+                    ) :
                       <>
                         {metalTypeCombo?.map(option => (
-                          <option key={option.Metalid} value={option.Metalid}>{option.metaltype}</option>
+                          <option key={option.Metalid} value={option.metaltypename}>{option.metaltype}</option>
                         ))}
                       </>
-                    )}
+                    }
                   </select>
                 </div>
               }
@@ -73,15 +73,16 @@ const Customization = ({
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
                       <>
-                        {metalColorCombo?.map(option => (
-                          <option key={option.id} value={option.colorname}> {option.colorname}</option>
-                        ))}
+                        {
+                          metalColorCombo?.map(option => (
+                            <option key={option.id} value={option.colorname}> {option.colorname}</option>
+                          ))
+                        }
                       </>
                     }
                   </select>
                 </div>
               }
-
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <div className="elv_option">
                   <label htmlFor="diamond">Diamond:</label>
@@ -138,21 +139,22 @@ const Customization = ({
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="elv_product-price">
-                {!ispriceloding ? (
-                  <span>
-                    <span
-                      className="elv_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(
-                          CurrencyData?.Currencysymbol
-                        ),
-                      }}
-                    />
-                    {(selectedItem?.FinalCost)}
-                  </span>
-                ) :
-                  <Skeleton className='elv_CartSkelton' variant="text" width="80%" animation="wave" />
-                }
+                <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <span
+                    className="elv_currencyFont"
+                    dangerouslySetInnerHTML={{
+                      __html: decodeEntities(
+                        CurrencyData?.Currencysymbol
+                      ),
+                    }}
+                  />
+                  {ispriceloding ? (
+                    <Skeleton className='elv_CartSkelton' variant="text" width="80%" animation="wave" />
+                  ) : (
+                    (selectedItem?.FinalCost)
+                  )}
+                </span>
+
               </div>
             }
           </div>
@@ -198,26 +200,26 @@ const Customization = ({
               }
             </div>
             <div className="elv_cartQtyPricemainDev">
-                {storeInitData?.IsPriceShow == 1 &&
-                  <div className="elv_product-price">
-                    {!ispriceloding ? (
-                      <span>
-                        <span
-                          className="elv_currencyFont"
-                          dangerouslySetInnerHTML={{
-                            __html: decodeEntities(
-                              CurrencyData?.Currencysymbol
-                            ),
-                          }}
-                        />
-                        {(selectedItem?.FinalCost)}
-                      </span>
-                    ) :
-                      <Skeleton className='elv_CartSkelton' variant="text" width="80%" animation="wave" />
-                    }
-                  </div>
-                }
-              </div>
+              {storeInitData?.IsPriceShow == 1 &&
+                <div className="elv_product-price">
+                  <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <span
+                      className="elv_currencyFont"
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(
+                          CurrencyData?.Currencysymbol
+                        ),
+                      }}
+                    />
+                    {ispriceloding ? (
+                      <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                    ) : (
+                      (selectedItem?.FinalCost)
+                    )}
+                  </span>
+                </div>
+              }
+            </div>
           </div>
         </>
       )}

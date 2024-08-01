@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Delivery.scss";
 import { useNavigate } from "react-router-dom";
 import AddressForm from "./AddressForm";
@@ -41,12 +41,14 @@ const AddressManagement = () => {
 
   return (
     <div className="hoqMo_DeliverMainDiv">
-      <p className="SmiCartListTitle" style={{
-        padding : " 25px 15px ",
-        margin : "25px " ,
-        boxShadow : "none" , 
-        cursor : "pointer"
-      }}
+      <p
+        className="SmiCartListTitle"
+        style={{
+          padding: " 25px 15px ",
+          margin: "25px ",
+          boxShadow: "none",
+          cursor: "pointer",
+        }}
       >
         <IoArrowBack
           style={{ height: "25px", width: "25px", marginRight: "10px" }}

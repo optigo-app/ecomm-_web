@@ -2,7 +2,8 @@ import React from 'react';
 import './elv_cartPage.scss';
 import Customization from './Customization';
 
-const CartDetails = ({  ispriceloding,
+const CartDetails = ({  
+  ispriceloding,
   selectedItem,
   CartCardImageFunc,
   qtyCount,

@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router";
 
 import { FaMobileAlt } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const LoginOption = () => {
   const navigation = useNavigate();
@@ -72,8 +73,16 @@ const LoginOption = () => {
               textAlign: "center",
             }}
           >
-            By continuing, you agree to our Terms of Use. Read our Privacy
-            Policy.
+            <Link
+              to={"/terms-conditions"}
+              style={{
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              By continuing, you agree to our Terms of Use. Read our Privacy
+              Policy.
+            </Link>
           </p>
         </div>
       </div>

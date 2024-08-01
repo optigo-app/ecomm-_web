@@ -44,6 +44,7 @@ import { CartAndWishListAPI } from "../../../../../utils/API/CartAndWishList/Car
 import { RemoveCartAndWishAPI } from "../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { Hoq_CartCount, Hoq_WishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
+import Stockitems from "./InstockProduct/Stockitems";
 
 const ProductPage = () => {
   const Navigate = useNavigate();
@@ -89,6 +90,7 @@ const ProductPage = () => {
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const [loadingdata, setloadingdata] = useState(false);
+  const [cartArr, setCartArr] = useState({})
 
   useEffect(() => {
     if (singleProd?.IsInWish == 1) {
@@ -96,6 +98,11 @@ const ProductPage = () => {
     } else {
       setWishListFlag(false);
     }
+  }, [singleProd]);
+
+  useEffect(() => {
+    const isInCart = singleProd?.IsInCart === 0 ? false : true;
+    setAddToCartFlag(isInCart);
   }, [singleProd]);
 
   const settings = {
@@ -185,8 +192,6 @@ const ProductPage = () => {
       setMetalColorCombo(mtColorLocal);
     }
   };
-
-  console.log(isImageload);
 
   useEffect(() => {
     const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -306,15 +311,12 @@ const ProductPage = () => {
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       };
 
-      console.log("objjj", obj);
-
       setisPriceLoading(true);
 
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
-            console.log("prod", res);
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
@@ -322,7 +324,6 @@ const ProductPage = () => {
             }
 
             if (!res?.pdList[0]) {
-              console.log("singleprod", res?.pdList[0]);
               setisPriceLoading(false);
               setIsDataFound(true);
             }
@@ -737,7 +738,7 @@ const ProductPage = () => {
       b: singleProd?.designno,
     };
 
-    console.log("eeee", obj);
+    // console.log("eeee", obj);
     setisPriceLoading(true);
     await SingleProdListAPI(prod, size, obj, cookie)
       .then((res) => {
@@ -748,7 +749,7 @@ const ProductPage = () => {
         }
         setDiaList(res?.pdResp?.rd3);
         setCsList(res?.pdResp?.rd4);
-        console.log("res123", res);
+        // console.log("res123", res);
       })
       .catch((err) => {
         console.log("customProdDetailErr", err);
@@ -836,7 +837,7 @@ const ProductPage = () => {
       }
     }
 
-    console.log("pdImgList", pdImgList, pdImgListCol);
+    // console.log("pdImgList", pdImgList, pdImgListCol);
   };
 
   const handleMoveToDetail = (productData) => {
@@ -859,9 +860,53 @@ const ProductPage = () => {
       }${productData?.designno}?p=${encodeObj}`
     );
   };
+
+  const handleCartandWish = (e, ele, type) => {
+    // console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let prodObj = {
+      "StockId":ele?.StockId,
+      // "autocode": ele?.autocode,
+      // "Metalid": ele?.MetalPurityid,
+      // "MetalColorId": ele?.MetalColorid,
+      // "DiaQCid": loginInfo?.cmboDiaQCid,
+      // "CsQCid": loginInfo?.cmboCSQCid,
+      // "Size": ele?.Size,
+      "Unitcost": ele?.Amount,
+      // "UnitCostWithmarkup": ele?.Amount,
+      // "Remark": ""
+    }
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
+        let cartC = res?.Data?.rd[0]?.Cartlistcount
+        let wishC = res?.Data?.rd[0]?.Wishlistcount
+        setWishCountVal(wishC)
+        setCartCountVal(cartC);
+      }).catch((err) => console.log("err", err))
+    } else {
+      RemoveCartAndWishAPI(type, ele?.StockId,cookie,true).then((res) => {
+        let cartC = res?.Data?.rd[0]?.Cartlistcount
+        let wishC = res?.Data?.rd[0]?.Wishlistcount
+        setWishCountVal(wishC)
+        setCartCountVal(cartC);
+      }).catch((err) => console.log("err", err))
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.StockId]: e.target.checked
+      }))
+    }
+
+  }
+
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
+
   return (
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
       {/* {ShowMangifier && (
@@ -1721,6 +1766,15 @@ const ProductPage = () => {
           )}
         </div>
       </div> */}
+      {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
+      <Stockitems
+        stockItemArr={stockItemArr}
+        storeInit={storeInit}
+        loginInfo={loginInfo}
+        cartArr={cartArr}
+        handleCartandWish={handleCartandWish}
+      />
+      )}
       {storeInit?.IsProductDetailSimilarDesign == 1 &&
         SimilarBrandArr?.length > 0 && (
           <RelatedProduct

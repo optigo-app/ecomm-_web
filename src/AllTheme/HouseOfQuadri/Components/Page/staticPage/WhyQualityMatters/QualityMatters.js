@@ -7,7 +7,7 @@ const QualityMatters = () => {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/images/staticHtml/quality.html`)
+    fetch(`${storImagePath()}/html/quality.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -18,6 +18,12 @@ const QualityMatters = () => {
       });
   }, []);
 
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top : 0
+    })
+  },[])
   return (
     <div className="hoq_why_quality_manners">
       <div

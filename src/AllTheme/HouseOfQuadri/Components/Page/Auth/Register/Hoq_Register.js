@@ -71,6 +71,7 @@ export default function Register() {
 
     if (fieldName === "firstName") {
       if (!value.trim()) {
+        // if(!value?.trim()?.length)
         setErrors((prevErrors) => ({
           ...prevErrors,
           firstName: "First Name is required",
