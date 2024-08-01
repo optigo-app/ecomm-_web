@@ -46,7 +46,9 @@ const MobileViewComp = () => {
 
   return (
     <>
-            <MobViewHeader title="My Account" />
+            <div className='sticky-header'>
+                <MobViewHeader title="My Account" />
+            </div>
         <div style={{marginBottom:'100px'}} className='smr_Smiling_AccountMain'>
             {/* <div className='titleMain'>
                 <div style={{ width: '100%' }}>

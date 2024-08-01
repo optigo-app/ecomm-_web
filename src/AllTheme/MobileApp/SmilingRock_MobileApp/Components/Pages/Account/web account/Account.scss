@@ -210,5 +210,10 @@
     margin-top: 50px !important;
    }
 }
-
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
 /* 1px solid #e1e1e1 */
