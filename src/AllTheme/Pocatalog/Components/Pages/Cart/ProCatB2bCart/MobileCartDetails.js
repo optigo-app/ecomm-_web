@@ -3,6 +3,7 @@ import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormCon
 import './procat_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
+import { toast } from 'react-toastify';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -52,6 +53,14 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg === 'success') {
+      toast.success('Cart Updated Successfully');
+    }
+  }
+
 
   return (
     <Modal open={open} onClose={handleClose} className="procat_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -179,7 +188,7 @@ const MobileCartDetails = ({
                 }
               </div>
               <div className='procat_UpdateCartBtn'>
-                <Button className="procat_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+                <Button className="procat_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
               </div>
               <div style={{ color: '#7d7f85', position: 'absolute', top: 0, right: 0 }} onClick={handleClose}>
                 <CloseIcon />

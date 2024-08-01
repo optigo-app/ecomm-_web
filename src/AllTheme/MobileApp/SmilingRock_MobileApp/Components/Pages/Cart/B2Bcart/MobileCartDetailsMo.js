@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button } from '@mui/material';
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
-import Toast from '../../ToastComponent/Toast';
+import { useRecoilState } from 'recoil';
+import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -12,6 +13,7 @@ const MobileCartDetails = ({
   qtyCount,
   handleIncrement,
   handleDecrement,
+  setOpenMobileModal,
   multiSelect,
   handleAddReamrk,
   productRemark,
@@ -40,7 +42,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const [showToast, setShowToast] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -56,13 +58,11 @@ const MobileCartDetails = ({
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
+
   const handleUpdateCart = async (selectedItem) => {
     const resUpdate = await onUpdateCart(selectedItem)
-    if (resUpdate?.msg == "success") {
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 5000);
+    if (resUpdate?.msg === 'success') {
+      setSnackbarOpen(true);
     }
   }
 
@@ -193,7 +193,7 @@ const MobileCartDetails = ({
                     {selectedItem?.FinalCost}
                   </span>
                 ) : (
-                  <Skeleton className='smrmo_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='smrmo_CartSkelton' variant="text" width="50%" animation="wave" />
                 )}
               </div>
             }
@@ -206,20 +206,6 @@ const MobileCartDetails = ({
             <CloseIcon />
           </div>
         </div>
-      {showToast && (
-        <Toast
-          message="This is a toast message!"
-          show={showToast}
-          duration={5000}
-          onClose={() => setShowToast(false)}
-          bgColor="#333"
-          textColor="#fff"
-          width="300px"
-          fontSize="18px"
-          padding="20px"
-          borderRadius="10px"
-        />
-      )}
       </div>
     </Modal>
   );
