@@ -13,6 +13,9 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
       onClose={onClose}
       aria-labelledby="remark-modal-title"
       aria-describedby="remark-modal-description"
+      sx={{
+        zIndex : 999999
+      }}
     >
       <Box
         sx={{

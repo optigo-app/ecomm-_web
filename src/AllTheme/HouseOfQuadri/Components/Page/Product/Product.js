@@ -45,6 +45,7 @@ import { RemoveCartAndWishAPI } from "../../../../../utils/API/RemoveCartandWish
 import { Hoq_CartCount, Hoq_WishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import Stockitems from "./InstockProduct/Stockitems";
+import DesignSet from "./DesignSet/DesignSet";
 
 const ProductPage = () => {
   const Navigate = useNavigate();
@@ -90,7 +91,7 @@ const ProductPage = () => {
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const [loadingdata, setloadingdata] = useState(false);
-  const [cartArr, setCartArr] = useState({})
+  const [cartArr, setCartArr] = useState({});
 
   useEffect(() => {
     if (singleProd?.IsInWish == 1) {
@@ -866,42 +867,45 @@ const ProductPage = () => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      "StockId":ele?.StockId,
+      StockId: ele?.StockId,
       // "autocode": ele?.autocode,
       // "Metalid": ele?.MetalPurityid,
       // "MetalColorId": ele?.MetalColorid,
       // "DiaQCid": loginInfo?.cmboDiaQCid,
       // "CsQCid": loginInfo?.cmboCSQCid,
       // "Size": ele?.Size,
-      "Unitcost": ele?.Amount,
+      Unitcost: ele?.Amount,
       // "UnitCostWithmarkup": ele?.Amount,
       // "Remark": ""
-    }
+    };
 
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     } else {
-      RemoveCartAndWishAPI(type, ele?.StockId,cookie,true).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      RemoveCartAndWishAPI(type, ele?.StockId, cookie, true)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     }
 
     if (type === "Cart") {
       setCartArr((prev) => ({
         ...prev,
-        [ele?.StockId]: e.target.checked
-      }))
+        [ele?.StockId]: e.target.checked,
+      }));
     }
-
-  }
+  };
 
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
@@ -1698,82 +1702,14 @@ const ProductPage = () => {
           </div> */}
         </div>
       </main>
-      {/* <div className="details_d_C">
-        <div className="hoq_material_details_portion">
-          {diaList?.length > 0 && (
-            <p className="hoq_details_title"> Product Details</p>
-          )}
-          {diaList?.length > 0 && (
-            <div className="hoq_material_details_portion_inner">
-              <ul style={{ margin: "0px 0px 3px 0px" }}>
-                <li
-                  style={{ fontWeight: 600 }}
-                >{`Diamond Detail(${diaList?.reduce(
-                  (accumulator, data) => accumulator + data.M,
-                  0
-                )}/${diaList
-                  ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                  .toFixed(2)}ct)`}</li>
-              </ul>
-              <ul className="hoq_mt_detail_title_ul">
-                <li className="hoq_proDeatilList">Shape</li>
-                <li className="hoq_proDeatilList">Clarity</li>
-                <li className="hoq_proDeatilList">Color</li>
-                <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
-              </ul>
-              {diaList?.map((data) => (
-                <ul className="hoq_mt_detail_title_ul">
-                  <li className="hoq_proDeatilList1">{data?.F}</li>
-                  <li className="hoq_proDeatilList1">{data?.H}</li>
-                  <li className="hoq_proDeatilList1">{data?.J}</li>
-                  <li className="hoq_proDeatilList1">
-                    {data.M}&nbsp;&nbsp;{data?.N}
-                  </li>
-                </ul>
-              ))}
-            </div>
-          )}
-
-          {csList?.length > 0 && (
-            <div className="hoq_material_details_portion_inner">
-              <ul style={{ margin: "10px 0px 3px 0px" }}>
-                <li
-                  style={{ fontWeight: 600 }}
-                >{`ColorStone Detail(${csList?.reduce(
-                  (accumulator, data) => accumulator + data.M,
-                  0
-                )}/${csList
-                  ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                  .toFixed(2)}ct)`}</li>
-              </ul>
-              <ul className="hoq_mt_detail_title_ul">
-                <li className="hoq_proDeatilList">Shape</li>
-                <li className="hoq_proDeatilList">Clarity</li>
-                <li className="hoq_proDeatilList">Color</li>
-                <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
-              </ul>
-              {csList?.map((data) => (
-                <ul className="hoq_mt_detail_title_ul">
-                  <li className="hoq_proDeatilList1">{data?.F}</li>
-                  <li className="hoq_proDeatilList1">{data?.H}</li>
-                  <li className="hoq_proDeatilList1">{data?.J}</li>
-                  <li className="hoq_proDeatilList1">
-                    {data.M}&nbsp;&nbsp;{data?.N}
-                  </li>
-                </ul>
-              ))}
-            </div>
-          )}
-        </div>
-      </div> */}
       {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
-      <Stockitems
-        stockItemArr={stockItemArr}
-        storeInit={storeInit}
-        loginInfo={loginInfo}
-        cartArr={cartArr}
-        handleCartandWish={handleCartandWish}
-      />
+        <Stockitems
+          stockItemArr={stockItemArr}
+          storeInit={storeInit}
+          loginInfo={loginInfo}
+          cartArr={cartArr}
+          handleCartandWish={handleCartandWish}
+        />
       )}
       {storeInit?.IsProductDetailSimilarDesign == 1 &&
         SimilarBrandArr?.length > 0 && (
@@ -1784,6 +1720,16 @@ const ProductPage = () => {
             loginInfo={loginInfo}
           />
         )}
+
+      {storeInit?.IsProductDetailDesignSet === 1 && (
+        <DesignSet
+          designSetList={designSetList}
+          handleMoveToDetail={handleMoveToDetail}
+          imageNotFound={imageNotFound}
+          loginInfo={loginInfo}
+          storeInit={storeInit}
+        />
+      )}
       {/* <RecentlyViewd /> */}
     </div>
   );
@@ -1856,121 +1802,3 @@ const NotFoundProduct = ({ Navigate }) => {
     </div>
   );
 };
-
-{
-  /* material  */
-}
-{
-  /* <Accordion className="accordian">
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                className="summary"
-              >
-                <Typography
-                  className="title"
-                  align="center"
-                  sx={{ width: "100%" }}
-                >
-                  MATERIAL & DETAILS
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="product_mt-dt">
-                  <strong>Material & Details</strong>
-                  <ul>
-                    <li>
-                      Our Lab Grown Diamonds are EF colour VVS-VS clarity (all
-                      below 1 ct solitaires)
-                    </li>
-                    <li>
-                      All 1 ct+ solitaires are IGI certified & available in
-                      options of E/F/G colour and VVS/VS clarity
-                    </li>
-                    <li>
-                      All products are 18K gold and available in 3 color
-                      options: Yellow, White, and Rose Gold
-                    </li>
-                    <li>
-                      Ladies ring pricing is maximum for ring size 14 and for
-                      Gents, it is till ring size 21. Additional charges will be
-                      applicable above that.
-                    </li>
-                    <li>
-                      Each piece is customized and made to order. Center
-                      solitaires can be set according to your preference
-                    </li>
-                    <li>
-                      We provide free engraving such as a date/number wherever
-                      possible
-                    </li>
-                  </ul>
-                </div>
-              </AccordionDetails>
-            </Accordion> */
-}
-{
-  /* payment */
-}
-{
-  /* <Accordion className="accordian">
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                className="summary"
-              >
-                <Typography
-                  className="title"
-                  align="center"
-                  sx={{ width: "100%" }}
-                >
-                  PAYMENT & SHIPPING
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="product_terms">
-                  <strong>Payment Terms</strong>
-                  <ul>
-                    <li>
-                      50% advance is collected before processing your order
-                      balance 50% before order ships
-                    </li>
-                    <li>
-                      The prices are indicative considering Gold Rate @ Rs.
-                      7k/gm. Will modify subject to change of rate
-                    </li>
-                    <li>
-                      The price is also subject to the final diamond wt. +/- 5%
-                    </li>
-                  </ul>
-
-                  <strong>Shipping Policy</strong>
-                  <ul>
-                    <li>3 weeks days from date of order + Shipping 2 days</li>
-                    <li>Shipping is free PAN India</li>
-                    <li>
-                      International Shipping is available. To know more, reach
-                      us at +919819086344
-                    </li>
-                  </ul>
-                </div>
-              </AccordionDetails>
-            </Accordion> */
-}
-{
-  /* ends */
-}
-{
-  /* <span className="delivery">
-              {" "}
-              <CiDeliveryTruck size={24} /> Ships within 3 weeks
-            </span>
-            <p>
-              This Band features 5 diamonds of 0.10 ct each. An essential that
-              couples well with your solitaire ring completes the stacked look.
-              Optionally reduce diamond size and increase count to 7 stones
-              match your solitaire ring.
-            </p> */
-}

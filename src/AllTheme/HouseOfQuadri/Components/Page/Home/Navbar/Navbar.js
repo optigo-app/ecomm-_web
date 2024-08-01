@@ -1,6 +1,10 @@
 import "./Navbar.modul.scss";
 import { CiSearch, CiHeart } from "react-icons/ci";
-import { PiBagSimpleThin } from "react-icons/pi";
+import {
+  PiBagSimpleLight,
+  PiBagSimpleThin,
+  PiHandbagSimpleLight,
+} from "react-icons/pi";
 import { MainLogo } from "../../../Assets/Image";
 import { navbarMenu } from "../../../Constants/NavbarItems";
 import { IoIosCall } from "react-icons/io";
@@ -21,10 +25,11 @@ import {
 import { useRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Badge, Tooltip } from "@mui/material";
+import { Badge, Drawer, Tooltip, useMediaQuery } from "@mui/material";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
 import DummyNav from "./DummyNav";
+import TemporaryDrawer from "./MobileNavbar";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,6 +52,7 @@ const Navbar = () => {
   const [searchText, setSearchText] = useState("");
 
   const [titleImg, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
+  const is320px = useMediaQuery("(max-width:320px)");
 
   const debounce = (func, wait) => {
     let timeout;
@@ -213,7 +219,6 @@ const Navbar = () => {
   };
 
   const handleMenu = (param, param1, param2) => {
-    console.log("first");
     let finalData = {
       menuname: param?.menuname ?? "",
       FilterKey: param?.key ?? "",
@@ -257,7 +262,6 @@ const Navbar = () => {
     ].join("&");
 
     console.log("otherparamsUrl--", otherparamUrl);
-
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
@@ -386,21 +390,72 @@ const Navbar = () => {
             handleMenu={handleMenu}
             logo={titleImg}
             islogin={islogin}
+            selectedData={selectedData}
+            navigation={navigate}
           />
-          <NavbarRightSide
-            HaveItem={HaveItem}
-            setshowDrawer={setshowDrawer}
-            showDrawer={showDrawer}
-            open={() => setshowSearchBar(!showSearchBar)}
-            islogin={islogin}
-            handleLogout={handleLogout}
-            user={LoggedUserDetails?.firstname}
-            wishCountNum={wishCountNum}
-            cartCountNum={cartCountNum}
-            HandleAccountRoute={HandleAccountRoute}
-          />
+          {is320px ? (
+            <NavbarRightSide2
+              HaveItem={HaveItem}
+              setshowDrawer={setshowDrawer}
+              showDrawer={showDrawer}
+              open={() => setshowSearchBar(!showSearchBar)}
+              islogin={islogin}
+              handleLogout={handleLogout}
+              user={LoggedUserDetails?.firstname}
+              wishCountNum={wishCountNum}
+              cartCountNum={cartCountNum}
+              HandleAccountRoute={HandleAccountRoute}
+            />
+          ) : (
+            <NavbarRightSide
+              HaveItem={HaveItem}
+              setshowDrawer={setshowDrawer}
+              showDrawer={showDrawer}
+              open={() => setshowSearchBar(!showSearchBar)}
+              islogin={islogin}
+              handleLogout={handleLogout}
+              user={LoggedUserDetails?.firstname}
+              wishCountNum={wishCountNum}
+              cartCountNum={cartCountNum}
+              HandleAccountRoute={HandleAccountRoute}
+            />
+          )}
+          {islogin && (
+            <div className="mobile_only_cart">
+              <Badge
+                style={{ size: "2px" }}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "10px",
+                    padding: "7px",
+                    borderRadius: "4px",
+                    marginRight: "7px",
+                    marginTop: "-2px",
+                    bgcolor: "#C20000",
+                    width: 0,
+                    height: 0,
+                  },
+                }}
+                badgeContent={cartCountNum}
+                color="primary"
+              >
+                <Tooltip title="Cart">
+                  <Link to={"/cart"}>
+                    <PiBagSimpleThin
+                      className="Cart_icon icons "
+                      // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                    />
+                  </Link>
+                </Tooltip>
+              </Badge>
+            </div>
+          )}
         </nav>
-        <div className="nav_bottom_head">MEET US ON 10TH JULY IN PUNE</div>
+        <div className="nav_bottom_head">
+          <span>
+            <Link to={"/lookbook"}>Explore Our Artful Jewellery Lookbook</Link>
+          </span>
+        </div>
       </div>
       {isScrolled && <DummyNav />}
     </>
@@ -449,7 +504,7 @@ const NavbarleftSlide = ({
           <CiMenuFries
             className="search_icon icons mobile-Ham"
             onClick={() => setisMobileMenu(!isMobileMenu)}
-            size={25}
+            size={28}
           />
         </Tooltip>
       </div>
@@ -478,15 +533,13 @@ const NavbarRightSide = ({
               Hey ,
             </span>
             <small className="loggesUserName" onClick={HandleAccountRoute}>
-              {" "}
               {user}
             </small>{" "}
           </>
         )}
-
         {islogin && (
           <>
-            <Link to={"/wishlist"}>
+            <Link to={"/wishlist"} className="wishlist_hoq_hide">
               <Tooltip title="Wishlist">
                 <Badge
                   style={{ size: "2px" }}
@@ -552,7 +605,7 @@ const NavbarRightSide = ({
           />
         )}
         {islogin ? (
-          <Tooltip title="Logout">
+          <Tooltip title="Logout" className="tooltip-logout">
             <button
               onClick={handleLogout}
               className="logout_btn_hoq icons"
@@ -572,6 +625,71 @@ const NavbarRightSide = ({
     </>
   );
 };
+const NavbarRightSide2 = ({
+  showDrawer,
+  islogin,
+  setshowDrawer,
+  HaveItem,
+  open,
+  handleLogout,
+  user,
+  wishCountNum,
+  cartCountNum,
+  HandleAccountRoute,
+}) => {
+  return (
+    <>
+      <div className="nav_right">
+        {/* {islogin && (
+          <>
+            <span className="loggedUser" onClick={HandleAccountRoute}>
+              Hey ,
+            </span>
+            <small className="loggesUserName" onClick={HandleAccountRoute}>
+              {user}
+            </small>{" "}
+          </>
+        )} */}
+
+        {islogin && (
+          <>
+            {/* <Link to={"/wishlist"}>
+              <Tooltip title="Wishlist">
+                <Badge
+                  style={{ size: "2px" }}
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      fontSize: "10px",
+                      padding: "7px",
+                      borderRadius: "4px",
+                      marginRight: "7px",
+                      marginTop: "-2px",
+                      bgcolor: "#C20000",
+                      width: 0,
+                      height: 0,
+                    },
+                  }}
+                  badgeContent={wishCountNum}
+                  color="primary"
+                >
+                  <CiHeart className="wishlist_icon icons" />
+                </Badge>
+              </Tooltip>
+            </Link> */}
+
+            <Tooltip title="Search">
+              <CiSearch
+                className="search_icon icons mobile-search"
+                onClick={open}
+              />
+            </Tooltip>
+          </>
+        )}
+        {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
+      </div>
+    </>
+  );
+};
 
 const NavbarCenter = ({
   MainLogo,
@@ -583,6 +701,7 @@ const NavbarCenter = ({
   logo,
   islogin,
 }) => {
+  const isOpen = true;
   return (
     <>
       <div className="nav_center">
@@ -604,60 +723,61 @@ const NavbarCenter = ({
         </div>
         <div className="navbar_menus">
           <div className="mobile-close">
-            <IoClose size={26} onClick={() => setisMobileMenu(!isMobileMenu)} />
+            <IoClose size={32} onClick={() => setisMobileMenu(!isMobileMenu)} />
             <Link>
               <CiHeart className="wishlist_icon_mobile icons" />
             </Link>
           </div>
           {islogin && (
-            <ul>
-              {menuItems?.map((menuItem, i) => {
-                const { menuname, param1 } = menuItem;
+            <>
+              <ul className="lg_navbar_item">
+                {menuItems?.map((menuItem, i) => {
+                  const { menuname, param1 } = menuItem;
 
-                return (
-                  <React.Fragment key={i}>
-                    <li>
-                      <span
-                        onClick={() =>
-                          handleMenu({
-                            menuname: menuname,
-                            key: menuItem?.param0name,
-                            value: menuItem?.param0dataname,
-                          })
-                        }
-                      >
-                        {menuname}
-                      </span>
-                      {param1 && (
-                        <IoChevronDown className="chevron-downn-mobile" />
-                      )}
-                      {param1 &&
-                        param1?.length > 0 &&
-                        param1[0].param1name !== "" && (
-                          <ul className="submenu">
-                            {param1[0].param1name === ""
-                              ? "no"
-                              : param1?.map(
-                                  ({ param1dataname, param1name }, j) => (
-                                    <li>
-                                      <span
-                                        onClick={() =>
-                                          handleMenu(
-                                            {
-                                              menuname: menuname,
-                                              key: menuItem?.param0name,
-                                              value: menuItem?.param0dataname,
-                                            },
-                                            {
-                                              key: param1name,
-                                              value: param1dataname,
-                                            }
-                                          )
-                                        }
-                                      >
-                                        {param1dataname}
-                                      </span>
-                                      {/* {param2 && (
+                  return (
+                    <React.Fragment key={i}>
+                      <li>
+                        <span
+                          onClick={() =>
+                            handleMenu({
+                              menuname: menuname,
+                              key: menuItem?.param0name,
+                              value: menuItem?.param0dataname,
+                            })
+                          }
+                        >
+                          {menuname}
+                        </span>
+                        {param1 && (
+                          <IoChevronDown className="chevron-downn-mobile" />
+                        )}
+                        {param1 &&
+                          param1?.length > 0 &&
+                          param1[0].param1name !== "" && (
+                            <ul className="submenu">
+                              {param1[0].param1name === ""
+                                ? "no"
+                                : param1?.map(
+                                    ({ param1dataname, param1name }, j) => (
+                                      <li>
+                                        <span
+                                          onClick={() =>
+                                            handleMenu(
+                                              {
+                                                menuname: menuname,
+                                                key: menuItem?.param0name,
+                                                value: menuItem?.param0dataname,
+                                              },
+                                              {
+                                                key: param1name,
+                                                value: param1dataname,
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {param1dataname}
+                                        </span>
+                                        {/* {param2 && (
                                 <ul className="sub_submenu">
                                   {param2?.map(
                                     ({ param2dataname, param2name }, j) => (
@@ -688,16 +808,25 @@ const NavbarCenter = ({
                                   )}
                                 </ul>
                               )} */}
-                                    </li>
-                                  )
-                                )}
-                          </ul>
-                        )}
-                    </li>
-                  </React.Fragment>
-                );
-              })}
-            </ul>
+                                      </li>
+                                    )
+                                  )}
+                            </ul>
+                          )}
+                      </li>
+                    </React.Fragment>
+                  );
+                })}
+              </ul>
+              {isMobileMenu && (
+                <TemporaryDrawer
+                  menuItems={menuItems}
+                  handleMenu={handleMenu}
+                  setisMobileMenu={setisMobileMenu}
+                  isMobileMenu={isMobileMenu}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

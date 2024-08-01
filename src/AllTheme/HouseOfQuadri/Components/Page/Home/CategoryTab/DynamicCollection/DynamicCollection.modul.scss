@@ -127,12 +127,21 @@ $scrollbar-thumb-color: #e4e4e4;
     display: flex;
     height: 80px;
     align-items: center;
-    // background-color: teal;
-    padding: 0 10px;
-    span{
-      color: #191970  ;
+    padding-left: 10px;
+    span {
       cursor: pointer;
-      margin-left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+    .hoq_breadcums_port{
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   }
 

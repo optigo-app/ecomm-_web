@@ -155,7 +155,7 @@ const CartItem = ({
             !isMobileScreen &&
             selectedItem?.id == item?.id &&
             "#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important",
-          // border: selectedItem?.id == item?.id && '1px solid #af8238',
+          border: selectedItem?.id == item?.id && '1px solid #c20000',
           maxWidth: 450,
           width: width,
         }}

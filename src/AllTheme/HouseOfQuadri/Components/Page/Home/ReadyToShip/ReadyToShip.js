@@ -123,9 +123,9 @@ const ReadyToShip = () => {
         })}
         <div className="TabCard_main t-mobile-only">
           <div className="box">
-            <Link to={`/p/BestSeller/?N=${btoa("BestSeller")}`}>
-              View All 106 Products
-            </Link>
+            <span onClick={()=>navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}>
+              View All 
+            </span>
           </div>
         </div>
       </div>

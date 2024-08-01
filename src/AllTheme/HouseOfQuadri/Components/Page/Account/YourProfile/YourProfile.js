@@ -438,7 +438,7 @@ console.log("hoq")
                     )}
                 </div>}
                 { addressPresentFlag &&  <div>
-                    <button onClick={handleEdit} className='hoq_SmilingAddEditAddrwess' style={{ backgroundColor: '#c20000', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='hoq_SmilingAddEditAddrwess'>Edit Profile</button>
                 </div>}
             </div>
 
