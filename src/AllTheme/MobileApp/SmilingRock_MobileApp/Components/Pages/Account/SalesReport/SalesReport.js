@@ -823,7 +823,9 @@ const SalesReport = () => {
 
   return (
     <>
+    <div className="sticky-header">
        <MobViewHeader title="Sales Report" />
+    </div>
     <Box style={{marginBottom:'5rem'}}>
       <Box
         sx={{
@@ -1210,6 +1212,7 @@ const SalesReport = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              className="pd_0_Sp_mapp"
             />
           </Paper>
         </>

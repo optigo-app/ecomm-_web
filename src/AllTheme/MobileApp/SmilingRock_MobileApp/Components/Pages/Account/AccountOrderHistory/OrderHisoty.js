@@ -68,6 +68,7 @@ const OrderHistory = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoaderOH(false);
     }
   };
 
@@ -224,14 +225,16 @@ const OrderHistory = () => {
   return (
     <div>
 
-        <MobViewHeader title="Order History" />
+        <div className="sticky-header">
+          <MobViewHeader title="Order History"  />
+        </div>
 
         {/* <div className="comptitle fw-bold">Order History</div> */}
 
       {loaderOH ? (
         <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box>
       ) : (
-        <div className="orderedItems user-select-none">
+        <div className="orderedItems user-select-none pb-4">
           {orderHistoryData?.length > 0 ?
             orderHistoryData?.map((e) => {
               return (
@@ -374,13 +377,15 @@ const OrderHistory = () => {
                             xl={orderDetails?.length === 1 ? 12 : 3}
                           >
                           <Card className="h-100" onClick={() => handleMoveToDetail(el)}>
+                            <Box className="img_div_oh_MAPP">
                             <Card.Img
                               variant="top"
                               src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`}
                               onError={handleOrderImageError}
                               alt="#designimage"
-                              className="card-img-top h-100"
-                            />
+                              className="card-img-top h-100 card_img"
+                              />
+                              </Box>
                             <Card.Body>
                               <Card.Title>
                                 {el?.metaltypename} {el?.metalcolorname}
@@ -421,7 +426,7 @@ const OrderHistory = () => {
                   </div>
                 </div>
               );
-            }) : <span className="w-100 d-flex justify-content-center align-items-center fs-5" style={{ marginTop: '15%' }}>Data Not Present</span>}
+            }) : <span className="w-100 d-flex justify-content-center align-items-center fs-5" style={{ height:'80vh' }}>Data Not Present</span>}
         </div>
       )}
 

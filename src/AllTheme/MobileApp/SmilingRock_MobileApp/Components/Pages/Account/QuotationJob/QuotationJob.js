@@ -759,7 +759,9 @@ const scrollToTop = () => {
 
   return (
     <>
+    <div className='sticky-header'>
       <MobViewHeader title="Jobs" />
+    </div>
     <Box className='smilingSavedAddressMain quotationFiltersText headSetINQMAMain' sx={{ padding: "20px", }}>
       <Accordion sx={{marginBottom:'20px'}}>
         <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
