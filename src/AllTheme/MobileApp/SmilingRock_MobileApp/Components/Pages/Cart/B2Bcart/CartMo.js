@@ -5,12 +5,13 @@ import SelectedItemsModal from './SelectedModalMo';
 import Button from '@mui/material/Button';
 import './smrMo_cartPage.scss';
 import { useNavigate } from 'react-router-dom';
-import { Link, useMediaQuery } from '@mui/material';
+import { Link, Snackbar, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkeltonMo';
 import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetailsMo"
+import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
 
 const CartPage = () => {
   const {
@@ -29,6 +30,7 @@ const CartPage = () => {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    setOpenMobileModal,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -58,6 +60,16 @@ const CartPage = () => {
   const handleRedirect = () => {
     handelMenu();
   }
+  const snackbarOpenValue = useRecoilValue(smrMA_ShowSnackBar);
+  const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
 
   console.log('selected--', selectedItem);
   return (
@@ -91,6 +103,7 @@ const CartPage = () => {
                   <div className='smrmo_mobile-cartDetails'>
                     <MobileCartDetails
                       open={openMobileModal}
+                      setOpenMobileModal={setOpenMobileModal}
                       handleClose={handlecloseMobileModal}
                       ispriceloding={ispriceloding}
                       selectedItem={selectedItem}
@@ -134,6 +147,13 @@ const CartPage = () => {
           <CartPageSkeleton />
         }
       </div>
+      <Snackbar
+        open={snackbarOpenValue}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        message="Cart Updated Successfully"
+        className='smr_MoSnakbarTM'
+      />
     </div>
   );
 };

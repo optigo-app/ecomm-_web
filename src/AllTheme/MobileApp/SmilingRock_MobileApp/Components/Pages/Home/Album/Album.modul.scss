@@ -17,7 +17,7 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
-        margin-top: 50px;
+        margin: 0px;
     }
 
     .smr_albumName {
@@ -50,10 +50,6 @@
 
 
     @media screen and (max-width: 650px) {
-        .smr_albumTitle {
-            display: none;
-        }
-
         .smr_albumALL_div {
             width: 100%;
             display: flex;
@@ -62,10 +58,6 @@
 
         .smr_AlbumImageMain {
             width: 50% !important;
-        }
-
-        .smr_AlbumImageMain{
-            // margin: 2px!important;
         }
     }
 }

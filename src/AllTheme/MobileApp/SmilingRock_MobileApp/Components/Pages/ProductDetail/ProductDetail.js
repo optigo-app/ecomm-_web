@@ -1633,15 +1633,15 @@ const ProductDetail = () => {
                 </div>
               )}
 
-              {csList?.length > 0 && (
+              {csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
                     <li
                       className="prod_detail_info_title"
-                    >{`ColorStone Detail(${csList?.reduce(
+                    >{`ColorStone Detail(${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
                       (accumulator, data) => accumulator + data.M,
                       0
-                    )}/${csList
+                    )}/${csList?.filter((ele)=>ele?.D !== "MISC")
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
                       .toFixed(2)}ct)`}</li>
                   </ul>
@@ -1651,7 +1651,38 @@ const ProductDetail = () => {
                     <li className="smr_proDeatilList_mobileapp">Color</li>
                     <li className="smr_proDeatilList_mobileapp">Pcs&nbsp;&nbsp;Wt</li>
                   </ul>
-                  {csList?.map((data) => (
+                  {csList?.filter((ele)=>ele?.D !== "MISC")?.map((data) => (
+                    <ul className="smr_mt_detail_title_ul">
+                      <li className="smr_proDeatilList_mobileapp1">{data?.F}</li>
+                      <li className="smr_proDeatilList_mobileapp1">{data?.H}</li>
+                      <li className="smr_proDeatilList_mobileapp1">{data?.J}</li>
+                      <li className="smr_proDeatilList_mobileapp1">
+                            {data.M}&nbsp;&nbsp;{data?.N}
+                          </li>
+                    </ul>
+                  ))}
+                </div>
+              )}
+
+              {csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 && (
+                <div className="smr_material_details_portion_inner">
+                  <ul style={{ margin: "0px 0px 3px 0px" }}>
+                    <li
+                      className="prod_detail_info_title"
+                    >{`ColorStone Detail(${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
+                      (accumulator, data) => accumulator + data.M,
+                      0
+                    )}/${csList?.filter((ele)=>ele?.D === "MISC")
+                      ?.reduce((accumulator, data) => accumulator + data?.N, 0)
+                      .toFixed(2)}ct)`}</li>
+                  </ul>
+                  <ul className="smr_mt_detail_title_ul">
+                    <li className="smr_proDeatilList_mobileapp">Shape</li>
+                    <li className="smr_proDeatilList_mobileapp">Clarity</li>
+                    <li className="smr_proDeatilList_mobileapp">Color</li>
+                    <li className="smr_proDeatilList_mobileapp">Pcs&nbsp;&nbsp;Wt</li>
+                  </ul>
+                  {csList?.filter((ele)=>ele?.D === "MISC")?.map((data) => (
                     <ul className="smr_mt_detail_title_ul">
                       <li className="smr_proDeatilList_mobileapp1">{data?.F}</li>
                       <li className="smr_proDeatilList_mobileapp1">{data?.H}</li>

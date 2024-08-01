@@ -27,7 +27,7 @@ import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Comb
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import ProductListSkeleton from "../../../../../SmilingRock/Components/Pages/Product/ProductList/productlist_skeleton/ProductListSkeleton";
+import ProductListSkeleton from "../../../../../DaimondTine/Components/Pages/Product/ProductList/productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { dt_CartCount, dt_WishCount } from "../../../Recoil/atom";
@@ -35,6 +35,7 @@ import { useSetRecoilState } from "recoil";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import Footer from "../../Home/Footer/Footer";
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -264,6 +265,8 @@ const ProductList = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
+
+    setCurrPage(1)
   }, [location?.key]);
 
   useEffect(() => {
@@ -927,6 +930,22 @@ const ProductList = () => {
     }
   };
 
+  useEffect(() => {
+
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    
+    if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
+      if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+        handelCustomCombo(obj)
+      }
+    }
+
+  }, [selectedMetalId, selectedDiaId, selectedCsId])
+
   const handelPageChange = (event, value) => {
     // console.log("pagination",value);
 
@@ -1112,7 +1131,14 @@ const ProductList = () => {
 
   return (
     <div>
-      <div class="bg-image">
+      
+      {
+      isProdLoading ? (
+        // true ?(
+        <ProductListSkeleton className="pSkelton" />
+      ) : (
+        <>
+        <div class="bg-image">
         <div className="overlay"></div>
         <div className="text-container">
           <div className="textContainerData">
@@ -1127,7 +1153,7 @@ const ProductList = () => {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          padding: "15px 0px",
+          padding: "5px 0px",
           borderBottom: "1px solid #ebebeb",
         }}
       >
@@ -1235,7 +1261,7 @@ const ProductList = () => {
               </div>
             )}
           </span>
-          <div className="productheader">
+          <div className="productheader" style={{display:'none'}}>
             <div className="productheader part">
               {storeInit?.IsMetalCustComb === 1 && (
                 <div
@@ -1386,12 +1412,6 @@ const ProductList = () => {
           </div>
         </div>
       </div>
-      {
-      isProdLoading ? (
-        // true ?(
-        <ProductListSkeleton className="pSkelton" />
-      ) : (
-        <>
           <div
             style={{
               display: "flex",
@@ -1864,7 +1884,9 @@ const ProductList = () => {
                     className="smilingProductImageMain"
                     id="smilingProductImageMain"
                   >
-                    {isOnlyProdLoading ? (
+                    {
+                      // true ? (
+                    isOnlyProdLoading ? (
                       <ProductListSkeleton
                         fromPage={"Prodlist"}
                         className="pSkelton"
@@ -1902,7 +1924,7 @@ const ProductList = () => {
                                             [productData?.autocode]: false,
                                           });
                                         }}
-                                        className="smr_ImgandVideoContainer"
+                                        className="dt_ImgandVideoContainer"
                                       >
                                         {isRollOverVideo[
                                           productData?.autocode
@@ -1924,7 +1946,7 @@ const ProductList = () => {
                                             }
                                             loop={true}
                                             autoPlay={true}
-                                            className="smr_productCard_video"
+                                            className="dt_productCard_video"
                                           />
                                         ) : (
                                           <img
@@ -2029,7 +2051,7 @@ const ProductList = () => {
                                         className="prodTitle"
                                         title={`${productData?.TitleLine}`}
                                       >
-                                        {productData?.TitleLine}
+                                        {productData?.designno} {" - "} {productData?.TitleLine}
                                       </p>
                                     </div>
                                   ) : (
@@ -2042,10 +2064,10 @@ const ProductList = () => {
                                       </p>
                                     </div>
                                   )}
-                                  <div style={{ margin: '0px', fontSize: '15px', display: 'flex',justifyContent:'center',width:'100%'}}>
-                                    <label className="from">Form:</label>
-                                    <div className="currencyFont" style={{ fontSize: '16px' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
-                                    <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: 'black' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
+                                  <div style={{ margin: '0px', fontSize: '15px', display: 'flex',justifyContent:'center',width:'100%',gap:'5px'}}>
+                                    {/* <label className="from">Form:</label> */}
+                                    <div className="currencyFont" style={{ fontSize: '16px',color:'#8d8d8d'}}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
+                                    <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
                                   </div>
                                 </div>
                               </div>
@@ -2058,7 +2080,7 @@ const ProductList = () => {
                                     justifyContent: "center",
                                     marginTop: "5%",
                                     width: '100%',
-                                    marginBottom:'12%'
+                                    // marginBottom:'5%'
                                   }}
                                   className="smr_pagination_portion"
                                 >
@@ -2118,6 +2140,7 @@ const ProductList = () => {
           </div>
         </>
       )}
+      <Footer />
     </div>
   );
 };

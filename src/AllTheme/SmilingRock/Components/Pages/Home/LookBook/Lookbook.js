@@ -18,6 +18,7 @@ import {
   Tooltip,
   tooltipClasses,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -58,6 +59,7 @@ const Lookbook = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [imageUrl, setImageUrl] = useState();
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
+  const isMobileScreen = useMediaQuery('(max-width:800px)');
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
@@ -494,7 +496,7 @@ const Lookbook = () => {
       border: '1px solid #dadde9',
     },
   }));
-  
+
   const CustomTooltipContent = ({ categories }) => (
     <div>
       <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
@@ -1578,90 +1580,92 @@ const Lookbook = () => {
                               </button>
                             </div>
                           </div>
-                          <Swiper
-                            slidesPerView={4}
-                            spaceBetween={10}
-                            navigation={true}
-                            // pagination={{ clickable: true }}
-                            loop={false}
-                            modules={[Pagination, Navigation]}
-                            className="smr_LookBookmySwiper"
-                            breakpoints={{
-                              320: {
-                                slidesPerView: 1,
-                                spaceBetween: 10,
-                              },
-                              480: {
-                                slidesPerView: 2,
-                                spaceBetween: 20,
-                              },
-                              640: {
-                                slidesPerView: 3,
-                                spaceBetween: 30,
-                              },
-                            }}
-                          >
-                            {sortDesignDetailsBySrNo(
-                              parseDesignDetails(slide?.Designdetail)
-                            )?.map((detail, subIndex) => (
-                              <div
-                                className="smr_lookBookSubImageDiv"
-                                key={subIndex}
-                              >
-                                <SwiperSlide
-                                  className="smr_lookBookSliderSubDiv"
-                                  style={{
-                                    marginRight: "0px",
-                                    cursor: "pointer",
-                                  }}
+                          {!isMobileScreen &&
+                            <Swiper
+                              slidesPerView={4}
+                              spaceBetween={10}
+                              navigation={true}
+                              // pagination={{ clickable: true }}
+                              loop={false}
+                              modules={[Pagination, Navigation]}
+                              className="smr_LookBookmySwiper"
+                              breakpoints={{
+                                320: {
+                                  slidesPerView: 1,
+                                  spaceBetween: 10,
+                                },
+                                480: {
+                                  slidesPerView: 2,
+                                  spaceBetween: 20,
+                                },
+                                640: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 30,
+                                },
+                              }}
+                            >
+                              {sortDesignDetailsBySrNo(
+                                parseDesignDetails(slide?.Designdetail)
+                              )?.map((detail, subIndex) => (
+                                <div
+                                  className="smr_lookBookSubImageDiv"
+                                  key={subIndex}
                                 >
-                                  {detail?.IsInReadyStock == 1 && (
-                                    <span className="smr_LookBookinstock">
-                                      In Stock
-                                    </span>
-                                  )}
-                                  <img
-                                    className="smr_lookBookSubImage"
-                                    loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                    alt={`Sub image ${subIndex} for slide ${index}`}
-                                    onClick={() =>
-                                      handleNavigation(
-                                        detail?.designno,
-                                        detail?.autocode,
-                                        detail?.TitleLine
-                                          ? detail?.TitleLine
-                                          : ""
-                                      )
-                                    }
-                                  />
-                                  <div
+                                  <SwiperSlide
+                                    className="smr_lookBookSliderSubDiv"
                                     style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      marginBottom: "5px",
+                                      marginRight: "0px",
+                                      cursor: "pointer",
                                     }}
                                   >
-                                    {cartItems.includes(detail?.autocode) ? (
-                                      <button
-                                        className="smr_lookBookINCartBtn"
-                                        onClick={() => handleRemoveCart(detail)}
-                                      >
-                                        REMOVE CART
-                                      </button>
-                                    ) : (
-                                      <button
-                                        className="smr_lookBookAddtoCartBtn"
-                                        onClick={() => handleAddToCart(detail)}
-                                      >
-                                        ADD TO CART +
-                                      </button>
+                                    {detail?.IsInReadyStock == 1 && (
+                                      <span className="smr_LookBookinstock">
+                                        In Stock
+                                      </span>
                                     )}
-                                  </div>
-                                </SwiperSlide>
-                              </div>
-                            ))}
-                          </Swiper>
+                                    <img
+                                      className="smr_lookBookSubImage"
+                                      loading="lazy"
+                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      alt={`Sub image ${subIndex} for slide ${index}`}
+                                      onClick={() =>
+                                        handleNavigation(
+                                          detail?.designno,
+                                          detail?.autocode,
+                                          detail?.TitleLine
+                                            ? detail?.TitleLine
+                                            : ""
+                                        )
+                                      }
+                                    />
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginBottom: "5px",
+                                      }}
+                                    >
+                                      {cartItems.includes(detail?.autocode) ? (
+                                        <button
+                                          className="smr_lookBookINCartBtn"
+                                          onClick={() => handleRemoveCart(detail)}
+                                        >
+                                          REMOVE CART
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="smr_lookBookAddtoCartBtn"
+                                          onClick={() => handleAddToCart(detail)}
+                                        >
+                                          ADD TO CART +
+                                        </button>
+                                      )}
+                                    </div>
+                                  </SwiperSlide>
+                                </div>
+                              ))}
+                            </Swiper>
+                          }
                         </div>
                       </div>
                     ))}
@@ -1766,7 +1770,7 @@ const Lookbook = () => {
                                           justifyContent: "space-around",
                                         }}
                                       >
-                                        <div style={{ marginLeft: "12px" }}>
+                                        <div className="smr_lb3ImageDiv" style={{ marginLeft: "12px" }}>
                                           <img
                                             src={
                                               ele?.ImageCount > 0
@@ -1845,6 +1849,7 @@ const Lookbook = () => {
                                             alignItems: "center",
                                             marginBottom: "5px",
                                           }}
+                                          className="smr_lb3cartIconBtnDiv"
                                         >
                                           {cartItems.includes(ele?.autocode) ? (
                                             <IconButton

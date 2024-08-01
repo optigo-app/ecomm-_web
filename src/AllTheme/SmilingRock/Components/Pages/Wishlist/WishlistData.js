@@ -81,7 +81,7 @@ const WishlistData = ({
           </ToggleButtonGroup>
         </div>
 
-        <Grid container spacing={1} className='smr_wlListGrid'>
+        <Grid container spacing={2} className='smr_wlListGrid'>
           {items.map(item => (
             <WishlistItems
               key={item.id}
