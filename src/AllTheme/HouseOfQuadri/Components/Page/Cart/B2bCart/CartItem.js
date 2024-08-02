@@ -51,6 +51,7 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const [storeInitData, setStoreInitData] = useState();
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");
   const isMediumScreen = useMediaQuery(
@@ -208,7 +209,7 @@ const CartItem = ({
                   </Typography>
                   <Typography variant="body2" className="hoq_card-ContentsData">
                     CWT: {(item?.CSwt || 0).toFixed(3)} /
-                    {(item?.CSpcs || 0).toFixed(3)}
+                    {(item?.CSpcs || 0).toFixed(0)}
                   </Typography>
                 </div>
                 <div>
@@ -217,7 +218,7 @@ const CartItem = ({
                   </Typography>
                   <Typography variant="body2" className="hoq_card-ContentsData">
                     DWT: {(item?.Dwt || 0).toFixed(3)} /
-                    {(item?.Dpcs || 0).toFixed(3)}
+                    {(item?.Dpcs || 0).toFixed(0)}
                   </Typography>
                 </div>
               </div>
@@ -230,17 +231,18 @@ const CartItem = ({
                     <span className="hoq_currencyFontPrice">
                       <span
                         className="hoq_currencyFont"
+                        style={{paddingRight  :"0.2rem"}}
                         dangerouslySetInnerHTML={{
-                          __html: decodeEntities(CurrencyData?.Currencysymbol),
+                          __html: decodeEntities(loginUserDetail?.CurrencyCode),
                         }}
                       />
-                      {item?.UnitCostWithMarkUp}
+                      {(item?.UnitCostWithMarkUp).toLocaleString('en-IN')}
                     </span>
                   )}
                 </>
               </Box>
               {item?.Remarks !== "" && (
-                <Typography variant="body2" className="hoq_remarktext">
+                <Typography variant="body2" className="hoq_remarktext" noWrap>
                   <span>Remark:</span>
                   {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>

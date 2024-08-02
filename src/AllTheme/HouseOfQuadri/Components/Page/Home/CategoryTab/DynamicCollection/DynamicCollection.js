@@ -106,12 +106,8 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-  // mui pagination ee
-  // const handlePageChange = (event, value) => {
-  //   window.scrollTo({ behavior: "smooth", top: 700 });
-  //   setCurrentPage(value);
-  //   console.log("pagiantion", value);
-  // };
+ 
+  console.log("wofbwejlkfbwejlkfbwejlk",loginUserDetail?.CurrencyCode)
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -2040,6 +2036,7 @@ const DynamicCollection = () => {
                     handleCartandWish={handleCartandWish}
                     cartArr={cartArr}
                     wishArr={wishArr}
+                    CurrencyCode={loginUserDetail?.CurrencyCode}
                   />
                 ))
               ) : (
@@ -2098,6 +2095,7 @@ const C_Card = ({
   handleCartandWish,
   cartArr,
   wishArr,
+  CurrencyCode
 }) => {
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
@@ -2330,7 +2328,7 @@ const C_Card = ({
           <span className="hoq_prod_metal_col">
             {findMetalColor(
               productData?.MetalColorid
-            )?.[0]?.metalcolorname.toUpperCase()}
+            )?.[0]?.metalcolorname?.toUpperCase()}
             -
             {
               findMetalType(
@@ -2344,12 +2342,13 @@ const C_Card = ({
           <span className="hoq_price">
             <span
               className="hoq_currencyFont"
+              style={{paddingRight : "0.1rem"  }}
               dangerouslySetInnerHTML={{
-                __html: decodeEntities(storeInit?.Currencysymbol),
+                __html: decodeEntities(CurrencyCode),
               }}
             />
             <span className="hoq_pricePort">
-              {productData?.UnitCostWithMarkUp}
+              {(productData?.UnitCostWithMarkUp)?.toLocaleString('en-IN')}
             </span>
           </span>
         </div>
@@ -2366,7 +2365,7 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         onChange={onPageChange}
         shape="rounded"
         className="pagination-btn"
-        siblingCount={1}
+        siblingCount={0.5}
         showFirstButton
         showLastButton
       />

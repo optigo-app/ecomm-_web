@@ -1078,17 +1078,20 @@ const ProductPage = () => {
                     ""
                   ) : (
                     <span
+                    style={{paddingRight  :"0.4rem"}}
                       className="hoq_currencyFont"
                       dangerouslySetInnerHTML={{
-                        __html: decodeEntities(storeInit?.Currencysymbol),
+                        __html: decodeEntities(loginInfo?.CurrencyCode),
                       }}
                     />
                   )}
                   {isPriceloading ? (
                     <Skeleton variant="rounded" width={140} height={30} />
                   ) : (
-                    singleProd1?.UnitCostWithMarkUp ??
-                    singleProd?.UnitCostWithMarkUp
+                    <>
+                    {singleProd1?.UnitCostWithMarkUp ??
+                    (singleProd?.UnitCostWithMarkUp)?.toLocaleString('en-IN')}
+                    </>
                   )}
                 </div>
               }
@@ -1289,7 +1292,7 @@ const ProductPage = () => {
                     <span className="smr_prod_short_key">
                       Net Wt :{" "}
                       <span className="smr_prod_short_val">
-                        {singleProd1?.Nwt ?? singleProd?.Nwt}
+                        {singleProd1?.Nwt ?? singleProd?.Nwt?.toFixed(3)}
                       </span>
                     </span>
                   </div>
@@ -1357,7 +1360,7 @@ const ProductPage = () => {
                             <li className="hoq_proDeatilList1">{data?.H}</li>
                             <li className="hoq_proDeatilList1">{data?.J}</li>
                             <li className="hoq_proDeatilList1">
-                              {data.M}&nbsp;&nbsp;{data?.N}
+                              {data.M}&nbsp; / &nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -1393,7 +1396,7 @@ const ProductPage = () => {
                             <li className="hoq_proDeatilList1">{data?.H}</li>
                             <li className="hoq_proDeatilList1">{data?.J}</li>
                             <li className="hoq_proDeatilList1">
-                              {data.M}&nbsp;&nbsp;{data?.N}
+                              {data.M}&nbsp; / &nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -1445,9 +1448,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }
@@ -1476,9 +1480,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }
@@ -1507,9 +1512,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }
@@ -1538,9 +1544,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }
@@ -1569,9 +1576,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }
@@ -1600,9 +1608,10 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
+                          style={{paddingRight  :"0.4rem"}}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
-                              __html: decodeEntities(storeInit?.Currencysymbol),
+                              __html: decodeEntities(loginInfo?.CurrencyCode),
                             }}
                           />
                         }

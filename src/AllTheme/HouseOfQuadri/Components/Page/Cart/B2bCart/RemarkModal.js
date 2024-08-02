@@ -14,7 +14,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
       aria-labelledby="remark-modal-title"
       aria-describedby="remark-modal-description"
       sx={{
-        zIndex : 999999
+        zIndex : 999999,
       }}
     >
       <Box
@@ -23,7 +23,20 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: 500,
+          width: {
+            xs: '90%',    
+            sm: '80%',    
+            md: '60%',    
+            lg: '50%',    
+            xl: '40%',    
+          },
+          p: {
+            xs: 2,        // Padding of 2 on extra-small screens
+            sm: 3,        // Padding of 3 on small screens
+            md: 4,        // Padding of 4 on medium screens
+            lg: 5,        // Padding of 5 on large screens
+            xl: 6,        // Padding of 6 on extra-large screens
+          },
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,

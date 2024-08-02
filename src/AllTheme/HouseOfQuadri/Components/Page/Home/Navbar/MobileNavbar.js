@@ -90,7 +90,7 @@ export default function TemporaryDrawer({
   const DrawerList = (
     <Box
       sx={{
-        width: 350,
+        width: 310,
         margin: "0",
         padding: "0",
         fontFamily: "DM Sans , Arial",

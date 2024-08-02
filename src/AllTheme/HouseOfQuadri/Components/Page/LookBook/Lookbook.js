@@ -493,6 +493,9 @@ const Lookbook = () => {
           setIsDrawerOpen(false);
         }}
         className="hoq_filterDrawer"
+        sx={{
+          zIndex  : 9999999
+        }}
       >
         {filterData?.length > 0 && (
           <div className="hoq_lookBookFilterSubDiv" style={{ padding: "20px" }}>
@@ -583,6 +586,11 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
+                              sx={{
+                                display  :"flex",
+                                gap  :"6px",
+                                alignItems  :"center"
+                              }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -764,7 +772,10 @@ const Lookbook = () => {
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
-        className="hoqlookBookPopuMain"
+        className="hoqlookBookPopuMain" 
+        sx={{
+          zIndex  : 9999999
+        }}
       >
         <Box
           sx={{
@@ -960,6 +971,11 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                  sx={{
+                                    display  :"flex",
+                                    gap  :"6px",
+                                    alignItems  :"center"
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
