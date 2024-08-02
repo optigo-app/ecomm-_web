@@ -184,9 +184,19 @@
     cursor: "pointer";
     text-transform: "uppercase";
     letter-spacing: "2px";
-    padding: '0px 4px';
+    padding: 0px 4px !important;
   }
 
+  // .elv_trend_drp *{
+  //   font-size: 14px;
+  //   background-color: #F4F4F4;
+  //   color: #8E7B8E;
+  //   font-weight: "400";
+  //   cursor: "pointer";
+  //   text-transform: "uppercase";
+  //   letter-spacing: "2px";
+  //   padding: 0px 4px !important;
+  // }
   .elv_metal_drp {
     color: #8E7B8E;
     background-color: #F4F4F4;
