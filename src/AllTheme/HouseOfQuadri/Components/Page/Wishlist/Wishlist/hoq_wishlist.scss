@@ -13,7 +13,6 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-
   }
 
   .hoq_WlListImage {
@@ -134,7 +133,8 @@
 
 .hoq_WlListData {
   padding: 60px 100px 100px 100px;
-  margin-bottom: -2%;
+  // margin-bottom: -2%;
+  // margin-bottom: 5rem;
 }
 
 .hoq_WlListCard {
@@ -316,7 +316,7 @@
 @media (max-width: 768px) {
   .hoq_WlListData {
     padding: 10px 10px 10px 10px;
-    margin-bottom: -8%;
+    // margin-bottom: -8%;
   }
 
   .hoq_card-ContentData .hoq_DesignNoTExt .hoq_Wl-Cartbtn {
@@ -327,7 +327,7 @@
 @media (max-width: 600px) {
   .hoq_WlListData {
     padding: 10px 10px 10px 10px;
-    margin-bottom: -8%;
+    // margin-bottom: -8%;
   }
 
   .WlBtnGroupMainDiv {
@@ -381,7 +381,7 @@
 @media (max-width: 320px) {
   .hoq_WlListData {
     padding: 6px;
-    margin-bottom: -8%;
+    // margin-bottom: -8%;
   }
 
   .WlBtnGroupMainDiv {

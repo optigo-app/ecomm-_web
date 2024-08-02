@@ -36,10 +36,11 @@ import LabGrownDiamond from "./Components/Page/staticPage/LabGrownDiamond/LabGro
 import DiamondEducation from "./Components/Page/staticPage/DiamondEducation/DiamondEducation";
 import QualityCertification from "./Components/Page/staticPage/QualityCertification/QualityCertification";
 import PrivateRoutes from "./PrivateRoutes";
-import { Hoq_loginState } from "./Components/Recoil/atom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Hoq_companyLogo, Hoq_loginState } from "./Components/Recoil/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
+import Lookbook from "./Components/Page/LookBook/Lookbook";
 
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
@@ -50,34 +51,57 @@ const HouseOfQuadri_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  const [companyTitleLogo, setCompanyTitleLogo] =
+    useRecoilState(Hoq_companyLogo);
 
   useEffect(() => {
-    const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
-      LoginWithEmailAPI("", "", "", "", cookieValue)
-        .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-            setIsLoginState(true);
-            localStorage.setItem("LoginUser", true);
-            localStorage.setItem(
-              "loginUserDetail",
-              JSON.stringify(response.Data.rd[0])
-            );
-            if (redirectEmailUrl) {
-              navigation(redirectEmailUrl);
-            } else {
-              navigation("/");
-            }
-          }
-        })
-        .catch((err) => console.log(err));
+    let data = localStorage.getItem("storeInit");
+    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let logo = JSON?.parse(data);
+    if (Logindata) {
+      if (Logindata?.IsPLWOn == 1) {
+        setCompanyTitleLogo(Logindata?.Private_label_logo);
+      } else {
+        setCompanyTitleLogo(logo?.companylogo);
+      }
+    } else {
+      setCompanyTitleLogo(logo?.companylogo);
     }
-    let localD = JSON.parse(localStorage.getItem("storeInit"));
-    setLocalData(localD);
-  }, []);
+  });
 
-  
+  useEffect(() => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+      left: 0,
+    });
+  }, [location?.pathname]);
+  // useEffect(() => {
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  //   if (cookieValue) {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue)
+  //       .then((response) => {
+  //         if (response.Data.rd[0].stat === 1) {
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true);
+  //           localStorage.setItem("LoginUser", true);
+  //           localStorage.setItem(
+  //             "loginUserDetail",
+  //             JSON.stringify(response.Data.rd[0])
+  //           );
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else {
+  //             navigation("/");
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  //   let localD = JSON.parse(localStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, []);
+
   return (
     <>
       <Navbar />
@@ -120,6 +144,7 @@ const HouseOfQuadri_App = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
         </Route>
+        <Route path="/Lookbook" element={<Lookbook />} />
         {/* static Page */}
         <Route path="/Shipping-Policy" element={<ShippingPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -17,7 +17,6 @@
       font-size: 20px;
     }
   }
-
   .collection_cards {
     width: 100%;
     height: auto;
@@ -32,7 +31,7 @@
     .c_card {
       width: 330px;
       height: 640px;
-      background-color: blueviolet;
+      background-color: rgba(51, 50, 50, 0.082);
       position: relative;
       &:hover {
         button::after {
@@ -102,6 +101,16 @@
       }
     }
   }
+  @media screen and (max-width: 1442px) {
+    .collection_cards {
+      padding: 0 5px;
+      gap: 0.5em;
+      .c_card {
+        width: 280px;
+        height: 570px;
+      }
+    }
+  }
   @media screen and (max-width: 1200px) {
     .collection_cards {
       padding: 0;
@@ -124,7 +133,15 @@
       }
     }
   }
-
+  @media screen and (max-width: 972px) {
+    .collection_cards {
+      padding: 0 5px;
+      .c_card {
+        width: 300px;
+        height: 470px;
+      }
+    }
+  }
   @media screen and (max-width: 768px) {
     .desktop-collection {
       display: none;
@@ -147,14 +164,15 @@
         color: white;
         width: 100%;
         position: relative;
-        height: 100vh;
+        height: 90vh;
+        background-color: rgba(49, 49, 49, 0.089);
         h3 {
           font-family: $fontCrimsonTextMedium;
         }
         img {
           height: 100%;
-          object-fit: fill;
           width: 100%;
+          object-fit: cover !important;
         }
         .details {
           position: absolute;
@@ -207,8 +225,13 @@
         }
       }
     }
+    .heading {
+      h1 {
+        font-size: 22px;
+        font-weight: 500 !important;
+      }
+    }
   }
-
   @media screen and (max-width: 420px) {
     .mobile-only {
       overflow: hidden;
@@ -239,6 +262,3 @@
     }
   }
 }
-
-// desktop-collection
-// mobile-collection
