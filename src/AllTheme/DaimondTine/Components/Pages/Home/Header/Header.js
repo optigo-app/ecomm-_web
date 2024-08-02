@@ -4,7 +4,7 @@ import { IoCallOutline } from 'react-icons/io5'
 import { AiFillInstagram } from "react-icons/ai";
 import { Badge, ButtonBase, Drawer, IconButton, List, ListItem, ListItemText, Tooltip, useMediaQuery } from '@mui/material';
 import { VscSearch } from "react-icons/vsc";
-import { dt_companyLogo, dt_loginState } from '../../../Recoil/atom';
+import { dt_CartCount, dt_companyLogo, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { GoHeart } from "react-icons/go";
@@ -15,6 +15,8 @@ import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from "js-cookie";
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import Pako from 'pako';
 
 const Header = () => {
 
@@ -30,7 +32,13 @@ const Header = () => {
     const [selectedData, setSelectedData] = useState([]);
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [leval1menu,setLeval1menu] =  useState();
+    const [leval1menu, setLeval1menu] = useState();
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+
+
+    const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount);
+    const [wishCountNum, setWishCountNum] = useRecoilState(dt_WishCount);
 
 
     let navigate = useNavigate()
@@ -42,6 +50,24 @@ const Header = () => {
         setislogin(value);
     };
 
+    useEffect(() => {
+        const visiterID = Cookies.get("visiterId");
+        GetCountAPI(visiterID)
+            .then((res) => {
+                if (res) {
+                    setCartCountNum(res?.cartcount);
+                    setWishCountNum(res?.wishcount);
+                }
+            })
+            .catch((err) => {
+                if (err) {
+                    console.log("getCountApiErr", err);
+                }
+            });
+    }, []);
+
+
+
     const getMenuApi = async () => {
 
         const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -50,9 +76,9 @@ const Header = () => {
         const visiterID = Cookies.get("visiterId");
         let finalID;
         if (IsB2BWebsite == 0) {
-          finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+            finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
         } else {
-          finalID = loginUserDetail?.id || "0";
+            finalID = loginUserDetail?.id || "0";
         }
 
         await GetMenuAPI(finalID).then((response) => {
@@ -189,12 +215,12 @@ const Header = () => {
         setHoveredIndex(index);
         setExpandedMenu(index);
         setSelectedData(menuItems[index] || []);
-        
+
     };
 
     const handleMouseEnter0 = (param) => {
         setLeval1menu(param)
-    } 
+    }
 
     const handleLogout = () => {
         setislogin(false);
@@ -219,65 +245,65 @@ const Header = () => {
     const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1024px)');
     const isDesktop = useMediaQuery('(min-width: 1025px) and (max-width: 1440px)');
     const isMaxDesktop = useMediaQuery('(min-width: 1440px) and (max-width: 2550px)');
-    
 
-    const handelMenu = (param,param1,param2) => {
 
-        console.log("param",param,param1,param2)
+    const handelMenu = (param, param1, param2) => {
+
+        console.log("param", param, param1, param2)
         // setDrawerShowOverlay(false);
         let finalData = {
-          menuname: param?.menuname ?? "",
-          FilterKey: param?.key ?? "",
-          FilterVal: param?.value ?? "",
-          FilterKey1: param1?.key ?? "",
-          FilterVal1: param1?.value ?? "",
-          FilterKey2: param2?.key ?? "",
-          FilterVal2: param2?.value ?? "",
+            menuname: param?.menuname ?? "",
+            FilterKey: param?.key ?? "",
+            FilterVal: param?.value ?? "",
+            FilterKey1: param1?.key ?? "",
+            FilterVal1: param1?.value ?? "",
+            FilterKey2: param2?.key ?? "",
+            FilterVal2: param2?.value ?? "",
         };
         localStorage.setItem("menuparams", JSON.stringify(finalData));
-    
+
         const queryParameters1 = [
-          finalData?.FilterKey && `${finalData.FilterVal}`,
-          finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-          finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
         ]
-          .filter(Boolean)
-          .join("/");
-    
+            .filter(Boolean)
+            .join("/");
+
         const queryParameters = [
-          finalData?.FilterKey && `${finalData.FilterVal}`,
-          finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-          finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+            finalData?.FilterKey && `${finalData.FilterVal}`,
+            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
         ]
-          .filter(Boolean)
-          .join(",");
-    
+            .filter(Boolean)
+            .join(",");
+
         const otherparamUrl = Object.entries({
-          b: finalData?.FilterKey,
-          g: finalData?.FilterKey1,
-          c: finalData?.FilterKey2,
+            b: finalData?.FilterKey,
+            g: finalData?.FilterKey1,
+            c: finalData?.FilterKey2,
         })
-          .filter(([key, value]) => value !== undefined)
-          .map(([key, value]) => value)
-          .filter(Boolean)
-          .join(",");
-    
+            .filter(([key, value]) => value !== undefined)
+            .map(([key, value]) => value)
+            .filter(Boolean)
+            .join(",");
+
         const paginationParam = [
-          `page=${finalData.page ?? 1}`,
-          `size=${finalData.size ?? 50}`,
+            `page=${finalData.page ?? 1}`,
+            `size=${finalData.size ?? 50}`,
         ].join("&");
-    
+
         // console.log("otherparamsUrl--", otherparamUrl);
-    
+
         let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
         const url = `/p/${queryParameters1}/?M=${btoa(
-          menuEncoded
+            menuEncoded
         )}`;
 
         navigate(url);
 
-      };
+    };
 
     const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
         if (iconclicked == 'iconclicked') {
@@ -301,6 +327,50 @@ const Header = () => {
         drawerWidth = '25%';
     }
 
+
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+
+            const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error("Error compressing and encoding:", error);
+            return null;
+        }
+    };
+
+    const searchDataFucn = (e) => {
+        if (e.key === "Enter") {
+            if (searchText) {
+                // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+                // const handleMoveToDetail = () => {
+
+                let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+                let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+
+                let obj = {
+                    a: "",
+                    b: searchText,
+                    m: loginInfo?.MetalId ?? storeInit?.MetalId,
+                    d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+                    c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+                    f: {},
+                };
+
+                let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+                navigate(`/d/${searchText}?p=${encodeObj}`);
+                setSearchText("")
+                // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+                // }
+            }
+        }
+    };
+
     return (
         <div className='dai_headerMain'>
             <div className="dai_headerMainTop">
@@ -314,7 +384,7 @@ const Header = () => {
                     <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
                     <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} />
                     {!islogin &&
-                        <p style={{ margin: '0px' }} onClick={() => navigation('/LoginOption')}>
+                        <p style={{ margin: '0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
                             Login
                         </p>
                     }
@@ -334,7 +404,7 @@ const Header = () => {
 
                         }}
                         className="serachinputBoxOverly"
-                    // onKeyDown={searchDataFucn}
+                        onKeyDown={searchDataFucn}
                     />
                 </div>
                 <div className="dt_headermainDiv2">
@@ -348,12 +418,62 @@ const Header = () => {
                     </a>
                 </div>
                 <div className="dt_headermainDiv3">
-                    {/* {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) && */}
                     <ul className="dt_nav_ul_shop">
-                        <>
-                            {islogin &&
+                        {IsB2BWebsiteChek == 1 ?
+                            islogin == true ?
+                                <>
+                                    <Badge
+                                        badgeContent={wishCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                            },
+                                        }}
+                                    >
+                                        <Tooltip title="WishList">
+                                            <li
+                                                className="dt_nav_li_smining"
+                                                style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                                                <GoHeart color="#7D7F85" fontSize='25px' />
+                                            </li>
+                                        </Tooltip>
+                                    </Badge>
+
+                                    <Badge
+                                        badgeContent={cartCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                            },
+                                        }}
+                                    >
+                                        <Tooltip title="Cart">
+                                            <li
+                                                className="dt_nav_li_smining"
+                                                onClick={() => navigation('/CartPage')}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    marginTop: "0px",
+                                                }}
+                                            >
+                                                <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
+                                            </li>
+                                        </Tooltip>
+                                    </Badge>
+                                </>
+
+                                :
+                                ''
+                            :
+                            <>
                                 <Badge
-                                    // badgeContent={getWishListCount}
+                                    badgeContent={wishCountNum}
                                     max={1000}
                                     overlap={"rectangular"}
                                     color="secondary"
@@ -371,40 +491,57 @@ const Header = () => {
                                         </li>
                                     </Tooltip>
                                 </Badge>
-                            }
-                            <Badge
-                                // badgeContent={getCartListCount}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                    },
-                                }}
-                            >
-                                <Tooltip title="Cart">
+
+                                <Badge
+                                    badgeContent={cartCountNum}
+                                    max={1000}
+                                    overlap={"rectangular"}
+                                    color="secondary"
+                                    sx={{
+                                        '& .MuiBadge-badge': {
+                                            backgroundColor: '#a8807c',
+                                        },
+                                    }}
+                                >
+                                    <Tooltip title="Cart">
+                                        <li
+                                            className="dt_nav_li_smining"
+                                            onClick={() => navigation('/CartPage')}
+                                            style={{
+                                                cursor: "pointer",
+                                                marginTop: "0px",
+                                            }}
+                                        >
+                                            <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
+                                        </li>
+                                    </Tooltip>
+                                </Badge>
+                            </>
+                        }
+                        {IsB2BWebsiteChek == 1 ?
+                            islogin == true ?
+                                <Tooltip title="Account">
                                     <li
                                         className="dt_nav_li_smining"
-                                        onClick={() => navigation('/CartPage')}
-                                        style={{
-                                            cursor: "pointer",
-                                            marginTop: "0px",
-                                        }}
+                                        style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
+                                        onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
                                     >
-                                        <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
+                                        <IoPersonOutline color="#7D7F85" fontSize='25px' />
                                     </li>
                                 </Tooltip>
-                            </Badge></>
-                        <Tooltip title="Account">
-                            <li
-                                className="dt_nav_li_smining"
-                                style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
-                            >
-                                <IoPersonOutline color="#7D7F85" fontSize='25px' />
-                            </li>
-                        </Tooltip>
+                                :
+                                ''
+                            :
+                            <Tooltip title="Account">
+                                <li
+                                    className="dt_nav_li_smining"
+                                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
+                                    onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
+                                >
+                                    <IoPersonOutline color="#7D7F85" fontSize='25px' />
+                                </li>
+                            </Tooltip>
+                        }
                         {islogin &&
                             <li
                                 className="dt_nav_li_smining"
@@ -415,11 +552,9 @@ const Header = () => {
                             </li>
                         }
                     </ul>
-                    {/* } */}
                 </div>
             </div>
 
-            {/* {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) && */}
             <div className={`dt_TopFixed_Header ${isFixed ? 'fixed' : ''}`}>
                 <>
                     <ul className="dt_ul_main">
@@ -438,20 +573,20 @@ const Header = () => {
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
                                 key={index}
                                 label={item.menuname}
-                                onMouseEnter={() =>{ 
+                                onMouseEnter={() => {
                                     handleMouseEnter(index, item);
                                     handleMouseEnter0(item);
                                 }}
                                 onMouseLeave={() => {
                                     handleMouseLeave();
                                 }}
-                                onClick={() => 
-                                handelMenu({
+                                onClick={() =>
+                                    handelMenu({
                                         menuname: item?.menuname,
                                         key: item?.param0name,
                                         value: item?.param0dataname,
-                                })}
-                                
+                                    })}
+
                             >
                                 <span className="nav-li-sminingSpan">
                                     {item.menuname}
@@ -470,7 +605,6 @@ const Header = () => {
                     </ul>
                 </>
             </div>
-            {/* } */}
 
 
             {/* header menu dropdown */}
@@ -506,15 +640,15 @@ const Header = () => {
                                                 menuname: leval1menu?.menuname,
                                                 key: leval1menu?.param0name,
                                                 value: leval1menu?.param0dataname,
-                                              },
-                                              {
-                                                key: param1Item.param1name,
-                                                value: param1Item.param1dataname,
-                                              },
-                                              {
-                                                key: param2Item.param2name,
-                                                value: param2Item.param2dataname,
-                                              })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                            },
+                                                {
+                                                    key: param1Item.param1name,
+                                                    value: param1Item.param1dataname,
+                                                },
+                                                {
+                                                    key: param2Item.param2name,
+                                                    value: param2Item.param2dataname,
+                                                })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                                                 {param2Item?.param2dataname}
                                             </p>
                                         ))}
@@ -577,7 +711,7 @@ const Header = () => {
                     <ul className='dt_mobile_div3_ulMain'>
                         {islogin &&
                             <Badge
-                                badgeContent={2}
+                                badgeContent={wishCountNum}
                                 max={1000}
                                 overlap={"rectangular"}
                                 color="secondary"
@@ -597,7 +731,7 @@ const Header = () => {
 
 
                         <Badge
-                            badgeContent={'2'}
+                            badgeContent={cartCountNum}
                             max={1000}
                             overlap={"rectangular"}
                             color="secondary"
@@ -654,9 +788,9 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                {islogin == 'true' &&
+                                {islogin == true &&
                                     <Badge
-                                        // badgeContent={getWishListCount}
+                                        badgeContent={wishCountNum}
                                         max={1000}
                                         overlap={"rectangular"}
                                         color="secondary"
@@ -682,7 +816,7 @@ const Header = () => {
                                     </Badge>
                                 }
                                 <Badge
-                                    // badgeContent={getCartListCount}
+                                    badgeContent={cartCountNum}
                                     max={1000}
                                     overlap={"rectangular"}
                                     color="secondary"
