@@ -11,17 +11,20 @@ import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 
 const PaymentPage = () => {
 
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalPriceText, setTotalPriceText] = useState();
-    const [finalTotal, setFinalTotal] = useState();
+    // const [finalTotal, setFinalTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
     const [isLoading, setIsloding] = useState(false);
     const [cartString, setCartString] = useState();
+    const [taxAmmount, setTaxAmount] = useState();
     const islogin = useRecoilValue(el_loginState)
+    const [finalTotal, setFinlTotal] = useState();
 
     const navigate = useNavigate();
     const handleBackButton = (e) => {
@@ -31,21 +34,53 @@ const PaymentPage = () => {
 
     const setCartCountVal = useSetRecoilState(el_CartCount);
 
-    useEffect(() => {
-        const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
-        console.log('selectedAddressData', selectedAddressData);
-        setSelectedAddrData(selectedAddressData)
+    // useEffect(() => {
+    //     const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+    //     console.log('selectedAddressData', selectedAddressData);
+    //     setSelectedAddrData(selectedAddressData)
 
-        const totalPriceData = JSON.parse(localStorage.getItem('totalProdPrice'));
-        if (totalPriceData) {
-            const totalPriceNum = parseFloat(totalPriceData?.total);
-            const newPrice = totalPriceNum * 0.03;
-            setTotalPriceText(newPrice.toFixed(0));
-            setTotalPrice(totalPriceNum);
-            const finalTotalPrice = totalPriceNum + newPrice;
-            setFinalTotal(finalTotalPrice.toFixed(0));
-        }
-    }, [])
+    //     const totalPriceData = JSON.parse(localStorage.getItem('totalProdPrice'));
+    //     if (totalPriceData) {
+    //         const totalPriceNum = parseFloat(totalPriceData?.total);
+    //         const newPrice = totalPriceNum * 0.03;
+    //         setTotalPriceText(newPrice.toFixed(0));
+    //         setTotalPrice(totalPriceNum);
+    //         const finalTotalPrice = totalPriceNum + newPrice;
+    //         setFinalTotal(finalTotalPrice.toFixed(0));
+    //     }
+    // }, [])
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const texData = await fetchEstimateTax();
+                if (texData) {
+                    setTaxAmount(texData[0]?.TaxAmount);
+                }
+            } catch (error) {
+                console.error("Error fetching tax data:", error);
+            }
+
+            const selectedAddressData = JSON.parse(
+                localStorage.getItem("selectedAddressId")
+            );
+            console.log("selectedAddressData", selectedAddressData);
+            setSelectedAddrData(selectedAddressData);
+
+            const totalPriceData = JSON.parse(localStorage.getItem('totalProdPrice'))
+            if (totalPriceData) {
+                const totalPriceNum = parseFloat(totalPriceData?.total);
+                console.log('totalPriceNum: ', totalPriceNum);
+                const finalTotalPrice = totalPriceNum;
+                setFinlTotal(finalTotalPrice);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
 
     useEffect(() => {
         const getCartData = localStorage.getItem('iscartData');
@@ -58,9 +93,9 @@ const PaymentPage = () => {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"));
         const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
         if (storeInit?.IsB2BWebsite != 0) {
-            setCurrencyData(storedData?.Currencysymbol)
+            setCurrencyData(storedData?.CurrencyCode)
         } else {
-            setCurrencyData(storeInit?.Currencysymbol)
+            setCurrencyData(storeInit?.CurrencyCode)
         }
     }, [])
 
@@ -238,11 +273,11 @@ const PaymentPage = () => {
                                                                     ),
                                                                 }}
                                                             />
-                                                            <span className='elv_subtotal_price'>{totalprice}</span>
+                                                            <span className='elv_subtotal_price'> {finalTotal}</span>
                                                         </p>
                                                     </div>
                                                     <div className='elv_paymenttotalpricesummary'>
-                                                        <p className='elv_payment_total_title'>Estimated Tax(3%)</p>
+                                                        <p className='elv_payment_total_title'>Estimated Tax</p>
                                                         <p>
                                                             <span
                                                                 className="elv_currencyFont"
@@ -253,7 +288,7 @@ const PaymentPage = () => {
                                                                     ),
                                                                 }}
                                                             />
-                                                            <span className='elv_estimate_tax'>{totalPriceText}</span>
+                                                            <span className='elv_estimate_tax'> {taxAmmount}</span>
                                                         </p>
                                                     </div>
                                                     <div className='elv_payment_total_border'></div>
@@ -269,7 +304,7 @@ const PaymentPage = () => {
                                                                     ),
                                                                 }}
                                                             />
-                                                            <span className='elv_estimate_total'>{finalTotal}</span>
+                                                            <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
                                                         </p>
                                                     </div>
                                                 </div>

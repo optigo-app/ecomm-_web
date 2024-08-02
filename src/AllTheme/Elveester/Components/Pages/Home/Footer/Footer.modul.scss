@@ -187,14 +187,15 @@
         }
     
         .ElveFooter1Input {
-            display: flex;
-            justify-content: center;
+            // display: flex;
+            // justify-content: center;
+            width: 100%;
         }
     
         .ElveFooter1 {
             padding: 0px;
-            display: flex;
-            align-items: center;
+            // display: flex;
+            // align-items: center;
             width: 100%;
         }
 
@@ -240,7 +241,14 @@
             width: 100%;
         }
 
+        .ElveFooter1 {
+            width: 100%;
+        }
+
         .ElveFooter2_login{
+            width: 100%;
+        }
+        .ElveFooter2 {
             width: 100%;
         }
         .ElveFooter3_login{
@@ -252,6 +260,15 @@
     
         .eleBox1InputBox {
             width: 60% !important;
+        }
+
+        .ElveFooter3 {
+            width: 100%;
+        }
+    
+    
+        .ElveFooter4 {
+            width: 100%;
         }
     
         .elevBox1Btn {

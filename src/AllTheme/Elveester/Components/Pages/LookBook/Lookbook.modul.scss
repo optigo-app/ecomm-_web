@@ -1,0 +1,601 @@
+@import "../../scss/elvee_modules.scss";
+
+
+
+.elv_lookSubCtSaveBtn {
+  height: 30px;
+  width: 30px;
+  border: 1px solid lightgray;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -14px;
+  right: -8px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.elv_LookBookMain {
+  background-color: $backgroundColor;
+
+
+  .elv_lookbookFilterMain {
+    position: sticky;
+    top: 0;
+    height: 80vh;
+    width: 20%;
+  }
+
+  .elv_lookBookViveBoxSet {
+    height: 35px;
+  }
+
+  .elv_LookBookFilterSub {
+    margin: 50px 10px 0px 10px;
+  }
+
+  .elv_LookBookSubMainDiv {
+    margin-block-start: 2%;
+    margin-inline: 6%;
+    background-color: white;
+  }
+
+  .elv_LookBookSubMainDiv {
+    display: flex;
+    min-height: 800px;
+  }
+
+  .elv_lookBookImgDiv {
+    margin-top: 55px;
+    width: 80%;
+  }
+
+  .elv_lb2designList_title {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: $fontSize6;
+    color: #fff;
+    text-transform: capitalize;
+    font-family: $primaryFontFamily;
+  }
+
+  .elv_lb1designList_title {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: $fontSize4;
+    color: #fff;
+    text-transform: capitalize;
+    font-family: $primaryFontFamily;
+  }
+
+  .elv_lb3designList_title {
+    position: absolute;
+    top: 108px;
+    right: 119px;
+    font-size: $fontSize6;
+    color: $titleColor;
+    text-transform: capitalize;
+    font-family: $primaryFontFamily;
+  }
+
+  .elv_lb3TotalBtnGroup {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid #e1e1e1;
+    width: 513px;
+    border-top: none;
+
+    .elv_lb3TotalPrice {
+      width: 100%;
+      color: $titleColor;
+      background-color: #fff;
+      text-align: center;
+      padding: 10px 0px;
+      font-weight: 500;
+    }
+
+    .elv_lb3BuyComboDiv {
+      width: 100%;
+      color: #fff;
+      background-color: $titleColor;
+      text-align: center;
+      padding: 10px 0px;
+      font-weight: 500;
+
+      &:hover{
+        color: $titleColor;
+        background-color: #fff;
+        cursor: pointer;
+      }
+
+      // text-align: end;
+      // margin-right: 10px;
+      span {
+        // text-align: end;
+        // height: 35px;
+        // width: 150px;
+        // border: none;
+        // font-weight: 500;
+        // border-radius: 3px;
+        // color: #7d7f85;
+        // // border: 1px solid #7d7f85;
+        // background: none;
+        // border-radius: 6px;
+      }
+    }
+  }
+
+  .elvlookBookPopuMain .MuiBox-root {
+    padding: 10px !important;
+  }
+
+  .elv_designSetDiv {
+    border: 1px solid lightgray;
+    margin: 5px;
+    width: 49%;
+  }
+
+  .elv_designSetDiv2 {
+    width: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    margin: 5px;
+  }
+
+
+  .elv_lookBookSelectViewBtn {
+    height: 35px;
+    width: 150px;
+    border: none;
+    font-weight: 500;
+    border-radius: 3px;
+    color: $titleColor;
+    border: 1px solid $titleColor;
+    background: none;
+    border-radius: 6px;
+  }
+
+  .elv_lookBookFilterSubDiv {
+    margin: 70px 10px 0px 10px;
+  }
+
+  .elv_lookBookImgDivMain {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+
+  .elv_lookBookImg {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .elv_lookBookSubImgMain {
+    display: flex;
+    // overflow: auto;
+  }
+
+  .elv_lookBookSubImgMain::-webkit-scrollbar {
+    height: 4px !important;
+    cursor: pointer;
+  }
+
+  .elv_lookBookSliderSubDiv {
+    // width: 33.33% !important;
+    position: relative;
+  }
+
+  .elv_LookBookmySwiper {
+    width: 100% !important;
+  }
+
+  .elv_lookBookSubImageDiv {
+    width: 33%;
+    // box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
+    margin: 5px;
+  }
+
+  .elv_lookBookSubImage {
+    width: 100%;
+    object-fit: contain;
+    height: 200px;
+    padding: 5px;
+  }
+
+  .elv_lookBookBuyBtn {
+    height: 30px;
+    width: 100px;
+    font-size: 15px;
+    border: none;
+    font-weight: 600;
+    color: #fff;
+    border: 1px solid #7d7f85;
+    border-radius: 6px;
+    background: #7d7f85;
+  }
+
+  .elv_lookBookAddtoCartBtn {
+    height: 30px;
+    width: 150px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #7d7f85;
+    border: 1px solid #7d7f85;
+    border-radius: 6px;
+    background: none;
+  }
+
+
+  .elv_LookBookinstock {
+    background-color: #00800045;
+    color: black;
+    position: absolute;
+    left: 35%;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0px 5px;
+  }
+
+  .elv_lookBookINCartBtn {
+    height: 30px;
+    width: 150px;
+    cursor: pointer;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    border: 1px solid #c0bbb1;
+    border-radius: 6px;
+    background: #c0bbb1;
+  }
+
+  .elv_lookBookAddtoCartIconBtn {
+    font-size: 22px !important;
+    color: rgb(201, 201, 201);
+  }
+
+  .elv_lookBookINCartIconBtn {
+    font-size: 22px !important;
+    color: green;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: gray !important;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 15px;
+    height: 15px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 25px;
+  }
+
+  .elv_noProductFoundLookBookDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+
+    p {
+      font-size: $fontSize5;
+      color: $titleColor;
+    }
+  }
+
+  .elv_lb3detailDT {
+    font-size: $fontSize0;
+    color: $titleColor;
+  }
+
+  .elv_lb3pipe {
+    margin: 0 5px;
+  }
+
+  @media screen and (max-width:1450px) {
+    .elv_designSetDiv {
+      width: 48% !important;
+    }
+  }
+
+
+  @media screen and (min-width:1201px) {
+    .elv_lookBookMobileFilter {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+
+    .elv_lookbookFilterMain {
+      display: none;
+    }
+
+    .elv_lookBookImgDiv {
+      width: 100% !important;
+    }
+
+    .elv_LookBookSubMainDiv {
+      margin-inline: 1% !important;
+    }
+
+    .elv_designSetDiv {
+      width: 48.8% !important;
+    }
+
+    .elv_lookBookImgDiv {
+      margin-top: 0px !important;
+    }
+
+    .elv_lookBookMobileTopLine {
+      margin-top: 10px !important;
+    }
+  }
+
+  @media screen and (max-width:900px) {
+    .elv_designSetDiv {
+      width: 99% !important;
+    }
+  }
+
+  @media screen and (max-width:600px) {
+
+    .elv_designSetDiv {
+      width: 98% !important;
+    }
+
+    .elv_lookBookSliderSubDiv {
+      width: 50% !important;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .elv_lookBookImgDeatil {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .elv_lookBookImgDeatilSub {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .elv_lookBookCategoryPoupuBox {
+      width: 90% !important;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .elv_lookBookCategoryPoupuBox {
+    width: 90% !important;
+  }
+}
+
+.elv_lookbook3MainDiv {
+
+  .elv_lb3compeletethelook_cont {
+    padding: 0px 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    // position: relative;
+  }
+
+  .elv_lb3compeletethelook_prodt {
+    z-index: 1;
+    position: relative;
+    margin-left: -140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .elv_lb3compeletethelook_prodt_for_3 {
+    z-index: 1;
+    position: relative;
+    margin-left: -140px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    padding: 15px;
+    height: 364px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .elv_lb3completethelook_outer {
+    padding: 5px;
+    border: 1px solid #e1e1e1;
+    background-color: #fff;
+    width: 513p
+  }
+
+  .elv_lb3srthelook_img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+  }
+
+  .elv_lb3srthelook_prodinfo {
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    width: 200px;
+    word-wrap: break-word;
+  }
+
+  .elv_lb3srthelook_prodinfo_inner {
+    font-family: $primaryFontFamilyMedium;
+  }
+
+  .elv_lb3ctlImg_containe {
+    width: 951px;
+    height: 632px;
+  }
+
+  .elv_lb3ctl_img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    margin-top: 12px;
+    margin-bottom: -100px;
+  }
+
+  .elv_lookbook3thumbMainDiv {
+    margin-bottom: 100px;
+    padding: 0px 85px;
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media(max-width: 1440px) {
+    .elv_lookbook3MainDiv {
+      max-width: 1200px;
+    }
+
+    .elv_lb3compeletethelook_prodt_for_3 {
+      width: 470px;
+    }
+
+    .elv_lb3compeletethelook_prodt {
+      width: 470px;
+    }
+  }
+
+  @media(max-width: 1400px) {
+    .elv_lookbook3MainDiv {
+      max-width: 1200px;
+    }
+
+    .elv_lb3compeletethelook_prodt_for_3 {
+      width: 470px;
+    }
+
+    .elv_lb3compeletethelook_prodt {
+      width: 470px;
+    }
+
+    .elv_lb3completethelook_outer {
+      width: 420px !important;
+    }
+  }
+
+  @media(max-width: 1300px) {
+    .elv_lookbook3MainDiv {
+      max-width: 1200px;
+    }
+
+    .elv_lb3compeletethelook_prodt_for_3 {
+      width: 470px;
+    }
+
+    .elv_lb3compeletethelook_prodt {
+      width: 470px;
+    }
+
+    .elv_lb3completethelook_outer {
+      width: 400px !important;
+    }
+  }
+
+  @media(max-width: 800px) {
+    .elv_lookbook3MainDiv {
+      max-width: 1200px;
+    }
+
+    .elv_lb3compeletethelook_cont {
+      display: flex;
+      flex-direction: column !important;
+    }
+
+    .elv_lb3ctlImg_containe {
+      width: 500px !important;
+      height: 300px !important;
+      // height: 100% !important;
+    }
+
+    .elv_lb3compeletethelook_prodt {
+      margin-left: 0px !important;
+      width: 360px;
+    }
+
+    .elv_lb3compeletethelook_prodt_for_3 {
+      margin-left: 0px !important;
+      width: 360px;
+    }
+
+    .elv_lb3completethelook_outer {
+      width: 400px !important;
+    }
+
+    .elv_lb3compeletethelook_cont {
+      padding: 0 50px !important;
+    }
+  }
+
+  @media(max-width: 500px) {
+    .elv_lb3ctlImg_containe {
+      width: 400px !important;
+      height: 300px !important;
+      // height: 100% !important;
+    }
+  }
+
+  @media(max-width: 425px) {
+    .elv_lb3ctlImg_containe {
+      width: 300px !important;
+      height: 300px !important;
+      // height: 100% !important;
+    }
+
+    .elv_lb3compeletethelook_prodt {
+      margin-left: 0px !important;
+      width: 300px;
+    }
+
+    .elv_lb3compeletethelook_prodt_for_3 {
+      margin-left: 0px !important;
+      width: 300px;
+    }
+  }
+}

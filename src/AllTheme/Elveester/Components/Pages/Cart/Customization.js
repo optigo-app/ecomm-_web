@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './elv_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
+import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -41,6 +42,19 @@ const Customization = ({
     setColorStoneCombo(CSQtyColorData);
 
   }, [])
+
+  const SizeSorting = (SizeArr) => {
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
+
+  }
 
   return (
     <>
@@ -117,10 +131,10 @@ const Customization = ({
                 </div>
               }
 
-              {sizeCombo?.rd?.length !== 0 &&
+              {SizeSorting(sizeCombo?.rd)?.length !== 0 &&
                 <div className="elv_option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" defaultValue={selectedItem?.Size} value={selectedItem?.size} onChange={handleSizeChange}>
+                  <select id="size" defaultValue={selectedItem?.Size} value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
@@ -144,14 +158,14 @@ const Customization = ({
                     className="elv_currencyFont"
                     dangerouslySetInnerHTML={{
                       __html: decodeEntities(
-                        CurrencyData?.Currencysymbol
+                        CurrencyData?.CurrencyCode
                       ),
                     }}
                   />
                   {ispriceloding ? (
                     <Skeleton className='elv_CartSkelton' variant="text" width="80%" animation="wave" />
                   ) : (
-                    (selectedItem?.FinalCost)
+                    formatter(selectedItem?.FinalCost)
                   )}
                 </span>
 
@@ -207,14 +221,14 @@ const Customization = ({
                       className="elv_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
-                          CurrencyData?.Currencysymbol
+                          CurrencyData?.CurrencyCode
                         ),
                       }}
                     />
                     {ispriceloding ? (
                       <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                     ) : (
-                      (selectedItem?.FinalCost)
+                      formatter(selectedItem?.FinalCost)
                     )}
                   </span>
                 </div>
