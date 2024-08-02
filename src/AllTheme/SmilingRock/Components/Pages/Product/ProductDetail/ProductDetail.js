@@ -788,17 +788,57 @@ const ProductDetail = () => {
   //   }
 
   // }
+  
 
-  const ProdCardImageFunc = () => {
+function checkImageAvailability(imageUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = imageUrl;
+  });
+}
+
+  const ProdCardImageFunc = async() => {
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
 
     let pd = singleProd;
 
-    // console.log("singleProdImageCount", pd?.ImageCount);
+    let colImg;
 
-    if (pd?.ImageCount > 0) {
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if(mtColorLocal?.length){
+      mcArr =
+      mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0]
+    }
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_"+ mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
+      }
+      colImg = pdImgList[0]
+    } 
+    
+    
+    if (pd?.ImageCount > 0 && (colImg?.length === 0 || IsColImg)) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
@@ -807,12 +847,18 @@ const ProductDetail = () => {
           i +
           "." +
           pd?.ImageExtension;
-        pdImgList.push(imgString);
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
       }
     } else {
-      // setSelectedThumbImg({"link":imageNotFound,"type":'img'});
       finalprodListimg = imageNotFound;
     }
+
+    let IsColImg = await checkImageAvailability(colImg)
+    console.log("colImg",(colImg?.length === 0 || IsColImg));
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -840,13 +886,14 @@ const ProductDetail = () => {
     }
 
     return finalprodListimg;
+
+    
   };
 
-  // console.log("pdThumbImg", pdThumbImg);
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd]);
+  }, [singleProd,location?.key]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -854,14 +901,6 @@ const ProductDetail = () => {
     return txt.value;
   };
 
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
-    });
-  }
 
   const handleMetalWiseColorImg = async(e) => {
 
@@ -899,7 +938,7 @@ const ProductDetail = () => {
     let pdImgList = [];
 
     if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
           singleProd?.designno +
