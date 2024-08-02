@@ -12,6 +12,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 const WishlistItems = ({
     item,
@@ -100,13 +101,13 @@ const WishlistItems = ({
                                         <span className="smr_wishDT">DWT: </span>
                                         <span>
                                             {(item?.Dwt || 0).toFixed(3)} /{" "}
-                                            {(item?.Dpcs || 0).toFixed(3)}
+                                            {(item?.Dpcs || 0)}
                                         </span>
                                         <span className="smr_pipes"> | </span>
                                         <span className="smr_wishDT">CWT: </span>
                                         <span>
                                             {(item?.CSwt || 0).toFixed(3)} /{" "}
-                                            {(item?.CSpcs || 0).toFixed(3)}{" "}
+                                            {(item?.CSpcs || 0)}{" "}
                                         </span>
                                     </Typography>
                                     <Typography variant="body2" className="smr_card-ContentData">
@@ -123,7 +124,7 @@ const WishlistItems = ({
                                         <span className="smr_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>{" "}
-                                        {item?.UnitCost !== "" && <span>{item?.FinalCost}</span>}
+                                        <span>{formatter(item?.FinalCost)}</span>
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>
