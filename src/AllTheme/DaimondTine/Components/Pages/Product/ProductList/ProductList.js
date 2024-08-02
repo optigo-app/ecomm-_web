@@ -1823,7 +1823,7 @@ const ProductList = () => {
             style={{
               textTransform: "uppercase",
               display: "flex",
-              width: maxwidth1483 ? "100%":"25%",
+              width: maxwidth1483 ? "100%":"20%",
             }}
           >
             <span

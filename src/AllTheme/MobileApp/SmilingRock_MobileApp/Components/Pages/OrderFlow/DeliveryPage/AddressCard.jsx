@@ -92,14 +92,16 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
                 </CardContent>
 
                 {/* {showButtons && ( */}
-                    <div className='smrMo_editDeleteBtngroup' >
-                        <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
-                            <MdModeEditOutline className='smrMo_editIcon' />
-                        </Button>
+                <div className='smrMo_editDeleteBtngroup' >
+                    <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
+                        <MdModeEditOutline className='smrMo_editIcon' />
+                    </Button>
+                    {isdefault != 1 &&
                         <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
                             <MdDelete className='smrMo_DeleteIcon' />
                         </Button>
-                    </div>
+                    }
+                </div>
                 {/* )} */}
             </Card>
         </Grid>
