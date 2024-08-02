@@ -834,11 +834,21 @@ function checkImageAvailability(imageUrl) {
             pdImgList.push(imgString);
           }
       }
-      colImg = pdImgList[0]
+
+      if(pdImgList?.length > 0){
+        colImg = pdImgList[0]
+      }
     } 
+
+
+    let IsColImg = false;
+    if(colImg?.length > 0 ){
+      IsColImg = await checkImageAvailability(colImg)
+    }
+
+    console.log("colImg",IsColImg)
     
-    
-    if (pd?.ImageCount > 0 && (colImg?.length === 0 || IsColImg)) {
+    if (pd?.ImageCount > 0 && !IsColImg ) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
@@ -857,8 +867,7 @@ function checkImageAvailability(imageUrl) {
       finalprodListimg = imageNotFound;
     }
 
-    let IsColImg = await checkImageAvailability(colImg)
-    console.log("colImg",(colImg?.length === 0 || IsColImg));
+    
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -874,10 +883,23 @@ function checkImageAvailability(imageUrl) {
       }
     }
 
-    if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[0];
-      setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
-      setPdThumbImg(pdImgList);
+    let FinalPdImgList = [];
+    
+    if(pdImgList?.length > 0 ){
+      for(let i = 1; i <= pdImgList?.length ; i++ ){
+        let isImgAvl =  checkImageAvailability(pdImgList[i])
+  
+        if(isImgAvl){
+          FinalPdImgList.push(pdImgList[i])
+        }
+      }
+    }
+    
+
+    if(FinalPdImgList?.length > 0) {
+      finalprodListimg = FinalPdImgList[0];
+      setSelectedThumbImg({"link":FinalPdImgList[0],"type":'img'});
+      setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
     }
 
