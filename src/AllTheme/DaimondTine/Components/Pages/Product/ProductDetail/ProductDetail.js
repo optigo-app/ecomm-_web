@@ -16,14 +16,14 @@ import { SingleProdListAPI } from "../../../../../../utils/API/SingleProdListAPI
 import { getSizeData } from "../../../../../../utils/API/CartAPI/GetCategorySizeAPI";
 import { StockItemApi } from "../../../../../../utils/API/StockItemAPI/StockItemApi";
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
-import { Checkbox, Divider, FormControlLabel, Skeleton } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Divider, FormControlLabel, Skeleton, Typography } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IoIosPlayCircle } from "react-icons/io";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -690,14 +690,65 @@ const ProductDetail = () => {
 
   console.log("locationKey", location?.key);
 
-  const ProdCardImageFunc = () => {
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const ProdCardImageFunc = async() => {
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
 
     let pd = singleProd;
 
-    if (pd?.ImageCount > 0) {
+    let colImg;
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if(mtColorLocal?.length){
+      mcArr =
+      mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0]
+    }
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_"+ mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
+      }
+
+      if(pdImgList?.length > 0){
+        colImg = pdImgList[0]
+      }
+    } 
+
+
+    let IsColImg = false;
+    if(colImg?.length > 0 ){
+      IsColImg = await checkImageAvailability(colImg)
+    }
+
+    console.log("colImg",IsColImg)
+    
+    if (pd?.ImageCount > 0 && !IsColImg ) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
@@ -706,11 +757,17 @@ const ProductDetail = () => {
           i +
           "." +
           pd?.ImageExtension;
-        pdImgList.push(imgString);
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
       }
     } else {
       finalprodListimg = imageNotFound;
     }
+
+    console.log("SearchData",pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -725,12 +782,28 @@ const ProductDetail = () => {
         pdvideoList.push(videoString);
       }
     }
+    else{
+      pdvideoList = [];
+    }
 
-    if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[0];
-      setSelectedThumbImg({ link: pdImgList[0], type: "img" });
-      setPdThumbImg(pdImgList);
-      setThumbImgIndex(0);
+    let FinalPdImgList = [];
+    
+    if(pdImgList?.length > 0 ){
+      for(let i = 0; i < pdImgList?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgList[i])
+        if(isImgAvl){
+          FinalPdImgList.push(pdImgList[i])
+        }
+      }
+    }
+
+    console.log("SearchData",singleProd);
+
+    if(FinalPdImgList?.length > 0) {
+      finalprodListimg = FinalPdImgList[0];
+      setSelectedThumbImg({"link":FinalPdImgList[0],"type":'img'});
+      setPdThumbImg(FinalPdImgList);
+      setThumbImgIndex(0)
     }
 
     if (pdvideoList?.length > 0) {
@@ -738,11 +811,13 @@ const ProductDetail = () => {
     }
 
     return finalprodListimg;
+
+    
   };
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd]);
+  }, [singleProd,location?.key]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1435,9 +1510,171 @@ const ProductDetail = () => {
               </div>
             </div>
 
+            { storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+              <Accordion
+              elevation={0}
+              sx={{
+                borderBottom: "1px solid #c7c8c9",
+                borderRadius: 0,
+                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                  {
+                    borderBottomLeftRadius: "0px",
+                    borderBottomRightRadius: "0px",
+                  },
+                "&.MuiPaper-root.MuiAccordion-root:before":
+                  {
+                    background: "none",
+                  },
+                width:'75%'
+              }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon sx={{ width: "20px" }} />
+                }
+                aria-controls="panel1-content"
+                id="panel1-header"
+                sx={{
+                  color: "#7d7f85 !important",
+                  borderRadius: 0,
+
+                  "&.MuiAccordionSummary-root": {
+                    padding: 0,
+                  },
+                }}
+                // className="filtercategoryLable"
+                
+              >
+                <Typography sx={{fontFamily:"TT Commons Regular",fontSize:'18px'}}>Price Breakup</Typography>
+              </AccordionSummary>
+              <AccordionDetails
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  padding:'0 0 16px 0',
+
+                }}
+              >
+
+                {(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)!== 0 ?<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
+                <span style={{display:'flex'}}>
+                <Typography>
+                  {
+                    <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                    </span>
+                  }
+                </Typography>
+                  &nbsp;
+                <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                </span>
+                </div>:null}
+
+                { (singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
+
+                <span style={{display:'flex'}}>
+                <Typography>{
+                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                  </span>
+                }</Typography>
+                &nbsp;
+                  <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                </span>
+                </div> : null}
+
+                {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
+
+                <span style={{display:'flex'}}>
+                <Typography>{
+                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                </span>
+                }</Typography>
+                &nbsp;
+                <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                </span>
+                </div> : null}
+
+                {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
+
+                <span style={{display:'flex'}}>
+                <Typography>{
+                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                </span>
+                }</Typography>
+                &nbsp;
+                <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                </span>
+                </div> : null}
+
+                { formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
+
+                <span style={{display:'flex'}}>
+                <Typography>{
+                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                </span>
+                }</Typography>
+                &nbsp;
+                <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                </span>
+                </div> : null}
+
+                {
+                (
+
+                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
+                  (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
+                  (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
+                  (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
+                  (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
+                  (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+
+                ) !== 0 ?
+                
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
+
+                <span style={{display:'flex'}}>
+                <Typography>{
+                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
+                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                </span>
+                }</Typography>
+                &nbsp;
+                <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{
+                formatter.format((
+
+                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
+                  (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
+                  (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
+                  (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
+                  (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
+                  (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+
+                )?.toFixed(2))
+              }</Typography>
+                </span>
+                </div>
+              :
+              null 
+              }
+
+              </AccordionDetails>
+              </Accordion>
+            )}
+
             {storeInit?.IsPriceShow === 1 &&
               (isPriceloading ? (
-                <Skeleton variant="rounded" width={240} height={30} />
+                <Skeleton variant="rounded" width={240} height={30} sx={{marginTop:'5px'}} />
               ) : (
                 <div>
                   <p
@@ -1445,6 +1682,7 @@ const ProductDetail = () => {
                       color: "#7d7f85",
                       fontSize: "12px",
                       display: "flex",
+                      marginTop:'5px'
                     }}
                   >
                     <span className="mainpriceDeatilPage">
