@@ -49,6 +49,7 @@ import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 
 import { RxGrid } from "react-icons/rx";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
@@ -1861,9 +1862,11 @@ const Lookbook = () => {
                                             <IconButton
                                               onClick={() => handleAddToCart(ele)}
                                             >
-                                              <LocalMallIcon className="smr_lookBookAddtoCartIconBtn" />
+                                              <LocalMallOutlinedIcon className="smr_lookBookAddtoCartIconBtn" />
                                             </IconButton>
                                           )}
+
+                                          
                                         </div>
                                       </div>
                                     </div>

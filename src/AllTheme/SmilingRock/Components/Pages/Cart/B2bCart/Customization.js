@@ -3,6 +3,7 @@ import './smr_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -98,7 +99,7 @@ const Customization = ({
               }
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <>
-                  {selectedItem?.diamondquality != "" && selectedItem?.diamondcolor != "" &&
+                  {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Diamond:</label>
                       <select id="diamond" value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
@@ -118,7 +119,7 @@ const Customization = ({
               }
               {storeInitData?.IsCsCustomization == 1 &&
                 <>
-                  {selectedItem?.colorstonequality != "" && selectedItem?.colorstonecolor != "" &&
+                   {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Color Stone:</label>
                       <select id="diamond" value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
@@ -169,7 +170,7 @@ const Customization = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {(selectedItem?.FinalCost)}
+                    {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
                   <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -198,13 +199,13 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-            {selectedItem?.diamondquality != "" && selectedItem?.diamondcolor != "" &&
+             {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
                 <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
               </div>
             }
-            {selectedItem?.colorstonequality != "" && selectedItem?.colorstonecolor != "" &&
+            {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
                 <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
@@ -227,15 +228,16 @@ const Customization = ({
                 <div className="smr_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
-                      <span
+                      {/* <span
                         className="smr_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
-                      />
-                      {(selectedItem?.FinalCost)}
+                      /> */}
+                       <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
                     <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />

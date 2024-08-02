@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Usewishlist from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ResponsiveCartUi = (
     {
@@ -75,7 +76,7 @@ const ResponsiveCartUi = (
                                 >
                                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                                 </span>
-                                {" "}{(item?.FinalCost)}
+                                {" "}{formatter(item?.FinalCost)}
                             </span>
                         }
                     </p>

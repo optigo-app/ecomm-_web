@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
     cartData,
@@ -66,7 +67,7 @@ const CartItem = ({
                         >
                             {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                         </span>
-                        {" "}{(cartData?.UnitCostWithMarkUp)}
+                        {" "}{formatter(cartData?.UnitCostWithMarkUp)}
                     </span>
                 }
             </td>
@@ -94,7 +95,7 @@ const CartItem = ({
                         >
                             {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                         </span>
-                        {" "}{(cartData?.FinalCost)}
+                        {" "}{formatter(cartData?.FinalCost)}
                     </span>
                 }
             </td>

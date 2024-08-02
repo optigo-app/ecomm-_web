@@ -73,7 +73,7 @@ const ProductList = () => {
   const [activeTab, setActiveTab] = useState("/");
 
   const[isSingleView,setIsSingleView] = useState(false);
-  const[isDoubleView,setIsDoubleView] = useState(false);
+  const[isDoubleView,setIsDoubleView] = useState(true);
   const [locationKey,setLocationKey] = useState()
 
 

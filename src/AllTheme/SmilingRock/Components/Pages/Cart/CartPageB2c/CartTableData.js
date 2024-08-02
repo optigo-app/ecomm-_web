@@ -23,7 +23,7 @@ const ExampleComponent = ({
     const visiterId = Cookies.get('visiterId');
 
     const shipsDate = cartData?.shipsdate;
-    const dayOfMonth = moment(shipsDate).format('D'); 
+    const dayOfMonth = moment(shipsDate).format('D');
 
     const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
@@ -43,15 +43,15 @@ const ExampleComponent = ({
     //         }
     //     }, 500)
     // }
-    
-  const handleRemovecartData = async (item) => {
-    const returnValue = await onRemove(item);
-    if (returnValue?.msg == "success") {
-      GetCountAPI(visiterId).then((res) => {
-        setCartCountVal(res?.cartcount);
-      })
-    }
-  };
+
+    const handleRemovecartData = async (item) => {
+        const returnValue = await onRemove(item);
+        if (returnValue?.msg == "success") {
+            GetCountAPI(visiterId).then((res) => {
+                setCartCountVal(res?.cartcount);
+            })
+        }
+    };
 
     return (
         <table className="smr_B2C-table smr_B2C-table-xs">
@@ -70,13 +70,29 @@ const ExampleComponent = ({
                         <p className='smr_b2ccartContentMtDT'>
                             <span className='smr_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
                             <span> | </span>
-                            <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0).toFixed(3).replace(/\.?0+$/, '')}</span>
+                            {storeInitData?.IsGrossWeight == 1 &&
+                                <>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0).toFixed(3)}</span>
+                                </>
+                            }
                             <span> | </span>
-                            <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0).toFixed(3).replace(/\.?0+$/, '')}</span>
+                            {Number(cartData?.Nwt) !== 0 && (
+                                <>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0).toFixed(3)}</span>
+                                </>
+                            )}
                             <span> | </span>
-                            <span className='smr_b2ccartContentcartData'>{(cartData?.Dwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.Dpcs || 0).toFixed(3).replace(/\.?0+$/, '')}</span>
+                            {storeInitData?.IsDiamondWeight == 1 &&
+                                <>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Dwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.Dpcs || 0)}</span>
+                                </>
+                            }
                             <span> | </span>
-                            <span className='smr_b2ccartContentcartData'>{(cartData?.CSwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.CSpcs || 0).toFixed(3).replace(/\.?0+$/, '')}</span>
+                            {storeInitData?.IsStoneWeight == 1 &&
+                                <>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.CSwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.CSpcs || 0)}</span>
+                                </>
+                            }
                         </p>
 
                         <div className='smr_b2cCartQTRm'>
@@ -91,14 +107,14 @@ const ExampleComponent = ({
                         </div>
                         <td className="smr_B2cCartshippingDayMobile" title="Shipping Info">Ships in {dayOfMonth} days</td>
                         <td className="smr_B2cCartPriceDayMobile" title="Price">
-                        {storeInitData?.IsPriceShow == 1 &&
-                            <span>
-                                <span
-                                    className="smr_currencyFont"
-                                >
-                                    {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
-                                </span>
-                                {/* <span
+                            {storeInitData?.IsPriceShow == 1 &&
+                                <span>
+                                    <span
+                                        className="smr_currencyFont"
+                                    >
+                                        {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                                    </span>
+                                    {/* <span
                                     className="smr_currencyFont"
                                     dangerouslySetInnerHTML={{
                                         __html: decodeEntities(
@@ -106,9 +122,9 @@ const ExampleComponent = ({
                                         ),
                                     }}
                                 /> */}
-                                {" "}{(cartData?.UnitCostWithMarkUp)}
-                            </span>
-                        }
+                                    {" "}{(cartData?.UnitCostWithMarkUp)}
+                                </span>
+                            }
                         </td>
                     </td>
                     <td className="smr_B2C-text-right smr_B2cCartshippingDay" title="Shipping Info">Ships in {dayOfMonth} days</td>
@@ -131,7 +147,7 @@ const ExampleComponent = ({
                                 {" "}{(cartData?.UnitCostWithMarkUp)}
                             </span>
                         }
-                        </td>
+                    </td>
                 </tr>
             </tbody>
         </table>

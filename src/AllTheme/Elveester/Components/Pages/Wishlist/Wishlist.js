@@ -8,6 +8,7 @@ import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie'
 import SkeletonLoader from './WishlistSkeleton';
 import { Box, CircularProgress, Modal, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Wishlist = () => {
   const {
@@ -96,7 +97,7 @@ const Wishlist = () => {
           </Box>
         </div>
       )}
-      <div className="elv_wishlist_main_div">
+      {/* <div className="elv_wishlist_main_div">
         <div className="elv_wishlist_div">
           <h2 className='elv_wishlist_header_title'>
             My Wishlist
@@ -108,6 +109,62 @@ const Wishlist = () => {
            </div>
           ) : ('')}
          
+          {!isWLLoading ? (
+            <WishlistData
+              isloding={isWLLoading}
+              items={wishlistData}
+              updateCount={updateCount}
+              countDataUpdted={countDataUpdted}
+              curr={CurrencyData}
+              itemInCart={itemInCart}
+              decodeEntities={decodeEntities}
+              WishCardImageFunc={WishCardImageFunc}
+              handleRemoveItem={handleRemoveItem}
+              handleWishlistToCart={handleWishlistToCart}
+              handleMoveToDetail={handleMoveToDetail}
+              handelMenu={handelMenu}
+            />
+          ) : (
+            <div style={{ marginTop: '90px' }}>
+              <SkeletonLoader />
+            </div>
+          )}
+          {dialogOpen && (
+            <>
+              <Modal
+                open={dialogOpen}
+                onClose={handleCloseDialog}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Are you sure you want to remove all Item?
+                  </Typography>
+                  <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
+                    <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '2.5rem', fontSize: '18px' }} onClick={handleCloseDialog}>No</button>
+                    <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '15px', fontSize: '18px' }} onClick={handleConfirmRemoveAll}
+                    >Yes</button>
+                  </div>
+                </Box>
+              </Modal>
+            </>
+          )}
+
+        </div>
+      </div> */}
+      <div className="elv_MainWlDiv">
+        <div className="WlMainPageDiv">
+          <div className="WlBtnGroupMainDiv">
+            <div className="elv_Wl-title">My Wishlist</div>
+            {wishlistData.length ? (
+              <div className='elv_wishlist_buttons'>
+                <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>
+                <button className='elv_wishlist_atcall_btn' onClick={handleAddtoCartAllfun}>add to cart all</button>
+              </div>
+            ) : ('')}
+
+          </div>
           {!isWLLoading ? (
             <WishlistData
               isloding={isWLLoading}

@@ -83,6 +83,13 @@
     max-width: 80px;
   }
 
+  .elv_menubar_menu_div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 96%;
+  }
+
   .el_login_header_menu_li {
     height: 100%;
     align-items: center;
@@ -120,6 +127,12 @@
   .el_login_header_menu_main_div2_li {
     margin-inline: 15px;
   }
+
+  .elv_heart_menu_icon{
+    font-size: 25px;
+    color: #7D7F85;
+  }
+
   .el_login_header_menu_main_div1 {
     display: flex;
   }
@@ -175,6 +188,9 @@
     .el_login_header_menu_main{
         width: 18rem;
     }
+    .el_login_header_menu_main_div2_li {
+      margin-inline: 7px;
+    }
     .elv_login_header_menu_names{
         font-size: 13px;
     }
@@ -199,6 +215,9 @@
     .elv_login_header_menu_names{
         font-size: 13px;
     }
+    .el_login_header_menu_main_div2_li {
+      margin-inline: 7px;
+    }
     .elv_param1{
         font-size: 11px;
     }
@@ -206,11 +225,19 @@
         font-size: 11px;
     }
     .el_login_header_menu_main_div1_logo{
-        width: 60px;
+        width: 100%;
     }
     .elv_Menu_size{
         font-size: 25px;
         margin: 28px 0px 0px 15px
+      }
+
+      .elv_heart_menu_icon{
+        font-size: 20px;
+      }
+
+      .elv_login_header_menu_div {
+        padding-inline: 10px;
       }
   }
 

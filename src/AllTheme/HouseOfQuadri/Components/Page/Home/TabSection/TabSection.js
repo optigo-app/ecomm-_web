@@ -134,7 +134,7 @@ const TabSection = () => {
   return (
     <div className="hoq_main_TabSection">
       <div className="header">
-        <h1>NEW ARRIVALS</h1>
+        <h1>New Arrivals</h1>
         <button
           onClick={() => navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}
         >
@@ -172,7 +172,7 @@ const TabSection = () => {
         })}
         <div className="TabCard_main mobile-only">
           <div className="box">
-            <Link to={"/"}>View All 106 Products</Link>
+            <span onClick={()=>navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}>View All</span>
           </div>
         </div>
       </div>
