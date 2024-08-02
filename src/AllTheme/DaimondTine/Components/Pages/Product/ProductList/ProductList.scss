@@ -228,12 +228,20 @@
 }
 
 .breadCrumb_menu_List{
+    // display: flex;
+    // justify-content: space-between;
+    // width: 1183px;
+    // font-size: 12px;
+    // color: #999;
+    // font-family:"Poppins", sans-serif;
+
     display: flex;
     justify-content: space-between;
-    width: 1183px;
+    width: 100%;
     font-size: 12px;
     color: #999;
-    font-family:"Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
+    margin-inline: 14.6%;
 }
 
 @media screen and (min-width: 1440px) {
@@ -640,7 +648,7 @@
 }
 
 .productheader{
-    width:75%;
+    width:80%;
 }
 .productheader .part{
     display: flex;
@@ -710,6 +718,12 @@
     height:312px;
     min-height:312px;
     width:100%;
+}
+
+@media screen and (max-width: 1483px) {
+    .breadCrumb_menu_List{
+        margin-inline: 1%;
+    }
 }
 
 @media screen and (max-width: 1441px) {

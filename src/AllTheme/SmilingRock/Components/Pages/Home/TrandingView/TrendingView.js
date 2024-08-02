@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
@@ -207,7 +207,7 @@ const TrendingView = () => {
                                                         <span className="smr_currencyFont">
                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
-                                                        {data?.UnitCostWithMarkUp}</p>
+                                                        {formatter(data?.UnitCostWithMarkUp)}</p>
                                                 </div>
                                             </div>
                                              ))}

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const NewArrival = () => {
@@ -142,7 +142,7 @@ const NewArrival = () => {
                                                     islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                 ),
                                             }}
-                                        /> {product?.UnitCostWithMarkUp}</p>
+                                        /> {formatter(product?.UnitCostWithMarkUp)}</p>
                                 </CardContent>
                             </Card>
                         </Grid>
