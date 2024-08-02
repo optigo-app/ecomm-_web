@@ -285,7 +285,20 @@ function Cart(props) {
                   </div>
                 </div>
               ) : (
-                <ResponsiveCartUi/>
+                <>
+                    <ResponsiveCartUi
+                      stat="cart"
+                      cartData={cartData}
+                      isloding={isloding}
+                      qtyCount={qtyCount}
+                      CurrencyData={CurrencyData}
+                      CartCardImageFunc={CartCardImageFunc}
+                      decodeEntities={decodeEntities}
+                      handleIncrement={handleIncrement}
+                      handleDecrement={handleDecrement}
+                      onRemoveItem={handleRemoveItem}
+                    />
+                </>
               )}
             </>
           ) : (
