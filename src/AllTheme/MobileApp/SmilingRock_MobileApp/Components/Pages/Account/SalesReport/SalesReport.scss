@@ -295,4 +295,34 @@
         border-radius: 0 !important;
     }
 
+    .pd_0_Sp_mapp > .css-16c50h-MuiInputBase-root-MuiTablePagination-select{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+    .pd_0_Sp_mapp .MuiInputBase-root{
+        margin: 0px!important;
+      }
+    
+      .pd_0_Sp_mapp .MuiTablePagination-actions{
+    
+        margin: 0px!important;
+      }
 }
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }
+
+
+  .pd_0_Sp_mapp .MuiInputBase-root{
+
+    margin: 0px!important;
+  }
+
+  .pd_0_Sp_mapp .MuiTablePagination-actions{
+
+    margin: 0px!important;
+  }

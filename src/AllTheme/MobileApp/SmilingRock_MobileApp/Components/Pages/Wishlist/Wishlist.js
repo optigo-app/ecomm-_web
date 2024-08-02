@@ -9,6 +9,7 @@ import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { IoArrowBack } from "react-icons/io5";
+import { Snackbar } from "@mui/material";
 
 const Wishlist = () => {
   const {
@@ -29,6 +30,7 @@ const Wishlist = () => {
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const setWishCountVal = useSetRecoilState(smrMA_WishCount)
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const navigation = useNavigate();
@@ -55,14 +57,22 @@ const Wishlist = () => {
     setDialogOpen(false);
   };
 
-  const handleAddtoCartAllfun = async() => {
+  const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
-      if(returnValue?.msg == "success"){
-        GetCountAPI(visiterId).then((res) => {
-          setCartCountVal(res?.cartcount);
-        })
-      }
+    if (returnValue?.msg == "success") {
+      setShowToast(true);
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowToast(false);
+  };
 
   function scrollToTop() {
     window.scrollTo({
@@ -134,6 +144,13 @@ const Wishlist = () => {
           </div>
         }
       </div>
+      <Snackbar
+        open={showToast}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        message="All wishlist items added to cart"
+        className='smr_MoSnakbarTM'
+      />
     </div>
   );
 };

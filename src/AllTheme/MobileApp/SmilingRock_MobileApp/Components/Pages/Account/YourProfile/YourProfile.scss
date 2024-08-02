@@ -84,4 +84,23 @@
     .smilingEditProfilePopup{
         width: 85% !important;
     }
+
+    .pop_yp_MAPP{
+        position: absolute;
+        background-color: white;
+        top: 45% !important;
+        left: 48.5% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 300px !important;
+        height: 100vh !important;
+        max-height: 80vh;
+        overflow-y: scroll;
+    }
 }
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10; // Ensures it stays on top of other content
+    background-color: white; // Ensures background color is consistent when it becomes sticky
+  }

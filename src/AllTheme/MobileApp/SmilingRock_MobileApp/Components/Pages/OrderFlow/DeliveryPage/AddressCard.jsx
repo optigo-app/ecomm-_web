@@ -74,32 +74,34 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
             <Card
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={isdefault == 1 ? 'smr_ActiveAddrCard' : 'smr_AddrCard'}
+                className={isdefault == 1 ? 'smrMo_ActiveAddrCard' : 'smrMo_AddrCard'}
                 style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <CardContent className='smrMo_addrcardContent' onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' }}>
-                    <Typography className='smr_addrTypoTitle' variant="h5" component="h2">
+                    <Typography className='smrMo_addrTypoTitle' variant="h5" component="h2">
                         {shippingfirstname} {shippinglastname}
                     </Typography>
-                    <Typography className='smr_addrTypo'>{street}</Typography>
-                    <Typography className='smr_addrTypo'>{city}-{zip}{', '}{state}</Typography>
-                    {/* <Typography className='smr_addrTypo'>{state}</Typography> */}
-                    {/* <Typography className='smr_addrTypo'>{country}</Typography> */}
-                    <Typography className='smr_addrTypo'>
+                    <Typography className='smrMo_addrTypo'>{street}</Typography>
+                    <Typography className='smrMo_addrTypo'>{city}-{zip}{', '}{state}</Typography>
+                    {/* <Typography className='smrMo_addrTypo'>{state}</Typography> */}
+                    {/* <Typography className='smrMo_addrTypo'>{country}</Typography> */}
+                    <Typography className='smrMo_addrTypo'>
                         Phone : {shippingmobile}
                     </Typography>
-                    <button type='button' className={isdefault == 1 ? 'smr_defualt_addrSelected' : 'smr_defualt_addrSelectedHide'}>Selected</button>
+                    <button type='button' className={isdefault == 1 ? 'smrMo_defualt_addrSelected' : 'smrMo_defualt_addrSelectedHide'}>Selected</button>
                 </CardContent>
 
                 {/* {showButtons && ( */}
-                    <div className='smr_editDeleteBtngroup' >
-                        <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
-                            <MdModeEditOutline className='smr_editIcon' />
-                        </Button>
+                <div className='smrMo_editDeleteBtngroup' >
+                    <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
+                        <MdModeEditOutline className='smrMo_editIcon' />
+                    </Button>
+                    {isdefault != 1 &&
                         <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
-                            <MdDelete className='smr_DeleteIcon' />
+                            <MdDelete className='smrMo_DeleteIcon' />
                         </Button>
-                    </div>
+                    }
+                </div>
                 {/* )} */}
             </Card>
         </Grid>

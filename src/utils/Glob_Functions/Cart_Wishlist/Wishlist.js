@@ -112,7 +112,6 @@ const Usewishlist = () => {
             wish.id === item.id ? { ...wish, IsInCart: 1 } : wish
           );
           setWishlistData(updatedWishlistData);
-          toast.success('Wishlist items added to cart');
         }
         return resStatus;
       } catch (error) {
@@ -142,7 +141,6 @@ const Usewishlist = () => {
           const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
           resStatus = response?.Data?.rd[0];
           if (resStatus?.msg === "success") {
-            toast.success('All wishlist items added to cart');
             getWishlistData();
           }
         } catch (error) {

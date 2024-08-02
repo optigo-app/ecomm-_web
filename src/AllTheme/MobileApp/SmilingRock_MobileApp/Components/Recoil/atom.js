@@ -24,3 +24,8 @@ export const smrMA_defaultAddressState = atom({
   key: 'defaultAddressState',
   default: null,
 });
+
+export const smrMA_ShowSnackBar = atom({
+  key: 'smrMA_ShowSnackBar',
+  default: false,
+});

@@ -3,6 +3,7 @@ import './smr_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -169,7 +170,7 @@ const Customization = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {(selectedItem?.FinalCost)}
+                    {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
                   <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -235,7 +236,7 @@ const Customization = ({
                           ),
                         }}
                       />
-                      {(selectedItem?.FinalCost)}
+                      {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
                     <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />

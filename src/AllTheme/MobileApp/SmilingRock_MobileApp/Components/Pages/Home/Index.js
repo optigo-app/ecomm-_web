@@ -13,6 +13,7 @@ import { useRecoilState } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { WebLoginWithMobileToken } from "../../../../../../utils/API/Auth/WebLoginWithMobileToken";
 import { Helmet } from "react-helmet";
+import SustainAbility from "./sustainAbility/SustainAbility";
 
 const Home = () => {
   const [localData, setLocalData] = useState();
@@ -108,6 +109,7 @@ const Home = () => {
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+      <SustainAbility />
     </div>
   );
 };

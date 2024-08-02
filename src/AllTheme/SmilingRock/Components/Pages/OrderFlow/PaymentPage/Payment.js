@@ -12,6 +12,7 @@ import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -190,7 +191,7 @@ const Payment = () => {
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
 
-                                    <span>{finalTotal}</span>
+                                    <span>{formatter(finalTotal)}</span>
                                 </p>
                             </div>
                             <div className='smr_paymenttotalpricesummary'>
@@ -208,7 +209,7 @@ const Payment = () => {
                                     <span className="smr_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{(taxAmmount)?.toFixed(3)}</span>
+                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
                                 </p>
                             </div>
                             <div className='smr_paymenttotalpricesummary'>
@@ -225,7 +226,7 @@ const Payment = () => {
                                     <span className="smr_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
-                                    <span>{(taxAmmount+finalTotal)?.toFixed(3)}</span>
+                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
                                 </p>
                             </div>
                             <div className='smr_shippingAddress'>

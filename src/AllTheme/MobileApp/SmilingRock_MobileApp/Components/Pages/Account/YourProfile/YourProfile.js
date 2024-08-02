@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
-import { TextField, Modal, CircularProgress } from '@mui/material';
+import { TextField, Modal, CircularProgress, Snackbar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../../utils/API/AccountTabs/YourProfile';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
@@ -17,7 +17,11 @@ export default function YourProfile() {
     const defaultAddress = useRecoilValue(smrMA_defaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
 
-   
+    const [toastMsg, setToastMsg] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const handleCloseSnackbar = () => {
+        setShowToast(false);
+    };
     // useEffect(() => {
     //     const storedUserData = localStorage.getItem('loginUserDetail');
     //     if (storedUserData) {
@@ -99,7 +103,7 @@ export default function YourProfile() {
                 } else if (value?.length > 25) {
                     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
                     // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.defaddress_shippingfirstname = 'Invalid First Name';
                 } else {
                     errorsCopy.defaddress_shippingfirstname = '';
@@ -113,7 +117,7 @@ export default function YourProfile() {
                 } else if (value?.length > 25) {
                     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
                     // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
                     errorsCopy.defaddress_shippinglastname = 'Invalid Last Name';
                 } else {
                     errorsCopy.defaddress_shippinglastname = '';
@@ -158,7 +162,7 @@ export default function YourProfile() {
         let tempErrors = {};
         if (!editedUserData.defaddress_shippingfirstname?.length) {
             tempErrors.defaddress_shippingfirstname = "First Name is required";
-        } else if (editedUserData.defaddress_shippingfirstname.length < 3) {
+        } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
             tempErrors.defaddress_shippingfirstname = "First Name is too short";
         } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
             tempErrors.defaddress_shippingfirstname = "First Name is too long";
@@ -167,7 +171,7 @@ export default function YourProfile() {
         // Last Name validation
         if (!editedUserData.defaddress_shippinglastname?.length) {
             tempErrors.defaddress_shippinglastname = "Last Name is required";
-        } else if (editedUserData.defaddress_shippinglastname.length < 3) {
+        } else if (editedUserData.defaddress_shippinglastname.length < 2) {
             tempErrors.defaddress_shippinglastname = "Last Name is too short";
         } else if (editedUserData.defaddress_shippinglastname.length > 25) {
             tempErrors.defaddress_shippinglastname = "Last Name is too long";
@@ -229,8 +233,8 @@ export default function YourProfile() {
     // };
     
     const handleSubmit = async (event) => {
-        event.preventDefault();
-
+        event.preventDefault()
+        console.log(event);
         if (validate()) {
             
             setEditMode(false);
@@ -241,22 +245,30 @@ export default function YourProfile() {
                 const storeInit = JSON.parse(localStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-                console.log(response);
                 if (response?.Data?.rd[0]?.stat === 1) {
-                    toast.success('Edit success');
+                    console.log('response yp mapp', response);
+                    // toast.success('Edit success');
+                    setToastMsg('Update successfully');
+                    setShowToast(true);
                     setUserData(editedUserData);
                     localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
                 } else {
-                    toast.error('Error in saving profile.');
+                    // toast.error('Error in saving profile.');
+                    setToastMsg('Error in saving profile.');
+                    setShowToast(true);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                toast.error('An error occurred. Please try again.');
+                // toast.error('An error occurred. Please try again.');
+                setToastMsg('An error occurred. Please try again.');
+                setShowToast(true);
             } finally {
                 setIsLoading(false);
             }
         } else {
-            toast.error('Please fill out form fields correctly.');
+            // toast.error('Please fill necessary details.');
+            setToastMsg('Please fill necessary details.');
+            setShowToast(true);
         }
     };
 
@@ -296,6 +308,10 @@ export default function YourProfile() {
         
     }
 
+    const handleCancel = () => {
+        setEditMode(false)
+        setErrors({});
+    }
 
     return (
         <div>
@@ -306,8 +322,9 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-
-            <MobViewHeader title="Your Profile" />
+             <div className="sticky-header">
+                <MobViewHeader title="Your Profile" />
+             </div>
 
             {/* <div className='comptitle fw-bold'>Your Profile</div> */}
 
@@ -397,7 +414,7 @@ export default function YourProfile() {
             </div>
 
             <Modal open={editMode} onClose={handleClose} style={{ padding: '10px' }} >
-                <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
+                <div className='smilingEditProfilePopup pop_yp_MAPP' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24 }}>
                     <form  onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
@@ -455,23 +472,21 @@ export default function YourProfile() {
                                 />
                             </>
                         )}
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
+                            <button type='submit'  className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                            <button onClick={() => handleCancel()} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        </div>
                     </form>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
-                        <button type='submit' className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => setEditMode(false)} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
-                    </div>
+
                 </div>
             </Modal>
+            <Snackbar
+                open={showToast}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackbar}
+                message={`${toastMsg}`}
+                className='smr_MoSnakbarTM'
+            />
         </div>
     );
 }
-
-// import React from 'react'
-
-// const YourProfile = () => {
-//   return (
-//     <div>YourProfile</div>
-//   )
-// }
-
-// export default YourProfile

@@ -24,12 +24,12 @@ export default function WithoutLoginCart() {
                 }}
             >
                 <img src={noData} style={{ height: '180px', width: '190px' }} />
-
                 <p style={{ fontWeight: 600, fontSize: '20px' }}>Missing Cart Items?</p>
                 <button style={{
                     height: '35px',
                     width: '150px',
-                    backgroundColor: '#e1e1e1',
+                    backgroundColor: 'rgb(214 176 139)',
+                    color: 'white',
                     border: 'none',
                     outline: 'none',
                     fontSize: '18px',

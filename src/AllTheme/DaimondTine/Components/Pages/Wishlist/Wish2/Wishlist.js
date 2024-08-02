@@ -7,9 +7,10 @@ import { dt_loginState } from '../../../Recoil/atom';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Backdrop } from '@mui/material';
+import { Backdrop, useMediaQuery } from '@mui/material';
 import WishItem from './WishItem';
 import Usewishlist from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
+import ResponsiveCartUi from '../../Cart/CartPageB2c/ResponsiveCartUi';
 
 function Wishlist() {
   const {
@@ -33,6 +34,7 @@ function Wishlist() {
   const [storeInitData, setStoreInitData] = useState();
   const navigate = useNavigate();
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const isMobileScreen = useMediaQuery("(max-width:699px)");
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -105,36 +107,50 @@ function Wishlist() {
         ) : (
           <>
             {wishlistData?.length !== 0 ? (
-              <div className="cart">
-                <div className="cart-items">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {wishlistData?.map(item => (
-                        <WishItem
-                          key={item.id}
-                          item={item}
-                          updateCount={updateCount}
-                          countDataUpdted={countDataUpdted}
-                          currency={CurrencyData}
-                          itemInCart={itemInCart}
-                          decodeEntities={decodeEntities}
-                          CartCardImageFunc={WishCardImageFunc}
-                          itemsLength={wishlistData?.length}
-                          handleRemoveItem={handleRemoveItem}
-                          handleWishlistToCart={handleWishlistToCart}
-                          handleMoveToDetail={handleMoveToDetail}
-                        />
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <>
+                {!isMobileScreen ? (
+                  <div className="cart">
+                    <div className="cart-items">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {wishlistData?.map(item => (
+                            <WishItem
+                              key={item.id}
+                              item={item}
+                              updateCount={updateCount}
+                              countDataUpdted={countDataUpdted}
+                              currency={CurrencyData}
+                              itemInCart={itemInCart}
+                              decodeEntities={decodeEntities}
+                              CartCardImageFunc={WishCardImageFunc}
+                              itemsLength={wishlistData?.length}
+                              handleRemoveItem={handleRemoveItem}
+                              handleWishlistToCart={handleWishlistToCart}
+                              handleMoveToDetail={handleMoveToDetail}
+                            />
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ) :
+                  <ResponsiveCartUi
+                    stat="wish"
+                    cartData={wishlistData}
+                    isloding={isWLLoading}
+                    CurrencyData={CurrencyData}
+                    CartCardImageFunc={WishCardImageFunc}
+                    decodeEntities={decodeEntities}
+                    onRemoveItem={handleRemoveItem}
+                  />
+                }
+              </>
             ) : (
               <div>
                 <div style={{ display: "flex", flexDirection: "column", marginInline: "20%" }}>

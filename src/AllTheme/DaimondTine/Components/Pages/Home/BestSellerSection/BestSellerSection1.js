@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './BestSellerSection1.scss';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
@@ -153,7 +153,7 @@ const BestSellerSection1 = () => {
                                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                     ),
                                                 }}
-                                            /> {data?.UnitCostWithMarkUp}</p>
+                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>
                                     </div>
                                 </div>
                             ))}
