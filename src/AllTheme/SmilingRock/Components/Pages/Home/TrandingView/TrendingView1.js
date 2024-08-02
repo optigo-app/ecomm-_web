@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
@@ -219,7 +219,7 @@ const TrendingView1 = () => {
                                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                     ),
                                                 }}
-                                            /> {data?.UnitCostWithMarkUp}</p>
+                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>
                                     </div>
                                 </div>
                             ))}

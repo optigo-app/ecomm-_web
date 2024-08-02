@@ -837,6 +837,8 @@ function checkImageAvailability(imageUrl) {
       colImg = pdImgList[0]
     } 
     
+    let IsColImg = await checkImageAvailability(colImg)
+    console.log("colImg",(colImg?.length === 0 || IsColImg));
     
     if (pd?.ImageCount > 0 && (colImg?.length === 0 || IsColImg)) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -857,8 +859,7 @@ function checkImageAvailability(imageUrl) {
       finalprodListimg = imageNotFound;
     }
 
-    let IsColImg = await checkImageAvailability(colImg)
-    console.log("colImg",(colImg?.length === 0 || IsColImg));
+    
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {

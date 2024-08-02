@@ -16,7 +16,7 @@ import { useRecoilValue } from 'recoil';
 import { loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const DesignSet2 = () => {
 
@@ -247,7 +247,7 @@ const DesignSet2 = () => {
                                             islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                           ),
                                         }}
-                                      /> {detail?.UnitCostWithMarkUp}
+                                      /> {formatter(detail?.UnitCostWithMarkUp)}
                                     </p>
                                   </div>
                                   <div className="fs3 centerall">View Details</div>
