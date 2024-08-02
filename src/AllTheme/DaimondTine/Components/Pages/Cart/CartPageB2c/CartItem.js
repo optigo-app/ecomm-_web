@@ -47,8 +47,7 @@ const CartItem = ({
                     alt={cartData?.name}
                 />
                 <div className="product-details">
-                    <p>{cartData?.name}</p>
-                    <p>{cartData?.description}</p>
+                    <p>{cartData?.TitleLine}</p>
                 </div>
             </td>
             <td className="Dt_Cartprice">
