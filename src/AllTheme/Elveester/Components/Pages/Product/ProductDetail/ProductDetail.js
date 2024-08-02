@@ -17,12 +17,14 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { useSetRecoilState } from 'recoil';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
   const [maxWidth1000, setMaxWidth1000] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
   const [storeInit, setStoreInit] = useState({});
+  const [loginData, setLoginData] = useState({});
   const [sizeData, setSizeData] = useState();
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
@@ -460,6 +462,8 @@ const ProductDetail = () => {
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
+    let loginData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    if (loginData) setLoginData(loginData);
   }, []);
 
   useEffect(() => {
@@ -1127,7 +1131,7 @@ const ProductDetail = () => {
                       {
                         <span
                           dangerouslySetInnerHTML={{
-                            __html: decodeEntities(storeInit?.Currencysymbol),
+                            __html: decodeEntities(loginData?.CurrencyCode),
                           }}
                         />
                       }
@@ -1135,7 +1139,7 @@ const ProductDetail = () => {
                         isPriceloading ?
                           <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                           :
-                          <span style={{ marginInline: "0.3rem" }}>{singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp}</span>
+                          <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                       }
                     </span>
                   </div>
@@ -1346,7 +1350,7 @@ const ProductDetail = () => {
                     {
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: decodeEntities(storeInit?.Currencysymbol),
+                          __html: decodeEntities(loginData?.CurrencyCode),
                         }}
                       />
                     }
@@ -1354,7 +1358,7 @@ const ProductDetail = () => {
                       isPriceloading ?
                         <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                         :
-                        <span style={{ marginInline: "0.3rem" }}>{singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp}</span>
+                        <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                     }
                   </span>
                 </div>
@@ -1398,7 +1402,7 @@ const ProductDetail = () => {
         {csList?.length > 0 && (
           <>
             <div className='elv_ProductDet_title'>
-              <span>Product Details</span>
+              {/* <span>Product Details</span> */}
             </div>
             <div style={{ marginTop: '1.5rem' }}>
 

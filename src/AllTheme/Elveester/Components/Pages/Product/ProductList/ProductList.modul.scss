@@ -178,6 +178,31 @@
 
   .elv_trend_drp {
     font-size: 14px;
+    background-color: #F4F4F4;
+    color: #8E7B8E;
+    font-weight: "400";
+    cursor: "pointer";
+    text-transform: "uppercase";
+    letter-spacing: "2px";
+    padding: '0px 4px';
+  }
+
+  .elv_metal_drp {
+    color: #8E7B8E;
+    background-color: #F4F4F4;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0px 4px;
+  }
+
+  .elv_diamond_drp {
+    color: #8E7B8E;
+    background-color: #F4F4F4;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0px 4px;
   }
 
   .elv_filteration_rows_3 {
@@ -604,47 +629,44 @@
 
   .elv_filtered_image_4 {
     max-width: 100%;
-    height: auto;
+    max-height: 300px;
+    min-height: 300px;
     background-size: cover;
     object-fit: contain;
-    // object-fit: contain;
-    // max-height: 31rem;
     width: 100%;
     animation: enlarge_image_4 1s forwards;
   }
 
   @keyframes enlarge_image_4 {
     0% {
-      width: 30rem;
-      height: 20rem;
+      max-height: 14.75rem;
+      min-height: 14.75rem;
     }
 
     100% {
-      height: 31rem;
-      width: 35.4rem;
+      max-height: 18.75rem;
+      min-height: 18.75rem;
     }
   }
 
   .elv_filtered_image_5 {
-    max-width: 100%;
-    height: 17rem;
+    max-height: 200px;
+    min-height: 200px;
     background-size: cover;
     object-fit: contain;
-    // object-fit: contain;
-    max-height: auto;
     width: 100%;
     animation: enlarge_image_5 1s forwards;
   }
 
   @keyframes enlarge_image_5 {
     0% {
-      height: 22rem;
-      width: 100%;
+      max-height: 16rem;
+      min-height: 16rem;
     }
 
     100% {
-      height: 17rem;
-      width: 100%;
+      max-height: 12.5rem;
+      min-height: 12.5rem;
     }
   }
 
@@ -692,17 +714,17 @@
     text-overflow: ellipsis;
   }
 
-  .elv_filter_row2_inner_div{
+  .elv_filter_row2_inner_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 
-    .elv_filter_row2_label{
-      width: 5rem;
+    .elv_filter_row2_label {
+      width: 6rem;
       padding-left: 0.16rem;
 
-      label{
+      label {
         color: #8E7B8E;
         font-size: 15px;
         font-family: 'PT Sans', sans-serif;
@@ -710,17 +732,28 @@
     }
   }
 
-  .elv_filter_row3_inner_div{
+  .elv_filter_row2_inner_div_hide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .elv_filter_sort_by_hide {
+    display: none;
+  }
+
+  .elv_filter_row3_inner_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 
-    .elv_filter_row3_label{
+    .elv_filter_row3_label {
       width: 5rem;
       padding-left: 0.16rem;
 
-      label{
+      label {
         color: #8E7B8E;
         font-size: 15px;
         font-family: 'PT Sans', sans-serif;
@@ -728,17 +761,17 @@
     }
   }
 
-  .elv_filter_row4_inner_div{
+  .elv_filter_row4_inner_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 
-    .elv_filter_row4_label{
+    .elv_filter_row4_label {
       width: 7rem;
       padding-left: 0.16rem;
 
-      label{
+      label {
         color: #8E7B8E;
         font-size: 15px;
         font-family: 'PT Sans', sans-serif;
@@ -827,6 +860,7 @@
     .elv_prod_titleline_invisible {
       font-size: 14px;
     }
+
   }
 
   @media screen and (max-width: 1000px) {
@@ -857,6 +891,27 @@
     .elv_prod_titleline_invisible {
       font-size: 12px;
       text-overflow: ellipsis;
+    }
+
+    .elv_filtered_image_1 {
+      max-width: 100%;
+      height: 360px;
+      width: 100%;
+      background-size: cover;
+      object-fit: contain;
+      animation: enlarge_image_1 1s forwards;
+    }
+
+    @keyframes enlarge_image_1 {
+      0% {
+        width: 30rem;
+        height: 18.5rem;
+      }
+
+      100% {
+        width: 35.4rem;
+        height: 22.5rem;
+      }
     }
 
   }
@@ -981,6 +1036,18 @@
     .elv_filtered_prodlists_1 {
       width: 48.7%;
       height: fit-content;
+    }
+
+    .elv_Productlists_details_1 {
+      font-size: 20px;
+    }
+
+    .elv_Productlists_details_2 {
+      font-size: 12px;
+    }
+
+    .elv_Productlists_details_3 {
+      font-size: 12px;
     }
 
     .elv_filtered_prodlists_2 {

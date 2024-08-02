@@ -15,7 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import { el_CartCount } from '../../Recoil/atom';
 import RemarkDialog from './OrderRemarkDialog';
 import { OrderFlowCrumbs } from './OrderFlowCrumbs';
-import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 
 const CartPage = () => {
@@ -224,11 +224,11 @@ const CartPage = () => {
                           className="elv_currencyFont"
                           dangerouslySetInnerHTML={{
                             __html: decodeEntities(
-                              CurrencyData?.Currencysymbol
+                              CurrencyData?.CurrencyCode
                             ),
                           }}
                         />
-                        &nbsp;<span style={{ fontWeight: 'bold' }}>{getTotalPrice[0]?.total}</span>
+                        &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
                       </span>
                     </span>
                   </div>
