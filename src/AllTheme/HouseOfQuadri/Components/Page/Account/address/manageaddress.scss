@@ -1,4 +1,4 @@
-.muiSmilingRocksBtnManage{
+.hoq_muiSmilingRocksBtnManage{
     /* border: 1px solid #7d7f85 !important; */
     font-family: "PT Sans", sans-serif !important;
     font-size: 13.5px !important;
@@ -10,6 +10,7 @@
     color: white !important;
     border-radius: 2px !important;
 }
+// hoq_muiSmilingRocksBtnManage
 
 .manageAddressBlock{
     border: 1px solid #e9e9ed;
@@ -18,7 +19,7 @@
     height: 100%;
 }
 
-.muiSmilingRocksBtnManageEdit{
+.hoq_muiSmilingRocksBtnManageEdit{
     /* border: 1px solid #7d7f85 !important; */
     font-family: "PT Sans", sans-serif !important;
     font-size: 13.5px !important;
@@ -29,7 +30,7 @@
     color: white !important;
     border-radius: 2px !important;
 }
-.muiSmilingRocksBtnManage:hover, .muiSmilingRocksBtnManageEdit:hover{
+.hoq_muiSmilingRocksBtnManage:hover, .hoq_muiSmilingRocksBtnManageEdit:hover{
     background: #9b0202 !important;
     color: #fff;
     opacity: .8;
@@ -61,7 +62,7 @@
 
 }
 
-.smilingDeleveryformSaveBtn{
+.hoq_smilingDeleveryformSaveBtn{
     background: #c20000;
     border: none;
     border-radius: 5px;

@@ -26,6 +26,7 @@ import CustomerCare from './Components/Pages/Customercare/CustomerCare'
 import Customize from './Components/Pages/Customize/Customize'
 import Account from './Components/Pages/Account/Account'
 import Privacy from './Components/Pages/Privacy/Privacy'
+import Lookbook from './Components/Pages/LookBook/Lookbook'
 
 const SmilingRock_App = () => {
 
@@ -72,6 +73,7 @@ const SmilingRock_App = () => {
                 <Route path="/customize" element={<Customize />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/Lookbook" element={<Lookbook />} />
             </Routes>
             {showFooter && <Footer />}
         </div>

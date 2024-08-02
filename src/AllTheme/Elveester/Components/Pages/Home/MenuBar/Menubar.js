@@ -7,10 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
 import { Badge, Tooltip } from '@mui/material';
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowUp } from "react-icons/md";
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GoHeart } from 'react-icons/go';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 const Menubar = () => {
     const [lodingLogo, setLodingLogo] = useState(true);
@@ -43,9 +46,11 @@ const Menubar = () => {
     const [expandedMenu, setExpandedMenu] = useState(null);
     const [selectedData, setSelectedData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [isIconOpen, setIsIconOpen] = useState(false);
 
-    const setCartCount = useRecoilState(el_CartCount);
+    // const setCartCount = useRecoilState(el_CartCount);
     const [wishCount, setWishCount] = useRecoilState(el_WishCount);
+    const [cartCount, setCartCount] = useRecoilState(el_CartCount);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,6 +70,10 @@ const Menubar = () => {
 
     const handleToogle = () => {
         setIsOpen(!isOpen);
+    }
+
+    const handleIcon = (i) => {
+        setIsIconOpen(isIconOpen === i ? null : i);
     }
 
     useEffect(() => {
@@ -251,22 +260,36 @@ const Menubar = () => {
                                                         navigation("/myWishList");
                                                     }}
                                                     style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} >
-                                                    <GoHeart color="#7D7F85" fontSize='25px' />
+                                                    <GoHeart className='elv_heart_menu_icon' />
                                                 </li>
                                             </Tooltip>
                                         </Badge></>
-                                    <Tooltip title="Account">
-                                        <li
-                                            className="el_login_header_menu_main_div2_li"
-                                            style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                            onClick={() => {
-                                                handleToggle();
-                                                navigation("/account")
-                                            }}
-                                        >
-                                            <IoPersonOutline color="#7D7F85" fontSize='25px' />
-                                        </li>
-                                    </Tooltip>
+                                    <Badge
+                                        badgeContent={cartCount}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        className="el_login_header_main_div2_li"
+                                    >
+                                        <Tooltip title="Cart">
+                                            <li
+                                                onClick={() => {
+                                                    handleToggle();
+                                                    navigation("/cartPage");
+                                                }}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    marginTop: "0px",
+                                                }}
+                                            >
+                                                <HiOutlineShoppingBag
+                                                    className="elv_shopping_icon"
+                                                    color="#7D7F85"
+                                                    fontSize="25px"
+                                                />
+                                            </li>
+                                        </Tooltip>
+                                    </Badge>
                                 </ul>
                             </div>
                             <div className='elv_login_header_menu_lists_div'>
@@ -283,15 +306,25 @@ const Menubar = () => {
                                                     handleMenuClick(item);
                                                     handleMouseLeave(index);
                                                     handleToogle(e);
-                                                    handelMenu({
-                                                        menuname: item?.menuname,
-                                                        key: item?.param0name,
-                                                        value: item?.param0dataname,
-                                                    })
+                                                    handleIcon(index);
                                                 }}
                                             >
                                                 <div className='elv_login_header_menu_menunames'>
-                                                    <span className='elv_login_header_menu_names'>{item.menuname}</span>
+                                                    <div className='elv_menubar_menu_div'>
+                                                        <span className='elv_login_header_menu_names' onClick={() => {
+                                                            handelMenu({
+                                                                menuname: item?.menuname,
+                                                                key: item?.param0name,
+                                                                value: item?.param0dataname,
+                                                            });
+                                                        }}>{item.menuname}</span>
+                                                        {isIconOpen === index ? (
+                                                            <MdKeyboardArrowUp />
+                                                        ) :
+                                                            <MdKeyboardArrowDown />
+                                                        }
+
+                                                    </div>
                                                     <div>
                                                         <div
                                                             style={{
