@@ -219,7 +219,8 @@ const TrendingView1 = () => {
                                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                     ),
                                                 }}
-                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>
+                                            /> {formatter(data?.UnitCostWithMarkUp)}
+                                            </p>
                                     </div>
                                 </div>
                             ))}

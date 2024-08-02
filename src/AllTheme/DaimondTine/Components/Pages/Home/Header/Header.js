@@ -398,7 +398,6 @@ const Header = () => {
                         type="text"
                         placeholder="Search..."
                         value={searchText}
-                        autoFocus
                         onChange={(e) => {
                             setSearchText(e.target.value)
 

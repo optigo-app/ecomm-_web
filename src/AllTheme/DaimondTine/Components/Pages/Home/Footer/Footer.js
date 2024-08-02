@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { companyLogo } from '../../../../../SmilingRock/Components/Recoil/atom';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { dt_companyLogo } from '../../../Recoil/atom';
 
 
 export default function Footer() {
-    const titleImg = useRecoilValue(companyLogo);
+    const titleImg = useRecoilValue(dt_companyLogo);
     const [storeInitData, setStoreInitData] = useState();
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
@@ -106,7 +106,7 @@ export default function Footer() {
                 </div>
                 <div className='footerBottom'>
                     {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
-                    <img src={titleImg} className='logoImgFooter' />
+                    {/* <img src={titleImg} className='logoImgFooter' /> */}
                     <p className='FooterBottomText'>Copyright © 2023 Diamondtine. All Rights Reserved.</p>
                 </div>
             </div>
