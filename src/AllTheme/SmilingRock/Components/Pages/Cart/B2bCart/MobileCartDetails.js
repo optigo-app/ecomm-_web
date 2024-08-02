@@ -3,6 +3,7 @@ import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormCon
 import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
+import { toast } from 'react-toastify';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -52,6 +53,14 @@ const MobileCartDetails = ({
     setColorStoneCombo(CSQtyColorData);
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg == "success") {
+      toast.success('Cart Updated Successfully');
+    }
+  }
+
 
   return (
     <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
@@ -179,7 +188,7 @@ const MobileCartDetails = ({
                 }
               </div>
               <div className='smrMo_UpdateCartBtn'>
-                <Button className="smrMo_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</Button>
+                <Button className="smrMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
               </div>
               <div className='smrMo_CloseIcon' onClick={handleClose}>
                 <CloseIcon />

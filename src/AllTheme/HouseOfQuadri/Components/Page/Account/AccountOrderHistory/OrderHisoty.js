@@ -192,10 +192,10 @@ const OrderHistory = () => {
     }else if(status?.toLowerCase() === 'rejected') {
       return "bg-dark text-white"
     }else{
-      return "_color3"
+      return "hoq__color3"
     }
     // }else if(status?.toLowerCase() === 'approval pending'){
-    //   return "_color3"
+    //   return "hoq_"
     // }else{
     //   return null
     // }

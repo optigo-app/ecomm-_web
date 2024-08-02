@@ -153,7 +153,7 @@
 }
 
 .part {
-    padding: 8px;
+    padding: 5px 0;
     display: flex;
     align-items: center;
 }
@@ -228,12 +228,20 @@
 }
 
 .breadCrumb_menu_List{
+    // display: flex;
+    // justify-content: space-between;
+    // width: 1183px;
+    // font-size: 12px;
+    // color: #999;
+    // font-family:"Poppins", sans-serif;
+
     display: flex;
     justify-content: space-between;
-    width: 1183px;
+    width: 100%;
     font-size: 12px;
     color: #999;
-    font-family:"Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
+    margin-inline: 14.6%;
 }
 
 @media screen and (min-width: 1440px) {
@@ -640,7 +648,7 @@
 }
 
 .productheader{
-    width:75%;
+    width:80%;
 }
 .productheader .part{
     display: flex;
@@ -700,16 +708,22 @@
     width: 100%;
 }
 
-.smr_ImgandVideoContainer{
+.dt_ImgandVideoContainer{
     height: 312px;
     min-height: 312px;
 }
 
-.smr_productCard_video{
-    object-fit:contain;
+.dt_productCard_video{
+    object-fit:scale-down;
     height:312px;
     min-height:312px;
     width:100%;
+}
+
+@media screen and (max-width: 1483px) {
+    .breadCrumb_menu_List{
+        margin-inline: 1%;
+    }
 }
 
 @media screen and (max-width: 1441px) {
@@ -718,11 +732,11 @@
         height: 312px;
         min-height: 312px;
     }
-    .smr_ImgandVideoContainer{
+    .dt_ImgandVideoContainer{
         height: 312px;
         min-height: 312px;
     }
-    .smr_productCard_video{
+    .dt_productCard_video{
         height: 312px;
         min-height: 312px;
     }
@@ -734,11 +748,11 @@
         height: 312px;
         min-height: 312px;
     }
-    .smr_ImgandVideoContainer{
+    .dt_ImgandVideoContainer{
         height: 312px;
         min-height: 312px;
     }
-    .smr_productCard_video{
+    .dt_productCard_video{
         height: 312px;
         min-height: 312px;
     }
@@ -750,11 +764,11 @@
       height: 250px;
       min-height: 250px;
     }
-    .smr_ImgandVideoContainer{
+    .dt_ImgandVideoContainer{
         height: 250px;
         min-height: 250px;
     }
-    .smr_productCard_video{
+    .dt_productCard_video{
         height: 250px;
         min-height: 250px;
     }
@@ -766,11 +780,11 @@
       height: 200px;
       min-height: 200px;
     }
-    .smr_ImgandVideoContainer{
+    .dt_ImgandVideoContainer{
         height: 200px;
         min-height: 200px;
     }
-    .smr_productCard_video{
+    .dt_productCard_video{
         height: 200px;
         min-height: 200px;
     }

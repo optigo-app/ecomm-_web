@@ -18,7 +18,6 @@ import Account from './Components/Pages/Account/Account';
 import AccountLedger from './Components/Pages/Account/AccountLeger/AccountLedger';
 import YourProfile from './Components/Pages/Account/YourProfile/YourProfile';
 import OrderHistory from './Components/Pages/Account/AccountOrderHistory/OrderHisoty';
-import ManageAddress from './Components/Pages/Account/address/ManageAddress';
 import ChangePassword from './Components/Pages/Account/changePassword/ChangePassword';
 import SearchPage from './Components/Pages/SearchPage/SearchPage'
 import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
@@ -35,6 +34,7 @@ import PrivacyPolicy from './Components/Pages/StaticPages/PrivacyPolicy'
 import DeliveryShipping from './Components/Pages/StaticPages/DeliveryShipping'
 import Coupons from './Components/Pages/StaticPages/Coupons'
 import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
+import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -87,11 +87,11 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/PrivacyPolicy" ||
         location.pathname === "/DeliveryShipping" ||
         location.pathname === "/TermsCondition" ||
+        location.pathname === "/Menu" ||
         location.pathname === "/HelpCenter" ||
         location.pathname === "/Coupons" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
-        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
@@ -121,7 +121,7 @@ const SmilingRock_MobileApp_App = () => {
           <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
           <Route path="/YourProfile" element={<YourProfile />} />
           <Route path="/OrderHistory" element={<OrderHistory />} />
-          <Route path="/ManageAddress" element={<ManageAddress />} />
+          <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/MobileViewComp" element={<MobileViewComp />} />
         {/* </Route> */}

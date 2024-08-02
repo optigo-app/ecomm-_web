@@ -78,6 +78,8 @@ const DynamicCollection = () => {
   const [metalTypeCombo, SetmetalTypeCombo] = useState([]);
   const [ColorStoneQualityColorCombo, SetColorStoneQualityColorCombo] =
     useState([]);
+  const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
+
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
@@ -104,12 +106,8 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-  // mui pagination ee
-  // const handlePageChange = (event, value) => {
-  //   window.scrollTo({ behavior: "smooth", top: 700 });
-  //   setCurrentPage(value);
-  //   console.log("pagiantion", value);
-  // };
+ 
+  console.log("wofbwejlkfbwejlkfbwejlk",loginUserDetail?.CurrencyCode)
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -168,8 +166,6 @@ const DynamicCollection = () => {
       }
     }
 
-    // if
-
     return output;
   };
 
@@ -189,6 +185,7 @@ const DynamicCollection = () => {
 
     if (location?.key === locationKey) {
       setIsProdLoading(true);
+      setIsOnlyProdLoading(true);
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
@@ -202,6 +199,7 @@ const DynamicCollection = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsProdLoading(false);
+          setIsOnlyProdLoading(false);
         });
     }
   }, [filterChecked]);
@@ -218,6 +216,326 @@ const DynamicCollection = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid);
   }, []);
+
+  //  range filter Api
+
+  const handleRangeFilterApi = async (Rangeval) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+    )[0];
+    let diafilter2 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+    )[0];
+
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
+    let netRange = {
+      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
+      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
+    };
+    let grossRange = {
+      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
+      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
+    };
+
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false);
+      });
+  };
+  const handleRangeFilterApi1 = async (Rangeval1) => {
+    let diafilter = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+    )[0];
+    // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+    )[0];
+
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    let DiaRange = {
+      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
+      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
+    };
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] };
+    let grossRange = {
+      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
+      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
+    };
+
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false);
+      });
+  };
+  const handleRangeFilterApi2 = async (Rangeval2) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    let diafilter = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+    )[0];
+    let diafilter1 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+    )[0];
+    // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
+    let DiaRange = {
+      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
+      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
+    };
+    let netRange = {
+      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
+      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
+    };
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
+
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false);
+      });
+  };
+
+  //range filter handlers
+
+  const handleSliderChange = (event, newValue) => {
+    setSliderValue(newValue);
+    handleRangeFilterApi(newValue);
+  };
+  const handleSliderChange1 = (event, newValue) => {
+    setSliderValue1(newValue);
+    handleRangeFilterApi1(newValue);
+  };
+  const handleSliderChange2 = (event, newValue) => {
+    setSliderValue2(newValue);
+    handleRangeFilterApi2(newValue);
+  };
+
+  const handleInputChange = (index) => (event) => {
+    const newSliderValue = [...sliderValue];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue(newSliderValue);
+    handleRangeFilterApi(newSliderValue);
+  };
+  const handleInputChange1 = (index) => (event) => {
+    const newSliderValue = [...sliderValue1];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue1(newSliderValue);
+    handleRangeFilterApi1(newSliderValue);
+  };
+  const handleInputChange2 = (index) => (event) => {
+    const newSliderValue = [...sliderValue2];
+    newSliderValue[index] =
+      event.target.value === "" ? "" : Number(event.target.value);
+    setSliderValue2(newSliderValue);
+    handleRangeFilterApi2(newSliderValue);
+  };
+
+  // range filter for diammond net wt  gross wet
+
+  const RangeFilterView = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue}
+              onChange={(event, newValue) => setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue[0]}
+              margin="none"
+              onChange={handleInputChange(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+            <Input
+              value={sliderValue[1]}
+              margin="none"
+              onChange={handleInputChange(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+  const RangeFilterView1 = (ele) => {
+    // console.log("netwt",ele)
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue1}
+              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue1[0]}
+              margin="dense"
+              onChange={handleInputChange1(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+            <Input
+              value={sliderValue1[1]}
+              margin="dense"
+              onChange={handleInputChange1(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+  const RangeFilterView2 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue2}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue2[0]}
+              margin="dense"
+              onChange={handleInputChange2(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+            <Input
+              value={sliderValue2[1]}
+              margin="dense"
+              onChange={handleInputChange2(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider",
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
 
   // Product Fetching Api
   useEffect(() => {
@@ -349,11 +667,11 @@ const DynamicCollection = () => {
         })
         .finally(() => {
           setIsProdLoading(false);
-          // setIsOnlyProdLoading(false);
+          setIsOnlyProdLoading(false);
           window.scroll({
             top: 0,
-            behavior: 'smooth'
-          })
+            behavior: "smooth",
+          });
         })
         .catch((err) => console.log("err", err));
       // }
@@ -966,159 +1284,6 @@ const DynamicCollection = () => {
     callAllApi();
   }, []);
 
-  // const RangeFilterView = (ele) => {
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={sliderValue}
-  //             onChange={handleSliderChange}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={JSON?.parse(ele?.options)[0]?.Min}
-  //             max={JSON?.parse(ele?.options)[0]?.Max}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={sliderValue[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //           <Input
-  //             value={sliderValue[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-  // const RangeFilterView1 = (ele) => {
-  //   console.log("netwt", ele);
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={sliderValue1}
-  //             onChange={handleSliderChange1}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={JSON?.parse(ele?.options)[0]?.Min}
-  //             max={JSON?.parse(ele?.options)[0]?.Max}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={sliderValue1[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange1(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //           <Input
-  //             value={sliderValue1[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange1(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-  // const RangeFilterView2 = (ele) => {
-  //   return (
-  //     <>
-  //       <div>
-  //         <div>
-  //           <Slider
-  //             value={sliderValue2}
-  //             onChange={handleSliderChange2}
-  //             valueLabelDisplay="auto"
-  //             aria-labelledby="range-slider"
-  //             min={JSON?.parse(ele?.options)[0]?.Min}
-  //             max={JSON?.parse(ele?.options)[0]?.Max}
-  //             step={0.001}
-  //             sx={{ marginTop: "25px" }}
-  //           />
-  //         </div>
-  //         <div style={{ display: "flex", gap: "10px" }}>
-  //           <Input
-  //             value={sliderValue2[0]}
-  //             margin="dense"
-  //             onChange={handleInputChange2(0)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //           <Input
-  //             value={sliderValue2[1]}
-  //             margin="dense"
-  //             onChange={handleInputChange2(1)}
-  //             inputProps={{
-  //               step: 0.001,
-  //               min: JSON?.parse(ele?.options)[0]?.Min,
-  //               max: JSON?.parse(ele?.options)[0]?.Max,
-  //               type: "number",
-  //               "aria-labelledby": "range-slider",
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-  // ends
-
-  // const handleSliderChange = (event, newValue) => {
-  //   setSliderValue(newValue);
-  //   handleRangeFilterApi(newValue);
-  // };
-  // const handleSliderChange1 = (event, newValue) => {
-  //   setSliderValue1(newValue);
-  //   handleRangeFilterApi1(newValue);
-  // };
-  // const handleSliderChange2 = (event, newValue) => {
-  //   setSliderValue2(newValue);
-  //   handleRangeFilterApi1(newValue);
-  // };
   useEffect(() => {
     if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true);
@@ -1131,6 +1296,7 @@ const DynamicCollection = () => {
   useEffect(() => {
     handelFilterClearAll();
   }, [location?.pathname || location?.search]);
+
   return (
     <>
       <div className="hoq_dynamic_Collections">
@@ -1348,28 +1514,6 @@ const DynamicCollection = () => {
           >
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
-                {/* <span className="smr_filter_text">
-                  <span style={{ fontWeight: 500 }}>
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length === 0
-                      ? // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
-                        "Filters"
-                      : `Product Found: ${afterFilterCount}`}
-                  </span>
-                  <span
-                    onClick={() => handelFilterClearAll()}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length > 0
-                      ? "Clear All"
-                      : afterFilterCount && (
-                          <span style={{ fontWeight: 400 }}>{`Total Products: ${
-                            afterFilterCount || 0
-                          }`}</span>
-                        )}
-                  </span>
-                </span> */}
                 <span className="smr_filter_text">
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
@@ -1537,7 +1681,7 @@ const DynamicCollection = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "gray",
                               borderRadius: 0,
                               fontFamily: "Tenor Sans , sans-serif",
                               "&.MuiAccordionSummary-root": {
@@ -1640,6 +1784,170 @@ const DynamicCollection = () => {
                           </AccordionDetails>
                         </Accordion>
                       )}
+                      {ele?.Name?.includes("Diamond") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                          }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            // className="filtercategoryLable"
+                            onClick={() => handleScrollHeight()}
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                            <Box sx={{ width: 203, height: 88 }}>
+                              {RangeFilterView(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
+                      {ele?.Name?.includes("NetWt") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                          }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            // className="filtercategoryLable"
+                            onClick={() => handleScrollHeight()}
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                            <Box sx={{ width: 204, height: 88 }}>
+                              {RangeFilterView1(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
+                      {ele?.Name?.includes("Gross") && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
+                              background: "none",
+                            },
+                          }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7f7d85",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                            // className="filtercategoryLable"
+                            onClick={() => handleScrollHeight()}
+                          >
+                            {/* <span> */}
+                            {ele.Name}
+                            {/* </span> */}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              minHeight: "fit-content",
+                              maxHeight: "300px",
+                              overflow: "auto",
+                            }}
+                          >
+                            <Box sx={{ width: 204, height: 88 }}>
+                              {RangeFilterView2(ele)}
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
                     </>
                   ))}
                 </div>
@@ -1728,6 +2036,7 @@ const DynamicCollection = () => {
                     handleCartandWish={handleCartandWish}
                     cartArr={cartArr}
                     wishArr={wishArr}
+                    CurrencyCode={loginUserDetail?.CurrencyCode}
                   />
                 ))
               ) : (
@@ -1786,6 +2095,7 @@ const C_Card = ({
   handleCartandWish,
   cartArr,
   wishArr,
+  CurrencyCode
 }) => {
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
@@ -2018,7 +2328,7 @@ const C_Card = ({
           <span className="hoq_prod_metal_col">
             {findMetalColor(
               productData?.MetalColorid
-            )?.[0]?.metalcolorname.toUpperCase()}
+            )?.[0]?.metalcolorname?.toUpperCase()}
             -
             {
               findMetalType(
@@ -2032,12 +2342,13 @@ const C_Card = ({
           <span className="hoq_price">
             <span
               className="hoq_currencyFont"
+              style={{paddingRight : "0.1rem"  }}
               dangerouslySetInnerHTML={{
-                __html: decodeEntities(storeInit?.Currencysymbol),
+                __html: decodeEntities(CurrencyCode),
               }}
             />
             <span className="hoq_pricePort">
-              {productData?.UnitCostWithMarkUp}
+              {(productData?.UnitCostWithMarkUp)?.toLocaleString('en-IN')}
             </span>
           </span>
         </div>
@@ -2054,7 +2365,7 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         onChange={onPageChange}
         shape="rounded"
         className="pagination-btn"
-        siblingCount={1}
+        siblingCount={0.5}
         showFirstButton
         showLastButton
       />
@@ -2124,19 +2435,22 @@ const BreadcrumbMenu = ({
 }) => {
   return (
     <>
-      <div className="hoq_sorting_div" style={{
-        display  :"flex" ,
-        flexDirection  :"row",
-        width  :"100%"
-      }}>
+      <div
+        className="hoq_sorting_div"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+        }}
+      >
         <span
           className="hoq_breadcums_port "
-          // style={{ marginLeft: "72px" }}
+          style={{ color: "gray" }}
           onClick={() => {
             navigate("/");
           }}
         >
-          {"Home"} <IoChevronForward/>
+          {"Home"} <IoChevronForward />
         </span>
 
         {location?.search.charAt(1) == "A" && (
@@ -2164,7 +2478,7 @@ const BreadcrumbMenu = ({
         )}
 
         {IsBreadCumShow && (
-          <div className="hoq_breadcums_port" style={{ marginLeft: "3px"}}>
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
             {BreadCumsObj()?.menuname && (
               <span
@@ -2187,7 +2501,8 @@ const BreadcrumbMenu = ({
                   })
                 }
               >
-                {` > ${BreadCumsObj()?.FilterVal1}`}
+                <IoChevronForward />
+                {`${BreadCumsObj()?.FilterVal1}`}
               </span>
             )}
 

@@ -118,6 +118,19 @@ const Header = () => {
   // }
 
   console.log('ddddddddd', location);
+
+  const handleNaviagteSearch = () =>{
+
+    if(isB2bFlag == 1){
+      if(islogin == false){
+
+      }else{
+        navigation('/SearchPage')
+      }
+    }else{
+      navigation('/SearchPage')
+    }
+  }
   return (
     <div>
       {(location.pathname.split('/')[1] === "p") || (location.pathname.split('/')[1] === "d") ?
@@ -230,10 +243,11 @@ const Header = () => {
 
               </div>
               <div>
-                <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
+                <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
                   <input
                     type="text"
                     placeholder="Search..."
+                    disabled
                     // value={searchText}
                     // onChange={(e) => setSearchText(e.target.value)}
                     className="searchBoxOnlyHeaderFiexed"
@@ -244,7 +258,7 @@ const Header = () => {
                   //   }
                   // }}
                   />
-                  <SearchIcon onClick={() => navigation('/SearchPage')} />
+                  <SearchIcon onClick={handleNaviagteSearch} />
                 </div>
               </div>
 
@@ -253,10 +267,11 @@ const Header = () => {
             <div
               className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
             >
-              <div className="searchBoxOnlyHeaderFiexedMain" onClick={() => navigation('/SearchPage')}>
+              <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
                 <input
                   type="text"
                   placeholder="Search..."
+                  disabled
                   // value={searchText}
                   // onChange={(e) => setSearchText(e.target.value)}
                   className="searchBoxOnlyHeaderFiexed"
@@ -267,7 +282,7 @@ const Header = () => {
                 //   }
                 // }}
                 />
-                <SearchIcon onClick={() => navigation('/SearchPage')} />
+                <SearchIcon onClick={handleNaviagteSearch} />
               </div>
             </div>
           </div>

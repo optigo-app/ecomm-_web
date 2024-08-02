@@ -12,6 +12,8 @@ import { CartCount, WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
+import { useMediaQuery } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
   const {
@@ -35,6 +37,7 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
   const setCartCountVal = useSetRecoilState(CartCount)
   const visiterId = Cookies.get('visiterId');
+  const isMobileScreen = useMediaQuery('(max-width:768px)');
 
 
   const handleRemoveAllDialog = () => {
@@ -45,7 +48,7 @@ const Wishlist = () => {
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
     const returnValue = await handleRemoveAll();
-    if(returnValue?.msg == "success"){
+    if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setWishCountVal(res?.wishcount);
       })
@@ -57,18 +60,19 @@ const Wishlist = () => {
   };
 
 
-  const handleAddtoCartAllfun = async() => {
+  const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
-      if(returnValue?.msg == "success"){
-        GetCountAPI(visiterId).then((res) => {
-          setCartCountVal(res?.cartcount);
-        })
-      }
+    if (returnValue?.msg == "success") {
+      toast.success("All wishlist items added in cart")
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     setCSSVariable();
-  },[])
+  }, [])
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -92,7 +96,9 @@ const Wishlist = () => {
     <div className="smr_MainWlDiv">
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
-          <div className="smr_Wl-title">My Wishlist</div>
+          {isMobileScreen &&
+            <div className="smr_Wl-title">My Wishlist</div>
+          }
           {wishlistData?.length != 0 &&
             <>
               <div className="smr_WlButton-group">
@@ -104,9 +110,10 @@ const Wishlist = () => {
                 >
                   CLEAR ALL
                 </Link>
-                {/* <button className='smr_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
+                {!isMobileScreen &&
+                  <div className="smr_Wl-title">My Wishlist</div>
+                }
                 <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
-                {/* <button className='smr_WlBtn'>SHOW PRODUCT LIST</button> */}
               </div>
             </>
           }

@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const WishItem = ({
     item,
@@ -35,9 +37,10 @@ const WishItem = ({
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
+            toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
-            })
+            });
         }
     };
 
@@ -57,8 +60,8 @@ const WishItem = ({
                     src={item?.ImageCount !== 0 ? CartCardImageFunc(item) : noImageFound}
                     alt={item?.name}
                 />
-                <div className="product-details">
-                    <p className='dt_WlTitleline'>{item?.designno != "" && item?.designno}{item?.TitleLine != "" &&  " - " + item?.TitleLine}</p>
+                 <div className="product-details">
+                    <p>{item?.TitleLine}</p>
                 </div>
             </td>
             <td className="price">
@@ -69,7 +72,7 @@ const WishItem = ({
                         >
                             {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                         </span>
-                        {" "}{(item?.UnitCostWithMarkUp)}
+                        {" "}{formatter(item?.UnitCostWithMarkUp)}
                     </span>
                 }
             </td>

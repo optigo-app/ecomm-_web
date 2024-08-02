@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
-import "./manageaddress.scss";
-import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
+import "./manageaddressMapp.scss";
+import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, Snackbar, TextField, Typography } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
@@ -9,10 +9,10 @@ import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handle
 import { useSetRecoilState } from 'recoil';
 import { smrMA_defaultAddressState } from '../../../Recoil/atom';
 import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
-import MobViewHeader from './../MobViewHeader/MobViewHeader';
+import MobViewHeader from '../MobViewHeader/MobViewHeader';
 
 
-const ManageAddress = () => {
+const ManageAddressMAPP = () => {
 
     const [defaultAdd, setDefaultAdd] = useState('female');
     const [openDelete, setOpenDelete] = useState(false);
@@ -36,6 +36,12 @@ const ManageAddress = () => {
     });
 
     const setDefaultAddress = useSetRecoilState(smrMA_defaultAddressState);
+
+    const [toastMsg, setToastMsg] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const handleCloseSnackbar = () => {
+        setShowToast(false);
+    };
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
@@ -64,14 +70,20 @@ const ManageAddress = () => {
                 const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);     
                 setAddressData(updatedAddressData);
                 fetchData();
-                toast.success('Delete Success');
+                // toast.success('Delete Success');
+                setToastMsg('Delete Success');
+                setShowToast(true);
             } else {
-                toast.error('error');
+                // toast.error('error');
+                setToastMsg('error');
+                setShowToast(true);
             }
             setOpenDelete(false);
             
         } catch (error) {
             console.error('Error:', error);
+            setShowToast(true);
+            setToastMsg('Unexcepted Error Occured');
         } finally {
             setIsLoading(false);
         }
@@ -211,7 +223,9 @@ const ManageAddress = () => {
     
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful edit
-                    toast.success('Edit success');
+                    // toast.success('Edit success');
+                    setToastMsg('Update successfully');
+                    setShowToast(true);
     
                     const editedAddress = {
                         ...addressData[editAddressIndex],
@@ -232,7 +246,9 @@ const ManageAddress = () => {
                         setDefaultAddress(editedAddress)
                     }
                 } else {
-                    toast.error('Error editing');
+                    // toast.error('Error editing');
+                    setToastMsg('Updation Error');
+                    setShowToast(true);
                 }
             } else {
                 // Handle add mode
@@ -248,7 +264,9 @@ const ManageAddress = () => {
     
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful addition
-                    toast.success('Add success');
+                    // toast.success('Add success');
+                    setToastMsg('Add successfully');
+                    setShowToast(true);
     
                     const newAddress = {
                         shippingfirstname: formData.firstName,
@@ -265,12 +283,16 @@ const ManageAddress = () => {
                     setAddressData(updatedAddressData);
                     fetchData(); // Assuming fetchData updates necessary data after addition
                 } else {
-                    toast.error('Error adding');
+                    // toast.error('Error adding');
+                    setToastMsg('Error adding');
+                    setShowToast(true);
                 }
             }
         } catch (error) {
             console.error('Error:', error);
-            toast.error('An unexpected error occurred');
+            // toast.error('An unexpected error occurred');
+            setToastMsg('An unexpected error occurred');
+            setShowToast(true);
         } finally {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
@@ -410,7 +432,9 @@ const ManageAddress = () => {
                 fetchData();
 
             } else {
-                toast.error('No Data Found')
+                // toast.error('No Data Found')
+                setToastMsg('No Data Found')
+                setShowToast(true);
             }
 
         } catch (err) {
@@ -484,7 +508,9 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-        <MobViewHeader title="Manage Address" />
+        <div className="sticky-header">
+            <MobViewHeader title="Manage Address" />
+        </div>
             <div>
             {/* <p style={{
                     textAlign: 'center',
@@ -497,7 +523,7 @@ const ManageAddress = () => {
                     fontWeight: "700",
                     opacity:'.8'
                 }} className='savedAddress'>Saved Addresses</p> */}
-                <Box sx={{ paddingLeft: "15px" }}>
+                <Box sx={{ paddingLeft: "15px" }} className="addressBtnMapp">
                     <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" 
                     sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", 
                     marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
@@ -507,9 +533,10 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    className="mainBox_MAMAPP"
                 >
                     {
-                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }} ><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
                                 addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>
@@ -580,8 +607,8 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
-                    <div className='smilingAddressPopupMain'>
+                <Dialog open={open} onClose={handleClose} className='dialogBox_Mapp'>
+                    <div className='smilingAddressPopupMain dialogMAddress_Mapp'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
@@ -683,12 +710,19 @@ const ManageAddress = () => {
                         </form>
                     </div>
                 </Dialog>
+                <Snackbar
+                    open={showToast}
+                    autoHideDuration={2000}
+                    onClose={handleCloseSnackbar}
+                    message={`${toastMsg}`}
+                    className='smr_MoSnakbarTM'
+                />
             </div>                    
         </>
     )
 }
 
-export default ManageAddress
+export default ManageAddressMAPP
 
 // import React, { useEffect, useState } from 'react';
 // import "./manageaddress.scss";

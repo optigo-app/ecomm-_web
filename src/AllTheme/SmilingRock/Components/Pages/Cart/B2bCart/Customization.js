@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './smr_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
+import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Customization = ({
   ispriceloding,
@@ -44,6 +46,14 @@ const Customization = ({
     setColorStoneCombo(CSQtyColorData);
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
+
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg == "success") {
+      toast.success('Cart Updated Successfully');
+    }
+  }
 
   return (
     <>
@@ -160,7 +170,7 @@ const Customization = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {(selectedItem?.FinalCost)}
+                    {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
                   <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -169,7 +179,7 @@ const Customization = ({
             }
           </div>
           <div className='smr_UpdateCartBtn'>
-            <button className="smr_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
+            <button className="smr_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
@@ -226,7 +236,7 @@ const Customization = ({
                           ),
                         }}
                       />
-                      {(selectedItem?.FinalCost)}
+                      {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
                     <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />

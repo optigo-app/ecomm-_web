@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Delivery.scss'
 import { useNavigate } from 'react-router-dom';
 import AddressForm from './AddressForm';
 import AddressCard from './AddressCard';
 import DeleteDialog from './DeleteDialog';
 import { useAddress } from '../../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Snackbar } from '@mui/material';
 import SkeletonLoader from './AddressSkelton';
 import { IoArrowBack } from 'react-icons/io5';
+import ConfirmationMoDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 
 const AddressManagement = () => {
     const {
@@ -27,7 +28,6 @@ const AddressManagement = () => {
         handleDeleteClick,
         handleDeleteClose,
         handleDefaultSelection,
-        proceedToOrder
     } = useAddress();
 
     const navigate = useNavigate();
@@ -38,6 +38,40 @@ const AddressManagement = () => {
             behavior: 'smooth'
         });
     }
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
+    const proceedToOrder = (navigation) => {
+        if (!addressData || addressData.length === 0) {
+            setSnackbarMessage('Please add an address');
+            setSnackbarOpen(true);
+            return;
+        }
+        const requiredFields = ['addressprofile', 'city', 'state', 'country', 'zip', 'street', 'shippingfirstname', 'shippinglastname', 'shippingmobile'];
+        const defaultAddress = addressData.find(item => item.isdefault === 1);
+
+        if (!defaultAddress) {
+            setSnackbarMessage('Please first select the shipping address');
+            setSnackbarOpen(true);
+            return;
+        }
+        const hasEmptyField = requiredFields.some(field => !defaultAddress[field] || defaultAddress[field].trim() === '');
+        if (hasEmptyField) {
+            setSnackbarMessage('Please fill in all required fields');
+            setSnackbarOpen(true);
+            return;
+        }
+        navigation('/payment');
+        window.scrollTo(0, 0);
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setSnackbarMessage('');
+        setSnackbarOpen(false);
+      };
 
     return (
         <div className='smrMo_DeliverMainDiv'>
@@ -67,7 +101,7 @@ const AddressManagement = () => {
                                 <div className='smrMo_noAddresslistData'>
                                     <p className='smrmo_title'>No Shipping Address Found!</p>
                                     <p className='smrmo_desc'>Please First Add Shipping Address</p>
-                                    <button className='smrmo_browseOurCollectionbtn'  onClick={() => handleOpen(null)}>Add New Address</button>
+                                    <button className='smrmo_browseOurCollectionbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                                 </div>
                             }
                         </div>
@@ -84,10 +118,12 @@ const AddressManagement = () => {
                         errors={errors}
                         isEditMode={isEditMode}
                     />
-                    <DeleteDialog
-                        openDelete={openDelete}
-                        handleDeleteClose={handleDeleteClose}
-                        handleDelete={() => handleDelete()}
+                    <ConfirmationMoDialog
+                        open={openDelete}
+                        onClose={handleDeleteClose}
+                        onConfirm={handleDelete}
+                        title="Remove Address"
+                        content="Are you sure you want to remove this address?"
                     />
                 </div>
             </div>
@@ -96,6 +132,13 @@ const AddressManagement = () => {
                 <button fullWidth className='smrMo_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                 <button fullWidth className='smrMo_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackbar}
+                message={snackbarMessage}
+                className='smr_MoSnakbarTM'
+            />
         </div>
     );
 };

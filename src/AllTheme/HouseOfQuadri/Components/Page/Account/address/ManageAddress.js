@@ -244,6 +244,9 @@ const ManageAddress = () => {
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if(editedAddress?.isdefault === 1){
+                        setDefaultAddress(editedAddress)
+                    }
                 } else {
                     toast.error('Error editing');
                 }
@@ -276,6 +279,7 @@ const ManageAddress = () => {
     
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
+                    
                     fetchData(); // Assuming fetchData updates necessary data after addition
                 } else {
                     toast.error('Error adding');
@@ -514,7 +518,7 @@ console.log("res",response)
                     opacity:'.8'
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='hoq_muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
                 {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
@@ -562,14 +566,14 @@ console.log("res",response)
                                             </Box>
                                             
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
-                                                <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
+                                                <Button className='hoq_muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
-                                                        background: "#c20000", maxHeight: "30px", minWidth: "max-content",
+                                                       maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
                                                     }}
                                                     onClick={() => handleOpen(item, index)}
                                                 >Edit</Button>
-                                                { item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
+                                                { item.isdefault !== 1 && <Button className='hoq_muiSmilingRocksBtnManageEdit'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
@@ -715,7 +719,7 @@ console.log("res",response)
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
+                                    <button type="submit" className='hoq_smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
                                     <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
                                         Cancel
                                     </button>

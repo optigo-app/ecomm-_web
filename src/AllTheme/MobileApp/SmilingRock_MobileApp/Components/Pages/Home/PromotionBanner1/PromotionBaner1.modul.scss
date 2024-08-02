@@ -1,11 +1,28 @@
 .smrMA_PromoMain {
 
+    position: relative;
     .FestiveMainImage {
         position: relative;
+        margin-top: 2px;
     }
 
     .FestiveBannerImage {
         width: 100%;
+    }
+
+    .ma_newArrival_btn{
+        height: 35px;
+        border: 1px solid white;
+        background-color: transparent;
+        font-size: 15px;
+        font-family: "FreightDispProMedium-Regular,Times New Roman,serif";
+        width: 120px;
+        position: absolute;
+        border-radius: 2px;
+        color: white;
+        font-weight: 500;
+        bottom: 10%;
+        left: 10px;
     }
 
     .festiveBox {

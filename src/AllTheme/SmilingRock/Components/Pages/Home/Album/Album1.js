@@ -12,6 +12,7 @@ import { useRecoilValue } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Link } from '@mui/material';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Album1 = () => {
     const [selectedAlbum, setSelectedAlbum] = useState();
@@ -145,7 +146,7 @@ const Album1 = () => {
                                                             islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                                         ),
                                                     }}
-                                                /> {design?.UnitCostWithMarkUp}</p>
+                                                /> {formatter(design?.UnitCostWithMarkUp)}</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>

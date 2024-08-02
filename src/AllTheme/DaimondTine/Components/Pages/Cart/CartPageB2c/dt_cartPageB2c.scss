@@ -66,6 +66,7 @@
           .product-details {
             p {
               margin: 0;
+              font-size: $fontSize1;
             }
           }
         }
@@ -107,6 +108,27 @@
               font-family: $primaryFontFamily;
             }
           }
+          .dt_Wl-CartbtnDiv {
+            text-align: center;
+            margin-bottom: 10px;
+        
+            .dt_Wl-Cartbtn {
+                width: 150px;
+                height: 30px;
+                font-size: $fontSize2;
+                color: $titleColor;
+                font-weight: 500;
+                border: none;
+                background: none;
+                text-transform: capitalize !important;
+                cursor: pointer;
+        
+                &:hover {
+                    color: $btn1hoverFontColor;
+                    background-color: $btn1ActivebgColor;
+                }
+            }
+        }
         }
 
         .remove {
@@ -234,6 +256,7 @@
 
       .cart-items {
         width: 100%;
+
         table {
 
           th,
@@ -280,7 +303,7 @@
   }
 }
 
-@media (max-width: 690px) {
+@media (max-width: 700px) {
   .cart {
     flex-direction: column;
 
@@ -291,6 +314,7 @@
         td {
           padding: 5px;
         }
+
         .product {
           display: flex;
           align-items: center;
@@ -316,5 +340,151 @@
         padding: 5px;
       }
     }
+  }
+}
+
+@media (max-width: 699px) {
+  .dt_MainCartDiv, .dt_MainWishDiv {
+    .dt_res-card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .dt_res-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: none;
+      max-width: 300px;
+      text-align: center;
+      flex: 1 1 calc(50% - 32px);
+      position: relative;
+
+      .dt_closeIconBtnDiv {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #636363;
+
+        .dt_closeIconBtn {
+          padding: 0;
+          margin: 0;
+
+          .dt_closeIcon {
+            color: #fff;
+            font-size: 18px;
+          }
+        }
+      }
+
+      .dt_cartB2c-quantity {
+        display: flex;
+        width: 110px;
+        height: 36px;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 12px;
+
+        .bttn-left {
+          border-top-left-radius: 6px;
+          border-bottom-left-radius: 6px;
+        }
+
+        .input {
+          width: calc(100px * 0.5);
+          padding: 0;
+          margin: 0;
+          text-align: center;
+          color: $titleColor;
+          border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          border-left: none;
+          border-right: none;
+        }
+
+        a.bttn,
+        .bttn {
+          width: calc(100px * 0.5);
+          padding: 0;
+          text-align: center;
+          color: $titleColor;
+          border: 1px solid #ddd;
+          box-shadow: none;
+          background-color: white;
+          font-size: 24px;
+          cursor: pointer;
+
+          span {
+            margin: auto !important;
+          }
+        }
+
+        .bttn-right {
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+      }
+    }
+
+    .dt_res-card-image {
+      width: 100%;
+      border-radius: 6px;
+      padding: 2px;
+    }
+
+    .dt_res-card-title {
+      width: 95%;
+      max-width: 95%; 
+      font-size: $fontSize0;
+      color: $titleColor;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      text-align: center;
+      margin: 0 5px;
+    }
+
+    .dt_res-card-price {
+      font-size: $fontSize2;
+      font-weight: 500;
+      color: $titleColor;
+      margin-bottom: 12px;
+      padding: 0;
+      margin: 0;
+      padding-block: 10px;
+    }
+
+    .dt_res-card-qty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .dt_res-card-qty button {
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .dt_res-card-qty span {
+      margin: 0 8px;
+    }
+
+    .dt_res-card-button {
+      background: #007bff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      padding: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
   }
 }

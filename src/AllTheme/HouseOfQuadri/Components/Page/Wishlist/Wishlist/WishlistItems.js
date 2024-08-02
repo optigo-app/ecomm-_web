@@ -28,6 +28,7 @@ const WishlistItems = ({
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const visiterId = Cookies.get("visiterId");
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
@@ -93,13 +94,13 @@ const WishlistItems = ({
                 <span className="hoq_pipe"> | </span>
                 <span className="hoq_wishDT">DWT: </span>
                 <span>
-                  {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}
+                  {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(0)}
                 </span>
                 <span className="hoq_pipe"> | </span>
                 <span className="hoq_wishDT">CWT: </span>
                 <span>
                   {(item?.CSwt || 0).toFixed(3)} /{" "}
-                  {(item?.CSpcs || 0).toFixed(3)}{" "}
+                  {(item?.CSpcs || 0).toFixed(0)}{" "}
                 </span>
               </Typography>
               <Typography variant="body2" className="hoq_card-ContentData">
@@ -116,10 +117,10 @@ const WishlistItems = ({
                 <span
                   className="hoq_currencyFont"
                   dangerouslySetInnerHTML={{
-                    __html: decodeEntities(currency),
+                    __html: decodeEntities(loginUserDetail?.CurrencyCode),
                   }}
                 />{" "}
-                {item?.UnitCost !== "" && <span>{item?.FinalCost}</span>}
+                {item?.UnitCost !== "" && <span>{(item?.FinalCost).toLocaleString('en-IN')}</span>}
               </Typography>
             </div>
             {/* <div className='designNoWlList'>

@@ -424,7 +424,9 @@ const Sales = () => {
       };
     return (
         <>
+        <div className='sticky-header'>
             <MobViewHeader title="Sales" />
+        </div>
             <Box className='smilingSavedAddressMain salesApiSectionMob' sx={{ padding: "20px", marginBottom:'3rem'}}>
             <Accordion sx={{marginBottom:'20px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -582,6 +584,7 @@ const Sales = () => {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        className='pd_s_mapp'
                     />
                 </Paper>}
 

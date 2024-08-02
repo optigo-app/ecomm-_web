@@ -1,15 +1,26 @@
 @import '../../../scss/variable';
 
 
+
+.smaMA_newArrivalBoxcMain {
+    width: 100%;
+}
+
+
+
 .smrMA_NewArrivalMain {
 
-    margin-top: 10px;
+    .smaMA_newArrivalBoxcMainSub {
+        width: 40% !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 1px;
+    }
 
     .smilingBridesMain {
         display: flex;
         margin-inline: 0px;
         border: 0.5px solid #e1e1e1;
     }
+
     .enagementBtn {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
@@ -20,6 +31,8 @@
         margin-top: 32px;
         font-weight: 600;
     }
+
+
 
     .smilingBrides {
         width: 25%;
@@ -52,23 +65,15 @@
     }
 
     .smr_newArrialDiv1 {
-        width: 50%;
+        width: 100%;
         cursor: pointer;
     }
 
     .smr_nwArrivalTitle {
-        margin: 0px 0px 10px 0px;
         color: $homePageFontColor;
         text-align: center;
+        margin: 0px;
     }
-
-    @media screen and (max-width: 1024px) {
-        .smilingBridesMain {
-            margin-inline: 10px;
-        }
-
-    }
-
 
     @media screen and (max-width: 900px) {
 
@@ -88,7 +93,7 @@
             order: 1;
         }
 
-    
+
         .linkingTitle {
             margin: 5px 0px 0px 0px !important;
             font-size: 20px !important;
@@ -113,7 +118,7 @@
 
     @media screen and (max-width: 500px) {
 
-        margin-top: 0px !important;
+        margin-block: 7px !important;
 
         .smilingBridesMain {
             margin-top: 0px !important;

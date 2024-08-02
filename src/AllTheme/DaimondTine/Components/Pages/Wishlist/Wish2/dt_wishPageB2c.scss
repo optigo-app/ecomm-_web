@@ -51,7 +51,8 @@
         width: 100%;
         border-collapse: collapse;
 
-        th, tr {
+        th,
+        tr {
           padding: 10px;
           text-align: left;
           border-bottom: 1px solid #ddd;
@@ -72,14 +73,9 @@
           }
 
           .product-details {
-            .dt_WlTitleline {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              width: 100%;
-              max-width: 340px;
-              padding: 0;
+            p {
               margin: 0;
+              font-size: $fontSize1;
             }
           }
         }
@@ -131,7 +127,8 @@
               color: $titleColor;
             }
 
-            a.bttn, .bttn {
+            a.bttn,
+            .bttn {
               width: 50%;
               padding: 0;
               text-align: center;
@@ -180,9 +177,9 @@
             width: 300px;
 
             .product-details {
-              .dt_WlTitleline {
-                width: 100%;
-                max-width: 250px;
+              p {
+                margin: 0;
+                font-size: $fontSize1;
               }
             }
           }
@@ -201,14 +198,14 @@
             width: 250px;
 
             .product-details {
-              .dt_WlTitleline {
-                width: 100%;
-                max-width: 240px;
+              p {
+                margin: 0;
                 font-size: $fontSize1;
               }
             }
           }
-          .price{
+
+          .price {
             font-size: $fontSize2;
           }
         }
@@ -226,14 +223,14 @@
             width: 250px;
 
             .product-details {
-              .dt_WlTitleline {
-                width: 100%;
-                max-width: 200px;
+              p {
+                margin: 0;
                 font-size: $fontSize1;
               }
             }
           }
-          .price{
+
+          .price {
             font-size: $fontSize2;
           }
         }
@@ -242,10 +239,16 @@
   }
 }
 
-@media (max-width: 999px){
+@media (max-width: 999px) {
   .dt_MainWishDiv {
     .cart {
       flex-direction: row;
+      .cart-items {
+        .price {
+          font-size: $fontSize2;
+          font-weight: 600;
+        }
+      }
     }
   }
 }
@@ -265,7 +268,9 @@
 
       .cart-items {
         table {
-          th, td {
+
+          th,
+          td {
             padding: 5px;
           }
         }
