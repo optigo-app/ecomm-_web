@@ -174,12 +174,12 @@ const CartItem = ({
                 <div>
                   {storeInitData?.IsDiamondWeight == 1 &&
                     <Typography variant="body2" className='smr_card-ContentsData'>
-                      DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}
+                      DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
                     </Typography>
                   }
                   {storeInitData?.IsStoneWeight == 1 &&
                     <Typography variant="body2" className='smr_card-ContentsData'>
-                      CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0).toFixed(3)}{' '}
+                      CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
                     </Typography>
                   }
 

@@ -38,7 +38,7 @@
 .smr_paymentDetailMainDiv {
     display: flex;
     justify-content: space-around;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     color: $titleColor;
 }
 
@@ -67,6 +67,30 @@
     }
 }
 
+.smr_order-summary {
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.smr_summary-item {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+
+.smr_summary-item .smr_label {
+    min-width: 180px;
+    text-align: left;
+    font-size: $fontSize2;
+}
+
+.smr_summary-item .smr_value {
+    text-align: left;
+    white-space: nowrap;
+    font-size: $fontSize2;
+    font-weight: bold !important;
+}
+
 .smr_paymentButtonDiv {
     text-align: center;
 
@@ -74,7 +98,7 @@
         margin-right: 20px;
         height: 40px;
         width: 180px;
-        font-family: $homePageFontFamily !important;
+        font-family: $primaryFontFamily !important;
         font-size: $fontSize3;
         color: $btn1hoverFontColor;
         background-color: $btn1ActivebgColor;
@@ -140,12 +164,13 @@
         margin-bottom: 40px !important;
         border-top: 1px solid #cccdce;
 
-        h3{
+        h3 {
             font-size: $fontSize4 !important;
         }
-        p{
+
+        p {
             font-size: $fontSize1 !important;
-            margin-bottom: 5px !important; 
+            margin-bottom: 5px !important;
         }
     }
 
