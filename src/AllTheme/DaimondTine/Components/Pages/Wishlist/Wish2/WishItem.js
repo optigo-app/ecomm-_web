@@ -8,6 +8,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const WishItem = ({
     item,
@@ -71,7 +72,7 @@ const WishItem = ({
                         >
                             {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                         </span>
-                        {" "}{(item?.UnitCostWithMarkUp)}
+                        {" "}{formatter(item?.UnitCostWithMarkUp)}
                     </span>
                 }
             </td>

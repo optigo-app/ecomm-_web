@@ -10,6 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Backdrop, useMediaQuery } from "@mui/material";
 import ResponsiveCartUi from "./ResponsiveCartUi";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 function Cart(props) {
   const {
@@ -218,7 +219,7 @@ function Cart(props) {
                                 {loginInfo?.CurrencyCode ??
                                   storeInitData?.CurrencyCode}
                               </span>{" "}
-                              {totalPrice}
+                              {formatter(totalPrice)}
                             </span>
                           )}
                         </p>
@@ -267,7 +268,7 @@ function Cart(props) {
                             <span>
                               {loginInfo?.CurrencyCode ??
                                 storeInitData?.CurrencyCode}{" "}
-                              {totalPrice}
+                              {formatter(totalPrice)}
                             </span>
                           )}
                         </p>
