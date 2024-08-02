@@ -7,7 +7,6 @@ import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 
-
 export default function YourProfile() {
     
     const [userData, setUserData] = useState(null);
@@ -15,7 +14,7 @@ export default function YourProfile() {
     const [editedUserData, setEditedUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-
+    const [errorMsg, setErrorMsg] = useState('');
     const defaultAddress = useRecoilValue(defaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
 
@@ -527,6 +526,7 @@ export default function YourProfile() {
                     </form>
                 </div>
             </Modal>
+        
         </div>
     );
 }
