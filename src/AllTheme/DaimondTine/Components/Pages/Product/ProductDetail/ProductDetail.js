@@ -1015,7 +1015,21 @@ const ProductDetail = () => {
   };
 
   return (
-    <div>
+    <>
+    {isDataFound ? 
+      ( <div
+       style={{
+         height: "90vh",
+         justifyContent: "center",
+         display: "flex",
+         alignItems: "center",
+       }}
+       className="smr_prodd_datanotfound_ss"
+     >
+       Data not Found!!
+     </div>)
+     :
+   ( <div>
       <div
         style={{
           width: "100%",
@@ -2162,7 +2176,9 @@ const ProductDetail = () => {
                   </div>
                 </div>}
                 <Footer/>
-    </div>
+    </div>)
+    }
+    </>
   );
 };
 
