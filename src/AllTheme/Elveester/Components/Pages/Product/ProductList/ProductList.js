@@ -1362,15 +1362,15 @@ const ProductList = () => {
                         displayEmpty
                         inputProps={{ "aria-label": "Without label" }}
                         className="elv_trend_drp"
-                        style={{
-                          backgroundColor: "#F4F4F4",
-                          color: "#8E7B8E",
-                          fontWeight: "400",
-                          cursor: "pointer",
-                          textTransform: "uppercase",
-                          letterSpacing: "2px",
-                          padding: '0px 4px',
-                        }}
+                        // style={{
+                        //   backgroundColor: "#F4F4F4",
+                        //   color: "#8E7B8E",
+                        //   fontWeight: "400",
+                        //   cursor: "pointer",
+                        //   textTransform: "uppercase",
+                        //   letterSpacing: "2px",
+                        //   padding: '0px 4px',
+                        // }}
                       >
                         <MenuItem value="Recommended">Recommended</MenuItem>
                         <MenuItem value="New">New</MenuItem>
