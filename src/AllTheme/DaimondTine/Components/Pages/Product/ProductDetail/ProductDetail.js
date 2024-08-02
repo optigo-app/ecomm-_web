@@ -121,7 +121,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "auto",
     });
-  }, []);
+  }, [location?.key]);
 
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
@@ -794,7 +794,7 @@ const ProductDetail = () => {
     let pdImgList = [];
 
     if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
           singleProd?.designno +
@@ -1015,7 +1015,21 @@ const ProductDetail = () => {
   };
 
   return (
-    <div>
+    <>
+    {isDataFound ? 
+      ( <div
+       style={{
+         height: "90vh",
+         justifyContent: "center",
+         display: "flex",
+         alignItems: "center",
+       }}
+       className="smr_prodd_datanotfound_ss"
+     >
+       Data not Found!!
+     </div>)
+     :
+   ( <div>
       <div
         style={{
           width: "100%",
@@ -1034,7 +1048,7 @@ const ProductDetail = () => {
         style={{ width: "100%", display: "flex", justifyContent: "center" }}
         className="productDetail-container-flex"
       >
-        <div className="product-detail-container">
+        <div className="dt_product-detail-container">
           <div className="srprodetail1">
             {/* <div className="smr_prod_image_Sec"> */}
               {/* {isImageload && ( */}
@@ -1043,7 +1057,8 @@ const ProductDetail = () => {
                   sx={{
                     width: "95%",
                     // height: "750px",
-                    margin: "20px 0 0 0",
+                    height:'100%',
+                    // margin: "20px 0 0 0",
                   }}
                   variant="rounded"
                 />
@@ -1747,49 +1762,49 @@ const ProductDetail = () => {
                     </div>
                   ))}
                 </div> */}
-                      <table className="Smr_stockItem_table">
-                        <tr className="Smr_stockItem_table_tr">
-                          <th className="Smr_stockItem_table_td">SrNo</th>
-                          <th className="Smr_stockItem_table_td">Design No</th>
-                          {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                          <th className="Smr_stockItem_table_td">Job No</th>
+                      <table className="dt_stockItem_table">
+                        <tr className="dt_stockItem_table_tr">
+                          <th className="dt_stockItem_table_td">SrNo</th>
+                          <th className="dt_stockItem_table_td">Design No</th>
+                          {/* <th className="dt_stockItem_table_td" >StockBarcode</th> */}
+                          <th className="dt_stockItem_table_td">Job No</th>
                           <th
-                            className="Smr_stockItem_table_td"
+                            className="dt_stockItem_table_td"
                             style={{ textAlign: "center" }}
                           >
                             Gross Wt/Net Wt/Dia Wt/CS Wt
                           </th>
-                          <th className="Smr_stockItem_table_td">
+                          <th className="dt_stockItem_table_td">
                             Metal Color-Purity
                           </th>
-                          <th className="Smr_stockItem_table_td">Price</th>
-                          <th className="Smr_stockItem_table_td">
+                          <th className="dt_stockItem_table_td">Price</th>
+                          <th className="dt_stockItem_table_td">
                             Add To Cart
                           </th>
                         </tr>
                         {stockItemArr?.map((ele, i) => (
-                          <tr className="Smr_stockItem_table_tr">
-                            <td className="Smr_stockItem_table_td">
+                          <tr className="dt_stockItem_table_tr">
+                            <td className="dt_stockItem_table_td">
                               <span className="smr_prod_designno">
                                 {ele?.SrNo}
                               </span>
                             </td>
-                            <td className="Smr_stockItem_table_td">
+                            <td className="dt_stockItem_table_td">
                               <span className="smr_prod_designno">
                                 {ele?.designno}
                               </span>
                             </td>
-                            <td className="Smr_stockItem_table_td">
+                            <td className="dt_stockItem_table_td">
                               <span className="smr_prod_designno">
                                 {ele?.StockBarcode}
                               </span>
                             </td>
-                            {/* <td className="Smr_stockItem_table_td">
+                            {/* <td className="dt_stockItem_table_td">
                         <span className="smr_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                            <td className="Smr_stockItem_table_td">
+                            <td className="dt_stockItem_table_td">
                               <div className="smr_prod_Allwt">
                                 <div
                                   style={{
@@ -1876,7 +1891,7 @@ const ProductDetail = () => {
                                 </div>
                               </div>
                             </td>
-                            <td className="Smr_stockItem_table_td">
+                            <td className="dt_stockItem_table_td">
                               {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
                               <span>
                                 {ele?.MetalColorName}-{ele?.metaltypename}
@@ -1885,7 +1900,7 @@ const ProductDetail = () => {
                               </span>
                               {/* </div> */}
                             </td>
-                            <td className="Smr_stockItem_table_td">
+                            <td className="dt_stockItem_table_td">
                               <span>
                               <span className="smr_currencyFont">
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -1899,7 +1914,7 @@ const ProductDetail = () => {
                               </span>
                             </td>
                             <td
-                              className="Smr_stockItem_table_td"
+                              className="dt_stockItem_table_td"
                               style={{
                                 display: "flex",
                                 justifyContent: "center",
@@ -2019,7 +2034,7 @@ const ProductDetail = () => {
                   )}
 
                 {storeInit?.IsProductDetailDesignSet === 1 && 
-                <div className="smr_DesignSet_main">
+                <div className="dt_DesignSet_main">
                   { designSetList?.length > 0 && <div
                     style={{
                       display: "flex",
@@ -2039,7 +2054,7 @@ const ProductDetail = () => {
                     </p>
                   </div>}
 
-                  <div className="smr_Swiper_designSet" >
+                  <div className="dt_Swiper_designSet" >
                     <Swiper
                       modules={[Navigation, Pagination, Scrollbar]}
                       // spaceBetween={50}
@@ -2050,8 +2065,8 @@ const ProductDetail = () => {
                     >
                       {designSetList?.map((designSetList) => (
                         <SwiperSlide>
-                          <div className="compeletethelook_cont">
-                            <div className="smr_ctlImg_containe">
+                          <div className="dt_compeletethelook_cont">
+                            <div className="dt_ctlImg_containe">
                               <img
                                 // src={
                                 //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
@@ -2065,7 +2080,7 @@ const ProductDetail = () => {
                                   imageNotFound
                                 }
                                 alt={""}
-                                className="ctl_img"
+                                className="dt_ctl_img"
                               />
                             </div>
 
@@ -2075,8 +2090,8 @@ const ProductDetail = () => {
                                   ? []
                                   : JSON.parse(designSetList?.Designdetail)
                                 )?.length > 3
-                                  ? "compeletethelook_prodt_for_3"
-                                  : "compeletethelook_prodt"
+                                  ? "dt_compeletethelook_prodt_for_3"
+                                  : "dt_compeletethelook_prodt"
                               }
                             >
                               <p
@@ -2095,7 +2110,7 @@ const ProductDetail = () => {
                                 : JSON.parse(designSetList?.Designdetail)
                               )?.map((ele, i) => (
                                 <div
-                                  className="completethelook_outer"
+                                  className="dt_completethelook_outer"
                                   onClick={() => handleMoveToDetail(ele)}
                                   style={{ borderTop: i !== 0 ? "none" : "" }}
                                 >
@@ -2116,31 +2131,31 @@ const ProductDetail = () => {
                                         // src={
                                         //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                                         // }
-                                        className="srthelook_img"
+                                        className="dt_srthelook_img"
                                       />
                                     </div>
-                                    <div className="srthelook_prodinfo">
+                                    <div className="dt_srthelook_prodinfo">
                                       <div
                                         style={{
                                           fontSize: "14px",
                                           color: "#7d7f85",
                                           textTransform: "uppercase",
                                         }}
-                                        className="srthelook_prodinfo_inner"
+                                        className="dtthelook_prodinfo_inner"
                                       >
                                         <p>
                                           {ele?.designno} - {ele?.CategoryName}
                                           <br />
                                           {
-                                            <span className="smr_currencyFont">
+                                            <span className="dt_currencyFont">
                                               {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
                                           }
                                           &nbsp;
                                           {
-                                          // formatter.format(
+                                          formatter.format(
                                             ele?.UnitCostWithMarkUp
-                                            // )
+                                            )
                                             }
                                         </p>
                                       </div>
@@ -2161,7 +2176,9 @@ const ProductDetail = () => {
                   </div>
                 </div>}
                 <Footer/>
-    </div>
+    </div>)
+    }
+    </>
   );
 };
 

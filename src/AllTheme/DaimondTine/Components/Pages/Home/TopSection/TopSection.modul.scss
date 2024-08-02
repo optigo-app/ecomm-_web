@@ -20,6 +20,12 @@
     }
 }
 
+@media screen and (max-width: 1000px) {
+    .mySwiper {
+        padding-top: 60px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .dt_imageContainer {
         margin-top: 20px;

@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { Link } from '@mui/material';
 import gradientColors from "../color.json"
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { dt_loginState } from "../../../Recoil/atom";
 
 const DesignSet2 = () => {
@@ -245,7 +245,7 @@ const DesignSet2 = () => {
                                             islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
                                           ),
                                         }}
-                                      /> {detail?.UnitCostWithMarkUp}
+                                      /> {formatter(detail?.UnitCostWithMarkUp)}
                                     </p>
                                   </div>
                                   <div className="fs3 centerall">View Details</div>

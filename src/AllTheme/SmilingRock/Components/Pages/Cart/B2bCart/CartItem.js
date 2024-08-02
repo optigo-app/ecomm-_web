@@ -158,20 +158,31 @@ const CartItem = ({
               </Typography>
               <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
+                  {storeInitData?.IsGrossWeight == 1 &&
+                    <Typography variant="body2" className='smr_card-ContentsData'>
+                      GWT: {(item?.Gwt || 0).toFixed(3)}
+                    </Typography>
+                  }
+
+                  {Number(item?.Nwt) !== 0 && (
+                    <Typography variant="body2" className='smr_card-ContentsData'>
+                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                    </Typography>
+                  )}
+
                 </div>
                 <div>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
-                  <Typography variant="body2" className='smr_card-ContentsData'>
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
+                  {storeInitData?.IsDiamondWeight == 1 &&
+                    <Typography variant="body2" className='smr_card-ContentsData'>
+                      DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(3)}
+                    </Typography>
+                  }
+                  {storeInitData?.IsStoneWeight == 1 &&
+                    <Typography variant="body2" className='smr_card-ContentsData'>
+                      CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0).toFixed(3)}{' '}
+                    </Typography>
+                  }
+
                 </div>
               </div>
               <Box className="smr_PriceBox">
