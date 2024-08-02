@@ -26,7 +26,7 @@ const SocialMedia = () => {
 
     return (
         <div className='dt_SocialMedia'>
-            <p className='dt_followInsTitle'>FOLLOW US ON INSTAGRAM</p>
+            <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
                     {photos.map((photo, index) => (

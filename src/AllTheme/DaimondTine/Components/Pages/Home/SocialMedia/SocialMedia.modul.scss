@@ -1,3 +1,7 @@
+
+
+@import '../../../scss/variable';
+
 .dt_SocialMedia {
 
     margin-bottom: 70px;
@@ -7,11 +11,11 @@
         font-family: "Playfair Display", Sans-serif;
         font-weight: 500;
         text-align: center;
-        margin: 100px 0px 0px 0px;
+        margin: 30px 0px 0px 0px;
     }
 
     .dt_SocialmediawidgetsComponentsCard {
-        width: 60%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -19,6 +23,13 @@
     }
 
 
+    .smr_bestseler1Title {
+        font-size: $fontSize6;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        text-align: center;
+        margin: 20px 0px 0px 0px;
+    }
 
 
 
@@ -52,11 +63,12 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        width: 100%;
     }
 
     .dt_instagram_photo {
         width: 20%;
-        height: 270px;
+        height: 400px;
         cursor: pointer;
     }
 
