@@ -1,14 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Footer.modul.scss";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { IoLogoInstagram } from "react-icons/io5";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { GrMailOption } from "react-icons/gr";
+import { Link, useNavigate } from "react-router-dom";
 
 const MobileFooter = () => {
+  const [email, setemail] = useState("");
+  const navigation = useNavigate();
+  const [companyInfoData, setCompanuInfoData] = useState();
+  const [socialMediaData, setSocialMediaData] = useState([]);
+  const [selectedFooteVal, setSelectedVal] = useState(0);
+  useEffect(() => {
+    let storeInit;
+    let companyInfoData;
+    setTimeout(() => {
+      if (localStorage.getItem("storeInit")) {
+        storeInit = JSON?.parse(localStorage.getItem("storeInit")) ?? {};
+      }
+      if (localStorage.getItem("CompanyInfoData")) {
+        companyInfoData =
+          JSON?.parse(localStorage.getItem("CompanyInfoData")) ?? {};
+        setCompanuInfoData(companyInfoData);
+        const parsedSocilaMediaUrlData =
+          JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+        if (parsedSocilaMediaUrlData) {
+          setSocialMediaData(parsedSocilaMediaUrlData);
+        }
+      }
+    }, 500);
+  }, []);
+
+  const HandleFormSubmit = async (e) => {
+    e.preventDefault();
+    const storeInit = JSON?.parse(localStorage.getItem("storeInit"));
+    const newslater = storeInit?.newslatter;
+    if (newslater) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      const newsletterUrl = `${newslater}${email}`;
+      console.log("newsletterUrl: ", newsletterUrl);
+      await fetch(newsletterUrl, requestOptions)
+        .then((response) => {
+          response.text();
+          console.log(response);
+        })
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+    }
+  };
   return (
     <>
       <div className="mobile_footer">
@@ -33,13 +79,44 @@ const MobileFooter = () => {
                 <p className="email">
                   Email : <span>Lorem ipsum dolor sit amet.</span>
                 </p>
-                <div className="social-links">
-                  <a href="#">
-                    <IoLogoInstagram />
-                  </a>
-                  <a href="#">
-                    <FaFacebook />
-                  </a>
+                <div
+                  className="social-links"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "row-reverse",
+                    gap: "1rem",
+                  }}
+                >
+                  <Link
+                    to="https://www.instagram.com/"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      textDecoration: "none",
+                      color: "black",
+                    }}
+                    target="_blank"
+                  >
+                    <FaInstagram size={17} color="#F60092" />
+                    Instagram
+                  </Link>
+                  <Link
+                    to="https://www.facebook.com/"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      textDecoration: "none",
+                      color: "black",
+                    }}
+                    target="_blank"
+                  >
+                    <FaFacebook size={17} color="blue" />
+                    Facebook
+                  </Link>
                 </div>
               </div>
             </AccordionDetails>
@@ -62,8 +139,14 @@ const MobileFooter = () => {
                   Subscribe to get special offers, new collection launches, and
                   once-in-a-while deals.
                 </p>
-                <form className="subscribe-form">
-                  <input type="email" placeholder="Enter your email" />
+                <form onSubmit={HandleFormSubmit} className="subscribe-form">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    name="email"
+                    onChange={(e) => setemail(e.target.value)}
+                  />
                   <button type="submit" className="mail">
                     <GrMailOption size={24} color="grey" />
                   </button>
@@ -87,25 +170,24 @@ const MobileFooter = () => {
               <div className="details">
                 <ul>
                   <li>
-                    <a href="#">Privacy Policy</a>
+                    <Link to="/Privacy-Policy">Privacy Policy</Link>
                   </li>
                   <li>
-                    <a href="#">Shipping Policy</a>
+                    <Link to="/Shipping-Policy">Shipping Policy</Link>
                   </li>
                   <li>
-                    <a href="#">Return & Exchange Policy</a>
+                    <Link to="/Return-Exchange-Policy">
+                      Return & Exchange Policy
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">Terms & Conditions</a>
+                    <Link to="/Terms-Conditions">Terms & Conditions</Link>
                   </li>
                   <li>
-                    <a href="#">FAQs</a>
+                    <Link to="/faq">FAQs</Link>
                   </li>
                   <li>
-                    <a href="#">Contact</a>
-                  </li>
-                  <li>
-                    <a href="#">Terms of Service</a>
+                    <Link to="/contacts">Contact</Link>
                   </li>
                 </ul>
               </div>
@@ -127,22 +209,24 @@ const MobileFooter = () => {
               <div className="details">
                 <ul>
                   <li>
-                    <a href="#">Blogs</a>
+                    <Link to="/blogs">Blogs</Link>
                   </li>
                   <li>
-                    <a href="#">Our Story</a>
+                    <Link to="/our-story">Our Story</Link>
                   </li>
                   <li>
-                    <a href="#">Size Guide</a>
+                    <Link to="/size-guide">Size Guide</Link>
                   </li>
                   <li>
-                    <a href="#">Lab Grown Diamond</a>
+                    <Link to="/lab-grown-diamond">Lab Grown Diamond</Link>
                   </li>
                   <li>
-                    <a href="#">Diamond Education</a>
+                    <Link to="/diamond-education">Diamond Education</Link>
                   </li>
                   <li>
-                    <a href="#">Quality & Certification</a>
+                    <Link to="/quality-certification">
+                      Quality & Certification
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -176,7 +260,7 @@ const MobileFooter = () => {
           </div>
         </div>
         <div className="copyright">
-        <p>© 2024 Lorem ipsum dolor sit amet.</p>
+          <p>© 2024 Lorem ipsum dolor sit amet.</p>
         </div>
       </div>
     </>

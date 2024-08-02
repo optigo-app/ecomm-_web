@@ -21,6 +21,7 @@
     font-family: $fontTenorSans;
     h1 {
       font-size: $fontSize5;
+      font-size: 22px;
     }
     button {
       padding: 6px 25px;
@@ -43,8 +44,9 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 10px 15px;
-    font-family: $fontCrimsonTextRegular;
+    font-family: $fontDmSans;
     gap: 2rem;
+    margin-top: -2rem;
     .mobile-only {
       display: none;
     }
@@ -96,10 +98,15 @@
     .tab_card {
       flex-wrap: nowrap;
       width: 100%;
+      margin-top: -2rem;
       .cardhover {
-        width: 220px;
+        width: 260px;
         height: 350px;
-        max-width: 200px;
+        img{
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
@@ -109,20 +116,29 @@
       overflow-x: auto;
       gap: 1rem;
       justify-content: flex-start;
+      .tab_hover_Details {
+        h3 {
+          font-size: 18px !important;
+        }
+        small {
+          font-size: 14px !important;
+        }
+      }
       .mobile-only {
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid rgba(78, 78, 78, 0.205);
         .box {
           margin-top: -10px;
-          border: 1px solid rgba(109, 109, 109, 0.308);
           font-size: x-small;
-          width: 80px;
+          width: 220px;
           padding: 10px;
-          a {
+          span {
             text-decoration: none;
-            font-family: $fontCrimsonTextRegular;
             color: rgb(5, 5, 5);
+            font-size: 18px;
+            text-align: center;
           }
         }
       }
@@ -146,21 +162,50 @@
     }
 
     .tab_card .cardhover {
-      width: 180px;
+      width: 220px;
       height: 270px;
       max-width: 100%;
+      img {
+        object-fit: cover;
+      }
     }
   }
-
   @media screen and (max-width: 420px) {
     .tab_card {
       gap: 1rem;
+      .tab_hover_Details {
+        h3 {
+          font-size: 15px !important;
+        }
+        small {
+          font-size: 12px !important;
+        }
+      }
+      .mobile-only {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(78, 78, 78, 0.205);
+        .box {
+          margin-top: -10px;
+          font-size: x-small;
+          width: 150px;
+          padding: 10px;
+          span {
+            text-decoration: none;
+            font-family: $fontCrimsonTextRegular;
+            color: rgb(5, 5, 5);
+            font-weight: 500;
+            font-size: 17px;
+          }
+        }
+      }
       &::-webkit-scrollbar {
         width: 10%;
         height: 4px;
       }
       .cardhover {
-        width: 110px;
+        width: 150px;
         height: 160px;
         max-width: 100%;
       }

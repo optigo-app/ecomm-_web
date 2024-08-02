@@ -108,7 +108,7 @@ const Collection = () => {
               style={{cursor  :"pointer"}}
             >
               <img
-                src={ProdCardImageFunc(val)}
+                src={ ProdCardImageFunc(val)}
                 alt={val?.title}
                 loading="lazy"
               />

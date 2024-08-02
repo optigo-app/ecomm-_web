@@ -26,6 +26,7 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
 
 
   useEffect(() => {
@@ -142,13 +143,16 @@ const Customization = ({
                   <span>
                     <span
                       className="hoq_currencyFont"
+                      style={{
+                        paddingRight  :"0.1rem"
+                      }}
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
-                          CurrencyData?.Currencysymbol
+                          loginUserDetail?.CurrencyCode
                         ),
                       }}
                     />
-                    {(selectedItem?.FinalCost)}
+                    {(selectedItem?.FinalCost).toLocaleString('en-IN')}
                   </span>
                 ) :
                   <Skeleton className='hoq_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -214,7 +218,7 @@ const Customization = ({
                           ),
                         }}
                       />
-                      {(selectedItem?.FinalCost)}
+                      {(selectedItem?.FinalCost).toLocaleString('en-IN')}
                     </span>
                   ) :
                     <Skeleton className='hoq_CartSkelton' variant="text" width="80%" animation="wave" />

@@ -68,7 +68,7 @@ const Stockitems = ({
                               <span className="hoq_prod_wt">
                                 <span className="hoq_d_keys">GWT:</span>
                                 <span className="hoq_d_val">
-                                  {ele?.GrossWt}
+                                  {ele?.GrossWt?.toFixed(3)}
                                 </span>
                               </span>
                             </>
@@ -79,7 +79,7 @@ const Stockitems = ({
                             <span>|</span>
                             <span className="hoq_prod_wt">
                               <span className="hoq_d_keys">NWT:</span>
-                              <span className="hoq_d_val">{ele?.NetWt}</span>
+                              <span className="hoq_d_val">{ele?.NetWt?.toFixed(3)}</span>
                             </span>
                           </>
                         )}
@@ -103,7 +103,7 @@ const Stockitems = ({
                               <span className="hoq_prod_wt">
                                 <span className="hoq_d_keys">DWT:</span>
                                 <span className="hoq_d_val">
-                                  {ele?.DiaWt}
+                                  {ele?.DiaWt?.toFixed(3)}
                                   {storeInit?.IsDiamondPcs === 1
                                     ? `/${ele?.DiaPcs}`
                                     : null}
@@ -119,7 +119,7 @@ const Stockitems = ({
                               <span className="hoq_prod_wt">
                                 <span className="hoq_d_keys">CWT:</span>
                                 <span className="hoq_d_val">
-                                  {ele?.CsWt}
+                                  {ele?.CsWt?.toFixed(3)}
                                   {storeInit?.IsStonePcs === 1
                                     ? `/${ele?.CsPcs}`
                                     : null}

@@ -12,7 +12,7 @@ const CategoryTab = () => {
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
   const islogin = useRecoilValue(Hoq_loginState);
-  const showShapeSection = false ;
+  const showShapeSection = false;
   useEffect(() => {
     let data = JSON.parse(localStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
@@ -60,7 +60,6 @@ const CategoryTab = () => {
         })}
       </div>
       {showShapeSection && <ShapeSection />}
-      {/*  */}
     </div>
   );
 };

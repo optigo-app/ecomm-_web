@@ -18,7 +18,8 @@
     justify-content: center;
     flex-direction: column;
     h3 {
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: 500;
     }
   }
   .horizontal_list {
@@ -28,6 +29,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    padding: 0 45px;
     gap: 2rem;
     .brand_card {
       width: 150px;

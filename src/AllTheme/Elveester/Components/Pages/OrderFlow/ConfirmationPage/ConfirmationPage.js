@@ -2,23 +2,42 @@ import React, { useEffect, useState } from 'react'
 import './ConfirmationPage.modul.scss';
 import { FaPrint } from 'react-icons/fa'
 import ThankYouImage from '../../../Assets/thankyou.svg'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const ConfirmationPage = () => {
   const navigate = useNavigate();
-    const [orderNo, setOrderNo] = useState();
-    const [storeInit, setStoreInit] = useState();
-  
-    useEffect(() => {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-        setStoreInit(storeInit);
-        let orderNo = localStorage.getItem('orderNumber')
-        setOrderNo(orderNo)
-    }, [])
+  const location = useLocation();
+  const [orderNo, setOrderNo] = useState();
+  const [storeInit, setStoreInit] = useState();
 
-    const handleNavigate = () => {
-        navigate('/')
-    }
+  useEffect(() => {
+    // Retrieve and set storeInit and orderNo from localStorage
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    setStoreInit(storeInit);
+    const orderNo = localStorage.getItem('orderNumber');
+    setOrderNo(orderNo);
+
+    // Ensure that this page replaces the current history entry
+    // so that pressing the back button will not navigate back to the previous page
+    window.history.go('/cartPage');
+
+    // Handle the back button event
+    const handlePopState = () => {
+      navigate('/cartPage'); // Replace with your cart page route
+      // window.history.go('/cartPage');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate, location.pathname]);
+
+  const handleNavigate = () => {
+    navigate('/')
+  }
 
   return (
     <div className='elv_confirMaindiv'>
