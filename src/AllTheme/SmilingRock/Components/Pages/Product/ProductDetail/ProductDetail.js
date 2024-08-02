@@ -868,6 +868,7 @@ function checkImageAvailability(imageUrl) {
     }
 
     
+    
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
