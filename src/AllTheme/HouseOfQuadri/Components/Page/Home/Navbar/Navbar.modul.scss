@@ -535,6 +535,7 @@
         .logo {
           width: 150px;
           height: 150px;
+          margin-top: -0px !important;
           img {
             object-fit: contain !important;
           }
@@ -544,13 +545,19 @@
   }
   @media screen and (max-width: 460px) {
     .navbar {
+      .nav_center{
+        .logo{
+          margin-top: -0px !important;
+        }
+      }
       .search_icon_hide {
         background-color: red;
       }
       .nav_right {
-        .wishlist_icon {
-          display: none;
-        }
+        flex: 1;
+        // .wishlist_icon {
+        //   display: none;
+        // }
       }
     }
   }
@@ -608,7 +615,7 @@
   @media screen and (max-width: 320px) {
     .navbar {
       .nav_right {
-        flex: 0;
+        flex: 1;
         margin-right: -15px;
         margin-left: -4px;
       }

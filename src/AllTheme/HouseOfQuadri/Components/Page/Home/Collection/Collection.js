@@ -19,9 +19,14 @@ const Collection = () => {
   const islogin = useRecoilValue(Hoq_loginState);
   const [swiper, setSwiper] = useState(null);
 
+  useEffect(()=>{
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeinit);
+  },[])
+
   useEffect(() => {
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    // const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -37,14 +42,17 @@ const Collection = () => {
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
 
+   const Collections = async()=>{
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setDesignSetList(response?.Data?.rd);
-          console.log("sss", response?.Data?.rd);
-        }
-      })
-      .catch((err) => console.log(err));
+    .then((response) => {
+      if (response?.Data?.rd) {
+        setDesignSetList(response?.Data?.rd);
+        console.log("sss", response?.Data?.rd);
+      }
+    })
+    .catch((err) => console.log(err));
+   }
+   Collections()
   }, []);
 
   const compressAndEncode = (inputString) => {

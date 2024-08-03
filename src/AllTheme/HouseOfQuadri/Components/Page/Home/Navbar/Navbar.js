@@ -616,7 +616,7 @@ const NavbarRightSide = ({
           </Tooltip>
         ) : (
           <Link to={"/LoginOption"}>
-            <small style={{ fontSize: "1rem" }} className="wishlist_icon icons">
+            <small style={{ fontSize: "1rem" }}>
               Login
             </small>
           </Link>
@@ -640,7 +640,7 @@ const NavbarRightSide2 = ({
   return (
     <>
       <div className="nav_right">
-        {/* {islogin && (
+        {!islogin && (
           <>
             <span className="loggedUser" onClick={HandleAccountRoute}>
               Hey ,
@@ -649,9 +649,9 @@ const NavbarRightSide2 = ({
               {user}
             </small>{" "}
           </>
-        )} */}
+        )}
 
-        {islogin && (
+        {islogin ?(
           <>
             {/* <Link to={"/wishlist"}>
               <Tooltip title="Wishlist">
@@ -684,7 +684,8 @@ const NavbarRightSide2 = ({
               />
             </Tooltip>
           </>
-        )}
+        )  : <Link to={"/LoginOption"}>Login</Link>}
+
         {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
       </div>
     </>

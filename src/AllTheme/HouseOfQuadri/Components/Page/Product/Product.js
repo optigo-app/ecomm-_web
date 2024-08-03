@@ -13,6 +13,9 @@ import "swiper/css/pagination";
 import { Zoom, Navigation, Pagination } from "swiper/modules";
 import imageNotFound from "../../Assets/noImageFound.jpg";
 import { IoMdArrowBack } from "react-icons/io";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { FaWhatsapp } from "react-icons/fa";
 
 import {
   FaChevronLeft,
@@ -69,6 +72,7 @@ const ProductPage = () => {
   const [decodeUrl, setDecodeUrl] = useState({});
   const [loginInfo, setLoginInfo] = useState();
   const [SizeCombo, setSizeCombo] = useState();
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [sizeData, setSizeData] = useState();
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [isDataFound, setIsDataFound] = useState(false);
@@ -115,6 +119,7 @@ const ProductPage = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: false,
+    initialSlide: 2,
     autoplaySpeed: 2000,
     beforeChange: (current, next) => setCurrentSlide(next),
     afterChange: (current) => setCurrentSlide(current),
@@ -840,7 +845,6 @@ const ProductPage = () => {
 
     // console.log("pdImgList", pdImgList, pdImgListCol);
   };
-
   const handleMoveToDetail = (productData) => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
@@ -907,6 +911,10 @@ const ProductPage = () => {
     }
   };
 
+  const handleChange = (index) => (event, isExpanded) => {
+    setExpandedIndex(isExpanded ? index : null);
+  };
+
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
@@ -920,6 +928,21 @@ const ProductPage = () => {
         />
       )} */}
       <main>
+        {/* <span style={{
+          display  :"flex",
+          alignItems  :"center",
+          position  :"relative"
+        }}> <small style={{
+          padding:"-1px 2px",
+          backgroundColor  :"orangered" ,
+          borderRadius : "3px",
+          fontSize  :"12px",
+          color  :"white" ,
+          gap  :"5px"
+          // position :"absolute" ,
+          // marginTop : "-32px",
+          // marginLeft  :"-10px"
+        }}>New</small> lookBook</span> */}
         <div className="images_slider">
           {loadingdata ? (
             <>
@@ -1016,8 +1039,7 @@ const ProductPage = () => {
                             ) : (
                               <div
                                 style={{
-                                  maxWidth: "100%",
-                                  width: "100%",
+                                  height: "80vh",
                                 }}
                               >
                                 <video
@@ -1027,6 +1049,7 @@ const ProductPage = () => {
                                   style={{
                                     width: "100%",
                                     height: "100%",
+                                    objectFit: "scale-down",
                                   }}
                                 />
                               </div>
@@ -1078,7 +1101,7 @@ const ProductPage = () => {
                     ""
                   ) : (
                     <span
-                    style={{paddingRight  :"0.4rem"}}
+                      style={{ paddingRight: "0.4rem" }}
                       className="hoq_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1089,8 +1112,8 @@ const ProductPage = () => {
                     <Skeleton variant="rounded" width={140} height={30} />
                   ) : (
                     <>
-                    {singleProd1?.UnitCostWithMarkUp ??
-                    (singleProd?.UnitCostWithMarkUp)?.toLocaleString('en-IN')}
+                      {singleProd1?.UnitCostWithMarkUp ??
+                        singleProd?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
                     </>
                   )}
                 </div>
@@ -1101,115 +1124,143 @@ const ProductPage = () => {
             {storeInit?.IsProductWebCustomization == 1 &&
               metalTypeCombo?.length > 0 && (
                 <div className="hoq_single_prod_customize_main">
-                  <div className="hoq_single_prod_customize">
-                    <label className="menuItemTimeEleveDeatil">
-                      METAL TYPE:
-                    </label>
-                    {singleProd?.IsMrpBase == 1 ? (
-                      <span className="hoq_menuitemSelectoreMain">
-                        {
-                          metalTypeCombo?.filter(
-                            (ele) => ele?.Metalid == singleProd?.MetalPurityid
-                          )[0]?.metaltype
-                        }
-                      </span>
-                    ) : (
-                      <select
-                        className="hoq_menuitemSelectoreMain"
-                        value={selectMtType}
-                        onChange={(e) => handleCustomChange(e, "mt")}
-                        // onChange={(e) => setSelectMtType(e.target.value)}
-                      >
-                        {metalTypeCombo.map((ele) => (
-                          <option key={ele?.Metalid} value={ele?.metaltype}>
-                            {ele?.metaltype}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                  </div>
-                  {metalColorCombo?.length > 0 && (
-                    <div className="hoq_single_prod_customize">
-                      <label
-                        className="menuItemTimeEleveDeatil"
-                        htmlFor="metal_c_hoq"
-                      >
-                        METAL COLOR:
-                      </label>
-                      {singleProd?.IsMrpBase == 1 ? (
-                        <span className="hoq_menuitemSelectoreMain">
-                          {
-                            metalColorCombo?.filter(
-                              (ele) => ele?.id == singleProd?.MetalColorid
-                            )[0]?.metalcolorname
-                          }
-                        </span>
-                      ) : (
-                        <select
-                          className="hoq_menuitemSelectoreMain"
-                          id="metal_c_hoq"
-                          value={selectMtColor}
-                          onChange={(e) => handleMetalWiseColorImg(e)}
-                        >
-                          {metalColorCombo?.map((ele) => (
-                            <option key={ele?.id} value={ele?.metalcolorname}>
-                              {ele?.metalcolorname}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                    </div>
-                  )}
-                  {storeInit?.IsDiamondCustomization === 1 &&
-                    diaQcCombo?.length > 0 && (
+                  <div className="first_row_hoq_new">
+                    {
                       <div className="hoq_single_prod_customize">
                         <label className="menuItemTimeEleveDeatil">
-                          DIAMOND :
+                          METAL TYPE:
                         </label>
-                        {
+                        {singleProd?.IsMrpBase == 1 ? (
+                          <span
+                            className="hoq_menuitemSelectoreMain"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft: "4px",
+                            }}
+                          >
+                            {
+                              metalTypeCombo?.filter(
+                                (ele) =>
+                                  ele?.Metalid == singleProd?.MetalPurityid
+                              )[0]?.metaltype
+                            }
+                          </span>
+                        ) : (
                           <select
                             className="hoq_menuitemSelectoreMain"
-                            value={selectDiaQc}
-                            // onChange={(e) => setSelectDiaQc(e.target.value)}
-                            onChange={(e) => handleCustomChange(e, "dia")}
+                            value={selectMtType}
+                            onChange={(e) => handleCustomChange(e, "mt")}
+                            // onChange={(e) => setSelectMtType(e.target.value)}
                           >
-                            {diaQcCombo.map((ele) => (
+                            {metalTypeCombo.map((ele) => (
+                              <option key={ele?.Metalid} value={ele?.metaltype}>
+                                {ele?.metaltype}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
+                    }
+                    {metalColorCombo?.length > 0 && (
+                      <div className="hoq_single_prod_customize">
+                        <label
+                          className="menuItemTimeEleveDeatil"
+                          htmlFor="metal_c_hoq"
+                        >
+                          METAL COLOR:
+                        </label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                          <span
+                            className="hoq_menuitemSelectoreMain"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft: "4px",
+                            }}
+                          >
+                            {
+                              metalColorCombo?.filter(
+                                (ele) => ele?.id == singleProd?.MetalColorid
+                              )[0]?.metalcolorname
+                            }
+                          </span>
+                        ) : (
+                          <select
+                            className="hoq_menuitemSelectoreMain"
+                            id="metal_c_hoq"
+                            value={selectMtColor}
+                            onChange={(e) => handleMetalWiseColorImg(e)}
+                          >
+                            {metalColorCombo?.map((ele) => (
+                              <option key={ele?.id} value={ele?.metalcolorname}>
+                                {ele?.metalcolorname}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <div className="first_row_hoq_new">
+                    {storeInit?.IsDiamondCustomization === 1 &&
+                      diaQcCombo?.length > 0 && (
+                        <div className="hoq_single_prod_customize">
+                          <label className="menuItemTimeEleveDeatil">
+                            DIAMOND :
+                          </label>
+                          {
+                            <select
+                              className="hoq_menuitemSelectoreMain"
+                              value={selectDiaQc}
+                              // onChange={(e) => setSelectDiaQc(e.target.value)}
+                              onChange={(e) => handleCustomChange(e, "dia")}
+                            >
+                              {diaQcCombo.map((ele) => (
+                                <option
+                                  key={ele?.QualityId}
+                                  value={`${ele?.Quality},${ele?.color}`}
+                                >{`${ele?.Quality},${ele?.color}`}</option>
+                              ))}
+                            </select>
+                          }
+                        </div>
+                      )}
+                    {storeInit?.IsCsCustomization === 1 &&
+                      selectCsQc?.length > 0 && (
+                        <div className="hoq_single_prod_customize">
+                          <label className="menuItemTimeEleveDeatil">
+                            COLOR STONE :
+                          </label>
+                          <select
+                            className="hoq_menuitemSelectoreMain"
+                            value={selectCsQc}
+                            // onChange={(e) => setSelectCsQc(e.target.value)}
+                            onChange={(e) => handleCustomChange(e, "cs")}
+                          >
+                            {csQcCombo.map((ele) => (
                               <option
                                 key={ele?.QualityId}
                                 value={`${ele?.Quality},${ele?.color}`}
                               >{`${ele?.Quality},${ele?.color}`}</option>
                             ))}
                           </select>
-                        }
-                      </div>
-                    )}
-                  {storeInit?.IsCsCustomization === 1 &&
-                    selectCsQc?.length > 0 && (
-                      <div className="hoq_single_prod_customize">
-                        <label className="menuItemTimeEleveDeatil">
-                          COLOR STONE :
-                        </label>
-                        <select
-                          className="hoq_menuitemSelectoreMain"
-                          value={selectCsQc}
-                          // onChange={(e) => setSelectCsQc(e.target.value)}
-                          onChange={(e) => handleCustomChange(e, "cs")}
-                        >
-                          {csQcCombo.map((ele) => (
-                            <option
-                              key={ele?.QualityId}
-                              value={`${ele?.Quality},${ele?.color}`}
-                            >{`${ele?.Quality},${ele?.color}`}</option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                  </div>
                   {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                   {SizeCombo?.rd?.length > 0 && (
                     <div className="hoq_single_prod_customize">
                       <label className="menuItemTimeEleveDeatil">SIZE:</label>
                       {singleProd?.IsMrpBase == 1 ? (
-                        <span className="hoq_menuitemSelectoreMain">
+                        <span
+                          className="hoq_menuitemSelectoreMain"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            marginLeft: "4px",
+                          }}
+                        >
                           {singleProd?.DefaultSize}
                         </span>
                       ) : (
@@ -1239,12 +1290,29 @@ const ProductPage = () => {
                 </div>
               )}
 
-            <Accordion className="accordian">
+            <Accordion
+              className="accordian"
+              sx={{
+                border: "none", // Remove default border
+                boxShadow: "none", // Remove default shadow
+                "&:before": {
+                  // Remove the border-top pseudo-element
+                  display: "none",
+                },
+              }}
+              key={1}
+              expanded={expandedIndex === 1}
+              onChange={handleChange(1)}
+            >
               <AccordionSummary
                 expandIcon={
-                  <ExpandMoreIcon
-                    style={{ fontSize: "1.2rem", color: "black" }}
-                  />
+                  expandedIndex === 1 ? (
+                    <RemoveIcon
+                      style={{ fontSize: "1.2rem", color: "black" }}
+                    />
+                  ) : (
+                    <AddIcon style={{ fontSize: "1.2rem", color: "black" }} />
+                  )
                 }
                 aria-controls="panel1-content"
                 id="panel1-header"
@@ -1255,6 +1323,10 @@ const ProductPage = () => {
               >
                 <Typography
                   className="title"
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
                   style={{
                     fontSize: "0.9rem",
                     textTransform: "uppercase",
@@ -1300,12 +1372,29 @@ const ProductPage = () => {
               </AccordionDetails>
             </Accordion>
 
-            <Accordion className="accordian">
+            <Accordion
+              className="accordian"
+              sx={{
+                border: "none", // Remove default border
+                boxShadow: "none", // Remove default shadow
+                "&:before": {
+                  // Remove the border-top pseudo-element
+                  display: "none",
+                },
+              }}
+              key={2}
+              expanded={expandedIndex === 2}
+              onChange={handleChange(2)}
+            >
               <AccordionSummary
                 expandIcon={
-                  <ExpandMoreIcon
-                    style={{ fontSize: "1.2rem", color: "black" }}
-                  />
+                  expandedIndex === 2 ? (
+                    <RemoveIcon
+                      style={{ fontSize: "1.2rem", color: "black" }}
+                    />
+                  ) : (
+                    <AddIcon style={{ fontSize: "1.2rem", color: "black" }} />
+                  )
                 }
                 aria-controls="panel1-content"
                 id="panel1-header"
@@ -1316,6 +1405,10 @@ const ProductPage = () => {
               >
                 <Typography
                   className="title"
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
                   style={{
                     fontSize: "0.9rem",
                     textTransform: "uppercase",
@@ -1333,8 +1426,14 @@ const ProductPage = () => {
                     )} */}
                     {diaList?.length > 0 && (
                       <div className="hoq_material_details_portion_inner">
-                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                        <ul
+                          style={{
+                            margin: "0px 0px 3px 0px",
+                            listStyle: "none",
+                          }}
+                        >
                           <li
+                            className="dia-title"
                             style={{ fontWeight: 600 }}
                           >{`Diamond Detail(${diaList?.reduce(
                             (accumulator, data) => accumulator + data.M,
@@ -1408,12 +1507,32 @@ const ProductPage = () => {
             </Accordion>
 
             {storeInit?.IsPriceBreakUp == 1 && (
-              <Accordion className="accordian">
+              <Accordion
+                className="accordian"
+                key={3}
+                sx={{
+                  border: "none", // Remove default border
+                  boxShadow: "none", // Remove default shadow
+                  "&:before": {
+                    // Remove the border-top pseudo-element
+                    display: "none",
+                  },
+                }}
+                expanded={expandedIndex === 3}
+                onChange={handleChange(3)}
+              >
                 <AccordionSummary
                   expandIcon={
-                    <ExpandMoreIcon
-                      style={{ fontSize: "1.2rem", color: "black" }}
-                    />
+                    expandedIndex === 3 ? (
+                      <RemoveIcon
+                        style={{ fontSize: "1.2rem", color: "black" }}
+                      />
+                    ) : (
+                      <AddIcon style={{ fontSize: "1.2rem", color: "black" }} />
+                    )
+                    // <AddIcon
+                    //   style={{ fontSize: "1.2rem", color: "black" }}
+                    // />
                   }
                   aria-controls="panel1-content"
                   id="panel1-header"
@@ -1424,6 +1543,10 @@ const ProductPage = () => {
                 >
                   <Typography
                     className="title"
+                    sx={{
+                      textAlign: "center",
+                      width: "100%",
+                    }}
                     style={{
                       fontSize: "0.9rem",
                       textTransform: "uppercase",
@@ -1448,7 +1571,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1480,7 +1603,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1512,7 +1635,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1544,7 +1667,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1576,7 +1699,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1608,7 +1731,7 @@ const ProductPage = () => {
                       <Typography>
                         {
                           <span
-                          style={{paddingRight  :"0.4rem"}}
+                            style={{ paddingRight: "0.4rem" }}
                             className="smr_currencyFont"
                             dangerouslySetInnerHTML={{
                               __html: decodeEntities(loginInfo?.CurrencyCode),
@@ -1643,33 +1766,6 @@ const ProductPage = () => {
                 </AccordionDetails>
               </Accordion>
             )}
-            {/* ring select */}
-            {/* <div className="ring_size_select">
-              <label htmlFor="RING">RING SIZE</label>
-              <select onChange={() => {}} id="RING">
-                {Array.from({ length: 22 }).map((val, i) => {
-                  return (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  );
-                })}
-              </select>
-
-              <a
-                href="https://cdn.shopify.com/s/files/1/0643/8731/8014/files/Ring_guide_updated_-4.pdf?v=1708776159"
-                target="_blank"
-              >
-                Ring Size Guide
-              </a>
-              <a
-                href="https://cdn.shopify.com/s/files/1/0643/8731/8014/files/IGI_CERTIFICATE_COPY.pdf?v=1655287503"
-                target="_blank"
-              >
-                View Sample Certificate
-              </a>
-            </div> */}
-            {/* ends */}
             <div className="btn_Section">
               <button
                 className={
@@ -1702,13 +1798,9 @@ const ProductPage = () => {
                   alt=""
                 />
               </div> */}
+              <WhatsAppButton />
             </div>
           </div>
-          {/* <div className="backbutton">
-            <button onClick={() => naviagate(-1)}>
-              <FaArrowLeftLong /> BACK TO {previousPath}
-            </button>
-          </div> */}
         </div>
       </main>
       {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
@@ -1729,7 +1821,6 @@ const ProductPage = () => {
             loginInfo={loginInfo}
           />
         )}
-
       {storeInit?.IsProductDetailDesignSet === 1 && (
         <DesignSet
           designSetList={designSetList}
@@ -1739,6 +1830,7 @@ const ProductPage = () => {
           storeInit={storeInit}
         />
       )}
+
       {/* <RecentlyViewd /> */}
     </div>
   );
@@ -1746,6 +1838,17 @@ const ProductPage = () => {
 
 export default ProductPage;
 
+const NotFoundProduct = ({ Navigate }) => {
+  return (
+    <div className="not-found-product">
+      <h2>Product Not Found</h2>
+      <p>We couldn't find the product you're looking for.</p>
+      <button onClick={() => Navigate(-1)}>
+        <IoMdArrowBack size={18} /> Go Back To Previous Page
+      </button>
+    </div>
+  );
+};
 const MagnifierSlider = ({ product, close }) => {
   const swiperRef = useRef(null);
 
@@ -1799,15 +1902,26 @@ const MagnifierSlider = ({ product, close }) => {
     </>
   );
 };
-
-const NotFoundProduct = ({ Navigate }) => {
+const WhatsAppButton = () => {
+  const HandleWhatsApp = () => {
+    const msg1 = "Hello, Talk to a Jewellery expert now!";
+    const phoneNumber = 9099889962;
+    const whatsappUrl = `https://web.whatsapp.com/send?phone=9099889962&text=${msg1}`;
+    window.location.href = whatsappUrl;
+  };
   return (
-    <div className="not-found-product">
-      <h2>Product Not Found</h2>
-      <p>We couldn't find the product you're looking for.</p>
-      <button onClick={() => Navigate(-1)}>
-        <IoMdArrowBack size={18} /> Go Back To Previous Page
-      </button>
+    <div className="whatsapp_btn">
+      <div className="wa" onClick={() => HandleWhatsApp()}>
+        <div className="left">
+          <FaWhatsapp size={50} color="white" className="wa-hoq" />
+        </div>
+        <div className="con">
+          <h4>
+            Optigo Apps <span>Online</span>
+          </h4>
+          <h3>Need Help ? Chat With Us</h3>
+        </div>
+      </div>
     </div>
   );
 };
