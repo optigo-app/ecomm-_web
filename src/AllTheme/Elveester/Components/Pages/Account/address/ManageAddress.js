@@ -120,29 +120,51 @@ const ManageAddress = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
     
-        const errors = {}; // Initialize errors object
+        const errorsCopy = {}; // Initialize errors object
     
         // Validate each required field
+        // if (!formData.firstName.trim()) {
+        //     errors.firstName = 'First Name is required';
+        // } else if(formData.firstName?.length < 2){
+        //     errors.firstName = 'First Name too short';
+        // } else if(formData.firstName?.length > 25){
+        //     errors.firstName = 'First Name too long';
+        // // } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
+        // } else if (!/^[a-zA-Z\s.]+$/.test(formData.firstName.trim())) {
+        //     errors.firstName = 'First Name must contain only letters';
+        // }
         if (!formData.firstName.trim()) {
-            errors.firstName = 'First Name is required';
-        } else if(formData.firstName?.length < 3){
-            errors.firstName = 'First Name too short';
-        } else if(formData.firstName?.length > 25){
-            errors.firstName = 'First Name too long';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
-        } else if (!/^[a-zA-Z\s.]+$/.test(formData.firstName.trim())) {
-            errors.firstName = 'First Name must contain only letters';
+            errorsCopy.firstName = 'First Name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
+            errorsCopy.firstName = 'First Name must contain only letters';
+        } else if (formData.firstName?.trim()?.length < 2) {
+            errorsCopy.firstName = 'Enter minimum 2 characters';
+        } else if (formData.firstName?.trim()?.length > 45) {
+            errorsCopy.firstName = 'Enter maximum 45 characters';
+        } else {
+            errorsCopy.firstName = '';
         }
 
+        // if (!formData.lastName.trim()) {
+        //     errors.lastName = 'Last Name is required';
+        // } else if(formData.lastName?.length < 2){
+        //     errors.lastName = 'Last Name is too short';
+        // } else if(formData.lastName?.length > 25){
+        //     errors.lastName = 'Last Name is too long';
+        // // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        // } else if (!/^[a-zA-Z\s.]+$/.test(formData.lastName.trim())) {
+        //     errors.lastName = 'Last Name must contain only letters';
+        // }
         if (!formData.lastName.trim()) {
-            errors.lastName = 'Last Name is required';
-        } else if(formData.lastName?.length < 3){
-            errors.lastName = 'Last Name is too short';
-        } else if(formData.lastName?.length > 25){
-            errors.lastName = 'Last Name is too long';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-        } else if (!/^[a-zA-Z\s.]+$/.test(formData.lastName.trim())) {
-            errors.lastName = 'Last Name must contain only letters';
+            errorsCopy.lastName = 'Last Name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
+            errorsCopy.lastName = 'Last Name must contain only letters';
+        } else if (formData.lastName?.trim()?.length < 2) {
+            errorsCopy.lastName = 'Enter minimum 2 characters';
+        } else if (formData.lastName?.trim()?.length > 45) {
+            errorsCopy.lastName = 'Enter maximum 45 characters';
+        } else {
+            errorsCopy.lastName = '';
         }
     
         // if (!formData.lastName.trim()) {
@@ -153,77 +175,73 @@ const ManageAddress = () => {
         //     errors.mobileNo = 'Mobile No. is required';
         // }
         if (!formData.mobileNo.trim()) {
-            errors.mobileNo = 'Mobile No. is required';
+            errorsCopy.mobileNo = 'Mobile No. is required';
         } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
-            errors.mobileNo = 'Mobile No. must contain exactly 10 numbers';
+            errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
         }
     
         if (!formData.address.trim()) {
-            errors.address = 'Address is required';
+            errorsCopy.address = 'Address is required';
         }
-    
-        // if (!formData.country.trim()) {
-        //     errors.country = 'Country is required';
-        // }
+
         // if (!formData.country.trim()) {
         //     errors.country = 'Country Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        // } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
         //     errors.country = 'Country Name must contain only letters';
-        // }else{
-        //     errors.country = '';
         // }
+        if (!formData.country.trim()) {
+            errorsCopy.country = 'Country is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
+            errorsCopy.country = 'Country name must contain only letters';
+        } else {
+            errorsCopy.country = '';
+        }
+    
         // if (!formData.state.trim()) {
         //     errors.state = 'State Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        // } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
         //     errors.state = 'State Name must contain only letters';
-        // }else{
-        //     errors.state = '';
         // }
+        if (!formData.state.trim()) {
+            errorsCopy.state = 'State is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
+            errorsCopy.state = 'State name must contain only letters';
+        } else {
+            errorsCopy.state = '';
+        }
+    
         // if (!formData.city.trim()) {
         //     errors.city = 'City Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
+        // } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
         //     errors.city = 'City Name must contain only letters';
-        // }else{
-        //     errors.city = '';
         // }
-
-        if (!formData.country.trim()) {
-            errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
-            errors.country = 'Country Name must contain only letters';
-        }
-    
-        if (!formData.state.trim()) {
-            errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
-            errors.state = 'State Name must contain only letters';
-        }
-    
         if (!formData.city.trim()) {
-            errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
-            errors.city = 'City Name must contain only letters';
+            errorsCopy.city = 'City is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
+            errorsCopy.city = 'City name must contain only letters';
+        } else {
+            errorsCopy.city = '';
         }
-    
-        // if (!formData.state.trim()) {
-        //     errors.state = 'State is required';
-        // }
-    
-        // if (!formData.city.trim()) {
-        //     errors.city = 'City is required';
-        // }
     
         // if (!formData.zipCode.trim()) {
         //     errors.zipCode = 'ZIP Code is required';
+        // } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
+        //     errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
         // }
         if (!formData.zipCode.trim()) {
-            errors.zipCode = 'ZIP Code is required';
-        } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
-            errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
+            errorsCopy.zipCode = 'ZIP Code is required';
+        } else if (!/^\d+$/.test(formData.zipCode.trim())) {
+            errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
+        } else if (formData.zipCode?.trim()?.length !== 6) {
+            errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
+        } else {
+            errorsCopy.zipCode = '';
         }
+
+
         // If there are any errors, update state and return
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
+        if (Object.keys(errorsCopy).length > 0) {
+            setErrors(errorsCopy);
             return;
         }
     
@@ -316,7 +334,6 @@ const ManageAddress = () => {
         }
     };
     
-
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -344,16 +361,96 @@ const ManageAddress = () => {
         // Validate the field
         const errorsCopy = { ...errors };
 
+        // switch (fieldName) {
+        //     case 'firstName':
+        //         if (!value.trim()) {
+        //             errorsCopy.firstName = 'First Name is required';
+        //         } else if(value?.length < 2){
+        //             errorsCopy.firstName = 'First Name is too short';
+        //         } else if(value?.length > 25){
+        //             errorsCopy.firstName = 'First Name is too long';
+        //         } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+        //             errorsCopy.firstName = 'Invalid First Name';
+        //         } else {
+        //             errorsCopy.firstName = '';
+        //         }
+        //         break;
+        //     case 'lastName':
+        //         if (!value.trim()) {
+        //             errorsCopy.lastName = 'Last Name is required';
+        //         } else if(value?.length < 2){
+        //             errorsCopy.lastName = 'Last Name is too short';
+        //         } else if(value?.length > 25){
+        //             errorsCopy.lastName = 'Last Name is too long';
+        //         } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+        //             errorsCopy.lastName = 'Invalid Last Name';
+        //         } else {
+        //             errorsCopy.lastName = '';
+        //         }
+        //         break;
+        //     case 'address':
+        //         errorsCopy.address = value.trim() ? '' : 'Address is required';
+        //         break;
+        //     case 'country':
+        //         if (!value.trim()) {
+        //             errorsCopy.country = 'Country is required';
+        //         } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+        //             errorsCopy.country = 'Invalid Country';
+        //         } else {
+        //             errorsCopy.country = '';
+        //         }
+        //         break;
+        //     case 'state':
+        //         if (!value.trim()) {
+        //             errorsCopy.state = 'State is required';
+        //         } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+        //             errorsCopy.state = 'Invalid State';
+        //         } else {
+        //             errorsCopy.state = '';
+        //         }
+        //         break;
+        //     case 'city':
+        //         if (!value.trim()) {
+        //             errorsCopy.city = 'City is required';
+        //         } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+        //             errorsCopy.city = 'Invalid City';
+
+        //         } else {
+        //             errorsCopy.city = '';
+        //         }
+        //         break;
+        //     case 'zipCode':
+        //         if (!value.trim()) {
+        //             errorsCopy.zipCode = 'ZIP Code is required';
+        //         } else if (!/^\d+$/.test(value.trim())) {
+        //             errorsCopy.zipCode = 'Invalid ZIP Code';
+        //         } else {
+        //             errorsCopy.zipCode = '';
+        //         }
+
+        //         break;
+        //     case 'mobileNo':
+        //         if (!value.trim()) {
+        //             errorsCopy.mobileNo = 'Mobile No. is required';
+        //         } else if (!/^\d{10}$/.test(value.trim())) {
+        //             errorsCopy.mobileNo = 'Enter Valid mobile number';
+        //         } else {
+        //             errorsCopy.mobileNo = '';
+        //         }
+        //         break;
+        //     default:
+        //         break;
+        // }
         switch (fieldName) {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
-                } else if(value?.length < 3){
-                    errorsCopy.firstName = 'First Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.firstName = 'First Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.firstName = 'Invalid First Name';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.firstName = 'First Name must contain only letters';
+                } else if (value?.trim()?.length < 2) {
+                    errorsCopy.firstName = 'Enter minimum 2 characters';
+                } else if (value?.trim()?.length > 45) {
+                    errorsCopy.firstName = 'Enter maximum 45 characters';
                 } else {
                     errorsCopy.firstName = '';
                 }
@@ -361,12 +458,12 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
-                } else if(value?.length < 3){
-                    errorsCopy.lastName = 'Last Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.lastName = 'Last Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.lastName = 'Invalid Last Name';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.lastName = 'Last Name must contain only letters';
+                } else if(value?.trim()?.length < 2){
+                    errorsCopy.lastName = 'Enter minimum 2 characters';
+                } else if(value?.trim()?.length > 45){
+                    errorsCopy.lastName = 'Enter maximum 45 characters';
                 } else {
                     errorsCopy.lastName = '';
                 }
@@ -377,8 +474,8 @@ const ManageAddress = () => {
             case 'country':
                 if (!value.trim()) {
                     errorsCopy.country = 'Country is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.country = 'Invalid Country';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.country = 'Country name must contain only letters';
                 } else {
                     errorsCopy.country = '';
                 }
@@ -386,8 +483,8 @@ const ManageAddress = () => {
             case 'state':
                 if (!value.trim()) {
                     errorsCopy.state = 'State is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.state = 'Invalid State';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.state = 'State name must contain only letters';
                 } else {
                     errorsCopy.state = '';
                 }
@@ -395,9 +492,8 @@ const ManageAddress = () => {
             case 'city':
                 if (!value.trim()) {
                     errorsCopy.city = 'City is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.city = 'Invalid City';
-
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.city = 'City name must contain only letters';
                 } else {
                     errorsCopy.city = '';
                 }
@@ -406,24 +502,28 @@ const ManageAddress = () => {
                 if (!value.trim()) {
                     errorsCopy.zipCode = 'ZIP Code is required';
                 } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.zipCode = 'Invalid ZIP Code';
+                    errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
+                } else if (value?.trim()?.length !== 6) {
+                    errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
                 } else {
                     errorsCopy.zipCode = '';
                 }
-
                 break;
             case 'mobileNo':
                 if (!value.trim()) {
-                    errorsCopy.mobileNo = 'Mobile No. is required';
-                } else if (!/^\d{10}$/.test(value.trim())) {
-                    errorsCopy.mobileNo = 'Enter Valid mobile number';
+                    errorsCopy.mobileNo = 'Mobile Number is required';
+                } else if (!/^\d+$/.test(value.trim())) {
+                    errorsCopy.mobileNo = 'Mobile Number must contain only numeric values';
+                } else if (value?.trim()?.length !== 10) {
+                    errorsCopy.mobileNo = 'Mobile Number must be exactly 10 digits';
                 } else {
                     errorsCopy.mobileNo = '';
                 }
                 break;
             default:
-                break;
+                break;   
         }
+                // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
 
         setErrors(errorsCopy);
     };
@@ -433,9 +533,7 @@ const ManageAddress = () => {
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
-
  
-
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
         try {
