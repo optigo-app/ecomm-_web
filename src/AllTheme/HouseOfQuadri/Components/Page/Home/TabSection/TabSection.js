@@ -55,13 +55,21 @@ const TabSection = () => {
   const navigation = useNavigate();
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
+  
   const islogin = useRecoilValue(Hoq_loginState);
+  
+  let loginuser = JSON.parse(localStorage.getItem('LoginUser'))
+
+  useEffect(()=>{
+    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(storeinit);
+  },[])
 
   useEffect(() => {
     const loginUserDetail = JSON.parse(
       localStorage?.getItem("loginUserDetail")
     );
-    const storeInit = JSON?.parse(localStorage?.getItem("storeInit"));
+    // const storeInit = JSON?.parse(localStorage?.getItem("storeInit"));
     const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -70,20 +78,20 @@ const TabSection = () => {
     } else {
       finalID = loginUserDetail?.id || "0";
     }
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    setStoreInit(storeinit);
-
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setNewArrivalData(response?.Data?.rd);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+   const Arrials = async()=>{
+    await Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
+    .then((response) => {
+      if (response?.Data?.rd) {
+        setNewArrivalData(response?.Data?.rd);
+      }
+    })
+    .catch((err) => console.log(err));
+   }
+   Arrials()
+  }, [storeInit]);
 
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1

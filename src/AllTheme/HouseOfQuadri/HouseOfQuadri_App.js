@@ -108,7 +108,7 @@ const HouseOfQuadri_App = () => {
       <ChatMenu />
       <Routes>
         {/* Auth Flow  */}
-        <Route path="/LoginOption" element={<LoginOption />} />
+        <Route path="/LoginOption" element={!islogin && <LoginOption />} />
         <Route
           path="/ContinueWithEmail"
           element={!islogin && <ContinueWithEmail />}
