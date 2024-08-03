@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Keyboard } from 'swiper/modules';
+import { FreeMode, Navigation, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import './Album1.scss';
@@ -116,13 +116,14 @@ const Album1 = () => {
                     TabIndicatorProps={{
                         style: { display: 'none' }
                     }}
+                    className='smr_Albumtabs'
                 >
                     {albumData?.map((album) => (
                         <Tab
                             key={album.Albumid}
                             label={album?.AlbumName}
                             value={album?.AlbumName}
-                            className={selectedAlbum === album?.AlbumName ? 'active' : ''}
+                            className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
                         />
                     ))}
                 </Tabs>
@@ -150,9 +151,11 @@ const Album1 = () => {
                             }}
                             lazy={true}
                             navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
-                            modules={[Keyboard, FreeMode, Navigation]}
+                            modules={[Keyboard, FreeMode, Navigation, Pagination]}
                             keyboard={{ enabled: true }}
-                            pagination={isMobileScreen && (true)}
+                            pagination={isMobileScreen && {
+                                clickable: true,
+                              }}
                         >
                             {JSON?.parse(album?.Designdetail)?.map((design) => (
                                 <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
