@@ -69,9 +69,9 @@ export default function LoginWithEmail() {
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                
                 if(redirectEmailUrl){
-                    navigation(redirectEmailUrl);
+                    window.location.href = `${redirectEmailUrl}`;
                 }else{
-                    navigation('/')
+                    window.location.href = '/'
                 }
 
                 // pdDataCalling()

@@ -60,6 +60,7 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   let maxwidth700px = useMediaQuery("(max-width:700px)");
+  let maxwidth1000px = useMediaQuery("(max-width:1000px)");
 
   // Designing States
   const [showFilter, setShowFilter] = useState(false);
@@ -1339,52 +1340,41 @@ const ProductList = () => {
                     : "elv_filteration_rows_2"
                     }`}
                 >
-                  <div className={openGridModal ? "elv_filter_row2_inner_div_hide" : "elv_filter_row2_inner_div"}>
+                  <div className={maxwidth1000px || openGridModal ? "elv_filter_row2_inner_div_hide" : "elv_filter_row2_inner_div"}>
                     <div className="elv_filter_row2_label">
-                      <label className={openGridModal ? 'elv_filter_sort_by_hide' : ''}>Sort by : </label>
+                      <label className={maxwidth1000px || openGridModal ? 'elv_filter_sort_by_hide' : ''}>Sort by : </label>
                     </div>
-                    <FormControl
-                      sx={{
+                    <div
+                      style={{
                         m: 1,
-                        width: "95%",
+                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
                         border: "none",
                       }}
                     >
-                      <Select
+                      <select
                         value={trend}
                         onChange={(e) => {
                           handleSortby(e);
                           handleChangeTrend(e);
                           setIsOnlyProdLoading(true);
                         }}
-                        displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
                         className="elv_trend_drp"
-                        // style={{
-                        //   backgroundColor: "#F4F4F4",
-                        //   color: "#8E7B8E",
-                        //   fontWeight: "400",
-                        //   cursor: "pointer",
-                        //   textTransform: "uppercase",
-                        //   letterSpacing: "2px",
-                        //   padding: '0px 4px',
-                        // }}
                       >
-                        <MenuItem value="Recommended">Recommended</MenuItem>
-                        <MenuItem value="New">New</MenuItem>
+                        <option value="Recommended">Recommended</option>
+                        <option value="New">New</option>
                         {storeInit?.IsStockWebsite === 1 && (
-                          <MenuItem value="In Stock">In Stock</MenuItem>
+                          <option value="In Stock">In Stock</option>
                         )}
-                        <MenuItem value="PRICE LOW TO HIGH">
+                        <option value="PRICE LOW TO HIGH">
                           Price Low to High
-                        </MenuItem>
-                        <MenuItem value="PRICE HIGH TO LOW">
+                        </option>
+                        <option value="PRICE HIGH TO LOW">
                           Price High to Low
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
+                        </option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 {filter ? (
@@ -1414,9 +1404,9 @@ const ProductList = () => {
                                   </label>
                                 </div>
                                 <FormControl
-                                  sx={{
+                                  style={{
                                     m: 1,
-                                    width: "95%",
+                                    width: "100%",
                                     display: "flex",
                                     justifyContent: "center",
                                     border: "none",
@@ -1449,9 +1439,9 @@ const ProductList = () => {
                                   <label>Diamond :</label>
                                 </div>
                                 <FormControl
-                                  sx={{
+                                  style={{
                                     m: 1,
-                                    width: "95%",
+                                    width: "100%",
                                     display: "flex",
                                     justifyContent: "center",
                                     border: "none",
@@ -1496,16 +1486,16 @@ const ProductList = () => {
                               Metal :
                             </label>
                           </div>
-                          <FormControl
-                            sx={{
+                          <div
+                            style={{
                               m: 1,
-                              width: "95%",
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
                               border: "none",
                             }}
                           >
-                            <Select
+                            <select
                               value={selectedMetalId}
                               onChange={(e) => {
                                 setSelectedMetalId(e.target.value);
@@ -1516,12 +1506,12 @@ const ProductList = () => {
                               className="elv_metal_drp"
                             >
                               {metalType?.map((item, index) => (
-                                <MenuItem key={index} value={item.Metalid}>
+                                <option key={index} value={item.Metalid}>
                                   {item.metaltype}
-                                </MenuItem>
+                                </option>
                               ))}
-                            </Select>
-                          </FormControl>
+                            </select>
+                          </div>
                         </div>
 
                       </div>
@@ -1532,16 +1522,16 @@ const ProductList = () => {
                           <div className="elv_filter_row4_label">
                             <label>Diamond :</label>
                           </div>
-                          <FormControl
-                            sx={{
+                          <div
+                            style={{
                               m: 1,
-                              width: "95%",
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
                               border: "none",
                             }}
                           >
-                            <Select
+                            <select
                               value={selectedDiaId}
                               onChange={(e) => {
                                 setSelectedDiaId(e.target.value);
@@ -1553,16 +1543,16 @@ const ProductList = () => {
                             >
                               {diamondType?.map((item, index) => {
                                 return (
-                                  <MenuItem
+                                  <option
                                     key={index}
                                     value={`${item?.QualityId},${item?.ColorId}`}
                                   >
                                     {`${item.Quality}#${item?.color}`}
-                                  </MenuItem>
+                                  </option>
                                 );
                               })}
-                            </Select>
-                          </FormControl>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1717,13 +1707,12 @@ const ProductList = () => {
                   <ProductListSkeleton />
                   <ProductFilterSkeleton />
                 </div>
-
               </>
             ) : (
               <>
                 <div className="elv_filtered_data">
                   <div className="elv_filtered_data_div">
-                    {filter === false ? (
+                    {showFilter === false && filter === false ? (
                       <>
                         <div className="elv_filtered_data_category ">
                           <div className="elv_filtered_category_div ">
@@ -2154,63 +2143,174 @@ const ProductList = () => {
                     ) : (
                       <>
                         {/* {showFilter === true ? (
-                          <> */}
-                        <div className={showFilter ? "elv_filtered_data_by_grid_other" : 'elv_filtered_data_by_grid'}>
-                          <div className="elv_filtered_data_grid_div">
-                            {activeIconsBtns
-                              .filter((_, index) => visibleIndices.includes(index))
-                              .map((iconConfig, index) => {
-                                const isActive = iconConfig.name === activeIcon;
-                                return (
-                                  isActive && (
-                                    <React.Fragment key={index}>
-                                      {productListData.map((item, productIndex) => (
-                                        <Product_Card
-                                          key={productIndex}
-                                          class1={iconConfig.class1}
-                                          class2={iconConfig.class2}
-                                          productData={item}
-                                          calcVal={iconConfig.calcWidth}
-                                          handleCartandWish={handleCartandWish}
-                                          cartArr={cartArr}
-                                          wishArr={wishArr}
-                                          loginCurrency={loginCurrency}
-                                          imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                          videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                          RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                          handleMoveToDetail={handleMoveToDetail}
-                                          formatter={formatter}
-                                        />
-                                      ))}
-                                    </React.Fragment>
-                                  )
-                                );
-                              })}
-                            {storeInit?.IsProductListPagination === 1 &&
-                              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginTop: "5%",
-                                    width: '100%',
-                                  }}
-                                >
-                                  <Pagination
-                                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                    size={maxwidth464px ? "small" : "large"}
-                                    shape="circular"
-                                    onChange={handelPageChange}
-                                    page={currPage}
-                                    showFirstButton
-                                    showLastButton
-                                  />
-                                </div>
-                              )}
+                          <div className={showFilter ? 'elv_filtered_data_category_other' : 'elv_filtered_data_by_grid'}>
+                            <div className="elv_filtered_data_grid_div">
+                              {activeIconsBtns
+                                .filter((_, index) => visibleIndices.includes(index))
+                                .map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                              {storeInit?.IsProductListPagination === 1 &&
+                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "5%",
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <Pagination
+                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                      size={maxwidth464px ? "small" : "large"}
+                                      shape="circular"
+                                      onChange={handelPageChange}
+                                      page={currPage}
+                                      showFirstButton
+                                      showLastButton
+                                    />
+                                  </div>
+                                )}
+                            </div>
                           </div>
-                        </div>
-                        {/* </>
                         ) : (
+                          <div className='elv_filtered_data_by_grid'>
+                            <div className="elv_filtered_data_grid_div">
+                              {activeIconsBtns
+                                .filter((_, index) => visibleIndices.includes(index))
+                                .map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                              {storeInit?.IsProductListPagination === 1 &&
+                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "5%",
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <Pagination
+                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                      size={maxwidth464px ? "small" : "large"}
+                                      shape="circular"
+                                      onChange={handelPageChange}
+                                      page={currPage}
+                                      showFirstButton
+                                      showLastButton
+                                    />
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+
+                        )} */}
+                         {/* {showFilter === true ? (
+                          <>
+                            <div className="elv_filtered_data_by_grid_other">
+                              <div className="elv_filtered_data_grid_div">
+                                {activeIconsBtns.map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                                {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "5%",
+                                        width: '100%'
+                                      }}
+                                    >
+                                      <Pagination
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                        size={maxwidth464px ? "small" : "large"}
+                                        shape="circular"
+                                        onChange={handelPageChange}
+                                        page={currPage}
+                                        showFirstButton
+                                        showLastButton
+                                      />
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+
                           <>
                             <div className="elv_filtered_data_by_grid">
                               <div className="elv_filtered_data_grid_div">
@@ -2231,10 +2331,12 @@ const ProductList = () => {
                                                 handleCartandWish={handleCartandWish}
                                                 cartArr={cartArr}
                                                 wishArr={wishArr}
+                                                loginCurrency={loginCurrency}
                                                 imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
                                                 videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                                                 RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                                 handleMoveToDetail={handleMoveToDetail}
+                                                formatter={formatter}
                                               />
                                             ))}
                                           </React.Fragment>
@@ -2259,10 +2361,12 @@ const ProductList = () => {
                                                 handleCartandWish={handleCartandWish}
                                                 cartArr={cartArr}
                                                 wishArr={wishArr}
+                                                loginCurrency={loginCurrency}
                                                 imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
                                                 videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                                                 RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                                 handleMoveToDetail={handleMoveToDetail}
+                                                formatter={formatter}
                                               />
                                             ))}
                                           </React.Fragment>
@@ -2298,6 +2402,58 @@ const ProductList = () => {
                             </div>
                           </>
                         )} */}
+                        <div className={showFilter ? "elv_filtered_data_by_grid" : 'elv_filtered_data_by_grid_other_1'}>
+                              <div className="elv_filtered_data_grid_div">
+                                {activeIconsBtns.map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                                {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "5%",
+                                        width: '100%'
+                                      }}
+                                    >
+                                      <Pagination
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                        size={maxwidth464px ? "small" : "large"}
+                                        shape="circular"
+                                        onChange={handelPageChange}
+                                        page={currPage}
+                                        showFirstButton
+                                        showLastButton
+                                      />
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
                       </>
                     )}
                   </div>
@@ -2494,15 +2650,11 @@ const Product_Card = ({
               </div>
             </div>
             <div className="elv_filtered_prod_price">
-              <span className="elv_prod_weight_span_1">
+              <span className="elv_prod_weight_span_1_design">
                 {productData?.designno}
               </span>
               <span
-                style={{
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  fontSize: "17px",
-                }}
+                className="elv_price_div"
               >
                 <span
                   dangerouslySetInnerHTML={{
@@ -2510,7 +2662,7 @@ const Product_Card = ({
                   }}
                   style={{ paddingRight: '0.4rem' }}
                 />
-                <span>{formatter(productData?.UnitCostWithMarkUp)}</span>
+                <span className="elv_price_tags">{formatter(productData?.UnitCostWithMarkUp)}</span>
               </span>
             </div>
           </div>

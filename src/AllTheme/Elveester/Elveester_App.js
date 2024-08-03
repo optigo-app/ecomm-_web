@@ -27,57 +27,85 @@ import Customize from './Components/Pages/Customize/Customize'
 import Account from './Components/Pages/Account/Account'
 import Privacy from './Components/Pages/Privacy/Privacy'
 import Lookbook from './Components/Pages/LookBook/Lookbook'
+import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
+import PrivateRoutes from './PrivateRoutes'
 
 const SmilingRock_App = () => {
 
-    const location = useLocation();
-    const islogin = useRecoilValue(el_loginState)
-    const [showHeader, setShowHeader] = useState(true);
-    const [showFooter, setShowFooter] = useState(true);
+  const location = useLocation();
+  const islogin = useRecoilValue(el_loginState)
+  const [showHeader, setShowHeader] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
 
-    useEffect(() => {
-        if (
-          location?.pathname === '/menu'
-        ) {
-          setShowHeader(false);
-          setShowFooter(false);
-        } else {
-          setShowHeader(true);
-          setShowFooter(true);
-        }
-      }, [location?.pathname]);
+  useEffect(() => {
+    if (
+      location?.pathname === '/menu'
+    ) {
+      setShowHeader(false);
+      setShowFooter(false);
+    } else {
+      setShowHeader(true);
+      setShowFooter(true);
+    }
+  }, [location?.pathname]);
 
-    return (
-        <div>
-            {showHeader && <Header />}
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/LoginOption" element={<LoginOption />} />
-                <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-                <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
-                <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
-                <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-                <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
-                <Route path="/Register" element={<Register />} />
-                <Route path="/cartPage" element={<CartDetails />} />
-                <Route path="/myWishList" element={<Wishlist />} />
-                <Route path="/Delivery" element={<Delivery />} />
-                <Route path="/payment" element={<PaymentPage />} />
-                <Route path="/Confirmation" element={<ConfirmationPage />} />
-                <Route path="/p/*" element={<ProductList />} />
-                <Route path="/d/*" element={<ProductDetail />} />
-                <Route path="/aboutUs" element={<AboutUs />} />
-                <Route path="/history" element={<History />} />
-                <Route path="/term&condition" element={<Terms />} />
-                <Route path="/customerServices" element={<CustomerCare />} />
-                <Route path="/customize" element={<Customize />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/Lookbook" element={<Lookbook />} />
-            </Routes>
-            {showFooter && <Footer />}
-        </div>
-    )
+  return (
+    <div>
+      {showHeader && <Header />}
+      <Routes>
+        {/* Auth Flow  */}
+        <Route path="/LoginOption" element={<LoginOption />} />
+        <Route
+          path="/ContinueWithEmail"
+          element={!islogin && <ContinueWithEmail />}
+        />
+        <Route
+          path="/ContimueWithMobile"
+          element={!islogin && <ContimueWithMobile />}
+        />
+        <Route
+          path="/LoginWithEmail"
+          element={!islogin && <LoginWithEmail />}
+        />
+        <Route path="/Register" element={!islogin && <Register />} />
+        <Route
+          path="/LoginWithEmailCode"
+          element={!islogin && <LoginWithEmailCode />}
+        />
+        <Route
+          path="/LoginWithMobileCode"
+          element={!islogin && <LoginWithMobileCode />}
+        />
+        <Route path="/ForgotPass" element={!islogin && <ForgotPass />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+          <Route path="/cartPage" element={<CartDetails />} />
+          <Route path="/myWishList" element={<Wishlist />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/Confirmation" element={<ConfirmationPage />} />
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/d/*" element={<ProductDetail />} />
+          <Route path="/account" element={<Account />} />
+        </Route>
+        <Route path="/LoginOption" element={<LoginOption />} />
+        <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+        <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
+        <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
+        <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
+        <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/term&condition" element={<Terms />} />
+        <Route path="/customerServices" element={<CustomerCare />} />
+        <Route path="/customize" element={<Customize />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/Lookbook" element={<Lookbook />} />
+      </Routes>
+      {showFooter && <Footer />}
+    </div>
+  )
 }
 
 export default SmilingRock_App
