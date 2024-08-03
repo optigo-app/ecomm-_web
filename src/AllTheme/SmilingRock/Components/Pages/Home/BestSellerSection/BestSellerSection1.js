@@ -162,14 +162,10 @@ const ProductGrid = () => {
                                             </>
                                         }
                                         <p>
-                                            <span
-                                                className="smr_currencyFont"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: decodeEntities(
-                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                    ),
-                                                }}
-                                            /> {formatter(data?.UnitCostWithMarkUp)}</p>
+                                        <span className="smr_currencyFont">
+                                                {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
                                     </div>
                                 </div>
                             ))}
