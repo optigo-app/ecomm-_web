@@ -135,11 +135,11 @@ const CartItem = ({
         }}
         // onDoubleClick={openHandleUpdateCartModal}
 
-        onMouseDown={handlePress('start')}
-        onMouseUp={cancelPress}
-        onMouseLeave={cancelPress}
-        onTouchStart={handlePress('start')}
-        onTouchEnd={cancelPress}
+        // onMouseDown={handlePress('start')}
+        // onMouseUp={cancelPress}
+        // onMouseLeave={cancelPress}
+        // onTouchStart={handlePress('start')}
+        // onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
