@@ -11,7 +11,7 @@ import { loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
-import { Link } from '@mui/material';
+import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Album1 = () => {
@@ -22,6 +22,7 @@ const Album1 = () => {
     const islogin = useRecoilValue(loginState);
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const isMobileScreen = useMediaQuery('(max-width:768px)');
 
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem("storeInit"));
@@ -39,7 +40,7 @@ const Album1 = () => {
             finalID = loginUserDetail?.id || '0';
         }
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
             .then((response) => {
                 if (response?.Data?.rd) {
                     setAlbumData(response?.Data?.rd);
@@ -79,11 +80,11 @@ const Album1 = () => {
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
 
-    const handleChangeTab = (album) => {
+    const handleChangeTab = (event, newValue) => {
         setTimeout(() => {
-            setSelectedAlbum(album.AlbumName)
+            setSelectedAlbum(newValue);
         }, 300);
-    }
+    };
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -101,32 +102,61 @@ const Album1 = () => {
                     View more
                 </Link> */}
             </div>
-            <div className="tabs">  
-                {albumData?.map((album) => (
-                    <button
-                        key={album.Albumid}
-                        onClick={() => handleChangeTab(album)}
-                        className={selectedAlbum === album?.AlbumName ? 'active' : ''}
-                    >
-                        {album?.AlbumName}
-                    </button>
-                ))}
-            </div>
+            <Box className="tabs"
+                sx={{
+                    flexGrow: 1,
+                    maxWidth: "100%",
+                }}>
+                <Tabs
+                    value={selectedAlbum}
+                    onChange={handleChangeTab}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="scrollable auto tabs example"
+                    TabIndicatorProps={{
+                        style: { display: 'none' }
+                    }}
+                >
+                    {albumData?.map((album) => (
+                        <Tab
+                            key={album.Albumid}
+                            label={album?.AlbumName}
+                            value={album?.AlbumName}
+                            className={selectedAlbum === album?.AlbumName ? 'active' : ''}
+                        />
+                    ))}
+                </Tabs>
+            </Box>
             <div className="swiper-container">
                 {albumData?.map((album) =>
                     album?.AlbumName === selectedAlbum ? (
                         <Swiper
                             key={album?.Albumid}
                             spaceBetween={10}
-                            slidesPerView={5}
+                            slidesPerView={4}
+                            breakpoints={{
+                                1200: {
+                                    slidesPerView: 4,
+                                },
+                                992: {
+                                    slidesPerView: 3,
+                                },
+                                768: {
+                                    slidesPerView: 2,
+                                },
+                                576: {
+                                    slidesPerView: 2,
+                                }
+                            }}
                             lazy={true}
-                            navigation={JSON?.parse(album?.Designdetail).length > 5 ? true : false}
+                            navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
+                            pagination={isMobileScreen && (true)}
                         >
                             {JSON?.parse(album?.Designdetail)?.map((design) => (
                                 <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                    <div className="design-slide"  onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
                                         <img
                                             src={
                                                 design?.ImageCount > 0
@@ -136,18 +166,18 @@ const Album1 = () => {
                                             alt={design?.TitleLine}
                                             loading="lazy"
                                         />
-                                        <div className="design-info">
-                                            <p className='smr_album1Titleline'>{design?.TitleLine}</p>
-                                            <p className='smr_album1price'>
-                                                <span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                        ),
-                                                    }}
-                                                /> {formatter(design?.UnitCostWithMarkUp)}</p>
-                                        </div>
+                                    </div>
+                                    <div className="design-info">
+                                        <p className='smr_album1price'>
+                                            <span
+                                                className="smr_currencyFont"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: decodeEntities(
+                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                    ),
+                                                }}
+                                            /> {formatter(design?.UnitCostWithMarkUp)}
+                                        </p>
                                     </div>
                                 </SwiperSlide>
                             ))}
