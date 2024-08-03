@@ -10,6 +10,12 @@ export const Storeinit = async (param) => {
     || window.location.hostname === 'fgstore.mapp'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
+    
+    || window.location.hostname === 'hdstore.web'
+    || window.location.hostname === 'hdstore.mapp'
+    || window.location.hostname === 'hdstore.pro'
+    || window.location.hostname === 'hdstore.plw'
+
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
     || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
