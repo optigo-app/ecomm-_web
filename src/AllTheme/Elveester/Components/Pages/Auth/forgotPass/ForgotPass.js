@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../home/Header/Header'
 import './ForgotPass.css'
 import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material'
 // import Footer from '../../home/Footer/Footer'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router'
-import { CommonAPI } from '../../../../Utils/API/CommonAPI'
+import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 
 export default function ForgotPass() {
 

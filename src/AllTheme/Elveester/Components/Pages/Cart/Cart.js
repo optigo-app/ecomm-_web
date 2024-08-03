@@ -9,7 +9,7 @@ import SelectedItemsModal from './SelectedModal';
 import noImageFound from "../../Assets/image-not-found.jpg"
 import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
-import { Box, Breadcrumbs, CircularProgress, FormControl, Typography } from '@mui/material';
+import { Box, Breadcrumbs, CircularProgress, FormControl, Typography, useMediaQuery } from '@mui/material';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import { useSetRecoilState } from 'recoil';
 import { el_CartCount } from '../../Recoil/atom';
@@ -17,6 +17,7 @@ import RemarkDialog from './OrderRemarkDialog';
 import { OrderFlowCrumbs } from './OrderFlowCrumbs';
 import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
+import MobileCartDetails from './MobileCartDetails';
 
 const CartPage = () => {
   const {
@@ -67,6 +68,10 @@ const CartPage = () => {
 
   const navigate = useNavigate();
   const visiterId = Cookies.get('visiterId');
+  const isTabletResponsive = useMediaQuery('(max-width:1000px)');
+  const isMobileResp1 = useMediaQuery('(max-width:800px)');
+  const isMobileResp2 = useMediaQuery('(max-width:600px)');
+  const isMobileResp3 = useMediaQuery('(max-width:425px)');
 
   const getTotalPrice = [];
   const totalPrice = cartData?.reduce((total, item) => total + item?.FinalCost, 0)
@@ -218,7 +223,7 @@ const CartPage = () => {
                 <div className="elv_Cartblock_rows">
                   <div className="elv_Cartblock_rows_1" >
                     <span className="elv_total_price_title">
-                      Total Price:&nbsp;
+                      {isMobileResp1 ? 'Price:' : '' || isMobileResp2 ? '' : 'Total Price:'}&nbsp;
                       <span>
                         <span
                           className="elv_currencyFont"
@@ -328,28 +333,58 @@ const CartPage = () => {
                   />
                 </div>
                 <div className='elv_CartSingleProducts_div'>
-                  {selectedItem && (
-                    <CartDetails
-                      ispriceloding={ispriceloding}
-                      selectedItem={selectedItem}
-                      CartCardImageFunc={CartCardImageFunc}
-                      handleIncrement={handleIncrement}
-                      handleDecrement={handleDecrement}
-                      qtyCount={qtyCount}
-                      multiSelect={multiSelect}
-                      sizeCombo={sizeCombo}
-                      CurrencyData={CurrencyData}
-                      mrpbasedPriceFlag={mrpbasedPriceFlag}
-                      handleMetalTypeChange={handleMetalTypeChange}
-                      handleMetalColorChange={handleMetalColorChange}
-                      handleDiamondChange={handleDiamondChange}
-                      handleColorStoneChange={handleColorStoneChange}
-                      handleSizeChange={handleSizeChange}
-                      decodeEntities={decodeEntities}
-                      onUpdateCart={handleUpdateCart}
-                      handleMoveToDetail={handleMoveToDetail}
-                    />
-                  )}
+                  {!isTabletResponsive ? (
+                     selectedItem && (
+                      <CartDetails
+                        ispriceloding={ispriceloding}
+                        selectedItem={selectedItem}
+                        CartCardImageFunc={CartCardImageFunc}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                        qtyCount={qtyCount}
+                        multiSelect={multiSelect}
+                        sizeCombo={sizeCombo}
+                        CurrencyData={CurrencyData}
+                        mrpbasedPriceFlag={mrpbasedPriceFlag}
+                        handleMetalTypeChange={handleMetalTypeChange}
+                        handleMetalColorChange={handleMetalColorChange}
+                        handleDiamondChange={handleDiamondChange}
+                        handleColorStoneChange={handleColorStoneChange}
+                        handleSizeChange={handleSizeChange}
+                        decodeEntities={decodeEntities}
+                        onUpdateCart={handleUpdateCart}
+                        handleMoveToDetail={handleMoveToDetail}
+                      />
+                    )
+                  )
+                  : (
+                    <div className='elv_mobile-cartDetails'>
+                      <MobileCartDetails
+                        open={openMobileModal}
+                        handleClose={handlecloseMobileModal}
+                        ispriceloding={ispriceloding}
+                        selectedItem={selectedItem}
+                        CartCardImageFunc={CartCardImageFunc}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                        qtyCount={qtyCount}
+                        multiSelect={multiSelect}
+                        sizeCombo={sizeCombo}
+                        CurrencyData={CurrencyData}
+                        mrpbasedPriceFlag={mrpbasedPriceFlag}
+                        handleMetalTypeChange={handleMetalTypeChange}
+                        handleMetalColorChange={handleMetalColorChange}
+                        handleDiamondChange={handleDiamondChange}
+                        handleColorStoneChange={handleColorStoneChange}
+                        handleSizeChange={handleSizeChange}
+                        decodeEntities={decodeEntities}
+                        onUpdateCart={handleUpdateCart}
+                        handleMoveToDetail={handleMoveToDetail}
+                      />
+                    </div>
+                  )
+                  }
+                 
                 </div>
               </div>
             ) : (
