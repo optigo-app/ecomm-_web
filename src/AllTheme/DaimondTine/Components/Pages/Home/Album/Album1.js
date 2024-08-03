@@ -39,7 +39,7 @@ const Album1 = () => {
             finalID = loginUserDetail?.id || '0';
         }
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
             .then((response) => {
                 if (response?.Data?.rd) {
                     setAlbumData(response?.Data?.rd);
