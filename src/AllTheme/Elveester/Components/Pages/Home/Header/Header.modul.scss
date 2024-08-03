@@ -7,14 +7,41 @@
     top: 0;
     z-index: 11;
     background-color: white;
-    height: 80px;
+    height: 80px;  //chnages    80px
 
     .el_withoutL_Header_Main {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80px;
+        height: 80px;  
         z-index: 1;
+    }
+// nw design
+    .elv_top_head_banner{
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        padding:  6px 0;
+        background-color: #AE8135;
+        font-weight: 400;
+        a{
+            text-decoration: none;
+            font-weight: 500;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+           div{
+            margin: 0 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span{
+                background-color: white;
+                padding:1px 4px; 
+            }
+           }
+        }
     }
 
     .el_withoutL_ul_Main {
@@ -219,7 +246,7 @@
         width: 100%;
         position: absolute;
         background: rgba(255, 255, 255, 0.8);
-        top: 72px;
+        top: 72px; //changes new 72px
         left: 0;
         backdrop-filter: blur(8px);
         border-radius: 0 0 15px 15px;
@@ -297,6 +324,9 @@
         cursor: pointer;
         text-transform: uppercase;
         margin-inline: 20px;
+    }
+    .go-lookbook{
+        font-weight: 500;
     }
 
     .elv_login_header_logo_center {
