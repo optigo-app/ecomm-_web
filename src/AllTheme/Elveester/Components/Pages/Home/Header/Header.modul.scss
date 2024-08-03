@@ -7,14 +7,41 @@
     top: 0;
     z-index: 11;
     background-color: white;
-    height: 80px;
+    height: 80px;  //chnages    80px
 
     .el_withoutL_Header_Main {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80px;
+        height: 80px;  
         z-index: 1;
+    }
+// nw design
+    .elv_top_head_banner{
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        padding:  6px 0;
+        background-color: #AE8135;
+        font-weight: 400;
+        a{
+            text-decoration: none;
+            font-weight: 500;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+           div{
+            margin: 0 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span{
+                background-color: white;
+                padding:1px 4px; 
+            }
+           }
+        }
     }
 
     .el_withoutL_ul_Main {
@@ -105,19 +132,19 @@
     }
 
     .elv_search_area {
-        border: 1px solid #d1d5db;
+        border: 1px solid #ededed;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 0.7rem;
         padding: 8px;
         border-radius: 10px;
-        background-color: #F9FAFB;
+        background-color: #ffffff;
 
         .elv_search_inp {
             border: none;
             border-bottom: 1px solid black;
-            background-color: #F9FAFB;
+            background-color: #ffffff;
 
             &:focus {
                 outline: none;
@@ -162,19 +189,19 @@
     }
 
     .elv_search_area_respo {
-        border: 1px solid #d1d5db;
+        border: 1px solid #ededed;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 0.7rem;
         padding: 8px;
         border-radius: 10px;
-        background-color: #F9FAFB;
+        background-color: #ffffff;
 
         .elv_search_inp {
             border: none;
             border-bottom: 1px solid black;
-            background-color: #F9FAFB;
+            background-color: #ffffff;
 
             &:focus {
                 outline: none;
@@ -219,7 +246,7 @@
         width: 100%;
         position: absolute;
         background: rgba(255, 255, 255, 0.8);
-        top: 72px;
+        top: 72px; //changes new 72px
         left: 0;
         backdrop-filter: blur(8px);
         border-radius: 0 0 15px 15px;
@@ -298,6 +325,9 @@
         text-transform: uppercase;
         margin-inline: 20px;
     }
+    .go-lookbook{
+        font-weight: 500;
+    }
 
     .elv_login_header_logo_center {
         display: flex;
@@ -372,8 +402,8 @@
             top: 3rem;
             right: -4.9rem;
             width: 100vw;
-            background-color: #F9FAFB;
-            border: 1px solid #d1d5db;
+            background-color: #ffffff;
+            border: 1px solid #ededed;
         }
 
         .elv_search_design_respo_1 {
@@ -381,7 +411,7 @@
             .elv_search_inp {
                 border: none;
                 border-bottom: 1px solid black;
-                background-color: #F9FAFB;
+                background-color: #ffffff;
                 width: 80vw;
 
                 &:focus {
@@ -418,7 +448,7 @@
 
     @media screen and (max-width: 425px) {
         .el_login_header_main_div1_logo {
-            width: 100%;
+            width: 70%;
         }
 
         .el_login_header_main_div2_li{
@@ -465,7 +495,7 @@
 
     @media screen and (max-width: 375px) {
         .el_login_header_main_div1_logo {
-            width: 100%;
+            width: 70%;
         }
 
         .elv_person_icon {
@@ -507,8 +537,8 @@
             top: 3rem;
             right: -4.2rem;
             width: 100vw;
-            background-color: #F9FAFB;
-            border: 1px solid #d1d5db;
+            background-color: #ffffff;
+            border: 1px solid #ededed;
         }
 
         .elv_search_design_respo_1 {
@@ -516,7 +546,7 @@
             .elv_search_inp {
                 border: none;
                 border-bottom: 1px solid black;
-                background-color: #F9FAFB;
+                background-color: #ffffff;
                 width: 60vw;
 
                 &:focus {

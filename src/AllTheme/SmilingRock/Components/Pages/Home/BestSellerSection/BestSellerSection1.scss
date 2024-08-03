@@ -173,8 +173,11 @@
         }
 
         @media (max-width: 576px) {
-            flex-direction: column;
-            padding: 0;
+            .smr_mainBestSeler1Div {
+                .product-grid {
+                    padding: 0px 10px !important;
+                }
+            }
 
             .smr_leftSideBestSeler,
             .smr_rightSideBestSeler {
@@ -186,8 +189,9 @@
                 }
 
                 .smr_btimageDiv {
-                    padding: 5px !important;
+                    padding: 10px !important;
                 }
+
                 .smr_lookbookImageRightDT {
                     font-size: $fontSize4;
 
@@ -200,8 +204,8 @@
                     }
 
                     button {
-                        width: 120px;
-                        height: 30px;
+                        width: 140px;
+                        height: 35px;
                         font-size: $fontSize1;
                     }
                 }
@@ -212,11 +216,10 @@
             .smr_leftSideBestSeler {
                 .product-card {
                     width: 100%;
-                    margin-bottom: 10px;
                 }
 
                 .smr_btimageDiv {
-                    padding: 5px !important;
+                    padding: 10px !important;
                 }
 
                 .product-info {
@@ -225,7 +228,9 @@
                     }
 
                     p {
-                        font-size: $fontSize0 !important;
+                        span {
+                            font-size: $fontSize2 !important;
+                        }
                     }
 
                     span {
@@ -247,8 +252,8 @@
                     }
 
                     button {
-                        width: 100px;
-                        height: 25px;
+                        width: 137px;
+                        height: 34px;
                         font-size: $fontSize1;
                     }
                 }

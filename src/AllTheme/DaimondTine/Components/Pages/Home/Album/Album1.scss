@@ -1,9 +1,9 @@
 @import "../../../scss/variable";
 
-.dt_album1_container {
+.dt_album_container {
     .smr_ablbumtitleDiv {
         text-align: center;
-        padding: 1% 0px 1% 0px;
+        padding-block: 3%;
 
         .smr_albumtitle {
             font-size: 28px;
@@ -53,54 +53,45 @@
             min-width: 320px;
         }
 
-
         .design-slide {
             display: flex;
             flex-direction: column;
             align-items: start;
             justify-content: start;
             padding: 20px;
-            background-color: #f1f1f1;
+            background-color: $homePageColor;
 
             img {
                 width: 100%;
                 height: 100%;
             }
+        }
 
-            .design-info {
-                margin-top: 10px;
+        .design-info {
+            margin-top: 10px;
+            text-align: start;
+
+            .smr_album1Titleline {
+                font-size: $fontSize1;
+                color: $titleColor;
+                padding: 0;
+                margin: 0;
                 text-align: start;
+                letter-spacing: .5px;
+                width: '100%';
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-                .smr_album1Titleline {
-                    font-size: $fontSize1;
-                    color: $titleColor;
-                    padding: 0;
-                    margin: 0;
-                    text-align: start;
-                    letter-spacing: .5px;
-                    max-height: 80px;
-                    height: 40px; 
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    width: 220px;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    box-sizing: border-box;
-                }
-                
-                
-
-                .smr_album1price {
-                    font-size: $fontSize2;
-                    font-family: $primaryFontFamily;
-                    letter-spacing: .5px;
-                    color: $titleColor;
-                    font-weight: bold;
-                    padding: 0;
-                    margin: 0;
-                    text-align: start;
-                }
+            .smr_album1price {
+                font-size: $fontSize2;
+                font-family: $primaryFontFamily;
+                letter-spacing: .5px;
+                color: $titleColor;
+                font-weight: bold;
+                padding: 0;
+                margin: 0;
+                text-align: start;
             }
         }
 
@@ -121,11 +112,73 @@
                 font-size: 16px;
             }
         }
+
         .swiper-button-disabled {
             opacity: 0.5;
             cursor: not-allowed;
             pointer-events: none;
             background-color: #ababab;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .swiper-slide-custom {
+            min-width: 260px !important;
+        }
+
+        .design-slide {
+            padding: 30px !important;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .swiper-slide-custom {
+            min-width: 220px !important;
+        }
+
+        .design-slide {
+            padding: 20px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .swiper-slide-custom {
+            min-width: 180px !important;
+        }
+
+        .design-slide {
+            padding: 15px !important;
+        }
+
+        .design-info {
+            .smr_album1price {
+                font-size: $fontSize1 !important;
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .swiper-slide-custom {
+            min-width: 140px !important;
+        }
+
+        .tabs {
+            button {
+                padding: 4px 10px;
+                font-size: $fontSize0;
+                min-width: 60px;
+                min-height: 35px;
+            }
+        }
+
+        .design-slide {
+            padding: 10px !important;
+        }
+
+        .design-info {
+            .smr_album1price {
+                font-size: $fontSize2 !important;
+            }
         }
     }
 }

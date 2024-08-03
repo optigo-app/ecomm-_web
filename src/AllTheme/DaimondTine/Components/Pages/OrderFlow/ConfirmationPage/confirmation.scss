@@ -1,11 +1,10 @@
 @import '../../../scss/variable.scss';
 
-.smr_confirMaindiv {
-    background-color: $backgroundColor;
+.smr_confirMaindiv{
+    background-color: #fff;
 }
-
 .smr_confirSecondMaindiv {
-    margin-inline: 6%;
+    margin-inline: 20%;
     background-color: #fff;
 }
 
@@ -41,13 +40,15 @@
     color: #ff6600;
 }
 
-.continueShoppingBtn {
+.smr_continueShoppingBtn {
     margin-top: 20px;
     height: 40px;
-    width: 150px;
+    width: 190px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1hoverFontColor;
+    color: #fff;
+    background-color: #a8807c !important;
+    border: 1px solid #a8807c !important;
     background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
     border-radius: 6px;
@@ -55,8 +56,9 @@
     transition: background-color 0.3s, color 0.3s;
 
     &:hover {
-        color: $btn1hoverFontColor;
-        background-color: $btn1ActivebgColor;
+        color: #a8807c !important;
+        border: 1px solid #a8807c !important;
+        background-color: #fff !important;
     }
 }
 

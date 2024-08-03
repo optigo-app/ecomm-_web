@@ -1,5 +1,3 @@
-
-
 @import '../../../scss/variable';
 
 .dt_SocialMedia {
@@ -30,9 +28,6 @@
         text-align: center;
         margin: 20px 0px 0px 0px;
     }
-
-
-
 
     .widgetsComponentsCard {
         width: 60%;
@@ -99,6 +94,33 @@
     //     opacity: 0;
     //     transition: opacity 0.3s ease;
     // }
+
+    @media screen and (max-width: 1500px) {
+        .dt_instagram_photo {
+            height: auto !important;
+        }
+    }
+
+    @media screen and (max-width: 1300px) {
+        .dt_instagram_photo {
+            height: auto !important;
+            width: 300px !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .dt_instagram_photo {
+            height: auto !important;
+            width: 320px !important;
+        }
+    }
+    
+    @media screen and (max-width: 600px) {
+        .dt_instagram_photo {
+            height: auto !important;
+            width: 100% !important;
+        }
+    }
 
     @media screen and (max-width: 550px) {
 

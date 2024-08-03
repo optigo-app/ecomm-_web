@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './ProductDetail.modul.scss'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
-import { Checkbox, Skeleton, useMediaQuery } from '@mui/material';
+import imageNotFound from '../../../Assets/image-not-found.jpg'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import Pako from 'pako';
 import { el_CartCount, el_WishCount } from '../../../Recoil/atom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SingleProdListAPI } from '../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
@@ -18,6 +20,11 @@ import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/
 import { useSetRecoilState } from 'recoil';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import RelatedProduct from './RelatedProduct/RelatedProduct';
+import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
+import { DesignSetListAPI } from '../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI';
+import DesignSet from './DesignSet/DesignSet';
+import Stockitems from './InstockProduct/Stockitems';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -55,8 +62,15 @@ const ProductDetail = () => {
   const [wishListFlag, setWishListFlag] = useState(null);
   const location = useLocation();
 
+  const Navigate = useNavigate();
+
   const setCartCountVal = useSetRecoilState(el_CartCount)
   const setWishCountVal = useSetRecoilState(el_WishCount)
+  const [loadingdata, setloadingdata] = useState(false);
+  const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
+  const [designSetList, setDesignSetList] = useState();
+  const [stockItemArr, setStockItemArr] = useState([]);
+  const [cartArr, setCartArr] = useState({});
 
   let maxWidth1400px = useMediaQuery('(max-width:1400px)')
   let maxWidth1000px = useMediaQuery('(max-width:1000px)')
@@ -317,89 +331,226 @@ const ProductDetail = () => {
     }, 500)
   }, [singleProd])
 
-  useEffect(() => {
-    const navVal = location?.search.split('?p=')[1];
-    let decodeObj = decodeAndDecompress(navVal);
+  // useEffect(() => {
+  //   const navVal = location?.search.split('?p=')[1];
+  //   let decodeObj = decodeAndDecompress(navVal);
 
-    if (decodeObj) {
-      setDecodeUrl(decodeObj)
+  //   if (decodeObj) {
+  //     setDecodeUrl(decodeObj)
+  //   }
+
+  //   let metalArr;
+  //   let diaArr;
+  //   let csArr;
+
+  //   if (mTypeLocal?.length) {
+  //     metalArr = mTypeLocal?.find((ele) => {
+  //       return ele?.Metalid === decodeObj?.m
+  //     })?.Metalid ?? mTypeLocal[0]?.Metalid
+  //   }
+  //   if (diaQcLocal) {
+  //     diaArr = diaQcLocal?.find((ele) => {
+  //       return ele?.QualityId == decodeObj?.d?.split(',')[0] &&
+  //         ele?.ColorId == decodeObj?.d?.split(",")[1]
+  //     }) ?? diaQcLocal[0]
+  //   }
+  //   if (csQcLocal) {
+  //     csArr = csQcLocal?.find((ele) => {
+  //       return ele?.QualityId == decodeObj?.c?.split(',')[0] &&
+  //         ele?.ColorId == decodeObj?.c?.split(",")[1]
+  //     }) ?? csQcLocal[0];
+  //   }
+
+
+  //   setMetalType(metalArr?.metaltype)
+  //   setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
+  //   setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
+  //   setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
+  //   setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
+
+  //   const FetchProductData = async () => {
+  //     let obj = {
+  //       mt: metalArr,
+  //       diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+  //       csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+  //     }
+
+  //     // setisPriceLoading(true)
+
+  //     const res1 = await SingleProdListAPI(decodeObj, sizeData, obj, cookie)
+  //     if (res1) {
+  //       setSingleProd(res1?.pdList[0])
+  //     }
+
+  //     // if(res?.pdList?.length > 0){
+  //     //   setisPriceLoading(false)
+  //     // }
+
+  //     setnetWTData(res1?.pdList[0]);
+  //     setDiaList(res1?.pdResp?.rd3)
+  //     setCsList(res1?.pdResp?.rd4)
+
+  //     let prod = res1?.pdList?.[0];
+
+  //     const res2 = await getSizeData(prod, cookie);
+  //     if (res2) {
+  //       setSizeCombo(res2?.Data)
+  //     }
+
+  //     const initialsize =
+  //       (prod && prod?.DefaultSize !== '') ? prod?.DefaultSize :
+  //         (SizeCombo?.rd?.find((size) => size?.DefaultSize === 1)?.sizename === undefined
+  //           ? SizeCombo?.rd?.[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+
+  //     setSizeData(initialsize)
+
+  //   }
+
+  //   FetchProductData()
+
+  //   window.scroll({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+
+  // }, [location?.key])
+
+  useEffect(() => {
+    let navVal = location?.search.split("?p=")[1];
+    let decodeobj = decodeAndDecompress(navVal);
+    if (decodeobj) {
+      setDecodeUrl(decodeobj);
     }
+
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(
+      localStorage.getItem("diamondQualityColorCombo")
+    );
+
+    let csQcLocal = JSON.parse(
+      localStorage.getItem("ColorStoneQualityColorCombo")
+    );
 
     let metalArr;
     let diaArr;
     let csArr;
 
-    if (mTypeLocal?.length) {
-      metalArr = mTypeLocal?.find((ele) => {
-        return ele?.Metalid === decodeObj?.m
-      })?.Metalid ?? mTypeLocal[0]?.Metalid
+    if (mtTypeLocal?.length) {
+      metalArr =
+        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
+          ?.Metalid ?? mtTypeLocal[0]?.Metalid;
     }
+
     if (diaQcLocal) {
-      diaArr = diaQcLocal?.find((ele) => {
-        return ele?.QualityId == decodeObj?.d?.split(',')[0] &&
-          ele?.ColorId == decodeObj?.d?.split(",")[1]
-      }) ?? diaQcLocal[0]
+      diaArr =
+        diaQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.d?.split(",")[1]
+        )[0] ?? diaQcLocal[0];
     }
+
     if (csQcLocal) {
-      csArr = csQcLocal?.find((ele) => {
-        return ele?.QualityId == decodeObj?.c?.split(',')[0] &&
-          ele?.ColorId == decodeObj?.c?.split(",")[1]
-      }) ?? csQcLocal[0];
+      csArr =
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.c?.split(",")[1]
+        )[0] ?? csQcLocal[0];
     }
-
-
-    setMetalType(metalArr?.metaltype)
-    setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
-    setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
-    setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
-    setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
-
+    setloadingdata(true);
     const FetchProductData = async () => {
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
-      }
+      };
 
-      // setisPriceLoading(true)
+      setisPriceLoading(true);
 
-      const res1 = await SingleProdListAPI(decodeObj, sizeData, obj, cookie)
-      if (res1) {
-        setSingleProd(res1?.pdList[0])
-      }
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
+        .then(async (res) => {
+          if (res) {
+            setSingleProd(res?.pdList[0]);
 
-      // if(res?.pdList?.length > 0){
-      //   setisPriceLoading(false)
-      // }
+            if (res?.pdList?.length > 0) {
+              setisPriceLoading(false);
+              setloadingdata(false);
+            }
 
-      setnetWTData(res1?.pdList[0]);
-      setDiaList(res1?.pdResp?.rd3)
-      setCsList(res1?.pdResp?.rd4)
+            if (!res?.pdList[0]) {
+              setisPriceLoading(false);
+              // setIsDataFound(true);
+            }
 
-      let prod = res1?.pdList?.[0];
+            setDiaList(res?.pdResp?.rd3);
+            setCsList(res?.pdResp?.rd4);
 
-      const res2 = await getSizeData(prod, cookie);
-      if (res2) {
-        setSizeCombo(res2?.Data)
-      }
+            let prod = res?.pdList[0];
 
-      const initialsize =
-        (prod && prod?.DefaultSize !== '') ? prod?.DefaultSize :
-          (SizeCombo?.rd?.find((size) => size?.DefaultSize === 1)?.sizename === undefined
-            ? SizeCombo?.rd?.[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+            let initialsize =
+              prod && prod.DefaultSize !== ""
+                ? prod?.DefaultSize
+                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                    ?.sizename;
 
-      setSizeData(initialsize)
+            setSizeData(initialsize);
 
-    }
+            // await SingleFullProdPriceAPI(decodeobj).then((res) => {
+            //   setSingleProdPrice(res);
+            //   console.log("singlePrice", res);
+            // });
+          }
+          return res;
+        })
+        .then(async (resp) => {
+          if (resp) {
+            await getSizeData(resp?.pdList[0], cookie)
+              .then((res) => {
+                console.log("Sizeres", res);
+                setSizeCombo(res?.Data);
+              })
+              .catch((err) => console.log("SizeErr", err));
 
-    FetchProductData()
+            await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
+              .then((res) => {
+                setStockItemArr(res?.Data?.rd);
+              })
+              .catch((err) => console.log("stockItemErr", err));
+
+            await StockItemApi(
+              resp?.pdList[0]?.autocode,
+              "similarbrand",
+              obj,
+              cookie
+            )
+              .then((res) => {
+                setSimilarBrandArr(res?.Data?.rd);
+              })
+              .catch((err) => console.log("similarbrandErr", err));
+
+            await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
+              .then((res) => {
+                console.log("designsetList", res?.Data?.rd[0]);
+                setDesignSetList(res?.Data?.rd);
+              })
+              .catch((err) => console.log("designsetErr", err));
+          }
+        })
+        .catch((err) => console.log("err", err));
+    };
+
+    FetchProductData();
 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
-
-  }, [location?.key])
+  }, [location?.key]);
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
@@ -479,44 +630,132 @@ const ProductDetail = () => {
     });
   }
 
+  // const handleMetalWiseColorImg = async (e) => {
+  //   const metalColorLocal = JSON.parse(localStorage.getItem('MetalColorCombo'));
+  //   let mcArr;
+
+  //   if (metalColorLocal?.length) {
+  //     mcArr =
+  //       metalColorLocal?.find((ele) => {
+  //         return ele?.metalcolorname === e.target.value
+  //       })
+  //   }
+  //   // console.log(mcArr)
+  //   // if (mcArr?.colorname == "Yellow") {
+  //   //   mcArr = { ...mcArr, colorname: 'Y' }
+  //   // }
+  //   // if (mcArr?.colorname == "White") {
+  //   //   mcArr = { ...mcArr, colorname: 'W' }
+  //   // }
+  //   // if (mcArr?.colorname == "Rose") {
+  //   //   mcArr = { ...mcArr, colorname: 'RG' }
+  //   // }
+
+
+
+  //   setMetalColor(e.target.value)
+
+  //   let imgLink = storeInit?.DesignImageFol + (singleProd ?? singleProd1)?.designno + "_" + (thumbImgIndex + 1) + "_" + mcArr?.colorname + "." +
+  //     (singleProd ?? singleProd1)?.ImageExtension;
+
+  //   setMetalWiseColorImg(imgLink);
+
+  //   const isImg = await checkImageAvailability(imgLink);
+
+  //   if (isImg) {
+  //     setMetalWiseColorImg(imgLink)
+  //   }
+  //   else {
+  //     setMetalWiseColorImg()
+  //   }
+  // }
+
   const handleMetalWiseColorImg = async (e) => {
-    const metalColorLocal = JSON.parse(localStorage.getItem('MetalColorCombo'));
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    if (metalColorLocal?.length) {
+    if (mtColorLocal?.length) {
       mcArr =
-        metalColorLocal?.find((ele) => {
-          return ele?.metalcolorname === e.target.value
-        })
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == e.target.value
+        )[0]
     }
-    // console.log(mcArr)
-    // if (mcArr?.colorname == "Yellow") {
-    //   mcArr = { ...mcArr, colorname: 'Y' }
-    // }
-    // if (mcArr?.colorname == "White") {
-    //   mcArr = { ...mcArr, colorname: 'W' }
-    // }
-    // if (mcArr?.colorname == "Rose") {
-    //   mcArr = { ...mcArr, colorname: 'RG' }
-    // }
-
-
 
     setMetalColor(e.target.value)
 
-    let imgLink = storeInit?.DesignImageFol + (singleProd ?? singleProd1)?.designno + "_" + (thumbImgIndex + 1) + "_" + mcArr?.colorname + "." +
+    let imgLink = storeInit?.DesignImageFol +
+      (singleProd ?? singleProd1)?.designno +
+      "_" +
+      (thumbImgIndex + 1) + "_" + mcArr?.colorcode +
+      "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink);
+    // setMetalWiseColorImg(imgLink)
 
-    const isImg = await checkImageAvailability(imgLink);
+    let isImg = await checkImageAvailability(imgLink)
 
     if (isImg) {
       setMetalWiseColorImg(imgLink)
-    }
-    else {
+    } else {
       setMetalWiseColorImg()
     }
+
+    let pd = singleProd;
+    let pdImgListCol = [];
+    let pdImgList = [];
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+        pdImgListCol.push(imgString);
+      }
+    }
+
+    if (singleProd?.ImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "." +
+          singleProd?.ImageExtension;
+        pdImgList.push(imgString);
+      }
+    }
+
+
+    let isImgCol;
+
+    if (pdImgListCol?.length > 0) {
+      isImgCol = await checkImageAvailability(pdImgListCol[0])
+    }
+
+    if (pdImgListCol?.length > 0 && (isImgCol == true)) {
+      setPdThumbImg(pdImgListCol)
+      setSelectedThumbImg({ "link": pdImgListCol[thumbImgIndex], "type": 'img' });
+      setThumbImgIndex(thumbImgIndex)
+
+    }
+    else {
+      if (pdImgList?.length > 0) {
+        setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
+        setPdThumbImg(pdImgList)
+        setThumbImgIndex(thumbImgIndex)
+      }
+    }
+
+
+
+    // console.log("pdImgList",pdImgList,pdImgListCol)
   }
 
   useEffect(() => {
@@ -532,7 +771,7 @@ const ProductDetail = () => {
 
     setMetalColor(mcArr?.metalcolorname);
 
-  }, [singleProd, singleProd1])
+  }, [singleProd])
 
   const getDynamicImages = (designno, count, extension) => {
     const getDesignImageFol = storeInit?.DesignImageFol;
@@ -697,6 +936,85 @@ const ProductDetail = () => {
     console.log("first", singleProd1?.Nwt)
   }, [])
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (productData) => {
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    Navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+
+  const handleCartandWish = (e, ele, type) => {
+    // console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let prodObj = {
+      StockId: ele?.StockId,
+      // "autocode": ele?.autocode,
+      // "Metalid": ele?.MetalPurityid,
+      // "MetalColorId": ele?.MetalColorid,
+      // "DiaQCid": loginInfo?.cmboDiaQCid,
+      // "CsQCid": loginInfo?.cmboCSQCid,
+      // "Size": ele?.Size,
+      Unitcost: ele?.Amount,
+      // "UnitCostWithmarkup": ele?.Amount,
+      // "Remark": ""
+    };
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    } else {
+      RemoveCartAndWishAPI(type, ele?.StockId, cookie, true)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.StockId]: e.target.checked,
+      }));
+    }
+  };
+
+
 
   return (
     <div className='elv_ProductDetMain_div'>
@@ -782,81 +1100,102 @@ const ProductDetail = () => {
           </>
         ) : (
           <>
-            <div className='elv_ProductDet_prod_img_list'>
-              {
-                pdThumbImg?.length > 0 && (
-                  pdThumbImg?.map((item, index) => {
-                    return (
-                      <img
-                        src={item}
-                        onClick={() => {
-                          setSelectedThumbImg({ Link: item, type: "img" });
-                          setThumbImgIndex(index)
+            {loadingdata ? (
+              <Skeleton className='elv_prod_det_default_thumb' variant="square" />
+            ) : (
+              <div className='elv_ProductDet_prod_img_list'>
+                {(selectedThumbImg?.type == "img") && (
+                  <img
+                    src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                    // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
+                    alt={""}
+                    onLoad={() => setIsImageLoad(false)}
+                    className="smr_prod_img"
+                  />
+                )}
+                {
+                  pdThumbImg?.length > 0 && (
+                    pdThumbImg?.map((item, index) => {
+                      return (
+                        <img
+                          src={item}
+                          onClick={() => {
+                            setSelectedThumbImg({ Link: item, type: "img" });
+                            setThumbImgIndex(index)
+                          }}
+                          onLoad={() => setIsImageLoad(false)}
+                          className='elv_ProductDet_image'
+                        />
+                      )
+                    })
+                  )
+                }
+                {pdVideoArr?.map((data) => (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    onClick={() =>
+                      setSelectedThumbImg({ link: data, type: "vid" })
+                    }
+                  >
+                    <video
+                      src={data}
+                      autoPlay={true}
+                      loop={true}
+                      className="smr_prod_thumb_img"
+                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                    />
+                    <IoIosPlayCircle
+                      style={{
+                        position: "absolute",
+                        color: "white",
+                        width: "35px",
+                        height: "35px",
+                        cursor: 'pointer',
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {loadingdata ? (
+              <Skeleton className='elv_prod_det_default' variant="rectangular" />
+            ) : (
+              <>
+                <div className='elv_ProductDet_prod_img'>
+                  {selectedThumbImg?.type == "img" ? (
+                    <img
+                      // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                      src={selectedThumbImg?.Link ?? metalWiseColorImg}
+                      alt={""}
+                      onLoad={() => setIsImageLoad(false)}
+                      className="elv_ProductDet_prod_image"
+                    />
+                  ) : (
+                    <div>
+                      <video
+                        src={selectedThumbImg?.link}
+                        loop={true}
+                        autoPlay={true}
+                        style={{
+                          width: "100%",
+                          objectFit: "cover",
+                          marginLeft: '3rem',
+                          height: "90%",
+                          borderRadius: "8px",
                         }}
-                        onLoad={() => setIsImageLoad(false)}
-                        className='elv_ProductDet_image'
                       />
-                    )
-                  })
-                )
-              }
-              {pdVideoArr?.map((data) => (
-                <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onClick={() =>
-                    setSelectedThumbImg({ link: data, type: "vid" })
-                  }
-                >
-                  <video
-                    src={data}
-                    autoPlay={true}
-                    loop={true}
-                    className="smr_prod_thumb_img"
-                    style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                  />
-                  <IoIosPlayCircle
-                    style={{
-                      position: "absolute",
-                      color: "white",
-                      width: "35px",
-                      height: "35px",
-                      cursor: 'pointer',
-                    }}
-                  />
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-            <div className='elv_ProductDet_prod_img'>
-              {selectedThumbImg?.type == "img" ? (
-                <img
-                  // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                  src={selectedThumbImg?.Link ?? metalWiseColorImg}
-                  alt={""}
-                  onLoad={() => setIsImageLoad(false)}
-                  className="elv_ProductDet_prod_image"
-                />
-              ) : (
-                <div>
-                  <video
-                    src={selectedThumbImg?.link}
-                    loop={true}
-                    autoPlay={true}
-                    style={{
-                      width: "100%",
-                      objectFit: "cover",
-                      marginLeft: '3rem',
-                      height: "90%",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+              </>
+            )}
+
           </>
         )}
         {maxWidth1000 ? (
@@ -1123,6 +1462,170 @@ const ProductDetail = () => {
                             </div>
                           </>
                         )}
+                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before":
+                              {
+                                background: "none",
+                              },
+                              width: '95.5%'
+                            }}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7d7f85 !important",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                            // className="filtercategoryLable"
+
+                            >
+                              <Typography className='elv_price_break'>Price Breakup</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                // minHeight: "fit-content",
+                                // maxHeight: "300px",
+                                // overflow: "auto",
+                                padding: '0 0 16px 0',
+
+                              }}
+                            >
+
+                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>
+                                    {
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }
+                                  </Typography>
+                                  &nbsp;
+                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {
+                                (
+
+                                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                  (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                  (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                  (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                  (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                  (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                ) !== 0 ?
+
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                        formatter((
+
+                                          (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                          (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                          (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                          (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                          (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                          (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                        )?.toFixed(2))
+                                      }</Typography>
+                                    </span>
+                                  </div>
+                                  :
+                                  null
+                              }
+
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
                       </div>
                     )}
 
@@ -1339,9 +1842,174 @@ const ProductDetail = () => {
                                     ))}
                                   </select>}
                               </div>
+                              <hr className='elv_ProductDet_divider_1' />
                             </div>
                           </div>
                         </>
+                      )}
+                      {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                        <Accordion
+                          elevation={0}
+                          sx={{
+                            borderBottom: "1px solid #c7c8c9",
+                            borderRadius: 0,
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                            {
+                              borderBottomLeftRadius: "0px",
+                              borderBottomRightRadius: "0px",
+                            },
+                            "&.MuiPaper-root.MuiAccordion-root:before":
+                            {
+                              background: "none",
+                            },
+                            width: '95.5%'
+                          }}
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon sx={{ width: "20px" }} />
+                            }
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            sx={{
+                              color: "#7d7f85 !important",
+                              borderRadius: 0,
+
+                              "&.MuiAccordionSummary-root": {
+                                padding: 0,
+                              },
+                            }}
+                          // className="filtercategoryLable"
+
+                          >
+                            <Typography className='elv_price_break'>Price Breakup</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              // minHeight: "fit-content",
+                              // maxHeight: "300px",
+                              // overflow: "auto",
+                              padding: '0 0 16px 0',
+
+                            }}
+                          >
+
+                            {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                              <span style={{ display: 'flex' }}>
+                                <Typography>
+                                  {
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }
+                                </Typography>
+                                &nbsp;
+                                <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                            </div> : null}
+
+                            {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+
+                              <span style={{ display: 'flex' }}>
+                                <Typography>{
+                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }</Typography>
+                                &nbsp;
+                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                            </div> : null}
+
+                            {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+
+                              <span style={{ display: 'flex' }}>
+                                <Typography>{
+                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }</Typography>
+                                &nbsp;
+                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                            </div> : null}
+
+                            {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+
+                              <span style={{ display: 'flex' }}>
+                                <Typography>{
+                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }</Typography>
+                                &nbsp;
+                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                            </div> : null}
+
+                            {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+
+                              <span style={{ display: 'flex' }}>
+                                <Typography>{
+                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                }</Typography>
+                                &nbsp;
+                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                              </span>
+                            </div> : null}
+
+                            {
+                              (
+
+                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                              ) !== 0 ?
+
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                      formatter((
+
+                                        (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                        (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                        (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                        (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                        (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                        (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                      )?.toFixed(2))
+                                    }</Typography>
+                                  </span>
+                                </div>
+                                :
+                                null
+                            }
+
+                          </AccordionDetails>
+                        </Accordion>
                       )}
                     </div>
                   )}
@@ -1411,7 +2079,44 @@ const ProductDetail = () => {
           </>
         )}
       </div>
-    </div>
+
+
+      <div className='elv_ProductDet_extra_stock_items'>
+        {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
+          <Stockitems
+            stockItemArr={stockItemArr}
+            storeInit={storeInit}
+            loginInfo={loginData}
+            cartArr={cartArr}
+            handleCartandWish={handleCartandWish}
+          />
+        )}
+      </div>
+
+      <div className='elv_ProductDet_semiliar_design'>
+        {storeInit?.IsProductDetailSimilarDesign == 1 &&
+          SimilarBrandArr?.length > 0 && (
+            <RelatedProduct
+              SimilarBrandArr={SimilarBrandArr}
+              handleMoveToDetail={handleMoveToDetail}
+              storeInit={storeInit}
+              loginInfo={loginData}
+            />
+          )}
+      </div>
+      <div className='elv_ProductDet_design_set'>
+
+        {storeInit?.IsProductDetailDesignSet === 1 && (
+          <DesignSet
+            designSetList={designSetList}
+            handleMoveToDetail={handleMoveToDetail}
+            imageNotFound={imageNotFound}
+            loginInfo={loginData}
+            storeInit={storeInit}
+          />
+        )}
+      </div>
+    </div >
   )
 }
 

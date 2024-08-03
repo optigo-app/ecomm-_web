@@ -121,7 +121,14 @@
     padding-left: 0;
     padding-right: 0;
 }
-
+.sticky_header_web_sm_hoq {
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 100px !important;
+    background-color: white;
+    z-index: 10; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
 
 @media screen and (max-width: 1441px) {
 
@@ -139,10 +146,26 @@
         position: relative;
         left: 130px;
     }
+    .sticky_header_web_sm_hoq {
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 100px !important;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
 }
 @media screen and (min-width: 1050px) {
     .hoqAccountTabMobileView{
         display: none;
+    }
+    .sticky_header_web_sm_hoq {
+        position: unset; /* For Safari */
+        position: unset;
+        top: 100px !important;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
     }
 }
 
@@ -173,6 +196,14 @@
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
         display: flex;
         align-items: start!important;
+    }
+    .sticky_header_web_sm_hoq {
+        position: unset; /* For Safari */
+        position: unset;
+        top: 100px !important;
+        background-color: white;
+        z-index: 1; /* Adjust z-index as needed */
+        padding: 10px 0;
     }
 }
 
@@ -208,6 +239,14 @@
     padding-right: 0 !important;
     margin-top: 50px !important;
    }
+   .sticky_header_web_sm_hoq {
+    position: unset; /* For Safari */
+    position: unset;
+    top: 100px !important;
+    background-color: white;
+    z-index: 1; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
 }
 
 /* 1px solid #e1e1e1 */
