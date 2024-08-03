@@ -27,7 +27,7 @@ import loadingGif from '../src/AllTheme/loading.gif'
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(4);
+  const [themeNo, setThemeNo] = useState(3);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)

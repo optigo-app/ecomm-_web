@@ -1443,7 +1443,7 @@ const ProductPage = () => {
                               (accumulator, data) => accumulator + data?.N,
                               0
                             )
-                            .toFixed(2)}ct)`}</li>
+                            .toFixed(3)}ct)`}</li>
                         </ul>
                         <ul className="hoq_mt_detail_title_ul">
                           <li className="hoq_proDeatilList">Shape</li>

@@ -368,6 +368,14 @@
         align-items: center;
         justify-content: center;
         flex: 1;
+        .logo {
+          width: 150px;
+          height: 150px;
+          margin-top: -0px !important;
+          img {
+            object-fit: contain !important;
+          }
+        }
         .navbar_menus {
           position: fixed;
           background-color: white;
@@ -545,8 +553,8 @@
   }
   @media screen and (max-width: 460px) {
     .navbar {
-      .nav_center{
-        .logo{
+      .nav_center {
+        .logo {
           margin-top: -0px !important;
         }
       }
@@ -616,7 +624,6 @@
     .navbar {
       .nav_right {
         flex: 1;
-        margin-right: -15px;
         margin-left: -4px;
       }
 

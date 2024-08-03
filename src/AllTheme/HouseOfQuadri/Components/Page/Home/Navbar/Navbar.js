@@ -615,8 +615,8 @@ const NavbarRightSide = ({
             </button>
           </Tooltip>
         ) : (
-          <Link to={"/LoginOption"}>
-            <small style={{ fontSize: "1rem" }}>
+          <Link to={"/LoginOption"} >
+            <small style={{ fontSize: "1rem" ,fontWeight  : "500"}}>
               Login
             </small>
           </Link>
@@ -684,14 +684,15 @@ const NavbarRightSide2 = ({
               />
             </Tooltip>
           </>
-        )  : <Link to={"/LoginOption"}>Login</Link>}
+        )  : <Link to={"/LoginOption"} style={{
+          fontWeight  : "500"
+        }}>Login</Link>}
 
         {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
       </div>
     </>
   );
 };
-
 const NavbarCenter = ({
   MainLogo,
   setisMobileMenu,
@@ -819,7 +820,9 @@ const NavbarCenter = ({
                   );
                 })}
               </ul>
-              {isMobileMenu && (
+            </>
+          )}
+           {isMobileMenu && (
                 <TemporaryDrawer
                   menuItems={menuItems}
                   handleMenu={handleMenu}
@@ -827,8 +830,6 @@ const NavbarCenter = ({
                   isMobileMenu={isMobileMenu}
                 />
               )}
-            </>
-          )}
         </div>
       </div>
     </>
