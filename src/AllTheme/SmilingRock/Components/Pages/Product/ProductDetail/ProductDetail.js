@@ -366,12 +366,13 @@ const ProductDetail = () => {
       mcArr =
       mtColorLocal?.filter(
           (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
+          // (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
         )[0]
     }
 
     setSelectMtColor(mcArr?.metalcolorname);
     
-  },[singleProd,singleProd1])
+  },[singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
@@ -998,9 +999,22 @@ function checkImageAvailability(imageUrl) {
       isImgCol = await checkImageAvailability(pdImgListCol[0])
     }
 
-    if(pdImgListCol?.length > 0 && (isImgCol == true)){
-      setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if(FinalPdColImgList?.length > 0 && (isImgCol == true)){
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({"link":FinalPdColImgList[thumbImgIndex],"type":'img'});
       setThumbImgIndex(thumbImgIndex)
       
     }
@@ -1306,6 +1320,8 @@ function checkImageAvailability(imageUrl) {
                                   });
                                   setThumbImgIndex(i);
                                 }}
+                                // onError={()=>{
+                                // }}
                               />
                             ))}
                           {pdVideoArr?.map((data) => (
@@ -1806,10 +1822,10 @@ function checkImageAvailability(imageUrl) {
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`Diamond Detail(${diaList?.reduce(
+                        >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${diaList
+                        )}/${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1840,10 +1856,10 @@ function checkImageAvailability(imageUrl) {
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`ColorStone Detail(${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
+                        >{`ColorStone Detail (${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele)=>ele?.D !== "MISC")
+                        )}/${csList?.filter((ele)=>ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2095,7 +2111,7 @@ function checkImageAvailability(imageUrl) {
                                             GWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.GrossWt}
+                                            {(ele?.GrossWt)?.toFixed(3)}
                                           </span>
                                         </span>
                                       </>
@@ -2107,7 +2123,7 @@ function checkImageAvailability(imageUrl) {
                                       <span className="smr_prod_wt">
                                         <span className="smr_d_keys">NWT:</span>
                                         <span className="smr_d_val">
-                                          {ele?.NetWt}
+                                          {(ele?.NetWt)?.toFixed(3)}
                                         </span>
                                       </span>
                                     </>
@@ -2134,7 +2150,7 @@ function checkImageAvailability(imageUrl) {
                                             DWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.DiaWt}
+                                            {(ele?.DiaWt)?.toFixed(3)}
                                             {storeInit?.IsDiamondPcs === 1
                                               ? `/${ele?.DiaPcs}`
                                               : null}
@@ -2152,7 +2168,7 @@ function checkImageAvailability(imageUrl) {
                                             CWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.CsWt}
+                                            {(ele?.CsWt)?.toFixed(3)}
                                             {storeInit?.IsStonePcs === 1
                                               ? `/${ele?.CsPcs}`
                                               : null}
@@ -2179,9 +2195,9 @@ function checkImageAvailability(imageUrl) {
                                 </span>
                                 &nbsp;
                                 <span> {
-                                // formatter.format(
+                                formatter.format(
                                   ele?.Amount
-                                  // )
+                                  )
                                   }</span>
                               </span>
                             </td>
@@ -2292,9 +2308,9 @@ function checkImageAvailability(imageUrl) {
                                   &nbsp;
                                   </spam>
                                   <span>{
-                                  // formatter.format(
+                                  formatter.format(
                                     ele?.UnitCostWithMarkUp
-                                    // )
+                                    )
                                     }</span>
                                 </div>
                               </div>
@@ -2425,9 +2441,9 @@ function checkImageAvailability(imageUrl) {
                                           }
                                           &nbsp;
                                           {
-                                          // formatter.format(
+                                          formatter.format(
                                             ele?.UnitCostWithMarkUp
-                                            // )
+                                            )
                                             }
                                         </p>
                                       </div>
