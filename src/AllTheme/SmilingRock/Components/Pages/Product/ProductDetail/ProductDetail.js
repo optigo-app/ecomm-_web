@@ -867,8 +867,7 @@ function checkImageAvailability(imageUrl) {
       finalprodListimg = imageNotFound;
     }
 
-    
-    
+    console.log("SearchData",pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -883,19 +882,22 @@ function checkImageAvailability(imageUrl) {
         pdvideoList.push(videoString);
       }
     }
+    else{
+      pdvideoList = [];
+    }
 
     let FinalPdImgList = [];
     
     if(pdImgList?.length > 0 ){
-      for(let i = 1; i <= pdImgList?.length ; i++ ){
-        let isImgAvl =  checkImageAvailability(pdImgList[i])
-  
+      for(let i = 0; i < pdImgList?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgList[i])
         if(isImgAvl){
           FinalPdImgList.push(pdImgList[i])
         }
       }
     }
-    
+
+    console.log("SearchData",singleProd);
 
     if(FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
@@ -917,6 +919,8 @@ function checkImageAvailability(imageUrl) {
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd,location?.key]);
+
+  
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");

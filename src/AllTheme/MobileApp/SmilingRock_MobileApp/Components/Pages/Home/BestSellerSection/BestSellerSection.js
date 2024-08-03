@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { smrMA_loginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
@@ -144,7 +144,7 @@ const BestSellerSection = () => {
                             <p className='ring1Desc'>{bestSellerData[i]?.designno}</p>
                             <p className='smr_bestSellerPrice'>
                                 <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                {bestSellerData[i]?.UnitCostWithMarkUp}
+                                {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
                             </p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ const BestSellerSection = () => {
                                 <p className='ring1Desc'>{bestSellerData[i + 1]?.designno}</p>
                                 <p className='smr_bestSellerPrice'>
                                     <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                    {bestSellerData[i + 1]?.UnitCostWithMarkUp}
+                                    {formatter(bestSellerData[i + 1]?.UnitCostWithMarkUp)}
                                 </p>
                             </div>
                         </div>
@@ -178,7 +178,7 @@ const BestSellerSection = () => {
              <p className='smr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
       </div>
         <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
+            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
         </div>
     </div>
     </div>

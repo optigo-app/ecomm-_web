@@ -122,17 +122,33 @@ const NewArrival = () => {
                                 <CardContent className='smr_newarrproduct-info'>
                                     <Typography variant='h6' className='smr_newArrTitle'>{product?.TitleLine}</Typography>
                                     <Typography variant='body2'>
-                                        <span className='smr_lb3detailDT'>GWT: </span>
-                                        <span className='smr_lb3detailDT'>{(product?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_lb3detailDT'>GWT: </span>
+                                                <span className='smr_lb3detailDT'>{(product?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            </>
+                                        }
                                         <span className='smr_lb3pipe'> | </span>
-                                        <span className='smr_lb3detailDT'>NWT : </span>
-                                        <span className='smr_lb3detailDT'>{(product?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_lb3detailDT'>NWT : </span>
+                                                <span className='smr_lb3detailDT'>{(product?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            </>
+                                        }
                                         <span className='smr_lb3pipe'> | </span>
-                                        <span className='smr_lb3detailDT'>DWT: </span>
-                                        <span className='smr_lb3detailDT'>{(product?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(product?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_lb3detailDT'>DWT: </span>
+                                                <span className='smr_lb3detailDT'>{(product?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(product?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                            </>
+                                        }
                                         <span className='smr_lb3pipe'> | </span>
-                                        <span className='smr_lb3detailDT'>CWT: </span>
-                                        <span className='smr_lb3detailDT'>{(product?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(product?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_lb3detailDT'>CWT: </span>
+                                                <span className='smr_lb3detailDT'>{(product?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(product?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                            </>
+                                        }
                                     </Typography>
                                     <p className='smr_newArrPrice'>
                                         <span

@@ -49,10 +49,12 @@ import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 
 import { RxGrid } from "react-icons/rx";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { TfiLayoutGrid3 } from "react-icons/tfi";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -277,7 +279,7 @@ const Lookbook = () => {
       Size: ele?.DefaultSize,
       Unitcost: ele?.UnitCost,
       markup: ele?.DesignMarkUp,
-      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      UnitCostWithmarkup: formatter(ele?.UnitCostWithMarkUp),
       Remark: "",
     };
 
@@ -333,7 +335,7 @@ const Lookbook = () => {
       Size: ele?.DefaultSize,
       Unitcost: ele?.UnitCost,
       markup: ele?.DesignMarkUp,
-      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      UnitCostWithmarkup: formatter(ele?.UnitCostWithMarkUp),
       Remark: "",
     };
   };
@@ -1342,9 +1344,9 @@ const Lookbook = () => {
                               }}
                             /> */}
                             &nbsp;
-                            {calculateTotalUnitCostWithMarkUp(
+                            {formatter(calculateTotalUnitCostWithMarkUp(
                               JSON.parse(slide.Designdetail)
-                            )}
+                            ))}
                           </p>
                           <button
                             className="smr_lookBookBuyBtn"
@@ -1561,9 +1563,9 @@ const Lookbook = () => {
                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
-                                {calculateTotalUnitCostWithMarkUp(
+                                {formatter(calculateTotalUnitCostWithMarkUp(
                                   JSON.parse(slide.Designdetail)
-                                )}
+                                ))}
                               </p>
                               <button
                                 className="smr_lookBookBuyBtn"
@@ -1838,7 +1840,7 @@ const Lookbook = () => {
                                                 {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                               </span>
                                               &nbsp;
-                                              {ele?.UnitCostWithMarkUp}
+                                              {formatter(ele?.UnitCostWithMarkUp)}
                                             </p>
                                           </div>
                                         </div>
@@ -1861,9 +1863,11 @@ const Lookbook = () => {
                                             <IconButton
                                               onClick={() => handleAddToCart(ele)}
                                             >
-                                              <LocalMallIcon className="smr_lookBookAddtoCartIconBtn" />
+                                              <LocalMallOutlinedIcon className="smr_lookBookAddtoCartIconBtn" />
                                             </IconButton>
                                           )}
+
+                                          
                                         </div>
                                       </div>
                                     </div>
@@ -1880,9 +1884,9 @@ const Lookbook = () => {
                                         {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                       &nbsp;
-                                      {calculateTotalUnitCostWithMarkUp(
+                                      {formatter(calculateTotalUnitCostWithMarkUp(
                                         JSON.parse(slide.Designdetail)
-                                      )}
+                                      ))}
                                     </span>
                                   </div>
                                   <div className="smr_lb3BuyComboDiv" onClick={() =>

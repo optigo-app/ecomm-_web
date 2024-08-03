@@ -14,9 +14,20 @@
         position: relative;
     }
 
+    .smrMA_desognSetTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+        // margin-top: 20px;
+        margin: 0;
+        padding: 0;
+        padding: 3% 0px 1% 0px;
+    }
+
     .card {
-        width: 230px;
-        height: 348px;
+        width: 350px;
+        height: 400px;
         border: 1px solid #e8e8e8;
         display: flex;
         flex-direction: column;
@@ -29,7 +40,7 @@
     .cardimg {
         width: 100%;
         object-fit: contain;
-        max-width: 230px;
+        max-width: 300px;
     }
 
     .subimgpart {
@@ -99,8 +110,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .smr_ds2ImageDiv{
-            background-color: #f1f1f1;
+
+        .smr_ds2ImageDiv {
+            background-color: $homePageColor;
             padding: 20px;
         }
     }
@@ -124,7 +136,48 @@
     }
 
     .swiper_w {
-        width: 215px;
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (max-width: 1400px) {
+        .card {
+            width: 200px;
+            height: 250px;
+            border: 1px solid #e8e8e8;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 5px;
+            background-color: white;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .subimgpart {
+            position: absolute;
+            top: 10%;
+            right: 7%;
+            z-index: 1;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .subimgpart {
+            position: relative;
+            top: 10%;
+            right: 0%;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card{
+            box-shadow: none!important;
+        }
     }
 
     @media (max-width: 768px) {
