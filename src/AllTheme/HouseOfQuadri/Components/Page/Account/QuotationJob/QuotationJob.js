@@ -26,8 +26,8 @@ import { getQuotationJobData } from '../../../../../../utils/API/AccountTabs/quo
 const CustomSortIcon = ({ order }) => {
   return (
     <>
-      {order === 'asc' && <ArrowUpwardIcon />}
-      {order === 'desc' && <ArrowDownwardIcon />}
+      {order === 'asc' && <ArrowUpwardIcon className='sorticon_ma_HOQ' />}
+      {order === 'desc' && <ArrowDownwardIcon className='sorticon_ma_HOQ' />}
     </>
   );
 };
@@ -880,7 +880,7 @@ const scrollToTop = () => {
                       >
                         {column.label}
                         {orderBy === column.id ? (
-                          <span style={{ display: 'flex', alignItems: 'right' }}>
+                          <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_HOQ'>
                             {orderBy === column?.id && (<CustomSortIcon order={order} />)}
                           </span>
                         ) : null}
