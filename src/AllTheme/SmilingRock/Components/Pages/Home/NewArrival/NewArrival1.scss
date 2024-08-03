@@ -54,18 +54,42 @@
             }
 
             .smr_newArrTitle {
-                font-size: $fontSize2 !important;
-                color: $titleColor !important;
+                font-size: $fontSize2;
+                color: $titleColor;
                 font-family: $primaryFontFamily;
                 letter-spacing: .5px;
             }
 
             p {
                 margin: 5px 0;
-                color: $titleColor !important;
-                font-size: $fontSize1 !important;
+                color: $titleColor;
+                font-size: $fontSize1;
                 font-family: $primaryFontFamily;
                 letter-spacing: .5px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .smr_newwArr1MainDiv {
+            .smr_NewArr1Title {
+                padding-block: 6%;
+            }
+        }
+
+        .smr_NewArrproduct-card {
+            .smr_newArr1Image {
+                padding: 10px !important;
+            }
+        }
+
+        .smr_newarrproduct-info {
+            .smr_newArrTitle{
+                font-size: $fontSize1 !important;
+            }
+            p {
+                font-size: $fontSize0 !important;
+                letter-spacing: .1px;
             }
         }
     }

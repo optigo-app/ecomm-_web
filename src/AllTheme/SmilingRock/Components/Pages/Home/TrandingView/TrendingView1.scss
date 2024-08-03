@@ -1,8 +1,6 @@
 @import '../../../scss/variable';
 
 .smr_mainTrending1Div {
-
-
     .smr_trending1TitleDiv {
         text-align: center;
         padding-block: 3%;
@@ -128,19 +126,100 @@
         }
 
         @media (max-width: 1200px) {
+            flex-direction: column;
+            align-items: center;
+
+            .smr_leftSideBestTR,
             .smr_rightSideTR {
                 width: 100%;
+            }
 
-                .product-card {
-                    width: calc(50% - 10px);
-                }
+            .smr_lookbookImageRightDT {
+                left: 50%;
+                transform: translate(-50%, -70%);
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            .smr_leftSideBestTR,
+            .smr_rightSideTR {
+                width: 100%;
+            }
+
+            .product-card {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
 
         @media (max-width: 768px) {
+            .smr_lookbookImageRightDT {
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                h2 {
+                    font-size: $fontSize5 !important;
+                }
+
+                p {
+                    font-size: $fontSize1 !important;
+                }
+
+                button {
+                    font-size: $fontSize1 !important;
+                }
+            }
+
+            .product-card {
+                width: 100%;
+                padding: 0;
+                margin: 0 0 10px 0;
+
+                .smr_btimageDiv {
+                    padding: 20px !important;
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .smr_mainTrending1Div {
+                .smr_trendingProduct-grid {
+                    padding: 0px 10px !important;
+                }
+            }
+
+            .smr_leftSideBestTR,
             .smr_rightSideTR {
-                .product-card {
-                    width: calc(50% - 10px);
+                width: 100%;
+                margin-top: 10px;
+                justify-content: center;
+                padding: 0;
+            }
+
+            .product-card {
+                width: 100%;
+                margin: 0 0 10px 0;
+
+                .smr_btimageDiv {
+                    padding: 10px !important;
+                }
+
+                .product-info {
+                    padding: 10px;
+
+                    h3 {
+                        font-size: $fontSize1 !important;
+                    }
+                    p {
+                        span {
+                            font-size: $fontSize2 !important;
+                        }
+                    }
+                    span {
+                        font-size: $fontSize0 !important;
+                        letter-spacing: .1px !important;
+                    }
                 }
             }
         }
