@@ -207,15 +207,30 @@ const Payment = () => {
                             <div class="smr_order-summary">
                                 <div class="smr_summary-item">
                                     <div class="smr_label">Subtotal</div>
-                                    <div class="smr_value">INR 1,15,24,587</div>
+                                    <div class="smr_value">
+                                        <span className="smr_currencyFont">
+                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>&nbsp;
+                                        <span>{formatter(finalTotal)}</span>
+                                    </div>
                                 </div>
                                 <div class="smr_summary-item">
                                     <div class="smr_label">Estimated Tax</div>
-                                    <div class="smr_value">INR 7,42,989</div>
+                                    <div class="smr_value">
+                                        <span className="smr_currencyFont">
+                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>&nbsp;
+                                        <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                    </div>
                                 </div>
                                 <div class="smr_summary-item">
                                     <div class="smr_label">Estimated Total</div>
-                                    <div class="smr_value">INR 1,22,67,576</div>
+                                    <div class="smr_value">
+                                        <span className="smr_currencyFont">
+                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>&nbsp;
+                                        <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                    </div>
                                 </div>
                             </div>
 
