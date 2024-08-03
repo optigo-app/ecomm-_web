@@ -90,7 +90,9 @@ const CartItem = ({
           <div>
             <CardContent className='smrMo_cartcontentData'>
               <Typography variant="body2" className='smrmo_DesignNoTExt'>
-                {item?.designno}
+                {item?.designno} {item?.StockNo != "" &&
+                  <span className='smrMO_DesignNoTExt'>({item?.StockNo})</span>
+                }
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{ marginRight: '5px' }}>
