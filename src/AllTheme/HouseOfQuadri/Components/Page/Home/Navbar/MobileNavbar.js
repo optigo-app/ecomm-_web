@@ -4,7 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-
 import {
   Accordion,
   AccordionDetails,
@@ -15,7 +14,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MdClose } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import { CiHeart } from "react-icons/ci";
+import { CiHeart, CiUser } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
@@ -26,6 +25,7 @@ import {
 } from "../../../Recoil/atom";
 import { useRecoilState } from "recoil";
 import { PiBagSimpleThin } from "react-icons/pi";
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa"; // Import specific icons
 
 export default function TemporaryDrawer({
   menuItems,
@@ -153,181 +153,236 @@ export default function TemporaryDrawer({
           )}
         </div>
       </div>
-      <ul
-        className="ul_hoq"
-        style={{
-          padding: "5px 10px",
-          margin: "0",
-        }}
-      >
-        {menuItems?.map((menuItem, i) => {
-          const { menuname, param1 } = menuItem;
+      {islogin ? (
+        <>
+          <ul
+            className="ul_hoq"
+            style={{
+              padding: "5px 10px",
+              margin: "0",
+            }}
+          >
+            {menuItems?.map((menuItem, i) => {
+              const { menuname, param1 } = menuItem;
 
-          return (
-            <React.Fragment key={i}>
-              <li
-                style={{
-                  listStyle: "none",
-                  padding: "0",
-                  margin: "0",
-                }}
-              >
-                <Accordion
-                  elevation={0}
-                  sx={{
-                    // borderBottom: "0.2px solid #c7c8c9",
-                    borderRadius: 0,
-                    padding: 0,
-                    margin: 0,
-                    "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                      borderBottomLeftRadius: "0px",
-                      borderBottomRightRadius: "0px",
-                    },
-                    "&.MuiPaper-root.MuiAccordion-root:before": {
-                      background: "none",
-                    },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                    sx={{
-                      color: "black",
-                      borderRadius: 0,
-                      fontWeight: "500",
-
-                      "&.MuiAccordionSummary-root": {
+              return (
+                <React.Fragment key={i}>
+                  <li
+                    style={{
+                      listStyle: "none",
+                      padding: "0",
+                      margin: "0",
+                    }}
+                  >
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        // borderBottom: "0.2px solid #c7c8c9",
+                        borderRadius: 0,
                         padding: 0,
-                      },
-                    }}
-                  >
-                    <span
-                      onClick={() =>
-                        handleMenu({
-                          menuname: menuname,
-                          key: menuItem?.param0name,
-                          value: menuItem?.param0dataname,
-                        })
-                      }
-                    >
-                      {menuname}
-                    </span>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
-                  >
-                    <li
-                      style={{
-                        marginLeft: "-16px",
-                        marginBottom: "1px",
+                        margin: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
                       }}
                     >
-                      <span
-                        onClick={() =>
-                          handleMenu({
-                            menuname: menuname,
-                            key: menuItem?.param0name,
-                            value: menuItem?.param0dataname,
-                          })
-                        }
-                        style={{ cursor: "pointer", fontSize: "16px" }}
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "black",
+                          borderRadius: 0,
+                          fontWeight: "500",
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
                       >
-                        View All
-                      </span>
-                    </li>
-                    {param1 &&
-                      param1?.length > 0 &&
-                      param1[0].param1name !== "" && (
-                        <ul
+                        <span
+                          onClick={() =>
+                            handleMenu({
+                              menuname: menuname,
+                              key: menuItem?.param0name,
+                              value: menuItem?.param0dataname,
+                            })
+                          }
+                        >
+                          {menuname}
+                        </span>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                        }}
+                      >
+                        <li
                           style={{
-                            display: "flex",
-                            margin: "0",
-                            listStyle: "none",
-                            flexDirection: "column",
-                            gap: "0.5rem",
-                            padding: "0",
+                            marginLeft: "-16px",
+                            marginBottom: "1px",
                           }}
                         >
-                          {param1?.map(({ param1dataname, param1name }, j) => (
-                            <li
+                          <span
+                            onClick={() =>
+                              handleMenu({
+                                menuname: menuname,
+                                key: menuItem?.param0name,
+                                value: menuItem?.param0dataname,
+                              })
+                            }
+                            style={{ cursor: "pointer", fontSize: "16px" }}
+                          >
+                            View All
+                          </span>
+                        </li>
+                        {param1 &&
+                          param1?.length > 0 &&
+                          param1[0].param1name !== "" && (
+                            <ul
                               style={{
-                                marginLeft: "-16px",
-                                fontSize: "16px",
+                                display: "flex",
+                                margin: "0",
+                                listStyle: "none",
+                                flexDirection: "column",
+                                gap: "0.5rem",
+                                padding: "0",
                               }}
                             >
-                              <span
-                                style={{
-                                  cursor: "pointer",
-                                }}
-                                onClick={() =>
-                                  handleMenu(
-                                    {
-                                      menuname: menuname,
-                                      key: menuItem?.param0name,
-                                      value: menuItem?.param0dataname,
-                                    },
-                                    {
-                                      key: param1name,
-                                      value: param1dataname,
-                                    }
-                                  )
-                                }
-                              >
-                                {param1dataname}
-                              </span>
-                              {/* level not needed its present below */}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                  </AccordionDetails>
-                </Accordion>
-                <Divider />
-              </li>
-            </React.Fragment>
-          );
-        })}
-      </ul>
-      <div
-        className="upper_Section"
-        style={{
-          display: "flex",
-          alignItems: "start",
-          flexDirection: "column",
-          padding: "5px 10px",
-        }}
-      >
-        {islogin && (
-          <Tooltip title="Logout">
-            <span
-              onClick={() => handleLogout()}
+                              {param1?.map(
+                                ({ param1dataname, param1name }, j) => (
+                                  <li
+                                    style={{
+                                      marginLeft: "-16px",
+                                      fontSize: "16px",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>
+                                        handleMenu(
+                                          {
+                                            menuname: menuname,
+                                            key: menuItem?.param0name,
+                                            value: menuItem?.param0dataname,
+                                          },
+                                          {
+                                            key: param1name,
+                                            value: param1dataname,
+                                          }
+                                        )
+                                      }
+                                    >
+                                      {param1dataname}
+                                    </span>
+                                    {/* level not needed its present below */}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          )}
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider />
+                  </li>
+                </React.Fragment>
+              );
+            })}
+          </ul>
+          <div
+            className="upper_Section"
+            style={{
+              display: "flex",
+              alignItems: "start",
+              flexDirection: "column",
+              padding: "5px 10px",
+            }}
+          >
+            {islogin && (
+              <Tooltip title="Logout">
+                <span
+                  onClick={() => handleLogout()}
+                  style={{
+                    color: "black",
+                    borderRadius: 0,
+                    fontWeight: "500",
+                    fontSize: "16px",
+                    padding: "10px 0",
+                    // marginTop: "5px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    // width: " 100%",
+                    cursor: "pointer",
+                    marginTop: "25px",
+                    bottom: "0",
+                    gap: "15px",
+                    alignItems: "center",
+                  }}
+                >
+                  Logout <FiLogOut size={18} />
+                </span>
+              </Tooltip>
+            )}
+          </div>
+        </>
+      ) : (
+        <ul
+          className="ul_hoq"
+          style={{
+            padding: "5px 10px",
+            margin: "0",
+          }}
+        >
+          <li
+            style={{
+              padding: "15px 12px",
+              fontSize: "1.2rem",
+            }}
+          >
+            <Link
+              to={"/LoginWithEmail"}
               style={{
+                textDecoration: "none",
                 color: "black",
-                borderRadius: 0,
-                fontWeight: "500",
-                fontSize: "16px",
-                padding: "10px 0",
-                // marginTop: "5px",
                 display: "flex",
-                justifyContent: "space-between",
-                // width: " 100%",
-                cursor: "pointer",
-                marginTop: "25px",
-                bottom: "0",
-                gap: "15px",
                 alignItems: "center",
+                gap: "8px",
               }}
             >
-              Logout <FiLogOut size={18} />
-            </span>
-          </Tooltip>
-        )}
-      </div>
+              <FaSignInAlt size={24} /> Login
+            </Link>
+          </li>
+          <Divider />
+          <li
+            style={{
+              padding: "15px 12px",
+              fontSize: "1.2rem",
+            }}
+          >
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+              to={"/Register"}
+            >
+              <FaUserPlus size={24} /> SignUp
+            </Link>
+          </li>
+          <Divider />
+        </ul>
+      )}
     </Box>
   );
 

@@ -510,6 +510,19 @@ const Lookbook = () => {
 
   return (
     <div className="smrMA_LookBookMain">
+      <p className="smrMA_SmiCartListTitle">
+        <span>
+          <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />
+          Look Book
+        </span>
+
+        <FilterAltIcon
+          fontSize="large"
+          style={{ color: "#c0bbb1" }}
+          className="smr_lookBookMobileFilter"
+          onClick={() => setIsDrawerOpen(true)}
+        />
+      </p>
       <Drawer
         open={isDrawerOpen}
         onClose={() => {
@@ -518,8 +531,8 @@ const Lookbook = () => {
         className="smr_filterDrawer"
       >
         {filterData?.length > 0 && (
-          <div className="smr_lookBookFilterSubDiv" style={{ padding: "20px" }}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div className="smr_lookBookFilterSubDiv" style={{ padding: "10px 20px 20px 20px" }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" , marginBottom: '20px'}}>
               <IoClose
                 style={{
                   width: "30px",
@@ -889,19 +902,7 @@ const Lookbook = () => {
         </div>
       ) : (
         <div>
-          <p className="smrMA_SmiCartListTitle">
-            <span>
-            <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />
-              Look Book
-            </span>
 
-            <FilterAltIcon
-                  fontSize="large"
-                  style={{ color: "#c0bbb1" }}
-                  className="smr_lookBookMobileFilter"
-                  onClick={() => setIsDrawerOpen(true)}
-                />
-          </p>
           <div className="smr_LookBookSubMainDiv">
             <div className="smr_lookbookFilterMain">
               {filterData?.length > 0 && (
@@ -1188,7 +1189,7 @@ const Lookbook = () => {
                   gap: '20px'
                 }}
               >
-              
+
                 <HtmlTooltip
                   title={<CustomTooltipContent categories={selectedCategories} />}
                 >
