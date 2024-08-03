@@ -27,7 +27,7 @@ import loadingGif from '../src/AllTheme/loading.gif'
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(2);
+  const [themeNo, setThemeNo] = useState(1);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -58,7 +58,7 @@ export default function ThemeRoutes() {
         setLoading(false);
 
         // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-        
+
         localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
         localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
         localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
@@ -87,9 +87,9 @@ export default function ThemeRoutes() {
             el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
           }
 
-          // if(response?.data?.Data?.rd[0]?.Themeno === 3){
-          smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-          // }
+          if (response?.data?.Data?.rd[0]?.Themeno === 4) {
+            smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+          }
 
           let title = response?.data?.Data?.rd[0]?.companyname;
           let favIcon = response?.data?.Data?.rd[0]?.favicon;
@@ -101,9 +101,10 @@ export default function ThemeRoutes() {
             behavior: "smooth",
           });
         }
-      }})
+      }
+    })
       .catch((err) => console.log(err))
-      // .finally(() => setLoading(false));
+    // .finally(() => setLoading(false));
   }, []);
 
   const callAllApi = () => {
@@ -174,7 +175,7 @@ export default function ThemeRoutes() {
         </div>
       ) : (
         <> */}
-        
+
       {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
