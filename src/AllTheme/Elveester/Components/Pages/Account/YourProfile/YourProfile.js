@@ -142,9 +142,9 @@ export default function YourProfile() {
                 //     errorsCopy.defaddress_shippinglastname = '';
                 // }
                 if (!value?.trim().length) {
-                    errorsCopy.defaddress_shippinglastname = "First Name is required";
+                    errorsCopy.defaddress_shippinglastname = "Last Name is required";
                 } else if (!/^[a-zA-Z\s]+$/.test(value?.trim())) {
-                    errorsCopy.defaddress_shippinglastname = "First Name must contain only letters";
+                    errorsCopy.defaddress_shippinglastname = "Last Name must contain only letters";
                 } else if (value.trim().length < 2) {
                     errorsCopy.defaddress_shippinglastname = "Enter minimum 2 characters";
                 } else if (value.trim().length > 45) {

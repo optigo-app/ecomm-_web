@@ -174,6 +174,7 @@ const ManageAddress = () => {
         // if (!formData.mobileNo.trim()) {
         //     errors.mobileNo = 'Mobile No. is required';
         // }
+
         if (!formData.mobileNo.trim()) {
             errorsCopy.mobileNo = 'Mobile No. is required';
         } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
@@ -332,6 +333,7 @@ const ManageAddress = () => {
         } finally {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
+
     };
     
     const handleClose = () => {
@@ -526,6 +528,7 @@ const ManageAddress = () => {
                 // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
 
         setErrors(errorsCopy);
+        
     };
 
     const loginDetail = () => {
