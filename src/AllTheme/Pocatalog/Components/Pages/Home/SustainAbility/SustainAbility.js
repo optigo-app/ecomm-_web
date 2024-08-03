@@ -4,7 +4,7 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 
 const SustainAbility = () => {
   return (
-    <div>
+    <div className='proCat_sustaionMain'>
         <div className='sustaionMain'>
         <div style={{ textAlign: 'center' }}>
           <p className='sustaionMainTitle'>Committed on Sustainability</p>

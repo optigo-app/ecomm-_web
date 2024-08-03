@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './ProductDetail.modul.scss'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
+import imageNotFound from '../../../Assets/image-not-found.jpg'
 import { Checkbox, Skeleton, useMediaQuery } from '@mui/material';
 import Pako from 'pako';
 import { el_CartCount, el_WishCount } from '../../../Recoil/atom';
@@ -18,6 +19,11 @@ import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/
 import { useSetRecoilState } from 'recoil';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import RelatedProduct from './RelatedProduct/RelatedProduct';
+import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
+import { DesignSetListAPI } from '../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI';
+import DesignSet from './DesignSet/DesignSet';
+import Stockitems from './InstockProduct/Stockitems';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -55,8 +61,15 @@ const ProductDetail = () => {
   const [wishListFlag, setWishListFlag] = useState(null);
   const location = useLocation();
 
+  const Navigate = useNavigate();
+
   const setCartCountVal = useSetRecoilState(el_CartCount)
   const setWishCountVal = useSetRecoilState(el_WishCount)
+  const [loadingdata, setloadingdata] = useState(false);
+  const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
+  const [designSetList, setDesignSetList] = useState();
+  const [stockItemArr, setStockItemArr] = useState([]);
+  const [cartArr, setCartArr] = useState({});
 
   let maxWidth1400px = useMediaQuery('(max-width:1400px)')
   let maxWidth1000px = useMediaQuery('(max-width:1000px)')
@@ -317,89 +330,226 @@ const ProductDetail = () => {
     }, 500)
   }, [singleProd])
 
-  useEffect(() => {
-    const navVal = location?.search.split('?p=')[1];
-    let decodeObj = decodeAndDecompress(navVal);
+  // useEffect(() => {
+  //   const navVal = location?.search.split('?p=')[1];
+  //   let decodeObj = decodeAndDecompress(navVal);
 
-    if (decodeObj) {
-      setDecodeUrl(decodeObj)
+  //   if (decodeObj) {
+  //     setDecodeUrl(decodeObj)
+  //   }
+
+  //   let metalArr;
+  //   let diaArr;
+  //   let csArr;
+
+  //   if (mTypeLocal?.length) {
+  //     metalArr = mTypeLocal?.find((ele) => {
+  //       return ele?.Metalid === decodeObj?.m
+  //     })?.Metalid ?? mTypeLocal[0]?.Metalid
+  //   }
+  //   if (diaQcLocal) {
+  //     diaArr = diaQcLocal?.find((ele) => {
+  //       return ele?.QualityId == decodeObj?.d?.split(',')[0] &&
+  //         ele?.ColorId == decodeObj?.d?.split(",")[1]
+  //     }) ?? diaQcLocal[0]
+  //   }
+  //   if (csQcLocal) {
+  //     csArr = csQcLocal?.find((ele) => {
+  //       return ele?.QualityId == decodeObj?.c?.split(',')[0] &&
+  //         ele?.ColorId == decodeObj?.c?.split(",")[1]
+  //     }) ?? csQcLocal[0];
+  //   }
+
+
+  //   setMetalType(metalArr?.metaltype)
+  //   setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
+  //   setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
+  //   setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
+  //   setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
+
+  //   const FetchProductData = async () => {
+  //     let obj = {
+  //       mt: metalArr,
+  //       diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+  //       csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+  //     }
+
+  //     // setisPriceLoading(true)
+
+  //     const res1 = await SingleProdListAPI(decodeObj, sizeData, obj, cookie)
+  //     if (res1) {
+  //       setSingleProd(res1?.pdList[0])
+  //     }
+
+  //     // if(res?.pdList?.length > 0){
+  //     //   setisPriceLoading(false)
+  //     // }
+
+  //     setnetWTData(res1?.pdList[0]);
+  //     setDiaList(res1?.pdResp?.rd3)
+  //     setCsList(res1?.pdResp?.rd4)
+
+  //     let prod = res1?.pdList?.[0];
+
+  //     const res2 = await getSizeData(prod, cookie);
+  //     if (res2) {
+  //       setSizeCombo(res2?.Data)
+  //     }
+
+  //     const initialsize =
+  //       (prod && prod?.DefaultSize !== '') ? prod?.DefaultSize :
+  //         (SizeCombo?.rd?.find((size) => size?.DefaultSize === 1)?.sizename === undefined
+  //           ? SizeCombo?.rd?.[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+
+  //     setSizeData(initialsize)
+
+  //   }
+
+  //   FetchProductData()
+
+  //   window.scroll({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+
+  // }, [location?.key])
+
+  useEffect(() => {
+    let navVal = location?.search.split("?p=")[1];
+    let decodeobj = decodeAndDecompress(navVal);
+    if (decodeobj) {
+      setDecodeUrl(decodeobj);
     }
+
+    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(
+      localStorage.getItem("diamondQualityColorCombo")
+    );
+
+    let csQcLocal = JSON.parse(
+      localStorage.getItem("ColorStoneQualityColorCombo")
+    );
 
     let metalArr;
     let diaArr;
     let csArr;
 
-    if (mTypeLocal?.length) {
-      metalArr = mTypeLocal?.find((ele) => {
-        return ele?.Metalid === decodeObj?.m
-      })?.Metalid ?? mTypeLocal[0]?.Metalid
+    if (mtTypeLocal?.length) {
+      metalArr =
+        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
+          ?.Metalid ?? mtTypeLocal[0]?.Metalid;
     }
+
     if (diaQcLocal) {
-      diaArr = diaQcLocal?.find((ele) => {
-        return ele?.QualityId == decodeObj?.d?.split(',')[0] &&
-          ele?.ColorId == decodeObj?.d?.split(",")[1]
-      }) ?? diaQcLocal[0]
+      diaArr =
+        diaQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.d?.split(",")[1]
+        )[0] ?? diaQcLocal[0];
     }
+
     if (csQcLocal) {
-      csArr = csQcLocal?.find((ele) => {
-        return ele?.QualityId == decodeObj?.c?.split(',')[0] &&
-          ele?.ColorId == decodeObj?.c?.split(",")[1]
-      }) ?? csQcLocal[0];
+      csArr =
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.c?.split(",")[1]
+        )[0] ?? csQcLocal[0];
     }
-
-
-    setMetalType(metalArr?.metaltype)
-    setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`)
-    setShowDiaQc(`${diaArr?.Quality}#${diaArr?.color}`)
-    setSelectCsQC(`${csArr?.Quality},${csArr?.color}`)
-    setShowCsQC(`${csArr?.Quality}#${csArr?.color}`)
-
+    setloadingdata(true);
     const FetchProductData = async () => {
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
-      }
+      };
 
-      // setisPriceLoading(true)
+      setisPriceLoading(true);
 
-      const res1 = await SingleProdListAPI(decodeObj, sizeData, obj, cookie)
-      if (res1) {
-        setSingleProd(res1?.pdList[0])
-      }
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
+        .then(async (res) => {
+          if (res) {
+            setSingleProd(res?.pdList[0]);
 
-      // if(res?.pdList?.length > 0){
-      //   setisPriceLoading(false)
-      // }
+            if (res?.pdList?.length > 0) {
+              setisPriceLoading(false);
+              setloadingdata(false);
+            }
 
-      setnetWTData(res1?.pdList[0]);
-      setDiaList(res1?.pdResp?.rd3)
-      setCsList(res1?.pdResp?.rd4)
+            if (!res?.pdList[0]) {
+              setisPriceLoading(false);
+              // setIsDataFound(true);
+            }
 
-      let prod = res1?.pdList?.[0];
+            setDiaList(res?.pdResp?.rd3);
+            setCsList(res?.pdResp?.rd4);
 
-      const res2 = await getSizeData(prod, cookie);
-      if (res2) {
-        setSizeCombo(res2?.Data)
-      }
+            let prod = res?.pdList[0];
 
-      const initialsize =
-        (prod && prod?.DefaultSize !== '') ? prod?.DefaultSize :
-          (SizeCombo?.rd?.find((size) => size?.DefaultSize === 1)?.sizename === undefined
-            ? SizeCombo?.rd?.[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+            let initialsize =
+              prod && prod.DefaultSize !== ""
+                ? prod?.DefaultSize
+                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                    ?.sizename;
 
-      setSizeData(initialsize)
+            setSizeData(initialsize);
 
-    }
+            // await SingleFullProdPriceAPI(decodeobj).then((res) => {
+            //   setSingleProdPrice(res);
+            //   console.log("singlePrice", res);
+            // });
+          }
+          return res;
+        })
+        .then(async (resp) => {
+          if (resp) {
+            await getSizeData(resp?.pdList[0], cookie)
+              .then((res) => {
+                console.log("Sizeres", res);
+                setSizeCombo(res?.Data);
+              })
+              .catch((err) => console.log("SizeErr", err));
 
-    FetchProductData()
+            await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
+              .then((res) => {
+                setStockItemArr(res?.Data?.rd);
+              })
+              .catch((err) => console.log("stockItemErr", err));
+
+            await StockItemApi(
+              resp?.pdList[0]?.autocode,
+              "similarbrand",
+              obj,
+              cookie
+            )
+              .then((res) => {
+                setSimilarBrandArr(res?.Data?.rd);
+              })
+              .catch((err) => console.log("similarbrandErr", err));
+
+            await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
+              .then((res) => {
+                console.log("designsetList", res?.Data?.rd[0]);
+                setDesignSetList(res?.Data?.rd);
+              })
+              .catch((err) => console.log("designsetErr", err));
+          }
+        })
+        .catch((err) => console.log("err", err));
+    };
+
+    FetchProductData();
 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
-
-  }, [location?.key])
+  }, [location?.key]);
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
@@ -696,6 +846,85 @@ const ProductDetail = () => {
     console.log('netWTData: ', netWTData);
     console.log("first", singleProd1?.Nwt)
   }, [])
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (productData) => {
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    Navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+
+  const handleCartandWish = (e, ele, type) => {
+    // console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+
+    let prodObj = {
+      StockId: ele?.StockId,
+      // "autocode": ele?.autocode,
+      // "Metalid": ele?.MetalPurityid,
+      // "MetalColorId": ele?.MetalColorid,
+      // "DiaQCid": loginInfo?.cmboDiaQCid,
+      // "CsQCid": loginInfo?.cmboCSQCid,
+      // "Size": ele?.Size,
+      Unitcost: ele?.Amount,
+      // "UnitCostWithmarkup": ele?.Amount,
+      // "Remark": ""
+    };
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    } else {
+      RemoveCartAndWishAPI(type, ele?.StockId, cookie, true)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.StockId]: e.target.checked,
+      }));
+    }
+  };
+
 
 
   return (
@@ -1409,6 +1638,43 @@ const ProductDetail = () => {
               <TableComponents list={csList} details={'Color Stone Details'} />
             </div>
           </>
+        )}
+      </div>
+
+
+      <div className='elv_ProductDet_extra_stock_items'>
+        {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
+          <Stockitems
+            stockItemArr={stockItemArr}
+            storeInit={storeInit}
+            loginInfo={loginData}
+            cartArr={cartArr}
+            handleCartandWish={handleCartandWish}
+          />
+        )}
+      </div>
+
+      <div className='elv_ProductDet_semiliar_design'>
+        {storeInit?.IsProductDetailSimilarDesign == 1 &&
+          SimilarBrandArr?.length > 0 && (
+            <RelatedProduct
+              SimilarBrandArr={SimilarBrandArr}
+              handleMoveToDetail={handleMoveToDetail}
+              storeInit={storeInit}
+              loginInfo={loginData}
+            />
+          )}
+      </div>
+      <div className='elv_ProductDet_design_set'>
+
+        {storeInit?.IsProductDetailDesignSet === 1 && (
+          <DesignSet
+            designSetList={designSetList}
+            handleMoveToDetail={handleMoveToDetail}
+            imageNotFound={imageNotFound}
+            loginInfo={loginData}
+            storeInit={storeInit}
+          />
         )}
       </div>
     </div>

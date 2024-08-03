@@ -180,12 +180,22 @@
     font-size: 14px;
     background-color: #F4F4F4;
     color: #8E7B8E;
-    font-weight: "400";
-    cursor: "pointer";
-    text-transform: "uppercase";
-    letter-spacing: "2px";
-    padding: 0px 4px !important;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    width: 100%;
+    padding: 2px 8px !important;
+    border: 1px solid #bbbbbb;
+    outline: none;
+
+    :focus{
+      outline: none;
+    }
   }
+
+  .elv_price_tags {}
 
   // .elv_trend_drp *{
   //   font-size: 14px;
@@ -198,21 +208,41 @@
   //   padding: 0px 4px !important;
   // }
   .elv_metal_drp {
-    color: #8E7B8E;
-    background-color: #F4F4F4;
     font-size: 14px;
+    background-color: #F4F4F4;
+    color: #8E7B8E;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    padding: 0px 4px;
+    width: 100%;
+    padding: 2px 8px !important;
+    border: 1px solid #bbbbbb;
+    outline: none;
+
+    :focus{
+      outline: none;
+    }
   }
 
   .elv_diamond_drp {
-    color: #8E7B8E;
-    background-color: #F4F4F4;
     font-size: 14px;
+    background-color: #F4F4F4;
+    color: #8E7B8E;
+    font-weight: 400;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    padding: 0px 4px;
+    padding: 2px 8px !important;
+    border: 1px solid #bbbbbb;
+    outline: none;
+
+    :focus{
+      outline: none;
+    }
   }
 
   .elv_filteration_rows_3 {
@@ -324,7 +354,7 @@
       display: block;
       text-transform: uppercase;
       line-height: 1;
-      position: relative;
+      // position: relative;
       cursor: pointer;
       list-style: none;
       color: #1f1919 !important;
@@ -337,7 +367,7 @@
   .elv_filtered_category_div {
     height: 100%;
     margin-right: 12px;
-    position: sticky;
+    // position: sticky;
   }
 
   .elv_category_names {
@@ -394,6 +424,13 @@
   .elv_filtered_data_by_grid_other {
     display: flex;
     flex: 1 100%;
+    height: fit-content;
+    flex-direction: row;
+  }
+
+  .elv_filtered_data_by_grid_other_1 {
+    display: flex;
+    flex: 1 80%;
     height: fit-content;
     flex-direction: row;
   }
@@ -751,6 +788,7 @@
 
   .elv_filter_sort_by_hide {
     display: none;
+    width: 0px;
   }
 
   .elv_filter_row3_inner_div {
@@ -801,6 +839,10 @@
     color: #CBC7C7;
   }
 
+  .elv_prod_weight_span_1_design{
+    font-size: 17px;
+  }
+
   .elv_prod_weight_span_2 {
     color: #292727;
   }
@@ -810,6 +852,13 @@
     flex-direction: column;
     align-items: start;
     margin-right: 10px;
+
+    .elv_price_div {
+      font-weight: bold;
+      text-align: left;
+      font-size: 17px;
+    }
+
   }
 
   .elv_subCategory_name_price {
@@ -873,6 +922,16 @@
 
   }
 
+  @media screen and (max-width: 1200px) {
+    .elv_trend_drp {
+      font-size: 12px;
+  
+      :focus{
+        outline: none;
+      }
+    }
+  }
+
   @media screen and (max-width: 1000px) {
     .elv_filtered_prodlists_1 {
       width: 49.4%;
@@ -887,6 +946,10 @@
     .elv_filtered_prodlists_3 {
       width: 24.3%;
       height: fit-content;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
     }
 
     .elv_filtered_icons {
@@ -972,8 +1035,20 @@
     }
 
     .elv_trend_drp {
-      font-size: 12px;
+      font-size: 11px;
     }
+
+    .elv_filtered_prod_price{
+      .elv_price_div {
+        font-weight: bold;
+          text-align: left;
+          font-size: 12px;
+      } 
+      .elv_prod_weight_span_1_design{
+        font-size: 10px;
+      }
+    }
+     
   }
 
   @media screen and (max-width: 460px) {
@@ -992,7 +1067,7 @@
     }
 
     .elv_trend_drp {
-      font-size: 10px;
+      font-size: 15px;
     }
   }
 
@@ -1012,7 +1087,7 @@
     }
 
     .elv_trend_drp {
-      font-size: 8px;
+      font-size: 12px;
     }
 
     .elv_filteration_rows_1_filter {
@@ -1066,7 +1141,7 @@
     }
 
     .elv_trend_drp {
-      font-size: 8px;
+      font-size: 12px;
     }
 
     .elv_filtered_prod_weights {
