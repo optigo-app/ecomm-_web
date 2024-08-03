@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { FaHome, FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaHome, FaUser, FaEnvelope, FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from "react-icons/fa";
 import { useRecoilValue } from 'recoil';
 import { Badge, Button, Tooltip } from '@mui/material';
@@ -16,11 +16,13 @@ const HomeTab = () => {
   const getCartListCount = useRecoilValue(smrMA_CartCount)
   const islogin = useRecoilValue(smrMA_loginState);
   const location = useLocation();
+  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+  const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
   useEffect(() => {
     setActiveTab(location.pathname);
-  },[location.pathname])
-  
+  }, [location.pathname])
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -58,7 +60,7 @@ const HomeTab = () => {
 
   return (
     <>
-      {location.pathname == '/d' || location.pathname == '/myWishList'|| location.pathname == '/CartPage'|| location.pathname == '/payment'|| location.pathname == '/Confirmation' ?
+      {location.pathname == '/d' || location.pathname == '/myWishList' || location.pathname == '/CartPage' || location.pathname == '/payment' || location.pathname == '/Confirmation' ?
         <>
           {/* <button
             style={{
@@ -152,6 +154,34 @@ const HomeTab = () => {
                 <span style={activeTab === "/WithoutLoginCart" ? styles.activeText : styles.text}>Cart</span>
               </Button>
             </NavLink>}
+
+          {IsB2BWebsiteChek === 1 ? (
+            islogin === true ? (
+              <>
+                {storeinit?.IsDesignSetInMenu == 1 &&
+                  <NavLink to="/Lookbook" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/Lookbook")}>
+                    <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
+                      <FaShoppingBag  style={activeTab === "/Lookbook" ? styles.activeIcon : styles.icon} />
+                      <span style={activeTab === "/Lookbook" ? styles.activeText : styles.text}>LOOKBOOK</span>
+                    </Button>
+                  </NavLink>
+                }
+              </>
+            ) : (
+              ""
+            )
+          ) : (
+            <>
+              {storeinit?.IsDesignSetInMenu == 1 &&
+                <NavLink to="/Lookbook" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/Lookbook")}>
+                  <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
+                    <FaShoppingBag  style={activeTab === "/Lookbook" ? styles.activeIcon : styles.icon} />
+                    <span style={activeTab === "/Lookbook" ? styles.activeText : styles.text}>LOOKBOOK</span>
+                  </Button>
+                </NavLink>
+              }
+            </>
+          )}
         </div>
       }
     </>

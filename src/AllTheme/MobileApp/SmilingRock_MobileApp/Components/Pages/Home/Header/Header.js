@@ -184,7 +184,7 @@ const Header = () => {
         (location.pathname === "CartPage") ?
           ""
           :
-          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true? '113px' : '60px' : '113px' }}>
+          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true ? '113px' : '60px' : '113px' }}>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'>
                 {/* <a href="/"> */}
@@ -286,11 +286,12 @@ const Header = () => {
             </div>
 
 
-            <div
-              className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
-            >
-              {isB2bFlag == 1 ?
-                islogin == true ?
+            {isB2bFlag == 1 ?
+              islogin == true ?
+                <div
+                  className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
+                >
+
                   <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
                     <input
                       type="text"
@@ -307,8 +308,13 @@ const Header = () => {
                     />
                     <SearchIcon onClick={handleNaviagteSearch} />
                   </div>
-                  : ''
-                :
+                </div>
+                : ''
+              :
+              <div
+                className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
+              >
+
                 <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
                   <input
                     type="text"
@@ -325,8 +331,10 @@ const Header = () => {
                   />
                   <SearchIcon onClick={handleNaviagteSearch} />
                 </div>
-              }
-            </div>
+              </div>
+            }
+
+
           </div>
       }
     </div>

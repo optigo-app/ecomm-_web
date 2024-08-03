@@ -1,11 +1,11 @@
 import React from 'react'
-import './sustain.css'
+import './Sustain.modul.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const SustainAbility = () => {
   return (
     <>
-      <div className='sustaionMain'>
+      <div className='smarMA_sustaionMain'>
         <div style={{ textAlign: 'center' }}>
           <p className='sustaionMainTitle'>Committed on Sustainability</p>
           <p className='sustaionMainTitle2'>For our planet, our home, and our future</p>

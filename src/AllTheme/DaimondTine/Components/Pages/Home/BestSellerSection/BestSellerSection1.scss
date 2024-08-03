@@ -32,7 +32,7 @@
 
                 .smr_btimageDiv {
                     padding: 20px;
-                    background-color: #f1f1f1;
+                    background-color: $homePageColor;
 
                     img {
                         width: 100%;
@@ -128,18 +128,46 @@
 
         @media (max-width: 1200px) {
             .smr_leftSideBestSeler {
-                width: 100%;
+                width: 60%;
 
                 .product-card {
                     width: calc(50% - 10px);
                 }
             }
+
+            .smr_rightSideBestSeler{
+                width: 40%;
+            }
         }
 
+        @media (max-width: 950px) {
+            .smr_rightSideBestSeler{
+                width: 100%;
+                order: 1;
+            }
+
+            .smr_leftSideBestSeler {
+                width: 100%;
+                order: 2;
+                margin-top: 10px;
+                .product-card { 
+                    width: calc(50% - 10px);
+                }
+            }
+
+        }
         @media (max-width: 768px) {
             .smr_leftSideBestSeler {
                 .product-card {
-                    width: calc(50% - 10px);
+                    width: calc(50% - 8px);
+                }
+            }
+        }
+
+        @media (max-width: 500px) {
+            .smr_leftSideBestSeler {
+                .product-card {
+                    width: calc(50% - 5px);
                 }
             }
         }

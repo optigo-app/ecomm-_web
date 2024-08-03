@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
 import { smrMA_loginState } from '../../../Recoil/atom';
@@ -153,7 +153,7 @@ const TrendingView = () => {
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
                             <p className='smr_bestSellerPrice'>
                                 <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                {trandingViewData[i]?.UnitCostWithMarkUp}
+                                {formatter(trandingViewData[i]?.UnitCostWithMarkUp)}
                             </p>
                         </div>
                     </div>
@@ -166,7 +166,7 @@ const TrendingView = () => {
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>
                                 <p className='smr_bestSellerPrice'>
                                     <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                    {trandingViewData[i + 1]?.UnitCostWithMarkUp}
+                                    {formatter(trandingViewData[i + 1]?.UnitCostWithMarkUp)}
                                 </p>
                             </div>
                         </div>
@@ -181,7 +181,7 @@ const TrendingView = () => {
         <div className='smrMA_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
-                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
+                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg1.jpg`} className='linkingLoveImageDesign' />
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>
