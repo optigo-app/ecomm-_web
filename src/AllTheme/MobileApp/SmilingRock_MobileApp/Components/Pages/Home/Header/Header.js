@@ -119,15 +119,15 @@ const Header = () => {
 
   console.log('ddddddddd', location);
 
-  const handleNaviagteSearch = () =>{
+  const handleNaviagteSearch = () => {
 
-    if(isB2bFlag == 1){
-      if(islogin == false){
+    if (isB2bFlag == 1) {
+      if (islogin == false) {
 
-      }else{
+      } else {
         navigation('/SearchPage')
       }
-    }else{
+    } else {
       navigation('/SearchPage')
     }
   }
@@ -150,7 +150,7 @@ const Header = () => {
                   }
                 }}
               />
-              <div style={{width: '30px'}} onClick={(e) => searchDataFucn(e)} >
+              <div style={{ width: '30px' }} onClick={(e) => searchDataFucn(e)} >
                 <SearchIcon />
               </div>
             </div>
@@ -184,7 +184,7 @@ const Header = () => {
         (location.pathname === "CartPage") ?
           ""
           :
-          <div className='smrMA_HeaderMain'>
+          <div className='smrMA_HeaderMain' style={{ height: isB2bFlag == 1 ? islogin == true? '113px' : '60px' : '113px' }}>
             <div className='smrMA_Top_header_sub'>
               <div className='smrMA_Div1Main'>
                 {/* <a href="/"> */}
@@ -242,12 +242,77 @@ const Header = () => {
                 }
 
               </div>
-              <div>
+              {isB2bFlag == 1 ?
+                islogin == true ?
+                  <div>
+                    <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        // value={searchText}
+                        // onChange={(e) => setSearchText(e.target.value)}
+                        className="searchBoxOnlyHeaderFiexed"
+                      // onKeyDown={(event) => {
+                      //   if (event.key === 'Enter') {
+                      //     searchDataFucn();
+                      //     setSerachShowOverlay(false);
+                      //   }
+                      // }}
+                      />
+                      <SearchIcon onClick={handleNaviagteSearch} />
+                    </div>
+                  </div>
+                  : ''
+                :
+                <div>
+                  <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      // value={searchText}
+                      // onChange={(e) => setSearchText(e.target.value)}
+                      className="searchBoxOnlyHeaderFiexed"
+                    // onKeyDown={(event) => {
+                    //   if (event.key === 'Enter') {
+                    //     searchDataFucn();
+                    //     setSerachShowOverlay(false);
+                    //   }
+                    // }}
+                    />
+                    <SearchIcon onClick={handleNaviagteSearch} />
+                  </div>
+                </div>
+              }
+            </div>
+
+
+            <div
+              className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
+            >
+              {isB2bFlag == 1 ?
+                islogin == true ?
+                  <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      // value={searchText}
+                      // onChange={(e) => setSearchText(e.target.value)}
+                      className="searchBoxOnlyHeaderFiexed"
+                    // onKeyDown={(event) => {
+                    //   if (event.key === 'Enter') {
+                    //     searchDataFucn();
+                    //     setSerachShowOverlay(false);
+                    //   }
+                    // }}
+                    />
+                    <SearchIcon onClick={handleNaviagteSearch} />
+                  </div>
+                  : ''
+                :
                 <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
                   <input
                     type="text"
                     placeholder="Search..."
-                    disabled
                     // value={searchText}
                     // onChange={(e) => setSearchText(e.target.value)}
                     className="searchBoxOnlyHeaderFiexed"
@@ -260,30 +325,7 @@ const Header = () => {
                   />
                   <SearchIcon onClick={handleNaviagteSearch} />
                 </div>
-              </div>
-
-            </div>
-
-            <div
-              className={`smrMA_Fixed_Header ${isHeaderFixed ? "fixed" : ""}`}
-            >
-              <div className="searchBoxOnlyHeaderFiexedMain" onClick={handleNaviagteSearch}>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  disabled
-                  // value={searchText}
-                  // onChange={(e) => setSearchText(e.target.value)}
-                  className="searchBoxOnlyHeaderFiexed"
-                // onKeyDown={(event) => {
-                //   if (event.key === 'Enter') {
-                //     searchDataFucn();
-                //     setSerachShowOverlay(false);
-                //   }
-                // }}
-                />
-                <SearchIcon onClick={handleNaviagteSearch} />
-              </div>
+              }
             </div>
           </div>
       }

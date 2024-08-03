@@ -136,7 +136,8 @@ const Album1 = () => {
                                             alt={design?.TitleLine}
                                             loading="lazy"
                                         />
-                                        <div className="design-info">
+                                    </div>
+                                    <div className="design-info">
                                             <p className='smr_album1Titleline'>{design?.TitleLine}</p>
                                             <p className='smr_album1price'>
                                                 <span
@@ -148,7 +149,6 @@ const Album1 = () => {
                                                     }}
                                                 /> {formatter(design?.UnitCostWithMarkUp)}</p>
                                         </div>
-                                    </div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>

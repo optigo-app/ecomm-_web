@@ -870,16 +870,65 @@ const ProductDetail = () => {
 
   // }
 
-  const ProdCardImageFunc = () => {
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const ProdCardImageFunc = async() => {
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
 
     let pd = singleProd;
 
-    console.log("singleProdImageCount", pd?.ImageCount);
+    let colImg;
 
-    if (pd?.ImageCount > 0) {
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if(mtColorLocal?.length){
+      mcArr =
+      mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0]
+    }
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_"+ mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
+      }
+
+      if(pdImgList?.length > 0){
+        colImg = pdImgList[0]
+      }
+    } 
+
+
+    let IsColImg = false;
+    if(colImg?.length > 0 ){
+      IsColImg = await checkImageAvailability(colImg)
+    }
+
+    console.log("colImg",IsColImg)
+    
+    if (pd?.ImageCount > 0 && !IsColImg ) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
@@ -888,11 +937,17 @@ const ProductDetail = () => {
           i +
           "." +
           pd?.ImageExtension;
-        pdImgList.push(imgString);
+
+          let IsImg = checkImageAvailability(imgString)
+          if(IsImg){
+            pdImgList.push(imgString);
+          }
       }
     } else {
       finalprodListimg = imageNotFound;
     }
+
+    console.log("SearchData",pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -907,11 +962,27 @@ const ProductDetail = () => {
         pdvideoList.push(videoString);
       }
     }
+    else{
+      pdvideoList = [];
+    }
 
-    if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[0];
-      setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
-      setPdThumbImg(pdImgList);
+    let FinalPdImgList = [];
+    
+    if(pdImgList?.length > 0 ){
+      for(let i = 0; i < pdImgList?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgList[i])
+        if(isImgAvl){
+          FinalPdImgList.push(pdImgList[i])
+        }
+      }
+    }
+
+    console.log("SearchData",singleProd);
+
+    if(FinalPdImgList?.length > 0) {
+      finalprodListimg = FinalPdImgList[0];
+      setSelectedThumbImg({"link":FinalPdImgList[0],"type":'img'});
+      setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
     }
 
@@ -920,28 +991,21 @@ const ProductDetail = () => {
     }
 
     return finalprodListimg;
+
+    
   };
 
   console.log("pdThumbImg", pdThumbImg);
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd]);
+  }, [singleProd,location?.key]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   };
-
-  function checkImageAvailability(imageUrl) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = imageUrl;
-    });
-  }
 
   const handleMetalWiseColorImg = async(e) => {
 
@@ -1116,6 +1180,19 @@ const ProductDetail = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj))
 
     navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
+
+  }
+
+  const SizeSorting = (SizeArr) =>{
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
 
   }
 
@@ -1335,7 +1412,7 @@ const ProductDetail = () => {
                         </div>
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                      {SizeCombo?.length > 0 && <div className="smr_single_prod_customize_outer">
+                      {SizeSorting(SizeCombo?.rd)?.length > 0 && <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
                         <select
                           className="menuitemSelectoreMain"
@@ -1601,7 +1678,7 @@ const ProductDetail = () => {
             </div>
 
             <div className="smrMA_material_details_portion">
-              {diaList?.length > 0 && <p className="smr_app_details_title"> Product Details</p>}
+              {(diaList?.length > 0 || csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 || csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0)  && (<p className="smr_app_details_title"> Product Details</p>)}
               {diaList?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
@@ -1626,8 +1703,8 @@ const ProductDetail = () => {
                       <li className="smr_proDeatilList_mobileapp1">{data?.H}</li>
                       <li className="smr_proDeatilList_mobileapp1">{data?.J}</li>
                       <li className="smr_proDeatilList_mobileapp1">
-                            {data.M}&nbsp;&nbsp;{data?.N}
-                          </li>
+                        {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                      </li>
                     </ul>
                   ))}
                 </div>
@@ -1657,7 +1734,7 @@ const ProductDetail = () => {
                       <li className="smr_proDeatilList_mobileapp1">{data?.H}</li>
                       <li className="smr_proDeatilList_mobileapp1">{data?.J}</li>
                       <li className="smr_proDeatilList_mobileapp1">
-                            {data.M}&nbsp;&nbsp;{data?.N}
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                     </ul>
                   ))}
@@ -1688,7 +1765,7 @@ const ProductDetail = () => {
                       <li className="smr_proDeatilList_mobileapp1">{data?.H}</li>
                       <li className="smr_proDeatilList_mobileapp1">{data?.J}</li>
                       <li className="smr_proDeatilList_mobileapp1">
-                            {data.M}&nbsp;&nbsp;{data?.N}
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                     </ul>
                   ))}

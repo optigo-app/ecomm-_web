@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./dt_wishPageB2c.scss"
 import noImageFound from "../../../Assets/image-not-found.jpg"
-import { dt_CartCount } from '../../../Recoil/atom';
+import { dt_CartCount, dt_WishCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import Cookies from "js-cookie";
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -25,7 +25,8 @@ const WishItem = ({
 }) => {
 
     const [storeInitData, setStoreInitData] = useState();
-    const setCartCountVal = useSetRecoilState(dt_CartCount);
+    const setWishlistCount = useSetRecoilState(dt_WishCount);
+    const setCartCount = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
     const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
@@ -39,7 +40,7 @@ const WishItem = ({
         if (returnValue?.msg == "success") {
             toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
-                setCartCountVal(res?.cartcount);
+                setCartCount(res?.cartcount);
             });
         }
     };
@@ -48,7 +49,7 @@ const WishItem = ({
         const returnValue = await handleRemoveItem(item);
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
-                setCartCountVal(res?.cartcount);
+                setWishlistCount(res?.wishcount);
             })
         }
     };

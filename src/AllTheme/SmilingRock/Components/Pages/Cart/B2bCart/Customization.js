@@ -99,7 +99,7 @@ const Customization = ({
               }
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <>
-                  {selectedItem?.diamondquality != "" && selectedItem?.diamondcolor != "" &&
+                  {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Diamond:</label>
                       <select id="diamond" value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
@@ -119,7 +119,7 @@ const Customization = ({
               }
               {storeInitData?.IsCsCustomization == 1 &&
                 <>
-                  {selectedItem?.colorstonequality != "" && selectedItem?.colorstonecolor != "" &&
+                   {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Color Stone:</label>
                       <select id="diamond" value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
@@ -199,13 +199,13 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-            {selectedItem?.diamondquality != "" && selectedItem?.diamondcolor != "" &&
+             {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
                 <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
               </div>
             }
-            {selectedItem?.colorstonequality != "" && selectedItem?.colorstonecolor != "" &&
+            {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
                 <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
@@ -228,14 +228,15 @@ const Customization = ({
                 <div className="smr_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
-                      <span
+                      {/* <span
                         className="smr_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
-                      />
+                      /> */}
+                       <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
