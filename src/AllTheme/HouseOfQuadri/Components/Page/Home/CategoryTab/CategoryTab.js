@@ -13,6 +13,7 @@ const CategoryTab = () => {
   const navigation = useNavigate();
   const islogin = useRecoilValue(Hoq_loginState);
   const showShapeSection = false;
+
   useEffect(() => {
     let data = JSON.parse(localStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
@@ -30,13 +31,16 @@ const CategoryTab = () => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setAlbumData(response?.Data?.rd);
-        }
-      })
-      .catch((err) => console.log(err));
+    const sHOPBYCATEGORY = async () => {
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
+        .then((response) => {
+          if (response?.Data?.rd) {
+            setAlbumData(response?.Data?.rd);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    sHOPBYCATEGORY();
   }, []);
 
   const handleNavigate = (name) => {

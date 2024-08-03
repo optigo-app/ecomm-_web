@@ -10,7 +10,6 @@
     .maindiv {
         width: 100%;
         height: 100%;
-        // max-height: 800px;
         position: relative;
     }
 
@@ -37,6 +36,16 @@
         top: 30%;
         right: 7%;
         z-index: 1;
+
+        @media (max-width: 768px) {
+            top: 20%;
+            right: 5%;
+        }
+
+        @media (max-width: 576px) {
+            top: 15%;
+            right: 2%;
+        }
     }
 
     .btnflex {
@@ -86,9 +95,8 @@
         font-size: 12px;
         font-weight: bold;
         color: #989898;
-        border: 0px;
-        outline: none;
         border: 0.5px solid #989898;
+        outline: none;
     }
 
     .btncst:hover {
@@ -99,9 +107,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .smr_ds2ImageDiv{
+
+        .smr_ds2ImageDiv {
             background-color: #f1f1f1;
             padding: 20px;
+
+            @media (max-width: 576px) {
+                padding: 10px;
+            }
         }
     }
 
@@ -121,20 +134,79 @@
         &:after {
             font-size: 16px;
         }
+
+        @media (max-width: 576px) {
+            width: 30px;
+            height: 30px;
+
+            &:after {
+                font-size: 14px;
+            }
+        }
     }
 
     .swiper_w {
         width: 215px;
+
+        @media (max-width: 768px) {
+            width: 185px;
+        }
+
+        @media (max-width: 576px) {
+            width: 150px;
+        }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         .card {
             width: 200px;
             height: 315px;
         }
+    }
 
-        .swiper_w {
-            width: 185px;
+    @media (max-width: 768px) {
+
+        .subimgpart {
+            top: 7%;
+            right: 4%;
+        }
+
+        .card {
+            width: 200px;
+            height: 285px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card {
+            width: 160px;
+            height: 260px;
+            padding: 3px;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px !important;
+        }
+
+        .subimgpart {
+            position: inherit;
+            top: 0;
+            right: 0;
+            width: 230px;
+            margin: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+
+        }
+
+        .cardimg {
+            max-width: 100%;
+        }
+
+        .fs1,
+        .fs3 {
+            font-size: $fontSize2;
+        }
+
+        .fs2 p {
+            font-size: $fontSize3;
         }
     }
 }

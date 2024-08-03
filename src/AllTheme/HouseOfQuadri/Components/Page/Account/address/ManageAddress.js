@@ -360,8 +360,18 @@ const ManageAddress = () => {
                 errorsCopy.address = value.trim() ? '' : 'Address is required';
                 break;
             case 'country':
+                // if (!value.trim()) {
+                //     errorsCopy.country = 'Country is required';
+                // } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+                //     errorsCopy.country = 'Invalid Country';
+                // } else {
+                //     errorsCopy.country = '';
+                // }
+                // break;
                 if (!value.trim()) {
                     errorsCopy.country = 'Country is required';
+                } else if (/\d/.test(value.trim())) {
+                    errorsCopy.country = 'Only alphabets allowed in Country';
                 } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
                     errorsCopy.country = 'Invalid Country';
                 } else {
@@ -369,8 +379,18 @@ const ManageAddress = () => {
                 }
                 break;
             case 'state':
+                // if (!value.trim()) {
+                //     errorsCopy.state = 'State is required';
+                // } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+                //     errorsCopy.state = 'Invalid State';
+                // } else {
+                //     errorsCopy.state = '';
+                // }
+                // break;
                 if (!value.trim()) {
                     errorsCopy.state = 'State is required';
+                } else if (/\d/.test(value.trim())) {
+                    errorsCopy.state = 'Only alphabets allowed in State';
                 } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
                     errorsCopy.state = 'Invalid State';
                 } else {
@@ -378,11 +398,21 @@ const ManageAddress = () => {
                 }
                 break;
             case 'city':
+                // if (!value.trim()) {
+                //     errorsCopy.city = 'City is required';
+                // } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
+                //     errorsCopy.city = 'Invalid City';
+
+                // } else {
+                //     errorsCopy.city = '';
+                // }
+                // break;
                 if (!value.trim()) {
                     errorsCopy.city = 'City is required';
+                } else if (/\d/.test(value.trim())) {
+                    errorsCopy.city = 'Only alphabets allowed in City';
                 } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
                     errorsCopy.city = 'Invalid City';
-
                 } else {
                     errorsCopy.city = '';
                 }

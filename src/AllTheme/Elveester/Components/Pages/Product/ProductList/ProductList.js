@@ -439,7 +439,9 @@ const ProductList = () => {
 
     // let getAllFilter = JSON?.parse(localStorage?.getItem("AllFilter"));
     // setAllFilter(getAllFilter);
-  }, [menuParams]);
+  }, []);
+
+  console.log("abbcdefghojk;mnopqrustuvwz")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -2141,7 +2143,7 @@ const ProductList = () => {
                         </div>
                       </>
                     )}
-                    {isOnlyProdLoading ? (
+                    {!isOnlyProdLoading ? (
                       <ProductFilterSkeleton />
                     ) : (
                       <>

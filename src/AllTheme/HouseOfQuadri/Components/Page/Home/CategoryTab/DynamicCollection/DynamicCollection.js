@@ -106,8 +106,7 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
- 
-  console.log("wofbwejlkfbwejlkfbwejlk",loginUserDetail?.CurrencyCode)
+  console.log("wofbwejlkfbwejlkfbwejlk", loginUserDetail?.CurrencyCode);
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -1343,44 +1342,46 @@ const DynamicCollection = () => {
             >
               Customization
             </Typography>
-            <div
-            // className="smr_metal_custom"
-            >
-              <Typography
-                className="label"
-                sx={{
-                  color: "#7f7d85",
-                  fontSize: "14px",
-                  fontFamily: "Tenor Sans , sans-serif",
-                }}
+            {storeInit?.IsMetalCustComb == 1 && (
+              <div
+              // className="smr_metal_custom"
               >
-                Metal:&nbsp;
-              </Typography>
-              <select
-                style={{
-                  border: "1px solid #e1e1e1",
-                  borderRadius: "8px",
-                  minWidth: "270px",
-                }}
-                className="select"
-                value={selectedMetalId}
-                onChange={(e) => {
-                  setSelectedMetalId(e.target.value);
-                }}
-              >
-                {metalTypeCombo?.map((metalele) => (
-                  <option
-                    className="option"
-                    key={metalele?.Metalid}
-                    value={metalele?.Metalid}
-                  >
-                    {metalele?.metaltype.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <Typography
+                  className="label"
+                  sx={{
+                    color: "#7f7d85",
+                    fontSize: "14px",
+                    fontFamily: "Tenor Sans , sans-serif",
+                  }}
+                >
+                  Metal:&nbsp;
+                </Typography>
+                <select
+                  style={{
+                    border: "1px solid #e1e1e1",
+                    borderRadius: "8px",
+                    minWidth: "270px",
+                  }}
+                  className="select"
+                  value={selectedMetalId}
+                  onChange={(e) => {
+                    setSelectedMetalId(e.target.value);
+                  }}
+                >
+                  {metalTypeCombo?.map((metalele) => (
+                    <option
+                      className="option"
+                      key={metalele?.Metalid}
+                      value={metalele?.Metalid}
+                    >
+                      {metalele?.metaltype.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
-            {storeInit?.IsDiamondCustomization === 1 && (
+            {storeInit?.IsDiamondCustComb === 1 && (
               <div
               // className="smr_dia_custom"
               >
@@ -1456,7 +1457,7 @@ const DynamicCollection = () => {
                 </select>
               </div>
             )}
-
+{/* sort */}
             <div
             // className="smr_sorting_custom"
             >
@@ -2095,7 +2096,7 @@ const C_Card = ({
   handleCartandWish,
   cartArr,
   wishArr,
-  CurrencyCode
+  CurrencyCode,
 }) => {
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
@@ -2281,7 +2282,7 @@ const C_Card = ({
               </span>
             </>
           )}
-          {Number(productData?.Nwt) !== 0 && (
+          {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
             <>
               <span>|</span>
               <span className="smr_prod_wt">
@@ -2342,13 +2343,13 @@ const C_Card = ({
           <span className="hoq_price">
             <span
               className="hoq_currencyFont"
-              style={{paddingRight : "0.1rem"  }}
+              style={{ paddingRight: "0.1rem" }}
               dangerouslySetInnerHTML={{
                 __html: decodeEntities(CurrencyCode),
               }}
             />
             <span className="hoq_pricePort">
-              {(productData?.UnitCostWithMarkUp)?.toLocaleString('en-IN')}
+              {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
             </span>
           </span>
         </div>
