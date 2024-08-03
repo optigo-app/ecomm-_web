@@ -125,7 +125,7 @@ const ProductList = () => {
 
   useEffect(() => {
     // Update the activeIcon based on the value of openGridModal
-    setActiveIcon(openGridModal ? 'double_view' : 'apps');
+    setActiveIcon(openGridModal ? 'double_view' : showFilter ? 'apps' : 'view_grid');
   }, [openGridModal])
 
   let getDesignImageFol = storeInit?.DesignImageFol;
@@ -439,7 +439,9 @@ const ProductList = () => {
 
     // let getAllFilter = JSON?.parse(localStorage?.getItem("AllFilter"));
     // setAllFilter(getAllFilter);
-  }, [menuParams]);
+  }, []);
+
+  console.log("abbcdefghojk;mnopqrustuvwz")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -786,7 +788,7 @@ const ProductList = () => {
     return;
   };
   const handleRangeFilterApi = async (Rangeval) => {
-
+    setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -803,6 +805,7 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setIsOnlyProdLoading(false)
         }
         return res;
       })
@@ -814,7 +817,7 @@ const ProductList = () => {
 
   }
   const handleRangeFilterApi1 = async (Rangeval1) => {
-
+    setIsOnlyProdLoading(true)
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
     // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
     let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
@@ -832,6 +835,7 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setIsOnlyProdLoading(false)
         }
         return res;
       })
@@ -843,7 +847,7 @@ const ProductList = () => {
 
   }
   const handleRangeFilterApi2 = async (Rangeval2) => {
-
+    setIsOnlyProdLoading(true)
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -860,6 +864,7 @@ const ProductList = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setIsOnlyProdLoading(false)
         }
         return res;
       })
@@ -914,10 +919,10 @@ const ProductList = () => {
               onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
+              step={0.001}
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
               max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
               sx={{ marginTop: "25px" }}
             />
           </div>
@@ -1865,17 +1870,17 @@ const ProductList = () => {
                                                 label={
                                                   opt?.Minval == 0
                                                     ? `Under ${decodeEntities(
-                                                      storeInit?.Currencysymbol
+                                                      loginCurrency?.CurrencyCode
                                                     )}${opt?.Maxval}`
                                                     : opt?.Maxval == 0
                                                       ? `Over ${decodeEntities(
-                                                        storeInit?.Currencysymbol
+                                                        loginCurrency?.CurrencyCode
                                                       )}${opt?.Minval}`
                                                       : `${decodeEntities(
-                                                        storeInit?.Currencysymbol
+                                                        loginCurrency?.CurrencyCode
                                                       )}${opt?.Minval
                                                       } - ${decodeEntities(
-                                                        storeInit?.Currencysymbol
+                                                        loginCurrency?.CurrencyCode
                                                       )}${opt?.Maxval}`
                                                 }
                                               />
@@ -1934,7 +1939,7 @@ const ProductList = () => {
                                         }}
                                       >
                                         <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
-                                          {RangeFilterView1(item)}
+                                          {RangeFilterView2(item)}
                                         </Box>
                                       </AccordionDetails>
                                     </Accordion>
@@ -1961,7 +1966,7 @@ const ProductList = () => {
                                         }}
                                       >
                                         <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
-                                          {RangeFilterView2(item)}
+                                          {RangeFilterView1(item)}
                                         </Box>
                                       </AccordionDetails>
                                     </Accordion>
@@ -2138,7 +2143,7 @@ const ProductList = () => {
                         </div>
                       </>
                     )}
-                    {isOnlyProdLoading ? (
+                    {!isOnlyProdLoading ? (
                       <ProductFilterSkeleton />
                     ) : (
                       <>

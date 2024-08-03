@@ -24,10 +24,11 @@ import Swal from 'sweetalert2';
 import { getQuotationJobData } from '../../../../../../utils/API/AccountTabs/quotationJob';
 
 const CustomSortIcon = ({ order }) => {
+  
   return (
     <>
-      {order === 'asc' && <ArrowUpwardIcon />}
-      {order === 'desc' && <ArrowDownwardIcon />}
+      {order === 'asc' && <ArrowUpwardIcon className='sorticon_ma_Elvee' />}
+      {order === 'desc' && <ArrowDownwardIcon className='sorticon_ma_Elvee' />}
     </>
   );
 };
@@ -880,7 +881,7 @@ const scrollToTop = () => {
                       >
                         {column.label}
                         {orderBy === column.id ? (
-                          <span style={{ display: 'flex', alignItems: 'right' }}>
+                          <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_Elvee'>
                             {orderBy === column?.id && (<CustomSortIcon order={order} />)}
                           </span>
                         ) : null}

@@ -34,14 +34,18 @@ const ReadyToShip = () => {
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
 
+   const BestSeller =async()=>{
     Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID)
-      .then((response) => {
-        if (response?.Data?.rd) {
-          setBestSellerData(response?.Data?.rd);
-          console.log(response?.Data?.rd);
-        }
-      })
-      .catch((err) => console.log(err));
+    .then((response) => {
+      if (response?.Data?.rd) {
+        setBestSellerData(response?.Data?.rd);
+        console.log(response?.Data?.rd);
+      }
+    })
+    .catch((err) => console.log(err));
+   }
+
+   BestSeller()
   }, []);
 
   const compressAndEncode = (inputString) => {

@@ -12,7 +12,7 @@ import ScrollTriggerTab from "./ScrollTriggerTab/ScrollTriggerTab";
 import SocialTab from "./SocialTab/SocialTab";
 import FaqSection from "./FaQSection/FaqSection";
 import InfoSection from "./InfoSection/InfoSection";
-import { useLocation } from "react-router-dom";
+
 const HomePage = () => {
   useEffect(() => {
     window.scrollTo({
@@ -20,6 +20,7 @@ const HomePage = () => {
       top: 0,
     });
   }, []);
+
 
   return (
     <div className="hoq_main_homepage">
