@@ -38,6 +38,15 @@ const BrandsComponent = () => {
                 <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
+                 <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo2.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                 <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
+                 <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo6.png`}
+                    style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
+                />
             </Marquee>
         </div>
     );
