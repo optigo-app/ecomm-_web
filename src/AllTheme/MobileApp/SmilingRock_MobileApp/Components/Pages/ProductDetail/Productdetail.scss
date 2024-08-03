@@ -76,7 +76,7 @@
     border-radius:8px;
 }
 
-.smr_thumb_prod_img{
+.dt_thumb_prod_img{
     position: absolute;
     // left:15px;
     // top:20px
@@ -350,20 +350,21 @@
     
 }
   
-.smr_keys {
-font-size: 12px;
+.dt_keys {
+font-size: 12px ;
 }
 
-.smr_val {
+.dt_val {
 font-size: 12px;
 font-weight: 400;
 }
 
-.smr_prod_designno {
+.dt_prod_designno {
 font-size: 14px;
 font-weight: 400;
 padding: 0px 5px;
 color: $primaryfontcolor2;
+
 }
 
 .smr_stockItem_price_type_mt{
@@ -396,7 +397,10 @@ color: $primaryfontcolor2;
     // justify-content: center;
     // align-items: center;
     // }
-    .smr_thumb_prod_img{
+    .dt_thumb_prod_img{
+        width: 100%;
+        overflow-x: scroll;
+        margin-top: 33px;
         display: flex;
         gap:5px;
         position: relative;

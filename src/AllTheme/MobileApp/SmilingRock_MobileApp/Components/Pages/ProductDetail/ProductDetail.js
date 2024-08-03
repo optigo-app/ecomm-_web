@@ -1258,7 +1258,7 @@ const ProductDetail = () => {
                       </div>
                     )}
 
-                    <div className="smr_thumb_prod_img">
+                    <div className="dt_thumb_prod_img">
                       { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                         <img
                           src={ele}
@@ -1327,16 +1327,16 @@ const ProductDetail = () => {
                             {selectMtColor}
                           </span>
                         </span>
-                        {diaList?.length > 0 && <span className="smr_prod_short_key">
+                        {diaList?.length > 0 ? <span className="smr_prod_short_key">
                           Diamond Quality & Color:{" "}
                           <span className="smr_prod_short_val">
                             {`${selectDiaQc}`}
                           </span>
-                        </span>}
-                        <span className="smr_prod_short_key">
+                        </span> : null}
+                        {storeInit?.IsMetalWeight == 1 ?<span className="smr_prod_short_key">
                           Net Wt:{" "}
                           <span className="smr_prod_short_val">{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
-                        </span>
+                        </span> : null}
                       </div>
                     </div>
                     { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
@@ -1689,7 +1689,7 @@ const ProductDetail = () => {
                       0
                     )}/${diaList
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
+                      .toFixed(3)}ct)`}</li>
                   </ul>
                   <ul className="smr_mt_detail_title_ul">
                     <li className="smr_proDeatilList_mobileapp">Shape</li>
@@ -1720,7 +1720,7 @@ const ProductDetail = () => {
                       0
                     )}/${csList?.filter((ele)=>ele?.D !== "MISC")
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
+                      .toFixed(3)}ct)`}</li>
                   </ul>
                   <ul className="smr_mt_detail_title_ul">
                     <li className="smr_proDeatilList_mobileapp">Shape</li>
@@ -1751,7 +1751,7 @@ const ProductDetail = () => {
                       0
                     )}/${csList?.filter((ele)=>ele?.D === "MISC")
                       ?.reduce((accumulator, data) => accumulator + data?.N, 0)
-                      .toFixed(2)}ct)`}</li>
+                      .toFixed(3)}ct)`}</li>
                   </ul>
                   <ul className="smr_mt_detail_title_ul">
                     <li className="smr_proDeatilList_mobileapp">Shape</li>
@@ -1807,7 +1807,7 @@ const ProductDetail = () => {
                         />
 
                       </div>
-                      <img
+                      {/* <img
                         className="smrMA_productCard_Image"
                         src={
                           storeInit?.DesignImageFol +
@@ -1818,9 +1818,9 @@ const ProductDetail = () => {
                           ele?.ImageExtension
                         }
                         alt={""}
-                      />
-                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="smr_prod_designno">
+                      /> */}
+                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px',marginTop:'40px'}}>
+                      <span className="dt_prod_designno">
                         {ele?.designno}
                       </span>
                       <div className="smr_prod_Allwt">
@@ -1833,19 +1833,21 @@ const ProductDetail = () => {
                             gap: "3px",
                           }}
                         >
-                          <span className="smr_prod_wt">
-                            <span className="smr_keys">NWT:</span>
-                            <span className="smr_val">{ele?.NetWt}</span>
-                          </span>
+                         { storeInit?.IsMetalWeight == 1 &&
+                          (<span className="smr_prod_wt">
+                            <span className="dt_keys">NWT:</span>
+                            <span className="dt_val">{ele?.NetWt}</span>
+                          </span>)
+                          }
 
                           {storeInit?.IsGrossWeight == 1 &&
                             Number(ele?.GrossWt) !== 0 && (
                               <>
-                                <span>|</span>
+                                
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">GWT:</span>
                                   <span className="smr_val">
-                                    {ele?.GrossWt}
+                                    {(ele?.GrossWt)?.toFixed(3)}
                                   </span>
                                 </span>
                               </>
@@ -1857,7 +1859,7 @@ const ProductDetail = () => {
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">DWT:</span>
                                   <span className="smr_val">
-                                    {ele?.DiaWt}
+                                    {(ele?.DiaWt)?.toFixed(3)}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
                                       : null}
@@ -1873,7 +1875,7 @@ const ProductDetail = () => {
                                 <span className="smr_prod_wt">
                                   <span className="smr_keys">CWT:</span>
                                   <span className="smr_val">
-                                    {ele?.CsWt}
+                                    {(ele?.CsWt)?.toFixed(3)}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
                                       : null}
@@ -1892,7 +1894,7 @@ const ProductDetail = () => {
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             </span>
                              </spam>
-                             <span>&nbsp;{ele?.Amount}</span>
+                             <span>&nbsp;{formatter.format(ele?.Amount)}</span>
                       </div>
                       </div>
                     </div>
@@ -1935,7 +1937,7 @@ const ProductDetail = () => {
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             </span>
                              </spam>
-                             <span>&nbsp;{ele?.UnitCost}</span>
+                             <span>&nbsp;{formatter.format(ele?.UnitCost)}</span>
                       </div>
                       </div>
                     </div>
@@ -2065,9 +2067,9 @@ const ProductDetail = () => {
                                           }
                                           &nbsp;
                                           {
-                                          // formatter.format(
+                                          formatter.format(
                                             ele?.UnitCostWithMarkUp
-                                            // )
+                                            )
                                             }
                                         </p>
                                       </div>
