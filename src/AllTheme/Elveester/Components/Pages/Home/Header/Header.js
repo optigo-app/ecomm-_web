@@ -13,6 +13,7 @@ import { GoSearch } from "react-icons/go";
 import { FaPowerOff } from 'react-icons/fa';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Menubar from '../MenuBar/Menubar';
+import { RxCross1 } from "react-icons/rx";
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Pako from 'pako';
 
@@ -45,6 +46,15 @@ const Header = () => {
     setTimeout(() => {
       setLodingLogo(false);
     }, 100);
+  }, []);
+
+  useEffect(() => {
+    const value = JSON.parse(localStorage.getItem("LoginUser"));
+    setislogin(value);
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    setCompanyTitleLogo(storeInit?.companylogo);
+    console.log(storeInit?.companylogo);
+    window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
   useEffect(() => {
@@ -586,7 +596,7 @@ return (
                           />
                         </div>
                         <div className='elv_search_btn'>
-                          {!showBtn ? (
+                          {/* {!showBtn ? (
                             <button
                               type='button'
                               className='elv_cancel_bar'
@@ -602,7 +612,8 @@ return (
                             >
                               Search
                             </button>
-                          )}
+                          )} */}
+                          <RxCross1 onClick={handleClose}  />
 
                         </div>
                       </>
@@ -690,7 +701,7 @@ return (
                       />
                     </div>
                     <div className='elv_search_btn_respo'>
-                      {!showBtn ? (
+                      {/* {!showBtn ? (
                         <button
                           type='button'
                           className='elv_cancel_bar_respo'
@@ -706,7 +717,8 @@ return (
                         >
                           Search
                         </button>
-                      )}
+                      )} */}
+                      <RxCross1 onClick={handleClose}  />
 
                     </div>
                   </>
@@ -744,7 +756,7 @@ return (
                       />
                     </div>
                     <div className='elv_search_btn_respo_1'>
-                      {!showBtn ? (
+                      {/* {!showBtn ? (
                         <button
                           type='button'
                           className='elv_cancel_bar_respo_1'
@@ -760,7 +772,8 @@ return (
                         >
                           Search
                         </button>
-                      )}
+                      )} */}
+                      <RxCross1 onClick={handleClose}  />
 
                     </div>
                   </div>

@@ -8,34 +8,34 @@ const BrandsComponent = () => {
         <div id='brandsComponentID' className='smr_brandsComponentsDiv'>
             <p className='smr_brandsCompoents'>Introducing our exclusive brands</p>
             <Marquee
-                className='brandsComponentClass'
+                className='smr_brandsComponentClass'
                 gradient={false}
                 speed={40}
                 pauseOnHover={true}
             // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             >
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo2.png`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo2.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo6.png`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo6.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo5.svg`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
+                <img className='smr_affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandLogo/logo3.png`}
                     style={{ width: '130px', objectFit: 'cover', marginRight: '90px' }}
                 />
             </Marquee>

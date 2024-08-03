@@ -32,8 +32,19 @@ const Confirmation = () => {
 
     const handleNavigate = () => {
         navigate('/')
+        localStorage.removeItem("TotalPriceData");
     }
-
+    // const handleNavigate = () => {
+    //     if (location?.pathname == "/Confirmation") {
+    //         const handlePopState = () => {
+    //             navigate('/', { replace: true });
+    //         }
+    //         window.addEventListener('popstate', handlePopState);
+    //         return () => {
+    //             window.removeEventListener('popstate', handlePopState);
+    //         };
+    //     }
+    // }
     function scrollToTop() {
         window.scrollTo({
             top: 0,
@@ -64,10 +75,10 @@ const Confirmation = () => {
                         <button className="continueShoppingBtn" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
-                <Footer />
             </div>
+                <Footer />
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+                <p style={{ margin: '0px', fontWeight: 500, color: 'rgb(168, 128, 124)', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );
