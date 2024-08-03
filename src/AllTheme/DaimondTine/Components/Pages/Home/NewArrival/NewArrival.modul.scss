@@ -1,23 +1,36 @@
+
+@import '../../../scss/variable';
+
+
 .dt_newArrivalMain {
 
-    background: #f0e0e0;
+    // background: #f0e0e0;
     margin-top: 20px;
 
     .dt_titleNewArrival {
         font-family: "Rosarivo", Sans-serif;
-        color: #A8807C;
+        color: #7d7f85;
         text-decoration: uppercase !important;
     }
 
     .dt_newArrivalPdTitle{
-        color: #A8807C;
+        color: #7d7f85;
         font-size: 16px;
         font-weight: 500;
+        margin: 0px;
+    }
+
+    .smr_bestseler1Title {
+        font-size: $fontSize6;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        text-align: center;
     }
 
     .dt_newArrivalPdPrice{
-        font-size: 15px;
-        color: rgb(102, 102, 102);
+        font-size: 14px;
+        font-weight: bold;
+        color: #7d7f85;
         margin: 0px;
     }
 }

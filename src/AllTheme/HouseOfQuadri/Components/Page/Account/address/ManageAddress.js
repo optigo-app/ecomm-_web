@@ -190,11 +190,19 @@ const ManageAddress = () => {
         // if (!formData.zipCode.trim()) {
         //     errors.zipCode = 'ZIP Code is required';
         // }
+        // if (!formData.zipCode.trim()) {
+        //     errors.zipCode = 'ZIP Code is required';
+        // } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
+        //     errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
+        // }
         if (!formData.zipCode.trim()) {
-            errors.zipCode = 'ZIP Code is required';
+            errors.zipCode = ('ZIP Code is required');
+        } else if (formData.zipCode.trim().length < 6) {
+            errors.zipCode = ('ZIP Code length should be 6 numbers');
         } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
-            errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
+            errors.zipCode = ('ZIP Code must contain exactly 6 numbers');
         }
+
         // If there are any errors, update state and return
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
@@ -380,10 +388,19 @@ const ManageAddress = () => {
                 }
                 break;
             case 'zipCode':
+                // if (!value.trim()) {
+                //     errorsCopy.zipCode = 'ZIP Code is required';
+                // } else if (!/^\d+$/.test(value.trim())) {
+                //     errorsCopy.zipCode = 'Invalid ZIP Code';
+                // } else {
+                //     errorsCopy.zipCode = '';
+                // }
                 if (!value.trim()) {
-                    errorsCopy.zipCode = 'ZIP Code is required';
-                } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.zipCode = 'Invalid ZIP Code';
+                    errorsCopy.zipCode = ('ZIP Code is required');
+                } else if (value.trim().length < 6) {
+                    errorsCopy.zipCode = ('ZIP Code length should be 6 numbers');
+                } else if (!/^\d{6}$/.test(value.trim())) {
+                    errorsCopy.zipCode = ('ZIP Code must contain exactly 6 numbers');
                 } else {
                     errorsCopy.zipCode = '';
                 }
