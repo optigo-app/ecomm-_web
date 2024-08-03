@@ -116,36 +116,44 @@ const MobileCartDetails = ({
                     </div>
                   }
                   {storeInitData?.IsDiamondCustomization == 1 &&
-                    <div className="option">
-                      <label htmlFor="diamond">Diamond:</label>
-                      <select id="diamond" value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
-                        {mrpbasedPriceFlag == 1 ? (
-                          <option value={selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + '#' + selectedItem?.diamondcolor}</option>
-                        ) :
-                          <>
-                            {diamondQualityColorCombo.map(option => (
-                              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}> {option?.Quality + '#' + option?.color}</option>
-                            ))}
-                          </>
-                        }
-                      </select>
-                    </div>
+                    <>
+                      {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+                        <div className="option">
+                          <label htmlFor="diamond">Diamond:</label>
+                          <select id="diamond" name={selectedItem?.id} value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+                            {mrpbasedPriceFlag == 1 ? (
+                              <option value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}>{selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}</option>
+                            ) : (
+                              <>
+                                {diamondQualityColorCombo?.map(option => (
+                                  <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}>{option?.Quality + ',' + option?.color}</option>
+                                ))}
+                              </>
+                            )}
+                          </select>
+                        </div>
+                      }
+                    </>
                   }
                   {storeInitData?.IsCsCustomization == 1 &&
-                    <div className="option">
-                      <label htmlFor="diamond">Color Stone:</label>
-                      <select id="diamond" value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
-                        {mrpbasedPriceFlag == 1 ? (
-                          <option value={selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + '#' + selectedItem?.colorstonecolor}</option>
-                        ) :
-                          <>
-                            {ColorStoneCombo.map(option => (
-                              <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + '#' + option?.color}>{option?.Quality + '#' + option?.color}</option>
-                            ))}
-                          </>
-                        }
-                      </select>
-                    </div>
+                    <>
+                      {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
+                        <div className="option">
+                          <label htmlFor="diamond">Color Stone:</label>
+                          <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                            {mrpbasedPriceFlag == 1 ? (
+                              <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
+                            ) :
+                              <>
+                                {ColorStoneCombo?.map(option => (
+                                  <option key={option?.ColorId + ',' + option?.QualityId} value={option?.Quality + ',' + option?.color}>{option?.Quality + ',' + option?.color}</option>
+                                ))}
+                              </>
+                            }
+                          </select>
+                        </div>
+                      }
+                    </>
                   }
                   {sizeCombo?.rd?.length !== 0 &&
                     <div className="option">

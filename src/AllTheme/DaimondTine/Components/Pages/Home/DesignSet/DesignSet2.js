@@ -155,7 +155,7 @@ const DesignSet2 = () => {
     <>
       <div className="dt_DesignSet2MainDiv">
         <div className='smr_DesignSetTitleDiv'>
-          <p className='smr_desognSetTitle'>Complete Your Look
+          <p className='smrMA_desognSetTitle'>Complete Your Look
             <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
               View more
             </Link>

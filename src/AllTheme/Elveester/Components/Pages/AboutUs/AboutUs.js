@@ -17,8 +17,8 @@ const AboutUs = () => {
         window.scroll({
             top: 0,
             behavior: "smooth",
-          });
-    },[])
+        });
+    }, [])
 
     return (
         <div className="elv_aboutus_maindiv">
@@ -60,6 +60,10 @@ const AboutUs = () => {
                                                             borderBottom: '2px solid black',
                                                             zIndex: 1
                                                         },
+                                                        '@media screen and (max-width: 1000px)': {
+                                                            // Styles for screens 1000px and wider
+                                                            fontSize: '15px'
+                                                        },
                                                     }}
                                                 />
                                             ))}
@@ -79,8 +83,8 @@ const AboutUs = () => {
                             </Box>
                         </div>
                         <div className="elv_aboutus_details_rightside">
-                            <div style={{ marginRight: '5%'}}>
-                               <img className='elv_aboutus_sec_img' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" />
+                            <div style={{ marginRight: '5%' }}>
+                                <img className='elv_aboutus_sec_img' src={`${storImagePath()}/images/HomePage/AboutUs/AboutUsVisitngImg.jpg`} alt="" />
                             </div>
                         </div>
                     </div>

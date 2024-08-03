@@ -168,18 +168,18 @@ const CartItem = ({
               <div className='elv_ProdWeights_div'>
                 <div className='elv_ProdWt1_div'>
                   <div>
-                    <span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                    <span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500', fontSize: '11px' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)}{' '}</span>
                   </div>
                   <div>
-                    <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px' }}>{(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                    <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px',fontSize: '11px' }}>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
                   </div>
                 </div>
                 <div className='elv_ProdWt1_div'>
                   <div >
-                    <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500' }}>{(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                    <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500',fontSize: '11px' }}>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                   </div>
                   <div >
-                    <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500' }}>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                    <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500',fontSize: '11px' }}>{(item?.Gwt || 0).toFixed(3)}</span>
                   </div>
                 </div>
               </div>

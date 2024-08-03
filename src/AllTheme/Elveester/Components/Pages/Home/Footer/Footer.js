@@ -72,7 +72,7 @@ const Footer = () => {
     return (
         <div className='el_footer_main'>
             <div className='ElveFooterMain'>
-                {isLogin[0] === false && (
+                {/* {isLogin[0] === false && ( */}
                     <div className='ElveFooter1'>
                         <p className='elveBox1Title'>Sign up for our updates</p>
                         <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
@@ -90,8 +90,8 @@ const Footer = () => {
                             ))}
                         </div>
                     </div>
-                )}
-                <div className={isLogin[0] === true ? 'ElveFooter2_login' : 'ElveFooter2'}>
+                {/* )} */}
+                <div className={'ElveFooter2'}>
                     <p className='ElevFooterBoxTitle'>Our Company</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/aboutUs')}>About Us</p>
                     <p className='ElveFooterDesc'>Careers</p>
@@ -99,14 +99,15 @@ const Footer = () => {
                     <p className='ElveFooterDesc'>Contact Us</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/term&condition')}>Terms and Conditions</p>
                 </div>
-                <div className={isLogin[0] === true ? 'ElveFooter3_login' : 'ElveFooter3'}>
+                <div className={'ElveFooter3'}>
                     <p className='ElevFooterBoxTitle'>Customer Care</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/customerServices')}>Customer Services</p>
                     <p className='ElveFooterDesc'>Book an Appoinment</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
                     <p className='ElveFooterDesc'>FAQ</p>
+                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p>
                 </div>
-                <div className={isLogin[0] === true ? 'ElveFooter4_login' : 'ElveFooter4'}>
+                <div className={'ElveFooter4'}>
                     <p className='ElevFooterBoxTitle'>Office</p>
                     <div style={{ display: 'flex' }}>
                         <p className='ElevBox4Title' onClick={() => setSelectedVal(0)} style={{ textDecoration: selectedFooteVal === 0 && 'underline' }}>INDIA</p>
@@ -121,7 +122,7 @@ const Footer = () => {
                                     </span>
                                 </p>
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdCall style={{ width: '37px', height: 'fit-content' }} />
+                                    <IoMdCall style={{ width: '37px', height: 'fit-content', marginLeft: '8px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                                             {companyInfoData?.FrontEndContactno1}
@@ -129,7 +130,7 @@ const Footer = () => {
                                     </span>
                                 </p>
                                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdMail style={{ width: '37px', height: 'fit-content' }} />
+                                    <IoMdMail style={{ width: '37px', height: 'fit-content',marginLeft: '10px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                                             {companyInfoData?.FrontEndEmail1}

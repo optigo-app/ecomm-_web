@@ -57,6 +57,7 @@
         .product {
           display: flex;
           align-items: center;
+          width: 330px;
 
           img {
             width: 100%;
@@ -79,8 +80,8 @@
         .dt_quantity {
           .dt_cartB2c-quantity {
             display: flex;
-            width: 130px;
-            height: 45px;
+            width: 100px;
+            height: 40px;
             border: 1px solid #ccc;
             font-family: $primaryFontFamily;
 
@@ -214,6 +215,40 @@
   }
 }
 
+@media (max-width: 1630px) {
+  .dt_MainCartDiv {
+    .cart {
+      flex-direction: row;
+
+      .cart-items {
+        table {
+
+          th,
+          td {
+            padding: 5px;
+          }
+          .product {
+            width: 260px;
+            img {
+              width: 100%;
+              max-width: 130px;
+            }
+          }
+        }
+      }
+
+      .cart-totals {
+        padding: 10px;
+
+        button {
+          padding: 10px;
+          font-size: $fontSize2;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 1400px) {
   .dt_MainCartDiv {
     .cart {
@@ -233,6 +268,13 @@
           th,
           td {
             padding: 5px;
+          }
+          .product {
+            width: 230px;
+            img {
+              width: 100%;
+              max-width: 100px;
+            }
           }
         }
       }

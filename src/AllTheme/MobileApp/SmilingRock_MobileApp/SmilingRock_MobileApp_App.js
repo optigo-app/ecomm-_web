@@ -35,6 +35,7 @@ import DeliveryShipping from './Components/Pages/StaticPages/DeliveryShipping'
 import Coupons from './Components/Pages/StaticPages/Coupons'
 import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
 import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
+import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -87,9 +88,9 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/PrivacyPolicy" ||
         location.pathname === "/DeliveryShipping" ||
         location.pathname === "/TermsCondition" ||
-        location.pathname === "/Menu" ||
         location.pathname === "/HelpCenter" ||
         location.pathname === "/Coupons" ||
+        location.pathname === "/Lookbook" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
       <Routes>
@@ -99,6 +100,7 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/TermsCondition" element={<TermsCondition />} />
         <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+        <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
           <Route path="/CartPage" element={<CartPage />} />

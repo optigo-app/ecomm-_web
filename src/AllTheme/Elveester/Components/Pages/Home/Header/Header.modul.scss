@@ -91,6 +91,7 @@
 
     .el_login_header_main_div2_li {
         margin-inline: 15px;
+        position: relative;
     }
 
     .el_login_header_main_div1 {
@@ -98,19 +99,25 @@
     }
 
     .elv_search_area {
-        border: 1px solid #d1d5db;
+        position: absolute;
+        right: 0;
+        bottom: -21px;
+    }
+
+    .elv_search_area {
+        border: 1px solid #ededed;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 0.7rem;
         padding: 8px;
         border-radius: 10px;
-        background-color: #F9FAFB;
+        background-color: #ffffff;
 
         .elv_search_inp {
             border: none;
             border-bottom: 1px solid black;
-            background-color: #F9FAFB;
+            background-color: #ffffff;
 
             &:focus {
                 outline: none;
@@ -130,6 +137,7 @@
                 font-size: 15px;
                 color: white;
             }
+
             .elv_cancel_bar {
                 padding: 4px;
                 background: #FF0000;
@@ -144,6 +152,63 @@
 
     .elv_search_area.open .elv_search_design,
     .elv_search_area.open .elv_search_btn {
+        opacity: 1;
+        transform: translateX(0); // Move to visible position
+    }
+
+    .elv_search_icon_respo {
+        color: #7D7F85;
+        font-size: 25px;
+    }
+
+    .elv_search_area_respo {
+        border: 1px solid #ededed;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.7rem;
+        padding: 8px;
+        border-radius: 10px;
+        background-color: #ffffff;
+
+        .elv_search_inp {
+            border: none;
+            border-bottom: 1px solid black;
+            background-color: #ffffff;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .elv_search_btn_respo {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 1s ease-in-out;
+
+            .elv_search_bar_respo {
+                padding: 4px;
+                border: 1px solid #4C3BCF;
+                background: #4C3BCF;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+            }
+
+            .elv_cancel_bar_respo {
+                padding: 4px;
+                background: #FF0000;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+                border: 1px solid #FF0000;
+            }
+        }
+
+    }
+
+    .elv_search_area_respo.open .elv_search_design,
+    .elv_search_area_respo.open .elv_search_btn_respo {
         opacity: 1;
         transform: translateX(0); // Move to visible position
     }
@@ -172,7 +237,7 @@
             background: transparent;
             position: absolute;
             right: 3rem;
-            top: 4rem;
+            top: 10rem;
             object-fit: contain;
         }
 
@@ -183,7 +248,7 @@
             background: transparent;
             position: absolute;
             right: 24rem;
-            top: 4rem;
+            top: 10rem;
             object-fit: contain;
         }
     }
@@ -242,23 +307,177 @@
         right: 0;
     }
 
+    .el_login_header_main_div2_li_respo_1 {
+        position: relative;
+    }
+
+    .el_login_header_main_div2_li_respo_1_hidden {
+        position: relative;
+        display: none;
+    }
+
+    .elv_power_icon{
+        font-size: 25px;
+        color: #AF8238;
+    }
+
+    .elv_search_icon{
+        font-size: 25px;
+        color: #7D7F85;
+    }
+
+    @media screen and (max-width: 1400px) {
+        .el_login_header_main_div2_li_respo {
+            position: relative;
+        }
+
+        .elv_search_area_respo {
+            position: absolute;
+            right: 0;
+            bottom: -21px;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .elv_search_inp {
+            border: none;
+            border-bottom: 1px solid black;
+            background-color: #F9FAFB;
+            width: 7rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .elv_search_icon_respo_1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+            color: #7D7F85;
+            position: relative;
+            right: 4px;
+        }
+
+        .el_login_header_main_div2_li_respo_1 {
+            position: relative;
+        }
+
+        .elv_search_area_respo_1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+            padding: 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 3rem;
+            right: -4.9rem;
+            width: 100vw;
+            background-color: #ffffff;
+            border: 1px solid #ededed;
+        }
+
+        .elv_search_design_respo_1 {
+
+            .elv_search_inp {
+                border: none;
+                border-bottom: 1px solid black;
+                background-color: #ffffff;
+                width: 80vw;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+
+        }
+
+        .elv_search_btn_respo_1 {
+
+            .elv_search_bar_respo_1 {
+                padding-block: 3px;
+                padding-inline: 10px;
+                border: 1px solid #4C3BCF;
+                background: #4C3BCF;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+            }
+
+            .elv_cancel_bar_respo_1 {
+                padding-inline: 10px;
+                background: #FF0000;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+                border: 1px solid #FF0000;
+                padding-block: 3px;
+            }
+        }
+    }
+
     @media screen and (max-width: 425px) {
         .el_login_header_main_div1_logo {
-            width: 100px;
+            width: 70%;
+        }
+
+        .el_login_header_main_div2_li{
+            margin-inline: 7px;
+        }
+
+        .elv_search_design_respo_1 {
+
+            .elv_search_inp {
+                border: none;
+                border-bottom: 1px solid black;
+                background-color: #F9FAFB;
+                width: 70vw;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+
+        .elv_search_btn_respo_1 {
+
+            .elv_search_bar_respo_1 {
+                padding-block: 3px;
+                padding-inline: 10px;
+                border: 1px solid #4C3BCF;
+                background: #4C3BCF;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+            }
+
+            .elv_cancel_bar_respo_1 {
+                padding-inline: 10px;
+                background: #FF0000;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+                border: 1px solid #FF0000;
+                padding-block: 3px;
+            }
         }
     }
 
     @media screen and (max-width: 375px) {
         .el_login_header_main_div1_logo {
-            width: 75px;
+            width: 70%;
         }
 
         .elv_person_icon {
-            font-size: 20px;
+            font-size: 19px;
+        }
+
+        .el_login_header_main_div2_li{
+            margin-inline: 7px;
         }
 
         .elv_search_icon {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .elv_shopping_icon {
@@ -272,6 +491,61 @@
         .elv_power_icon {
             font-size: 20px;
         }
-    }
 
+        .elv_search_icon_respo_1{
+            font-size: 19px;
+        }
+
+        .elv_search_area_respo_1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+            padding: 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 3rem;
+            right: -4.2rem;
+            width: 100vw;
+            background-color: #ffffff;
+            border: 1px solid #ededed;
+        }
+
+        .elv_search_design_respo_1 {
+
+            .elv_search_inp {
+                border: none;
+                border-bottom: 1px solid black;
+                background-color: #ffffff;
+                width: 60vw;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+        }
+        .elv_search_btn_respo_1 {
+
+            .elv_search_bar_respo_1 {
+                padding-block: 3px;
+                padding-inline: 10px;
+                border: 1px solid #4C3BCF;
+                background: #4C3BCF;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+            }
+
+            .elv_cancel_bar_respo_1 {
+                padding-inline: 10px;
+                background: #FF0000;
+                border-radius: 5px;
+                font-size: 15px;
+                color: white;
+                border: 1px solid #FF0000;
+                padding-block: 3px;
+            }
+        }
+    }
 }

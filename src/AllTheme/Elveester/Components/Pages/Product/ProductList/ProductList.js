@@ -51,7 +51,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import StopRoundedIcon from '@mui/icons-material/StopRounded';
 import { el_CartCount, el_WishCount } from "../../../Recoil/atom";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductList = () => {
   const location = useLocation();
@@ -60,19 +60,20 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   let maxwidth700px = useMediaQuery("(max-width:700px)");
+  let maxwidth1000px = useMediaQuery("(max-width:1000px)");
 
   // Designing States
   const [showFilter, setShowFilter] = useState(false);
   const [trend, setTrend] = useState("Recommended");
   const [carat, setCarat] = useState("");
   const [clarity, setClarity] = useState("VS#GH");
-  const [activeIcon, setActiveIcon] = useState("apps");
   const [filter, setFilter] = useState();
   const [openDrawer, setOpenDrawer] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [openGridModal, setOpenGridModal] = useState(false);
   const [gridToggle, setGridToggle] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [activeIcon, setActiveIcon] = useState();
 
   // API's States
   const [menuParams, setMenuParams] = useState({});
@@ -97,6 +98,9 @@ const ProductList = () => {
   const [filterPriceSlider, setFilterPriceSlider] = useState([]);
   const [filterGrossSlider, setFilterGrossSlider] = useState([]);
   const [filterNetWtSlider, setFilterNetWTSlider] = useState([]);
+  const [sliderValue, setSliderValue] = useState([]);
+  const [sliderValue1, setSliderValue1] = useState([]);
+  const [sliderValue2, setSliderValue2] = useState([]);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
@@ -114,8 +118,15 @@ const ProductList = () => {
   const setWishCountVal = useSetRecoilState(el_WishCount);
   const [cartArr, setCartArr] = useState({})
   const [wishArr, setWishArr] = useState({})
+  const [visibleIndices, setVisibleIndices] = useState([]);
+  const [loginCurrency, setLoginCurrency] = useState();
 
   let maxwidth464px = useMediaQuery('(max-width:464px)')
+
+  useEffect(() => {
+    // Update the activeIcon based on the value of openGridModal
+    setActiveIcon(openGridModal ? 'double_view' : 'apps');
+  }, [openGridModal])
 
   let getDesignImageFol = storeInit?.DesignImageFol;
 
@@ -268,39 +279,90 @@ const ProductList = () => {
     p: 4,
   };
 
+  const handleResize = () => {
+    const width = window.innerWidth;
+
+    if (width <= 1400) {
+      setFilter(true);
+    } else {
+      setFilter(false);
+    }
+
+    if (width <= 1400 && width >= 701) {
+      setShowFilter(true);
+    } else {
+      setShowFilter(false);
+    }
+
+    if (width <= 700 && width >= 0) {
+      setOpenGridModal(true);
+    } else {
+      setOpenGridModal(false);
+    }
+  };
+
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 1400) {
-        setFilter(true);
-        setShowFilter(true);
-      } else {
-        setFilter(false);
-        setShowFilter(false);
-      }
-    };
-
     handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleResize1 = () => {
+    const width = window.innerWidth;
+
+    if (width <= 700) {
+      setVisibleIndices([3, 4]);
+    } else if (width <= 1400) {
+      setVisibleIndices([0, 1]);
+    } else {
+      setVisibleIndices([0, 1, 2, 3, 4]);
+    }
+
+    // Your existing logic for setting other states
+    setFilter(width <= 1400);
+    setShowFilter(width <= 1400 && width >= 701);
+    setOpenGridModal(width <= 700);
+  };
+
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 700) {
-        setOpenGridModal(true);
-      } else {
-        setOpenGridModal(false);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    handleResize1();
+    window.addEventListener('resize', handleResize1);
+    return () => window.removeEventListener('resize', handleResize1);
   }, []);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth <= 1400) {
+  //       setFilter(true);
+  //       setShowFilter(true);
+  //     } else {
+  //       setFilter(false);
+  //       setShowFilter(false);
+  //     }
+  //   };
+
+  //   handleResize();
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth <= 700) {
+  //       setOpenGridModal(true);
+  //     } else {
+  //       setOpenGridModal(false);
+  //     }
+  //   };
+
+  //   handleResize();
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   // Working With API's
 
@@ -340,6 +402,9 @@ const ProductList = () => {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(data);
+
+    const loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
+    setLoginCurrency(loginData)
 
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
     setSelectedMetalId(mtid);
@@ -435,7 +500,15 @@ const ProductList = () => {
             netFilter?.Min.toFixed(3),
             netFilter?.Max.toFixed(3),
           ]);
-          setFilterDiamondSlider([diaFilter?.Min, diaFilter?.Max]);
+
+          // let diafilter = res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
+          // let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
+          // let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+
+          setSliderValue([diaFilter?.Min, diaFilter?.Max])
+          setSliderValue1([netFilter?.Min, netFilter?.Max])
+          setSliderValue2([grossFilter?.Min, grossFilter?.Max])
+          // setFilterDiamondSlider([diaFilter?.Min, diaFilter?.Max]);
         }
       } catch (error) {
         console.error("Error fetching product list:", error);
@@ -712,16 +785,18 @@ const ProductList = () => {
     }
     return;
   };
-
   const handleRangeFilterApi = async (Rangeval) => {
-    console.log('Rangeval: ', Rangeval);
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
 
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
-    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
-    let grossRange = { grossMin: filterDiamondSlider[0], grossMax: filterDiamondSlider[1] }
+    let netRange = { netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0], netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1] }
+    let grossRange = { grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0], grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -736,17 +811,21 @@ const ProductList = () => {
         setIsOnlyProdLoading(false)
       })
 
-  }
 
+  }
   const handleRangeFilterApi1 = async (Rangeval1) => {
-    console.log('Rangeval1: ', Rangeval1);
+
+    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+    // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
+    let DiaRange = { diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0], diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1] }
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: filterGrossSlider[0], grossMax: filterGrossSlider[1] }
+    let grossRange = { grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0], grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1] }
+
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -760,15 +839,20 @@ const ProductList = () => {
       .finally(() => {
         setIsOnlyProdLoading(false)
       })
-  }
 
+
+  }
   const handleRangeFilterApi2 = async (Rangeval2) => {
 
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: filterDiamondSlider[0], diaMax: filterDiamondSlider[1] }
-    let netRange = { netMin: filterNetWtSlider[0], netMax: filterNetWtSlider[1] }
+    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+    // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
+
+    let DiaRange = { diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0], diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1] }
+    let netRange = { netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0], netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1] }
     let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -786,146 +870,49 @@ const ProductList = () => {
   }
 
   const handleSliderChange = (event, newValue) => {
-    setFilterGrossSlider(newValue);
+    setSliderValue(newValue);
     handleRangeFilterApi(newValue)
   };
   const handleSliderChange1 = (event, newValue) => {
-    setFilterNetWTSlider(newValue);
+    setSliderValue1(newValue);
     handleRangeFilterApi1(newValue)
   };
   const handleSliderChange2 = (event, newValue) => {
-    setFilterDiamondSlider(newValue);
+    setSliderValue2(newValue);
     handleRangeFilterApi2(newValue)
   };
 
   const handleInputChange = (index) => (event) => {
-    const newSliderValue = [...filterGrossSlider];
+    const newSliderValue = [...sliderValue];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-    setFilterGrossSlider(newSliderValue);
+    setSliderValue(newSliderValue);
     handleRangeFilterApi(newSliderValue)
   };
   const handleInputChange1 = (index) => (event) => {
-    const newSliderValue = [...filterNetWtSlider];
+    const newSliderValue = [...sliderValue1]
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-    setFilterNetWTSlider(newSliderValue);
+    setSliderValue1(newSliderValue);
     handleRangeFilterApi1(newSliderValue)
   };
   const handleInputChange2 = (index) => (event) => {
-    const newSliderValue = [...filterDiamondSlider];
+    const newSliderValue = [...sliderValue2]
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-    setFilterDiamondSlider(newSliderValue);
+    setSliderValue2(newSliderValue);
     handleRangeFilterApi2(newSliderValue)
   };
 
   const RangeFilterView = (ele) => {
-    const min = JSON.parse(ele?.options)[0]?.Min;
-    const max = JSON.parse(ele?.options)[0]?.Max;
-
     return (
       <>
         <div>
           <div>
             <Slider
-              value={filterDiamondSlider}
-              onChange={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={min}
-              max={max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-              onClick={(e) => e.stopPropagation()} // Prevent slider click propagation
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={filterDiamondSlider[0]}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: min,
-                max: max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-            />
-            <Input
-              value={filterDiamondSlider[1]}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: min,
-                max: max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-              onClick={(e) => e.stopPropagation()} // Prevent input click propagation
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView1 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={filterGrossSlider}
-              onChange={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min.toFixed(3)}
-              max={JSON?.parse(ele?.options)[0]?.Max.toFixed(3)}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={filterGrossSlider[0]}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={filterGrossSlider[1]}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min.toFixed(3),
-                max: JSON?.parse(ele?.options)[0]?.Max.toFixed(3),
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView2 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={filterNetWtSlider}
-              onChange={handleSliderChange1}
+              value={sliderValue}
+              onChange={(event, newValue) => setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={JSON?.parse(ele?.options)[0]?.Min}
@@ -936,7 +923,56 @@ const ProductList = () => {
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Input
-              value={filterNetWtSlider[0]}
+              value={sliderValue[0]}
+              margin="none"
+              onChange={handleInputChange(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue[1]}
+              margin="none"
+              onChange={handleInputChange(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  const RangeFilterView1 = (ele) => {
+    // console.log("netwt",ele)
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue1}
+              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue1[0]}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
@@ -944,11 +980,11 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider",
+                "aria-labelledby": "range-slider"
               }}
             />
             <Input
-              value={filterNetWtSlider[1]}
+              value={sliderValue1[1]}
               margin="dense"
               onChange={handleInputChange1(1)}
               inputProps={{
@@ -956,14 +992,61 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider",
+                "aria-labelledby": "range-slider"
               }}
             />
           </div>
         </div>
       </>
-    );
-  };
+    )
+  }
+  const RangeFilterView2 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue2}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue2[0]}
+              margin="dense"
+              onChange={handleInputChange2(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue2[1]}
+              margin="dense"
+              onChange={handleInputChange2(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
 
   const compressAndEncode = (inputString) => {
     try {
@@ -1257,52 +1340,41 @@ const ProductList = () => {
                     : "elv_filteration_rows_2"
                     }`}
                 >
-                  <div className="elv_filter_row2_inner_div">
+                  <div className={maxwidth1000px || openGridModal ? "elv_filter_row2_inner_div_hide" : "elv_filter_row2_inner_div"}>
                     <div className="elv_filter_row2_label">
-                      <label>Sort by : </label>
+                      <label className={maxwidth1000px || openGridModal ? 'elv_filter_sort_by_hide' : ''}>Sort by : </label>
                     </div>
-                    <FormControl
-                      sx={{
+                    <div
+                      style={{
                         m: 1,
-                        width: "95%",
+                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
                         border: "none",
                       }}
                     >
-                      <Select
+                      <select
                         value={trend}
                         onChange={(e) => {
                           handleSortby(e);
                           handleChangeTrend(e);
                           setIsOnlyProdLoading(true);
                         }}
-                        displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
                         className="elv_trend_drp"
-                        style={{
-                          backgroundColor: "#F4F4F4",
-                          color: "#8E7B8E",
-                          fontWeight: "400",
-                          cursor: "pointer",
-                          textTransform: "uppercase",
-                          letterSpacing: "2px",
-                          padding: '0px 4px',
-                        }}
                       >
-                        <MenuItem value="Recommended">Recommended</MenuItem>
-                        <MenuItem value="New">New</MenuItem>
+                        <option value="Recommended">Recommended</option>
+                        <option value="New">New</option>
                         {storeInit?.IsStockWebsite === 1 && (
-                          <MenuItem value="In Stock">In Stock</MenuItem>
+                          <option value="In Stock">In Stock</option>
                         )}
-                        <MenuItem value="PRICE LOW TO HIGH">
+                        <option value="PRICE LOW TO HIGH">
                           Price Low to High
-                        </MenuItem>
-                        <MenuItem value="PRICE HIGH TO LOW">
+                        </option>
+                        <option value="PRICE HIGH TO LOW">
                           Price High to Low
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
+                        </option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 {filter ? (
@@ -1332,9 +1404,9 @@ const ProductList = () => {
                                   </label>
                                 </div>
                                 <FormControl
-                                  sx={{
+                                  style={{
                                     m: 1,
-                                    width: "95%",
+                                    width: "100%",
                                     display: "flex",
                                     justifyContent: "center",
                                     border: "none",
@@ -1348,16 +1420,7 @@ const ProductList = () => {
                                     }}
                                     displayEmpty
                                     inputProps={{ "aria-label": "Without label" }}
-                                    style={{
-                                      color: "#8E7B8E",
-                                      fontSize: "14px",
-                                      fontWeight: "400",
-                                      cursor: "pointer",
-                                      marginBlock: "3px",
-                                      textTransform: "uppercase",
-                                      letterSpacing: "2px",
-                                      padding: '0px 4px',
-                                    }}
+                                    className="elv_metal_drp"
                                   >
                                     {metalType?.map((item, index) => (
                                       <MenuItem key={index} value={item.Metalid}>
@@ -1376,9 +1439,9 @@ const ProductList = () => {
                                   <label>Diamond :</label>
                                 </div>
                                 <FormControl
-                                  sx={{
+                                  style={{
                                     m: 1,
-                                    width: "95%",
+                                    width: "100%",
                                     display: "flex",
                                     justifyContent: "center",
                                     border: "none",
@@ -1392,16 +1455,7 @@ const ProductList = () => {
                                     }}
                                     displayEmpty
                                     inputProps={{ "aria-label": "Without label" }}
-                                    style={{
-                                      color: "#8E7B8E",
-                                      fontSize: "14px",
-                                      fontWeight: "400",
-                                      marginBlock: "3px",
-                                      cursor: "pointer",
-                                      textTransform: "uppercase",
-                                      letterSpacing: "2px",
-                                      padding: '0px 4px',
-                                    }}
+                                    className="elv_diamond_drp"
                                   >
                                     {diamondType?.map((item, index) => {
                                       return (
@@ -1432,16 +1486,16 @@ const ProductList = () => {
                               Metal :
                             </label>
                           </div>
-                          <FormControl
-                            sx={{
+                          <div
+                            style={{
                               m: 1,
-                              width: "95%",
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
                               border: "none",
                             }}
                           >
-                            <Select
+                            <select
                               value={selectedMetalId}
                               onChange={(e) => {
                                 setSelectedMetalId(e.target.value);
@@ -1449,24 +1503,15 @@ const ProductList = () => {
                               }}
                               displayEmpty
                               inputProps={{ "aria-label": "Without label" }}
-                              style={{
-                                backgroundColor: "#F4F4F4",
-                                color: "#8E7B8E",
-                                fontSize: "14px",
-                                fontWeight: "400",
-                                cursor: "pointer",
-                                textTransform: "uppercase",
-                                letterSpacing: "2px",
-                                padding: '0px 4px',
-                              }}
+                              className="elv_metal_drp"
                             >
                               {metalType?.map((item, index) => (
-                                <MenuItem key={index} value={item.Metalid}>
+                                <option key={index} value={item.Metalid}>
                                   {item.metaltype}
-                                </MenuItem>
+                                </option>
                               ))}
-                            </Select>
-                          </FormControl>
+                            </select>
+                          </div>
                         </div>
 
                       </div>
@@ -1477,16 +1522,16 @@ const ProductList = () => {
                           <div className="elv_filter_row4_label">
                             <label>Diamond :</label>
                           </div>
-                          <FormControl
-                            sx={{
+                          <div
+                            style={{
                               m: 1,
-                              width: "95%",
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
                               border: "none",
                             }}
                           >
-                            <Select
+                            <select
                               value={selectedDiaId}
                               onChange={(e) => {
                                 setSelectedDiaId(e.target.value);
@@ -1494,29 +1539,20 @@ const ProductList = () => {
                               }}
                               displayEmpty
                               inputProps={{ "aria-label": "Without label" }}
-                              style={{
-                                backgroundColor: "#F4F4F4",
-                                color: "#8E7B8E",
-                                fontSize: "14px",
-                                fontWeight: "400",
-                                cursor: "pointer",
-                                textTransform: "uppercase",
-                                letterSpacing: "2px",
-                                padding: '0px 4px',
-                              }}
+                              className="elv_diamond_drp"
                             >
                               {diamondType?.map((item, index) => {
                                 return (
-                                  <MenuItem
+                                  <option
                                     key={index}
                                     value={`${item?.QualityId},${item?.ColorId}`}
                                   >
                                     {`${item.Quality}#${item?.color}`}
-                                  </MenuItem>
+                                  </option>
                                 );
                               })}
-                            </Select>
-                          </FormControl>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1671,7 +1707,6 @@ const ProductList = () => {
                   <ProductListSkeleton />
                   <ProductFilterSkeleton />
                 </div>
-
               </>
             ) : (
               <>
@@ -2107,7 +2142,119 @@ const ProductList = () => {
                       <ProductFilterSkeleton />
                     ) : (
                       <>
-                        {showFilter === true ? (
+                        {/* {showFilter === true ? (
+                          <div className={showFilter ? 'elv_filtered_data_category_other' : 'elv_filtered_data_by_grid'}>
+                            <div className="elv_filtered_data_grid_div">
+                              {activeIconsBtns
+                                .filter((_, index) => visibleIndices.includes(index))
+                                .map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                              {storeInit?.IsProductListPagination === 1 &&
+                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "5%",
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <Pagination
+                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                      size={maxwidth464px ? "small" : "large"}
+                                      shape="circular"
+                                      onChange={handelPageChange}
+                                      page={currPage}
+                                      showFirstButton
+                                      showLastButton
+                                    />
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className='elv_filtered_data_by_grid'>
+                            <div className="elv_filtered_data_grid_div">
+                              {activeIconsBtns
+                                .filter((_, index) => visibleIndices.includes(index))
+                                .map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                              {storeInit?.IsProductListPagination === 1 &&
+                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "5%",
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <Pagination
+                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                      size={maxwidth464px ? "small" : "large"}
+                                      shape="circular"
+                                      onChange={handelPageChange}
+                                      page={currPage}
+                                      showFirstButton
+                                      showLastButton
+                                    />
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+
+                        )} */}
+                         {/* {showFilter === true ? (
                           <>
                             <div className="elv_filtered_data_by_grid_other">
                               <div className="elv_filtered_data_grid_div">
@@ -2126,10 +2273,12 @@ const ProductList = () => {
                                             handleCartandWish={handleCartandWish}
                                             cartArr={cartArr}
                                             wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
                                             imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
                                             videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                                             RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                             handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
                                           />
                                         ))}
                                       </React.Fragment>
@@ -2182,10 +2331,12 @@ const ProductList = () => {
                                                 handleCartandWish={handleCartandWish}
                                                 cartArr={cartArr}
                                                 wishArr={wishArr}
+                                                loginCurrency={loginCurrency}
                                                 imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
                                                 videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                                                 RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                                 handleMoveToDetail={handleMoveToDetail}
+                                                formatter={formatter}
                                               />
                                             ))}
                                           </React.Fragment>
@@ -2210,10 +2361,12 @@ const ProductList = () => {
                                                 handleCartandWish={handleCartandWish}
                                                 cartArr={cartArr}
                                                 wishArr={wishArr}
+                                                loginCurrency={loginCurrency}
                                                 imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
                                                 videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                                                 RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                                 handleMoveToDetail={handleMoveToDetail}
+                                                formatter={formatter}
                                               />
                                             ))}
                                           </React.Fragment>
@@ -2248,7 +2401,59 @@ const ProductList = () => {
                               </div>
                             </div>
                           </>
-                        )}
+                        )} */}
+                        <div className={showFilter ? "elv_filtered_data_by_grid" : 'elv_filtered_data_by_grid_other_1'}>
+                              <div className="elv_filtered_data_grid_div">
+                                {activeIconsBtns.map((iconConfig, index) => {
+                                  const isActive = iconConfig.name === activeIcon;
+                                  return (
+                                    isActive && (
+                                      <React.Fragment key={index}>
+                                        {productListData.map((item, productIndex) => (
+                                          <Product_Card
+                                            key={productIndex}
+                                            class1={iconConfig.class1}
+                                            class2={iconConfig.class2}
+                                            productData={item}
+                                            calcVal={iconConfig.calcWidth}
+                                            handleCartandWish={handleCartandWish}
+                                            cartArr={cartArr}
+                                            wishArr={wishArr}
+                                            loginCurrency={loginCurrency}
+                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
+                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
+                                            handleMoveToDetail={handleMoveToDetail}
+                                            formatter={formatter}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  );
+                                })}
+                                {storeInit?.IsProductListPagination == 1 &&
+                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "5%",
+                                        width: '100%'
+                                      }}
+                                    >
+                                      <Pagination
+                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                        size={maxwidth464px ? "small" : "large"}
+                                        shape="circular"
+                                        onChange={handelPageChange}
+                                        page={currPage}
+                                        showFirstButton
+                                        showLastButton
+                                      />
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
                       </>
                     )}
                   </div>
@@ -2276,8 +2481,21 @@ const Product_Card = ({
   RollImageUrl,
   imageUrl,
   handleMoveToDetail,
+  loginCurrency,
+  formatter,
 }) => {
   const [isHover, setIsHover] = useState(false);
+  const [storeInit, setStoreInit] = useState();
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("storeInit"));
+    setStoreInit(data);
+  }, [])
   return (
     <>
       <div
@@ -2432,17 +2650,19 @@ const Product_Card = ({
               </div>
             </div>
             <div className="elv_filtered_prod_price">
-              <span className="elv_prod_weight_span_1">
+              <span className="elv_prod_weight_span_1_design">
                 {productData?.designno}
               </span>
               <span
-                style={{
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  fontSize: "17px",
-                }}
+                className="elv_price_div"
               >
-                ₹{productData?.UnitCostWithMarkUp}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: decodeEntities(loginCurrency?.CurrencyCode),
+                  }}
+                  style={{ paddingRight: '0.4rem' }}
+                />
+                <span className="elv_price_tags">{formatter(productData?.UnitCostWithMarkUp)}</span>
               </span>
             </div>
           </div>
