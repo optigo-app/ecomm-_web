@@ -20,7 +20,6 @@ import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
 import PendingMemo from './PendingMemo/PendingMemo';
 
-
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
 import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
@@ -132,43 +131,41 @@ export default function Account() {
             <div>
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>
-
-                    <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
-                    <div className='smlingAccountTabWebView  '>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                        <Tab label="Your Profile" {...a11yProps(0)} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
-                                    </Tabs>
-                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                                </Box>
-                            </div>
-                            <div className='smlingAccountTabMobileView YourAccountPageTabs'>
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
-                                        <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
-                                    </Tabs>
-                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                                </Box>
-                               
-                            </div>
+                        <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
+                        <div className='smlingAccountTabWebView  '>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                            <Tab label="Your Profile" {...a11yProps(0)} />
+                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            <Tab label="Log Out" onClick={handleLogout} />
+                                        </Tabs>
+                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                                    </Box>
+                        </div>
+                        <div className='smlingAccountTabMobileView YourAccountPageTabs'>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                        <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                            <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
+                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            <Tab label="Log Out" onClick={handleLogout} />
+                                        </Tabs>
+                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                                    </Box>
+                                
+                        </div>
                     </div>
                     <div className='smling-AccountTabMain'>
                         <Box sx={{ width: '100%' }}>
-                            
 
                             <CustomTabPanel value={value} index={0}>
                                 <div>
