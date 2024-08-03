@@ -40,7 +40,7 @@ const NewArrival = () => {
             <Grid container spacing={2} justifyContent="center" style={{ paddingInline: '20px' }}>
                 {newArrivalData?.slice(0, 8).map((product, index) => (
                     <Grid item xs={12} sm={6} md={3} key={index} className='NewArrivalProductMain'>
-                        <div style={{ backgroundColor: '#f1f1f1', padding: '20px' }}>
+                        <div className='dt_newArrivalMian'>
                             <img
                                 style={{ height: "100%", width: "100%" }}
                                 src={`${imageUrl}/${product?.designno}_1.${product.ImageExtension}`}

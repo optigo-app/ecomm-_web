@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const NewArrival = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
@@ -175,7 +176,7 @@ const NewArrival = () => {
                     onMouseEnter={() => handleMouseEnterRing1()}
                     onMouseLeave={handleMouseLeaveRing1}
                   />
-                  <p className="smr_nwArrivalTitle">{item.designno}</p>
+                  <p className="ring1Desc">{item.designno}</p>
                   <p className="smr_nwArrivalTitle">
                     <span
                       className="smr_currencyFont"
@@ -183,7 +184,7 @@ const NewArrival = () => {
                         __html: decodeEntities(storeInit?.Currencysymbol),
                       }}
                     />{" "}
-                    {item.UnitCostWithMarkUp}
+                    {formatter(item.UnitCostWithMarkUp)}
                   </p>
                 </div>
             </SwiperSlide>

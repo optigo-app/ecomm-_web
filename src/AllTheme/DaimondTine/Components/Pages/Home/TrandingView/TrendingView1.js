@@ -14,6 +14,7 @@ import { dt_loginState } from '../../../Recoil/atom';
 
 const TrendingView1 = () => {
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
 

@@ -47,19 +47,19 @@ export default function TopSection() {
       <Slider {...settings}>
         {/* onClick={() => naviagtion('/productpage')} */}
         <div className='homePageSliderImagwMain'>
-          <img src={`${storImagePath()}/images/MobileApp/topBanner/HomepageMainBannerImage1.jpg`} className='homePageSliderImagw' />
+          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage1.jpg`} className='homePageSliderImagw' />
         </div>
 
         <div className='homePageSliderImagwMain'>
-          <img src={`${storImagePath()}/images/MobileApp/topBanner/HomepageMainBannerImage2.jpg`} className='homePageSliderImagw' />
+          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage2.jpg`} className='homePageSliderImagw' />
         </div>
 
         <div className='homePageSliderImagwMain'>
-          <img src={`${storImagePath()}/images/MobileApp/topBanner/HomepageMainBannerImage3.jpg`} className='homePageSliderImagw' />.
+          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage3.jpg`} className='homePageSliderImagw' />.
         </div>
 
         <div className='homePageSliderImagwMain'>
-          <img src={`${storImagePath()}/images/MobileApp/topBanner/HomepageMainBannerImage4.jpg`} className='homePageSliderImagw' />
+          <img src={`${storImagePath()}/images/HomePage/topBanner/HomepageMainBannerImage4.jpg`} className='homePageSliderImagw' />
         </div>
       </Slider>
       <div className='gradient_background'>

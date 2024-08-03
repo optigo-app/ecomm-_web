@@ -1,19 +1,20 @@
-@import '../../../scss/variable';
+.smarMA_sustaionMain {
 
-.smr_sustaionMain {
+    margin-top: 10px;
 
     .sustaionMain {
         display: flex;
         justify-content: center;
         width: 100%;
         flex-direction: column;
-        padding: 45px 0px 0px 0px;
+        padding: 45px 85px 10px;
         gap: 12px;
     }
 
     .sustaionImage1 {
         height: 200px;
         width: 200px;
+        object-fit: cover;
     }
 
     .sustaionImage2 {
@@ -23,16 +24,16 @@
     }
 
     .sustaionMainTitle {
+        font-size: 22px !important;
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
         margin: 0px;
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        font-size: $fontSize5;
     }
 
-    .sustaionMainTitleDesc {
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        font-size: $fontSize2;
+    .sustaionMainTitle2 {
+        font-size: 13px !important;
+        color: #7d7f85;
+        font-family: 'PT Sans', sans-serif;
         margin: 0px;
     }
 
@@ -41,24 +42,6 @@
             padding: 0px;
         }
 
-        .sustaionMainTitle {
-            font-size: 22px !important;
-            margin: 0px;
-        }
-
-        .sustaionMainTitleDesc {
-            font-size: 11px !important;
-            margin: 0px;
-        }
-
-        .sustainBoxImageBoxMain {
-            width: 50%;
-            padding: 0px !important;
-        }
-
-        .sustainBoxImageBoxMainDiv {
-            gap: 3px !important;
-        }
     }
 
     @media screen and (max-width: 400px) {
@@ -75,13 +58,13 @@
         .sustaionImage1 {
             height: 130px;
             width: 130px;
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .sustaionImage2 {
             height: 130px;
             width: 130px;
-            object-fit: contain;
+            object-fit: cover;
         }
     }
 }
