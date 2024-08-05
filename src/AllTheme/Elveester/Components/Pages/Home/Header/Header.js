@@ -42,14 +42,14 @@ const Header = () => {
     const value = JSON.parse(localStorage.getItem("LoginUser"));
     setislogin(value);
 
-    if (titleImg) {
-      const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-      console.log("storeInit: ", storeInit);
-      setCompanyTitleLogo(storeInit?.companylogo);
-    }
-    setTimeout(() => {
-      setLodingLogo(false);
-    }, 100);
+    // if (titleImg) {
+    //   const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    //   console.log("storeInit: ", storeInit);
+    //   setCompanyTitleLogo(storeInit?.companylogo);
+    // }
+    // setTimeout(() => {
+    //   setLodingLogo(false);
+    // }, 100);
   }, []);
 
   useEffect(() => {
@@ -95,10 +95,13 @@ const Header = () => {
 
   const handleIconClick = () => {
     setSearchOpen(true);
-    if (inputRef.current) {
+  };
+
+  useEffect(() => {
+    if (searchOpen && inputRef.current) {
       inputRef.current.focus();
     }
-  };
+  }, [searchOpen]);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -161,6 +164,7 @@ const Header = () => {
       navigate(`/d/${inputValue}?p=${encodeObj}`);
       setInputValue("");
       setShowBtn(false);
+      setSearchOpen(false);
       // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
       // }
@@ -175,7 +179,6 @@ const Header = () => {
     }
   };
 
-  console.log("searchOpen: ", searchOpen);
 
   //After Login Header...........
   const [menuData, setMenuData] = useState([]);
@@ -575,7 +578,7 @@ const Header = () => {
                   >
                     <small
                       style={{
-                        backgroundColor: "#AE8135",
+                        backgroundColor: "#9C27B0",
                         position: "absolute",
                         marginTop: "-35px",
                         display: "flex",
@@ -587,6 +590,7 @@ const Header = () => {
                         fontSize: "10px",
                         borderRadius: " 3px",
                         marginLeft: "-15px",
+                        color: 'white'
                       }}
                     >
                       New
@@ -652,7 +656,7 @@ const Header = () => {
                             <input
                               className="elv_search_inp"
                               placeholder="Search..."
-                              type="search"
+                              type="text"
                               value={inputValue}
                               onChange={handleInputChange}
                               ref={inputRef}

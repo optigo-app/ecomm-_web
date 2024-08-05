@@ -400,7 +400,7 @@
             border-radius: 10px;
             position: absolute;
             top: 3rem;
-            right: -4.9rem;
+            right: -6.9rem;
             width: 100vw;
             background-color: #ffffff;
             border: 1px solid #ededed;
@@ -490,6 +490,21 @@
                 border: 1px solid #FF0000;
                 padding-block: 3px;
             }
+        }
+
+        .elv_search_area_respo_1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+            padding: 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 3rem;
+            right: -4.9rem;
+            width: 100vw;
+            background-color: #ffffff;
+            border: 1px solid #ededed;
         }
     }
 
