@@ -794,6 +794,9 @@ const ProductDetail = () => {
         if(isImgAvl){
           FinalPdImgList.push(pdImgList[i])
         }
+        else{
+          finalprodListimg.push(imageNotFound)
+        }
       }
     }
 
@@ -808,6 +811,8 @@ const ProductDetail = () => {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+    }else{
+      setPdVideoArr([]);
     }
 
     return finalprodListimg;
@@ -902,9 +907,22 @@ const ProductDetail = () => {
       isImgCol = await checkImageAvailability(pdImgListCol[0]);
     }
 
-    if (pdImgListCol?.length > 0 && isImgCol == true) {
-      setPdThumbImg(pdImgListCol);
-      setSelectedThumbImg({ link: pdImgListCol[thumbImgIndex], type: "img" });
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if (FinalPdColImgList?.length > 0 && isImgCol == true) {
+      setPdThumbImg(FinalPdColImgList);
+      setSelectedThumbImg({ link: FinalPdColImgList[thumbImgIndex], type: "img" });
       setThumbImgIndex(thumbImgIndex);
     } else {
       if (pdImgList?.length > 0) {
@@ -1525,8 +1543,8 @@ const ProductDetail = () => {
                   {
                     background: "none",
                   },
-                width:'75%'
               }}
+              className="dt_price_breakup"
             >
               <AccordionSummary
                 expandIcon={

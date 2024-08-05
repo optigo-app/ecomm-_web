@@ -23,7 +23,6 @@ import Cookies from "js-cookie";
 import HemratnaProcatalog_App from "./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App";
 import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
-import loadingGif from '../src/AllTheme/loading.gif'
 
 export default function ThemeRoutes() {
 
@@ -41,6 +40,7 @@ export default function ThemeRoutes() {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
+
 
     if (data) {
       if (Logindata) {

@@ -118,7 +118,18 @@
 .muiSmilingRocksBtn:hover svg {
     color: #7d7f85 !important;
 }
-
+.sorticon_ma_span_Elvee{
+    position: absolute !important;
+    right: 5px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+.sorticon_ma_Elvee{
+    position: absolute !important;
+    right: 0px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
 @media(max-width: 768px) {
     .QuotationJobAllBtn  {
         margin-bottom: 20px !important;

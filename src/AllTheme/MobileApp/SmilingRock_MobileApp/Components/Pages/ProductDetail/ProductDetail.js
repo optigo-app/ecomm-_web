@@ -928,15 +928,15 @@ const ProductDetail = () => {
 
     console.log("colImg",IsColImg)
     
-    if (pd?.ImageCount > 0 && !IsColImg ) {
+    if (singleProd?.ImageCount > 0 && !IsColImg ) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
-          pd?.designno +
+          singleProd?.designno +
           "_" +
           i +
           "." +
-          pd?.ImageExtension;
+          singleProd?.ImageExtension;
 
           let IsImg = checkImageAvailability(imgString)
           if(IsImg){
@@ -947,18 +947,18 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData",pd?.VideoCount);
+    console.log("SearchData",singleProd?.VideoCount);
 
-    if (pd?.VideoCount > 0) {
-      for (let i = 1; i <= pd?.VideoCount; i++) {
+    if (singleProd?.VideoCount > 0) {
+      for (let i = 1; i <= singleProd?.VideoCount; i++) {
         let videoString =
           (storeInit?.DesignImageFol).slice(0, -13) +
           "video/" +
-          pd?.designno +
+          singleProd?.designno +
           "_" +
           i +
           "." +
-          pd?.VideoExtension;
+          singleProd?.VideoExtension;
         pdvideoList.push(videoString);
       }
     }
@@ -988,6 +988,8 @@ const ProductDetail = () => {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+    }else{
+      setPdVideoArr([]);
     }
 
     return finalprodListimg;
@@ -995,7 +997,7 @@ const ProductDetail = () => {
     
   };
 
-  console.log("pdThumbImg", pdThumbImg);
+  console.log("pdThumbImg", pdVideoArr);
 
   useEffect(() => {
     ProdCardImageFunc();
@@ -1066,9 +1068,22 @@ const ProductDetail = () => {
       isImgCol = await checkImageAvailability(pdImgListCol[0])
     }
 
-    if(pdImgListCol?.length > 0 && (isImgCol == true)){
-      setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if(FinalPdColImgList?.length > 0 && (isImgCol == true)){
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({"link":FinalPdColImgList[thumbImgIndex],"type":'img'});
       setThumbImgIndex(thumbImgIndex)
       
     }
@@ -1258,7 +1273,7 @@ const ProductDetail = () => {
                       </div>
                     )}
 
-                    <div className="dt_thumb_prod_img">
+                    <div className="smr_app_thumb_prod_img">
                       { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                         <img
                           src={ele}
@@ -1845,8 +1860,9 @@ const ProductDetail = () => {
                               <>
                                 
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
+                                <span style={{fontSize:"10px"}}>|</span>
+                                  <span className="dt_keys">GWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.GrossWt)?.toFixed(3)}
                                   </span>
                                 </span>
@@ -1855,10 +1871,10 @@ const ProductDetail = () => {
                           {storeInit?.IsDiamondWeight == 1 &&
                             Number(ele?.DiaWt) !== 0 && (
                               <>
-                                <span>|</span>
+                                <span style={{fontSize:"10px"}}>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
+                                  <span className="dt_keys">DWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.DiaWt)?.toFixed(3)}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -1871,10 +1887,10 @@ const ProductDetail = () => {
                           {storeInit?.IsStoneWeight == 1 &&
                             Number(ele?.CsWt) !== 0 && (
                               <>
-                                <span >|</span>
+                                <span style={{fontSize:"10px"}}>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
+                                  <span className="dt_keys">CWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.CsWt)?.toFixed(3)}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -1887,13 +1903,12 @@ const ProductDetail = () => {
                       </div>
 
                       <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
-                          <spam>
-                            {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
+                          <span>
+                            {ele?.MetalColorName}{" "}-{" "}{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
-                            <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             </span>
-                             </spam>
+                             </span>
                              <span>&nbsp;{formatter.format(ele?.Amount)}</span>
                       </div>
                       </div>
