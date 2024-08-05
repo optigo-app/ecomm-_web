@@ -928,15 +928,15 @@ const ProductDetail = () => {
 
     console.log("colImg",IsColImg)
     
-    if (pd?.ImageCount > 0 && !IsColImg ) {
+    if (singleProd?.ImageCount > 0 && !IsColImg ) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
-          pd?.designno +
+          singleProd?.designno +
           "_" +
           i +
           "." +
-          pd?.ImageExtension;
+          singleProd?.ImageExtension;
 
           let IsImg = checkImageAvailability(imgString)
           if(IsImg){
@@ -947,18 +947,18 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData",pd?.VideoCount);
+    console.log("SearchData",singleProd?.VideoCount);
 
-    if (pd?.VideoCount > 0) {
-      for (let i = 1; i <= pd?.VideoCount; i++) {
+    if (singleProd?.VideoCount > 0) {
+      for (let i = 1; i <= singleProd?.VideoCount; i++) {
         let videoString =
           (storeInit?.DesignImageFol).slice(0, -13) +
           "video/" +
-          pd?.designno +
+          singleProd?.designno +
           "_" +
           i +
           "." +
-          pd?.VideoExtension;
+          singleProd?.VideoExtension;
         pdvideoList.push(videoString);
       }
     }
@@ -988,6 +988,8 @@ const ProductDetail = () => {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+    }else{
+      setPdVideoArr([]);
     }
 
     return finalprodListimg;
@@ -995,7 +997,7 @@ const ProductDetail = () => {
     
   };
 
-  console.log("pdThumbImg", pdThumbImg);
+  console.log("pdThumbImg", pdVideoArr);
 
   useEffect(() => {
     ProdCardImageFunc();
@@ -1258,7 +1260,7 @@ const ProductDetail = () => {
                       </div>
                     )}
 
-                    <div className="dt_thumb_prod_img">
+                    <div className="smr_app_thumb_prod_img">
                       { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                         <img
                           src={ele}
