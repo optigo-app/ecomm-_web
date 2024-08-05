@@ -450,7 +450,7 @@ const QuotationQuote = () => {
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">
                     <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec w_q">
-                        <p className='fs-6 w_20_q mb-0' style={{ paddingRight: "8px" }}>Date: </p>
+                        <p className='w_20_q' style={{ paddingRight: "8px", fontSize:'14px',marginBottom:'0px' }}>Date: </p>
                         <Box className="w_80_q">
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
@@ -486,7 +486,7 @@ const QuotationQuote = () => {
                         </Box>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec w_q">
-                        <p className='fs-6 w_20_q mb-0' style={{ paddingRight: "8px" }}>To: </p>
+                        <p className='w_20_q ' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>To: </p>
                         <Box className="w_80_q">
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
