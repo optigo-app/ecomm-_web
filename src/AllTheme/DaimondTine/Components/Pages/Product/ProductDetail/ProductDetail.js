@@ -794,6 +794,9 @@ const ProductDetail = () => {
         if(isImgAvl){
           FinalPdImgList.push(pdImgList[i])
         }
+        else{
+          finalprodListimg.push(imageNotFound)
+        }
       }
     }
 
@@ -904,9 +907,22 @@ const ProductDetail = () => {
       isImgCol = await checkImageAvailability(pdImgListCol[0]);
     }
 
-    if (pdImgListCol?.length > 0 && isImgCol == true) {
-      setPdThumbImg(pdImgListCol);
-      setSelectedThumbImg({ link: pdImgListCol[thumbImgIndex], type: "img" });
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if (FinalPdColImgList?.length > 0 && isImgCol == true) {
+      setPdThumbImg(FinalPdColImgList);
+      setSelectedThumbImg({ link: FinalPdColImgList[thumbImgIndex], type: "img" });
       setThumbImgIndex(thumbImgIndex);
     } else {
       if (pdImgList?.length > 0) {

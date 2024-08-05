@@ -411,6 +411,7 @@
     position: inherit;
     width:80%;
     object-fit: scale-down;
+    height: fit-content;
 }
 
 .dt_prod_video{
@@ -733,6 +734,7 @@
     flex-direction: row;
     gap: 5px;
     height: fit-content;
+    margin-left:12px;
     }
 }
 
@@ -839,9 +841,9 @@
     .smilingProdutDetltTitle{
         font-size: 25px;
     }
-    .srprodetail2-cont {
-        margin: 120px 50px 0px;
-    }
+    // .srprodetail2-cont {
+    //     margin: 120px 50px 0px;
+    // }
 
     .tellmeMoreMain {
         width: 100% !important;
@@ -890,6 +892,7 @@
         margin-top: 70px !important;
         // width: 100% !important;
         width: 375px !important;
+        margin-left: 12px;
     }
 
     .smilingProdutDetltTitle {
