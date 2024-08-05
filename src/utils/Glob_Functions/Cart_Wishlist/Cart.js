@@ -442,7 +442,7 @@ const useCart = () => {
       const diaId = `${selectedDiaQId},${selectedDiaCId}`;
       console.log('Selected Metalid:', diaId);
       setdiaID(diaId);
-      handlePrice(sizeId, diaId, colorStoneID, metalID);
+      handlePrice("",sizeId, diaId, colorStoneID, metalID);
     }
   };
 
@@ -463,7 +463,7 @@ const useCart = () => {
     setSizeChangeData(sizeChangeData);
     console.log("sizeChangeData", sizeChangeData);
 
-    handlePrice(sizedata, diaIDData, colorStoneID, metalID);
+    handlePrice(selectedID,sizedata, diaIDData, colorStoneID, metalID);
   };
 
 
@@ -494,7 +494,7 @@ const useCart = () => {
       const csQid = `${selectedCSQId},${selectedCSCId}`;
       console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
       setColorStoneID(csQid);
-      handlePrice(sizeId, diaIDData, csQid, metalID);
+      handlePrice("",sizeId, diaIDData, csQid, metalID);
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
@@ -503,8 +503,9 @@ const useCart = () => {
 
   // for price api
 
-  const handlePrice = async (sizedata, diaId, csQid, selectedMetalId) => {
+  const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
     try {
+      debugger
       setIsPriceLoding(true)
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
       if (response?.Message === "Success") {
@@ -517,9 +518,11 @@ const useCart = () => {
         }));
 
         const updatedPricetData = cartData?.map(cart =>
-          cart.id == selectedItem?.id ? {
-            ...cart, FinalCost: finalPrice,
-            UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
+          cart?.id == selectedID ? {
+            ...cart, 
+            FinalCost: finalPrice,
+            UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
+            Size:sizedata
           } : cart
         );
         setCartData(updatedPricetData);
@@ -532,8 +535,6 @@ const useCart = () => {
       setIsPriceLoding(false)
     }
   };
-
-
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -626,6 +627,8 @@ const useCart = () => {
       navigate("/")
     }
   }
+
+  console.log("cartData", cartData);
 
   return {
     isloding,
