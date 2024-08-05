@@ -167,6 +167,11 @@ const Lookbook = () => {
       },
     }));
     setThumbsSwiper(null);
+
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    })
   };
 
   const FilterValueWithCheckedOnly = () => {
@@ -893,7 +898,7 @@ const Lookbook = () => {
         </div>
       ) : (
         <div className="smr_LookBookSubMainDiv">
-          <div className="smr_lookbookFilterMain">
+          <div className="elv_lookbookFilterMain">
             {filterData?.length > 0 && (
               <div className="smr_lookBookFilterSubDiv">
                 <span className="smr_filter_text">
@@ -1151,10 +1156,10 @@ const Lookbook = () => {
                                     // }
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                     }
                                   />
                                 </div>

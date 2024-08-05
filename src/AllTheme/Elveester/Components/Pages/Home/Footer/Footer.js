@@ -105,7 +105,7 @@ const Footer = () => {
                     <p className='ElveFooterDesc'>Book an Appoinment</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
                     <p className='ElveFooterDesc'>FAQ</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p>
+                    {/* <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p> */}
                 </div>
                 <div className={'ElveFooter4'}>
                     <p className='ElevFooterBoxTitle'>Office</p>

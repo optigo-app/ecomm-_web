@@ -6,6 +6,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router'
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
+import { ResetPasswordAPI } from '../../../../../../utils/API/Auth/ResetPasswordAPI';
 
 export default function ForgotPass() {
 
@@ -92,39 +93,29 @@ export default function ForgotPass() {
         } else if (confirmPassword !== password) {
             errors.confirmPassword = 'Passwords do not match';
         }
+
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const userid = queryParams.get('userid');
+
         if (Object.keys(errors).length === 0) {
             const hashedPassword = hashPasswordSHA1(password);
             setIsLoading(true);
-            try {
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-                const { FrontEnd_RegNo } = storeInit;
-                const combinedValue = JSON.stringify({
-                    // userid: 'xoraxor802@fryshare.com', pass: `${hashedPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-                    userid: `${email}`, pass: `${hashedPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-                });
-
-                const encodedCombinedValue = btoa(combinedValue);
-                const body = {
-                    "con": `{\"id\":\"\",\"mode\":\"resetpassword\",\"appuserid\":\"${email}\"}`,
-                    "f": "ForgotPassword (handleSubmit)",
-                    "p": encodedCombinedValue
-                }
-                const response = await CommonAPI(body);
-                console.log('ressssssssssssss', response);
+            ResetPasswordAPI(userid, hashedPassword).then((response) => {
                 if (response.Data.rd[0].stat === 1) {
                     navigation('/ContinueWithEmail');
                 } else {
+                    setIsLoading(false);
                     alert(response.Data.rd[0].stat_msg);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            } finally {
-                setIsLoading(false);
-            }
+            }).catch((err) => console.log(err))
+
+
         } else {
             setErrors(errors);
         }
     };
+
 
 
     return (
@@ -220,7 +211,7 @@ export default function ForgotPass() {
                             />
 
                             <button className='submitBtnForgot' onClick={handleSubmit}>Change Password</button>
-                            <Button style={{ marginTop: '10px', color: 'gray' ,marginBottom: '40px'}} onClick={() => navigation('/')}>CANCEL</Button>
+                            <Button style={{ marginTop: '10px', color: 'gray' ,marginBottom: '13rem'}} onClick={() => navigation('/')}>CANCEL</Button>
                         </div>
 
                     </div>
