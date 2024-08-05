@@ -120,110 +120,80 @@ const ManageAddress = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
     
-        const errors = {}; // Initialize errors object
-    
-        // Validate each required field
+        const errorsCopy = {}; // Initialize errors object
+
         if (!formData.firstName.trim()) {
-            errors.firstName = 'First Name is required';
-        } else if(formData.firstName?.length < 2){
-            errors.firstName = 'First Name too short';
-        } else if(formData.firstName?.length > 25){
-            errors.firstName = 'First Name too long';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
-        } else if (!/^[a-zA-Z\s.]+$/.test(formData.firstName.trim())) {
-            errors.firstName = 'First Name must contain only letters';
+            errorsCopy.firstName = 'First Name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
+            errorsCopy.firstName = 'First Name must contain only letters';
+        } else if (formData.firstName?.trim()?.length < 2) {
+            errorsCopy.firstName = 'Enter minimum 2 characters';
+        } else if (formData.firstName?.trim()?.length > 45) {
+            errorsCopy.firstName = 'Enter maximum 45 characters';
+        } else {
+            errorsCopy.firstName = '';
         }
 
         if (!formData.lastName.trim()) {
-            errors.lastName = 'Last Name is required';
-        } else if(formData.lastName?.length < 2){
-            errors.lastName = 'Last Name is too short';
-        } else if(formData.lastName?.length > 25){
-            errors.lastName = 'Last Name is too long';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-        } else if (!/^[a-zA-Z\s.]+$/.test(formData.lastName.trim())) {
-            errors.lastName = 'Last Name must contain only letters';
+            errorsCopy.lastName = 'Last Name is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
+            errorsCopy.lastName = 'Last Name must contain only letters';
+        } else if (formData.lastName?.trim()?.length < 2) {
+            errorsCopy.lastName = 'Enter minimum 2 characters';
+        } else if (formData.lastName?.trim()?.length > 45) {
+            errorsCopy.lastName = 'Enter maximum 45 characters';
+        } else {
+            errorsCopy.lastName = '';
         }
-    
-        // if (!formData.lastName.trim()) {
-        //     errors.lastName = 'Last Name is required';
-        // }
-    
-        // if (!formData.mobileNo.trim()) {
-        //     errors.mobileNo = 'Mobile No. is required';
-        // }
+
         if (!formData.mobileNo.trim()) {
-            errors.mobileNo = 'Mobile No. is required';
+            errorsCopy.mobileNo = 'Mobile No. is required';
         } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
-            errors.mobileNo = 'Mobile No. must contain exactly 10 numbers';
+            errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
         }
     
         if (!formData.address.trim()) {
-            errors.address = 'Address is required';
+            errorsCopy.address = 'Address is required';
         }
-    
-        // if (!formData.country.trim()) {
-        //     errors.country = 'Country is required';
-        // }
-        // if (!formData.country.trim()) {
-        //     errors.country = 'Country Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-        //     errors.country = 'Country Name must contain only letters';
-        // }else{
-        //     errors.country = '';
-        // }
-        // if (!formData.state.trim()) {
-        //     errors.state = 'State Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-        //     errors.state = 'State Name must contain only letters';
-        // }else{
-        //     errors.state = '';
-        // }
-        // if (!formData.city.trim()) {
-        //     errors.city = 'City Name is required';
-        // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-        //     errors.city = 'City Name must contain only letters';
-        // }else{
-        //     errors.city = '';
-        // }
 
         if (!formData.country.trim()) {
-            errors.country = 'Country Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
-            errors.country = 'Country Name must contain only letters';
+            errorsCopy.country = 'Country is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
+            errorsCopy.country = 'Country name must contain only letters';
+        } else {
+            errorsCopy.country = '';
         }
-    
+
         if (!formData.state.trim()) {
-            errors.state = 'State Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
-            errors.state = 'State Name must contain only letters';
+            errorsCopy.state = 'State is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
+            errorsCopy.state = 'State name must contain only letters';
+        } else {
+            errorsCopy.state = '';
         }
-    
+
         if (!formData.city.trim()) {
-            errors.city = 'City Name is required';
-        } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
-            errors.city = 'City Name must contain only letters';
+            errorsCopy.city = 'City is required';
+        } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
+            errorsCopy.city = 'City name must contain only letters';
+        } else {
+            errorsCopy.city = '';
         }
-    
-        // if (!formData.state.trim()) {
-        //     errors.state = 'State is required';
-        // }
-    
-        // if (!formData.city.trim()) {
-        //     errors.city = 'City is required';
-        // }
-    
-        // if (!formData.zipCode.trim()) {
-        //     errors.zipCode = 'ZIP Code is required';
-        // }
+
         if (!formData.zipCode.trim()) {
-            errors.zipCode = 'ZIP Code is required';
-        } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
-            errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
+            errorsCopy.zipCode = 'ZIP Code is required';
+        } else if (!/^\d+$/.test(formData.zipCode.trim())) {
+            errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
+        } else if (formData.zipCode?.trim()?.length !== 6) {
+            errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
+        } else {
+            errorsCopy.zipCode = '';
         }
+
+
         // If there are any errors, update state and return
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
+        if (Object.keys(errorsCopy).length > 0) {
+            setErrors(errorsCopy);
             return;
         }
     
@@ -348,12 +318,12 @@ const ManageAddress = () => {
             case 'firstName':
                 if (!value.trim()) {
                     errorsCopy.firstName = 'First Name is required';
-                } else if(value?.length < 2){
-                    errorsCopy.firstName = 'First Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.firstName = 'First Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.firstName = 'Invalid First Name';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.firstName = 'First Name must contain only letters';
+                } else if (value?.trim()?.length < 2) {
+                    errorsCopy.firstName = 'Enter minimum 2 characters';
+                } else if (value?.trim()?.length > 45) {
+                    errorsCopy.firstName = 'Enter maximum 45 characters';
                 } else {
                     errorsCopy.firstName = '';
                 }
@@ -361,12 +331,12 @@ const ManageAddress = () => {
             case 'lastName':
                 if (!value.trim()) {
                     errorsCopy.lastName = 'Last Name is required';
-                } else if(value?.length < 2){
-                    errorsCopy.lastName = 'Last Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.lastName = 'Last Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.lastName = 'Invalid Last Name';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.lastName = 'Last Name must contain only letters';
+                } else if(value?.trim()?.length < 2){
+                    errorsCopy.lastName = 'Enter minimum 2 characters';
+                } else if(value?.trim()?.length > 45){
+                    errorsCopy.lastName = 'Enter maximum 45 characters';
                 } else {
                     errorsCopy.lastName = '';
                 }
@@ -377,8 +347,8 @@ const ManageAddress = () => {
             case 'country':
                 if (!value.trim()) {
                     errorsCopy.country = 'Country is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.country = 'Invalid Country';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.country = 'Country name must contain only letters';
                 } else {
                     errorsCopy.country = '';
                 }
@@ -386,8 +356,8 @@ const ManageAddress = () => {
             case 'state':
                 if (!value.trim()) {
                     errorsCopy.state = 'State is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.state = 'Invalid State';
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.state = 'State name must contain only letters';
                 } else {
                     errorsCopy.state = '';
                 }
@@ -395,9 +365,8 @@ const ManageAddress = () => {
             case 'city':
                 if (!value.trim()) {
                     errorsCopy.city = 'City is required';
-                } else if (!/^[a-zA-Z\s]*$/.test(value.trim())) {
-                    errorsCopy.city = 'Invalid City';
-
+                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                    errorsCopy.city = 'City name must contain only letters';
                 } else {
                     errorsCopy.city = '';
                 }
@@ -406,23 +375,26 @@ const ManageAddress = () => {
                 if (!value.trim()) {
                     errorsCopy.zipCode = 'ZIP Code is required';
                 } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.zipCode = 'Invalid ZIP Code';
+                    errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
+                } else if (value?.trim()?.length !== 6) {
+                    errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
                 } else {
                     errorsCopy.zipCode = '';
                 }
-
                 break;
             case 'mobileNo':
                 if (!value.trim()) {
-                    errorsCopy.mobileNo = 'Mobile No. is required';
-                } else if (!/^\d{10}$/.test(value.trim())) {
-                    errorsCopy.mobileNo = 'Enter Valid mobile number';
+                    errorsCopy.mobileNo = 'Mobile Number is required';
+                } else if (!/^\d+$/.test(value.trim())) {
+                    errorsCopy.mobileNo = 'Mobile Number must contain only numeric values';
+                } else if (value?.trim()?.length !== 10) {
+                    errorsCopy.mobileNo = 'Mobile Number must be exactly 10 digits';
                 } else {
                     errorsCopy.mobileNo = '';
                 }
                 break;
             default:
-                break;
+                break;   
         }
 
         setErrors(errorsCopy);
@@ -572,7 +544,7 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} className='text-decoration-none' >{item?.shippingmobile}</a>
+                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{textDecoration:'none'}} >{item?.shippingmobile}</a>
                                                         {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
                                                 </Box>
                                             </NavLink>

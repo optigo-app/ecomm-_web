@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./DesignSet2.scss";
 import bgImg from "../../../Assets/full.jpg";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -113,34 +112,6 @@ const DesignSet2 = () => {
     txt.innerHTML = html;
     return txt.value;
   };
-
-  const onSwiperInit = (swiper) => {
-    console.log('Swiper initialized:', swiper);
-    setSwiper(swiper);
-  };
-
-
-  const [showAll, setShowAll] = useState(false);
-
-  const handleViewAll = () => {
-    setShowAll(true);
-  };
-
-  // Determine the items to show
-  const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 4);
-  console.log('jkksdjkjfkdsj', designSetList);
-
-  console.log('designSetListdesignSetList', designSetList);
-
-  const handleNavigate = () => {
-    navigate("/Lookbook");
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-
 
   const handlePrevious = () => {
     if (swiper !== null) {

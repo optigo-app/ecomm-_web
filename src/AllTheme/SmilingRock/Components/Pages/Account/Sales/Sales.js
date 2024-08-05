@@ -402,7 +402,7 @@ const Sales = () => {
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
                     <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
-                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>Date: </p>
+                        <p  style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>Date: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
@@ -434,7 +434,7 @@ const Sales = () => {
                         </Box>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
-                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>To: </p>
+                        <p style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>To: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
