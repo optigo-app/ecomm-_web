@@ -41,6 +41,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Page/LookBook/Lookbook";
+import Customization from "./Components/Page/staticPage/customization/Customization";
 
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
@@ -158,6 +159,7 @@ const HouseOfQuadri_App = () => {
         <Route path="/our-story" element={<OurStory />} />
         <Route path="/lab-grown-diamond" element={<LabGrownDiamond />} />
         <Route path="/diamond-education" element={<DiamondEducation />} />
+        <Route path="/customization" element={<Customization/>}/>
         <Route
           path="/quality-certification"
           element={<QualityCertification />}

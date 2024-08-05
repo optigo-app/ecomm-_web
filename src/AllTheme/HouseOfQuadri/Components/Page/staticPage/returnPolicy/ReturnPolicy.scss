@@ -14,8 +14,9 @@
     width: 50%;
     h2{
     text-align: center;
-
     padding: 45px;
+    margin-bottom: 25px;
+    margin-top: 25px;
     }
     h3{
       font-size: 19px;
@@ -47,5 +48,23 @@
       border: none;
       border-radius: 3px;
     }
+  }
+  @media (max-width: 1042px)
+  {
+   .return-policy{
+    width: 70%;
+   }
+
+  }
+  @media (max-width: 900px)
+  {
+   .return-policy{
+    width: 85%;
+    h2{
+      text-align: center;
+      padding: 10px;
+      }
+   }
+
   }
 }

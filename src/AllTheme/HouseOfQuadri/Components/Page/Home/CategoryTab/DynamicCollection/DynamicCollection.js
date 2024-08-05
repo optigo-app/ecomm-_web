@@ -669,6 +669,7 @@ const DynamicCollection = () => {
           setIsOnlyProdLoading(false);
           window.scroll({
             top: 0,
+            left: 0,
             behavior: "smooth",
           });
         })
@@ -1163,12 +1164,11 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
     setCurrentPage(value);
-    setTimeout(() => {
       window.scroll({
         top: 0,
+        left: 0,
         behavior: "smooth",
       });
-    }, 100);
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
       .then((res) => {
         if (res) {
@@ -1400,16 +1400,19 @@ const DynamicCollection = () => {
                     border: "1px solid #e1e1e1",
                     borderRadius: "8px",
                     minWidth: "270px",
+                    textTransform  :"uppercase"
                   }}
                   className="select"
                   value={selectedDiaId}
                   onChange={(e) => setSelectedDiaId(e.target.value)}
+
                 >
                   {diamondQualityColorCombo?.map((diaQc) => (
                     <option
                       className="option"
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                      style={{textTransform  :"uppercase"}}
                     >
                       {" "}
                       {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
@@ -1439,16 +1442,19 @@ const DynamicCollection = () => {
                     borderRadius: "8px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif",
+                    textTransform  :"uppercase"
                   }}
                   className="select"
                   value={selectedCsId}
                   onChange={(e) => setSelectedCsId(e.target.value)}
-                >
+                                  >
                   {ColorStoneQualityColorCombo?.map((csCombo) => (
                     <option
                       className="option"
                       key={csCombo?.QualityId}
                       value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                      style={{textTransform  :"uppercase"}}
+
                     >
                       {" "}
                       {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
@@ -1457,7 +1463,7 @@ const DynamicCollection = () => {
                 </select>
               </div>
             )}
-{/* sort */}
+            {/* sort */}
             <div
             // className="smr_sorting_custom"
             >
@@ -1516,7 +1522,7 @@ const DynamicCollection = () => {
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
-                  <span>
+                  <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0 ? (
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
@@ -1531,12 +1537,12 @@ const DynamicCollection = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                          <span>{`Product Found : ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span onClick={() => handelFilterClearAll()} style={{fontWeight : "600" ,fontFamily  :"Tenor Sans , sans-serif",}}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
@@ -1550,7 +1556,7 @@ const DynamicCollection = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                          <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>{`Total Products: ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
@@ -1664,6 +1670,8 @@ const DynamicCollection = () => {
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
                             fontFamily: "Tenor Sans , sans-serif",
+                            gap: "12px",
+
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
@@ -1766,18 +1774,22 @@ const DynamicCollection = () => {
                                   className="smr_mui_checkbox_label"
                                   label={
                                     opt?.Minval == 0
-                                      ? `Under ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
+                                      ? `Under  ${decodeEntities(
+                                          loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                        )} ${opt?.Maxval}`
                                       : opt?.Maxval == 0
-                                      ? `Over ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Minval}`
+                                      ? `Over  ${decodeEntities(
+                                          loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                        )} ${opt?.Minval}`
                                       : `${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Minval} - ${decodeEntities(
-                                          storeInit?.Currencysymbol
-                                        )}${opt?.Maxval}`
+                                          loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                        )}  ${opt?.Minval} - ${decodeEntities(
+                                          loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                        )}  ${opt?.Maxval}`
                                   }
                                 />
                               </div>
@@ -1794,10 +1806,14 @@ const DynamicCollection = () => {
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
+                              
                             },
                             "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
                             },
+                          }}
+                          style={{
+                            fontFamily: "Tenor Sans , sans-serif",
                           }}
                           // expanded={accExpanded}
                           // defaultExpanded={}
@@ -1809,11 +1825,13 @@ const DynamicCollection = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "gray",
                               borderRadius: 0,
+                              fontSize: "14px",
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
+
                               },
                             }}
                             // className="filtercategoryLable"
@@ -1864,12 +1882,16 @@ const DynamicCollection = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "gray",
                               borderRadius: 0,
+                              fontSize: "14px",
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
+                            }}
+                            style={{
+                              fontFamily: "Tenor Sans , sans-serif",
                             }}
                             // className="filtercategoryLable"
                             onClick={() => handleScrollHeight()}
@@ -1919,12 +1941,16 @@ const DynamicCollection = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7f7d85",
+                              color: "gray",
                               borderRadius: 0,
+                              fontSize: "14px",
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
                               },
+                            }}
+                            style={{
+                              fontFamily: "Tenor Sans , sans-serif",
                             }}
                             // className="filtercategoryLable"
                             onClick={() => handleScrollHeight()}
@@ -2027,6 +2053,9 @@ const DynamicCollection = () => {
                       val?.ImageExtension,
                       val?.ImageCount
                     )}
+                    // CurrenyCode={
+                    //   loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
+                    // }
                     title={val?.TitleLine}
                     designo={val?.designno}
                     decodeEntities={decodeEntities}
@@ -2038,6 +2067,7 @@ const DynamicCollection = () => {
                     cartArr={cartArr}
                     wishArr={wishArr}
                     CurrencyCode={loginUserDetail?.CurrencyCode}
+                    CurrencyCode2={storeInit?.CurrencyCode}
                   />
                 ))
               ) : (
@@ -2097,7 +2127,9 @@ const C_Card = ({
   cartArr,
   wishArr,
   CurrencyCode,
+  CurrencyCode2,
 }) => {
+  console.log(CurrencyCode);
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
 
@@ -2147,7 +2179,7 @@ const C_Card = ({
         />
         <Checkbox
           icon={
-            <FavoriteIcon
+            <FavoriteBorderIcon 
               sx={{
                 fontSize: "26px",
                 color: "#7d7f85",
@@ -2303,7 +2335,7 @@ const C_Card = ({
                   <span className="smr_val">
                     {productData?.Dwt?.toFixed(3)}
                     {storeInit?.IsDiamondPcs === 1
-                      ? `/${productData?.Dpcs?.toFixed(3)}`
+                      ? `/${productData?.Dpcs?.toFixed(0)}`
                       : null}
                   </span>
                 </span>
@@ -2317,7 +2349,7 @@ const C_Card = ({
                 <span className="smr_val">
                   {productData?.CSwt?.toFixed(3)}
                   {storeInit?.IsStonePcs === 1
-                    ? `/${productData?.CSpcs?.toFixed(3)}`
+                    ? `/${productData?.CSpcs?.toFixed(0)}`
                     : null}
                 </span>
               </span>
@@ -2345,7 +2377,7 @@ const C_Card = ({
               className="hoq_currencyFont"
               style={{ paddingRight: "0.1rem" }}
               dangerouslySetInnerHTML={{
-                __html: decodeEntities(CurrencyCode),
+                __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
               }}
             />
             <span className="hoq_pricePort">

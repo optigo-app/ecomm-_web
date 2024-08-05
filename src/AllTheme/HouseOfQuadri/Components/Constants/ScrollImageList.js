@@ -11,7 +11,7 @@ export const ScrollImageList = [
     btn_des: "READ MORE",
     top: "55px",
     isborder: true,
-    link: "/why-quality-matters", 
+    link: "/why-quality-matters",
   },
   {
     head: "Lorem ipsum dolor?",
@@ -22,6 +22,7 @@ export const ScrollImageList = [
     btn_des: "CUSTOMISE NOW",
     top: "15px",
     isborder: false,
+    link: "/customization",
   },
   {
     title: "Lorem ipsum dolor sit amet consectetur?",

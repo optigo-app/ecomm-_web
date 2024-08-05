@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './hoq_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
+import { toast } from 'react-toastify';
 
 const Customization = ({
   ispriceloding,
@@ -43,6 +44,14 @@ const Customization = ({
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg == "success") {
+      toast.success('Cart Updated Successfully');
+    }
+  }
+
   return (
     <>
       {selectedItem?.StockId == 0 ? (
@@ -56,7 +65,7 @@ const Customization = ({
                   <label htmlFor="metal-type">Metal Type:</label>
                   <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {selectedItem?.StockId != 0 ? (
-                      <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
+                      <option value={selectedItem?.metaltypename} >{selectedItem?.metaltypename}</option>
                     ) :
                       <>
                         {metalTypeCombo?.map(option => (
@@ -161,7 +170,7 @@ const Customization = ({
             }
           </div>
           <div className='hoq_UpdateCartBtn'>
-            <button className="hoq_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
+            <button className="hoq_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :

@@ -34,7 +34,7 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(Hoq_WishCount)
   const setCartCountVal = useSetRecoilState(Hoq_CartCount)
   const visiterId = Cookies.get('visiterId');
-
+ const [StoreInit,setstoreInit] =useState();
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -71,6 +71,7 @@ const Wishlist = () => {
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    setstoreInit(storeInit)
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -118,6 +119,7 @@ const Wishlist = () => {
             updateCount={updateCount}
             countDataUpdted={countDataUpdted}
             curr={CurrencyData}
+            StoreInit={StoreInit}
             itemInCart={itemInCart}
             decodeEntities={decodeEntities}
             WishCardImageFunc={WishCardImageFunc}

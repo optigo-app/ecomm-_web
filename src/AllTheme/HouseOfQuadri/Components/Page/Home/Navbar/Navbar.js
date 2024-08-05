@@ -740,12 +740,12 @@ const NavbarCenter = ({
                     <React.Fragment key={i}>
                       <li>
                         <span
-                          onClick={() =>
+                          onClick={() =>{
                             handleMenu({
                               menuname: menuname,
                               key: menuItem?.param0name,
                               value: menuItem?.param0dataname,
-                            })
+                            })  ;  window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
                           }
                         >
                           {menuname}
@@ -763,7 +763,7 @@ const NavbarCenter = ({
                                     ({ param1dataname, param1name }, j) => (
                                       <li>
                                         <span
-                                          onClick={() =>
+                                          onClick={() =>{
                                             handleMenu(
                                               {
                                                 menuname: menuname,
@@ -774,7 +774,7 @@ const NavbarCenter = ({
                                                 key: param1name,
                                                 value: param1dataname,
                                               }
-                                            )
+                                            ); window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
                                           }
                                         >
                                           {param1dataname}
