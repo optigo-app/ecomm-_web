@@ -2244,7 +2244,7 @@ const ProductList = () => {
                                             />
                                           }
                                           disableRipple={false}
-                                          sx={{ padding: "10px" }}
+                                          sx={{ padding: "10px",display:"none"}}
 
                                           onChange={(e) => handleCartandWish(e, productData, "Wish")}
                                           // checked={productData?.IsInWish}
@@ -2255,11 +2255,11 @@ const ProductList = () => {
                                         {/* </Button> */}
                                       </div>
 
-                                      <div className="smr_product_label">
-                                        {productData?.IsInReadyStock == 1 && <span className="smr_instock">In Stock</span>}
-                                        {productData?.IsBestSeller == 1 && <span className="smr_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_newarrival">New Arrival</span>}
+                                      <div className="smr_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && <span className="smr_app_instock">In Stock</span>}
+                                        {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New Arrival</span>}
                                       </div>
                                       <img
                                         className="smr_productCard_Image"
@@ -2290,7 +2290,7 @@ const ProductList = () => {
                                 {productData?.designno}
                               </span>
                             </div>
-                            <div className="smr_prod_Allwt" >
+                            <div className="smr_app_prod_Allwt" >
                               <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
                               {/* <span className="smr_por"> */}
                               { (storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">

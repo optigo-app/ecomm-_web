@@ -909,6 +909,8 @@ function checkImageAvailability(imageUrl) {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+    }else{
+      setPdVideoArr([]);
     }
 
     return finalprodListimg;
@@ -1305,7 +1307,7 @@ function checkImageAvailability(imageUrl) {
                           </div>
                         )}
 
-                        <div className="smr_thumb_prod_img">
+                        <div className="smr_main_thumb_prod_img">
                           {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
                             pdThumbImg?.map((ele, i) => (
                               <img

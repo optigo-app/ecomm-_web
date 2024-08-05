@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .elv_ProductDetMain_div {
     .elv_ProductDet_prod_div {
         display: flex;
@@ -271,7 +273,7 @@
 
     .elv_prod_det_default_thumb {
         height: 58px;
-        width: 58px;
+        width: 78px;
         position: relative;
         bottom: 14rem;
     }
@@ -384,6 +386,12 @@
         }
     }
 
+    .elv_prodd_datanotfound {
+        font-family: $primaryFontFamilyMedium;
+        color: $primaryfontcolor;
+        font-size: 42px;
+    }
+
     .elv_ProductDet_extra_dets {
         max-width: 60rem;
         margin-inline: auto;
@@ -473,9 +481,13 @@
             margin-left: 0.5rem;
         }
 
-        .elv_ProductDet_wishlist {
-            margin-top: 12px;
+        .elv_ProductDet_wishlist_div {
+
+            .elv_ProductDet_wishlist {
+                height: 36px;
+            }
         }
+
 
     }
 
@@ -574,10 +586,6 @@
             .elv_ProductDet_title {
                 padding-top: 1rem;
             }
-        }
-
-        .elv_ProductDet_wishlist {
-            margin-top: 12px;
         }
     }
 

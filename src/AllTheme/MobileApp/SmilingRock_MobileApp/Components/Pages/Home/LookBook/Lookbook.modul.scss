@@ -18,19 +18,20 @@
 }
 
 .smrMA_SmiCartListTitle {
-    color: #7d7f85;
-    font-family: $primaryFontFamily;
-    margin: 0px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 18px;
-    padding: 0px 20px 0px 5px;
-    height: 50px;
-    position: fixed;
-    z-index: 11111111111;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  color: #7d7f85;
+  font-family: $primaryFontFamily;
+  margin: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 18px;
+  padding: 0px 20px 0px 5px;
+  height: 50px;
+  top: 0px;
+  position: fixed;
+  z-index: 11111111111;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .smrMA_LookBookMain {
@@ -367,6 +368,15 @@
     .smr_lookBookImgDeatil {
       display: flex;
       flex-direction: column;
+      padding: 0 5px !important;
+    }
+
+
+
+    .smrMA_lookbookDeatilShow {
+      font-size: 11px !important;
+      text-align: center !important;
+      width: 100% !important;
     }
 
     .smr_lookBookImgDeatilSub {
@@ -423,6 +433,7 @@
       overflow-y: scroll;
       overflow-x: hidden;
     }
+
     .smr_lb3TotalBtnGroup {
       display: flex;
       justify-content: space-evenly;
@@ -431,7 +442,7 @@
       border-top: 1px solid #e1e1e1 !important;
       width: 516px;
       border-top: none;
-  
+
       .smr_lb3TotalPrice {
         width: 100%;
         color: $titleColor;
@@ -441,7 +452,7 @@
         padding: 10px 0px;
         font-weight: 500;
       }
-  
+
       .smr_lb3BuyComboDiv {
         width: 100%;
         color: #fff;
@@ -450,7 +461,7 @@
         text-align: center;
         padding: 10px 0px;
         font-weight: 500;
-  
+
         &:hover {
           color: $titleColor;
           background-color: #fff;
@@ -656,7 +667,8 @@
     .smr_lb3compeletethelook_cont {
       padding: 0 !important;
     }
-    .smr_lb3completethelook_outer{
+
+    .smr_lb3completethelook_outer {
       position: relative;
     }
 
