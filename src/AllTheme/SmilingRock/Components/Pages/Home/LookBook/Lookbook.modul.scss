@@ -179,6 +179,7 @@
 
   .smr_LookBookmySwiper {
     width: 100% !important;
+    padding-inline: 5px;
   }
 
   .smr_lookBookSubImageDiv {
@@ -213,7 +214,7 @@
     font-size: 13px;
     font-weight: 600;
     color: #7d7f85;
-    border: 1px solid #7d7f85;
+    border: 1px solid #7d7f8554;
     border-radius: 0px;
     background: none;
   }
@@ -293,6 +294,28 @@
   @media screen and (max-width:1450px) {
     .smr_designSetDiv {
       width: 48% !important;
+    }
+
+    .smr_lookBookBuyBtn {
+      height: 30px;
+      width: 85px;
+      font-size: 15px;
+      border: none;
+      font-weight: 600;
+      font-size: 13px;
+      color: #fff;
+      border: 1px solid #7d7f85;
+      border-radius: 0px;
+      background: #7d7f85;
+    }
+
+    .smr_lookBookPriceShow {
+      margin: 0px 5px 0px 0px !important;
+      font-size: 13px !important;
+    }
+
+    .smr_lookBookDesc {
+      font-size: 11px !important;
     }
   }
 
@@ -407,6 +430,7 @@
       overflow-y: scroll;
       overflow-x: hidden;
     }
+
     .smr_lb3TotalBtnGroup {
       display: flex;
       justify-content: space-evenly;
@@ -415,7 +439,7 @@
       border-top: 1px solid #e1e1e1 !important;
       width: 516px;
       border-top: none;
-  
+
       .smr_lb3TotalPrice {
         width: 100%;
         color: $titleColor;
@@ -425,7 +449,7 @@
         padding: 10px 0px;
         font-weight: 500;
       }
-  
+
       .smr_lb3BuyComboDiv {
         width: 100%;
         color: #fff;
@@ -434,7 +458,7 @@
         text-align: center;
         padding: 10px 0px;
         font-weight: 500;
-  
+
         &:hover {
           color: $titleColor;
           background-color: #fff;
@@ -632,6 +656,10 @@
     }
   }
 
+
+
+
+
   @media(max-width: 415px) {
     .smr_lookbookMainDivdata {
       flex-direction: column !important;
@@ -640,7 +668,8 @@
     .smr_lb3compeletethelook_cont {
       padding: 0 !important;
     }
-    .smr_lb3completethelook_outer{
+
+    .smr_lb3completethelook_outer {
       position: relative;
     }
 
@@ -708,4 +737,65 @@
       width: 100%;
     }
   }
+}
+
+
+@media screen and (max-width: 650px) {
+  .smr_lookBookImgDeatil {
+    display: flex;
+    flex-direction: column !important;
+    align-items: start !important;
+  }
+
+  .smr_lookBookImgDeatilSub {
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 551px) {
+  .smr_LookBookMobileThridViewMain {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .smr_lookBookThirdViewWeb {
+    display: none;
+  }
+
+  .smr_designSetDiv2_sub1 {
+    width: 50% !important;
+  }
+
+  .smr_designSetDiv2_sub2 {
+    width: 50% !important;
+  }
+
+  .smr_lookBookImgDeatilSub {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+
+  .smr_designSetDiv2_sub1 {
+    width: 30% !important;
+  }
+
+  .smr_designSetDiv2_sub2 {
+    width: 70% !important;
+  }
+
+}
+.smr_LookBookMobileThridViewMain {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.smr_LookBookMobileThridViewMain_swiper_w {
+  width: 100% !important;
 }

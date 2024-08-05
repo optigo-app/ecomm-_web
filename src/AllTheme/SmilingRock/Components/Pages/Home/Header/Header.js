@@ -947,10 +947,7 @@ const Header = () => {
                     <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        navigation("/Lookbook");
-                        window.scrollTo(0, 0);
-                      }}
+                      onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                     >
                       {/* <a href="/Lookbook" className="smr_A_link"> */}
                       {storeinit?.DesignSetInMenu}
@@ -1255,10 +1252,7 @@ const Header = () => {
                         <li
                           className="nav_li_smining_Fixed nav_li_smining_Mobile"
                           style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            navigation("/Lookbook");
-                            window.scrollTo(0, 0);
-                          }}
+                          onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
                           <a href="/Lookbook" className="smr_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
@@ -1275,10 +1269,7 @@ const Header = () => {
                       <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          navigation("/Lookbook");
-                          window.scrollTo(0, 0);
-                        }}
+                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
                         <a href="/Lookbook" className="smr_A_linkFixed">
                           {storeinit?.DesignSetInMenu}

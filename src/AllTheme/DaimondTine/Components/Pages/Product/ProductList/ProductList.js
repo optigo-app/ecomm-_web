@@ -461,15 +461,9 @@ const ProductList = () => {
       filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
     )[0];
 
-    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
-    let netRange = {
-      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
-      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
-    };
-    let grossRange = {
-      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
-      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
-    };
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
+    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] )? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[1] }
 
     await ProductListApi(
       output,
@@ -506,15 +500,9 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let DiaRange = {
-      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
-      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
-    };
-    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] };
-    let grossRange = {
-      grossMin: diafilter2?.Min == sliderValue2[0] ? "" : sliderValue2[0],
-      grossMax: diafilter2?.Max == sliderValue2[1] ? "" : sliderValue2[1],
-    };
+    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1] ) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1])  ? "" : sliderValue[1] }
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(
       output,
@@ -551,15 +539,9 @@ const ProductList = () => {
     )[0];
     // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
 
-    let DiaRange = {
-      diaMin: diafilter?.Min == sliderValue[0] ? "" : sliderValue[0],
-      diaMax: diafilter?.Max == sliderValue[1] ? "" : sliderValue[1],
-    };
-    let netRange = {
-      netMin: diafilter1?.Min == sliderValue1[0] ? "" : sliderValue1[0],
-      netMax: diafilter1?.Max == sliderValue1[1] ? "" : sliderValue1[1],
-    };
-    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
+    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
+    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
     await ProductListApi(
       output,

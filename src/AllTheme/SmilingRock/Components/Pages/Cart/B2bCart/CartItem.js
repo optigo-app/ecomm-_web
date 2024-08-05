@@ -127,7 +127,7 @@ const CartItem = ({
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
       className='smr_cartListCardGrid'>
-      <Card className={itemLength <= 2 ? 'smr_cartListCard1' : 'smr_cartListCard'}
+      <Card className={itemLength <= 3 ? 'smr_cartListCard' : 'smr_cartListCard'}
         key={item?.id}
         sx={{
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
@@ -135,11 +135,11 @@ const CartItem = ({
         }}
         // onDoubleClick={openHandleUpdateCartModal}
 
-        onMouseDown={handlePress('start')}
-        onMouseUp={cancelPress}
-        onMouseLeave={cancelPress}
-        onTouchStart={handlePress('start')}
-        onTouchEnd={cancelPress}
+        // onMouseDown={handlePress('start')}
+        // onMouseUp={cancelPress}
+        // onMouseLeave={cancelPress}
+        // onTouchStart={handlePress('start')}
+        // onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
