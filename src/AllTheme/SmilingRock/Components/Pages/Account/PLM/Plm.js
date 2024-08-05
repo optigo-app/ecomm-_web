@@ -58,7 +58,7 @@ const Plm = () => {
     <>
     <div className="plm_container">
     <div className="plm_width">
-      <div className="w-100 text-center plm_title" style={{cursor:'pointer'}}>
+      <div className="plm_title" style={{cursor:'pointer', textAlign:'center', width:'100%'}}>
         Private Label Setup
       </div>
       <div className="fieldContainer">
