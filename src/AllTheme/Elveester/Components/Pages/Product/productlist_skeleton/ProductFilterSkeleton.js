@@ -11,7 +11,7 @@ import {
 const ProductFilterSkeleton = () => {
   const cardsArray = Array.from({ length: 6 }, (_, index) => index + 1);
   const isMobile = useMediaQuery("(max-width: 767px)");
-  //   const isMobile600 = useMediaQuery("(max-width: 600px)");
+    const isMobile600 = useMediaQuery("(max-width: 600px)");
 
   return (
     <div style={{ display: "flex", flex: "1 1 80%",height  : "auto" ,position  :"relative" }}>

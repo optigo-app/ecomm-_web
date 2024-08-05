@@ -357,7 +357,7 @@
 
         .elv_Cart-imageDiv {
             border-radius: 12px;
-            width: 90%;
+            width: 100%;
             height: 410px;
             border: 1px solid rgb(225, 225, 225);
             overflow: hidden;
@@ -366,6 +366,7 @@
             .elv_cartImage {
                 width: 100%;
                 height: 100%;
+                object-fit: contain;
             }
         }
     }
@@ -380,6 +381,26 @@
             margin-bottom: 20px;
             color: #7d7f85;
             text-align: center;
+        }
+
+        .elv_StockCart-options {
+            display: flex;
+            flex-direction: column;
+
+            .elv_stock_1 {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .elv_stock_1 {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .elv_stock_1 {
+                display: flex;
+                justify-content: space-between;
+            }
         }
 
         .elv_Cart-options {
@@ -520,6 +541,55 @@
             font-weight: 500;
         }
 
+    }
+
+    .elv_Cart_R-details_1 {
+        padding: 0 20px;
+        flex: 1;
+        width: 100%;
+
+        .elv_cart-Titleline {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #525252;
+            text-align: center;
+        }
+        
+        .elv_StockCart-options {
+            display: flex;
+            flex-direction: column;
+            margin-block: 1rem;
+            
+            .elv_stock_1 {
+                display: flex;
+                justify-content: space-between;
+                margin-block: 2px;
+                .elv_option{
+                    color: #000000;
+                    font-size: 15px;
+                }
+            }
+
+            .elv_stock_2 {
+                display: flex;
+                justify-content: space-between;
+                margin-block: 2px;
+                .elv_option{
+                    color: #000000;
+                    font-size: 15px;
+                }
+            }
+
+            .elv_stock_3 {
+                display: flex;
+                justify-content: start;
+                margin-block: 2px;
+                .elv_option{
+                    color: #000000;
+                    font-size: 15px;
+                }
+            }
+        }
     }
 
     // cart list item css(left side)
@@ -828,6 +898,36 @@
         }
     }
 
+    @media screen and (max-width: 1230px) {
+        .elv_Cart_R-details_1 {
+            
+            .elv_StockCart-options {
+                
+                .elv_stock_1 {
+                    .elv_option{
+                        color: #000000;
+                        font-size: 12px;
+                    }
+                }
+    
+                .elv_stock_2 {
+                    .elv_option{
+                        color: #000000;
+                        font-size: 12px;
+                    }
+                }
+    
+                .elv_stock_3 {
+                    .elv_option{
+                        color: #000000;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    
+    }
+
     @media screen and (max-width: 1110px) {
         .elv_Productlists_lists_header {
             margin-inline: 2%;
@@ -854,24 +954,25 @@
             width: 49.4%;
             height: fit-content;
         }
+
         .elv_Cartblock_rows_1 {
-            .elv_total_price_title{
+            .elv_total_price_title {
                 font-size: 13px;
             }
         }
 
-        .elv_Cartblock_rows_4{
-            .elv_remarks_title{
+        .elv_Cartblock_rows_4 {
+            .elv_remarks_title {
                 font-size: 13px;
             }
         }
 
-        .elv_Cartblock_rows_5{
-            .elv_placeOrder_title{
+        .elv_Cartblock_rows_5 {
+            .elv_placeOrder_title {
                 font-size: 13px;
             }
         }
-            
+
 
         .elv_filtered_prodlists_2 {
             width: 32.6%;
@@ -971,22 +1072,23 @@
     @media screen and (max-width: 660px) {
 
         .elv_Cartblock_rows_1 {
-            .elv_total_price_title{
+            .elv_total_price_title {
                 font-size: 13px;
             }
         }
 
-        .elv_Cartblock_rows_4{
-            .elv_remarks_title{
+        .elv_Cartblock_rows_4 {
+            .elv_remarks_title {
                 font-size: 12px;
             }
         }
 
-        .elv_Cartblock_rows_5{
-            .elv_placeOrder_title{
+        .elv_Cartblock_rows_5 {
+            .elv_placeOrder_title {
                 font-size: 12px;
             }
         }
+
         .elv_filtered_prodlists_1 {
             width: 49.2%;
             height: fit-content;
