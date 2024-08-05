@@ -145,9 +145,7 @@ export default function YourProfile() {
             } finally {
                 setIsLoading(false);
             }
-        } else {
-            toast.error('Please fill out form fields correctly.');
-        }
+        } 
     };
 
 

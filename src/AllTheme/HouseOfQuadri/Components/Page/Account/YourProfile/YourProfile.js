@@ -108,59 +108,91 @@ export default function YourProfile() {
 
         switch (id) {
             case 'defaddress_shippingfirstname':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_shippingfirstname = 'First Name is required';
-                } else if(value?.length < 2){
-                    errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.defaddress_shippingfirstname = 'Invalid First Name';
+                // if (!value.trim()) {
+                //     errorsCopy.defaddress_shippingfirstname = 'First Name is required';
+                // } else if(value?.length < 2){
+                //     errorsCopy.defaddress_shippingfirstname = 'First Name is too short';
+                // } else if(value?.length > 25){
+                //     errorsCopy.defaddress_shippingfirstname = 'First Name is too long';
+                // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                //     errorsCopy.defaddress_shippingfirstname = 'Invalid First Name';
+                // } else {
+                //     errorsCopy.defaddress_shippingfirstname = '';
+                // }
+                if (!value?.trim().length) {
+                    errorsCopy.defaddress_shippingfirstname = "First Name is required";
+                } else if (!/^[a-zA-Z\s]+$/.test(value?.trim())) {
+                    errorsCopy.defaddress_shippingfirstname = "First Name must contain only letters";
+                } else if (value.trim().length < 2) {
+                    errorsCopy.defaddress_shippingfirstname = "Enter minimum 2 characters";
+                } else if (value.trim().length > 45) {
+                    errorsCopy.defaddress_shippingfirstname = "Enter maximum 45 characters";
                 } else {
-                    errorsCopy.defaddress_shippingfirstname = '';
+                    errorsCopy.defaddress_shippingfirstname = "";
                 }
                 break;
             case 'defaddress_shippinglastname':
-                if (!value.trim()) {
-                    errorsCopy.defaddress_shippinglastname = 'Last Name is required';
-                } else if(value?.length < 2){
-                    errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
-                } else if(value?.length > 25){
-                    errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
-                } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    errorsCopy.defaddress_shippinglastname = 'Invalid Last Name';
+                // if (!value.trim()) {
+                //     errorsCopy.defaddress_shippinglastname = 'Last Name is required';
+                // } else if(value?.length < 2){
+                //     errorsCopy.defaddress_shippinglastname = 'Last Name is too short';
+                // } else if(value?.length > 25){
+                //     errorsCopy.defaddress_shippinglastname = 'Last Name is too long';
+                // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                //     errorsCopy.defaddress_shippinglastname = 'Invalid Last Name';
+                // } else {
+                //     errorsCopy.defaddress_shippinglastname = '';
+                // }
+                if (!value?.trim().length) {
+                    errorsCopy.defaddress_shippinglastname = "Last Name is required";
+                } else if (!/^[a-zA-Z\s]+$/.test(value?.trim())) {
+                    errorsCopy.defaddress_shippinglastname = "Last Name must contain only letters";
+                } else if (value.trim().length < 2) {
+                    errorsCopy.defaddress_shippinglastname = "Enter minimum 2 characters";
+                } else if (value.trim().length > 45) {
+                    errorsCopy.defaddress_shippinglastname = "Enter maximum 45 characters";
                 } else {
-                    errorsCopy.defaddress_shippinglastname = '';
+                    errorsCopy.defaddress_shippinglastname = "";
                 }
                 break;
-                case 'defaddress_street':
-                    if(!value.trim()){
-                        errorsCopy.defaddress_street = 'Address is required';
-                    }else{
-                        errorsCopy.defaddress_street = '';
-                    }
-                    // if (!value.trim()) {
-                    //     errorsCopy.defaddress_street = 'Address is required';
-                    // } else if(value?.length < 3){
-                    //     errorsCopy.defaddress_street = 'Address is too short';
-                    // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
-                    //     errorsCopy.defaddress_street = 'Invalid Address';
-                    // } else {
-                    //     errorsCopy.defaddress_street = '';
-                    // }
-                    break;
-                case 'defaddress_shippingmobile':
-                    if (!value.trim()) {
-                        errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
-                    } else if (!/^\d{10}$/.test(value.trim())) {
-                        errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
-                    } else {
-                        errorsCopy.defaddress_shippingmobile = '';
-                    }
-                    break;
+            case 'defaddress_street':
+                if(!value.trim()){
+                    errorsCopy.defaddress_street = 'Address is required';
+                }else{
+                    errorsCopy.defaddress_street = '';
+                }
+                // if (!value.trim()) {
+                //     errorsCopy.defaddress_street = 'Address is required';
+                // } else if(value?.length < 3){
+                //     errorsCopy.defaddress_street = 'Address is too short';
+                // } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value.trim())) {
+                //     errorsCopy.defaddress_street = 'Invalid Address';
+                // } else {
+                //     errorsCopy.defaddress_street = '';
+                // }
+                break;
+            case 'defaddress_shippingmobile':
+                // if (!value.trim()) {
+                //     errorsCopy.defaddress_shippingmobile = 'Mobile No. is required';
+                // } else if (!/^\d{10}$/.test(value.trim())) {
+                //     errorsCopy.defaddress_shippingmobile = 'Enter Valid mobile number';
+                // } else {
+                //     errorsCopy.defaddress_shippingmobile = '';
+                // }
+                if (!value.trim()) {
+                    errorsCopy.defaddress_shippingmobile = 'Mobile Number is required';
+                } else if (!/^\d+$/.test(value.trim())) {
+                    errorsCopy.defaddress_shippingmobile = 'Mobile Number must contain only numeric values';
+                } else if (value?.trim()?.length !== 10) {
+                    errorsCopy.defaddress_shippingmobile = 'Mobile Number must be exactly 10 digits';
+                } else {
+                    errorsCopy.defaddress_shippingmobile = '';
+                }
+                break;
             default:
                 break;
         }
+
 
         setErrors(errorsCopy);
 
@@ -224,9 +256,7 @@ export default function YourProfile() {
             } finally {
                 setIsLoading(false);
             }
-        } else {
-            toast.error('Please fill necessary details.');
-        }
+        } 
     };
 
 
@@ -287,46 +317,74 @@ export default function YourProfile() {
 
         let tempErrors = {};
 
-            // First Name validation
-            if (!editedUserData.defaddress_shippingfirstname?.length) {
-                tempErrors.defaddress_shippingfirstname = "First Name is required";
-            } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
-                tempErrors.defaddress_shippingfirstname = "First Name is too short";
-            } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
-                tempErrors.defaddress_shippingfirstname = "First Name is too long";
-            }
+        // First Name validation
+        // if (!editedUserData.defaddress_shippingfirstname?.length) {
+        //     tempErrors.defaddress_shippingfirstname = "First Name is required";
+        // } else if (editedUserData.defaddress_shippingfirstname.length < 2) {
+        //     tempErrors.defaddress_shippingfirstname = "First Name is too short";
+        // } else if (editedUserData.defaddress_shippingfirstname.length > 25) {
+        //     tempErrors.defaddress_shippingfirstname = "First Name is too long";
+        // }
+        if (!editedUserData.defaddress_shippingfirstname?.trim().length) {
+            tempErrors.defaddress_shippingfirstname = "First Name is required";
+        } else if (!/^[a-zA-Z\s]+$/.test(editedUserData.defaddress_shippingfirstname.trim())) {
+            tempErrors.defaddress_shippingfirstname = "First Name must contain only letters";
+        } else if (editedUserData.defaddress_shippingfirstname.trim().length < 2) {
+            tempErrors.defaddress_shippingfirstname = "Enter minimum 2 characters";
+        } else if (editedUserData.defaddress_shippingfirstname.trim().length > 45) {
+            tempErrors.defaddress_shippingfirstname = "Enter maximum 45 characters";
+        } else {
+            tempErrors.defaddress_shippingfirstname = "";
+        }
 
-            // Last Name validation
-            if (!editedUserData.defaddress_shippinglastname?.length) {
-                tempErrors.defaddress_shippinglastname = "Last Name is required";
-            } else if (editedUserData.defaddress_shippinglastname.length < 2) {
-                tempErrors.defaddress_shippinglastname = "Last Name is too short";
-            } else if (editedUserData.defaddress_shippinglastname.length > 25) {
-                tempErrors.defaddress_shippinglastname = "Last Name is too long";
-            }
+        // Last Name validation
+        // if (!editedUserData.defaddress_shippinglastname?.length) {
+        //     tempErrors.defaddress_shippinglastname = "Last Name is required";
+        // } else if (editedUserData.defaddress_shippinglastname.length < 2) {
+        //     tempErrors.defaddress_shippinglastname = "Last Name is too short";
+        // } else if (editedUserData.defaddress_shippinglastname.length > 25) {
+        //     tempErrors.defaddress_shippinglastname = "Last Name is too long";
+        // }
+        if (!editedUserData.defaddress_shippinglastname?.trim().length) {
+            tempErrors.defaddress_shippinglastname = "Last Name is required";
+        } else if (!/^[a-zA-Z\s]+$/.test(editedUserData.defaddress_shippinglastname.trim())) {
+            tempErrors.defaddress_shippinglastname = "Last Name must contain only letters";
+        } else if (editedUserData.defaddress_shippinglastname.trim().length < 2) {
+            tempErrors.defaddress_shippinglastname = "Enter minimum 2 characters";
+        } else if (editedUserData.defaddress_shippinglastname.trim().length > 45) {
+            tempErrors.defaddress_shippinglastname = "Enter maximum 45 characters";
+        } else {
+            tempErrors.defaddress_shippinglastname = "";
+        }
 
-            // Mobile Number validation
-            if (!editedUserData.defaddress_shippingmobile?.length) {
-                tempErrors.defaddress_shippingmobile = "Mobile Number is required";
-            } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
-                tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
-            }
+        // Mobile Number validation
+        // if (!editedUserData.defaddress_shippingmobile?.length) {
+        //     tempErrors.defaddress_shippingmobile = "Mobile Number is required";
+        // } else if (editedUserData.defaddress_shippingmobile.length !== 10 || isNaN(editedUserData.defaddress_shippingmobile)) {
+        //     tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits";
+        // }
+        if (!editedUserData.defaddress_shippingmobile?.trim().length) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number is required";
+        } else if (!/^\d{10}$/.test(editedUserData.defaddress_shippingmobile.trim())) {
+            tempErrors.defaddress_shippingmobile = "Mobile Number must contain exactly 10 digits and only numbers";
+        } else {
+            tempErrors.defaddress_shippingmobile = "";
+        }
 
-            // User ID validation
-            if (!editedUserData.userid) {
-                tempErrors.userid = "User ID is required";
-            }
+        // User ID validation
+        if (!editedUserData.userid) {
+            tempErrors.userid = "User ID is required";
+        }
 
-            // Street Address validation
-            if (!editedUserData.defaddress_street) {
-                tempErrors.defaddress_street = "Street Address is required";
-            }
+        // Street Address validation
+        if (!editedUserData.defaddress_street) {
+            tempErrors.defaddress_street = "Address is required";
+        }
 
-            setErrors(tempErrors);
+        setErrors(tempErrors);
 
-            // Check if all errors are empty strings or undefined
-            return Object.values(tempErrors).every(x => !x);
-
+        // Check if all errors are empty strings or undefined
+        return Object.values(tempErrors).every(x => !x);
         // tempErrors.defaddress_shippingfirstname = editedUserData.defaddress_shippingfirstname ? "" : "This field is required.";
         // tempErrors.defaddress_shippinglastname = editedUserData.defaddress_shippinglastname ? "" : "This field is required.";
         // tempErrors.userid = editedUserData.userid ? "" : "This field is required.";
