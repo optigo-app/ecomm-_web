@@ -808,6 +808,8 @@ const ProductDetail = () => {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+    }else{
+      setPdVideoArr([]);
     }
 
     return finalprodListimg;
@@ -1525,8 +1527,8 @@ const ProductDetail = () => {
                   {
                     background: "none",
                   },
-                width:'75%'
               }}
+              className="dt_price_breakup"
             >
               <AccordionSummary
                 expandIcon={
