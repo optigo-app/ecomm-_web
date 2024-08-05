@@ -97,7 +97,7 @@ export default function ContimueWithMobile() {
                             <TextField
                                 autoFocus
                                 id="outlined-basic"
-                                label="Enetr Mobile No"
+                                label="Enter Mobile No"
                                 variant="outlined"
                                 className='labgrowRegister'
                                 onKeyDown={(event) => {

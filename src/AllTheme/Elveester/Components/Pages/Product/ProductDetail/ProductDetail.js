@@ -35,8 +35,6 @@ const ProductDetail = () => {
   const [sizeData, setSizeData] = useState();
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
-  console.log('singleProd1: ', singleProd1);
-  console.log('singleProd: ', singleProd);
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [netWTData, setnetWTData] = useState([])
@@ -60,6 +58,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
+  const [isDataFound, setIsDataFound] = useState(false)
   const location = useLocation();
 
   const Navigate = useNavigate();
@@ -146,7 +145,7 @@ const ProductDetail = () => {
 
     const mcArr =
       metalColorCombo?.find((ele) => {
-        return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        return ele?.metalcolorname == metalColor
       }) ?? metalColorCombo;
 
     const prodObj = {
@@ -481,7 +480,10 @@ const ProductDetail = () => {
 
             if (!res?.pdList[0]) {
               setisPriceLoading(false);
-              // setIsDataFound(true);
+              setIsDataFound(true);
+            }
+            else {
+              setIsDataFound(false)
             }
 
             setDiaList(res?.pdResp?.rd3);
@@ -758,6 +760,126 @@ const ProductDetail = () => {
     // console.log("pdImgList",pdImgList,pdImgListCol)
   }
 
+  const ProdCardImageFunc = async () => {
+    let finalprodListimg;
+    let pdImgList = [];
+    let pdvideoList = [];
+
+    let pd = singleProd;
+
+    let colImg;
+
+    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0]
+    }
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+
+      if (pdImgList?.length > 0) {
+        colImg = pdImgList[0]
+      }
+    }
+
+
+    let IsColImg = false;
+    if (colImg?.length > 0) {
+      IsColImg = await checkImageAvailability(colImg)
+    }
+
+    console.log("colImg", IsColImg)
+
+    if (pd?.ImageCount > 0 && !IsColImg) {
+      for (let i = 1; i <= pd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.ImageExtension;
+
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+    } else {
+      finalprodListimg = imageNotFound;
+    }
+
+    console.log("SearchData", pd?.VideoCount);
+
+    if (pd?.VideoCount > 0) {
+      for (let i = 1; i <= pd?.VideoCount; i++) {
+        let videoString =
+          (storeInit?.DesignImageFol).slice(0, -13) +
+          "video/" +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.VideoExtension;
+        pdvideoList.push(videoString);
+      }
+    }
+    else {
+      pdvideoList = [];
+    }
+
+    let FinalPdImgList = [];
+
+    if (pdImgList?.length > 0) {
+      for (let i = 0; i < pdImgList?.length; i++) {
+        let isImgAvl = await checkImageAvailability(pdImgList[i])
+        if (isImgAvl) {
+          FinalPdImgList.push(pdImgList[i])
+        }
+      }
+    }
+
+    console.log("SearchData", singleProd);
+
+    if (FinalPdImgList?.length > 0) {
+      finalprodListimg = FinalPdImgList[0];
+      setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
+      setPdThumbImg(FinalPdImgList);
+      setThumbImgIndex(0)
+    }
+
+    if (pdvideoList?.length > 0) {
+      setPdVideoArr(pdvideoList);
+    }
+
+    return finalprodListimg;
+
+
+  };
+
+  useEffect(() => {
+    ProdCardImageFunc();
+  }, [singleProd, location?.key]);
+
   useEffect(() => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
@@ -783,50 +905,6 @@ const ProductDetail = () => {
     const url = `${getDesignVideoFol}${designno}_${count > 0 ? count : 1}.${extension}`;
     return url;
   }
-
-  const ProdCardImageFunc = () => {
-    let finalprodListimg;
-    const pdImageList = [];
-    const pdVideoList = [];
-
-    const pd = singleProd;
-
-
-    if (pd?.ImageCount > 0) {
-      for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = getDynamicImages(pd?.designno, i, pd?.ImageExtension);
-        pdImageList.push(imgString)
-      }
-    }
-    else {
-      finalprodListimg = '';
-    }
-
-    if (pd?.VideoCount > 0) {
-      for (let i = 1; i <= pd?.VideoCount; i++) {
-        let vidString =
-          getDynamicVideo(pd?.designno, i, pd?.VideoExtension);
-        pdVideoList.push(vidString)
-      }
-    }
-
-    if (pdImageList?.length > 0) {
-      finalprodListimg = pdImageList[0];
-      setSelectedThumbImg({ "Link": pdImageList[0], "type": "img" })
-      setPdThumbImg(pdImageList);
-      setThumbImgIndex(0)
-    }
-
-    if (pdVideoList?.length > 0) {
-      setPdVideoArr(pdVideoList)
-    }
-
-    return finalprodListimg;
-  }
-
-  useEffect(() => {
-    ProdCardImageFunc();
-  }, [singleProd]);
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1019,320 +1097,293 @@ const ProductDetail = () => {
   return (
     <div className='elv_ProductDetMain_div'>
       <div className='elv_ProductDet_prod_div'>
-        {maxWidth1400 ? (
-          <>
-            <div className='elv_ProductDet_max1400'>
-              <div className='elv_ProductDet_prod_img_max1400'>
-                {selectedThumbImg?.type == "img" ? (
-                  <img
-                    // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                    src={selectedThumbImg?.Link ?? metalWiseColorImg}
-                    alt={""}
-                    onLoad={() => setIsImageLoad(false)}
-                    className="elv_ProductDet_prod_image_max1400"
-                  />
-                ) : (
-                  <div>
-                    <video
-                      src={selectedThumbImg?.link}
-                      loop={true}
-                      autoPlay={true}
-                      style={{
-                        width: "100%",
-                        objectFit: "cover",
-                        height: "90%",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-              <div className='elv_ProductDet_prod_img_list_max1400'>
-                {
-                  pdThumbImg?.length > 0 && (
-                    pdThumbImg?.map((item, index) => {
-                      return (
-                        <img
-                          src={item}
-                          onClick={() => {
-                            setSelectedThumbImg({ Link: item, type: "img" });
-                            setThumbImgIndex(index)
-                          }}
-                          onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image_max1400'
-                        />
-                      )
-                    })
-                  )
-                }
-                {pdVideoArr?.map((data) => (
-                  <div
-                    style={{
-                      position: "relative",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    onClick={() =>
-                      setSelectedThumbImg({ link: data, type: "vid" })
-                    }
-                  >
-                    <video
-                      src={data}
-                      autoPlay={true}
-                      loop={true}
-                      className="elv_ProductDet_image_max1400"
-                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                    />
-                    <IoIosPlayCircle
-                      style={{
-                        position: "absolute",
-                        color: "white",
-                        width: "35px",
-                        height: "35px",
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
+        {isDataFound ? (
+          <div
+            style={{
+              height: "90vh",
+              justifyContent: "center",
+              display: "flex",
+              alignItems: "center",
+              width: '100%'
+            }}
+            className="elv_prodd_datanotfound"
+          >
+            Data not Found!!
+          </div>
         ) : (
           <>
-            {loadingdata ? (
-              <Skeleton className='elv_prod_det_default_thumb' variant="square" />
-            ) : (
-              <div className='elv_ProductDet_prod_img_list'>
-                {(selectedThumbImg?.type == "img") && (
-                  <img
-                    src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                    // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                    alt={""}
-                    onLoad={() => setIsImageLoad(false)}
-                    className="smr_prod_img"
-                  />
-                )}
-                {
-                  pdThumbImg?.length > 0 && (
-                    pdThumbImg?.map((item, index) => {
-                      return (
-                        <img
-                          src={item}
-                          onClick={() => {
-                            setSelectedThumbImg({ Link: item, type: "img" });
-                            setThumbImgIndex(index)
-                          }}
-                          onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image'
-                        />
-                      )
-                    })
-                  )
-                }
-                {pdVideoArr?.map((data) => (
-                  <div
-                    style={{
-                      position: "relative",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    onClick={() =>
-                      setSelectedThumbImg({ link: data, type: "vid" })
-                    }
-                  >
-                    <video
-                      src={data}
-                      autoPlay={true}
-                      loop={true}
-                      className="smr_prod_thumb_img"
-                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                    />
-                    <IoIosPlayCircle
-                      style={{
-                        position: "absolute",
-                        color: "white",
-                        width: "35px",
-                        height: "35px",
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {loadingdata ? (
-              <Skeleton className='elv_prod_det_default' variant="rectangular" />
-            ) : (
+            {maxWidth1400 ? (
               <>
-                <div className='elv_ProductDet_prod_img'>
-                  {selectedThumbImg?.type == "img" ? (
-                    <img
-                      // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                      src={selectedThumbImg?.Link ?? metalWiseColorImg}
-                      alt={""}
-                      onLoad={() => setIsImageLoad(false)}
-                      className="elv_ProductDet_prod_image"
-                    />
-                  ) : (
-                    <div>
-                      <video
+                <div className='elv_ProductDet_max1400'>
+                  <div className='elv_ProductDet_prod_img_max1400'>
+                    {selectedThumbImg?.type == "img" ? (
+                      <img
+                        // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
                         src={selectedThumbImg?.link}
-                        loop={true}
-                        autoPlay={true}
-                        style={{
-                          width: "100%",
-                          objectFit: "cover",
-                          marginLeft: '3rem',
-                          height: "90%",
-                          borderRadius: "8px",
-                        }}
+                        alt={""}
+                        onLoad={() => setIsImageLoad(false)}
+                        className="elv_ProductDet_prod_image_max1400"
                       />
-                    </div>
-                  )}
+                    ) : (
+                      <div>
+                        <video
+                          src={selectedThumbImg?.link}
+                          loop={true}
+                          autoPlay={true}
+                          style={{
+                            width: "100%",
+                            objectFit: "cover",
+                            height: "90%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className='elv_ProductDet_prod_img_list_max1400'>
+                    {
+                      pdThumbImg?.length > 0 && (
+                        pdThumbImg?.map((item, index) => {
+                          return (
+                            <img
+                              src={item}
+                              onClick={() => {
+                                setSelectedThumbImg({ link: item, type: "img" });
+                                setThumbImgIndex(index)
+                              }}
+                              onLoad={() => setIsImageLoad(false)}
+                              className='elv_ProductDet_image_max1400'
+                            />
+                          )
+                        })
+                      )
+                    }
+                    {pdVideoArr?.map((data) => (
+                      <div
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={() =>
+                          setSelectedThumbImg({ link: data, type: "vid" })
+                        }
+                      >
+                        <video
+                          src={data}
+                          autoPlay={true}
+                          loop={true}
+                          className="elv_ProductDet_image_max1400"
+                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                        />
+                        <IoIosPlayCircle
+                          style={{
+                            position: "absolute",
+                            color: "white",
+                            width: "35px",
+                            height: "35px",
+                            cursor: 'pointer',
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </>
-            )}
-
-          </>
-        )}
-        {maxWidth1000 ? (
-          <>
-            <div className='elv_ProductDet_max1000'>
-              <div className='elv_ProductDet_prod_img_max1000'>
-                {selectedThumbImg?.type == "img" ? (
-                  <img
-                    // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                    src={selectedThumbImg?.Link ?? metalWiseColorImg}
-                    alt={""}
-                    onLoad={() => setIsImageLoad(false)}
-                    className="elv_ProductDet_prod_image_max1000"
-                  />
+            ) : (
+              <>
+                {loadingdata ? (
+                  <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                 ) : (
-                  <div>
-                    <video
-                      src={selectedThumbImg?.link}
-                      loop={true}
-                      autoPlay={true}
-                      style={{
-                        width: "100%",
-                        objectFit: "cover",
-                        marginTop: '40px',
-                        height: "90%",
-                        borderRadius: "8px",
-                      }}
-                    />
+                  <div className='elv_ProductDet_prod_img_list'>
+                    {
+                      pdThumbImg?.length > 0 && (
+                        pdThumbImg?.map((item, index) => {
+                          return (
+                            <img
+                              src={item}
+                              onClick={() => {
+                                setSelectedThumbImg({ link: item, type: "img" });
+                                setThumbImgIndex(index)
+                              }}
+                              onLoad={() => setIsImageLoad(false)}
+                              className='elv_ProductDet_image'
+                            />
+                          )
+                        })
+                      )
+                    }
+                    {pdVideoArr?.map((data) => (
+                      <div
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={() =>
+                          setSelectedThumbImg({ link: data, type: "vid" })
+                        }
+                      >
+                        <video
+                          src={data}
+                          autoPlay={true}
+                          loop={true}
+                          // className="smr_prod_thumb_img"
+                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                        />
+                        <IoIosPlayCircle
+                          style={{
+                            position: "absolute",
+                            color: "white",
+                            width: "35px",
+                            height: "35px",
+                            cursor: 'pointer',
+                          }}
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
-              </div>
-              <div className='elv_ProductDet_prod_img_list_max1000'>
-                {
-                  pdThumbImg?.length > 0 && (
-                    pdThumbImg?.map((item, index) => {
-                      return (
+
+                {loadingdata ? (
+                  <Skeleton className='elv_prod_det_default' variant="rectangular" />
+                ) : (
+                  <>
+                    <div className='elv_ProductDet_prod_img'>
+                      {selectedThumbImg?.type == "img" ? (
                         <img
-                          src={item}
-                          onClick={() => {
-                            setSelectedThumbImg({ Link: item, type: "img" });
-                            setThumbImgIndex(index)
-                          }}
+                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                          src={selectedThumbImg?.link}
+                          alt={""}
                           onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image_max1000'
+                          className="elv_ProductDet_prod_image"
                         />
-                      )
-                    })
-                  )
-                }
-                {pdVideoArr?.map((data) => (
-                  <div
-                    style={{
-                      position: "relative",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    onClick={() =>
-                      setSelectedThumbImg({ link: data, type: "vid" })
-                    }
-                  >
-                    <video
-                      src={data}
-                      autoPlay={true}
-                      loop={true}
-                      className="elv_ProductDet_image_max1000"
-                      style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                    />
-                    <IoIosPlayCircle
-                      style={{
-                        position: "absolute",
-                        color: "white",
-                        width: "35px",
-                        height: "35px",
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className='elv_ProductDet_prod_description_max1000'>
-                <div className='elv_Product_prod_desc_data_max1000'>
-                  <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
-                  <div className='elv_ProductDet_det_max1000'>
-                    <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
-                    <div className='elv_productDet_metal_style_max1000'>
-                      <div className='elv_ProductDet_prod_text_div_max1000'>
-                        <span>Metal Purity : </span> <span className='elv_ProductDet_text_max1000' style={{ textTransform: 'uppercase' }}>{metalType}</span>
-                      </div>
-                      <div className='elv_ProductDet_prod_text_div_max1000'>
-                        <span>Metal Color : </span> <span className='elv_ProductDet_text_max1000'>{metalColor}</span>
-                      </div>
-                      <div className='elv_ProductDet_prod_text_div_max1000'>
-                        <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
-                      </div>
-                      <div className='elv_ProductDet_prod_text_div_max1000'>
-                        <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
-                      </div>
-                    </div>
-                    <hr className='elv_ProductDet_divider' />
-                  </div>
-                  {storeInit?.IsProductWebCustomization == 1 &&
-                    metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
-                      <div className='elv_ProductDet_dropdown_max1000'>
+                      ) : (
                         <div>
-                          <div style={{
-                            margin: 1,
-                            width: "95%",
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: 'column',
-                            border: "none",
-                            paddingBottom: '8px'
-                          }}>
-                            <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                            {singleProd?.IsMrpBase == 1 ?
-                              <span className="elv_metaltype_span">
-                                {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                              </span>
-                              :
-                              <select
-                                className="elv_metaltype_drp"
-                                value={metalType}
-                                onChange={(e) => handleCustomChange(e, 'mt')}
-                              // onChange={(e) => setSelectMtType(e.target.value)}
-                              >
-                                {metalTypeCombo.map((ele) => (
-                                  <option key={ele?.Metalid} value={ele?.metaltype}>
-                                    {ele?.metaltype}
-                                  </option>
-                                ))}
-                              </select>}
-                          </div>
-                          <hr className='elv_ProductDet_divider_1' />
+                          <video
+                            src={selectedThumbImg?.link}
+                            loop={true}
+                            autoPlay={true}
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              marginLeft: '3rem',
+                              height: "90%",
+                              borderRadius: "8px",
+                            }}
+                          />
                         </div>
-                        {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                          <div>
+                      )}
+                    </div>
+                  </>
+                )}
+
+              </>
+            )}
+            {maxWidth1000 ? (
+              <>
+                <div className='elv_ProductDet_max1000'>
+                  <div className='elv_ProductDet_prod_img_max1000'>
+                    {selectedThumbImg?.type == "img" ? (
+                      <img
+                        // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                        src={selectedThumbImg?.link}
+                        alt={""}
+                        onLoad={() => setIsImageLoad(false)}
+                        className="elv_ProductDet_prod_image_max1000"
+                      />
+                    ) : (
+                      <div>
+                        <video
+                          src={selectedThumbImg?.link}
+                          loop={true}
+                          autoPlay={true}
+                          style={{
+                            width: "100%",
+                            objectFit: "cover",
+                            marginTop: '40px',
+                            height: "90%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className='elv_ProductDet_prod_img_list_max1000'>
+                    {
+                      pdThumbImg?.length > 0 && (
+                        pdThumbImg?.map((item, index) => {
+                          return (
+                            <img
+                              src={item}
+                              onClick={() => {
+                                setSelectedThumbImg({ link: item, type: "img" });
+                                setThumbImgIndex(index)
+                              }}
+                              onLoad={() => setIsImageLoad(false)}
+                              className='elv_ProductDet_image_max1000'
+                            />
+                          )
+                        })
+                      )
+                    }
+                    {pdVideoArr?.map((data) => (
+                      <div
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={() =>
+                          setSelectedThumbImg({ link: data, type: "vid" })
+                        }
+                      >
+                        <video
+                          src={data}
+                          autoPlay={true}
+                          loop={true}
+                          className="elv_ProductDet_image_max1000"
+                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                        />
+                        <IoIosPlayCircle
+                          style={{
+                            position: "absolute",
+                            color: "white",
+                            width: "35px",
+                            height: "35px",
+                            cursor: 'pointer',
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className='elv_ProductDet_prod_description_max1000'>
+                    <div className='elv_Product_prod_desc_data_max1000'>
+                      <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
+                      <div className='elv_ProductDet_det_max1000'>
+                        <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
+                        <div className='elv_productDet_metal_style_max1000'>
+                          <div className='elv_ProductDet_prod_text_div_max1000'>
+                            <span>Metal Purity : </span> <span className='elv_ProductDet_text_max1000' style={{ textTransform: 'uppercase' }}>{metalType}</span>
+                          </div>
+                          <div className='elv_ProductDet_prod_text_div_max1000'>
+                            <span>Metal Color : </span> <span className='elv_ProductDet_text_max1000'>{metalColor}</span>
+                          </div>
+                          <div className='elv_ProductDet_prod_text_div_max1000'>
+                            <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
+                          </div>
+                          <div className='elv_ProductDet_prod_text_div_max1000'>
+                            <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                          </div>
+                        </div>
+                        <hr className='elv_ProductDet_divider' />
+                      </div>
+                      {storeInit?.IsProductWebCustomization == 1 &&
+                        metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                          <div className='elv_ProductDet_dropdown_max1000'>
                             <div>
                               <div style={{
                                 margin: 1,
@@ -1343,260 +1394,226 @@ const ProductDetail = () => {
                                 border: "none",
                                 paddingBottom: '8px'
                               }}>
-                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
                                 {singleProd?.IsMrpBase == 1 ?
                                   <span className="elv_metaltype_span">
-                                    {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                    {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
                                   </span>
                                   :
                                   <select
                                     className="elv_metaltype_drp"
-                                    value={metalColor}
-                                    onChange={(e) => handleMetalWiseColorImg(e)}
+                                    value={metalType}
+                                    onChange={(e) => handleCustomChange(e, 'mt')}
+                                  // onChange={(e) => setSelectMtType(e.target.value)}
                                   >
-                                    {metalColorCombo?.map((ele) => (
-                                      <option key={ele?.id} value={ele?.metalcolorname}>
-                                        {ele?.metalcolorname}
+                                    {metalTypeCombo.map((ele) => (
+                                      <option key={ele?.Metalid} value={ele?.metaltype}>
+                                        {ele?.metaltype}
                                       </option>
                                     ))}
                                   </select>}
                               </div>
-                            </div>
-                            <hr className='elv_ProductDet_divider_1' />
-                          </div>
-                        )}
-                        {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
-                          <>
-                            <div>
-                              <div>
-                                <div style={{
-                                  margin: 1,
-                                  width: "95%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  flexDirection: 'column',
-                                  border: "none",
-                                  paddingBottom: '8px'
-                                }}>
-                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
-                                  <select
-                                    className="elv_metaltype_drp"
-                                    value={selectDiaQc}
-                                    onChange={(e) => handleCustomChange(e, 'dt')}
-                                  >
-                                    {diaQcCombo.map((ele) => (
-                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                        {`${ele?.Quality}#${ele?.color}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              </div>
                               <hr className='elv_ProductDet_divider_1' />
                             </div>
-                          </>
-                        )}
-                        {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
-                          <>
-                            <div>
+                            {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                               <div>
-                                <div style={{
-                                  margin: 1,
-                                  width: "95%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  flexDirection: 'column',
-                                  border: "none",
-                                  paddingBottom: '8px'
-                                }}>
-                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                                  <select
-                                    className="elv_metaltype_drp"
-                                    value={selectCsQC}
-                                    onChange={(e) => handleCustomChange(e, 'cs')}
-                                  >
-                                    {csQcCombo.map((ele) => (
-                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                        {`${ele?.Quality}#${ele?.color}`}
-                                      </option>
-                                    ))}
-                                  </select>
+                                <div>
+                                  <div style={{
+                                    margin: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: 'column',
+                                    border: "none",
+                                    paddingBottom: '8px'
+                                  }}>
+                                    <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                                    {singleProd?.IsMrpBase == 1 ?
+                                      <span className="elv_metaltype_span">
+                                        {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                      </span>
+                                      :
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={metalColor}
+                                        onChange={(e) => handleMetalWiseColorImg(e)}
+                                      >
+                                        {metalColorCombo?.map((ele) => (
+                                          <option key={ele?.id} value={ele?.metalcolorname}>
+                                            {ele?.metalcolorname}
+                                          </option>
+                                        ))}
+                                      </select>}
+                                  </div>
                                 </div>
                                 <hr className='elv_ProductDet_divider_1' />
                               </div>
-                            </div>
-                          </>
-                        )}
-                        {SizeSorting(SizeCombo?.rd)?.length > 0 && (
-                          <>
-                            <div>
-                              <div>
-                                <div style={{
-                                  margin: 1,
-                                  width: "95%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  flexDirection: 'column',
-                                  border: "none",
-                                  paddingBottom: '8px'
-                                }}>
-                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
-                                  {singleProd?.IsMrpBase == 1 ?
-                                    <span className="elv_metaltype_span">
-                                      {singleProd?.DefaultSize}
-                                    </span>
-                                    :
-                                    <select
-                                      className="elv_metaltype_drp"
-                                      value={sizeData}
-                                      onChange={(e) => handleCustomChange(e, 'size')}
-                                    >
-                                      {SizeCombo?.rd?.map((ele) => (
-                                        <option key={ele?.id} value={ele?.sizename}>
-                                          {ele?.sizename}
-                                        </option>
-                                      ))}
-                                    </select>}
+                            )}
+                            {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                              <>
+                                <div>
+                                  <div>
+                                    <div style={{
+                                      margin: 1,
+                                      width: "95%",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      flexDirection: 'column',
+                                      border: "none",
+                                      paddingBottom: '8px'
+                                    }}>
+                                      <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={selectDiaQc}
+                                        onChange={(e) => handleCustomChange(e, 'dt')}
+                                      >
+                                        {diaQcCombo.map((ele) => (
+                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                            {`${ele?.Quality}#${ele?.color}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <hr className='elv_ProductDet_divider_1' />
                                 </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "1px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                              {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before":
-                              {
-                                background: "none",
-                              },
-                              width: '95.5%'
-                            }}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
+                              </>
+                            ) : null}
+                            {(storeInit?.IsCsCustomization === 1 &&
+                              selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                              <>
+                                <div>
+                                  <div>
+                                    <div style={{
+                                      margin: 1,
+                                      width: "95%",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      flexDirection: 'column',
+                                      border: "none",
+                                      paddingBottom: '8px'
+                                    }}>
+                                      <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={selectCsQC}
+                                        onChange={(e) => handleCustomChange(e, 'cs')}
+                                      >
+                                        {csQcCombo.map((ele) => (
+                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                            {`${ele?.Quality}#${ele?.color}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </div>
+                                    <hr className='elv_ProductDet_divider_1' />
+                                  </div>
+                                </div>
+                              </>
+                            ) : null}
+                            {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                              <>
+                                <div>
+                                  <div>
+                                    <div style={{
+                                      margin: 1,
+                                      width: "95%",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      flexDirection: 'column',
+                                      border: "none",
+                                      paddingBottom: '8px'
+                                    }}>
+                                      <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
+                                      {singleProd?.IsMrpBase == 1 ?
+                                        <span className="elv_metaltype_span">
+                                          {singleProd?.DefaultSize}
+                                        </span>
+                                        :
+                                        <select
+                                          className="elv_metaltype_drp"
+                                          value={sizeData}
+                                          onChange={(e) => handleCustomChange(e, 'size')}
+                                        >
+                                          {SizeCombo?.rd?.map((ele) => (
+                                            <option key={ele?.id} value={ele?.sizename}>
+                                              {ele?.sizename}
+                                            </option>
+                                          ))}
+                                        </select>}
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                              <Accordion
+                                elevation={0}
+                                sx={{
+                                  borderBottom: "1px solid #c7c8c9",
+                                  borderRadius: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
+                                  "&.MuiPaper-root.MuiAccordion-root:before":
+                                  {
+                                    background: "none",
+                                  },
+                                  width: '95.5%'
+                                }}
+                              >
+                                <AccordionSummary
+                                  expandIcon={
+                                    <ExpandMoreIcon sx={{ width: "20px" }} />
+                                  }
+                                  aria-controls="panel1-content"
+                                  id="panel1-header"
+                                  sx={{
+                                    color: "#7d7f85 !important",
+                                    borderRadius: 0,
 
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
+                                    "&.MuiAccordionSummary-root": {
+                                      padding: 0,
+                                    },
+                                  }}
+                                // className="filtercategoryLable"
 
-                            >
-                              <Typography className='elv_price_break'>Price Breakup</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                // minHeight: "fit-content",
-                                // maxHeight: "300px",
-                                // overflow: "auto",
-                                padding: '0 0 16px 0',
+                                >
+                                  <Typography className='elv_price_break'>Price Breakup</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "4px",
+                                    // minHeight: "fit-content",
+                                    // maxHeight: "300px",
+                                    // overflow: "auto",
+                                    padding: '0 0 16px 0',
 
-                              }}
-                            >
+                                  }}
+                                >
 
-                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>
-                                    {
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                      </span>
-                                    }
-                                  </Typography>
-                                  &nbsp;
-                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>
+                                        {
+                                          <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                            {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                          </span>
+                                        }
+                                      </Typography>
+                                      &nbsp;
+                                      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                  </div> : null}
 
-                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {
-                                (
-
-                                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                  (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                  (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                  (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                  (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                  (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                ) !== 0 ?
-
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                  {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
@@ -1605,118 +1622,153 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
-                                        formatter((
-
-                                          (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                          (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                          (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                          (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                          (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                          (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                        )?.toFixed(2))
-                                      }</Typography>
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
-                                  </div>
-                                  :
-                                  null
-                              }
+                                  </div> : null}
 
-                            </AccordionDetails>
-                          </Accordion>
+                                  {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {
+                                    (
+
+                                      (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                      (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                      (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                      (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                      (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                      (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                    ) !== 0 ?
+
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                        <span style={{ display: 'flex' }}>
+                                          <Typography>{
+                                            <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                              {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                          }</Typography>
+                                          &nbsp;
+                                          <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                            formatter((
+
+                                              (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                              (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                              (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                              (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                              (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                              (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                            )?.toFixed(2))
+                                          }</Typography>
+                                        </span>
+                                      </div>
+                                      :
+                                      null
+                                  }
+
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          </div>
                         )}
-                      </div>
-                    )}
 
-                  <div className='elv_ProductDet_prod_price'>
-                    <span className='elv_ProductDet_prod_price_1'>
-                      {
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: decodeEntities(loginData?.CurrencyCode),
-                          }}
-                        />
-                      }
-                      {
-                        isPriceloading ?
-                          <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                          :
-                          <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
-                      }
-                    </span>
-                  </div>
-                  <div className='elv_ProductDet_prod_addtocart'>
-                    <div className='elv_ProductDet_cart_div'>
-                      <button className='elv_ProductDet_cart'>Add to cart</button>
-                    </div>
-                    <div className='elv_ProductDet_wishlist_div'>
-                      <FavoriteBorderIcon className='elv_ProductDet_wishlist' />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className='elv_ProductDet_prod_description'>
-              <div className='elv_Product_prod_desc_data'>
-                <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
-                <div className='elv_ProductDet_det'>
-                  <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
-                  <div className='elv_productDet_metal_style'>
-                    <div>
-                      <span>Metal Purity : </span> <span className='elv_ProductDet_text' style={{ textTransform: 'uppercase' }}>{metalType}</span>
-                    </div>
-                    <div>
-                      <span>Metal Color : </span> <span className='elv_ProductDet_text'>{metalColor}</span>
-                    </div>
-                    <div>
-                      <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
-                    </div>
-                    <div>
-                      <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
-                    </div>
-                  </div>
-                  <hr className='elv_ProductDet_divider' />
-                </div>
-                {storeInit?.IsProductWebCustomization == 1 &&
-                  metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
-                    <div className='elv_ProductDet_dropdown_max1000'>
-                      <div>
-                        <div style={{
-                          margin: 1,
-                          width: "95%",
-                          display: "flex",
-                          justifyContent: "center",
-                          flexDirection: 'column',
-                          border: "none",
-                          paddingBottom: '8px'
-                        }}>
-                          <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                          {singleProd?.IsMrpBase == 1 ?
-                            <span className="elv_metaltype_span">
-                              {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                            </span>
-                            :
-                            <select
-                              className="elv_metaltype_drp"
-                              value={metalType}
-                              onChange={(e) => handleCustomChange(e, 'mt')}
-                            >
-                              {metalTypeCombo.map((ele) => (
-                                <option key={ele?.Metalid} value={ele?.metaltype}>
-                                  {ele?.metaltype}
-                                </option>
-                              ))}
-                            </select>
+                      <div className='elv_ProductDet_prod_price'>
+                        <span className='elv_ProductDet_prod_price_1'>
+                          {
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: decodeEntities(loginData?.CurrencyCode),
+                              }}
+                            />
                           }
-                        </div>
-                        <hr className='elv_ProductDet_divider_1' />
+                          {
+                            isPriceloading ?
+                              <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                              :
+                              <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                          }
+                        </span>
                       </div>
-                      {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
+                      <div className='elv_ProductDet_prod_addtocart'>
+                        <div className='elv_ProductDet_cart_div'>
+                          <button className='elv_ProductDet_cart'>Add to cart</button>
+                        </div>
+                        <div className='elv_ProductDet_wishlist_div'>
+                          <FavoriteBorderIcon className='elv_ProductDet_wishlist' />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className='elv_ProductDet_prod_description'>
+                  <div className='elv_Product_prod_desc_data'>
+                    <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
+                    <div className='elv_ProductDet_det'>
+                      <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
+                      <div className='elv_productDet_metal_style'>
                         <div>
+                          <span>Metal Purity : </span> <span className='elv_ProductDet_text' style={{ textTransform: 'uppercase' }}>{metalType}</span>
+                        </div>
+                        <div>
+                          <span>Metal Color : </span> <span className='elv_ProductDet_text'>{metalColor}</span>
+                        </div>
+                        <div>
+                          <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
+                        </div>
+                        <div>
+                          <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                        </div>
+                      </div>
+                      <hr className='elv_ProductDet_divider' />
+                    </div>
+                    {storeInit?.IsProductWebCustomization == 1 &&
+                      metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                        <div className='elv_ProductDet_dropdown_max1000'>
                           <div>
                             <div style={{
                               margin: 1,
@@ -1727,261 +1779,227 @@ const ProductDetail = () => {
                               border: "none",
                               paddingBottom: '8px'
                             }}>
-                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
                               {singleProd?.IsMrpBase == 1 ?
                                 <span className="elv_metaltype_span">
-                                  {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                  {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
                                 </span>
                                 :
                                 <select
                                   className="elv_metaltype_drp"
-                                  value={metalColor}
-                                  onChange={(e) => handleMetalWiseColorImg(e)}
+                                  value={metalType}
+                                  onChange={(e) => handleCustomChange(e, 'mt')}
                                 >
-                                  {metalColorCombo?.map((ele) => (
-                                    <option key={ele?.id} value={ele?.metalcolorname}>
-                                      {ele?.metalcolorname}
-                                    </option>
-                                  ))}
-                                </select>}
-                            </div>
-                          </div>
-                          <hr className='elv_ProductDet_divider_1' />
-                        </div>
-                      )}
-                      {storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && (
-                        <>
-                          <div>
-                            <div>
-                              <div style={{
-                                margin: 1,
-                                width: "95%",
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: 'column',
-                                border: "none",
-                                paddingBottom: '8px'
-                              }}>
-                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
-                                <select
-                                  className="elv_metaltype_drp"
-                                  value={selectDiaQc}
-                                  onChange={(e) => handleCustomChange(e, 'dt')}
-                                >
-                                  {diaQcCombo.map((ele) => (
-                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                      {`${ele?.Quality}#${ele?.color}`}
+                                  {metalTypeCombo.map((ele) => (
+                                    <option key={ele?.Metalid} value={ele?.metaltype}>
+                                      {ele?.metaltype}
                                     </option>
                                   ))}
                                 </select>
-                              </div>
+                              }
                             </div>
                             <hr className='elv_ProductDet_divider_1' />
                           </div>
-                        </>
-                      )}
-                      {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
-                        <>
-                          <div>
+                          {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                             <div>
-                              <div style={{
-                                margin: 1,
-                                width: "95%",
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: 'column',
-                                border: "none",
-                                paddingBottom: '8px'
-                              }}>
-                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                                <select
-                                  className="elv_metaltype_drp"
-                                  value={selectCsQC}
-                                  onChange={(e) => handleCustomChange(e, 'cs')}
-                                >
-                                  {csQcCombo.map((ele) => (
-                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                      {`${ele?.Quality}#${ele?.color}`}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <hr className='elv_ProductDet_divider_1' />
-                            </div>
-                          </div>
-                        </>
-                      )}
-                      {SizeSorting(SizeCombo?.rd)?.length > 0 && (
-                        <>
-                          <div>
-                            <div>
-                              <div style={{
-                                margin: 1,
-                                width: "95%",
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: 'column',
-                                border: "none",
-                                paddingBottom: '8px'
-                              }}>
-                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
-                                {singleProd?.IsMrpBase == 1 ?
-                                  <span className="elv_metaltype_span">
-                                    {singleProd?.DefaultSize}
-                                  </span>
-                                  :
-                                  <select
-                                    className="elv_metaltype_drp"
-                                    value={sizeData}
-                                    onChange={(e) => handleCustomChange(e, 'size')}
-                                  >
-                                    {SizeCombo?.rd?.map((ele) => (
-                                      <option key={ele?.id} value={ele?.sizename}>
-                                        {ele?.sizename}
-                                      </option>
-                                    ))}
-                                  </select>}
-                              </div>
-                              <hr className='elv_ProductDet_divider_1' />
-                            </div>
-                          </div>
-                        </>
-                      )}
-                      {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
-                        <Accordion
-                          elevation={0}
-                          sx={{
-                            borderBottom: "1px solid #c7c8c9",
-                            borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
-                              borderBottomLeftRadius: "0px",
-                              borderBottomRightRadius: "0px",
-                            },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
-                              background: "none",
-                            },
-                            width: '95.5%'
-                          }}
-                        >
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMoreIcon sx={{ width: "20px" }} />
-                            }
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            sx={{
-                              color: "#7d7f85 !important",
-                              borderRadius: 0,
-
-                              "&.MuiAccordionSummary-root": {
-                                padding: 0,
-                              },
-                            }}
-                          // className="filtercategoryLable"
-
-                          >
-                            <Typography className='elv_price_break'>Price Breakup</Typography>
-                          </AccordionSummary>
-                          <AccordionDetails
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              // minHeight: "fit-content",
-                              // maxHeight: "300px",
-                              // overflow: "auto",
-                              padding: '0 0 16px 0',
-
-                            }}
-                          >
-
-                            {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
-                              <span style={{ display: 'flex' }}>
-                                <Typography>
-                                  {
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              <div>
+                                <div style={{
+                                  margin: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexDirection: 'column',
+                                  border: "none",
+                                  paddingBottom: '8px'
+                                }}>
+                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal color : </label>
+                                  {singleProd?.IsMrpBase == 1 ?
+                                    <span className="elv_metaltype_span">
+                                      {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
                                     </span>
-                                  }
-                                </Typography>
-                                &nbsp;
-                                <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                            </div> : null}
+                                    :
+                                    <select
+                                      className="elv_metaltype_drp"
+                                      value={metalColor}
+                                      onChange={(e) => handleMetalWiseColorImg(e)}
+                                    >
+                                      {metalColorCombo?.map((ele) => (
+                                        <option key={ele?.id} value={ele?.metalcolorname}>
+                                          {ele?.metalcolorname}
+                                        </option>
+                                      ))}
+                                    </select>}
+                                </div>
+                              </div>
+                              <hr className='elv_ProductDet_divider_1' />
+                            </div>
+                          )}
+                          {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                            <>
+                              <div>
+                                <div>
+                                  <div style={{
+                                    margin: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: 'column',
+                                    border: "none",
+                                    paddingBottom: '8px'
+                                  }}>
+                                    <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
+                                    <select
+                                      className="elv_metaltype_drp"
+                                      value={selectDiaQc}
+                                      onChange={(e) => handleCustomChange(e, 'dt')}
+                                    >
+                                      {diaQcCombo.map((ele) => (
+                                        <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                          {`${ele?.Quality}#${ele?.color}`}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                </div>
+                                <hr className='elv_ProductDet_divider_1' />
+                              </div>
+                            </>
+                          ) : null}
+                          {(storeInit?.IsCsCustomization === 1 &&
+                            selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                            <>
+                              <div>
+                                <div>
+                                  <div style={{
+                                    margin: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: 'column',
+                                    border: "none",
+                                    paddingBottom: '8px'
+                                  }}>
+                                    <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
+                                    <select
+                                      className="elv_metaltype_drp"
+                                      value={selectCsQC}
+                                      onChange={(e) => handleCustomChange(e, 'cs')}
+                                    >
+                                      {csQcCombo.map((ele) => (
+                                        <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                          {`${ele?.Quality}#${ele?.color}`}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <hr className='elv_ProductDet_divider_1' />
+                                </div>
+                              </div>
+                            </>
+                          ) : null}
+                          {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                            <>
+                              <div>
+                                <div>
+                                  <div style={{
+                                    margin: 1,
+                                    width: "95%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: 'column',
+                                    border: "none",
+                                    paddingBottom: '8px'
+                                  }}>
+                                    <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>size : </label>
+                                    {singleProd?.IsMrpBase == 1 ?
+                                      <span className="elv_metaltype_span">
+                                        {singleProd?.DefaultSize}
+                                      </span>
+                                      :
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={sizeData}
+                                        onChange={(e) => handleCustomChange(e, 'size')}
+                                      >
+                                        {SizeCombo?.rd?.map((ele) => (
+                                          <option key={ele?.id} value={ele?.sizename}>
+                                            {ele?.sizename}
+                                          </option>
+                                        ))}
+                                      </select>}
+                                  </div>
+                                  <hr className='elv_ProductDet_divider_1' />
+                                </div>
+                              </div>
+                            </>
+                          )}
+                          {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                            <Accordion
+                              elevation={0}
+                              sx={{
+                                borderBottom: "1px solid #c7c8c9",
+                                borderRadius: 0,
+                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                                "&.MuiPaper-root.MuiAccordion-root:before":
+                                {
+                                  background: "none",
+                                },
+                                width: '95.5%'
+                              }}
+                            >
+                              <AccordionSummary
+                                expandIcon={
+                                  <ExpandMoreIcon sx={{ width: "20px" }} />
+                                }
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                                sx={{
+                                  color: "#7d7f85 !important",
+                                  borderRadius: 0,
 
-                            {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                  "&.MuiAccordionSummary-root": {
+                                    padding: 0,
+                                  },
+                                }}
+                              // className="filtercategoryLable"
 
-                              <span style={{ display: 'flex' }}>
-                                <Typography>{
-                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              >
+                                <Typography className='elv_price_break'>Price Breakup</Typography>
+                              </AccordionSummary>
+                              <AccordionDetails
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "4px",
+                                  // minHeight: "fit-content",
+                                  // maxHeight: "300px",
+                                  // overflow: "auto",
+                                  padding: '0 0 16px 0',
+
+                                }}
+                              >
+
+                                {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>
+                                      {
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }
+                                    </Typography>
+                                    &nbsp;
+                                    <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                   </span>
-                                }</Typography>
-                                &nbsp;
-                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                            </div> : null}
+                                </div> : null}
 
-                            {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
-
-                              <span style={{ display: 'flex' }}>
-                                <Typography>{
-                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                }</Typography>
-                                &nbsp;
-                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                            </div> : null}
-
-                            {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
-
-                              <span style={{ display: 'flex' }}>
-                                <Typography>{
-                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                }</Typography>
-                                &nbsp;
-                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                            </div> : null}
-
-                            {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
-
-                              <span style={{ display: 'flex' }}>
-                                <Typography>{
-                                  <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                    {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                }</Typography>
-                                &nbsp;
-                                <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                            </div> : null}
-
-                            {
-                              (
-
-                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                              ) !== 0 ?
-
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
@@ -1990,90 +2008,157 @@ const ProductDetail = () => {
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
-                                      formatter((
-
-                                        (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                        (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                        (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                        (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                        (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                        (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                      )?.toFixed(2))
-                                    }</Typography>
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                   </span>
-                                </div>
-                                :
-                                null
-                            }
+                                </div> : null}
 
-                          </AccordionDetails>
-                        </Accordion>
+                                {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {
+                                  (
+
+                                    (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                    (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                    (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                    (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                    (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                    (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                  ) !== 0 ?
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                      <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                      <span style={{ display: 'flex' }}>
+                                        <Typography>{
+                                          <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                            {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                          </span>
+                                        }</Typography>
+                                        &nbsp;
+                                        <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                          formatter((
+
+                                            (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                            (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                            (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                            (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                            (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                            (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                          )?.toFixed(2))
+                                        }</Typography>
+                                      </span>
+                                    </div>
+                                    :
+                                    null
+                                }
+
+                              </AccordionDetails>
+                            </Accordion>
+                          )}
+                        </div>
                       )}
+                    <div className='elv_ProductDet_prod_price'>
+                      <span className='elv_ProductDet_prod_price_1'>
+                        {
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: decodeEntities(loginData?.CurrencyCode),
+                            }}
+                          />
+                        }
+                        {
+                          isPriceloading ?
+                            <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                            :
+                            <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                        }
+                      </span>
                     </div>
-                  )}
-                <div className='elv_ProductDet_prod_price'>
-                  <span className='elv_ProductDet_prod_price_1'>
-                    {
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(loginData?.CurrencyCode),
-                        }}
-                      />
-                    }
-                    {
-                      isPriceloading ?
-                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                        :
-                        <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
-                    }
-                  </span>
-                </div>
-                <div className='elv_ProductDet_prod_addtocart'>
-                  <div className='elv_ProductDet_cart_div'>
-                    <button onClick={() => handleCart(!addToCardFlag)} className='elv_ProductDet_cart'>{addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}</button>
-                  </div>
-                  <div className='elv_ProductDet_wishlist_div'>
-                    <Checkbox
-                      icon={
-                        <FavoriteBorderIcon />
-                      }
-                      checkedIcon={
-                        <FavoriteIcon />
-                      }
-                      className='elv_ProductDet_wishlist'
-                      disableRipple={true}
-                      checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                      onChange={(e) => handleWishList(e, singleProd)}
-                    />
+                    <div className='elv_ProductDet_prod_addtocart'>
+                      <div className='elv_ProductDet_cart_div'>
+                        <button onClick={() => handleCart(!addToCardFlag)} className='elv_ProductDet_cart'>{addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}</button>
+                      </div>
+                      <div className='elv_ProductDet_wishlist_div'>
+                        <Checkbox
+                          icon={
+                            <FavoriteBorderIcon />
+                          }
+                          checkedIcon={
+                            <FavoriteIcon />
+                          }
+                          className='elv_ProductDet_wishlist'
+                          disableRipple={true}
+                          checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                          onChange={(e) => handleWishList(e, singleProd)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
           </>
         )}
-
       </div>
       <div className='elv_ProductDet_extra_dets'>
 
+        <div className='elv_ProductDet_title'>
+          {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
+            <p className="smr_details_title"> Product Details</p>
+          )}
+        </div>
         {diaList?.length > 0 && (
           <>
-            <div className='elv_ProductDet_title'>
-              <span>Product Details</span>
-            </div>
             <div>
               <TableComponents list={diaList} details={'Diamond Details'} />
             </div>
           </>
         )}
-        {csList?.length > 0 && (
+        {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
           <>
-            <div className='elv_ProductDet_title'>
-              {/* <span>Product Details</span> */}
-            </div>
             <div style={{ marginTop: '1.5rem' }}>
-
               <TableComponents list={csList} details={'Color Stone Details'} />
             </div>
           </>
