@@ -1171,14 +1171,3 @@ const PendingMemo = () => {
 };
 
 export default PendingMemo;
-
-// import "./PendingMemo.scss"
-// const PendingMemo = () => {
-//   return (
-//     <>
-
-//     </>
-//   )
-// }
-
-// export default PendingMemo
