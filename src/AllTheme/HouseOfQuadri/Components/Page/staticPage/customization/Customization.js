@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import "./ReturnPolicy.scss";
 import { Link } from "react-router-dom";
-
-export default function Blogs() {
+export default function Customization() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/static-html-page/Blog.html`)
+    fetch(`${storImagePath()}/static-html-page/customization.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -23,15 +23,13 @@ export default function Blogs() {
       top : 0
     })
   },[])
-
+  
   return (
-    <div className="hoq_privacyPolicy">
-      <div>
-        <div
-          className="privacy-policy"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
-      </div>
+    <div className="hoq_custom">
+      <div
+        className="custom"
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
       <div className="back-to-home">
         <Link to={"/"}>Back to Home</Link>
       </div>

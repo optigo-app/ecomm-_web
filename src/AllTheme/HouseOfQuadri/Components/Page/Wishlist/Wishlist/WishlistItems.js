@@ -11,6 +11,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../../Recoil/atom";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../../Assets/noImageFound.jpg";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const WishlistItems = ({
   item,
@@ -24,6 +25,7 @@ const WishlistItems = ({
   handleRemoveItem,
   handleWishlistToCart,
   handleMoveToDetail,
+  StoreInit,
 }) => {
   const setWishCountVal = useSetRecoilState(Hoq_WishCount);
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
@@ -33,6 +35,7 @@ const WishlistItems = ({
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
     if (returnValue?.msg == "success") {
+      toast.success("Wishlist items added in cart")
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       });
@@ -48,6 +51,8 @@ const WishlistItems = ({
     }
   };
 
+
+  console.log(item);
   return (
     <Grid
       sx={{
@@ -59,10 +64,11 @@ const WishlistItems = ({
       md={itemsLength <= 2 ? 4 : 4}
       lg={itemsLength <= 2 ? 3 : 3}
     >
-      <Card className="hoq_WlListCard" square sx={{ border: "none" }}>
+      <Card className="hoq_WlListCard" square sx={{ border: "none"  }}>
         <div className="cardContent">
           <CardMedia
             component="img"
+           
             image={
               item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
             }
@@ -107,20 +113,24 @@ const WishlistItems = ({
                 {item?.metalcolorname !== "" && (
                   <span>{item.metalcolorname}</span>
                 )}
-                {item?.metalcolorname !== "" && item?.metaltypeName !== "" && (
+                {item?.metalcolorname !== "" && item?.metaltypename !== "" && (
                   <span> - </span>
                 )}
-                {item?.metaltypeName !== "" && (
-                  <span>{item.metaltypeName}</span>
+                {item?.metaltypename !== "" && (
+                  <span>{item?.metaltypename}</span>
                 )}
                 {" / "}
                 <span
                   className="hoq_currencyFont"
                   dangerouslySetInnerHTML={{
-                    __html: decodeEntities(loginUserDetail?.CurrencyCode),
+                    __html: decodeEntities(
+                      loginUserDetail?.CurrencyCode ?? StoreInit?.CurrencyCode
+                    ),
                   }}
                 />{" "}
-                {item?.UnitCost !== "" && <span>{(item?.FinalCost).toLocaleString('en-IN')}</span>}
+                {item?.UnitCost !== "" && (
+                  <span>{(item?.FinalCost).toLocaleString("en-IN")}</span>
+                )}
               </Typography>
             </div>
             {/* <div className='designNoWlList'>

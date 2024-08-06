@@ -26,12 +26,12 @@ function Home() {
   const [minHeight, setMinHeight] = useState("800px");
 
   useEffect(() => {
-    setCSSVariable();
     let localData = JSON.parse(localStorage.getItem("storeInit"));
     setLocalData(localData);
     if (localData) {
       setMinHeight("0px");
     }
+    setCSSVariable();
   }, []);
 
   const setCSSVariable = () => {

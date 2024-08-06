@@ -188,6 +188,7 @@ const Header = () => {
     navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
+    window.location.reload();
     localStorage.setItem("LoginUser", false);
     localStorage.removeItem("storeInit");
     localStorage.removeItem("loginUserDetail");
@@ -200,7 +201,6 @@ const Header = () => {
     localStorage.removeItem("registerMobile");
     localStorage.removeItem("allproductlist");
     localStorage.clear();
-    window.location.reload();
   };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

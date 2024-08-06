@@ -21,7 +21,6 @@ const HomePage = () => {
     });
   }, []);
 
-
   return (
     <div className="hoq_main_homepage">
       <TopSlider />

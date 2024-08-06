@@ -5,7 +5,7 @@ export default function LabGrownDiamond() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/lab-grown-diamond.html`)
+    fetch(`${storImagePath()}/static-html-page/LabGrownDiamond.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

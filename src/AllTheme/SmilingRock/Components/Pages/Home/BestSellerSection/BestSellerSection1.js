@@ -137,32 +137,40 @@ const ProductGrid = () => {
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)}</span>
+                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
                                             </>
                                         }
-                                        <span className='smr_btpipe'> | </span>
                                         {Number(data?.Nwt) !== 0 && (
                                             <>
+                                            <span className='smr_btpipe'>|</span>
                                                 <span className='smr_btdetailDT'>NWT : </span>
-                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)}{' '}</span>
+                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
                                             </>
                                         )}
-                                        <span className='smr_btpipe'> | </span>
                                         {storeInit?.IsDiamondWeight == 1 &&
                                             <>
-                                                <span className='smr_btdetailDT'>DWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Dwt || 0).toFixed(3)} / {(data?.Dpcs || 0)}</span>
+                                                {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>DWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                    </>
+                                                }
                                             </>
                                         }
-                                        <span className='smr_btpipe'> | </span>
                                         {storeInit?.IsStoneWeight == 1 &&
                                             <>
-                                                <span className='smr_btdetailDT'>CWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.CSwt || 0).toFixed(3)} / {(data?.CSpcs || 0)}{' '}</span>
+                                                {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>CWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                    </>
+                                                }
                                             </>
                                         }
                                         <p>
-                                        <span className="smr_currencyFont">
+                                            <span className="smr_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;
                                             <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
@@ -172,7 +180,7 @@ const ProductGrid = () => {
                         </div>
                         <div className='smr_rightSideBestSeler'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner2.jpg`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>

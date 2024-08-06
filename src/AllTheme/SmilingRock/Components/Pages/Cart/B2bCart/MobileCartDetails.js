@@ -4,6 +4,7 @@ import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -39,6 +40,7 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
+ const loginInfo = JSON.parse(localStorage.getItem('loginUserDetail'))
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -84,7 +86,7 @@ const MobileCartDetails = ({
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-type">Metal Type:</label>
-                      <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                      <select id="metal-type" name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                         {mrpbasedPriceFlag == 1 ? (
                           <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
                         ) :
@@ -100,13 +102,13 @@ const MobileCartDetails = ({
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-color">Metal Color:</label>
-                      <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                      <select id="metal-color" name={selectedItem?.id} value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
                         {mrpbasedPriceFlag == 1 ? (
                           <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                         ) :
                           <>
                             {
-                              metalColorCombo.map(option => (
+                              metalColorCombo?.map(option => (
                                 <option key={option.id} value={option.colorname}> {option.colorname}</option>
                               ))
                             }
@@ -158,9 +160,9 @@ const MobileCartDetails = ({
                   {sizeCombo?.rd?.length !== 0 &&
                     <div className="option">
                       <label htmlFor="size">Size:</label>
-                      <select id="size" defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
+                      <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>
                         {mrpbasedPriceFlag == 1 ? (
-                          <option value={selectedItem?.size}>{selectedItem?.size}</option>
+                          <option value={selectedItem?.Size}>{selectedItem?.Size}</option>
                         ) :
                           <>
                             {sizeCombo?.rd?.map(option => (
@@ -179,15 +181,9 @@ const MobileCartDetails = ({
                   <div className="product-price">
                     {!ispriceloding ? (
                       <span>
-                        <span
-                          className="smrMo_currencyFont"
-                          dangerouslySetInnerHTML={{
-                            __html: decodeEntities(
-                              CurrencyData?.Currencysymbol
-                            ),
-                          }}
-                        />
-                        {selectedItem?.FinalCost}
+                        {loginInfo?.CurrencyCode ??
+                            storeInitData?.CurrencyCode}{" "}
+                          &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
                       <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -248,15 +244,9 @@ const MobileCartDetails = ({
                     <div className="smrMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                          <span
-                            className="smrMo_currencyFont"
-                            dangerouslySetInnerHTML={{
-                              __html: decodeEntities(
-                                CurrencyData?.Currencysymbol
-                              ),
-                            }}
-                          />
-                          {(selectedItem?.FinalCost)}
+                        {loginInfo?.CurrencyCode ??
+                            storeInitData?.CurrencyCode}{" "}
+                          &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
                       ) :
                         <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />

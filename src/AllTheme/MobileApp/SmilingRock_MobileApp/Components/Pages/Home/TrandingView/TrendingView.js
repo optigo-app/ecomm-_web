@@ -184,7 +184,7 @@ const TrendingView = () => {
         <div className='smrMA_trendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
-                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg1.jpg`} className='linkingLoveImageDesign' />
+                    <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' />
                 </div>
                 <div className='smr_trendingViewTopMain_Sliderdiv'>
                     <p className='linkingTitle'>Trending View</p>

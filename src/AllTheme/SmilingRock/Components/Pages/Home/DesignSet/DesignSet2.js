@@ -157,7 +157,7 @@ const DesignSet2 = () => {
                       <img
                         // src={ProdCardImageFunc(slide)}
                         // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                        src={`${storImagePath()}/images/HomePage/bottombBanner/BottomBannerDesignSet1.png`}
+                        src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.webp`}
                         alt=""
                         className="imgBG"
                       />

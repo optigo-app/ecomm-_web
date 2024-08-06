@@ -18,8 +18,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Container,
+  Grid,
 } from "@mui/material";
-import { formatAmount } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import {
   getOrderHistory,
   getOrderItemDetails,
@@ -27,13 +28,13 @@ import {
 } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { useNavigate } from "react-router-dom";
 import Pako from "pako";
-import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from "@mui/icons-material/Print";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { CardFooter } from "react-bootstrap";
-import { useRef } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { ExpandLess } from "@mui/icons-material";
+import { formatAmount } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 const NewOrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -53,11 +54,18 @@ const NewOrderHistory = () => {
   const smallDevice320px = useMediaQuery(
     "(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px)"
   );
+  const smallDevice2 = useMediaQuery(
+    "(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px),(max-width:480px)"
+  );
+  const smallDevice3 = useMediaQuery(
+    "(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px),(max-width:480px),(max-width:515px)"
+  );
+  const smallDevice4 = useMediaQuery(
+    "(max-width:320px),(max-width:360px),(max-width:375px),(max-width:400px),(max-width:430px),(max-width:480px),(max-width:515px)"
+  );
 
   const [openTaxes, setOpenTaxes] = useState(null);
   const [expandedAccordion, setExpandedAccordion] = useState(null);
-
-
 
   const getStatusColor = (orderType) => {
     switch (orderType) {
@@ -118,12 +126,7 @@ const NewOrderHistory = () => {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     const UserEmail = localStorage.getItem("userEmail");
     try {
-      const response2 = await getOrderItemDetails(
-        obj,
-        storeinit,
-        loginInfo,
-        UserEmail
-      );
+      const response2 = await getOrderItemDetails( obj, storeinit, loginInfo, UserEmail );
 
       if (response2?.Status === "200") {
         if (response2?.Data?.rd1) {
@@ -132,6 +135,7 @@ const NewOrderHistory = () => {
         } else {
           setLoaderOH2(true);
           setOrderDetails([]);
+          setLoaderOH2(false);
         }
       }
     } catch (error) {
@@ -266,88 +270,229 @@ const NewOrderHistory = () => {
           </Box>
         ) : (
           <div>
-            <div style={{width:'100%'}}>
-           {
-                orderHistoryData?.length > 0 ? orderHistoryData?.map((e, i) => {
-                    return <Card variant="outlined" sx={{ boxShadow: "none", width:'100%', margin:'20px 0px', border:'1px solid #cacaca' }} key={i}>
-                    <CardHeader sx={{ backgroundColor:'#f4f4f4', boxShadow: "none", borderBottom:'1px solid #cacaca', borderLeft:'0px', borderRight:'0px'}}
-                      title={
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems:'center' }} >
-                          <Typography sx={{width:'33.33%', display: "flex", justifyContent: "flex-start", alignItems:'center'}}>18 AUGUST 2024</Typography>
-                          <Typography sx={{width:'33.33%', display: "flex", justifyContent: "center", alignItems:'center'}} className={` ${getStatusColor(e?.b2c_MasterManagement_ProgressStatusId )}`}>
-                            <CircleIcon sx={{ fontSize: "10px", marginRight:'5px' }} /> {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}</Typography>
-                          <Typography sx={{width:'33.33%', display: "flex", justifyContent: "flex-end", alignItems:'center',  position:'relative'}}>
-                            <span>TOTAL : </span><span style={{color:'#4a9aa8', fontWeight:'500'}}>&nbsp;<span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }} ></span> {formatAmount(e?.orderAmountwithvat)}</span> <span><ExpandMoreIcon onClick={() => handleToggleTaxes(e?.id)} /></span>
-                            { (openTaxes === e?.id) && <Paper  size="small" sx={{position:'absolute', right:'-5px', top:'25px'}}>
-                                <MenuList>
-                                    <MenuItem sx={{padding:'0px 5px', width:'100%', minWidth:'160px'}} size="small"><span style={{width:'50%', fontSize:'12px'}}>Tax :</span> <span className="d_end_oh" style={{width:'50%', fontSize:'12px'}}>{formatAmount(10000)}</span></MenuItem>
-                                    <MenuItem sx={{padding:'0px 5px', width:'100%', minWidth:'160px'}} size="small"><span  style={{width:'50%', fontSize:'12px'}}>Sub Total :</span> <span className="d_end_oh" style={{width:'50%', fontSize:'12px'}}>{formatAmount(32000)}</span></MenuItem>
-                                    <MenuItem sx={{padding:'0px 5px', width:'100%', minWidth:'160px'}} size="small"><span  style={{width:'50%', fontSize:'12px'}}>Grand Total :</span> <span className="d_end_oh" style={{width:'50%', fontSize:'12px'}}> {formatAmount(e?.orderAmountwithvat)}</span></MenuItem>
-                                </MenuList>
-                            </Paper>}
+            <div style={{ width: "100%" }}>
+              {orderHistoryData?.length > 0
+                ? orderHistoryData?.map((e, i) => {
+                    return (
+                      <Card variant="outlined" sx={{ boxShadow: "none", width: "100%", margin: "20px 0px", border: "1px solid #cacaca", }} key={i} >
+                        {/* <CardHeader sx={{ backgroundColor:'#f4f4f4', boxShadow: "none", borderBottom:'1px solid #cacaca', borderLeft:'0px', borderRight:'0px'}} */}
+                        {/* title={ */}
+                        { !smallDevice2 ? <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 5px", }} >
+                          <Typography className="fs_head_acc wdate_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", paddingLeft:'10px' }} >
+                            {e?.orderEntryDate?.toUpperCase()}
                           </Typography>
-                        </Box>
-                      }
-                    ></CardHeader>
-                    <CardContent sx={{boxShadow: "none"}}>
-                      <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                          <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
-                          <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                              <Typography>Gold 18K</Typography>
-                              <Typography> {e?.OrderPrefix}{e?.orderno}</Typography>
-                              <Typography>Item : {e?.TotalQuantity}</Typography>
+                          <Typography sx={{ width: "33.33%", display: "flex", justifyContent: "center", alignItems: "center", }} className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc wstatus_smr_acc_noh`} >
+                            <CircleIcon sx={{ fontSize:'10px !important', marginRight: "5px" }} />{" "}
+                            {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
+                          </Typography>
+                          <Typography className="fs_head_acc wprice_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", position: "relative", paddingRight:'10px'}}  >
+                            <div style={{userSelect:'none'}} onClick={() => handleToggleTaxes(e?.id)}>
+                              <span style={{cursor:'pointer'}}>TOTAL : </span>
+                              <span style={{ color: "#4a9aa8", fontWeight: "500", cursor:'pointer' }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
+                              <span> <ExpandMoreIcon style={{color:'grey', cursor:'pointer'}} /> </span>
+                            </div>
+                            {openTaxes === e?.id && (
+                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_acc" >
+                                <MenuList>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
+                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
+                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc"> 
+                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
+                                  </MenuItem>
+                                </MenuList>
+                              </Paper>
+                            )}
+                          </Typography>
+                        </Box> : ''}
+                        {/* } */}
+                        {/* // ></CardHeader> */}
+                        <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", }} className="fs_head_acc" >
+                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", }} className="fs_head_acc" >
+                           { !smallDevice4 && <Box sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", }} >
+                              <img
+                                src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png"
+                                alt="#orderImg"
+                                className="orderImgAcc"
+                                loading="eager"
+                              />
+                            </Box>}
+                            <Box sx={{ width: "33.33%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_acc w_50_noh w_100_noh_acc" >
+           
+                           
+                              { smallDevice2 && <Typography style={{display:'flex', alignItems:'center'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc w_100_noh_acc`}>
+                                <CircleIcon sx={{ fontSize:'7px !important', marginRight: "5px" }} />
+                                {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
+                              </Typography>}
+                              { smallDevice2 && <Typography className="fs_head_acc start_noh_acc w_100_noh_acc">
+                                {e?.orderEntryDate}
+                              </Typography>}
+                              <Typography className="fs_head_acc start_noh_acc w_100_noh_acc" style={{fontWeight:'bold'}}>
+                                {" "}
+                                {e?.OrderPrefix}
+                                {e?.orderno}
+                              </Typography>
+                              <Typography className="fs_head_acc start_noh_acc w_100_noh_acc">
+                                Item : <span style={{color:'brown', fontWeight:'bold'}}>{e?.TotalQuantity}</span>
+                              </Typography>
+                            </Box>
+                           {  <Box sx={{ width: "33.33%", display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-end", }} className="fs_head_acc w_50_noh" > 
+                            <>
+                              {e?.IsPLW === 1 ? ( <>
+                                <div className="minh_noh" style={{display:'flex', alignItems:'center'}}>
+                                  <div className={`sidebar ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`} style={{display:'flex', flexDirection:'column'}}>
+                                    <div className="d_flex_acc_new_oh" style={{padding:'2px'}}>
+
+                                    {(showActions === e?.id) && (
+                                      <>
+                                          
+
+                                          <Chip size="small" label="Approve" color="success" className="fs_head_acc2" sx={{margin:'0px 5px'}} onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip
+                                            size="small"
+                                            label="Reject"
+                                            sx={{
+                                              backgroundColor: 'black',
+                                              color: 'white',
+                                              margin:'0px 5px',
+                                              '&:hover': {
+                                                  backgroundColor: 'black',
+                                                  color: 'white',
+                                                  cursor: 'default',
+                                                },
+                                              }}
+                                              className="fs_head_acc2"
+                                          onClick={() => handleApproveReject(e, 'reject')}
+                                        />
+                                    
+                                      </>
+                                    )}
+                                    { e?.IsPLW === 0 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal fs_head_acc2`} label={e?.OrderStatusName} />}
+                                    </div>
+                                </div>
+                                <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
+                              </div>
+                                <div className="minh_noh2">
+                                  { e?.IsPLW === 1 ?
+                                    <>
+                                      <div className="center_noh" style={{padding:'0px', margin:'0px', width:'70px'}}><PrintIcon onClick={() => handlePrintOH(e?.id)}  /></div>
+                                    </>
+                                    : ''
+                                  }
+                                  { showPrint ? <div className="center_noh" style={{ fontSize:'7px', lineHeight:'7px'}}>{clickedPrintId === e?.id && 'Coming Soon...'}</div> : <div></div>}  
+
+                                </div>
+                              
+                              </>
+                              )
+                               : (
+                                <div>&nbsp;</div>
+                              )}
+                            </>
+                            </Box>}
                           </Box>
-                          <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-end', alignItems:'center'}}>Other</Box>
-                      </Box>
-                    </CardContent>
-                   <Accordion expanded={expandedAccordion === e?.id} onChange={() => setExpandedAccordion(expandedAccordion === e?.id ? null : e?.id)}>
-                   <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        expanded={expandedAccordion === e?.id} 
+                          { smallDevice2 && <Typography className="fs_head_acc" style={{position:'relative'}} onClick={() => handleToggleTaxes(e?.id)}>
+                                <div style={{userSelect:'none', display:'flex', justifyContent:'center', alignItems:'center'}} className="pb_25_noh start_noh_acc" onClick={() => handleToggleTaxes(e?.id)}>
+                                  <span style={{cursor:'pointer'}}>TOTAL : </span>
+                                  <span style={{ color: "#4a9aa8", fontWeight: "500", cursor:'pointer' }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
+                                  <span> <ExpandMoreIcon style={{color:'grey', cursor:'pointer', fontSize:'12px'}} /> </span>
+                                </div>
+                                {openTaxes === e?.id && (
+                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_acc" >
+                                <MenuList>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
+                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
+                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc"> 
+                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
+                                  </MenuItem>
+                                </MenuList>
+                              </Paper>
+                            )}
+                              </Typography>}
+                         
+                        </CardContent>
+                        <Accordion
+                          className="fs_head_acc"
+                          expanded={expandedAccordion === e?.id}
+                          onChange={() => {
+                            handleClick(e);
+                            setExpandedAccordion(
+                              expandedAccordion === e?.id ? null : e?.id
+                              )
+                            }
+
+                          }
                         >
-                        {expandedAccordion === e?.id ? 'View Less' : 'View More'}
-                        </AccordionSummary>
-                        <AccordionDetails  sx={{ maxHeight: 300, overflowY: 'scroll' }}>
-                        <CardContent sx={{boxShadow: "none", padding:'0px'}}>
-                            <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
-                                <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                                    <Typography>Gold 18K</Typography>
-                                    <Typography> {e?.OrderPrefix}{e?.orderno}</Typography>
-                                    <Typography>Item : {e?.TotalQuantity}</Typography>
-                                </Box>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-end', alignItems:'center'}}>Other</Box>
-                            </Box>
-                        </CardContent>
-                        <CardContent sx={{boxShadow: "none", padding:'0px'}}>
-                            <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
-                                <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                                    <Typography>Gold 18K</Typography>
-                                    <Typography> {e?.OrderPrefix}{e?.orderno}</Typography>
-                                    <Typography>Item : {e?.TotalQuantity}</Typography>
-                                </Box>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-end', alignItems:'center'}}>Other</Box>
-                            </Box>
-                        </CardContent>
-                        <CardContent sx={{boxShadow: "none", padding:'0px'}}>
-                            <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
-                                <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                                    <Typography>Gold 18K</Typography>
-                                    <Typography> {e?.OrderPrefix}{e?.orderno}</Typography>
-                                    <Typography>Item : {e?.TotalQuantity}</Typography>
-                                </Box>
-                                <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-end', alignItems:'center'}}>Other</Box>
-                            </Box>
-                        </CardContent>
-                        </AccordionDetails>
-                   </Accordion>
-                  </Card>
-                })  : ''
-           }
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                            expanded={expandedAccordion === e?.id}
+                            className="fs_head_acc"
+                          >
+                            {expandedAccordion === e?.id
+                              ? "View Less"
+                              : "View More"}
+                          </AccordionSummary>
+                          <AccordionDetails
+                            sx={{
+                              paddingBottom: "10px",
+                            }}
+                          >
+                            {
+                              orderInfo === e?.id ? (<>
+                              {
+                                loaderOH2 ? (
+                                  <Box sx={{display:'flex', justifyContent:'center', paddingTop:'10px'}}>
+                                    <CircularProgress className="loadingBarManage" />
+                                  </Box>
+                                ) : (
+                                  <>
+                                  <Grid container spacing={4}>
+                                  {orderDetails?.length > 0 && orderDetails?.map((el, index) => (
+                                    <Grid
+                                      item
+                                      key={index}
+                                      xs={12}
+                                      sm={orderDetails?.length === 1 ? 6 : 6}
+                                      md={orderDetails?.length === 1 ? 6 : 4}
+                                      lg={orderDetails?.length === 1 ? 3 : 3}
+                                      xl={orderDetails?.length === 1 ? 3 : 3}
+                                    >
+                                      <Card sx={{display:'flex', alignItems:'center'}} onClick={() => handleMoveToDetail(el)}>
+                                          <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} />
+                                          <div>
+                                            <div>{el?.designno}</div>
+                                            <div>{el?.metaltypename} {el?.metalcolorname}</div>
+                                            <div style={{fontWeight:'bold'}}><span style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> 
+                                            {formatAmount(el?.TotalUnitCostWithDiscount)}</div>
+                                          </div>
+                                      </Card>
+                                    </Grid>
+                                  ))}
+                                </Grid>
+                                </>
+                                )
+                              }
+                              </>) : ''
+                            }
+                            <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
+                              setExpandedAccordion(false)
+                              handleClick(e);
+                            }}><ExpandLess /></Typography>
+                          </AccordionDetails>
+                        </Accordion>
+                      </Card>
+                    );
+                  })
+                : ""}
             </div>
           </div>
         )}
@@ -357,3 +502,16 @@ const NewOrderHistory = () => {
 };
 
 export default NewOrderHistory;
+
+                                          // return <CardContent sx={{boxShadow: "none", padding:'0px', paddingBottom:'0px'}} key={ind}>
+                                          //           <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'0px'}} className="fs_head_acc">
+                                          //               <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
+                                          //               <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} className="fs_head_acc">
+                                          //                   <Typography className="fs_head_acc"> {el?.metaltypename} {el?.metalcolorname}</Typography>
+                                          //                   <Typography className="fs_head_acc"> {el?.designno}</Typography>
+                                          //                   <Typography className="fs_head_acc"><span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}</Typography>
+                                          //               </Box>
+                                          //               <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-end', alignItems:'center'}}  className="fs_head_acc">Other</Box>
+                                          //           </Box>
+                                          //           <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center'}} onClick={() => setExpandedAccordion(false)}><ExpandLess /></Typography>
+                                          //          </CardContent>

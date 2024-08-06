@@ -131,7 +131,7 @@ const MobileFooter = () => {
               id="panel1-header"
               className="summary"
             >
-              <span className="title">sign up</span>
+              <span className="title">NEWSLETTER</span>
             </AccordionSummary>
             <AccordionDetails>
               <div className="details">
@@ -175,11 +175,11 @@ const MobileFooter = () => {
                   <li>
                     <Link to="/Shipping-Policy">Shipping Policy</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/Return-Exchange-Policy">
                       Return & Exchange Policy
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/Terms-Conditions">Terms & Conditions</Link>
                   </li>
@@ -208,9 +208,9 @@ const MobileFooter = () => {
             <AccordionDetails>
               <div className="details">
                 <ul>
-                  <li>
+                  {/* <li>
                     <Link to="/blogs">Blogs</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/our-story">Our Story</Link>
                   </li>
@@ -220,9 +220,9 @@ const MobileFooter = () => {
                   <li>
                     <Link to="/lab-grown-diamond">Lab Grown Diamond</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/diamond-education">Diamond Education</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/quality-certification">
                       Quality & Certification
