@@ -5,7 +5,7 @@ export default function QualityCertification() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/quality-certification.html`)
+    fetch(`${storImagePath()}/static-html-page/DiamonCertificate.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

@@ -1,7 +1,5 @@
 @import "../../scss/Variable.scss";
 
-
-
 .hoq_lookSubCtSaveBtn {
   height: 30px;
   width: 30px;
@@ -15,17 +13,18 @@
   right: -8px;
   background-color: lightgray;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .hoq_LookBookMain {
   background-color: $backgroundColor;
-
 
   .hoq_lookbookFilterMain {
     position: sticky;
     top: 0;
     height: 80vh;
     width: 20%;
+    overflow-y: auto;
   }
 
   .hoq_lookBookViveBoxSet {
@@ -80,7 +79,7 @@
     text-transform: capitalize;
     font-family: $primaryFontFamily;
   }
-
+  // 21
   .hoq_lb3TotalBtnGroup {
     display: flex;
     justify-content: space-evenly;
@@ -102,17 +101,17 @@
     .hoq_lb3BuyComboDiv {
       width: 100%;
       color: #fff;
-      border: 1px solid $titleColor;
-      background-color: $titleColor;
+      border: 1px solid #c20000;
+      background-color: #c20000;
       text-align: center;
       padding: 10px 0px;
       font-weight: 500;
 
       &:hover {
-        color: $titleColor;
-        background-color: #fff;
+        color: white;
+        background-color: #ad0505;
         cursor: pointer;
-        border: none;
+        border: 1px solid #ad0505;
       }
 
       // text-align: end;
@@ -149,16 +148,14 @@
     margin: 5px;
   }
 
-
   .hoq_lookBookSelectViewBtn {
     height: 35px;
     width: 150px;
     border: none;
     font-weight: 500;
     border-radius: 0px;
-    color: $titleColor;
-    border: 1px solid $titleColor;
-    background: none;
+    color: white;
+    border: 1px solid #c20000;
   }
 
   .hoq_lookBookFilterSubDiv {
@@ -216,9 +213,9 @@
     border: none;
     font-weight: 600;
     color: #fff;
-    border: 1px solid #7d7f85;
+    background-color: #c20000;
+    border: 1px solid #c20000;
     border-radius: 0px;
-    background: #7d7f85;
   }
 
   .hoq_lookBookAddtoCartBtn {
@@ -232,7 +229,6 @@
     border-radius: 0px;
     background: none;
   }
-
 
   .hoq_LookBookinstock {
     background-color: #00800045;
@@ -252,9 +248,8 @@
     font-size: 13px;
     font-weight: 600;
     color: #fff;
-    border: 1px solid #c0bbb1;
-    border-radius: 6px;
-    background: #c0bbb1;
+    border: 1px solid #c20000;
+    background: #c20000;
   }
 
   .hoq_lookBookAddtoCartIconBtn {
@@ -305,21 +300,19 @@
     margin: 0 5px;
   }
 
-  @media screen and (max-width:1450px) {
+  @media screen and (max-width: 1450px) {
     .hoq_designSetDiv {
       width: 48% !important;
     }
   }
 
-
-  @media screen and (min-width:1201px) {
+  @media screen and (min-width: 1201px) {
     .hoq_lookBookMobileFilter {
       display: none;
     }
   }
 
-  @media screen and (max-width:1200px) {
-
+  @media screen and (max-width: 1200px) {
     .hoq_lookbookFilterMain {
       display: none;
     }
@@ -345,14 +338,13 @@
     }
   }
 
-  @media screen and (max-width:900px) {
+  @media screen and (max-width: 900px) {
     .hoq_designSetDiv {
       width: 99% !important;
     }
   }
 
-  @media screen and (max-width:600px) {
-
+  @media screen and (max-width: 600px) {
     .hoq_designSetDiv {
       width: 98% !important;
     }
@@ -386,7 +378,6 @@
 }
 
 .hoq_lookbook3MainDiv {
-
   .hoq_lb3compeletethelook_cont {
     padding: 0px 85px;
     display: flex;
@@ -428,7 +419,7 @@
     padding: 5px;
     // border: 1px solid #e1e1e1;
     background-color: #fff;
-    width: 513px
+    width: 513px;
   }
 
   .hoq_lb3srthelook_img {
@@ -490,7 +481,7 @@
     }
   }
 
-  @media(max-width: 1440px) {
+  @media (max-width: 1440px) {
     .hoq_lookbook3MainDiv {
       max-width: 1200px;
     }
@@ -504,7 +495,7 @@
     }
   }
 
-  @media(max-width: 1400px) {
+  @media (max-width: 1400px) {
     .hoq_lookbook3MainDiv {
       max-width: 1200px;
     }
@@ -523,7 +514,7 @@
     }
   }
 
-  @media(max-width: 1300px) {
+  @media (max-width: 1300px) {
     .hoq_lookbook3MainDiv {
       max-width: 1200px;
     }
@@ -542,7 +533,7 @@
     }
   }
 
-  @media(max-width: 800px) {
+  @media (max-width: 800px) {
     .hoq_lookbook3MainDiv {
       max-width: 1200px;
     }
@@ -585,7 +576,7 @@
     }
   }
 
-  @media(max-width: 500px) {
+  @media (max-width: 500px) {
     .hoq_lb3ctlImg_containe {
       width: 400px !important;
       height: 300px !important;
@@ -593,7 +584,7 @@
     }
   }
 
-  @media(max-width: 425px) {
+  @media (max-width: 425px) {
     .hoq_lb3ctlImg_containe {
       width: 300px !important;
       height: 300px !important;
@@ -611,7 +602,7 @@
     }
   }
 
-  @media(max-width: 415px) {
+  @media (max-width: 415px) {
     .hoq_lookbookMainDivdata {
       flex-direction: column !important;
     }
@@ -619,7 +610,7 @@
     .hoq_lb3compeletethelook_cont {
       padding: 0 !important;
     }
-    .hoq_lb3completethelook_outer{
+    .hoq_lb3completethelook_outer {
       position: relative;
     }
 
@@ -685,6 +676,19 @@
     .hoq_lb3compeletethelook_prodt_for_3 {
       margin-left: 0px !important;
       width: 100%;
+    }
+  }
+  @media (max-width: 395px) {
+    .hoq_lb3TotalBtnGroup {
+      width: 320px !important;
+
+      .hoq_lb3TotalPrice {
+        width: 95% !important;
+      }
+
+      .hoq_lb3BuyComboDiv {
+        width: 95% !important;
+      }
     }
   }
 }

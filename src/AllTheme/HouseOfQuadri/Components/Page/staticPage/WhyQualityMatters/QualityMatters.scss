@@ -46,4 +46,15 @@
       border-radius: 3px;
     }
   }
+  @media (max-width: 1500px) {
+    .content{
+      width: 80%;
+    }
+  }
+  
+  @media (max-width: 615px) {
+    .content{
+      width: 95%;
+    }
+  }
 }

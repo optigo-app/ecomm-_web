@@ -53,8 +53,8 @@ const TabSection = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
+  const [storeInit, setStoreInit] = useState();
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const [storeInit, setStoreInit] = useState({});
   
   const islogin = useRecoilValue(Hoq_loginState);
   
@@ -65,6 +65,17 @@ const TabSection = () => {
     setStoreInit(storeinit);
   },[])
 
+  const Arrials = async(finalID)=>{
+    await Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
+    .then((response) => {
+      if (response?.Data?.rd) {
+        setNewArrivalData(response?.Data?.rd);
+      }
+    })
+    .catch((err) => console.log(err));
+   }
+
+
   useEffect(() => {
     const loginUserDetail = JSON.parse(
       localStorage?.getItem("loginUserDetail")
@@ -74,24 +85,14 @@ const TabSection = () => {
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
       finalID = loginUserDetail?.id || "0";
     }
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
-
-   const Arrials = async()=>{
-    await Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
-    .then((response) => {
-      if (response?.Data?.rd) {
-        setNewArrivalData(response?.Data?.rd);
-      }
-    })
-    .catch((err) => console.log(err));
-   }
    Arrials()
-  }, [storeInit]);
+  }, []);
 
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1
@@ -100,7 +101,6 @@ const TabSection = () => {
         }`
       : "noImageFound";
   };
-
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
@@ -133,12 +133,7 @@ const TabSection = () => {
       }${productData?.designno}?p=${encodeObj}`
     );
   };
-
-  useEffect(() => {
-    console.log(ImageGenrate());
-  }, []);
   const formatter = new Intl.NumberFormat("en-IN");
-
   return (
     <div className="hoq_main_TabSection">
       <div className="header">

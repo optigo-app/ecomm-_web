@@ -6,15 +6,15 @@ const CollectionPage = () => {
   const collections = [
     {
       title: "Askew",
-      img: `${storImagePath()}/images/catalog/1.png`,
+      img: `${storImagePath()}/images/catalog/1.webp`,
     },
     {
       title: "Emra",
-      img:`${storImagePath()}/images/catalog/2.png`,
+      img:`${storImagePath()}/images/catalog/2.webp`,
     },
     {
       title: "Stellar",
-      img:`${storImagePath()}/images/catalog/3.png`,
+      img:`${storImagePath()}/images/catalog/3.webp`,
     },
   ];
   return (

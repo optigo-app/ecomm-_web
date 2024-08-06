@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './hoq_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
+import { toast } from 'react-toastify';
 
 const Customization = ({
   ispriceloding,
@@ -43,6 +44,14 @@ const Customization = ({
     console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
+
+  const handleUpdateCart = async (selectedItem) => {
+    const resUpdate = await onUpdateCart(selectedItem)
+    if (resUpdate?.msg == "success") {
+      toast.success('Cart Updated Successfully');
+    }
+  }
+
   return (
     <>
       {selectedItem?.StockId == 0 ? (
@@ -54,9 +63,9 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
-                  <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                  <select id="metal-type" name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {selectedItem?.StockId != 0 ? (
-                      <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
+                      <option value={selectedItem?.metaltypename} >{selectedItem?.metaltypename}</option>
                     ) :
                       <>
                         {metalTypeCombo?.map(option => (
@@ -70,7 +79,7 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-color">Metal Color:</label>
-                  <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                  <select id="metal-color" name={selectedItem?.id} value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
@@ -88,7 +97,7 @@ const Customization = ({
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Diamond:</label>
-                  <select id="diamond" value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</option>
                     ) :
@@ -104,7 +113,7 @@ const Customization = ({
               {storeInitData?.IsCsCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Color Stone:</label>
-                  <select id="diamond" value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
                     ) :
@@ -120,7 +129,7 @@ const Customization = ({
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size"  value={selectedItem?.Size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id}  value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.Size}>{selectedItem?.Size}</option>
                     ) :
@@ -161,7 +170,7 @@ const Customization = ({
             }
           </div>
           <div className='hoq_UpdateCartBtn'>
-            <button className="hoq_cartUpdate-button" onClick={() => onUpdateCart(selectedItem)}>Save</button>
+            <button className="hoq_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
