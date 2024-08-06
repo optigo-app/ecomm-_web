@@ -1,0 +1,50 @@
+.orderHistory_acc{
+    // border: 1px solid black;
+    padding: 10px;
+ 
+    
+    .orderImgAcc{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        padding: 2px;
+        margin: 2px;
+        border: 1px solid #e8e8e8;
+        max-width: 70px;
+        max-height: 70px;
+    }
+
+    .text_danger_oh{
+        color: #dc3545;
+    }
+    .text_success_oh{
+        color: #28a745;
+    }
+    .text_primary_oh{
+        color: #007bff;
+    }
+    .text_primary_oh{
+        color: #007bff;
+    }
+
+    .d_end_oh{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .fs_head_acc{
+        font-size: 14px !important;
+    }
+
+    .fs_head_acc .MuiAccordionSummary-content {
+        margin: 0px !important;
+    }
+    .fs_head_acc .MuiButtonBase-root {
+        min-height: 20px !important;
+    }
+    .fs_head_acc .MuiCardContent-root {
+        padding-bottom: 2px !important;
+    }
+
+ 
+}

@@ -1068,9 +1068,22 @@ const ProductDetail = () => {
       isImgCol = await checkImageAvailability(pdImgListCol[0])
     }
 
-    if(pdImgListCol?.length > 0 && (isImgCol == true)){
-      setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if(FinalPdColImgList?.length > 0 && (isImgCol == true)){
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({"link":FinalPdColImgList[thumbImgIndex],"type":'img'});
       setThumbImgIndex(thumbImgIndex)
       
     }
@@ -1243,7 +1256,7 @@ const ProductDetail = () => {
                       />
                     ) : (
                       <div
-                        className="smr_prod_video"
+                        className="smr_app_prod_video"
                       >
                         <video
                           src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
@@ -1252,7 +1265,7 @@ const ProductDetail = () => {
                           style={{
                             width: "100%",
                             objectFit: "cover",
-                            marginTop: "40px",
+                            // marginTop: "40px",
                             height: "90%",
                             borderRadius: "8px",
                           }}
@@ -1847,8 +1860,9 @@ const ProductDetail = () => {
                               <>
                                 
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">GWT:</span>
-                                  <span className="smr_val">
+                                <span style={{fontSize:"10px"}}>|</span>
+                                  <span className="dt_keys">GWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.GrossWt)?.toFixed(3)}
                                   </span>
                                 </span>
@@ -1857,10 +1871,10 @@ const ProductDetail = () => {
                           {storeInit?.IsDiamondWeight == 1 &&
                             Number(ele?.DiaWt) !== 0 && (
                               <>
-                                <span>|</span>
+                                <span style={{fontSize:"10px"}}>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
+                                  <span className="dt_keys">DWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.DiaWt)?.toFixed(3)}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -1873,10 +1887,10 @@ const ProductDetail = () => {
                           {storeInit?.IsStoneWeight == 1 &&
                             Number(ele?.CsWt) !== 0 && (
                               <>
-                                <span >|</span>
+                                <span style={{fontSize:"10px"}}>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_keys">CWT:</span>
-                                  <span className="smr_val">
+                                  <span className="dt_keys">CWT:</span>
+                                  <span className="dt_val">
                                     {(ele?.CsWt)?.toFixed(3)}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -1889,13 +1903,12 @@ const ProductDetail = () => {
                       </div>
 
                       <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
-                          <spam>
-                            {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
+                          <span>
+                            {ele?.MetalColorName}{" "}-{" "}{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
-                            <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             </span>
-                             </spam>
+                             </span>
                              <span>&nbsp;{formatter.format(ele?.Amount)}</span>
                       </div>
                       </div>

@@ -243,7 +243,7 @@
   padding: 0px 5px;
 }
 
-.smr_prod_Allwt {
+.smr_app_prod_Allwt {
   display: flex;
   // flex-direction: row;
   justify-content: center;
@@ -279,8 +279,8 @@
   font-size: 14px;
   font-weight: 500;
   gap: 3px;
-  font-family: $primaryFontFamily;
-  padding: 7px;
+  font-family: "TT Commons Regular";
+  padding: 2px 7px;
   align-items: baseline;
 }
 .smrMA_price {
@@ -348,37 +348,60 @@
 
 }
 
-.smr_product_label{
+.smr_app_product_label{
   position: absolute;
-  top: 45px;
+  top: 170px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: column-reverse;
+  gap: 3px;
   font-size: 14px;
+  width:60px
 }
 
-.smr_instock{
-  background-color: #00800045;
-  color: black;
-  padding: 0px 5px;
-}
-
-.smr_bestSeller{
-  background-color: #bc000075;
+.smr_app_instock{
+  // padding: 0px 5px;
+  /* background-color: white !important; */
+  /* border: 1px solid darkgreen !important; */
+  /* border-radius: 50px; */
+  /* color: darkgreen !important; */
+  // margin-left: 5px;
+  background-color: #00d300;
   color: white;
-  padding: 0px 5px;
+  text-transform: uppercase;
+  width:21%
 }
 
-.smr_intrending{
-  background-color: khaki;
-  color: black;
-  padding: 0px 5px;
+.smr_app_bestSeller{
+  // padding: 0px 5px;
+  /* background-color: white !important; */
+  /* border: 1px solid red !important; */
+  /* border-radius: 50px; */
+  /* color: red !important; */
+  // margin-left: 5px;
+  background-color: #fe8d59;
+  color: white; 
+  text-transform: uppercase;
+  width: 21%;
 }
 
-.smr_newarrival{
-  background-color: lightskyblue;
-  color: black;
-  padding: 0px 5px;
+.smr_app_intrending{
+  // padding: 0px 5px;
+  /* background-color: white !important; */
+  /* border: 1px solid red !important; */
+  /* border-radius: 50px; */
+  /* color: red !important; */
+  // margin-left: 5px;
+  background-color: brown;
+  color: white;
+  text-transform: uppercase;
+  width: 21%;
+}
+
+.smr_app_newarrival{
+  background-color: darkblue;
+  color: white;
+  text-transform: uppercase;
+  width: 21%;
 }
 
 .sortItemLabelProduct{
@@ -442,7 +465,7 @@
     font-size: 12px;
   }
 
-  .smr_product_label{
+  .smr_app_product_label{
     font-size: 12px;
   }
 
@@ -491,8 +514,9 @@
     font-size: 10px;
   }
 
-  .smr_product_label{
-    font-size: 10px;
+  .smr_app_product_label{
+    font-size: 7px;
+    width:100%;
   }
 
   .smrMA_price{
@@ -545,13 +569,13 @@
 }
 
 @media screen and (max-width:1674px) {
-  .smr_prod_Allwt{
+  .smr_app_prod_Allwt{
     padding-inline: 0 !important;
   } 
 }
 @media screen and (max-width:590px) {
-  .smr_prod_Allwt{
-    height: 30px;
+  .smr_app_prod_Allwt{
+    height: 12px;
   } 
   .smr_keys{
     font-size: 9px !important;

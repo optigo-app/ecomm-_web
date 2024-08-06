@@ -8,6 +8,7 @@ import noImageFound from '../../Assets/image-not-found.jpg';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from '@mui/material';
 import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { toast } from 'react-toastify';
 
 const WishlistItems = ({
     isloding,
@@ -31,9 +32,10 @@ const WishlistItems = ({
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
+            toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
-            })
+            });
         }
     };
 
@@ -96,22 +98,22 @@ const WishlistItems = ({
                             onClick={() => handleMoveToDetail(item)}
                         />
                         <CardContent className='elv_cardContent'>
-                                <div className='elv_wish_card'>
-                                    <span className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{item?.TitleLine != "" && item?.TitleLine}</span>
+                            <div className='elv_wish_card'>
+                                <span className={item?.TitleLine ? 'elv_wishlist_card_prod_title' : 'elv_wishlist_card_prod_title_hidden'}>{item?.TitleLine != "" && item?.TitleLine}</span>
+                            </div>
+                            <div className='elv_wishlist_card_weights' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div className='elv_wishlist_card_weights_1' style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span>DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                                    <span>GWT: {(item?.Gwt || 0).toFixed(3)}</span>
                                 </div>
-                                <div className='elv_wishlist_card_weights' style={{ display: 'flex', justifyContent: 'space-between'}}>
-                                    <div className='elv_wishlist_card_weights_1' style={{ display: 'flex', flexDirection: 'column'}}>
-                                        <span>DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
-                                        <span>GWT: {(item?.Gwt || 0).toFixed(3)}</span>
+                                <div className='elv_wishlist_card_weights_2'>
+                                    <div style={{ display: 'flex' }}>
+                                        <span style={{ paddingRight: '0.3rem' }} dangerouslySetInnerHTML={{ __html: decodeEntities(loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode) }} />
+                                        {item && <div>{formatter(item.FinalCost)}</div>}
                                     </div>
-                                    <div className='elv_wishlist_card_weights_2'>
-                                        <div style={{ display: 'flex' }}>
-                                            <span style={{paddingRight: '0.3rem'}} dangerouslySetInnerHTML={{ __html: decodeEntities(loginInfo?.CurrencyCode) }} />
-                                            {item && <div>{formatter(item.FinalCost)}</div>}
-                                        </div>
-                                        <span>{item?.designno != "" && item?.designno}</span>
-                                    </div>
+                                    <span>{item?.designno != "" && item?.designno}</span>
                                 </div>
+                            </div>
                         </CardContent>
                         <div className='elv_wishlist_atc_button' onClick={() => handleWishlistToCartFun(item)}>
                             <button className='elv_wishlist_btn'>{(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}</button>

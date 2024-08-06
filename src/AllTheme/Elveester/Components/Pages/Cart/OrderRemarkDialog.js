@@ -39,7 +39,7 @@ const RemarkDialog = ({
                         defaultValue={remark1}
                         value={remark1}
                         onChange={onRemarkChange1}
-                    ></textarea>
+                    />
                 </div>
                 <div className="elv_projectRemarkBtn-group">
                     <button className="elv_remarksave-btn" onClick={onSave1}>

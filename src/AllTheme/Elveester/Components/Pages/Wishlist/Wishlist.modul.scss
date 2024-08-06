@@ -264,7 +264,7 @@
         max-height: 400px;
         object-fit: contain;
         cursor: pointer;
-        height: 300px;
+        // height: 300px;
     }
 
     .cardText {
@@ -280,13 +280,13 @@
     font-family: $primaryFontFamily;
 }
 
-.WlMainPageDiv {
+.elv_WlMainPageDiv {
     background-color: #fff;
-    margin-inline: 6%;
+    margin-inline: 12%;
 }
 
 @media(max-width:1200px) {
-    .WlMainPageDiv {
+    .elv_WlMainPageDiv {
         margin-inline: 1% !important;
     }
 }
@@ -379,7 +379,7 @@
 }
 
 .elv_WlListData {
-    padding: 60px 100px 200px 100px;
+    padding: 60px 0px 200px 0px;
     margin-bottom: -8%;
 }
 
@@ -459,6 +459,48 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+}
+
+.elv_Productlists_lists_header_breadcrumb {
+    display: flex;
+    justify-content: space-between;
+    background: #D4DBE7;
+    padding: 20px 0px 20px 40px;
+    margin-top: 3rem;
+}
+
+
+.elv_Productlists_details_1 {
+    text-transform: uppercase;
+    font-size: 30px;
+    font-family: "Segoe UI", "Noto Sans", sans-serif;
+}
+.elv_Productlists_details {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #AF8238;
+}
+
+.elv_Productlists_lists_header_logo {
+    padding-right: 20px;
+}
+
+.elv_Productslists_lists_name {
+    margin-top: 30px;
+}
+
+.elv_Productlist_ptitle {
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.elv_Productlist_logo {
+    width: 70px;
+    height: 100px;
+    margin-right: 30px;
 }
 
 @media (max-width: 1750px) {
@@ -661,6 +703,12 @@
     }
 }
 
+@media (max-width: 425px) {
+    .elv_Productlists_details_1{
+        font-size: 20px;
+    }
+}
+
 @media (max-width: 320px) {
 
     .elv_WlListData {
@@ -723,7 +771,7 @@
 // skelton scss
 
 .elv_addwishlistSkeltonMainBox {
-    padding: 0px 60px;
+    padding: 0px 0px;
 
     .elv_addwishlistSkelton {
         height: 450px;

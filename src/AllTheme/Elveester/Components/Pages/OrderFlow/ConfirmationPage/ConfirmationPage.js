@@ -11,29 +11,11 @@ const ConfirmationPage = () => {
   const [storeInit, setStoreInit] = useState();
 
   useEffect(() => {
-    // Retrieve and set storeInit and orderNo from localStorage
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeInit);
-    const orderNo = localStorage.getItem('orderNumber');
-    setOrderNo(orderNo);
-
-    // Ensure that this page replaces the current history entry
-    // so that pressing the back button will not navigate back to the previous page
-    window.history.go('/cartPage');
-
-    // Handle the back button event
-    const handlePopState = () => {
-      navigate('/cartPage'); // Replace with your cart page route
-      // window.history.go('/cartPage');
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [navigate, location.pathname]);
+    let orderNo = localStorage.getItem('orderNumber')
+    setOrderNo(orderNo)
+  }, [])
 
   const handleNavigate = () => {
     navigate('/')
