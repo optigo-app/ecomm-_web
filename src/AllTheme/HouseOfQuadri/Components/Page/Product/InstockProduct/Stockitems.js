@@ -11,47 +11,47 @@ const Stockitems = ({
   handleCartandWish,
 }) => {
   return (
-    <div className="Stockitems">
+    <div className="hoq_Stockitems">
       {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
         <div className="hoq_stockItem_div">
           <p className="hoq_details_title"> Stock Items </p>
           <div className="hoq_stockitem_container">
             {/* 12 */}
-            <table className="Smr_stockItem_table">
-              <tr className="Smr_stockItem_table_tr">
-                <th className="Smr_stockItem_table_td">SrNo</th>
-                <th className="Smr_stockItem_table_td">Design No</th>
-                {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                <th className="Smr_stockItem_table_td">Job No</th>
+            <table className="hoq_stockItem_table">
+              <tr className="hoq_stockItem_table_tr">
+                <th className="hoq_stockItem_table_td">SrNo</th>
+                <th className="hoq_stockItem_table_td">Design No</th>
+                {/* <th className="hoq_stockItem_table_td" >StockBarcode</th> */}
+                <th className="hoq_stockItem_table_td">Job No</th>
                 <th
-                  className="Smr_stockItem_table_td"
+                  className="hoq_stockItem_table_td"
                   style={{ textAlign: "center" }}
                 >
                   Gross Wt/Net Wt/Dia Wt/CS Wt
                 </th>
-                <th className="Smr_stockItem_table_td">Metal Color-Purity</th>
-                <th className="Smr_stockItem_table_td">Price</th>
-                <th className="Smr_stockItem_table_td">Add To Cart</th>
+                <th className="hoq_stockItem_table_td">Metal Color-Purity</th>
+                <th className="hoq_stockItem_table_td">Price</th>
+                <th className="hoq_stockItem_table_td">Add To Cart</th>
               </tr>
               {stockItemArr?.map((ele, i) => (
-                <tr className="Smr_stockItem_table_tr">
-                  <td className="Smr_stockItem_table_td">
+                <tr className="hoq_stockItem_table_tr">
+                  <td className="hoq_stockItem_table_td">
                     <span className="hoq_prod_designno">{ele?.SrNo}</span>
                   </td>
-                  <td className="Smr_stockItem_table_td">
+                  <td className="hoq_stockItem_table_td">
                     <span className="hoq_prod_designno">{ele?.designno}</span>
                   </td>
-                  <td className="Smr_stockItem_table_td">
+                  <td className="hoq_stockItem_table_td">
                     <span className="hoq_prod_designno">
                       {ele?.StockBarcode}
                     </span>
                   </td>
-                  {/* <td className="Smr_stockItem_table_td">
+                  {/* <td className="hoq_stockItem_table_td">
                         <span className="hoq_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                  <td className="Smr_stockItem_table_td">
+                  <td className="hoq_stockItem_table_td" >
                     <div className="hoq_prod_Allwt">
                       <div
                         style={{
@@ -61,6 +61,7 @@ const Stockitems = ({
                           letterSpacing: "1px",
                           gap: "3px",
                         }}
+                       className="reponsive-tab"
                       >
                         {storeInit?.IsGrossWeight == 1 &&
                           Number(ele?.GrossWt) !== 0 && (
@@ -130,7 +131,7 @@ const Stockitems = ({
                       </div>
                     </div>
                   </td>
-                  <td className="Smr_stockItem_table_td">
+                  <td className="hoq_stockItem_table_td">
                     {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="hoq_stockItem_price_type_mt"> */}
                     <span>
                       {ele?.MetalColorName}-{ele?.metaltypename}
@@ -139,7 +140,7 @@ const Stockitems = ({
                     </span>
                     {/* </div> */}
                   </td>
-                  <td className="Smr_stockItem_table_td">
+                  <td className="hoq_stockItem_table_td">
                     <span>
                       <span className="hoq_currencyFont">
                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -156,7 +157,7 @@ const Stockitems = ({
                     </span>
                   </td>
                   <td
-                    className="Smr_stockItem_table_td"
+                    className="hoq_stockItem_table_td"
                     style={{
                       display: "flex",
                       justifyContent: "center",

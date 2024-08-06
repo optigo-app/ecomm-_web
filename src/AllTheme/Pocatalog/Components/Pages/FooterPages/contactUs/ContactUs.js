@@ -91,7 +91,7 @@ export default function ContactUs() {
 
 
     return (
-        <div className='contactMain' >
+        <div className='proCat_contactMain' >
             <div className='Fo-contactMain'>
                 <div>
                     <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>

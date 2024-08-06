@@ -1,11 +1,4 @@
 import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
-import S1 from "../Assets/SliderImg/1.webp";
-import S2 from "../Assets/SliderImg/2.webp";
-import S3 from "../Assets/SliderImg/3.webp";
-
-import M1 from "../Assets/SliderImg/M1.png";
-import M2 from "../Assets/SliderImg/M2.png";
-import M3 from "../Assets/SliderImg/M3.png";
 
 export const SliderItemns = [
   {
@@ -26,14 +19,14 @@ export const SliderItemns = [
 export const MobilSliderImage = [
   {
     key: 1321,
-    url: `${storImagePath()}/images/HomePage/slider/M1.png`,
+    url: `${storImagePath()}/images/HomePage/slider/M1.webp`,
   },
   {
     key: 4614,
-    url: `${storImagePath()}/images/HomePage/slider/M2.png`,
+    url: `${storImagePath()}/images/HomePage/slider/M2.webp`,
   },
   {
     key: 1642,
-    url: `${storImagePath()}/images/HomePage/slider/M3.png`,
+    url: `${storImagePath()}/images/HomePage/slider/M3.webp`,
   },
 ];

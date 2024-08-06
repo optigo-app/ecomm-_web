@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/privacy.html`)
+    fetch(`${storImagePath()}/static-html-page/privacy.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

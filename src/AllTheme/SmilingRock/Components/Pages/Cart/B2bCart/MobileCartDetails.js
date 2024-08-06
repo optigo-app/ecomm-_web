@@ -4,6 +4,7 @@ import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -39,6 +40,7 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
+ const loginInfo = JSON.parse(localStorage.getItem('loginUserDetail'))
 
   useEffect(() => {
     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
@@ -179,15 +181,9 @@ const MobileCartDetails = ({
                   <div className="product-price">
                     {!ispriceloding ? (
                       <span>
-                        <span
-                          className="smrMo_currencyFont"
-                          dangerouslySetInnerHTML={{
-                            __html: decodeEntities(
-                              CurrencyData?.Currencysymbol
-                            ),
-                          }}
-                        />
-                        {selectedItem?.FinalCost}
+                        {loginInfo?.CurrencyCode ??
+                            storeInitData?.CurrencyCode}{" "}
+                          &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
                       <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -248,15 +244,9 @@ const MobileCartDetails = ({
                     <div className="smrMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                          <span
-                            className="smrMo_currencyFont"
-                            dangerouslySetInnerHTML={{
-                              __html: decodeEntities(
-                                CurrencyData?.Currencysymbol
-                              ),
-                            }}
-                          />
-                          {(selectedItem?.FinalCost)}
+                        {loginInfo?.CurrencyCode ??
+                            storeInitData?.CurrencyCode}{" "}
+                          &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
                       ) :
                         <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />

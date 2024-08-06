@@ -16,6 +16,7 @@ import {
 import { fetchEstimateTax } from "../../../../../../utils/API/OrderFlow/GetTax";
 import { IoArrowBack } from "react-icons/io5";
 import Cookies from "js-cookie";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Payment = () => {
   const [isloding, setIsloding] = useState(false);
@@ -53,9 +54,9 @@ const Payment = () => {
     const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
     setOrderRemark(orderRemakdata);
     if (storeInit?.IsB2BWebsite != 0) {
-      setCurrencyData(storedData?.Currencysymbol);
+      setCurrencyData(storedData?.CurrencyCode);
     } else {
-      setCurrencyData(storeInit?.Currencysymbol);
+      setCurrencyData(storeInit?.CurrencyCode);
     }
   }, []);
 
@@ -197,8 +198,8 @@ const Payment = () => {
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(CurrencyData),
                       }}
-                    />
-                    {finalTotal}
+                    />&nbsp;
+                    {formatter(finalTotal)}
                   </p>
                 </div>
                 <div className="hoq_paymenttotalpricesummary">
@@ -209,8 +210,8 @@ const Payment = () => {
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(CurrencyData),
                       }}
-                    />
-                    {taxAmmount}
+                    />&nbsp;
+                    {formatter(taxAmmount)}
                   </p>
                 </div>
                 <Divider className="hoqMo_Divider" />
@@ -222,8 +223,8 @@ const Payment = () => {
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(CurrencyData),
                       }}
-                    />
-                    {(taxAmmount + finalTotal).toFixed(2)}
+                    />&nbsp;
+                    {formatter((taxAmmount + finalTotal).toFixed(0))}
                   </p>
                 </div>
               </div>

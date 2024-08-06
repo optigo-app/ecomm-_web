@@ -170,18 +170,20 @@ const BestSellerSection = () => {
     };
   return (
     <div className='smrMA_bestSallerMain'>
-    <div className='linkingLoveMain'>
-        <div className='linkingLove'>
+      {bestSellerData?.length &&
+          <div className='linkingLoveMain'>
+            <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>
             <Slider {...settings} >
               {renderSlides()}
             </Slider>
              <p className='smr_BestSallerViewAll'  onClick={handleNavigate}>SHOP COLLECTION</p>
-      </div>
-        <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
+          </div>
+          <div className='linkingLoveImage'>
+            <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} className='linkingLoveImageDesign' />
+          </div>
         </div>
-    </div>
+      }
     </div>
   )
 }
