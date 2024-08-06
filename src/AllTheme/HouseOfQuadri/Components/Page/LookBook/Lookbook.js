@@ -53,6 +53,7 @@ import { RxGrid } from "react-icons/rx";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { TfiLayoutGrid3 } from "react-icons/tfi";
 import { Hoq_CartCount, Hoq_loginState } from "../../Recoil/atom";
+import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -628,6 +629,7 @@ const Lookbook = () => {
                                       color: "#7d7f85 !important",
                                       padding: 0,
                                       width: "10px",
+                                      marginRight  :"10px"
                                     }}
                                     onClick={(e) =>
                                       handleCheckboxChange(
@@ -667,6 +669,7 @@ const Lookbook = () => {
                         "&.MuiPaper-root.MuiAccordion-root:before": {
                           background: "none",
                         },
+                        color: "#7d7f85 !important",
                       }}
                       // expanded={accExpanded}
                       // defaultExpanded={}
@@ -676,7 +679,7 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7d7f85 !important",
+                          color: "black !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
@@ -738,9 +741,9 @@ const Lookbook = () => {
                                       : filterChecked[`Price${i}${i}`]?.checked
                                   }
                                   style={{
-                                    color: "#7f7d85",
                                     padding: 0,
                                     width: "10px",
+                                    marginRight : "7px",
                                   }}
                                   onClick={(e) =>
                                     handleCheckboxChange(e, ele?.id, opt)
@@ -1411,7 +1414,7 @@ const Lookbook = () => {
                             &nbsp;
                             {calculateTotalUnitCostWithMarkUp(
                               JSON.parse(slide.Designdetail)
-                            )}
+                            ).toLocaleString('en-IN')}
                           </p>
                           <button
                             className="hoq_lookBookBuyBtn"
@@ -1638,7 +1641,7 @@ const Lookbook = () => {
                                 &nbsp;
                                 {calculateTotalUnitCostWithMarkUp(
                                   JSON.parse(slide.Designdetail)
-                                )}
+                                ).toLocaleString('en-IN')}
                               </p>
                               <button
                                 className="hoq_lookBookBuyBtn"
@@ -1914,7 +1917,7 @@ const Lookbook = () => {
                                               <span className="hoq_lb3detailDT">
                                                 {(ele?.Nwt || 0)
                                                   .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}{" "}
+                                                  }{" "}
                                               </span>
                                               <span className="hoq_lb3pipe">
                                                 {" "}
@@ -1926,7 +1929,7 @@ const Lookbook = () => {
                                               <span className="hoq_lb3detailDT">
                                                 {(ele?.Gwt || 0)
                                                   .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}
+                                                 }
                                               </span>
                                               <span className="hoq_lb3pipe">
                                                 {" "}
@@ -1938,11 +1941,10 @@ const Lookbook = () => {
                                               <span className="hoq_lb3detailDT">
                                                 {(ele?.Dwt || 0)
                                                   .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}{" "}
+                                                }{" "}
                                                 /{" "}
                                                 {(ele?.Dpcs || 0)
-                                                  .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}
+                                                }
                                               </span>
                                               <span className="hoq_lb3pipe">
                                                 {" "}
@@ -1954,11 +1956,10 @@ const Lookbook = () => {
                                               <span className="hoq_lb3detailDT">
                                                 {(ele?.CSwt || 0)
                                                   .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}{" "}
+                                                  }{" "}
                                                 /{" "}
                                                 {(ele?.CSpcs || 0)
-                                                  .toFixed(3)
-                                                  ?.replace(/\.?0+$/, "")}{" "}
+                                                }{" "}
                                               </span>
                                             </p>
                                               {/* <span
@@ -1974,7 +1975,7 @@ const Lookbook = () => {
                                                   storeInit?.CurrencyCode}
                                               </span>
                                               &nbsp;
-                                              {ele?.UnitCostWithMarkUp}
+                                              {formatter(ele?.UnitCostWithMarkUp)}
                                             </p>
                                           </div>
                                         </div>
@@ -2019,7 +2020,7 @@ const Lookbook = () => {
                                       &nbsp;
                                       {calculateTotalUnitCostWithMarkUp(
                                         JSON.parse(slide.Designdetail)
-                                      )}
+                                      ).toLocaleString('en-IN')}
                                     </span>
                                   </div>
                                   <div

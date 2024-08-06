@@ -994,6 +994,18 @@
           }
         }
         .product_main_Details {
+          .hoq_single_prod_customize_main{
+            .first_row_hoq_new{
+              .hoq_single_prod_customize{
+                label{
+                  font-size: 16px;
+                }
+                select{
+                  font-size: 1rem !important;
+                }
+              }
+            }
+          }
           .whatsapp_btn {
             width: 100%;
             display: flex;

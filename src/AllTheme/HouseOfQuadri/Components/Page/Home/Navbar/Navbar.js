@@ -121,8 +121,9 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
+    navigate("/");
     setislogin(false);
-    Cookies?.remove("userLoginCookie");
+    Cookies.remove("userLoginCookie");
     localStorage.setItem("LoginUser", false);
     localStorage.removeItem("storeInit");
     localStorage.removeItem("loginUserDetail");
@@ -135,7 +136,6 @@ const Navbar = () => {
     localStorage.removeItem("registerMobile");
     localStorage.removeItem("allproductlist");
     localStorage.clear();
-    navigate("/");
     window.location.reload();
   };
 

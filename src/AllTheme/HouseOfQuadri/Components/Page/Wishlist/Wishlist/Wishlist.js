@@ -11,6 +11,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../../Recoil/atom";
 import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
   const {
@@ -56,14 +57,17 @@ const Wishlist = () => {
   };
 
 
-  const handleAddtoCartAllfun = async() => {
+
+  const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
-      if(returnValue?.msg == "success"){
-        GetCountAPI(visiterId).then((res) => {
-          setCartCountVal(res?.cartcount);
-        })
-      }
+    if (returnValue?.msg == "success") {
+      toast.success("All wishlist items added in cart")
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   }
+
 
   useEffect(() =>{
     setCSSVariable();

@@ -15,7 +15,7 @@ export const socialLink = [
     icon: <FaInstagram size={24} />,
   },
   {
-    img: `${storImagePath()}/images/HomePage/socialMediaimages/3.jpg`,
+    img: `${storImagePath()}/images/HomePage/socialMediaimages/3.webp`,
     icon: <FaInstagram size={24} />,
   },
   {

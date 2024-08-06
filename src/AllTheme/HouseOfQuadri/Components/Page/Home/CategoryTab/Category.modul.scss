@@ -114,6 +114,7 @@
       .c_card {
         width: calc(340px - 10px);
         height: 375px;
+        margin: 10px;
         .image {
           overflow: hidden;
           width: 350px;
@@ -275,6 +276,7 @@
       .c_card {
         width: 80%;
         height: 350px;
+        margin: 5px !important;
         .image {
           width: 100%;
           height: 320px;
@@ -351,6 +353,7 @@
       .c_card {
         width: 100%;
         height: 270px;
+        margin: 0 !important;
         .image{
           width: 100%;
           height: 240px;

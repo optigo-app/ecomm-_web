@@ -63,7 +63,7 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
-                  <select id="metal-type" value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                  <select id="metal-type" name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metaltypename} >{selectedItem?.metaltypename}</option>
                     ) :
@@ -79,7 +79,7 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-color">Metal Color:</label>
-                  <select id="metal-color" value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                  <select id="metal-color" name={selectedItem?.id} value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
@@ -97,7 +97,7 @@ const Customization = ({
               {storeInitData?.IsDiamondCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Diamond:</label>
-                  <select id="diamond" value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor} onChange={handleDiamondChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.diamondquality + ',' + selectedItem?.diamondcolor}>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</option>
                     ) :
@@ -113,7 +113,7 @@ const Customization = ({
               {storeInitData?.IsCsCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="diamond">Color Stone:</label>
-                  <select id="diamond" value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                  <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
                     ) :
@@ -129,7 +129,7 @@ const Customization = ({
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size"  value={selectedItem?.Size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id}  value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.Size}>{selectedItem?.Size}</option>
                     ) :

@@ -99,7 +99,7 @@ const ProductPage = () => {
   const [cartArr, setCartArr] = useState({});
   const [videoArr, SETvideoArr] = useState([]);
   const videoRef = useRef(null);
-  
+
   useEffect(() => {
     if (singleProd?.IsInWish == 1) {
       setWishListFlag(true);
@@ -422,8 +422,7 @@ const ProductPage = () => {
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
     let mcArr = metalColorCombo?.filter(
-      (ele) =>
-        ele?.metalcolorname == (selectMtColor)
+      (ele) => ele?.metalcolorname == selectMtColor
     )[0];
 
     let prodObj = {
@@ -1061,14 +1060,13 @@ const ProductPage = () => {
           }
         });
       },
-      { threshold: 0.5 } 
+      { threshold: 0.5 }
     );
     observer.observe(videoElement);
     return () => {
       observer.disconnect();
     };
   }, []);
-
 
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
@@ -1159,7 +1157,9 @@ const ProductPage = () => {
                           <video
                             src={val?.src}
                             className="hoq_prod_thumb_img"
-                            autoPlay muted loop 
+                            autoPlay
+                            muted
+                            loop
                           />
                           <IoIosPlayCircle className="play_io_icon" />
                         </div>
@@ -1309,8 +1309,7 @@ const ProductPage = () => {
                             value={selectMtType}
                             onChange={(e) => handleCustomChange(e, "mt")}
                             // onChange={(e) => setSelectMtType(e.target.value)}
-                          style={{fontSize : "1.2rem"}}
-
+                            style={{ fontSize: "1.2rem" }}
                           >
                             {metalTypeCombo.map((ele) => (
                               <option key={ele?.Metalid} value={ele?.metaltype}>
@@ -1351,8 +1350,7 @@ const ProductPage = () => {
                               id="metal_c_hoq"
                               value={selectMtColor}
                               onChange={(e) => handleMetalWiseColorImg(e)}
-                          style={{fontSize : "1.2rem"}}
-
+                              style={{ fontSize: "1.2rem" }}
                             >
                               {metalColorCombo?.map((ele) => (
                                 <option
@@ -1381,8 +1379,7 @@ const ProductPage = () => {
                             value={selectDiaQc}
                             // onChange={(e) => setSelectDiaQc(e.target.value)}
                             onChange={(e) => handleCustomChange(e, "dia")}
-                          style={{fontSize : "1.2rem"}}
-
+                            style={{ fontSize: "1.2rem" }}
                           >
                             {diaQcCombo.map((ele) => (
                               <option
@@ -1406,8 +1403,7 @@ const ProductPage = () => {
                           value={selectCsQc}
                           // onChange={(e) => setSelectCsQc(e.target.value)}
                           onChange={(e) => handleCustomChange(e, "cs")}
-                          style={{fontSize : "1.2rem"}}
-
+                          style={{ fontSize: "1.2rem" }}
                         >
                           {csQcCombo.map((ele) => (
                             <option
@@ -1417,52 +1413,105 @@ const ProductPage = () => {
                           ))}
                         </select>
                       </div>
-                    ) : null}
-                  </div>
-                  {SizeSorting(SizeCombo?.rd)?.length > 0 && (
-                    <div
-                      className="hoq_single_prod_customize"
-                      style={{
-                        width: "50%",
-                      }}
-                    >
-                      <label className="menuItemTimeEleveDeatil">SIZE:</label>
-                      {singleProd?.IsMrpBase == 1 ? (
-                        <span
-                          className="hoq_menuitemSelectoreMain"
+                    ) : (
+                      SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                        <div
+                          className="hoq_single_prod_customize"
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            marginLeft: "4px",
+                            width: "50%",
                           }}
                         >
-                          {singleProd?.DefaultSize}
-                        </span>
-                      ) : (
-                        <select
-                          className="hoq_menuitemSelectoreMain"
-                          value={sizeData}
-                          // onChange={(e) => {
-                          //   setSizeData(e.target.value);
-                          // }}
-                          onChange={(e) => handleCustomChange(e, "sz")}
-                          style={{fontSize : "1.2rem"}}
-                        >
-                          {SizeSorting(SizeCombo?.rd)?.map((ele) => (
-                            <option
-                              value={ele?.sizename}
-                              // selected={
-                              //   singleProd && singleProd.DefaultSize === ele.sizename
-                              // }
-                              key={ele?.id}
+                          <label className="menuItemTimeEleveDeatil">
+                            SIZE:
+                          </label>
+                          {singleProd?.IsMrpBase == 1 ? (
+                            <span
+                              className="hoq_menuitemSelectoreMain"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                marginLeft: "4px",
+                              }}
                             >
-                              {ele?.sizename}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                    </div>
-                  )}
+                              {singleProd?.DefaultSize}
+                            </span>
+                          ) : (
+                            <select
+                              className="hoq_menuitemSelectoreMain"
+                              value={sizeData}
+                              // onChange={(e) => {
+                              //   setSizeData(e.target.value);
+                              // }}
+                              onChange={(e) => handleCustomChange(e, "sz")}
+                              style={{ fontSize: "1.2rem" }}
+                            >
+                              {SizeSorting(SizeCombo?.rd)?.map((ele) => (
+                                <option
+                                  value={ele?.sizename}
+                                  // selected={
+                                  //   singleProd && singleProd.DefaultSize === ele.sizename
+                                  // }
+                                  key={ele?.id}
+                                >
+                                  {ele?.sizename}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
+                      )
+                    )}
+                  </div>
+                  {storeInit?.IsCsCustomization === 1 &&
+                  selectCsQc?.length > 0 &&
+                  csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
+                    ? SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                        <div
+                          className="hoq_single_prod_customize"
+                          style={{
+                            width: "50%",
+                          }}
+                        >
+                          <label className="menuItemTimeEleveDeatil">
+                            SIZE:
+                          </label>
+                          {singleProd?.IsMrpBase == 1 ? (
+                            <span
+                              className="hoq_menuitemSelectoreMain"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                marginLeft: "4px",
+                              }}
+                            >
+                              {singleProd?.DefaultSize}
+                            </span>
+                          ) : (
+                            <select
+                              className="hoq_menuitemSelectoreMain"
+                              value={sizeData}
+                              // onChange={(e) => {
+                              //   setSizeData(e.target.value);
+                              // }}
+                              onChange={(e) => handleCustomChange(e, "sz")}
+                              style={{ fontSize: "1.2rem" }}
+                            >
+                              {SizeSorting(SizeCombo?.rd)?.map((ele) => (
+                                <option
+                                  value={ele?.sizename}
+                                  // selected={
+                                  //   singleProd && singleProd.DefaultSize === ele.sizename
+                                  // }
+                                  key={ele?.id}
+                                >
+                                  {ele?.sizename}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
+                      )
+                    : null}
                 </div>
               )}
 
@@ -1627,9 +1676,7 @@ const ProductPage = () => {
                           <li className="hoq_proDeatilList">Shape</li>
                           <li className="hoq_proDeatilList">Clarity</li>
                           <li className="hoq_proDeatilList">Color</li>
-                          <li className="hoq_proDeatilList">
-                            Pcs/Wt
-                          </li>
+                          <li className="hoq_proDeatilList">Pcs/Wt</li>
                         </ul>
                         {diaList?.map((data) => (
                           <ul className="hoq_mt_detail_title_ul">
@@ -1663,9 +1710,7 @@ const ProductPage = () => {
                           <li className="hoq_proDeatilList">Shape</li>
                           <li className="hoq_proDeatilList">Clarity</li>
                           <li className="hoq_proDeatilList">Color</li>
-                          <li className="hoq_proDeatilList">
-                            Pcs/Wt
-                          </li>
+                          <li className="hoq_proDeatilList">Pcs/Wt</li>
                         </ul>
                         {csList?.map((data) => (
                           <ul className="hoq_mt_detail_title_ul">
@@ -1673,7 +1718,7 @@ const ProductPage = () => {
                             <li className="hoq_proDeatilList1">{data?.H}</li>
                             <li className="hoq_proDeatilList1">{data?.J}</li>
                             <li className="hoq_proDeatilList1">
-                              {data.M}/{data?.N?.toFixed(3)} 
+                              {data.M}/{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
