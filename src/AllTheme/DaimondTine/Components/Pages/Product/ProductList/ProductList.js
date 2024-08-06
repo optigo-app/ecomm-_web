@@ -887,6 +887,10 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setIsOnlyProdLoading(false);
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
         });
     }
     // .then(async(res)=>{
