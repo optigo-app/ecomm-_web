@@ -794,13 +794,10 @@ const ProductDetail = () => {
         if(isImgAvl){
           FinalPdImgList.push(pdImgList[i])
         }
-        else{
-          finalprodListimg.push(imageNotFound)
-        }
       }
     }
 
-    console.log("SearchData",singleProd);
+    // console.log("SearchData",singleProd);
 
     if(FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
@@ -1112,7 +1109,7 @@ const ProductDetail = () => {
     {isDataFound ? 
       ( <div
        style={{
-         height: "90vh",
+         height: "70vh",
          justifyContent: "center",
          display: "flex",
          alignItems: "center",

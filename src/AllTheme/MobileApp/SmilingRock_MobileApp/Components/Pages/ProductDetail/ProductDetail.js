@@ -1276,10 +1276,10 @@ const ProductDetail = () => {
                     <div className="smr_app_thumb_prod_img">
                       { pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                         <img
-                          src={ele}
+                          src={""}
                           alt={""}
                           onLoad={() => setIsImageLoad(false)}
-                          className="smr_prod_thumb_img"
+                          className="smr_app_prod_thumb_img"
                           onClick={() =>
                             setSelectedThumbImg({ link: ele, type: "img" })
                           }
@@ -1293,11 +1293,12 @@ const ProductDetail = () => {
                             justifyContent: "center",
                             alignItems: "center",
                           }}
+                          className="smr_app_prod_thumb_img"
                           onClick={() =>
                             setSelectedThumbImg({ link: data, type: "vid" })
                           }
                         >
-                          <video
+                          {/* <video
                             src={data}
                             autoPlay={true}
                             loop={true}
@@ -1311,7 +1312,7 @@ const ProductDetail = () => {
                               width: "35px",
                               height: "35px",
                             }}
-                          />
+                          /> */}
                         </div>
                       ))}
                       {/* <div className="smr_thumb_prod_img">
@@ -1694,6 +1695,7 @@ const ProductDetail = () => {
 
             <div className="smrMA_material_details_portion">
               {(diaList?.length > 0 || csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 || csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0)  && (<p className="smr_app_details_title"> Product Details</p>)}
+              <div style={{width:'100%',border:'1px solid #80808038'}}>
               {diaList?.length > 0 && (
                 <div className="smr_material_details_portion_inner">
                   <ul style={{ margin: "0px 0px 3px 0px" }}>
@@ -1786,6 +1788,8 @@ const ProductDetail = () => {
                   ))}
                 </div>
               )}
+              </div>
+             
             </div>
 
 
