@@ -1249,7 +1249,9 @@ const ProductDetail = () => {
                   >
                     {selectedThumbImg?.type == "img" ? (
                       <img
-                        src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                        // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                        src={selectedThumbImg?.link }
+                        onError={()=> setSelectedThumbImg({"link":imageNotFound,"type":'img'})}
                         alt={""}
                         onLoad={() => setIsImageLoad(false)}
                         className="smr_prod_img"
