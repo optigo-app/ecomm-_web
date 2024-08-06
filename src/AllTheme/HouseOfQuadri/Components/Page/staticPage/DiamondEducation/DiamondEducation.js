@@ -5,7 +5,7 @@ export default function DiamondEducation() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/diamond-education.html`)
+    fetch(`${storImagePath()}/static-html-page/DiamondEducation.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

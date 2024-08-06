@@ -77,9 +77,9 @@ const About = () => {
     <div className="footer-section">
       <h4>ABOUT</h4>
       <ul>
-        <li>
+        {/* <li>
           <Link to="/blogs">Blogs</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/our-story">Our Story</Link>
         </li>
@@ -89,9 +89,9 @@ const About = () => {
         <li>
           <Link to="/lab-grown-diamond">Lab Grown Diamond</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/diamond-education">Diamond Education</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/quality-certification">Quality & Certification</Link>
         </li>
@@ -110,9 +110,9 @@ const Policy = () => {
         <li>
           <Link to="/Shipping-Policy">Shipping Policy</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/Return-Exchange-Policy">Return & Exchange Policy</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/Terms-Conditions">Terms & Conditions</Link>
         </li>

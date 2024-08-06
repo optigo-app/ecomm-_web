@@ -10,8 +10,8 @@
         padding: 2px;
         margin: 2px;
         border: 1px solid #e8e8e8;
-        max-width: 120px;
-        max-height: 120px;
+        max-width: 70px;
+        max-height: 70px;
     }
 
     .text_danger_oh{
@@ -32,5 +32,30 @@
         justify-content: flex-end;
         align-items: center;
     }
+    .fs_head_acc{
+        font-size: 14px !important;
+    }
+
+    .fs_head_acc .MuiAccordionSummary-content {
+        margin: 0px !important;
+    }
+    .fs_head_acc .MuiButtonBase-root {
+        min-height: 20px !important;
+    }
+    .fs_head_acc .MuiCardContent-root {
+        padding-bottom: 2px !important;
+    }
+    .minh_noh{
+        min-height: 50px;
+    }
+    .minh_noh2{
+        min-height: 40px;
+    }
+    .center_noh{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
  
 }

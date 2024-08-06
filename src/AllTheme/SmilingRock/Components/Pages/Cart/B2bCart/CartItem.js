@@ -133,13 +133,13 @@ const CartItem = ({
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
         }}
-        // onDoubleClick={openHandleUpdateCartModal}
+      // onDoubleClick={openHandleUpdateCartModal}
 
-        // onMouseDown={handlePress('start')}
-        // onMouseUp={cancelPress}
-        // onMouseLeave={cancelPress}
-        // onTouchStart={handlePress('start')}
-        // onTouchEnd={cancelPress}
+      // onMouseDown={handlePress('start')}
+      // onMouseUp={cancelPress}
+      // onMouseLeave={cancelPress}
+      // onTouchStart={handlePress('start')}
+      // onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
@@ -173,16 +173,27 @@ const CartItem = ({
                 </div>
                 <div>
                   {storeInitData?.IsDiamondWeight == 1 &&
-                    <Typography variant="body2" className='smr_card-ContentsData'>
-                      DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
-                    </Typography>
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='smr_card-ContentsData'>
+                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
+                          </Typography>
+                        </>
+                      }
+                    </>
                   }
                   {storeInitData?.IsStoneWeight == 1 &&
-                    <Typography variant="body2" className='smr_card-ContentsData'>
-                      CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
-                    </Typography>
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='smr_card-ContentsData'>
+                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
+                          </Typography>
+                        </>
+                      }
+                    </>
                   }
-
                 </div>
               </div>
               <Box className="smr_PriceBox">

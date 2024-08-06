@@ -72,25 +72,30 @@ const ExampleComponent = ({
                             <span> | </span>
                             {storeInitData?.IsGrossWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0).toFixed(3)}</span>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0)?.toFixed(3)}</span>
                                 </>
                             }
                             <span> | </span>
                             {Number(cartData?.Nwt) !== 0 && (
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0).toFixed(3)}</span>
+                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
                                 </>
                             )}
                             <span> | </span>
                             {storeInitData?.IsDiamondWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Dwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.Dpcs || 0)}</span>
+                                    {(cartData?.Dwt != "0" || cartData?.Dpcs != "0") &&
+
+                                        <span className='smr_b2ccartContentcartData'>{(cartData?.Dwt || 0)?.toFixed(3)} / {(cartData?.Dpcs || 0)}</span>
+                                    }
                                 </>
                             }
                             <span> | </span>
                             {storeInitData?.IsStoneWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.CSwt || 0).toFixed(3).replace(/\.?0+$/, '')} / {(cartData?.CSpcs || 0)}</span>
+                                    {(cartData?.CSwt != "0" || cartData?.CSpcs != "0") &&
+                                        <span className='smr_b2ccartContentcartData'>{(cartData?.CSwt || 0)?.toFixed(3)} / {(cartData?.CSpcs || 0)}</span>
+                                    }
                                 </>
                             }
                         </p>

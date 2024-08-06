@@ -86,4 +86,90 @@
       }
     }
   }
+  @media (max-width: 1200px) {
+    .details {
+      width: 80%;
+    }
+    
+    .contact_from {
+      width: 50%;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .details {
+      width: 90%;
+    }
+
+    .contact_from {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .details {
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .contact_from {
+      width: 100%;
+
+      .layout {
+        form {
+          .input {
+            flex-direction: column;
+          }
+
+          .textarea {
+            textarea {
+              height: 120px;
+            }
+          }
+
+          .btn_form {
+            button {
+              padding: 10px 30px;
+              font-size: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 50px 0;
+
+    .details {
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    .contact_from {
+      width: 100%;
+
+      .layout {
+        form {
+          .input {
+            gap: 4px;
+          }
+
+          .textarea {
+            textarea {
+              height: 100px;
+              padding: 8px;
+            }
+          }
+
+          .btn_form {
+            button {
+              padding: 8px 20px;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

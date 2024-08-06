@@ -41,6 +41,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Page/LookBook/Lookbook";
+import Customization from "./Components/Page/staticPage/customization/Customization";
 
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
@@ -101,6 +102,7 @@ const HouseOfQuadri_App = () => {
   //   let localD = JSON.parse(localStorage.getItem("storeInit"));
   //   setLocalData(localD);
   // }, []);
+  
 
   return (
     <>
@@ -148,16 +150,17 @@ const HouseOfQuadri_App = () => {
         {/* static Page */}
         <Route path="/Shipping-Policy" element={<ShippingPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/return-exchange-policy" element={<ReturnPolicy />} />
+        {/* <Route path="/return-exchange-policy" element={<ReturnPolicy />} /> */}
         <Route path="/terms-conditions" element={<TermsConditionPage />} />
         <Route path="/faq" element={<FaqSection />} />
         <Route path="/contacts" element={<ContactForm />} />
         <Route path="/size-guide" element={<SizeGuide />} />
         <Route path="/why-quality-matters" element={<QualityMatters />} />
-        <Route path="/blogs" element={<Blogs />} />
+        {/* <Route path="/blogs" element={<Blogs />} /> */}
         <Route path="/our-story" element={<OurStory />} />
         <Route path="/lab-grown-diamond" element={<LabGrownDiamond />} />
-        <Route path="/diamond-education" element={<DiamondEducation />} />
+        {/* <Route path="/diamond-education" element={<DiamondEducation />} /> */}
+        <Route path="/customization" element={<Customization/>}/>
         <Route
           path="/quality-certification"
           element={<QualityCertification />}

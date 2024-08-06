@@ -5,7 +5,7 @@ export default function OurStory() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/our-story.html`)
+    fetch(`${storImagePath()}/static-html-page/Story.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

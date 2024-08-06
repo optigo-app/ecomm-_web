@@ -2631,6 +2631,28 @@ const ProductList = () => {
                                           />
                                         )}
                                       </div>
+                                      <div className="dt_product_label">
+                                      {productData?.IsInReadyStock == 1 && (
+                                        <span className="dt_instock">
+                                          In Stock
+                                        </span>
+                                      )}
+                                      {productData?.IsBestSeller == 1 && (
+                                        <span className="dt_bestSeller">
+                                          Best Seller
+                                        </span>
+                                      )}
+                                      {productData?.IsTrending == 1 && (
+                                        <span className="dt_intrending">
+                                          Trending
+                                        </span>
+                                      )}
+                                      {productData?.IsNewArrival == 1 && (
+                                        <span className="dt_newarrival">
+                                          New Arrival
+                                        </span>
+                                      )}
+                                    </div>
                                       <Button
                                         className="cart-icon"
                                         style={{ display: "none" }}
@@ -2708,6 +2730,7 @@ const ProductList = () => {
                                       </Button>
                                     </div>
                                   </div>
+                                  
                                   {productData?.TitleLine?.length !== 0 ? (
                                     <div className="listing-details">
                                       <p

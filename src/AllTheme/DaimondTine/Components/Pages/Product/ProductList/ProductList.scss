@@ -699,6 +699,67 @@
     cursor: pointer;
 }
 
+.dt_product_label{
+    position: absolute;
+    top: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 10px;
+}
+
+.dt_instock{
+    // background-color: #00800045;
+    // color: black;
+    padding: 0px 5px;
+    background-color: white !important;
+    padding: 0px 5px;
+    border: 1px solid darkgreen  !important;
+    border-radius: 50px;
+    color: darkgreen !important;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.dt_bestSeller{
+    // background-color: #bc000075;
+    // color: white;
+    padding: 0px 5px;
+    background-color: white  !important;
+    padding: 0px 5px;
+    border: 1px solid red  !important;
+    border-radius: 50px;
+    color: red  !important;
+    margin-left: 5px;
+    text-align: center;
+}
+  
+.dt_intrending{
+    // background-color: khaki;
+    // color: black;
+    padding: 0px 5px;
+    background-color: white  !important;
+    padding: 0px 5px;
+    border: 1px solid #ff8c00  !important;
+    border-radius: 50px;
+    color: #ff8c00  !important;
+    margin-left: 5px;
+    text-align: center;
+}
+  
+.dt_newarrival{
+    // background-color: lightskyblue;
+    // color: black;
+    padding: 0px 5px;
+    background-color: white  !important;
+    padding: 0px 5px;
+    border: 1px solid darkblue  !important;
+    border-radius: 50px;
+    color: darkblue !important ;
+    margin-left: 5px;
+    text-align: center;
+}
+
 .dt_productListCard_Image {
     object-fit: scale-down;
     background-position: 50%;
