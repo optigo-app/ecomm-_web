@@ -271,7 +271,6 @@ export default function Register() {
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
-              autoComplete="new-FirstName"
               value={firstName}
               inputRef={firstNameRef}
               onKeyDown={(e) => handleKeyDown(e, lastNameRef)}
@@ -286,7 +285,6 @@ export default function Register() {
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
-              autoComplete="new-LastName"
               value={lastName}
               inputRef={lastNameRef}
               onKeyDown={(e) => handleKeyDown(e, mobileNoRef)}
@@ -312,7 +310,6 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Email"
-              autoComplete="ne-Email"
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
@@ -327,7 +324,6 @@ export default function Register() {
             <TextField
               id="outlined-password-input"
               label="Password"
-              autoComplete="enter-NewPass-Word"
               type={showPassword ? 'text' : 'password'}
               className='labgrowRegister'
               style={{ margin: '15px' }}
@@ -356,7 +352,6 @@ export default function Register() {
             <TextField
               id="outlined-confirm-password-input"
               label="Confirm Password"
-              autoComplete="Enetr-NewConfirm-Pass"
               type={showConfirmPassword ? 'text' : 'password'}
               className='labgrowRegister'
               style={{ margin: '15px' }}
