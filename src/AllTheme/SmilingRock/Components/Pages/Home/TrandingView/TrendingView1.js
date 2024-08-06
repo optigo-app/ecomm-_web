@@ -203,36 +203,43 @@ const TrendingView1 = () => {
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
+                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
                                             </>
                                         }
-                                        <span className='smr_btpipe'> | </span>
-                                        {storeInit?.IsGrossWeight == 1 &&
+                                        {Number(data?.Nwt) !== 0 && (
                                             <>
+                                                <span className='smr_btpipe'>|</span>
                                                 <span className='smr_btdetailDT'>NWT : </span>
-                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                        )}
+                                        {storeInit?.IsDiamondWeight == 1 &&
+                                            <>
+                                                {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>DWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                    </>
+                                                }
                                             </>
                                         }
-                                        <span className='smr_btpipe'> | </span>
-                                        {storeInit?.IsGrossWeight == 1 &&
+                                        {storeInit?.IsStoneWeight == 1 &&
                                             <>
-                                                <span className='smr_btdetailDT'>DWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                            </>
-                                        }
-                                        <span className='smr_btpipe'> | </span>
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                <span className='smr_btdetailDT'>CWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                                {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>CWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                    </>
+                                                }
                                             </>
                                         }
                                         <p>
                                             <span className="smr_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;
-                                            <span>{formatter(data?.UnitCostWithMarkUp)}</span>
-                                        </p>
+                                            <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
                                     </div>
                                 </div>
                             ))}
