@@ -26,7 +26,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(2);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -169,22 +169,21 @@ export default function ThemeRoutes() {
         </Helmet>
       </div>
 
-      {/* <SmilingRock_MobileApp_App /> */}
+      <SmilingRock_MobileApp_App />
 
-
-      {themeNo === 1 && <SmilingRock_App />}
+      {/* {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
       {themeNo === 3 && <Elveester_App />}
 
-    {themeNo === 4 &&  <SmilingRock_MobileApp_App />}
+      {themeNo === 4 && <SmilingRock_MobileApp_App />}
 
       {themeNo === 5 && <HemratnaProcatalog_App />}
 
       {themeNo === 6 && <Procatalog_App />}
 
-      {themeNo === 7 && <HouseOfQuadri_App />}
+      {themeNo === 7 && <HouseOfQuadri_App />} */}
     </>
   );
 }

@@ -516,13 +516,13 @@ const Lookbook = () => {
   const swiperParams = {
     loop: true,
     modules: [Pagination],
-    slidesPerView: 3,
-};
+    slidesPerView: 2,
+  };
 
 
   return (
     <div>
-      <p className="smrMA_SmiCartListTitle" style={{zIndex: !isDrawerOpen && 11111111111}}>
+      <p className="smrMA_SmiCartListTitle" style={{ zIndex: !isDrawerOpen && 11111111111 }}>
         <span>
           <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />
           Look Book
@@ -784,10 +784,10 @@ const Lookbook = () => {
                                 // }
                                 label={
                                   opt?.Minval == 0
-                                    ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                    ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                     : opt?.Maxval == 0
-                                      ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                      : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                      ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                      : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                 }
                               />
                             </div>
@@ -1325,7 +1325,7 @@ const Lookbook = () => {
                               </div>
                               <div className="smr_lookBookSubImgMain">
                                 <Swiper
-                                 {...swiperParams} 
+                                  {...swiperParams}
                                   className="smr_LookBookmySwiper"
                                 >
                                   {sortDesignDetailsBySrNo(
