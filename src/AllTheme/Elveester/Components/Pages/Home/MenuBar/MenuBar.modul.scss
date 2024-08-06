@@ -12,6 +12,19 @@
     overflow-y: auto;
   }
 
+  .el_login_header_menu_main_side {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    width: 23rem;
+    z-index: 1200;
+    background-color: white;
+    border: 2px solid white;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
   .el_withoutL_Header_Main {
     display: flex;
     justify-content: center;
@@ -83,7 +96,12 @@
     max-width: 80px;
   }
 
-  .elv_menubar_menu_div{
+  .el_login_header_menu_main_div1_logo_side {
+    text-align: center;
+    max-width: 140px;
+  }
+
+  .elv_menubar_menu_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -128,7 +146,7 @@
     margin-inline: 15px;
   }
 
-  .elv_heart_menu_icon{
+  .elv_heart_menu_icon {
     font-size: 25px;
     color: #7D7F85;
   }
@@ -167,78 +185,113 @@
     transition: all 0.5s ease;
   }
 
-  .elv_Menu_size{
+  .elv_Menu_size {
     font-size: 35px;
     margin: 23px 0px 0px 15px
   }
 
+  .elv_menu_without_login_div {
+
+    .el_whioutL_headerDiv1_side {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 2rem;
+
+      .el_whioutL_li_side {
+        display: flex;
+        justify-content: start;
+        width: 100%;
+        margin-block: 0.3rem;
+        padding-inline: 8%;
+      }
+    }
+  }
+
+
   @media screen and (max-width: 768px) {
-    .el_login_header_menu_main{
-        width: 20rem;
+    .el_login_header_menu_main {
+      width: 20rem;
     }
-    .elv_login_header_menu_names{
-        font-size: 14px;
+
+    .elv_login_header_menu_names {
+      font-size: 14px;
     }
-    .el_login_header_menu_main_div1_logo{
-        width: 70px;
+
+    .el_login_header_menu_main_div1_logo {
+      width: 70px;
     }
   }
 
   @media screen and (max-width: 425px) {
-    .el_login_header_menu_main{
-        width: 18rem;
+    .el_login_header_menu_main {
+      width: 18rem;
     }
+
     .el_login_header_menu_main_div2_li {
       margin-inline: 7px;
     }
-    .elv_login_header_menu_names{
-        font-size: 13px;
+
+    .elv_login_header_menu_names {
+      font-size: 13px;
     }
-    .elv_param1{
-        font-size: 13px;
+
+    .elv_param1 {
+      font-size: 13px;
     }
-    .elv_param2{
-        font-size: 13px;
+
+    .elv_param2 {
+      font-size: 13px;
     }
-    .el_login_header_menu_main_div1_logo{
-        width: 60px;
+
+    .el_login_header_menu_main_div1_logo {
+      width: 60px;
     }
-    .elv_Menu_size{
-        font-size: 30px;
-        margin: 25px 0px 0px 15px
-      }
+
+    .elv_Menu_size {
+      font-size: 30px;
+      margin: 25px 0px 0px 15px
+    }
   }
+
   @media screen and (max-width: 375px) {
-    .el_login_header_menu_main{
-        width: 17rem;
+    .el_login_header_menu_main {
+      width: 17rem;
     }
-    .elv_login_header_menu_names{
-        font-size: 13px;
+
+    .elv_login_header_menu_names {
+      font-size: 13px;
     }
+
     .el_login_header_menu_main_div2_li {
       margin-inline: 7px;
     }
-    .elv_param1{
-        font-size: 11px;
-    }
-    .elv_param2{
-        font-size: 11px;
-    }
-    .el_login_header_menu_main_div1_logo{
-        width: 100%;
-    }
-    .elv_Menu_size{
-        font-size: 25px;
-        margin: 28px 0px 0px 15px
-      }
 
-      .elv_heart_menu_icon{
-        font-size: 20px;
-      }
+    .elv_param1 {
+      font-size: 11px;
+    }
 
-      .elv_login_header_menu_div {
-        padding-inline: 10px;
-      }
+    .elv_param2 {
+      font-size: 11px;
+    }
+
+    .el_login_header_menu_main_div1_logo {
+      width: 100%;
+    }
+
+    .elv_Menu_size {
+      font-size: 25px;
+      margin: 28px 0px 0px 15px
+    }
+
+    .elv_heart_menu_icon {
+      font-size: 20px;
+    }
+
+    .elv_login_header_menu_div {
+      padding-inline: 10px;
+    }
   }
 
 

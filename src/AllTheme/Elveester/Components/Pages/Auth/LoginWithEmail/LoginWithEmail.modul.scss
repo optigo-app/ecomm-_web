@@ -66,4 +66,88 @@
 
         }
     }
+    @media screen and (max-width: 1500px) {
+        .el_LoginSubDivMain {
+            width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_LoginSubDivMain {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 1200px) {
+
+        /* .smling-forgot-main-Color{
+        padding-top: 20%;
+    } */
+        .el_LoginSubDivMain {
+            width: 70%;
+        }
+    }
+
+    @media screen and (max-width: 950px) {
+        .AuthScreenMainTitle {
+            font-size: 25px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 12px !important;
+            margin-inline: 15%;
+        }
+
+        .el_LoginSubDivMain {
+            margin-inline: 2% !important;
+        }
+
+
+    }
+
+    @media screen and (max-width: 700px) {
+        .labGrowForgot {
+            width: 90%;
+        }
+
+
+        .submitBtnForgot {
+            width: 90% !important;
+            height: 50px !important;
+
+        }
+
+        /* .smling-forgot-main-Color {
+        padding-top: 30%;
+    } */
+
+        .el_LoginSubDivMain {
+            width: 90%;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .submitBtnForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .AuthScreenSubTitle {
+            margin-top: -65px !important;
+        }
+    }
 }
