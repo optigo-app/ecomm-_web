@@ -137,7 +137,9 @@
 //     z-index: 9; /* Adjust z-index as needed */
 //     border-bottom: 1px solid #ddd; /* Optional: to add a border below the sticky tabs */
 // }
-
+.smlingAccountTabMobileView{
+    z-index: 1000;
+}
 @media screen and (max-width: 1441px) {
 
     .Smiling-AccountMain {
@@ -180,7 +182,8 @@
 @media screen and (max-width: 1049px) {
 
     .smlingAccountTabWebView{
-        display: none;
+        // display: none;
+        display: unset;
     }
 
     .smilingAccountLogoutMobile{
@@ -210,22 +213,35 @@
         position: unset;
         top: 0;
         background-color: white;
-        z-index: 10; /* Adjust z-index as needed */
+        z-index: 1001; /* Adjust z-index as needed */
         padding: 10px 0;
     }
 }
-
+@media (min-width:1024px){
+    .smlingAccountTabMobileView{
+        display: none;
+    }
+    .smlingAccountTabWebView{
+        // display: none;
+        display: unset !important;
+    }
+}
 @media(max-width: 768px){
     .YourAccountPageTabs div[aria-orientation="vertical"] > .MuiTab-textColorPrimary {
-        padding: 8px 15px;
+        padding: 2px 15px !important;
         min-height: unset;
         min-width: 100%;
         align-items: flex-start;
     }
+    .smlingAccountTabMobileView{
+        display: unset;
+        background-color: white;
+    }
 
-    .youraccountpagesec{
+    .youraccountpagesecSMR{
         font-size: calc(1.375rem + 1.5vw) !important;
-        padding-bottom: 10px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
     }
 
     .accountTabSection .MuiTabs-scrollButtons{
@@ -252,8 +268,12 @@
     position: unset;
     top: 0;
     background-color: white;
-    z-index: 1; /* Adjust z-index as needed */
+    z-index: 1001; /* Adjust z-index as needed */
     padding: 10px 0;
+
+}
+.SmilingAccountTitle{
+        padding-top: 20px !important;
 }
 }
 
