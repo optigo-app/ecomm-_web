@@ -9,6 +9,8 @@ import Cookies from 'js-cookie'
 import SkeletonLoader from './WishlistSkeleton';
 import { Box, CircularProgress, Modal, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Wishlist = () => {
   const {
@@ -56,6 +58,10 @@ const Wishlist = () => {
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
+      toast('All wishlist items added in cart',{
+        autoClose: 2000,
+      })
+      // toast.success("All wishlist items added in cart")
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       })
@@ -154,9 +160,29 @@ const Wishlist = () => {
         </div>
       </div> */}
       <div className="elv_MainWlDiv">
-        <div className="WlMainPageDiv">
+        <div className="elv_WlMainPageDiv">
+          <div className="elv_Productlists_lists_header_breadcrumb">
+            <div className="elv_Productslists_lists_name">
+              <div className="elv_Productlists_details">
+                <span className="elv_Productlists_details_1" >
+                  my wishlist
+                </span>
+              </div>
+            </div>
+            <div className="elv_Productlists_lists_header_logo">
+              <span>
+                <p className="elv_Productlist_ptitle">
+                  <img
+                    className="elv_Productlist_logo"
+                    src={`${storImagePath()}/images/HomePage/MainBanner/featuresImage.png`}
+                    alt="Logo"
+                  />
+                </p>
+              </span>
+            </div>
+          </div>
           <div className="WlBtnGroupMainDiv">
-            <div className="elv_Wl-title">My Wishlist</div>
+            {/* <div className="elv_Wl-title">My Wishlist</div> */}
             {wishlistData.length ? (
               <div className='elv_wishlist_buttons'>
                 <button className='elv_wishlist_clearAll_btn' onClick={handleRemoveAllDialog}>Clear all</button>

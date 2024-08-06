@@ -1256,7 +1256,7 @@ const ProductDetail = () => {
                       />
                     ) : (
                       <div
-                        className="smr_prod_video"
+                        className="smr_app_prod_video"
                       >
                         <video
                           src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
@@ -1265,7 +1265,7 @@ const ProductDetail = () => {
                           style={{
                             width: "100%",
                             objectFit: "cover",
-                            marginTop: "40px",
+                            // marginTop: "40px",
                             height: "90%",
                             borderRadius: "8px",
                           }}

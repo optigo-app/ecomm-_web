@@ -173,8 +173,12 @@ const HomeTab = () => {
           ) : (
             <>
               {storeinit?.IsDesignSetInMenu == 1 &&
-                <NavLink to="/Lookbook" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/Lookbook")}>
-                  <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
+                <NavLink to="/Lookbook"  style={({ isActive }) => ({
+                  ...styles.tab,
+                  marginRight: '5px',
+                  ...(isActive ? styles.active : {})
+                })} activeClassName="active" onClick={() => handleTabChange("/Lookbook")}>
+                  <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)'}}>
                     <FaShoppingBag  style={activeTab === "/Lookbook" ? styles.activeIcon : styles.icon} />
                     <span style={activeTab === "/Lookbook" ? styles.activeText : styles.text}>LOOKBOOK</span>
                   </Button>

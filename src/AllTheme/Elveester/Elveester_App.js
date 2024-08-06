@@ -30,7 +30,7 @@ import Lookbook from './Components/Pages/LookBook/Lookbook'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 import PrivateRoutes from './PrivateRoutes'
 
-const SmilingRock_App = () => {
+const Elveester_app = () => {
 
   const location = useLocation();
   const islogin = useRecoilValue(el_loginState)
@@ -76,7 +76,11 @@ const SmilingRock_App = () => {
           path="/LoginWithMobileCode"
           element={!islogin && <LoginWithMobileCode />}
         />
-        <Route path="/ForgotPass" element={!islogin && <ForgotPass />} />
+        <Route
+          path="/ForgotPass"
+          element={!islogin && <ForgotPass />}
+        />
+
         <Route path="/" element={<Home />} />
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/cartPage" element={<CartDetails />} />
@@ -87,25 +91,25 @@ const SmilingRock_App = () => {
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
         </Route>
-        <Route path="/LoginOption" element={<LoginOption />} />
+        {/* <Route path="/LoginOption" element={<LoginOption />} />
         <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
         <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
         <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
         <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
         <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/Register" element={<Register />} /> */}
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/history" element={<History />} />
         <Route path="/term&condition" element={<Terms />} />
         <Route path="/customerServices" element={<CustomerCare />} />
         <Route path="/customize" element={<Customize />} />
         <Route path="/privacy" element={<Privacy />} />
-        <Route path="/Lookbook" element={<Lookbook />} />
       </Routes>
       {showFooter && <Footer />}
     </div>
   )
 }
 
-export default SmilingRock_App
+export default Elveester_app

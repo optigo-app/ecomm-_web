@@ -35,6 +35,25 @@
     width: 100%; 
 }
 
+.submitBtnForgot {
+    height: 40px;
+    width: 430px;
+    border: 1px solid black;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #424242;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+    transition: all 0.5s ease;
+    font-family: 'PT Sans', sans-serif;
+    cursor: pointer;
+    background-color: white;
+}
+
+.submitBtnForgot:hover {
+    background-color: rgba(66, 66, 66, 0.05);
+}
+
 
 #outlined-password-input::-ms-reveal {
     display: none !important;

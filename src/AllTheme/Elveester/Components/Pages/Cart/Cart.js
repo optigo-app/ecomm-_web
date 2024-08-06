@@ -94,7 +94,9 @@ const CartPage = () => {
   const handleOpen = () => setOpen(true);
   const handleOpen1 = () => setShowRemark1(true);
   const handleClose = () => setOpen(false);
-  const handleClose1 = () => setShowRemark1(false);
+  const handleClose1 = () => {
+    setShowRemark1(false)
+  }
 
   useEffect(() => {
     const iswishUpdateStatus = localStorage.getItem('cartUpdation');
@@ -109,9 +111,11 @@ const CartPage = () => {
     setOrderRemark(e.target.value);
   };
 
+  const loginInfo = JSON.parse(localStorage.getItem('loginUserDetail'));
+
   const handleSaveInternal = () => {
     handleOrderRemarkFun(orderRemark);
-    handleClose1();
+    setShowRemark1(false)
   };
 
   const handleConfirmRemoveAll = async () => {
@@ -229,7 +233,7 @@ const CartPage = () => {
                           className="elv_currencyFont"
                           dangerouslySetInnerHTML={{
                             __html: decodeEntities(
-                              CurrencyData?.CurrencyCode
+                              loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode
                             ),
                           }}
                         />
