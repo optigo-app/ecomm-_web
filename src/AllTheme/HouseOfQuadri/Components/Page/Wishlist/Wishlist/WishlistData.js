@@ -15,7 +15,8 @@ const WishlistData = ({
   handleWishlistToCart,
   WishCardImageFunc,
   handleMoveToDetail,
-  handelMenu
+  handelMenu ,
+  StoreInit
 }) => {
 
   console.log('itemLength', items?.length);
@@ -38,6 +39,7 @@ const WishlistData = ({
               handleRemoveItem={handleRemoveItem}
               handleWishlistToCart={handleWishlistToCart}
               handleMoveToDetail={handleMoveToDetail}
+              StoreInit={StoreInit}
             />
           ))}
         </Grid>

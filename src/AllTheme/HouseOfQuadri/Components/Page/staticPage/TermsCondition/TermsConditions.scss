@@ -35,4 +35,54 @@
           border-radius: 3px;
         }
       }
+    //   @media (max-width: 768px) {
+    //         .terms{
+    //     width: 95%;
+    //     margin: 0 auto;
+    //     h2{
+    //         padding: 45px 0;
+    //         font-size: 2rem;
+    //         font-weight: 700;
+    //     }
+    //     li{
+    //         font-size: 16px;
+    //         font-weight: 500;
+    //         padding: 5px 0;
+    //     }
+    // }
+    //   }
+      
+      @media (max-width: 1060px) {
+           .terms{
+        width: 80%;
+        margin: 0 auto;
+        h2{
+            padding: 45px 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+    }
+      }
+      @media (max-width: 777px) {
+        .terms{
+     width: 90%;
+     margin: 0 auto;
+     h2{
+        padding: 45px 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+ }
+   }
+   @media (max-width: 510px) {
+    .terms{
+ width: 98%;
+ margin: 0 auto;
+ h2{
+    padding: 45px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+}
+}
 }
