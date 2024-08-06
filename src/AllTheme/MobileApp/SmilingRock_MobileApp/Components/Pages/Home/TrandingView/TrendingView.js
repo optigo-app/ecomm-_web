@@ -31,6 +31,7 @@ const TrendingView = () => {
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
     const [imageUrls, setImageUrls] = useState([]);
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     const settings = {
         dots: true,
@@ -151,8 +152,9 @@ const TrendingView = () => {
                         </div>
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{trandingViewData[i]?.designno}</p>
+
                             <p className='smr_bestSellerPrice'>
-                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                 {formatter(trandingViewData[i]?.UnitCostWithMarkUp)}
                             </p>
                         </div>
@@ -164,8 +166,9 @@ const TrendingView = () => {
                             </div>
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{trandingViewData[i + 1]?.designno}</p>
+
                                 <p className='smr_bestSellerPrice'>
-                                    <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                     {formatter(trandingViewData[i + 1]?.UnitCostWithMarkUp)}
                                 </p>
                             </div>

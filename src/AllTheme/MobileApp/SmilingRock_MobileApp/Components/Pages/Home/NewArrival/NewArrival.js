@@ -22,6 +22,7 @@ const NewArrival = () => {
   const [ring1ImageChange, setRing1ImageChange] = useState(false);
   const [ring2ImageChange, setRing2ImageChange] = useState(false);
   const islogin = useRecoilValue(smrMA_loginState);
+  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
   const settings = {
     dots: true,
@@ -85,8 +86,7 @@ const NewArrival = () => {
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
         navigation(
-          `/d/${titleLine.replace(/\s+/g, `_`)}${
-            titleLine?.length > 0 ? "_" : ""
+          `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
           }${designNo}?p=${encodeObj}`
         );
       } else {
@@ -94,8 +94,7 @@ const NewArrival = () => {
       }
     } else {
       navigation(
-        `/d/${titleLine.replace(/\s+/g, `_`)}${
-          titleLine?.length > 0 ? "_" : ""
+        `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
         }${designNo}?p=${encodeObj}`
       );
     }
@@ -142,53 +141,48 @@ const NewArrival = () => {
     loop: true,
     modules: [Pagination],
     slidesPerView: 3,
-};
+  };
 
   return (
     <div className="smrMA_NewArrivalMain">
-       <Swiper {...swiperParams} 
+      <Swiper {...swiperParams}
         className="smaMA_newArrivalBoxcMain"
       >
-          {newArrivalData?.map((item, index) => (
-            <SwiperSlide
-              key={index}
-              style={{ maxWidth: "18rem", marginInline: "auto" }}
-              className="smaMA_newArrivalBoxcMainSub"
+        {newArrivalData?.map((item, index) => (
+          <SwiperSlide
+            key={index}
+            style={{ maxWidth: "18rem", marginInline: "auto" }}
+            className="smaMA_newArrivalBoxcMainSub"
+          >
+            <div
+              className="smr_newArrialDiv1"
+              onClick={() =>
+                handleNavigation(
+                  item.designno,
+                  item.autocode,
+                  item.TitleLine
+                )
+              }
             >
-                <div
-                  className="smr_newArrialDiv1"
-                  onClick={() =>
-                    handleNavigation(
-                      item.designno,
-                      item.autocode,
-                      item.TitleLine
-                    )
-                  }
-                >
-                  <img
-                    src={
-                      ring1ImageChange
-                        ? `${imageUrl}${item.designno}_2.${item.ImageExtension}`
-                        : `${imageUrl}${item.designno}_1.${item.ImageExtension}`
-                    }
-                    className="smilingMainImages"
-                    alt={item.TitleLine}
-                    onMouseEnter={() => handleMouseEnterRing1()}
-                    onMouseLeave={handleMouseLeaveRing1}
-                  />
-                  <p className="ring1Desc">{item.designno}</p>
-                  <p className="smr_nwArrivalTitle">
-                    <span
-                      className="smr_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(storeInit?.Currencysymbol),
-                      }}
-                    />{" "}
-                    {formatter(item.UnitCostWithMarkUp)}
-                  </p>
-                </div>
-            </SwiperSlide>
-          ))}
+              <img
+                src={
+                  ring1ImageChange
+                    ? `${imageUrl}${item.designno}_2.${item.ImageExtension}`
+                    : `${imageUrl}${item.designno}_1.${item.ImageExtension}`
+                }
+                className="smilingMainImages"
+                alt={item.TitleLine}
+                onMouseEnter={() => handleMouseEnterRing1()}
+                onMouseLeave={handleMouseLeaveRing1}
+              />
+              <p className="ring1Desc">{item.designno}</p>
+              <p className='smr_nwArrivalTitle'>
+                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                {formatter(item.UnitCostWithMarkUp)}
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

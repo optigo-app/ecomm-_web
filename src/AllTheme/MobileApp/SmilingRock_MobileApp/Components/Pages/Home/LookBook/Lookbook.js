@@ -522,13 +522,11 @@ const Lookbook = () => {
 
   return (
     <div>
-      <p className="smrMA_SmiCartListTitle">
+      <p className="smrMA_SmiCartListTitle" style={{zIndex: !isDrawerOpen && 11111111111}}>
         <span>
           <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />
           Look Book
         </span>
-
-
       </p>
       <div className="smrMA_LookBookMain">
         <Drawer
@@ -1325,10 +1323,7 @@ const Lookbook = () => {
                                   </Button>
                                 </div>
                               </div>
-                              <div
-                                className="smr_lookBookSubImgMain"
-                              // style={{ display: dataKey == index && "none" }}
-                              >
+                              <div className="smr_lookBookSubImgMain">
                                 <Swiper
                                  {...swiperParams} 
                                   className="smr_LookBookmySwiper"
@@ -1365,7 +1360,6 @@ const Lookbook = () => {
                                             )
                                           }
                                         />
-                                        {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
                                         <div
                                           style={{
                                             display: "flex",
