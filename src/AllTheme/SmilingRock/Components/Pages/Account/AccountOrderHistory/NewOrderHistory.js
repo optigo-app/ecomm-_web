@@ -28,7 +28,6 @@ import {
 } from "../../../../../../utils/API/AccountTabs/OrderHistory";
 import { useNavigate } from "react-router-dom";
 import Pako from "pako";
-import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from "@mui/icons-material/Print";
@@ -269,52 +268,32 @@ const NewOrderHistory = () => {
                       <Card variant="outlined" sx={{ boxShadow: "none", width: "100%", margin: "20px 0px", border: "1px solid #cacaca", }} key={i} >
                         {/* <CardHeader sx={{ backgroundColor:'#f4f4f4', boxShadow: "none", borderBottom:'1px solid #cacaca', borderLeft:'0px', borderRight:'0px'}} */}
                         {/* title={ */}
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "5px 5px",
-                          }}
-                        >
-                          <Typography
-                            className="fs_head_acc"
-                            sx={{
-                              width: "33.33%",
-                              display: "flex",
-                              justifyContent: "flex-start",
-                              alignItems: "center",
-                            }}
-                          >
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 5px", }} >
+                          <Typography className="fs_head_acc" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", paddingLeft:'10px' }} >
                             {e?.orderEntryDate?.toUpperCase()}
                           </Typography>
-                          <Typography
-                            sx={{
-                              width: "33.33%",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                            className={` ${getStatusColor(
-                              e?.b2c_MasterManagement_ProgressStatusId
-                            )} fs_head_acc`}
-                          >
-                            <CircleIcon
-                              className="fs_head_acc"
-                              sx={{ fontSize: "10px", marginRight: "5px" }}
-                            />{" "}
+                          <Typography sx={{ width: "33.33%", display: "flex", justifyContent: "center", alignItems: "center", }} className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc`} >
+                            <CircleIcon sx={{ fontSize:'10px !important', marginRight: "5px" }} />{" "}
                             {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
                           </Typography>
-                          <Typography className="fs_head_acc" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", position: "relative", }} >
-                            <span>TOTAL : </span>
-                            <span style={{ color: "#4a9aa8", fontWeight: "500" }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
-                            <span> <ExpandMoreIcon onClick={() => handleToggleTaxes(e?.id)} /> </span>
+                          <Typography className="fs_head_acc" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", position: "relative", paddingRight:'10px'}}  >
+                            <div style={{userSelect:'none'}} onClick={() => handleToggleTaxes(e?.id)}>
+                              <span style={{cursor:'pointer'}}>TOTAL : </span>
+                              <span style={{ color: "#4a9aa8", fontWeight: "500", cursor:'pointer' }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
+                              <span> <ExpandMoreIcon style={{color:'grey', cursor:'pointer'}} /> </span>
+                            </div>
                             {openTaxes === e?.id && (
-                              <Paper size="small" sx={{ position: "absolute", right: "-5px", top: "25px", }} className="fs_head_acc" >
+                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_acc" >
                                 <MenuList>
-                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} > Sub Total : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(32000)} </span> </MenuItem>
-                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} > Estimated Tax : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(10000)} </span> </MenuItem>
-                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} > Grand Total : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> </MenuItem>
+                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} >
+                                     Sub Total : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} >
+                                     Estimated Tax : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
+                                  </MenuItem>
+                                  <MenuItem sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} > 
+                                     Grand Total : </span>{" "} <span className="d_end_oh" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
+                                  </MenuItem>
                                 </MenuList>
                               </Paper>
                             )}
@@ -329,22 +308,73 @@ const NewOrderHistory = () => {
                                 src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png"
                                 alt="#orderImg"
                                 className="orderImgAcc"
+                                loading="eager"
                               />
                             </Box>
                             <Box sx={{ width: "33.33%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_acc" >
-                              <Typography className="fs_head_acc">
+                              {/* <Typography className="fs_head_acc">
                                 Gold 18K
-                              </Typography>
-                              <Typography className="fs_head_acc">
+                              </Typography> */}
+                              <Typography className="fs_head_acc" style={{fontWeight:'bold'}}>
                                 {" "}
                                 {e?.OrderPrefix}
                                 {e?.orderno}
                               </Typography>
                               <Typography className="fs_head_acc">
-                                Item : {e?.TotalQuantity}
+                                Item : <span style={{color:'brown', fontWeight:'bold'}}>{e?.TotalQuantity}</span>
                               </Typography>
                             </Box>
-                            <Box sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", }} className="fs_head_acc" > Other </Box>
+                            <Box sx={{ width: "33.33%", display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-end", }} className="fs_head_acc" > 
+                            <>
+                              {e?.IsPLW === 1 ? ( <>
+                                <div className="minh_noh" style={{display:'flex', alignItems:'center'}}>
+                                  <div className={`sidebar d-flex flex-column ${sidebarOpen && openListStatus === e.id ? 'open' : ''}`}>
+                                    <div style={{padding:'2px'}}>
+
+                                    {(showActions === e?.id) && (
+                                      <>
+                                          <Chip size="small" label="Approve" color="success" sx={{margin:'0px 5px'}} onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip
+                                            size="small"
+                                            label="Reject"
+                                            sx={{
+                                              backgroundColor: 'black',
+                                              color: 'white',
+                                              margin:'0px 5px',
+                                              '&:hover': {
+                                                  backgroundColor: 'black',
+                                                  color: 'white',
+                                                  cursor: 'default',
+                                                },
+                                              }}
+                                          onClick={() => handleApproveReject(e, 'reject')}
+                                        />
+                                      </>
+                                    )}
+                                    { e?.IsPLW === 0 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                                    </div>
+                                </div>
+                                <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
+                              </div>
+                              
+                                <div className="minh_noh2">
+                                  { e?.IsPLW === 1 ?
+                                    <>
+                                      <div className="center_noh" style={{padding:'0px', margin:'0px', width:'70px'}}><PrintIcon onClick={() => handlePrintOH(e?.id)}  /></div>
+                                    </>
+                                    : ''
+                                  }
+                                  { showPrint ? <div className="center_noh" style={{ fontSize:'7px', lineHeight:'7px'}}>{clickedPrintId === e?.id && 'Coming Soon...'}</div> : <div></div>}  
+
+                                </div>
+                              
+                              </>
+                              )
+                               : (
+                                <div>&nbsp;</div>
+                              )}
+                            </>
+                            </Box>
                           </Box>
                         </CardContent>
                         <Accordion
@@ -396,13 +426,14 @@ const NewOrderHistory = () => {
                                       xl={orderDetails?.length === 1 ? 3 : 3}
                                     >
                                       <Card sx={{display:'flex', alignItems:'center'}} onClick={() => handleMoveToDetail(el)}>
+                                        {console.log(el)}
                                           <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} />
                                           <div>
                                             <div>{el?.designno}</div>
                                             <div>{el?.metaltypename} {el?.metalcolorname}</div>
-                                            <div><span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> {formatAmount(el?.TotalUnitCostWithDiscount)}</div>
+                                            <div style={{fontWeight:'bold'}}><span style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> 
+                                            {formatAmount(el?.TotalUnitCostWithDiscount)}</div>
                                           </div>
-                                        
                                       </Card>
                                     </Grid>
                                   ))}
@@ -412,7 +443,7 @@ const NewOrderHistory = () => {
                               }
                               </>) : ''
                             }
-                            <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center'}} onClick={() => {
+                            <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
                               setExpandedAccordion(false)
                               handleClick(e);
                             }}><ExpandLess /></Typography>
