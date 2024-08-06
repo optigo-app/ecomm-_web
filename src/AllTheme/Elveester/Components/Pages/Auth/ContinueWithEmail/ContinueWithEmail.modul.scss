@@ -1,4 +1,4 @@
-.el_continuemobile {
+.el_ContinueEmailMain {
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -11,6 +11,13 @@
     }
 
     .el_continu_div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6% 0px 6% 0px;
+    }
+
+    .smling-forgot-main-Color{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -74,7 +81,7 @@
     }
 
     @media screen and (max-width: 1500px) {
-        .smling-forgot-main {
+        .el_continu_subDiv {
             width: 50%;
         }
     }
@@ -90,7 +97,7 @@
             margin-inline: 15%;
         }
 
-        .smling-forgot-main {
+        .el_continu_subDiv {
             margin-inline: 2% !important;
         }
 
@@ -102,7 +109,7 @@
         /* .smling-forgot-main-Color{
         padding-top: 20%;
     } */
-        .smling-forgot-main {
+        .el_continu_subDiv {
             width: 70%;
         }
     }
@@ -118,7 +125,7 @@
             margin-inline: 15%;
         }
 
-        .smling-forgot-main {
+        .el_continu_subDiv {
             margin-inline: 2% !important;
         }
 
@@ -141,7 +148,7 @@
         padding-top: 30%;
     } */
 
-        .smling-forgot-main {
+        .el_continu_subDiv {
             width: 90%;
         }
     }

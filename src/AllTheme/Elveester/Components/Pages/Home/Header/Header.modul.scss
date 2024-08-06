@@ -7,40 +7,44 @@
     top: 0;
     z-index: 11;
     background-color: white;
-    height: 80px;  //chnages    80px
+    height: 80px; //chnages    80px
 
     .el_withoutL_Header_Main {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80px;  
+        height: 80px;
         z-index: 1;
     }
-// nw design
-    .elv_top_head_banner{
+
+    // nw design
+    .elv_top_head_banner {
         display: flex;
         align-items: center;
-        justify-content:center;
-        padding:  6px 0;
+        justify-content: center;
+        padding: 6px 0;
         background-color: #AE8135;
         font-weight: 400;
-        a{
+
+        a {
             text-decoration: none;
             font-weight: 500;
             color: inherit;
             display: flex;
             align-items: center;
             gap: 2px;
-           div{
-            margin: 0 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            span{
-                background-color: white;
-                padding:1px 4px; 
+
+            div {
+                margin: 0 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                span {
+                    background-color: white;
+                    padding: 1px 4px;
+                }
             }
-           }
         }
     }
 
@@ -49,6 +53,15 @@
         list-style: none;
         width: 100%;
         padding: 0px;
+    }
+
+    .el_withoutL_ul_Main_side {
+        display: flex;
+        list-style: none;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0px;
+        align-items: center;
     }
 
     .el_whioutL_headerDiv1 {
@@ -64,6 +77,12 @@
         justify-content: center;
         align-items: center;
     }
+    .el_whioutL_headerDiv2_side {
+        width: 12%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .el_whioutL_headerDiv3 {
         width: 44%;
@@ -71,9 +90,20 @@
         justify-content: space-between;
         align-items: center;
     }
+    .el_whioutL_headerDiv3_side {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-top: 20px;
+    }
 
     .el_without_headerLogo {
         max-width: 150px;
+    }
+
+    .el_without_headerLogo_side {
+        max-width: 150px;
+        margin-top: 20px;
     }
 
     .el_whioutL_headerDiv3_sub1 {
@@ -325,7 +355,8 @@
         text-transform: uppercase;
         margin-inline: 20px;
     }
-    .go-lookbook{
+
+    .go-lookbook {
         font-weight: 500;
     }
 
@@ -346,12 +377,12 @@
         display: none;
     }
 
-    .elv_power_icon{
+    .elv_power_icon {
         font-size: 25px;
         color: #AF8238;
     }
 
-    .elv_search_icon{
+    .elv_search_icon {
         font-size: 25px;
         color: #7D7F85;
     }
@@ -451,7 +482,7 @@
             width: 70%;
         }
 
-        .el_login_header_main_div2_li{
+        .el_login_header_main_div2_li {
             margin-inline: 7px;
         }
 
@@ -517,7 +548,7 @@
             font-size: 19px;
         }
 
-        .el_login_header_main_div2_li{
+        .el_login_header_main_div2_li {
             margin-inline: 7px;
         }
 
@@ -537,7 +568,7 @@
             font-size: 20px;
         }
 
-        .elv_search_icon_respo_1{
+        .elv_search_icon_respo_1 {
             font-size: 19px;
         }
 
@@ -570,6 +601,7 @@
             }
 
         }
+
         .elv_search_btn_respo_1 {
 
             .elv_search_bar_respo_1 {

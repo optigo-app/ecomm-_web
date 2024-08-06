@@ -7,6 +7,7 @@ import CartList from './CartList';
 import Modal from '@mui/material/Modal';
 import SelectedItemsModal from './SelectedModal';
 import noImageFound from "../../Assets/image-not-found.jpg"
+import SellIcon from '@mui/icons-material/Sell';
 import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
 import { Box, Breadcrumbs, CircularProgress, FormControl, Typography, useMediaQuery } from '@mui/material';
@@ -89,7 +90,9 @@ const CartPage = () => {
   const [countStatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(el_CartCount);
   const [orderRemark, setOrderRemark] = useState();
+  console.log('orderRemark: ', orderRemark);
   const [randomNumber, setRandomNumber] = useState('');
+  const [openPriceModal, setOpenPriceModal] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleOpen1 = () => setShowRemark1(true);
@@ -97,6 +100,8 @@ const CartPage = () => {
   const handleClose1 = () => {
     setShowRemark1(false)
   }
+  const handleOpenPriceModal = () => setOpenPriceModal(true);
+  const handleClosePriceModal = () => setOpenPriceModal(false);
 
   useEffect(() => {
     const iswishUpdateStatus = localStorage.getItem('cartUpdation');
@@ -132,6 +137,7 @@ const CartPage = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    maxWidth: '90%',
     width: 400,
     bgcolor: 'background.paper',
     border: 'none',
@@ -151,17 +157,18 @@ const CartPage = () => {
     }
     return result;
   };
-  
-    useEffect(() => {
-      setRandomNumber(generateRandomNumber(10));
-    }, []);
+
+  useEffect(() => {
+    setRandomNumber(generateRandomNumber(10));
+  }, []);
 
   const handleMoveToOrder = () => {
     navigate('/Delivery');
     localStorage.setItem('iscartData', randomNumber);
   }
 
-  const handleOrderRemarkFun = async () => {
+  const handleOrderRemarkFun = async (remark) => {
+    setOrderRemark(remark);
     try {
       const response = await handleOrderRemark(orderRemark);
       let resStatus = response?.Data?.rd[0]
@@ -182,6 +189,18 @@ const CartPage = () => {
       behavior: "smooth",
     });
   }, [])
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
 
   return (
     <>
@@ -225,28 +244,62 @@ const CartPage = () => {
             {cartData.length ? (
               <div className="elv_filteration_block_div">
                 <div className="elv_Cartblock_rows">
-                  <div className="elv_Cartblock_rows_1" >
-                    <span className="elv_total_price_title">
-                      {isMobileResp1 ? 'Price:' : '' || isMobileResp2 ? '' : 'Total Price:'}&nbsp;
-                      <span>
-                        <span
-                          className="elv_currencyFont"
-                          dangerouslySetInnerHTML={{
-                            __html: decodeEntities(
-                              loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode
-                            ),
-                          }}
-                        />
-                        &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
-                      </span>
-                    </span>
-                  </div>
-                  <div className="elv_Cartblock_rows_2" >
-                    <span className="elv_items_title">
-                      <span>{cartData?.length}</span>
-                      <span>&nbsp;items</span>
-                    </span>
-                  </div>
+                  {isMobileResp2 ? (
+                    <>
+                      <div className="elv_Cartblock_rows_1_combo" >
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2rem' }} onClick={handleOpenPriceModal}>
+                          <span style={{ textDecoration: 'underline' }}>Price Details</span>
+                          <SellIcon className='elv_price_mdoalIcon' />
+                        </div>
+                        <Modal open={openPriceModal} onClose={handleClosePriceModal}>
+                          <Box sx={modalStyle}>
+                            <span className="elv_total_price_title">
+                              Total Price: &nbsp;
+                              <span>
+                                <span
+                                  className="elv_currencyFont"
+                                >
+                                  {loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode}
+                                </span>
+                                &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
+                              </span>
+                            </span>
+                            <div className="elv_Cartblock_rows_2" >
+                              <span className="elv_items_title">
+                                <span style={{ fontWeight: '600' }}>{cartData?.length}</span>
+                                <span>&nbsp;items</span>
+                              </span>
+                            </div>
+                          </Box>
+                        </Modal>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="elv_Cartblock_rows_1" >
+                        <span className="elv_total_price_title">
+                          {isMobileResp1 ? 'Price:' : '' || isMobileResp2 ? '' : 'Total Price:'}&nbsp;
+                          <span>
+                            <span
+                              className="elv_currencyFont"
+                              dangerouslySetInnerHTML={{
+                                __html: decodeEntities(
+                                  loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode
+                                ),
+                              }}
+                            />
+                            &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
+                          </span>
+                        </span>
+                      </div>
+                      <div className="elv_Cartblock_rows_2" >
+                        <span className="elv_items_title">
+                          <span>{cartData?.length}</span>
+                          <span>&nbsp;items</span>
+                        </span>
+                      </div>
+                    </>
+                  )}
                   <div className="elv_Cartblock_rows_3" >
                     {cartData?.length ? (
                       <span onClick={handleOpen} className="elv_clearAll_title">
@@ -264,13 +317,12 @@ const CartPage = () => {
                       aria-describedby="modal-modal-description"
                     >
                       <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                          Are You Sure To Delete All This Item?
+                        <Typography className="elv_delete_modal_text" sx={{ fontSize: '18px' }} id="modal-modal-title" variant='subtitle2'>
+                          Are You Sure to Delete All these items?
                         </Typography>
                         <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
-                          <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '2.5rem', fontSize: '18px' }} onClick={handleClose}>No</button>
-                          <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '15px', fontSize: '18px' }} onClick={handleCloseRemove}
-                          >Yes</button>
+                          <Button className="elv_del_button no-button" onClick={handleClose}>No</Button>
+                          <Button className="elv_del_button yes-button" onClick={handleCloseRemove}>Yes</Button>
                         </div>
                       </Box>
                     </Modal>
@@ -289,8 +341,8 @@ const CartPage = () => {
                       open1={showRemark1}
                       onClose1={handleClose1}
                       remark1={orderRemark}
-                      onRemarkChange1={handleRemarkChangeInternal}
-                      onSave1={handleSaveInternal}
+                      onRemarkChange1={(e) => { }}
+                      onSave1={handleOrderRemarkFun}
                     />
                   </div>
                   {cartData?.length ? (
@@ -338,7 +390,7 @@ const CartPage = () => {
                 </div>
                 <div className='elv_CartSingleProducts_div'>
                   {!isTabletResponsive ? (
-                     selectedItem && (
+                    selectedItem && (
                       <CartDetails
                         ispriceloding={ispriceloding}
                         selectedItem={selectedItem}
@@ -361,34 +413,34 @@ const CartPage = () => {
                       />
                     )
                   )
-                  : (
-                    <div className='elv_mobile-cartDetails'>
-                      <MobileCartDetails
-                        open={openMobileModal}
-                        handleClose={handlecloseMobileModal}
-                        ispriceloding={ispriceloding}
-                        selectedItem={selectedItem}
-                        CartCardImageFunc={CartCardImageFunc}
-                        handleIncrement={handleIncrement}
-                        handleDecrement={handleDecrement}
-                        qtyCount={qtyCount}
-                        multiSelect={multiSelect}
-                        sizeCombo={sizeCombo}
-                        CurrencyData={CurrencyData}
-                        mrpbasedPriceFlag={mrpbasedPriceFlag}
-                        handleMetalTypeChange={handleMetalTypeChange}
-                        handleMetalColorChange={handleMetalColorChange}
-                        handleDiamondChange={handleDiamondChange}
-                        handleColorStoneChange={handleColorStoneChange}
-                        handleSizeChange={handleSizeChange}
-                        decodeEntities={decodeEntities}
-                        onUpdateCart={handleUpdateCart}
-                        handleMoveToDetail={handleMoveToDetail}
-                      />
-                    </div>
-                  )
+                    : (
+                      <div className='elv_mobile-cartDetails'>
+                        <MobileCartDetails
+                          open={openMobileModal}
+                          handleClose={handlecloseMobileModal}
+                          ispriceloding={ispriceloding}
+                          selectedItem={selectedItem}
+                          CartCardImageFunc={CartCardImageFunc}
+                          handleIncrement={handleIncrement}
+                          handleDecrement={handleDecrement}
+                          qtyCount={qtyCount}
+                          multiSelect={multiSelect}
+                          sizeCombo={sizeCombo}
+                          CurrencyData={CurrencyData}
+                          mrpbasedPriceFlag={mrpbasedPriceFlag}
+                          handleMetalTypeChange={handleMetalTypeChange}
+                          handleMetalColorChange={handleMetalColorChange}
+                          handleDiamondChange={handleDiamondChange}
+                          handleColorStoneChange={handleColorStoneChange}
+                          handleSizeChange={handleSizeChange}
+                          decodeEntities={decodeEntities}
+                          onUpdateCart={handleUpdateCart}
+                          handleMoveToDetail={handleMoveToDetail}
+                        />
+                      </div>
+                    )
                   }
-                 
+
                 </div>
               </div>
             ) : (
