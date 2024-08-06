@@ -169,12 +169,8 @@ export default function ThemeRoutes() {
         </Helmet>
       </div>
 
-      {/* {loading ? (
-        <div className="loading-container" style={{ textAlign: 'center', marginTop: '35%' }}>
-          <img src={loadingGif} alt="Loading..." style={{width: '100%'}}/>
-        </div>
-      ) : (
-        <> */}
+      {/* <SmilingRock_MobileApp_App /> */}
+
 
       {themeNo === 1 && <SmilingRock_App />}
 
@@ -182,16 +178,13 @@ export default function ThemeRoutes() {
 
       {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 4 && <SmilingRock_MobileApp_App />}
+    {themeNo === 4 &&  <SmilingRock_MobileApp_App />}
 
       {themeNo === 5 && <HemratnaProcatalog_App />}
 
       {themeNo === 6 && <Procatalog_App />}
 
       {themeNo === 7 && <HouseOfQuadri_App />}
-
-      {/* </>
-      )} */}
     </>
   );
 }
