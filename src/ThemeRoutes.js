@@ -169,9 +169,9 @@ export default function ThemeRoutes() {
         </Helmet>
       </div>
 
-      <SmilingRock_MobileApp_App />
+      {/* <SmilingRock_MobileApp_App /> */}
 
-      {/* {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -183,7 +183,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 6 && <Procatalog_App />}
 
-      {themeNo === 7 && <HouseOfQuadri_App />} */}
+      {themeNo === 7 && <HouseOfQuadri_App />}
     </>
   );
 }

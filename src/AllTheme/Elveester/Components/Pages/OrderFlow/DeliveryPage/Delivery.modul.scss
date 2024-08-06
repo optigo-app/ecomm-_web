@@ -46,6 +46,7 @@
         margin-left: 0.5rem;
         position: relative;
         bottom: 0.5rem;
+
         .elv_breadcrumbs {
             font-size: 10px;
             text-transform: uppercase;
@@ -135,6 +136,16 @@
 
     .elv_delblock_rows_4 {
         display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-block: 1.2rem;
+        flex: 1 1 20%;
+        border: 1px solid #d9d9d9;
+
+    }
+
+    .elv_delblock_rows_4_hide {
+        display: none;
         justify-content: center;
         align-items: center;
         padding-block: 1.2rem;
@@ -349,25 +360,122 @@
     height: 100%;
     margin-bottom: 327px;
     margin-top: 3rem;
-  
+
     .elv_title {
-      color: #7d7f85;
-      font-size:28px;;
+        color: #7d7f85;
+        font-size: 28px;
+        ;
     }
-  
+
     .elv_desc {
-      color: #7d7f85;
-      font-size: 18px;
+        color: #7d7f85;
+        font-size: 18px;
     }
-  
+
     .elv_browseOurCollectionbtn {
-      background-color: #7d7f85;
-      border: none;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      outline: none;
-      width: 220px;
+        background-color: #7d7f85;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        height: 50px;
+        outline: none;
+        width: 220px;
     }
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .elv_delivery_Main_div {
+        .elv_delblock_rows_1 {
+
+            .elv_back_title {
+                font-size: 14px;
+            }
+
+        }
+
+        .elv_delblock_rows_2 {
+            .elv_address_title {
+                text-align: center;
+                font-size: 14px;
+            }
+        }
+
+        .elv_delblock_rows_3 {
+            .elv_address_count {
+                font-size: 14px;
+            }
+        }
+
+
+        .elv_delblock_rows_5 {
+            .elv_continue_title {
+                font-size: 12px;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 425px) {
+    .elv_delivery_Main_div {
+        .elv_delblock_rows_1 {
+            .elv_back_title {
+                font-size: 14px;
+            }
+
+        }
+
+        .elv_delblock_rows_2 {
+            .elv_address_title {
+                text-align: center;
+                font-size: 12px;
+            }
+        }
+
+        .elv_delblock_rows_3 {
+            .elv_address_count {
+                font-size: 12px;
+            }
+        }
+
+
+        .elv_delblock_rows_5 {
+            .elv_continue_title {
+                font-size: 11px;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 375px) {
+    .elv_delivery_Main_div {
+        .elv_delivery_details_1 {
+            font-size: 25px;
+        }
+
+        .elv_delblock_rows_1 {
+            flex: 1 0%;
+
+
+        }
+
+        .elv_delblock_rows_2 {
+            flex: 1 10%;
+
+        }
+
+        .elv_delblock_rows_3 {
+            flex: 1 10%;
+
+        }
+
+
+        .elv_delblock_rows_5 {
+            flex: 1 13%;
+
+        }
+    }
+
+}
