@@ -70,7 +70,7 @@ export default function ContactUs() {
                 "con": "{\"id\":\"\",\"mode\":\"CONTACTUS\"}",
                 "f": "CONTACTUS (handlesubmit)",
                 p: encodedCombinedValue,
-                dp:combinedValue
+                dp: combinedValue
             };
             const response = await CommonAPI(body);
             if (response) {
@@ -219,19 +219,16 @@ export default function ContactUs() {
                                             <p>+852-52482000</p>
                                             <p>sales@kayracreation.com</p>
                                         </div>
+                                        // <div>
+                                        //     <p></p>
+                                        //     <p>D-Block G20, ITC( International Trade Centre),
+                                        //         Majura Gate, Ring Road, </p>
+                                        //     <p>+919099887762</p>
+                                        //     <p>hello@optigoapps.com</p>
+                                        // </div>
                                     )}
-                                    {/* {activeTab === 'M3' && (
-                                        <div>
-                                            <p>Find Us - Locate us on Map</p>
-                                            <p>Kayra Creation Limited</p>
-                                            <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
-                                            <p>Kowloon-999077, Hong Kong- China</p>
-                                            <p>+852-52482000</p>
-                                            <p>sales@kayracreation.com</p>
-                                        </div>
-                                    )} */}
-                                    <div className="map-container">
 
+                                    <div className="map-container">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
                                             width="600"
                                             height="450"
@@ -240,7 +237,6 @@ export default function ContactUs() {
                                             referrerpolicy="no-referrer-when-downgrade"
                                             className='mapContact'
                                         >
-
                                         </iframe>
                                     </div>
                                 </div>
