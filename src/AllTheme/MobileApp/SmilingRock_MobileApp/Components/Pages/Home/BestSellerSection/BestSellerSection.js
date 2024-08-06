@@ -21,6 +21,7 @@ const BestSellerSection = () => {
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(smrMA_loginState);
+    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
     const settings = {
         dots: true,
         infinite: false,
@@ -143,7 +144,7 @@ const BestSellerSection = () => {
                         <div className='linkLoveRing1Desc'>
                             <p className='ring1Desc'>{bestSellerData[i]?.designno}</p>
                             <p className='smr_bestSellerPrice'>
-                                <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
+                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
                                 {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
                             </p>
                         </div>
@@ -156,9 +157,9 @@ const BestSellerSection = () => {
                             <div className='linkLoveRing1Desc'>
                                 <p className='ring1Desc'>{bestSellerData[i + 1]?.designno}</p>
                                 <p className='smr_bestSellerPrice'>
-                                    <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(storeInit?.Currencysymbol) }} />
-                                    {formatter(bestSellerData[i + 1]?.UnitCostWithMarkUp)}
-                                </p>
+                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                                {formatter(bestSellerData[i]?.UnitCostWithMarkUp)}
+                            </p>
                             </div>
                         </div>
                     )}
