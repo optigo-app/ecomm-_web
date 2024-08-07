@@ -143,6 +143,8 @@ const ProductList = () => {
 
   }, [])
 
+  console.log("selectredmetalid",selectedMetalId);
+
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
   // console.log("rollOverImgPd",rollOverImgPd).

@@ -785,70 +785,6 @@ const ProductDetail = () => {
 
   // }
 
-  const ProdCardImageFunc = () => {
-    let finalprodListimg;
-    let pdImgList = [];
-    let pdvideoList = [];
-
-    let pd = singleProd;
-
-    // console.log("singleProdImageCount", pd?.ImageCount);
-
-    if (pd?.ImageCount > 0) {
-      for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString =
-          storeInit?.DesignImageFol +
-          pd?.designno +
-          "_" +
-          i +
-          "." +
-          pd?.ImageExtension;
-        pdImgList.push(imgString);
-      }
-    } else {
-      finalprodListimg = imageNotFound;
-    }
-
-    if (pd?.VideoCount > 0) {
-      for (let i = 1; i <= pd?.VideoCount; i++) {
-        let videoString =
-          (storeInit?.DesignImageFol).slice(0, -13) +
-          "video/" +
-          pd?.designno +
-          "_" +
-          i +
-          "." +
-          pd?.VideoExtension;
-        pdvideoList.push(videoString);
-      }
-    }
-
-    if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[0];
-      setSelectedThumbImg({"link":pdImgList[0],"type":'img'});
-      setPdThumbImg(pdImgList);
-      setThumbImgIndex(0)
-    }
-
-    if (pdvideoList?.length > 0) {
-      setPdVideoArr(pdvideoList);
-    }
-
-    return finalprodListimg;
-  };
-
-  // console.log("pdThumbImg", pdThumbImg);
-
-  useEffect(() => {
-    ProdCardImageFunc();
-  }, [singleProd]);
-
-  const decodeEntities = (html) => {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  };
-
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -857,6 +793,144 @@ const ProductDetail = () => {
       img.src = imageUrl;
     });
   }
+  
+    const ProdCardImageFunc = async() => {
+      let finalprodListimg;
+      let pdImgList = [];
+      let pdvideoList = [];
+  
+      let pd = singleProd;
+  
+      let colImg;
+  
+      let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+      let mcArr;
+  
+      if(mtColorLocal?.length){
+        mcArr =
+        mtColorLocal?.filter(
+            (ele) => ele?.id == singleProd?.MetalColorid
+          )[0]
+      }
+  
+      if (singleProd?.ColorImageCount > 0) {
+        for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+          let imgString =
+            storeInit?.DesignImageFol +
+            singleProd?.designno +
+            "_" +
+            i +
+            "_"+ mcArr?.colorcode +
+            "." +
+            singleProd?.ImageExtension;
+  
+            let IsImg = checkImageAvailability(imgString)
+            if(IsImg){
+              pdImgList.push(imgString);
+            }
+        }
+  
+        if(pdImgList?.length > 0){
+          colImg = pdImgList[0]
+        }
+      } 
+  
+  
+      let IsColImg = false;
+      if(colImg?.length > 0 ){
+        IsColImg = await checkImageAvailability(colImg)
+      }
+  
+      console.log("colImg",IsColImg)
+      
+      if (pd?.ImageCount > 0 && !IsColImg ) {
+        for (let i = 1; i <= pd?.ImageCount; i++) {
+          let imgString =
+            storeInit?.DesignImageFol +
+            pd?.designno +
+            "_" +
+            i +
+            "." +
+            pd?.ImageExtension;
+  
+            let IsImg = checkImageAvailability(imgString)
+            if(IsImg){
+              pdImgList.push(imgString);
+            }
+        }
+      } else {
+        finalprodListimg = imageNotFound;
+      }
+  
+      console.log("SearchData",pd?.VideoCount);
+  
+      if (pd?.VideoCount > 0) {
+        for (let i = 1; i <= pd?.VideoCount; i++) {
+          let videoString =
+            (storeInit?.DesignImageFol).slice(0, -13) +
+            "video/" +
+            pd?.designno +
+            "_" +
+            i +
+            "." +
+            pd?.VideoExtension;
+          pdvideoList.push(videoString);
+        }
+      }
+      else{
+        pdvideoList = [];
+      }
+  
+      let FinalPdImgList = [];
+      
+      if(pdImgList?.length > 0 ){
+        for(let i = 0; i < pdImgList?.length ; i++ ){
+          let isImgAvl =  await checkImageAvailability(pdImgList[i])
+          if(isImgAvl){
+            FinalPdImgList.push(pdImgList[i])
+          }
+        }
+      }
+  
+      console.log("SearchData",singleProd);
+  
+      if(FinalPdImgList?.length > 0) {
+        finalprodListimg = FinalPdImgList[0];
+        setSelectedThumbImg({"link":FinalPdImgList[0],"type":'img'});
+        setPdThumbImg(FinalPdImgList);
+        setThumbImgIndex(0)
+      }
+  
+      if (pdvideoList?.length > 0) {
+        setPdVideoArr(pdvideoList);
+      }else{
+        setPdVideoArr([]);
+      }
+  
+      return finalprodListimg;
+  
+      
+    };
+  
+  
+    useEffect(() => {
+      ProdCardImageFunc();
+    }, [singleProd,location?.key]);
+
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  // function checkImageAvailability(imageUrl) {
+  //   return new Promise((resolve, reject) => {
+  //     const img = new Image();
+  //     img.onload = () => resolve(true);
+  //     img.onerror = () => resolve(false);
+  //     img.src = imageUrl;
+  //   });
+  // }
 
   const handleMetalWiseColorImg = async(e) => {
 
@@ -879,7 +953,7 @@ const ProductDetail = () => {
     "." +
     (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink)
+    // setMetalWiseColorImg(imgLink)
 
     let isImg = await checkImageAvailability(imgLink)
 
@@ -894,7 +968,7 @@ const ProductDetail = () => {
     let pdImgList = [];
 
     if (singleProd?.ColorImageCount > 0) {
-      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
           singleProd?.designno +
@@ -927,9 +1001,22 @@ const ProductDetail = () => {
       isImgCol = await checkImageAvailability(pdImgListCol[0])
     }
 
-    if(pdImgListCol?.length > 0 && (isImgCol == true)){
-      setPdThumbImg(pdImgListCol)
-      setSelectedThumbImg({"link":pdImgListCol[thumbImgIndex],"type":'img'});
+    let FinalPdColImgList = [];
+    
+    if(pdImgListCol?.length > 0 ){
+      for(let i = 0; i < pdImgListCol?.length ; i++ ){
+        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
+        if(isImgAvl){
+          FinalPdColImgList.push(pdImgListCol[i])
+        }else{
+          FinalPdColImgList.push(imageNotFound)
+        }
+      }
+    }
+
+    if(FinalPdColImgList?.length > 0 && (isImgCol == true)){
+      setPdThumbImg(FinalPdColImgList)
+      setSelectedThumbImg({"link":FinalPdColImgList[thumbImgIndex],"type":'img'});
       setThumbImgIndex(thumbImgIndex)
       
     }
@@ -945,6 +1032,7 @@ const ProductDetail = () => {
 
     // console.log("pdImgList",pdImgList,pdImgListCol)
   } 
+
 
   // useEffect(()=>{
 
