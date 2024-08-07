@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Delivery.modul.scss';
 import NewAddressModal from '../NewAddressModal/NewAddressModal';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
-import { Breadcrumbs, Grid, Typography } from '@mui/material';
+import { Breadcrumbs, Grid, Typography, useMediaQuery } from '@mui/material';
 import CardSkeleton from './CardSkeleton';
 import AddressCard from './AddressCard';
 import DeleteDialog from './DeleteDialog';
@@ -36,13 +36,14 @@ const Delivery = () => {
         e.preventDefault();
         navigate(-1)
     }
+    const isTabletResponsive = useMediaQuery('(max-width:1000px)');
 
     const [cartString, setCartString] = useState();
 
-    useEffect(() => {
-        const getCartData = localStorage.getItem('iscartData');
-        setCartString(getCartData)
-    }, [])
+    // useEffect(() => {
+    //     const getCartData = localStorage.getItem('iscartData');
+    //     setCartString(getCartData)
+    // }, [])
 
     // browse our collection
     const handelMenu = () => {
@@ -118,8 +119,8 @@ const Delivery = () => {
                                         <span>Back</span>
                                     </span>
                                 </div>
-                                {cartString ? (
-                                    <>
+                                {/* {cartString ? (
+                                    <> */}
                                         <div className="elv_delblock_rows_2" >
                                             <span className="elv_address_title" onClick={() => handleOpen(null)}>
                                                 <span>Add new Address</span>
@@ -131,9 +132,9 @@ const Delivery = () => {
                                                 <span>Address</span>
                                             </span>
                                         </div>
-                                        <div className="elv_delblock_rows_4" >
+                                        {/* <div className={isTabletResponsive ? 'elv_delblock_rows_4_hide' : "elv_delblock_rows_4"} >
 
-                                        </div>
+                                        </div> */}
                                         {addressData?.length ? (
                                             <div className="elv_delblock_rows_5" onClick={() => proceedToOrder(navigate)}>
                                                 <span className="elv_continue_title">
@@ -147,14 +148,14 @@ const Delivery = () => {
                                                 </span>
                                             </div>
                                         }
-                                    </>
-                                ) : ('')}
+                                    {/* </>
+                                ) : ('')} */}
 
 
                             </div>
                         </div>
-                        {cartString ? (
-                            <>
+                        {/* {cartString ? (
+                            <> */}
                                 <div className='elv_TitleDetailMainDiv'>
                                     <p className='elv_deliverydesc'>Order Will be delivered to selected address</p>
                                 </div>
@@ -193,14 +194,14 @@ const Delivery = () => {
                                     handleDeleteClose={handleDeleteClose}
                                     handleDelete={() => handleDelete()}
                                 />
-                            </>
+                            {/* </>
                         ) :
                             <div className='elv_noCartlistData'>
                                 <p className='elv_title'>No Data Found!</p>
                                 <p className='elv_desc'>Please First Add Product in Cart</p>
                                 <button className='elv_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
                             </div>
-                        }
+                        } */}
 
                     </div>
 

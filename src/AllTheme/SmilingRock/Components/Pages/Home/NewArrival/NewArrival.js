@@ -22,7 +22,7 @@ const NewArrival = () => {
     useEffect(() => {
         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const { IsB2BWebsite } = storeInit;
+        const IsB2BWebsite = storeInit?.IsB2BWebsite;
         const visiterID = Cookies.get('visiterId');
         let finalID;
         if (IsB2BWebsite == 0) {

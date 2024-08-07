@@ -28,10 +28,6 @@
         border: 1px solid #ebdcc3;
         outline: none;
         padding: 0px 20px;
-
-        &:placeholder-shown {
-            padding-left: 10px;
-        }
     }
     
     .elevBox1Btn {
@@ -130,9 +126,9 @@
         font-size: 15px;
     }
     
-    .eleBox1InputBox::placeholder {
-        padding-left: 10px;
-    }
+    // .eleBox1InputBox::placeholder {
+    //     padding-left: 10px;
+    // }
     
     .ElveFooterDesc:hover {
         text-decoration: underline;

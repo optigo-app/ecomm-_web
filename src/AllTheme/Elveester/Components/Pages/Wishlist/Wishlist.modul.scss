@@ -277,7 +277,7 @@
 
 .elv_MainWlDiv {
     background-color: $backgroundColor;
-    font-family: $primaryFontFamily;
+    font-family: 'PT Sans', sans-serif;;
 }
 
 .elv_WlMainPageDiv {
@@ -503,6 +503,14 @@
     margin-right: 30px;
 }
 
+.elv_wishlist_card_weights_1,
+        .elv_wishlist_card_weights_2 {
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
 @media (max-width: 1750px) {
     .WlBtnGroupMainDiv {
         .elv_WlButton-group {
@@ -519,6 +527,7 @@
         .elv_wishlist_card_weights {
             display: flex;
             justify-content: space-between;
+            font-family: "PT Sans", sans-serif;
         }
 
         .elv_wishlist_card_weights_1,
