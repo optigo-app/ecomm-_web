@@ -1411,7 +1411,7 @@ const ProductList = () => {
   const pathname = location?.pathname;
 
   // Extract the part after '/p/' and before the trailing '/'
-  const extractedPart = pathname?.split('/p/')[1].split('/')[0];
+  const extractedPart = (pathname?.split('/p/')[1].split('/')[0]).replace('%20', ' ');
 
   return (
     <>
@@ -2426,7 +2426,7 @@ const ProductList = () => {
                             </div>
                           )} */}
                         </div>
-                        <p style={{ margin: '0px', fontWeight: 600 , color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
+                        <p style={{ margin: '0px',width:'100%', fontWeight: 600 , color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                       </div>
                       {filterData?.length > 0 && (
                         <div className="smr_filter_portion_outter">

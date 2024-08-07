@@ -44,7 +44,13 @@ export function formatAmount(amount) {
 
     return formattedAmount;
 }
+export function formatAmount2(amount) {
+    // Convert the amount to a number, round it down, and then format it
+    const amountNumber = Math.floor(parseFloat(amount));
+    const formattedAmount = amountNumber.toLocaleString('en-IN');
 
+    return formattedAmount;
+}
 export const checkMonth = (val) => {
     // month = "January" month = "February" month = "March" month = "April" month = "May" month = "June" month = "July" month = "August" month = "September" month = "October" month = "November" month = "December"
     let month = "";

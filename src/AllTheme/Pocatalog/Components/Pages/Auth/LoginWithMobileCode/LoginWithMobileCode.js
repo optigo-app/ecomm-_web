@@ -100,14 +100,14 @@ export default function LoginWithMobileCode() {
     };
 
     return (
-        <div className='smr_loginmobileCodeMain'>
+        <div className='proCat_loginmobileCodeMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
             <ToastContainer />
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

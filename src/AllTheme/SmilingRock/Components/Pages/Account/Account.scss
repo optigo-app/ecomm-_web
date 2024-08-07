@@ -216,6 +216,9 @@
         z-index: 1001; /* Adjust z-index as needed */
         padding: 10px 0;
     }
+    .d_none_acc{
+        display: none !important;
+    }
 }
 @media (min-width:1024px){
     .smlingAccountTabMobileView{
@@ -225,7 +228,25 @@
         // display: none;
         display: unset !important;
     }
+    .d_none_acc{
+        display: none !important;
+    }
+    
+    .SmilingAccountTitle{
+        padding-top: 0px !important;
+    }
 }
+@media (max-width:786px),(max-width:1080px){
+    .SmilingAccountTitle{
+        padding-top: 0px !important;
+    }
+    .yourAccount .MuiButtonBase-root{
+        padding: 0px !important;
+        min-height: auto !important;
+        align-items: flex-start;
+    }
+}
+
 @media(max-width: 768px){
     .YourAccountPageTabs div[aria-orientation="vertical"] > .MuiTab-textColorPrimary {
         padding: 2px 15px !important;
@@ -275,6 +296,8 @@
 .SmilingAccountTitle{
         padding-top: 20px !important;
 }
+
+
 }
 
 /* 1px solid #e1e1e1 */
