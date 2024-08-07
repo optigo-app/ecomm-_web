@@ -222,7 +222,7 @@ const PaymentPage = () => {
                                     </div>
                                     {/* {cartString ? (
                                         <> */}
-                                    {/* <div className="elv_payblock_rows_2" >
+                                    <div className="elv_payblock_rows_2" >
 
                                     </div>
                                     <div className="elv_payblock_rows_3" >
@@ -230,7 +230,7 @@ const PaymentPage = () => {
                                     </div>
                                     <div className="elv_payblock_rows_4" >
 
-                                    </div> */}
+                                    </div>
                                     <div className="elv_payblock_rows_5" onClick={handlePay}>
                                         <span className="elv_continue_title">
                                             continue

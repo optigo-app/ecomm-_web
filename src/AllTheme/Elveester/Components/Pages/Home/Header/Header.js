@@ -800,7 +800,7 @@ const Header = () => {
                           <input
                             className="elv_search_inp"
                             placeholder="Search..."
-                            type="search"
+                            type="text"
                             value={inputValue}
                             onChange={handleInputChange}
                             ref={inputRef}
@@ -859,7 +859,7 @@ const Header = () => {
                           <input
                             className="elv_search_inp"
                             placeholder="Search..."
-                            type="search"
+                            type="text"
                             value={inputValue}
                             onChange={handleInputChange}
                             ref={inputRef}
