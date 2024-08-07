@@ -34,7 +34,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
-import { formatAmount } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 const NewOrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -289,9 +289,9 @@ const NewOrderHistory = () => {
                             <div className="fs_head_acc start_noh_acc  mx_4_noh_acc">Item : <span style={{color:'brown', fontWeight:'bold'}}>{e?.TotalQuantity}</span></div>
                           </div>
                           <div>
-                            <span className="fs_head_acc start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey'}}>Estimated Tax :</span> <span dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span>{Math.floor(e?.totaltaxAmount)}</span></span>
-                            { !max400px && <span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey'}}>Total :</span> <span style={{fontWeight:'bold'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{Math.floor(e?.orderAmountwithvat)}</span></span>}
-                            { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey'}}>Total :</span> <span style={{fontWeight:'bold'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{Math.floor(e?.orderAmountwithvat)}</span></span>}
+                            <span className="fs_head_acc start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey', paddingRight:'2px'}}>Estimated Tax : </span> <span style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span>{formatAmount2(e?.totaltaxAmount)}</span></span>
+                            { !max400px && <span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>}
+                            { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>}
                           </div>
                         </Box>
                         <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", padding:'0px', padding:'0px 15px' }} className="fs_head_acc " >
@@ -457,7 +457,7 @@ const NewOrderHistory = () => {
                                             <div>{el?.designno}</div>
                                             <div>{el?.metaltypename} {el?.metalcolorname}</div>
                                             <div style={{fontWeight:'bold'}}><span style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> 
-                                            {formatAmount(el?.TotalUnitCostWithDiscount)}</div>
+                                            {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>
                                           </div>
                                       </Card>
                                     </Grid>
