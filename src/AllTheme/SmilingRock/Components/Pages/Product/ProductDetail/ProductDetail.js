@@ -167,9 +167,15 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) =>{ if(selectMtColor) {
+        return ele?.colorname == selectMtColor
+      }
+      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+    })[0];
+
+    console.log("selectMtColor",selectMtColor);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -370,7 +376,7 @@ const ProductDetail = () => {
         )[0]
     }
 
-    setSelectMtColor(mcArr?.metalcolorname);
+    setSelectMtColor(mcArr?.colorname);
     
   },[singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
@@ -1383,12 +1389,13 @@ function checkImageAvailability(imageUrl) {
                                 {selectMtColor}
                               </span>
                             </span>
-                            <span className="smr_prod_short_key">
+                            {(storeInit?.IsDiamondCustomization === 1 &&
+                                diaQcCombo?.length > 0 && diaList?.length) ?<span className="smr_prod_short_key">
                               Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
                                 {`${selectDiaQc}`}
                               </span>
-                            </span>
+                            </span>:null}
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
@@ -1892,7 +1899,7 @@ function checkImageAvailability(imageUrl) {
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`MISC Detail(${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
+                        >{`MISC Detail (${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
                         )}  ${csList?.filter((ele)=>ele?.D === "MISC")
@@ -1900,7 +1907,7 @@ function checkImageAvailability(imageUrl) {
                             (accumulator, data) => accumulator + data?.N,
                             0
                           )
-                          .toFixed(3)}ct)`}</li>
+                          .toFixed(3)}gm)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>

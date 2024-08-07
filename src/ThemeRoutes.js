@@ -27,7 +27,6 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 
 export default function ThemeRoutes() {
 
-
   const [themeNo, setThemeNo] = useState();
 
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
