@@ -99,14 +99,14 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div className='smr_continuemail'>
+        <div className='proCat_continuemail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',

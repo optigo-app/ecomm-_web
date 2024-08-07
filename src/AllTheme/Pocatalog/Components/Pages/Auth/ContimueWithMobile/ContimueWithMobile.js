@@ -93,14 +93,14 @@ export default function ContimueWithMobile() {
     };
 
     return (
-        <div className='smr_continuMobile'>
+        <div className='proCat_continuMobile'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
