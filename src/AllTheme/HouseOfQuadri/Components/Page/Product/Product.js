@@ -1309,7 +1309,7 @@ const ProductPage = () => {
                             value={selectMtType}
                             onChange={(e) => handleCustomChange(e, "mt")}
                             // onChange={(e) => setSelectMtType(e.target.value)}
-                            style={{ fontSize: "1.2rem" }}
+                            style={{ fontSize: "1rem" }}
                           >
                             {metalTypeCombo.map((ele) => (
                               <option key={ele?.Metalid} value={ele?.metaltype}>
@@ -1350,7 +1350,7 @@ const ProductPage = () => {
                               id="metal_c_hoq"
                               value={selectMtColor}
                               onChange={(e) => handleMetalWiseColorImg(e)}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {metalColorCombo?.map((ele) => (
                                 <option
@@ -1379,7 +1379,7 @@ const ProductPage = () => {
                             value={selectDiaQc}
                             // onChange={(e) => setSelectDiaQc(e.target.value)}
                             onChange={(e) => handleCustomChange(e, "dia")}
-                            style={{ fontSize: "1.2rem" }}
+                            style={{ fontSize: "1rem" }}
                           >
                             {diaQcCombo.map((ele) => (
                               <option
@@ -1403,7 +1403,7 @@ const ProductPage = () => {
                           value={selectCsQc}
                           // onChange={(e) => setSelectCsQc(e.target.value)}
                           onChange={(e) => handleCustomChange(e, "cs")}
-                          style={{ fontSize: "1.2rem" }}
+                          style={{ fontSize: "1rem" }}
                         >
                           {csQcCombo.map((ele) => (
                             <option
@@ -1443,7 +1443,7 @@ const ProductPage = () => {
                               //   setSizeData(e.target.value);
                               // }}
                               onChange={(e) => handleCustomChange(e, "sz")}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {SizeSorting(SizeCombo?.rd)?.map((ele) => (
                                 <option
@@ -1465,7 +1465,7 @@ const ProductPage = () => {
                   {storeInit?.IsCsCustomization === 1 &&
                   selectCsQc?.length > 0 &&
                   csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
-                    ? SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                    ? (SizeSorting(SizeCombo?.rd)?.length > 0 && (
                         <div
                           className="hoq_single_prod_customize"
                           style={{
@@ -1494,7 +1494,7 @@ const ProductPage = () => {
                               //   setSizeData(e.target.value);
                               // }}
                               onChange={(e) => handleCustomChange(e, "sz")}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {SizeSorting(SizeCombo?.rd)?.map((ele) => (
                                 <option
@@ -1510,7 +1510,7 @@ const ProductPage = () => {
                             </select>
                           )}
                         </div>
-                      )
+                      ))
                     : null}
                 </div>
               )}
@@ -1580,12 +1580,14 @@ const ProductPage = () => {
                         {selectMtColor}
                       </span>
                     </span>
-                    <span className="smr_prod_short_key">
+                   {storeInit?.IsDiamondCustomization === 1 &&
+                    diaQcCombo?.length > 0 &&
+                    diaList?.length ?  (<span className="smr_prod_short_key">
                       Diamond Quality Color :{" "}
                       <span className="smr_prod_short_val">
                         {`${selectDiaQc}`}
                       </span>
-                    </span>
+                    </span> ): null}
                     {storeInit?.IsMetalWeight && (
                       <span className="smr_prod_short_key">
                         Net Wt :{" "}
@@ -1651,7 +1653,7 @@ const ProductPage = () => {
                     {/* {diaList?.length > 0 && (
                       <p className="hoq_details_title"> Product Details</p>
                     )} */}
-                    {diaList?.length > 0 && (
+                    {/* {diaList?.length > 0 && (
                       <div className="hoq_material_details_portion_inner">
                         <ul
                           style={{
@@ -1665,7 +1667,7 @@ const ProductPage = () => {
                           >{`Diamond Detail(${diaList?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
-                          )}/${diaList
+                          )}   ${diaList
                             ?.reduce(
                               (accumulator, data) => accumulator + data?.N,
                               0
@@ -1676,7 +1678,7 @@ const ProductPage = () => {
                           <li className="hoq_proDeatilList">Shape</li>
                           <li className="hoq_proDeatilList">Clarity</li>
                           <li className="hoq_proDeatilList">Color</li>
-                          <li className="hoq_proDeatilList">Pcs/Wt</li>
+                          <li className="hoq_proDeatilList">Pcs &nbsp; Wt</li>
                         </ul>
                         {diaList?.map((data) => (
                           <ul className="hoq_mt_detail_title_ul">
@@ -1684,7 +1686,7 @@ const ProductPage = () => {
                             <li className="hoq_proDeatilList1">{data?.H}</li>
                             <li className="hoq_proDeatilList1">{data?.J}</li>
                             <li className="hoq_proDeatilList1">
-                              {data.M}/{data?.N?.toFixed(3)}
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -1723,7 +1725,108 @@ const ProductPage = () => {
                           </ul>
                         ))}
                       </div>
-                    )}
+                    )} */}
+                     {diaList?.length > 0 && (
+                    <div className="hoq_material_details_portion_inner">
+                      <ul style={{ margin: "0px 0px 3px 0px" }}>
+                        <li
+                          style={{ fontWeight: 600 }}
+                        >{`Diamond Detail (${diaList?.reduce(
+                          (accumulator, data) => accumulator + data.M,
+                          0
+                        )}   ${diaList
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data?.N,
+                            0
+                          )
+                          .toFixed(3)}ct)`}</li>
+                      </ul>
+                      <ul className="hoq_mt_detail_title_ul">
+                        <li className="hoq_proDeatilList">Shape</li>
+                        <li className="hoq_proDeatilList">Clarity</li>
+                        <li className="hoq_proDeatilList">Color</li>
+                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      </ul>
+                      {diaList?.map((data) => (
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList1">{data?.F}</li>
+                          <li className="hoq_proDeatilList1">{data?.H}</li>
+                          <li className="hoq_proDeatilList1">{data?.J}</li>
+                          <li className="hoq_proDeatilList1">
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          </li>
+                        </ul>
+                      ))}
+                    </div>
+                  )}
+                    {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
+                  {csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0 && (
+                    <div className="hoq_material_details_portion_inner">
+                      <ul style={{ margin: "10px 0px 3px 0px" }}>
+                        <li
+                          style={{ fontWeight: 600 }}
+                        >{`ColorStone Detail (${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
+                          (accumulator, data) => accumulator + data.M,
+                          0
+                        )} ${csList?.filter((ele)=>ele?.D !== "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data?.N,
+                            0
+                          )
+                          .toFixed(3)}ct)`}</li>
+                      </ul>
+                      <ul className="hoq_mt_detail_title_ul">
+                        <li className="hoq_proDeatilList">Shape</li>
+                        <li className="hoq_proDeatilList">Clarity</li>
+                        <li className="hoq_proDeatilList">Color</li>
+                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      </ul>
+                      {csList?.filter((ele)=>ele?.D !== "MISC")?.map((data) => (
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList1">{data?.F}</li>
+                          <li className="hoq_proDeatilList1">{data?.H}</li>
+                          <li className="hoq_proDeatilList1">{data?.J}</li>
+                          <li className="hoq_proDeatilList1">
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          </li>
+                        </ul>
+                      ))}
+                    </div>
+                  )}
+
+                  {csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 && (
+                    <div className="hoq_material_details_portion_inner">
+                      <ul style={{ margin: "10px 0px 3px 0px" }}>
+                        <li
+                          style={{ fontWeight: 600 }}
+                        >{`MISC Detail(${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
+                          (accumulator, data) => accumulator + data.M,
+                          0
+                        )}  ${csList?.filter((ele)=>ele?.D === "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data?.N,
+                            0
+                          )
+                          .toFixed(3)}gm)`}</li>
+                      </ul>
+                      <ul className="hoq_mt_detail_title_ul">
+                        <li className="hoq_proDeatilList">Shape</li>
+                        <li className="hoq_proDeatilList">Clarity</li>
+                        <li className="hoq_proDeatilList">Color</li>
+                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      </ul>
+                      {csList?.filter((ele)=>ele?.D === "MISC")?.map((data) => (
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList1">{data?.F}</li>
+                          <li className="hoq_proDeatilList1">{data?.H}</li>
+                          <li className="hoq_proDeatilList1">{data?.J}</li>
+                          <li className="hoq_proDeatilList1">
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          </li>
+                        </ul>
+                      ))}
+                    </div>
+                  )}
                   </div>
                 </div>
               </AccordionDetails>

@@ -511,15 +511,12 @@ const MobileCartDetails = ({
                       <select
                         name={selectedItem?.id}
                         id="size"
-                        defaultValue={
-                          selectedItem?.Mastermanagement_CategorySize
-                        }
-                        value={selectedItem?.size}
+                        value={selectedItem?.Size}
                         onChange={handleSizeChange}
                       >
                         {mrpbasedPriceFlag == 1 ? (
-                          <option value={selectedItem?.size}>
-                            {selectedItem?.size}
+                          <option value={selectedItem?.Size}>
+                            {selectedItem?.Size}
                           </option>
                         ) : (
                           <>

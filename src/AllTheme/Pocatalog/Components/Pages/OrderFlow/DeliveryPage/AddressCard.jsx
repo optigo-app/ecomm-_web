@@ -1,43 +1,3 @@
-// import React from 'react';
-// import './Delivery.scss'
-// import { Card, CardActions, CardContent, Button, Typography, FormControlLabel, Checkbox } from '@mui/material';
-
-// export default function AddressCard({ address, index, handleOpen, handleDeleteClick, handleDefaultSelection }) {
-//     return (
-//         <Card className='addressCard'>
-//             <CardContent>
-//                 <Typography variant='h6'>
-//                     {address.shippingfirstname} {address.shippinglastname}
-//                 </Typography>
-//                 <Typography>{address.street}</Typography>
-//                 <Typography>{address.city}, {address.state} {address.zip}</Typography>
-//                 <Typography>{address.country}</Typography>
-//                 <Typography>{address.shippingmobile}</Typography>
-//                 <FormControlLabel
-//                     control={
-//                         <Checkbox
-//                             checked={address.isdefault === 1}
-//                             onChange={() => handleDefaultSelection(index)}
-//                             color='primary'
-//                         />
-//                     }
-//                     label='Set as Default'
-//                 />
-//             </CardContent>
-//             <CardActions>
-//                 <Button color='primary' onClick={() => handleOpen(index)}>Edit</Button>
-//                 <Button color='secondary' onClick={() => handleDeleteClick(address.id)}>Delete</Button>
-//             </CardActions>
-//         </Card>
-//     );
-// }
-
-
-
-// AddressCard.js
-
-// AddressCard.js
-
 import React, { useState } from 'react';
 import { Grid, Card, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { MdModeEditOutline } from "react-icons/md";
@@ -70,36 +30,38 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
     };
 
     return (
-        <Grid item xs={12} sm={6} md={4} lg={3} style={{marginBottom:'20px'}}>
+        <Grid item xs={12} sm={6} md={4} lg={3} style={{ marginBottom: '20px' }}>
             <Card
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={isdefault == 1 ? 'smr_ActiveAddrCard' : 'smr_AddrCard'}
+                className={isdefault == 1 ? 'proCat_ActiveAddrCard' : 'proCat_AddrCard'}
                 style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <CardContent onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' }}>
-                    <Typography className='smr_addrTypoTitle' variant="h5" component="h2">
+                    <Typography className='proCat_addrTypoTitle' variant="h5" component="h2">
                         {shippingfirstname} {shippinglastname}
                     </Typography>
-                    <Typography className='smr_addrTypo'>{street}</Typography>
-                    <Typography className='smr_addrTypo'>{city}-{zip}</Typography>
-                    <Typography className='smr_addrTypo'>{state}</Typography>
-                    <Typography className='smr_addrTypo'>{country}</Typography>
-                    <Typography className='smr_addrTypo'>
+                    <Typography className='proCat_addrTypo'>{street}</Typography>
+                    <Typography className='proCat_addrTypo'>{city}-{zip}</Typography>
+                    <Typography className='proCat_addrTypo'>{state}</Typography>
+                    <Typography className='proCat_addrTypo'>{country}</Typography>
+                    <Typography className='proCat_addrTypo'>
                         Mobile No: {shippingmobile}
                     </Typography>
-                    <button type='button' className={isdefault == 1 ? 'smr_defualt_addrSelected' : 'smr_defualt_addrSelectedHide'}>Selected</button>
+                    <button type='button' className={isdefault == 1 ? 'proCat_defualt_addrSelected' : 'proCat_defualt_addrSelectedHide'}>Selected</button>
                 </CardContent>
 
                 {/* {showButtons && ( */}
-                    <div className='smr_editDeleteBtngroup' >
-                        <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
-                            <MdModeEditOutline className='smr_editIcon' />
-                        </Button>
+                <div className='proCat_editDeleteBtngroup' >
+                    <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
+                        <MdModeEditOutline className='proCat_editIcon' />
+                    </Button>
+                    {isdefault != 1 &&
                         <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
-                            <MdDelete className='smr_DeleteIcon' />
+                            <MdDelete className='proCat_DeleteIcon' />
                         </Button>
-                    </div>
+                    }
+                </div>
                 {/* )} */}
             </Card>
         </Grid>

@@ -1,29 +1,29 @@
 @import '../../../scss/variable.scss';
 
 .proCat_DeliverMainDiv {
-    background-color: $backgroundColor;
+  background-color: #c0bbb1;
 }
 
-.smr_secondMaindivAdd {
+.proCat_secondMaindivAdd {
   margin-inline: 6%;
   background-color: #fff;
 }
 
-.smr_addMainDiv {
+.proCat_addMainDiv {
   margin-inline: 10%;
   padding-top: 8%;
 }
 
-.smr_getAddrMainDiv {
+.proCat_getAddrMainDiv {
   margin-bottom: 40px;
 }
 
-.smr_TitleDetailMainDiv{
+.proCat_TitleDetailMainDiv{
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .smr_ContinueOrderbtn {
+  .proCat_ContinueOrderbtn {
     height: 40px;
     width: 150px;
     font-family: $homePageFontFamily !important;
@@ -31,7 +31,7 @@
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -42,42 +42,48 @@
   }
 }
 
-.smr_addressTextFields {
+.proCat_addressTextFields {
   margin-bottom: 18px !important;
   font-family: $homePageFontFamily !important;
   color: $titleColor !important;
+
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 0px !important;
+  }
 }
 
-.smr_deliveryTitle {
+.proCat_deliveryTitle {
   color: $titleColor;
   font-family: $homePageFontFamily;
 }
 
-.smr_deliverydesc {
+.proCat_deliverydesc {
   color: $titleColor;
   font-family: $homePageFontFamily;
 }
 
-.smr_AddrCard {
+.proCat_AddrCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   padding: 20px 20px 0px 20px !important;
+  border-radius: 0px !important;
 }
 
-.smr_ActiveAddrCard {
+.proCat_ActiveAddrCard {
   padding: 20px 20px 0px 20px !important;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   background: #f5f4f4 !important;
+  border-radius: 0px !important;
   position: relative;
 }
 
 
-.smr_defualt_addrSelected {
+.proCat_defualt_addrSelected {
   padding: 3px 10px;
   font-family: $homePageFontFamily !important;
   font-size: $fontSize3;
   color: #fff;
   background: blue;
-  border-radius: 6px;
+  border-radius: 0px !important;
   border: none;
   cursor: pointer;
   position: absolute;
@@ -86,24 +92,24 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.smr_defualt_addrSelectedHide{
+.proCat_defualt_addrSelectedHide{
   display: none !important;
 }
 
-.smr_addrTypoTitle {
+.proCat_addrTypoTitle {
   color: $titleColor;
   font-family: $homePageFontFamily !important;
   text-transform: capitalize;
 }
 
-.smr_addrTypo {
+.proCat_addrTypo {
   color: $titleColor;
   font-family: $homePageFontFamily !important;
   text-transform: capitalize;
 }
 
-.smr_AddressBtnGroup {
-  .smr_AddNewAddrbtn {
+.proCat_AddressBtnGroup {
+  .proCat_AddNewAddrbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -112,7 +118,7 @@
     color: $btn1FontColor;
     background-color: $btn1bgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -123,13 +129,13 @@
   }
 }
 
-.smr_dialogTitle{
+.proCat_dialogTitle{
   color: $titleColor;
   font-weight: 500 !important;
   text-align: center;
 }
 
-.smr_AddNewAddrModalbtn{
+.proCat_AddNewAddrModalbtn{
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -138,7 +144,7 @@
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
     border: 1px solid $btn1FontColor;
-    border-radius: 6px;
+    border-radius: 0px !important;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
@@ -147,7 +153,7 @@
       background-color: $btn1ActivebgColor;
     }
 }
-.smr_Cancelbtn{
+.proCat_Cancelbtn{
   margin-right: 20px;
   height: 40px;
   width: 150px;
@@ -156,7 +162,7 @@
   color: $btn1FontColor;
   background-color: $btn1bgColor;
   border: 1px solid $btn1FontColor;
-  border-radius: 6px;
+  border-radius: 0px !important;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
@@ -166,16 +172,16 @@
   }
 }
 
-.smr_editDeleteBtngroup{
+.proCat_editDeleteBtngroup{
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  .smr_editIcon{
+  .proCat_editIcon{
     font-size: 20px;
     color: $titleColor;
   }
-  .smr_DeleteIcon{
+  .proCat_DeleteIcon{
     font-size: 20px;
     color: $titleColor
   }

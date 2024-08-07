@@ -782,7 +782,7 @@ const DesignWiseSalesReport = () => {
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
                 <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
-                    {filteredDataPaginated?.map((products, i) => (
+                    { filteredDataPaginated?.length > 0 ? filteredDataPaginated?.map((products, i) => (
                         <div
                             style={{
                                 minWidth: "100%",
@@ -848,7 +848,7 @@ const DesignWiseSalesReport = () => {
                             </Box>
 
                         </div>
-                    ))}
+                    )) : <div   style={{color:'grey', display:'flex', justifyContent:'center',alignItems:'center', fontWeight:'bold'}}>Data Not Present</div>}
                 </Box>
 
             }

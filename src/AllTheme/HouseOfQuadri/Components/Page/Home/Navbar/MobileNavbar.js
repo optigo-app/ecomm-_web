@@ -237,7 +237,7 @@ export default function TemporaryDrawer({
                                 value: menuItem?.param0dataname,
                               })
                             }
-                            style={{ cursor: "pointer", fontSize: "16px" }}
+                            style={{ cursor: "pointer", fontSize: "16px"  ,fontWeight  :"700"}}
                           >
                             View All
                           </span>
