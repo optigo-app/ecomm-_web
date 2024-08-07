@@ -355,11 +355,13 @@ const Sales = () => {
                 setFilterData(rows);
             } else {
                 // alert('nodata')
+                setIsLoading(false);
                 setData([]);
                 setFilterData([]);
             }
         } catch (error) {
             console.log('Error:', error);
+            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
@@ -470,76 +472,79 @@ const Sales = () => {
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
             </Box>
-            {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer className='salesPartTable'>
-                        <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
+                {isLoading ?
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <>
+                    {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
+                        <TableContainer className='salesPartTable'>
+                            <Table
+                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                                aria-labelledby="tableTitle"
+                                size={dense ? 'small' : 'medium'}
 
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={handleRequestSort}
-                                rowCount={filterData.length}
-                            />
-                            <TableBody>
-                                {visibleRows.map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                            >
+                                <EnhancedTableHead
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={filterData.length}
+                                />
+                                <TableBody>
+                                    {filterData?.length > 0 ? visibleRows.map((row, index) => {
+                                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, index)}
-                                   
-                                            tabIndex={-1}
-                                            key={index}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-
-                                            <TableCell
-                                                component="td"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                align="center"
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, index)}
+                                    
+                                                tabIndex={-1}
+                                                key={index}
+                                                sx={{ cursor: 'pointer' }}
                                             >
-                                                {page * rowsPerPage + index + 1}
-                                            </TableCell>
-                                            <TableCell align="center">{row.Date}</TableCell>
-                                            <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                            <PrintIcon   />
-                                                        </div></TableCell>
+
+                                                <TableCell
+                                                    component="td"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    padding="none"
+                                                    align="center"
+                                                >
+                                                    {page * rowsPerPage + index + 1}
+                                                </TableCell>
+                                                <TableCell align="center">{row.Date}</TableCell>
+                                                <TableCell align="center">{row.StockDocumentNo}</TableCell>
+                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                                <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                                <PrintIcon   />
+                                                            </div></TableCell>
+                                            </TableRow>
+                                        );
+                                    }) : <TableCell colSpan={5} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                                    {emptyRows > 0 && (
+                                        <TableRow
+                                            style={{
+                                                height: (dense ? 33 : 53) * emptyRows,
+                                            }}
+                                        >
+                                            <TableCell colSpan={6} />
                                         </TableRow>
-                                    );
-                                })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (dense ? 33 : 53) * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={filterData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>}
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={filterData.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper> }
+                </>
+                }
 
         </Box>
     )
