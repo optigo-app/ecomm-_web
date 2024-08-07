@@ -1,33 +1,33 @@
 @import '../../../scss/variable.scss';
 
 .proCat_paymentMainDiv {
-    background-color: $backgroundColor;
+    background-color: #c0bbb1;
 }
 
-.smr_paymentSecondMainDiv {
+.proCat_paymentSecondMainDiv {
     margin-inline: 6%;
     background-color: #fff;
 }
 
 @media (max-width: 1200px) {
-    .smr_paymentSecondMainDiv {
+    .proCat_paymentSecondMainDiv {
         margin-inline: 1% !important;
     }
 }
 
 
-.smr_PaymentContainer {
+.proCat_PaymentContainer {
     margin-inline: 4%;
     padding-top: 4%;
 }
 
-.smr_paymentBackbtnDiv {
+.proCat_paymentBackbtnDiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
 
-    .smr_paymentBackbtn {
+    .proCat_paymentBackbtn {
         width: 32px;
         height: 32px;
         color: $titleColor;
@@ -35,46 +35,75 @@
     }
 }
 
-.smr_paymentDetailMainDiv {
+.proCat_paymentDetailMainDiv {
     display: flex;
     justify-content: space-around;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     color: $titleColor;
 }
 
-.smr_paymenttotalpricesummary {
+.proCat_paymenttotalpricesummary {
     display: flex;
     justify-content: space-between;
 }
 
-.smr_paymenttotalpricesummary p {
+.proCat_paymenttotalpricesummary p {
     padding: 0;
-    margin: 8px;
+    margin-bottom: 5px;
+    font-size: $fontSize2;
 }
 
-.smr_paymentUserName {
+.proCat_paymenttotalpricesummary p span {
+    font-weight: bold !important;
+}
+
+.proCat_paymentUserName {
     font-weight: 600;
 }
 
-.smr_paymentDetailLeftSideContent {
+.proCat_paymentDetailLeftSideContent {
     h2 {
         font-size: $fontSize6;
     }
 }
 
-.smr_paymentButtonDiv {
+.proCat_order-summary {
+    font-family: $primaryFontFamily;
+    color: $titleColor;
+}
+
+.proCat_summary-item {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+
+.proCat_summary-item .proCat_label {
+    min-width: 180px;
+    text-align: left;
+    font-size: $fontSize2;
+}
+
+.proCat_summary-item .proCat_value {
+    text-align: left;
+    white-space: nowrap;
+    font-size: $fontSize2;
+    font-weight: bold !important;
+}
+
+.proCat_paymentButtonDiv {
     text-align: center;
 
-    .smr_payOnAccountBtn {
+    .proCat_payOnAccountBtn {
         margin-right: 20px;
         height: 40px;
         width: 180px;
-        font-family: $homePageFontFamily !important;
+        font-family: $primaryFontFamily !important;
         font-size: $fontSize3;
         color: $btn1hoverFontColor;
         background-color: $btn1ActivebgColor;
         border: 1px solid $btn1FontColor;
-        border-radius: 6px;
+        border-radius: 0px !important;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
 
@@ -85,28 +114,70 @@
     }
 }
 
-.smr_backtoTopBtn {
+.proCat_backtoTopBtn {
     font-family: $homePageFontFamily;
 }
 
-.smr_addorderRemarkbtn {
+.proCat_addorderRemarkbtn {
     color: $titleColor !important;
     font-size: $fontSize2 !important;
     text-transform: capitalize !important;
 }
 
-.smr_addorderRemark {
+.proCat_addorderRemark {
     color: $titleColor !important;
 }
 
 @media (max-width: 600px) {
-    .smr_paymentDetailMainDiv {
+    .proCat_paymentDetailMainDiv {
         display: block;
     }
 
-    .smr_paymentButtonDiv {
-        .smr_payOnAccountBtn {
+    .proCat_paymentDetailLeftSideContent {
+        h2 {
+            font-size: $fontSize5 !important;
+        }
+    }
+
+    .proCat_paymenttotalpricesummary p {
+        margin: 3px !important;
+    }
+
+    .proCat_billingAddress {
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+        }
+    }
+
+    .proCat_paymentButtonDiv {
+        .proCat_payOnAccountBtn {
             width: 100%;
+        }
+    }
+
+    .proCat_shippingAddress {
+        margin-top: 10px;
+        margin-bottom: 40px !important;
+        border-top: 1px solid #cccdce;
+
+        h3 {
+            font-size: $fontSize4 !important;
+        }
+
+        p {
+            font-size: $fontSize1 !important;
+            margin-bottom: 5px !important;
+        }
+    }
+
+    .proCat_paymentBackbtnDiv {
+        .proCat_paymentBackbtn {
+            width: 22px !important;
+            height: 22px !important;
         }
     }
 }
@@ -130,4 +201,13 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+.proCat_billingAddress p {
+    margin-bottom: 5px;
+    font-size: $fontSize2;
+}
+
+.proCat_shippingAddress p {
+    margin-bottom: 0px;
 }
