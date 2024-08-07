@@ -293,14 +293,14 @@ export default function LoginWithEmail() {
         // }
     }
     return (
-        <div className='smr_loginEmail'>
+        <div className='proCat_loginEmail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smr_loginEmailD'>
                     <p style={{
                         textAlign: 'center',

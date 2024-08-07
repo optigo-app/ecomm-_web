@@ -34,7 +34,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
-import { formatAmount } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 const NewOrderHistory = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -289,8 +289,9 @@ const NewOrderHistory = () => {
                             <div className="fs_head_acc start_noh_acc  mx_4_noh_acc">Item : <span style={{color:'brown', fontWeight:'bold'}}>{e?.TotalQuantity}</span></div>
                           </div>
                           <div>
-                            <span className="fs_head_acc start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey'}}>Estimated Tax :</span> <span style={{fontWeight:'bold'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{e?.totaltaxAmount}</span></span>
-                            <span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{color:'black'}}><span style={{color:'grey'}}>Total :</span> <span style={{fontWeight:'bold'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{e?.orderAmountwithvat}</span></span>
+                            {<span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{color:'black'}}><span className="fs_head_acc " style={{color:'black', fontWeight:'bold',paddingRight:'2px'}}>Total Amount : </span> <span className="fs_head_acc " style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span className="fs_head_acc " style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>}
+                            <div className="fs_head_acc start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'grey'}}>(<span className="fs_head_acc " style={{color:'grey', paddingRight:'2px'}}>+ Estimated Tax : </span> <span className="fs_head_acc " style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span className="fs_head_acc ">{formatAmount2(e?.totaltaxAmount)}</span>)</div>
+                            {/* { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>} */}
                           </div>
                         </Box>
                         <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", padding:'0px', padding:'0px 15px' }} className="fs_head_acc " >
@@ -343,7 +344,6 @@ const NewOrderHistory = () => {
                                   { showPrint ? <div className="center_noh" style={{ fontSize:'7px', lineHeight:'7px'}}>{clickedPrintId === e?.id && 'Coming Soon...'}</div> : <div></div>}  
 
                                 </div>
-                              
                               </>
                               )
                                : (
@@ -454,9 +454,9 @@ const NewOrderHistory = () => {
                                           <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} />
                                           <div>
                                             <div>{el?.designno}</div>
-                                            <div>{el?.metaltypename} {el?.metalcolorname}</div>
+                                            <div>{el?.metaltypename?.toUpperCase()?.split(" ")[1]} {el?.metalcolorname?.toUpperCase()} {el?.metaltypename?.toUpperCase()?.split(" ")[0]}</div>
                                             <div style={{fontWeight:'bold'}}><span style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode }}></span> 
-                                            {formatAmount(el?.TotalUnitCostWithDiscount)}</div>
+                                            {formatAmount2(el?.TotalUnitCostWithDiscount)}</div>
                                           </div>
                                       </Card>
                                     </Grid>

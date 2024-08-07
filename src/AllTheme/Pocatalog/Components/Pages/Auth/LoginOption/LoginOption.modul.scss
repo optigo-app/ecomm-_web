@@ -1,4 +1,10 @@
-.smr_Loginoption {
+@import "../../../scss/variable";
+
+
+.proCat_Loginoption {
+
+    background-color: $backgroundColor;
+
     .loginDailog {
         margin-inline: 6%;
         background-color: white;

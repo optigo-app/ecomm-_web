@@ -102,7 +102,6 @@ const HouseOfQuadri_App = () => {
   //   let localD = JSON.parse(localStorage.getItem("storeInit"));
   //   setLocalData(localD);
   // }, []);
-  
 
   return (
     <>
@@ -160,7 +159,7 @@ const HouseOfQuadri_App = () => {
         <Route path="/our-story" element={<OurStory />} />
         <Route path="/lab-grown-diamond" element={<LabGrownDiamond />} />
         {/* <Route path="/diamond-education" element={<DiamondEducation />} /> */}
-        <Route path="/customization" element={<Customization/>}/>
+        <Route path="/customization" element={<Customization />} />
         <Route
           path="/quality-certification"
           element={<QualityCertification />}

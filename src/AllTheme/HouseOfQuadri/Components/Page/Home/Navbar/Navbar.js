@@ -710,7 +710,8 @@ const NavbarCenter = ({
         <div
           className="logo"
           style={{
-            marginTop: !islogin && "30px",
+            marginTop: islogin ? "10px" :  "30px",
+            marginBottom: islogin ? "" :  "-15px",
           }}
         >
           <Link to={"/"}>

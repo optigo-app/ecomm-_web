@@ -98,7 +98,7 @@ const ReadyToShip = () => {
         </button>
       </div>
       <div className="tab_card">
-        {bestSellerData?.slice(4, 8)?.map((data, i) => {
+        {bestSellerData?.slice(0,4)?.map((data, i) => {
           return (
             <CARD
               imgurl={ImageUrl(data?.designno, data?.ImageExtension)}

@@ -2159,7 +2159,7 @@ const C_Card = ({
           <span className="hoq_intrending">Trending</span>
         )}
         {productData?.IsNewArrival == 1 && (
-          <span className="hoq_newarrival">New Arrival</span>
+          <span className="hoq_newarrival">New</span>
         )}
       </div>
       <div className="hoq_plus">
