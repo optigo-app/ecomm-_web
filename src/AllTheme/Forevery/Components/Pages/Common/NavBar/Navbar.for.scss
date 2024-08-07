@@ -1,0 +1,71 @@
+@import "../../../scss/variable.scss";
+
+@mixin CenterItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.for_Navbar {
+  width: 100%;
+  position: fixed;
+  top: 25px;
+  z-index: 1;
+  padding: 20px 0;
+  font-family: $primaryFontFamily;
+  background-color: white;
+  .for_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    gap: 10px;
+    .center {
+      @include CenterItem();
+      flex: 0.4;
+      .logo_mask {
+        width: 180px;
+        height: 60px;
+        img {
+          max-width: 100%;
+          height: 100%;
+          object-fit: scale-down;
+        }
+      }
+    }
+    .left {
+      @include CenterItem();
+      background-color: teal;
+    }
+    .right {
+      @include CenterItem();
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      .for_item_menu {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        gap: 5px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .search_main {
+        position: relative;
+        .for_search_bar {
+          position: absolute;
+          right: 2rem;
+          width: 380px;
+          height: 48px;
+          border-radius: 5px;
+          outline: none;
+          border: 1px solid #cccccc;
+          text-align: center;
+          transition: 0.3s ease-in-out;
+        }
+      }
+    }
+  }
+}

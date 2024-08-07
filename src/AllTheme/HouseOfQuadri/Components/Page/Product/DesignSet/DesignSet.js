@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "./style.scss";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const DesignSet = ({
   storeInit,
@@ -138,9 +139,9 @@ const DesignSet = ({
                                 }
                                 &nbsp;
                                 {
-                                  // formatter.format(
+                                  formatter(
                                   ele?.UnitCostWithMarkUp
-                                  // )
+                                  )
                                 }
                               </p>
                             </div>

@@ -370,6 +370,23 @@ const Navbar = () => {
               Contact
             </a>
           </span>
+          <span className="contact_icon">
+           <ul>
+           <Link to="/anemone">Anemone</Link>
+            <Link to="/m-d">M_D</Link>
+            <Link to="/m-cs">M_CS</Link>
+            <Link to="/m-f">M_F</Link>
+            <Link to="/m">M</Link>
+            <Link to="/mrp">MRP</Link>
+            <Link to="/image">Image</Link>
+            <Link to="/m-f-d-cs">M_F_D_CS</Link>
+            <Link to="/width">Width</Link>
+            <Link to="/high">High</Link>
+            <Link to="/generous">Generous</Link>
+            <Link to="/amber">Amber</Link>
+           </ul>
+          </span>
+          <span className="contact_icon"></span>
         </div>
         <nav className="navbar">
           <NavbarleftSlide
@@ -615,10 +632,8 @@ const NavbarRightSide = ({
             </button>
           </Tooltip>
         ) : (
-          <Link to={"/LoginOption"} >
-            <small style={{ fontSize: "1rem" ,fontWeight  : "500"}}>
-              Login
-            </small>
+          <Link to={"/LoginOption"}>
+            <small style={{ fontSize: "1rem", fontWeight: "500" }}>Login</small>
           </Link>
         )}
       </div>
@@ -651,7 +666,7 @@ const NavbarRightSide2 = ({
           </>
         )}
 
-        {islogin ?(
+        {islogin ? (
           <>
             {/* <Link to={"/wishlist"}>
               <Tooltip title="Wishlist">
@@ -684,9 +699,16 @@ const NavbarRightSide2 = ({
               />
             </Tooltip>
           </>
-        )  : <Link to={"/LoginOption"} style={{
-          fontWeight  : "500"
-        }}>Login</Link>}
+        ) : (
+          <Link
+            to={"/LoginOption"}
+            style={{
+              fontWeight: "500",
+            }}
+          >
+            Login
+          </Link>
+        )}
 
         {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
       </div>
@@ -710,8 +732,8 @@ const NavbarCenter = ({
         <div
           className="logo"
           style={{
-            marginTop: islogin ? "10px" :  "30px",
-            marginBottom: islogin ? "" :  "-15px",
+            marginTop: islogin ? "10px" : "30px",
+            marginBottom: islogin ? "" : "-15px",
           }}
         >
           <Link to={"/"}>
@@ -741,13 +763,18 @@ const NavbarCenter = ({
                     <React.Fragment key={i}>
                       <li>
                         <span
-                          onClick={() =>{
+                          onClick={() => {
                             handleMenu({
                               menuname: menuname,
                               key: menuItem?.param0name,
                               value: menuItem?.param0dataname,
-                            })  ;  window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
-                          }
+                            });
+                            window.scrollTo({
+                              behavior: "smooth",
+                              top: 0,
+                              left: 0,
+                            });
+                          }}
                         >
                           {menuname}
                         </span>
@@ -764,7 +791,7 @@ const NavbarCenter = ({
                                     ({ param1dataname, param1name }, j) => (
                                       <li>
                                         <span
-                                          onClick={() =>{
+                                          onClick={() => {
                                             handleMenu(
                                               {
                                                 menuname: menuname,
@@ -775,8 +802,13 @@ const NavbarCenter = ({
                                                 key: param1name,
                                                 value: param1dataname,
                                               }
-                                            ); window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
-                                          }
+                                            );
+                                            window.scrollTo({
+                                              behavior: "smooth",
+                                              top: 0,
+                                              left: 0,
+                                            });
+                                          }}
                                         >
                                           {param1dataname}
                                         </span>
@@ -823,14 +855,14 @@ const NavbarCenter = ({
               </ul>
             </>
           )}
-           {isMobileMenu && (
-                <TemporaryDrawer
-                  menuItems={menuItems}
-                  handleMenu={handleMenu}
-                  setisMobileMenu={setisMobileMenu}
-                  isMobileMenu={isMobileMenu}
-                />
-              )}
+          {isMobileMenu && (
+            <TemporaryDrawer
+              menuItems={menuItems}
+              handleMenu={handleMenu}
+              setisMobileMenu={setisMobileMenu}
+              isMobileMenu={isMobileMenu}
+            />
+          )}
         </div>
       </div>
     </>
