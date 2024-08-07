@@ -61,7 +61,7 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div className='el_continuemobile' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
+        <div className='el_ContinueEmailMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
             <ToastContainer style={{zIndex: '11111111111'}}/>
 
             {isLoading && (

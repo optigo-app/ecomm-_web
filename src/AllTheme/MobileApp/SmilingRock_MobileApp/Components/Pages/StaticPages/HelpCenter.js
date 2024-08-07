@@ -28,7 +28,8 @@ const HelpCenter = () => {
                 <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />Help Center
             </p>
             <div style={{ marginInline: '2%', marginTop: '10px', paddingBottom: '80px', minHeight: '400px', paddingTop: '60px' }}>
-                <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                {/* <div dangerouslySetInnerHTML={{ __html: htmlContent }} /> */}
+                <p style={{fontWeight: 500 , fontSize: '18px', marginTop: '250px', textAlign: 'center'}}>Coming soon...</p>
             </div>
         </div>
     )

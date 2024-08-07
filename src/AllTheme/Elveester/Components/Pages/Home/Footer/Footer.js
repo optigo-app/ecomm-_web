@@ -78,7 +78,7 @@ const Footer = () => {
                         <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
                             Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
                         <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
-                            <input type='text' placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
+                            <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
                             <button className='elevBox1Btn' onClick={handleSubmitNewlater}>SIGN UP</button>
                         </div>
                         <div className='footerIconMain'>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.modul.scss";
 import TopSlider from "./Slider/Slider";
 import TabSection from "./TabSection/TabSection";
@@ -14,6 +14,8 @@ import FaqSection from "./FaQSection/FaqSection";
 import InfoSection from "./InfoSection/InfoSection";
 
 const HomePage = () => {
+  const data = JSON.parse(localStorage.getItem("storeInit"));
+
   useEffect(() => {
     window.scrollTo({
       behavior: "smooth",
@@ -24,12 +26,12 @@ const HomePage = () => {
   return (
     <div className="hoq_main_homepage">
       <TopSlider />
-      <TabSection />
-      <Collection />
+      {data?.IsHomeNewArrival === 1 && <TabSection />}
+      {data?.IsHomeDesignSet === 1 && <Collection />}
       <FeaturedBrand />
       <ReviewTab />
-      <CategoryTab />
-      <ReadyToShip />
+      {data?.IsHomeAlbum === 1 && <CategoryTab />}
+      {data?.IsHomeBestSeller === 1 && <ReadyToShip />}
       <ImageBannerTab />
       <ScrollTriggerTab />
       <SocialTab />

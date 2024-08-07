@@ -53,12 +53,9 @@ const NewArrival = () => {
         if (response?.Data?.rd) {
           const itemsWithImageCheck = await Promise.all(
             response.Data.rd.map(async (item) => {
-              const imageUrl = `${imageUrl}${item.designno}_1.${item.ImageExtension}`;
-              const imageAvailable = await checkImageAvailability(imageUrl);
-              return {
-                ...item,
-                imageAvailable
-              };
+              const imgURL = `${storeinit?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
+              const imageAvailable = await checkImageAvailability(imgURL);
+              return { ...item, imageAvailable };
             })
           );
           setNewArrivalData(itemsWithImageCheck);
@@ -113,44 +110,48 @@ const NewArrival = () => {
     slidesPerView: 3,
   };
 
+
+
   return (
-    <div className="smrMA_NewArrivalMain">
-      {newArrivalData?.length &&
-        <Swiper {...swiperParams}
-          className="smaMA_newArrivalBoxcMain"
-        >
-          {newArrivalData?.map((item, index) => (
-            <SwiperSlide
-              key={index}
-              style={{ maxWidth: "18rem", marginInline: "auto" }}
-              className="smaMA_newArrivalBoxcMainSub"
-            >
-              <div
-                className="smr_newArrialDiv1"
-                onClick={() =>
-                  handleNavigation(
-                    item.designno,
-                    item.autocode,
-                    item.TitleLine
-                  )
-                }
+    <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }}>
+      {newArrivalData?.length != 0 &&
+        <div className="smrMA_NewArrivalMain">
+          <Swiper {...swiperParams}
+            className="smaMA_newArrivalBoxcMain"
+          >
+            {newArrivalData?.map((item, index) => (
+              <SwiperSlide
+                key={index}
+                style={{ maxWidth: "18rem", marginInline: "auto" }}
+                className="smaMA_newArrivalBoxcMainSub"
               >
-                <img
-                  src={item.imageAvailable
-                    ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
-                    : notfound}
-                  className="smilingMainImages"
-                  alt={item.TitleLine}
-                />
-                <p className="ring1Desc">{item.designno}</p>
-                <p className='smr_nwArrivalTitle'>
-                  <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                  {formatter(item.UnitCostWithMarkUp)}
-                </p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                <div
+                  className="smr_newArrialDiv1"
+                  onClick={() =>
+                    handleNavigation(
+                      item.designno,
+                      item.autocode,
+                      item.TitleLine
+                    )
+                  }
+                >
+                  <img
+                    src={item.imageAvailable
+                      ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
+                      : notfound}
+                    className="smilingMainImages"
+                    alt={item.TitleLine}
+                  />
+                  <p className="ring1Desc">{item.designno}</p>
+                  <p className='smr_nwArrivalTitle'>
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                    {formatter(item.UnitCostWithMarkUp)}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       }
     </div>
   );
