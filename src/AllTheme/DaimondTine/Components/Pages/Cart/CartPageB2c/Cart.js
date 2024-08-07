@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Backdrop, useMediaQuery } from "@mui/material";
 import ResponsiveCartUi from "./ResponsiveCartUi";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 function Cart(props) {
   const {
@@ -117,8 +117,7 @@ function Cart(props) {
       <div
         className="bg-imageCart"
         style={{
-          backgroundImage:
-            'url("https://cdnfs.optigoapps.com/content-global3/diamondtin5643NL1BPEHKUDJMT/diamondtin/images/HomePage/MainBanner/Images/TopBanner1.png")',
+          backgroundImage: `url(${storImagePath()}/images/BannerImage/TopBanner1.png)`,
         }}
       >
         <div className="overlay" />
@@ -287,18 +286,18 @@ function Cart(props) {
                 </div>
               ) : (
                 <>
-                    <ResponsiveCartUi
-                      stat="cart"
-                      cartData={cartData}
-                      isloding={isloding}
-                      qtyCount={qtyCount}
-                      CurrencyData={CurrencyData}
-                      CartCardImageFunc={CartCardImageFunc}
-                      decodeEntities={decodeEntities}
-                      handleIncrement={handleIncrement}
-                      handleDecrement={handleDecrement}
-                      onRemoveItem={handleRemoveItem}
-                    />
+                  <ResponsiveCartUi
+                    stat="cart"
+                    cartData={cartData}
+                    isloding={isloding}
+                    qtyCount={qtyCount}
+                    CurrencyData={CurrencyData}
+                    CartCardImageFunc={CartCardImageFunc}
+                    decodeEntities={decodeEntities}
+                    handleIncrement={handleIncrement}
+                    handleDecrement={handleDecrement}
+                    onRemoveItem={handleRemoveItem}
+                  />
                 </>
               )}
             </>

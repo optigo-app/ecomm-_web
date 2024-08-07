@@ -10,10 +10,12 @@
   
     .return-policy{
       width: 50%;
+      margin-bottom: 4rem;
       h2{
       text-align: center;
   
       padding: 45px;
+     
       }
       h3{
         font-size: 19px;
@@ -26,6 +28,10 @@
       }
       li{
         font-size: 16px;
+
+        &:last-child{
+          margin-bottom: 1rem;
+        }
       }
     }
   

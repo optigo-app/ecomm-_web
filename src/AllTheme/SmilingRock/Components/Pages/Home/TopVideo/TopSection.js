@@ -50,7 +50,7 @@ const TopSection = () => {
           onPlay={handleVideoPlay}
         >
           <source
-            src={`${storImagePath()}/images/HomePage/MainBanner/videos/HomepageMainBannerVideo.mp4`}
+            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo.mp4`}
             type="video/mp4"
           />
         </video>

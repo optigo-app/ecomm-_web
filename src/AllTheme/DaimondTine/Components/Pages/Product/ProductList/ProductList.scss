@@ -861,8 +861,11 @@
 }
 
 .dt_mobile_filter_portion{
-    width:'19%';
+    width:19%;
     font-family: $primaryFontFamily;
+    height: 100%;
+    position: sticky;
+    top: 74px;
 }
 
 .dt_mobile_filter_portion_outter{

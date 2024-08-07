@@ -11,6 +11,7 @@ import { Backdrop, useMediaQuery } from '@mui/material';
 import WishItem from './WishItem';
 import Usewishlist from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
 import ResponsiveCartUi from '../../Cart/CartPageB2c/ResponsiveCartUi';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 function Wishlist() {
   const {
@@ -67,8 +68,7 @@ function Wishlist() {
       <div
         className="bg-imageCart"
         style={{
-          backgroundImage:
-            'url("https://cdnfs.optigoapps.com/content-global3/diamondtin5643NL1BPEHKUDJMT/diamondtin/images/HomePage/MainBanner/Images/TopBanner1.png")'
+          backgroundImage: `url(${storImagePath()}/images/BannerImage/TopBanner1.png)`,
         }}
       >
         <div className="overlay" />

@@ -7,7 +7,7 @@ import { el_CartCount, el_WishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie'
 import SkeletonLoader from './WishlistSkeleton';
-import { Box, CircularProgress, Modal, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
@@ -58,10 +58,7 @@ const Wishlist = () => {
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
-      toast('All wishlist items added in cart',{
-        autoClose: 2000,
-      })
-      // toast.success("All wishlist items added in cart")
+      toast.success('All wishlist items added in cart')
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       })
@@ -73,6 +70,7 @@ const Wishlist = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    maxWidth: '90%',
     width: 400,
     bgcolor: 'background.paper',
     border: 'none',
@@ -220,13 +218,12 @@ const Wishlist = () => {
                 aria-describedby="modal-modal-description"
               >
                 <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Are you sure you want to remove all Item?
+                  <Typography className="elv_delete_modal_text" sx={{ fontSize: '18px' }} id="modal-modal-title" variant='subtitle2'>
+                    Are You Sure to Clear All these items?
                   </Typography>
                   <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
-                    <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '2.5rem', fontSize: '18px' }} onClick={handleCloseDialog}>No</button>
-                    <button style={{ color: 'blue', textDecoration: 'uppercase', border: 'none', background: 'transparent', position: 'relative', right: '15px', fontSize: '18px' }} onClick={handleConfirmRemoveAll}
-                    >Yes</button>
+                    <Button className="elv_del_button no-button" onClick={handleCloseDialog}>No</Button>
+                    <Button className="elv_del_button yes-button" onClick={handleConfirmRemoveAll}>Yes</Button>
                   </div>
                 </Box>
               </Modal>

@@ -82,10 +82,10 @@ const PaymentPage = () => {
 
 
 
-    useEffect(() => {
-        const getCartData = localStorage.getItem('iscartData');
-        setCartString(getCartData)
-    }, [])
+    // useEffect(() => {
+    //     const getCartData = localStorage.getItem('iscartData');
+    //     setCartString(getCartData)
+    // }, [])
 
     useEffect(() => {
         const getCartData = localStorage.getItem('isCartData');
@@ -220,119 +220,119 @@ const PaymentPage = () => {
                                             <span>Back</span>
                                         </span>
                                     </div>
-                                    {cartString ? (
-                                        <>
-                                            <div className="elv_payblock_rows_2" >
+                                    {/* {cartString ? (
+                                        <> */}
+                                    {/* <div className="elv_payblock_rows_2" >
 
-                                            </div>
-                                            <div className="elv_payblock_rows_3" >
+                                    </div>
+                                    <div className="elv_payblock_rows_3" >
 
-                                            </div>
-                                            <div className="elv_payblock_rows_4" >
+                                    </div>
+                                    <div className="elv_payblock_rows_4" >
 
-                                            </div>
-                                            <div className="elv_payblock_rows_5" onClick={handlePay}>
-                                                <span className="elv_continue_title">
-                                                    continue
-                                                </span>
-                                            </div>
-                                        </>
-                                    ) : ('')}
+                                    </div> */}
+                                    <div className="elv_payblock_rows_5" onClick={handlePay}>
+                                        <span className="elv_continue_title">
+                                            continue
+                                        </span>
+                                    </div>
+                                    {/* </>
+                                    ) : ('')} */}
 
                                 </div>
                             </div>
-                            {cartString ? (
-                                <>
-                                    <div className='elv_PaymentContainer'>
-                                        <div className='elv_paymentDetailMainDiv'>
-                                            <div className='elv_paymentDetailLeftSideContent'>
-                                                <h2 style={{ marginBottom: '3rem' }}>Payment Card Method</h2>
-                                                <div className='elv_billingAddress'>
-                                                    <h3>Billing Address  :</h3>
-                                                    <div className='elv_billAdd_text'>
-                                                        <p className='elv_bill_add_text'>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
-                                                        <p className='elv_bill_add_text'>Address : {selectedAddrData?.street}</p>
-                                                        <p className='elv_bill_add_text'>City : {selectedAddrData?.city}</p>
-                                                        <p className='elv_bill_add_text'>State : {selectedAddrData?.state},{selectedAddrData?.country}</p>
-                                                        <p className='elv_bill_add_text'>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='elv_paymentDetailRightSideContent'>
-                                                <h3>Order Summary</h3>
-                                                <div className='elv_payment_div'>
-                                                    <div className='elv_paymenttotalpricesummary'>
-                                                        <p className='elv_payment_total_title'>Subtotal</p>
-                                                        <p>
-                                                            <span
-                                                                className="elv_currencyFont"
-                                                                style={{ paddingRight: '2.5px' }}
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: decodeEntities(
-                                                                        CurrencyData
-                                                                    ),
-                                                                }}
-                                                            />
-                                                            <span className='elv_subtotal_price'> {finalTotal}</span>
-                                                        </p>
-                                                    </div>
-                                                    <div className='elv_paymenttotalpricesummary'>
-                                                        <p className='elv_payment_total_title'>Estimated Tax</p>
-                                                        <p>
-                                                            <span
-                                                                className="elv_currencyFont"
-                                                                style={{ paddingRight: '2.5px' }}
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: decodeEntities(
-                                                                        CurrencyData
-                                                                    ),
-                                                                }}
-                                                            />
-                                                            <span className='elv_estimate_tax'> {taxAmmount}</span>
-                                                        </p>
-                                                    </div>
-                                                    <div className='elv_payment_total_border'></div>
-                                                    <div className='elv_paymenttotalpricesummary'>
-                                                        <p className='elv_payment_total_title'>Estimated Total</p>
-                                                        <p>
-                                                            <span
-                                                                className="elv_currencyFont"
-                                                                style={{ paddingRight: '2.5px' }}
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: decodeEntities(
-                                                                        CurrencyData
-                                                                    ),
-                                                                }}
-                                                            />
-                                                            <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className='elv_shippingAddress'>
-                                                    <h3 className='elv_payment_shipp_title'>Shipping Address : </h3>
-                                                    <p className='elv_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
-                                                    <p>{selectedAddrData?.street}</p>
-                                                    <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
-                                                    <p>{selectedAddrData?.state}</p>
-                                                    <p>{selectedAddrData?.shippingmobile}</p>
-                                                </div>
+                            {/* {cartString ? (
+                                <> */}
+                            <div className='elv_PaymentContainer'>
+                                <div className='elv_paymentDetailMainDiv'>
+                                    <div className='elv_paymentDetailLeftSideContent'>
+                                        <h2 style={{ marginBottom: '3rem' }}>Payment Card Method</h2>
+                                        <div className='elv_billingAddress'>
+                                            <h3>Billing Address  :</h3>
+                                            <div className='elv_billAdd_text'>
+                                                <p className='elv_bill_add_text'>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                                <p className='elv_bill_add_text'>Address : {selectedAddrData?.street}</p>
+                                                <p className='elv_bill_add_text'>City : {selectedAddrData?.city}</p>
+                                                <p className='elv_bill_add_text'>State : {selectedAddrData?.state},{selectedAddrData?.country}</p>
+                                                <p className='elv_bill_add_text'>Mobile : {selectedAddrData?.shippingmobile}</p>
                                             </div>
                                         </div>
-                                        <div className='elv_paymentButtonDiv'>
-                                            {/* <button className='elv_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                                    </div>
+                                    <div className='elv_paymentDetailRightSideContent'>
+                                        <h3>Order Summary</h3>
+                                        <div className='elv_payment_div'>
+                                            <div className='elv_paymenttotalpricesummary'>
+                                                <p className='elv_payment_total_title'>Subtotal</p>
+                                                <p>
+                                                    <span
+                                                        className="elv_currencyFont"
+                                                        style={{ paddingRight: '2.5px' }}
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                CurrencyData
+                                                            ),
+                                                        }}
+                                                    />
+                                                    <span className='elv_subtotal_price'> {finalTotal}</span>
+                                                </p>
+                                            </div>
+                                            <div className='elv_paymenttotalpricesummary'>
+                                                <p className='elv_payment_total_title'>Estimated Tax</p>
+                                                <p>
+                                                    <span
+                                                        className="elv_currencyFont"
+                                                        style={{ paddingRight: '2.5px' }}
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                CurrencyData
+                                                            ),
+                                                        }}
+                                                    />
+                                                    <span className='elv_estimate_tax'> {taxAmmount}</span>
+                                                </p>
+                                            </div>
+                                            <div className='elv_payment_total_border'></div>
+                                            <div className='elv_paymenttotalpricesummary'>
+                                                <p className='elv_payment_total_title'>Estimated Total</p>
+                                                <p>
+                                                    <span
+                                                        className="elv_currencyFont"
+                                                        style={{ paddingRight: '2.5px' }}
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: decodeEntities(
+                                                                CurrencyData
+                                                            ),
+                                                        }}
+                                                    />
+                                                    <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className='elv_shippingAddress'>
+                                            <h3 className='elv_payment_shipp_title'>Shipping Address : </h3>
+                                            <p className='elv_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                            <p>{selectedAddrData?.street}</p>
+                                            <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
+                                            <p>{selectedAddrData?.state}</p>
+                                            <p>{selectedAddrData?.shippingmobile}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='elv_paymentButtonDiv'>
+                                    {/* <button className='elv_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                                     {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                                     {isloding && <span className="loader"></span>}
                                 </button> */}
-                                        </div>
-                                    </div>
-                                </>
-                            ) :
-                                <div className='elv_noCartlistData'>
-                                    <p className='elv_title'>No Data Found!</p>
-                                    <p className='elv_desc'>Please First Add Product in Cart</p>
-                                    <button className='elv_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
                                 </div>
-                            }
+                            </div>
+                            {/* </>
+                            ) : */}
+                            {/* <div className='elv_noCartlistData'>
+                                <p className='elv_title'>No Data Found!</p>
+                                <p className='elv_desc'>Please First Add Product in Cart</p>
+                                <button className='elv_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+                            </div> */}
+                            {/* } */}
 
                         </div>
 

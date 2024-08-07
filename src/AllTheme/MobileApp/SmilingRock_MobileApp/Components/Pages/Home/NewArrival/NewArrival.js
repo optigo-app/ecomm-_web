@@ -6,12 +6,12 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/
 import Cookies from "js-cookie";
 import { useRecoilValue } from "recoil";
 import { smrMA_loginState } from "../../../Recoil/atom";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+import notfound from '../../../Assets/image-not-found.jpg';
 
 const NewArrival = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
@@ -19,20 +19,17 @@ const NewArrival = () => {
   const navigation = useNavigate();
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
-  const [ring1ImageChange, setRing1ImageChange] = useState(false);
-  const [ring2ImageChange, setRing2ImageChange] = useState(false);
   const islogin = useRecoilValue(smrMA_loginState);
   const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    rtl: true, // This sets the slider to right-to-left
-    arrows: true,
-  };
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
 
   useEffect(() => {
     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -52,9 +49,16 @@ const NewArrival = () => {
     setImageUrl(data?.DesignImageFol);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
-      .then((response) => {
+      .then(async (response) => {
         if (response?.Data?.rd) {
-          setNewArrivalData(response?.Data?.rd);
+          const itemsWithImageCheck = await Promise.all(
+            response.Data.rd.map(async (item) => {
+              const imgURL = `${storeinit?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
+              const imageAvailable = await checkImageAvailability(imgURL);
+              return { ...item, imageAvailable };
+            })
+          );
+          setNewArrivalData(itemsWithImageCheck);
         }
       })
       .catch((err) => console.log(err));
@@ -100,90 +104,55 @@ const NewArrival = () => {
     }
   };
 
-  const handleNavigate = () => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    if (storeinit?.IsB2BWebsite == 1) {
-      if (islogin) {
-        navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`);
-      } else {
-        navigation("/signin");
-      }
-    } else {
-      navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`);
-    }
-  };
-
-  const decodeEntities = (html) => {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  };
-
-  const handleMouseEnterRing1 = (data) => {
-    if (data?.ImageCount > 1) {
-      setRing1ImageChange(true);
-    }
-  };
-  const handleMouseLeaveRing1 = () => {
-    setRing1ImageChange(false);
-  };
-
-  const handleMouseEnterRing2 = (data) => {
-    if (data?.ImageCount > 1) {
-      setRing2ImageChange(true);
-    }
-  };
-  const handleMouseLeaveRing2 = () => {
-    setRing2ImageChange(false);
-  };
-
   const swiperParams = {
     loop: true,
     modules: [Pagination],
     slidesPerView: 3,
   };
 
+
+
   return (
-    <div className="smrMA_NewArrivalMain">
-      <Swiper {...swiperParams}
-        className="smaMA_newArrivalBoxcMain"
-      >
-        {newArrivalData?.map((item, index) => (
-          <SwiperSlide
-            key={index}
-            style={{ maxWidth: "18rem", marginInline: "auto" }}
-            className="smaMA_newArrivalBoxcMainSub"
+    <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }}>
+      {newArrivalData?.length != 0 &&
+        <div className="smrMA_NewArrivalMain">
+          <Swiper {...swiperParams}
+            className="smaMA_newArrivalBoxcMain"
           >
-            <div
-              className="smr_newArrialDiv1"
-              onClick={() =>
-                handleNavigation(
-                  item.designno,
-                  item.autocode,
-                  item.TitleLine
-                )
-              }
-            >
-              <img
-                src={
-                  ring1ImageChange
-                    ? `${imageUrl}${item.designno}_2.${item.ImageExtension}`
-                    : `${imageUrl}${item.designno}_1.${item.ImageExtension}`
-                }
-                className="smilingMainImages"
-                alt={item.TitleLine}
-                onMouseEnter={() => handleMouseEnterRing1()}
-                onMouseLeave={handleMouseLeaveRing1}
-              />
-              <p className="ring1Desc">{item.designno}</p>
-              <p className='smr_nwArrivalTitle'>
-                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
-                {formatter(item.UnitCostWithMarkUp)}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            {newArrivalData?.map((item, index) => (
+              <SwiperSlide
+                key={index}
+                style={{ maxWidth: "18rem", marginInline: "auto" }}
+                className="smaMA_newArrivalBoxcMainSub"
+              >
+                <div
+                  className="smr_newArrialDiv1"
+                  onClick={() =>
+                    handleNavigation(
+                      item.designno,
+                      item.autocode,
+                      item.TitleLine
+                    )
+                  }
+                >
+                  <img
+                    src={item.imageAvailable
+                      ? `${imageUrl}${item.designno}_1.${item.ImageExtension}`
+                      : notfound}
+                    className="smilingMainImages"
+                    alt={item.TitleLine}
+                  />
+                  <p className="ring1Desc">{item.designno}</p>
+                  <p className='smr_nwArrivalTitle'>
+                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}</span>&nbsp;
+                    {formatter(item.UnitCostWithMarkUp)}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      }
     </div>
   );
 };
