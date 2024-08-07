@@ -85,9 +85,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -141,7 +141,9 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  }, [])
+  }, [loginUserDetail,storeInit])
+
+  console.log("selectredmetalid",selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
