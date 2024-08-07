@@ -3,7 +3,7 @@ import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishl
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
 import Footer from "../Home/Footer/Footer";
-import "./ProCat_wishlist.scss";
+import "./proCat_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ import { proCat_CartCount, proCat_WishCount } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
+import { useMediaQuery } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
   const {
@@ -35,6 +37,7 @@ const Wishlist = () => {
   const setWishCountVal = useSetRecoilState(proCat_WishCount)
   const setCartCountVal = useSetRecoilState(proCat_CartCount)
   const visiterId = Cookies.get('visiterId');
+  const isMobileScreen = useMediaQuery('(max-width:768px)');
 
 
   const handleRemoveAllDialog = () => {
@@ -45,27 +48,40 @@ const Wishlist = () => {
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
     const returnValue = await handleRemoveAll();
-    if(returnValue?.msg == "success"){
+    if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setWishCountVal(res?.wishcount);
       })
     }
   };
 
-
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
 
 
-  const handleAddtoCartAllfun = async() => {
+  const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
-      if(returnValue?.msg == "success"){
-        GetCountAPI(visiterId).then((res) => {
-          setCartCountVal(res?.cartcount);
-        })
-      }
+    if (returnValue?.msg == "success") {
+      toast.success("All wishlist items added in cart")
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   }
+
+  useEffect(() => {
+    setCSSVariable();
+  }, [])
+
+  const setCSSVariable = () => {
+    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+  };
 
   function scrollToTop() {
     window.scrollTo({
@@ -77,24 +93,27 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="ProCat_MainWlDiv">
+    <div className="proCat_MainWlDiv">
       <div className="WlMainPageDiv">
-        <div className="smrProcat_WlBtnGroupMainDiv">
-          <div className="ProCat_Wl-title">My Wishlist</div>
+        <div className="WlBtnGroupMainDiv">
+          {isMobileScreen &&
+            <div className="proCat_Wl-title">My Wishlist</div>
+          }
           {wishlistData?.length != 0 &&
             <>
-              <div className="ProCat_WlButton-group">
+              <div className="proCat_WlButton-group">
                 <Link
-                  className="ProCat_ReomoveAllWLbtn"
+                  className="proCat_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
                   CLEAR ALL
                 </Link>
-                {/* <button className='ProCat_WlClearAllBtn' onClick={handleRemoveAll}>CLEAR ALL</button> */}
-                <button className="ProCat_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
-                {/* <button className='ProCat_WlBtn'>SHOW PRODUCT LIST</button> */}
+                {!isMobileScreen &&
+                  <div className="proCat_Wl-title">My Wishlist</div>
+                }
+                <button className="proCat_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
               </div>
             </>
           }
@@ -116,7 +135,7 @@ const Wishlist = () => {
             handelMenu={handelMenu}
           />
         ) : (
-          <div style={{marginTop:'90px'}}>
+          <div style={{ marginTop: '90px' }}>
             <SkeletonLoader />
           </div>
         )}
@@ -124,8 +143,8 @@ const Wishlist = () => {
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Remove Item"
-          content="Are you sure you want to remove all Item?"
+          title="Confirm"
+          content="Are you sure you want to remove all Items?"
         />
 
         <Footer />
@@ -141,7 +160,7 @@ const Wishlist = () => {
           style={{
             margin: "0px",
             fontWeight: 500,
-            color: "black",
+            color: "white",
             cursor: "pointer",
           }}
           onClick={scrollToTop}

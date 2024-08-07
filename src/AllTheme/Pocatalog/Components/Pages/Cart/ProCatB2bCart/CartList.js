@@ -23,7 +23,7 @@ const CartList = ({
 }) => {
   console.log('itemgsgdhas-', selectedItem);
   return (
-    <div className="procat_RightCartList">
+    <div className="proCat_RightCartList">
       <Grid container spacing={1}>
         {items.map((item, index) => (
           <CartItem
