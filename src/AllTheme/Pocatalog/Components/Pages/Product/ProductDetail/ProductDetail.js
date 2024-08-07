@@ -369,9 +369,9 @@ const ProductDetail = () => {
         )[0]
     }
 
-    setSelectMtColor(mcArr?.metalcolorname);
+    setSelectMtColor(mcArr?.colorname);
     
-  },[singleProd,singleProd1])
+  },[singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
