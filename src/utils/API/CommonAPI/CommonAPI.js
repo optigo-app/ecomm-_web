@@ -29,7 +29,11 @@ const APIURL = (window.location.hostname === 'localhost'
 export const CommonAPI = async (body) => {
     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
     try {
-        const { YearCode, version, token , sv } = storeInit;
+        // const { YearCode, version, token , sv } = storeInit;
+        const YearCode = storeInit?.YearCode ;
+        const version = storeInit?.version ;
+        const token = storeInit?.token ;
+        const sv = storeInit?.sv ;
 
         const header = {
             Authorization: `Bearer ${token}`,

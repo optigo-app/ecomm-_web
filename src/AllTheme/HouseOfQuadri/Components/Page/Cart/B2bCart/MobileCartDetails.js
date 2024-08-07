@@ -331,6 +331,18 @@ const MobileCartDetails = ({
     console.log("CSQtyColorData", CSQtyColorData);
   }, []);
 
+  const SizeSorting = (SizeArr) => {
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+
+      return nameA - nameB;
+    });
+
+    return SizeSorted;
+  };
+
+
   return (
     <Modal
       open={open}
@@ -511,7 +523,7 @@ const MobileCartDetails = ({
                           </option>
                         ) : (
                           <>
-                            {sizeCombo?.rd?.map((option) => (
+                            {SizeSorting(sizeCombo?.rd)?.map((option) => (
                               <option key={option?.id} value={option?.sizename}>
                                 {option?.sizename}
                               </option>
