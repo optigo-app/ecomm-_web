@@ -1530,7 +1530,7 @@ const ProductList = () => {
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                     >
                       {" "}
-                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                      {`${diaQc.Quality},${diaQc.color}`}
                     </option>
                   ))}
                 </select>

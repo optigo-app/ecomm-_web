@@ -24,6 +24,7 @@ import { accountDetailPages, accountValidation } from '../../../../../utils/Glob
 import Plm from './PLM/Plm';
 import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
+import NewOrderHistoryHOQ from './AccountOrderHistory/NewOrderHistoryHOQ';
 
 
 function CustomTabPanel(props) {
@@ -202,8 +203,9 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    <OrderHistory />
+                                    {/* <OrderHistory /> */}
                                     {/* <OrderHistoryGroup /> */}
+                                    <NewOrderHistoryHOQ />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
