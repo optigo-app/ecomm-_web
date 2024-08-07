@@ -216,6 +216,9 @@
         z-index: 1001; /* Adjust z-index as needed */
         padding: 10px 0;
     }
+    .d_none_acc{
+        display: none !important;
+    }
 }
 @media (min-width:1024px){
     .smlingAccountTabMobileView{
@@ -225,6 +228,10 @@
         // display: none;
         display: unset !important;
     }
+    .d_none_acc{
+        display: none !important;
+    }
+    
     .SmilingAccountTitle{
         padding-top: 0px !important;
     }
