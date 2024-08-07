@@ -11,48 +11,48 @@ const Stockitems = ({
   handleCartandWish,
 }) => {
   return (
-    <div className="Stockitems">
+    <div className="elv_Stockitems">
       {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
-        <div className="hoq_stockItem_div">
-          <p className="hoq_details_title"> Stock Items </p>
-          <div className="hoq_stockitem_container">
+        <div className="elv_stockItem_div">
+          <p className="elv_details_title"> Stock Items </p>
+          <div className="elv_stockitem_container">
             {/* 12 */}
-            <table className="Smr_stockItem_table">
-              <tr className="Smr_stockItem_table_tr">
-                <th className="Smr_stockItem_table_td">SrNo</th>
-                <th className="Smr_stockItem_table_td">Design No</th>
-                {/* <th className="Smr_stockItem_table_td" >StockBarcode</th> */}
-                <th className="Smr_stockItem_table_td">Job No</th>
+            <table className="elv_stockItem_table">
+              <tr className="elv_stockItem_table_tr">
+                <th className="elv_stockItem_table_td">SrNo</th>
+                <th className="elv_stockItem_table_td">Design No</th>
+                {/* <th className="elv_stockItem_table_td" >StockBarcode</th> */}
+                <th className="elv_stockItem_table_td">Job No</th>
                 <th
-                  className="Smr_stockItem_table_td"
+                  className="elv_stockItem_table_td"
                   style={{ textAlign: "center" }}
                 >
                   Gross Wt/Net Wt/Dia Wt/CS Wt
                 </th>
-                <th className="Smr_stockItem_table_td">Metal Color-Purity</th>
-                <th className="Smr_stockItem_table_td">Price</th>
-                <th className="Smr_stockItem_table_td">Add To Cart</th>
+                <th className="elv_stockItem_table_td">Metal Color-Purity</th>
+                <th className="elv_stockItem_table_td">Price</th>
+                <th className="elv_stockItem_table_td">Add To Cart</th>
               </tr>
               {stockItemArr?.map((ele, i) => (
-                <tr className="Smr_stockItem_table_tr">
-                  <td className="Smr_stockItem_table_td">
-                    <span className="hoq_prod_designno">{ele?.SrNo}</span>
+                <tr className="elv_stockItem_table_tr">
+                  <td className="elv_stockItem_table_td">
+                    <span className="elv_prod_designno">{ele?.SrNo}</span>
                   </td>
-                  <td className="Smr_stockItem_table_td">
-                    <span className="hoq_prod_designno">{ele?.designno}</span>
+                  <td className="elv_stockItem_table_td">
+                    <span className="elv_prod_designno">{ele?.designno}</span>
                   </td>
-                  <td className="Smr_stockItem_table_td">
-                    <span className="hoq_prod_designno">
+                  <td className="elv_stockItem_table_td">
+                    <span className="elv_prod_designno">
                       {ele?.StockBarcode}
                     </span>
                   </td>
-                  {/* <td className="Smr_stockItem_table_td">
-                        <span className="hoq_prod_designno">
+                  {/* <td className="elv_stockItem_table_td">
+                        <span className="elv_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                  <td className="Smr_stockItem_table_td">
-                    <div className="hoq_prod_Allwt">
+                  <td className="elv_stockItem_table_td" >
+                    <div className="elv_prod_Allwt">
                       <div
                         style={{
                           display: "flex",
@@ -61,13 +61,14 @@ const Stockitems = ({
                           letterSpacing: "1px",
                           gap: "3px",
                         }}
+                       className="reponsive-tab"
                       >
                         {storeInit?.IsGrossWeight == 1 &&
                           Number(ele?.GrossWt) !== 0 && (
                             <>
-                              <span className="hoq_prod_wt">
-                                <span className="hoq_d_keys">GWT:</span>
-                                <span className="hoq_d_val">
+                              <span className="elv_prod_wt">
+                                <span className="elv_d_keys">GWT:</span>
+                                <span className="elv_d_val">
                                   {ele?.GrossWt?.toFixed(3)}
                                 </span>
                               </span>
@@ -77,9 +78,9 @@ const Stockitems = ({
                         {Number(ele?.NetWt) !== 0 && (
                           <>
                             <span>|</span>
-                            <span className="hoq_prod_wt">
-                              <span className="hoq_d_keys">NWT:</span>
-                              <span className="hoq_d_val">{ele?.NetWt?.toFixed(3)}</span>
+                            <span className="elv_prod_wt">
+                              <span className="elv_d_keys">NWT:</span>
+                              <span className="elv_d_val">{ele?.NetWt?.toFixed(3)}</span>
                             </span>
                           </>
                         )}
@@ -88,9 +89,9 @@ const Stockitems = ({
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
-                                  <span className="hoq_prod_wt">
-                                    <span className="hoq_d_keys">GWT:</span>
-                                    <span className="hoq_d_val">
+                                  <span className="elv_prod_wt">
+                                    <span className="elv_d_keys">GWT:</span>
+                                    <span className="elv_d_val">
                                       {ele?.GrossWt}
                                     </span>
                                   </span>
@@ -100,9 +101,9 @@ const Stockitems = ({
                           Number(ele?.DiaWt) !== 0 && (
                             <>
                               <span>|</span>
-                              <span className="hoq_prod_wt">
-                                <span className="hoq_d_keys">DWT:</span>
-                                <span className="hoq_d_val">
+                              <span className="elv_prod_wt">
+                                <span className="elv_d_keys">DWT:</span>
+                                <span className="elv_d_val">
                                   {ele?.DiaWt?.toFixed(3)}
                                   {storeInit?.IsDiamondPcs === 1
                                     ? `/${ele?.DiaPcs}`
@@ -116,9 +117,9 @@ const Stockitems = ({
                           Number(ele?.CsWt) !== 0 && (
                             <>
                               <span>|</span>
-                              <span className="hoq_prod_wt">
-                                <span className="hoq_d_keys">CWT:</span>
-                                <span className="hoq_d_val">
+                              <span className="elv_prod_wt">
+                                <span className="elv_d_keys">CWT:</span>
+                                <span className="elv_d_val">
                                   {ele?.CsWt?.toFixed(3)}
                                   {storeInit?.IsStonePcs === 1
                                     ? `/${ele?.CsPcs}`
@@ -130,8 +131,8 @@ const Stockitems = ({
                       </div>
                     </div>
                   </td>
-                  <td className="Smr_stockItem_table_td">
-                    {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="hoq_stockItem_price_type_mt"> */}
+                  <td className="elv_stockItem_table_td">
+                    {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="elv_stockItem_price_type_mt"> */}
                     <span>
                       {ele?.MetalColorName}-{ele?.metaltypename}
                       {ele?.metalPurity}
@@ -139,9 +140,9 @@ const Stockitems = ({
                     </span>
                     {/* </div> */}
                   </td>
-                  <td className="Smr_stockItem_table_td">
+                  <td className="elv_stockItem_table_td">
                     <span>
-                      <span className="hoq_currencyFont">
+                      <span className="elv_currencyFont">
                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                       </span>
                       &nbsp;
@@ -156,7 +157,7 @@ const Stockitems = ({
                     </span>
                   </td>
                   <td
-                    className="Smr_stockItem_table_td"
+                    className="elv_stockItem_table_td"
                     style={{
                       display: "flex",
                       justifyContent: "center",
@@ -205,9 +206,9 @@ export default Stockitems;
 
 // 12
 {
-  /* <div className="hoq_stock_item_card">
+  /* <div className="elv_stock_item_card">
                   {stockItemArr?.map((ele) => (
-                    <div className="hoq_stockItemCard">
+                    <div className="elv_stockItemCard">
                       <div className="cart_and_wishlist_icon">
                         <Checkbox
                           icon={
@@ -236,7 +237,7 @@ export default Stockitems;
 
                       </div>
                       <img
-                        className="hoq_productCard_Image"
+                        className="elv_productCard_Image"
                         src={
                           storeInit?.DesignImageFol +
                           ele?.designno +
@@ -247,11 +248,11 @@ export default Stockitems;
                         }
                         alt={""}
                       />
-                      <div className="hoq_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="hoq_prod_designno">
+                      <div className="elv_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
+                      <span className="elv_prod_designno">
                         {ele?.designno}
                       </span>
-                      <div className="hoq_prod_Allwt">
+                      <div className="elv_prod_Allwt">
                         <div
                           style={{
                             display: "flex",
@@ -261,18 +262,18 @@ export default Stockitems;
                             gap: "3px",
                           }}
                         >
-                          <span className="hoq_prod_wt">
-                            <span className="hoq_d_keys">NWT:</span>
-                            <span className="hoq_d_val">{ele?.NetWt}</span>
+                          <span className="elv_prod_wt">
+                            <span className="elv_d_keys">NWT:</span>
+                            <span className="elv_d_val">{ele?.NetWt}</span>
                           </span>
 
                           {storeInit?.IsGrossWeight == 1 &&
                             Number(ele?.GrossWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="hoq_prod_wt">
-                                  <span className="hoq_d_keys">GWT:</span>
-                                  <span className="hoq_d_val">
+                                <span className="elv_prod_wt">
+                                  <span className="elv_d_keys">GWT:</span>
+                                  <span className="elv_d_val">
                                     {ele?.GrossWt}
                                   </span>
                                 </span>
@@ -282,9 +283,9 @@ export default Stockitems;
                             Number(ele?.DiaWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="hoq_prod_wt">
-                                  <span className="hoq_d_keys">DWT:</span>
-                                  <span className="hoq_d_val">
+                                <span className="elv_prod_wt">
+                                  <span className="elv_d_keys">DWT:</span>
+                                  <span className="elv_d_val">
                                     {ele?.DiaWt}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -298,9 +299,9 @@ export default Stockitems;
                             Number(ele?.CsWt) !== 0 && (
                               <>
                                 <span >|</span>
-                                <span className="hoq_prod_wt">
-                                  <span className="hoq_d_keys">CWT:</span>
-                                  <span className="hoq_d_val">
+                                <span className="elv_prod_wt">
+                                  <span className="elv_d_keys">CWT:</span>
+                                  <span className="elv_d_val">
                                     {ele?.CsWt}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -312,12 +313,12 @@ export default Stockitems;
                         </div>
                       </div>
 
-                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="hoq_stockItem_price_type_mt">
+                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="elv_stockItem_price_type_mt">
                           <span>
                             {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
                             <span
-                                className="hoq_currencyFont"
+                                className="elv_currencyFont"
                                 dangerouslySetInnerHTML={{
                                   __html: decodeEntities(
                                     storeInit?.Currencysymbol
