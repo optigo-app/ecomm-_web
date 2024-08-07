@@ -1,5 +1,12 @@
-.smr_loginEmail {
 
+@import "../../../scss/variable";
+
+
+.proCat_loginEmail {
+
+    background-color: $backgroundColor;
+
+    
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }

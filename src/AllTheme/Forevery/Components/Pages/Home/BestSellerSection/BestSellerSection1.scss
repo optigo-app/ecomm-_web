@@ -8,7 +8,7 @@
         .smr_bestseler1Title {
             font-size: $fontSize6;
             color: $homePageFontColor;
-            font-family: $homePageFontFamily;
+            font-family: $primaryFontFamily;
         }
     }
 
@@ -95,12 +95,12 @@
                 font-size: $fontSize6;
                 color: #fff;
                 text-transform: capitalize;
-                font-family: $homePageFontFamily;
+                font-family: $primaryFontFamily;
                 text-align: center;
 
                 h2 {
                     font-size: $fontSize7;
-                    font-family: $homePageFontFamily;
+                    font-family: $primaryFontFamily;
                     left: .8px;
                 }
 

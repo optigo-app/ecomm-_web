@@ -243,13 +243,13 @@ export default function Register() {
   };
 
   return (
-    <div className='smr_registerMain'>
+    <div className='proCat_registerMain'>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />
         </div>
       )}
-      <div style={{ backgroundColor: '#c0bbb1' }}>
+      <div>
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',

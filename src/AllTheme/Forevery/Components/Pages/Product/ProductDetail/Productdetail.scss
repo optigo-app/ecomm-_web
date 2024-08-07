@@ -97,7 +97,7 @@
 .smr_prod_titleLine{
     text-align: start !important;
     font-size: 35px;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-weight: 400;
     font-style: normal;
     color: $primaryfontcolor2;
@@ -130,7 +130,7 @@
 }
 
 .smr_prod_short_val{
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     letter-spacing:2px;
 }
 
@@ -182,7 +182,7 @@
     font-size: 24px;
     display: flex;
     letter-spacing: 2.2px;
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     margin-left:5px;
     color: $primaryfontcolor2;
     margin-top: 12px;
@@ -225,7 +225,7 @@
 }
 
 .smr_addtocart_btn_txt{
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     font-size: 15px;
     letter-spacing: 1.5px;
     position: relative;
@@ -280,7 +280,7 @@
 
 .smr_details_title{
     font-size: 30px;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     color: $primaryfontcolor2;
 }
 
@@ -379,7 +379,7 @@ color: $primaryfontcolor2;
 }
 
 .smr_prodd_datanotfound {
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     color: $primaryfontcolor;
     font-size: 42px;
 }
@@ -619,7 +619,7 @@ color: $primaryfontcolor2;
 }
 
 .srthelook_prodinfo_inner{
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
 }
 
 .smr_ctlImg_containe{

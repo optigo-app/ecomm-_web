@@ -12,6 +12,7 @@ import ScrollTriggerTab from "./ScrollTriggerTab/ScrollTriggerTab";
 import SocialTab from "./SocialTab/SocialTab";
 import FaqSection from "./FaQSection/FaqSection";
 import InfoSection from "./InfoSection/InfoSection";
+import Preloader from "../../../../../dum/Load";
 
 const HomePage = () => {
   const data = JSON.parse(localStorage.getItem("storeInit"));
@@ -25,6 +26,7 @@ const HomePage = () => {
 
   return (
     <div className="hoq_main_homepage">
+      {/* <Preloader/> */}
       <TopSlider />
       {data?.IsHomeNewArrival === 1 && <TabSection />}
       {data?.IsHomeDesignSet === 1 && <Collection />}

@@ -122,12 +122,12 @@
       }
     }
     .nav_center {
-      height: inherit;
       display: flex;
       align-items: center;
       flex: 1;
       justify-content: space-between;
       flex-direction: column;
+      height: inherit;
       .logo {
         img {
           width: 100%;

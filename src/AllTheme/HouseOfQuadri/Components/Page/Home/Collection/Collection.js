@@ -123,13 +123,13 @@ const Collection = () => {
               <div className="details">
                 <h3>{val?.designsetno}</h3>
                 <button
-                  onClick={() =>
-                    handleNavigation(
-                      val?.designno,
-                      val?.autocode,
-                      val?.TitleLine ? val?.TitleLine : ""
-                    )
-                  }
+                  // onClick={() =>
+                  //   handleNavigation(
+                  //     val?.designno,
+                  //     val?.autocode,
+                  //     val?.TitleLine ? val?.TitleLine : ""
+                  //   )
+                  // }
                 >
                   Explore
                 </button>
@@ -187,13 +187,13 @@ const MobileCollection = ({
               <div className="details">
                 <h3>{val?.designsetno}</h3>
                 <button
-                  onClick={() =>
-                    handleNavigation(
-                      val?.designno,
-                      val?.autocode,
-                      val?.TitleLine ? val?.TitleLine : ""
-                    )
-                  }
+                  // onClick={() =>
+                  //   handleNavigation(
+                  //     val?.designno,
+                  //     val?.autocode,
+                  //     val?.TitleLine ? val?.TitleLine : ""
+                  //   )
+                  // }
                 >
                   Explore
                 </button>

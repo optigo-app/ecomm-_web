@@ -297,6 +297,7 @@ export default function Register() {
               id="outlined-basic"
               label="Mobile No."
               variant="outlined"
+              autoComplete='off'
               className='labgrowRegister'
               style={{ margin: '15px' }}
               value={mobileNo}
@@ -310,6 +311,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Email"
+              autoComplete="smr_registerEmail"
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
@@ -326,6 +328,7 @@ export default function Register() {
               label="Password"
               type={showPassword ? 'text' : 'password'}
               className='labgrowRegister'
+              autoComplete='off'
               style={{ margin: '15px' }}
               value={password}
               onChange={handlePasswordChange}
@@ -355,6 +358,7 @@ export default function Register() {
               type={showConfirmPassword ? 'text' : 'password'}
               className='labgrowRegister'
               style={{ margin: '15px' }}
+              autoComplete='off'
               value={confirmPassword}
               inputRef={confirmPasswordRef}
               onKeyDown={(event) => {
