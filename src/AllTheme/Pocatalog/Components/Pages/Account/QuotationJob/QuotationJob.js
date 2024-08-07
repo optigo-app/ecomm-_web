@@ -894,7 +894,7 @@ const scrollToTop = () => {
                 <TableBody>
            
 
-                  {stableSort(filterData, getComparator(order, orderBy))
+                  { filterData?.length > 0 ? stableSort(filterData, getComparator(order, orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
                       let serialNumber = page * rowsPerPage + rowIndex + 1;
@@ -919,7 +919,7 @@ const scrollToTop = () => {
                           })}
                         </TableRow>
                       );
-                    })}
+                    }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>  }
                 </TableBody>
               </Table>
             </TableContainer>
