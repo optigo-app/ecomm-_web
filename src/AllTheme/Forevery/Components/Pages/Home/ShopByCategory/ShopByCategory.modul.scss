@@ -4,7 +4,7 @@
 
 .shopbycategoryTitle {
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-size: $fontSize7;
     text-align: center;
     margin: 60px 0px 0px 0px;
@@ -12,12 +12,12 @@
 }
 .shopbycategoryDescp{
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-size: $fontSize1;
 }
 .smr_shopByCateTitle{
     color: $homePageFontColor;
-    font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily;
     font-size: $fontSize3;
     margin: 0px;
 }

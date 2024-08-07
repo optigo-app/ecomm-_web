@@ -26,7 +26,7 @@
   .smr_ContinueOrderbtn {
     height: 40px;
     width: 150px;
-    font-family: $homePageFontFamily !important;
+    font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
@@ -44,7 +44,7 @@
 
 .smr_addressTextFields {
   margin-bottom: 18px !important;
-  font-family: $homePageFontFamily !important;
+  font-family: $primaryFontFamily !important;
   color: $titleColor !important;
 
   .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
@@ -54,12 +54,12 @@
 
 .smr_deliveryTitle {
   color: $titleColor;
-  font-family: $homePageFontFamily;
+  font-family: $primaryFontFamily;
 }
 
 .smr_deliverydesc {
   color: $titleColor;
-  font-family: $homePageFontFamily;
+  font-family: $primaryFontFamily;
 }
 
 .smr_AddrCard {
@@ -79,7 +79,7 @@
 
 .smr_defualt_addrSelected {
   padding: 3px 10px;
-  font-family: $homePageFontFamily !important;
+  font-family: $primaryFontFamily !important;
   font-size: $fontSize3;
   color: #fff;
   background: blue;
@@ -98,13 +98,13 @@
 
 .smr_addrTypoTitle {
   color: $titleColor;
-  font-family: $homePageFontFamily !important;
+  font-family: $primaryFontFamily !important;
   text-transform: capitalize;
 }
 
 .smr_addrTypo {
   color: $titleColor;
-  font-family: $homePageFontFamily !important;
+  font-family: $primaryFontFamily !important;
   text-transform: capitalize;
 }
 
@@ -113,7 +113,7 @@
     margin-right: 20px;
     height: 40px;
     width: 150px;
-    font-family: $homePageFontFamily !important;
+    font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
     color: $btn1FontColor;
     background-color: $btn1bgColor;
@@ -139,7 +139,7 @@
     margin-right: 20px;
     height: 40px;
     width: 150px;
-    font-family: $homePageFontFamily !important;
+    font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
@@ -157,7 +157,7 @@
   margin-right: 20px;
   height: 40px;
   width: 150px;
-  font-family: $homePageFontFamily !important;
+  font-family: $primaryFontFamily !important;
   font-size: $fontSize3;
   color: $btn1FontColor;
   background-color: $btn1bgColor;

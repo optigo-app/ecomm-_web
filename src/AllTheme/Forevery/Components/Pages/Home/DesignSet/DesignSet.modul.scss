@@ -10,14 +10,14 @@
   .designSetTitle {
     margin: 40px 0px 10px 0px;
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-size: $fontSize5;
     text-align: center;
   }
 
   .smr_desognSetTitle {
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-size: $fontSize5;
     text-align: center;
   }
@@ -43,7 +43,7 @@
 
   .smr_designSetImageViewAll {
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     font-size: $fontSize4;
     cursor: pointer;
     text-align: center;
