@@ -499,15 +499,20 @@ const QuotationJob = () => {
         setCategory(allCategory[0]?.value);
         setMetalColor(allMetalColor[0]?.value);
         setMetalPurity(allMetalPurity[0]?.value);
+
         setData(datass);
         setFilterData(datass);
       } else {
         // alert('nodata')
         setData([]);
         setFilterData([]);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log('Error:', error);
+        setIsLoading(false);  
+        setData([]);
+        setFilterData([]);
     } finally {
       setIsLoading(false);
     }
@@ -860,7 +865,8 @@ const scrollToTop = () => {
       <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
         {isLoading ?
           <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-          <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
+          <>
+          { <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
@@ -891,7 +897,7 @@ const scrollToTop = () => {
                 <TableBody>
            
 
-                  {stableSort(filterData, getComparator(order, orderBy))
+                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
                       let serialNumber = page * rowsPerPage + rowIndex + 1;
@@ -916,7 +922,7 @@ const scrollToTop = () => {
                           })}
                         </TableRow>
                       );
-                    })}
+                    }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
                 </TableBody>
               </Table>
             </TableContainer>
@@ -929,7 +935,9 @@ const scrollToTop = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </Paper>}
+          </Paper> }
+          </>
+          }
       </Box>
 
 

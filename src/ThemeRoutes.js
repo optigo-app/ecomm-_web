@@ -23,6 +23,7 @@ import Cookies from "js-cookie";
 import HemratnaProcatalog_App from "./AllTheme/hemratnaProcatalog/HemratnaProcatalog_App";
 import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
+import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 
 export default function ThemeRoutes() {
 
@@ -184,6 +185,8 @@ export default function ThemeRoutes() {
       {themeNo === 6 && <Procatalog_App />}
 
       {themeNo === 7 && <HouseOfQuadri_App />}
+
+      {themeNo === 8 && <ForEveryRoutes />}
     </>
   );
 }
