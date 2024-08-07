@@ -37,6 +37,8 @@ import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+import Navbar from "./Components/Pages/Common/NavBar/Navbar";
+import TopBar from "./Components/Pages/Common/TopBar/TopBar";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(loginState);
@@ -126,8 +128,10 @@ const ForEveryRoutes = () => {
       <title>{localData?.BrowserTitle}</title>
     </Helmet>
       <div>
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
+        <TopBar/>
+        <Navbar/>
+        {/* {localData?.Headerno === 1 && <Header />} */}
+        {/* {localData?.Headerno === 2 && <Header2 />} */}
         {/* <Header2 /> */}
       </div>
       <Routes>
