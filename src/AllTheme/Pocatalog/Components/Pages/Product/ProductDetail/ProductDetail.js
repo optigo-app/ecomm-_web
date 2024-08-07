@@ -1294,12 +1294,13 @@ const ProductDetail = () => {
                                 {selectMtColor}
                               </span>
                             </span>
-                            <span className="smr_prod_short_key">
+                            {(storeInit?.IsDiamondCustomization === 1 &&
+                                diaQcCombo?.length > 0 && diaList?.length) ?<span className="smr_prod_short_key">
                               Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
                                 {`${selectDiaQc}`}
                               </span>
-                            </span>
+                            </span> : null}
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
@@ -1379,8 +1380,8 @@ const ProductDetail = () => {
                                   )}
                                 </div>
                               )}
-                              {storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && (
+                              {(storeInit?.IsDiamondCustomization === 1 &&
+                                diaQcCombo?.length > 0 && diaList?.length) ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
@@ -1403,9 +1404,9 @@ const ProductDetail = () => {
                                       </select>
                                     }
                                   </div>
-                                )}
-                              {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && (
+                                ):null}
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0) ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
@@ -1426,9 +1427,9 @@ const ProductDetail = () => {
                                       ))}
                                     </select>
                                   </div>
-                                )}
+                                ):null}
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                              {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                              {SizeSorting(SizeCombo?.rd)?.length > 0 &&  singleProd?.DefaultSize !== "" && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
@@ -1531,7 +1532,7 @@ const ProductDetail = () => {
                                 </tr>
                               </table> */}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             { (singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)!== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
                               <span style={{display:'flex'}}>
                               <Typography>
@@ -1544,9 +1545,9 @@ const ProductDetail = () => {
                                &nbsp;
                               <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div>:null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !==0 ?<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1558,9 +1559,9 @@ const ProductDetail = () => {
                               &nbsp;
                                <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div>:null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1572,9 +1573,9 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div>:null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1586,9 +1587,9 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div>:null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ?<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1600,9 +1601,19 @@ const ProductDetail = () => {
                               &nbsp;
                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                               </span>
-                             </div>
+                             </div>:null}
 
-                             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {
+                              (
+                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
+                                (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
+                                (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
+                                (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
+                                (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
+                                (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+
+                              ) !== 0 ?
+                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
 
                              <span style={{display:'flex'}}>
@@ -1625,7 +1636,7 @@ const ProductDetail = () => {
                               )?.toFixed(2))
                             }</Typography>
                               </span>
-                             </div>
+                             </div> : null}
 
                             </AccordionDetails>
                           </Accordion>
