@@ -49,24 +49,28 @@ const Footer = ({ fromPage }) => {
                 <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
                 <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
                   <IoLocationOutline style={{ width: '22px', height: '22px' }} />
-                  <span style={{ color: '#7d7f85', fontSize: '14px' }}>
-                    {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
+                  <span style={{ color: '#7d7f85', fontSize: '14px' , width: '80%'}}>
+                  D-Block G20, ITC( International Trade Centre),
+                        Majura Gate, Ring Road,
+                    {/* {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode} */}
                   </span>
                 </p>
                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
                   <IoMdCall />
                   <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                    <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+                    {/* <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                       {companyInfoData?.FrontEndContactno1}
-                    </a>
+                    </a> */}
+                    +91 9099887762
                   </span>
                 </p>
                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
                   <IoMdMail />
                   <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                    <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                    {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                       {companyInfoData?.FrontEndEmail1}
-                    </a>
+                    </a> */}
+                    hello@optigoapps.com
                   </span>
                 </p>
               </div>

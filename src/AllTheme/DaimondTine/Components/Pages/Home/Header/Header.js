@@ -223,20 +223,22 @@ const Header = () => {
     }
 
     const handleLogout = () => {
+        navigation("/");
         setislogin(false);
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
-        navigation('/')
+        Cookies.remove("userLoginCookie");
         window.location.reload();
+        localStorage.setItem("LoginUser", false);
+        localStorage.removeItem("storeInit");
+        localStorage.removeItem("loginUserDetail");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("selectedAddressId");
+        localStorage.removeItem("orderNumber");
+        localStorage.removeItem("registerEmail");
+        localStorage.removeItem("UploadLogicalPath");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("registerMobile");
+        localStorage.removeItem("allproductlist");
+        localStorage.clear();
     }
 
 
