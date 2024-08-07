@@ -33,17 +33,35 @@
       }
     }
   }
-
   .nav_top_head {
-    padding: 4px 0;
     width: 100%;
-
+    display: flex;
     .contact_icon {
+      flex: 1;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align:center;
+      ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2rem;
+        list-style: none;
+        visibility: hidden;
+        a {
+          font-size: $fontSize2-5;
+          letter-spacing: 1.5px;
+          font-family: $fontDmSans;
+          position: relative;
+          cursor: pointer;
+        }
+      }
       a {
         text-decoration: none;
         color: inherit;
       }
-      margin-left: 14.5rem;
       font-family: $fontCrimsonTextRegular;
       display: flex;
       align-items: center;
@@ -90,13 +108,14 @@
         background: white;
         width: 100%;
         left: 0;
-        height: 120px;
+        height: 130px;
         z-index: 85;
         right: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: $fontCrimsonTextRegular;
+        margin-top: -11px;
         input {
           width: 70%;
           font-size: 17px;
@@ -293,6 +312,41 @@
   }
 
   @media screen and (max-width: 1440px) {
+    .nav_top_head{
+      .contact_icon {
+        flex: 1;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align:center;
+        ul {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
+          list-style: none;
+          visibility: hidden;
+          a {
+            font-size: $fontSize2-5;
+            letter-spacing: 1.5px;
+            font-family: $fontDmSans;
+            position: relative;
+            cursor: pointer;
+          }
+        }
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+        font-family: $fontCrimsonTextRegular;
+        display: flex;
+        align-items: center;
+        font-size: $fontSize2;
+        gap: 5px;
+      }
+    }
+    
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -318,6 +372,33 @@
             gap: 1.3rem;
           }
         }
+      }
+    }
+  }
+
+  @media screen and (max-width : 1338px) {
+    .nav_top_head{
+      .contact_icon {
+        flex: 1;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align:center;
+        ul {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.4rem;
+          list-style: none;
+          visibility: hidden;
+         
+        }
+        font-family: $fontCrimsonTextRegular;
+        display: flex;
+        align-items: center;
+        font-size: $fontSize2;
+        gap: 5px;
       }
     }
   }
