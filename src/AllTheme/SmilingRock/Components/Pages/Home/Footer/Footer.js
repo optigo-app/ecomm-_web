@@ -33,7 +33,6 @@ const Footer = ({ fromPage }) => {
 
 
     }, 500)
-
   }, [])
 
   return (
