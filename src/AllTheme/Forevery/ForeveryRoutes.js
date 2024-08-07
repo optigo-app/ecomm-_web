@@ -196,12 +196,12 @@ const ForEveryRoutes = () => {
             </div>
           }
         />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/servicePolicy" element={<ServicePolicy />} />
-        <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-        <Route path="/FunFact" element={<FunFact />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
+        {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
+        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+        {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
+        {/* <Route path="/FunFact" element={<FunFact />} /> */}
+        {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
+        {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />
@@ -211,7 +211,7 @@ const ForEveryRoutes = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
         </Route>
-          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/Lookbook" element={<Lookbook />} /> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
