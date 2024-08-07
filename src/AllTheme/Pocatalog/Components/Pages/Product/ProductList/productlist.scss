@@ -72,6 +72,23 @@
   //   margin-top: 10px;
 }
 
+.proCat_app_product_label{
+  position: absolute;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  font-size: 14px;
+  width: 80%;
+}
+.proCat_app_instock{
+  background-color: #00d300;
+  color: white;
+  text-transform: uppercase;
+  width:21%
+}
+
+
 .label {
   font-size: 12px;
   color: $primaryfontcolor;

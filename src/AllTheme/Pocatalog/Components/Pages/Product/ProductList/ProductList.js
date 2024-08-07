@@ -2324,7 +2324,7 @@ const ProductList = () => {
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className="empty_sorting_div">
-                          <IoArrowBack style={{height: '25px' , width: '25px', cursor: 'pointer' , color: 'rgba(143, 140, 139, 0.9019607843)'}}  onClick={() => navigate('/')}/>
+                          <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate('/')} />
                           {/* <span
                             className="smr_breadcums_port "
                             style={{ margin: "0px" }}
@@ -2426,7 +2426,7 @@ const ProductList = () => {
                             </div>
                           )} */}
                         </div>
-                        <p style={{ margin: '0px',width:'100%', fontWeight: 600 , color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
+                        <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                       </div>
                       {filterData?.length > 0 && (
                         <div className="smr_filter_portion_outter">
@@ -3091,27 +3091,11 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="smr_product_label">
-                                      {productData?.IsInReadyStock == 1 && (
-                                        <span className="smr_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {/* {productData?.IsBestSeller == 1 && (
-                                        <span className="smr_bestSeller">
-                                          Best Seller
-                                        </span>
-                                      )}
-                                      {productData?.IsTrending == 1 && (
-                                        <span className="smr_intrending">
-                                          Trending
-                                        </span>
-                                      )}
-                                      {productData?.IsNewArrival == 1 && (
-                                        <span className="smr_newarrival">
-                                          New Arrival
-                                        </span>
-                                      )} */}
+                                    <div className="proCat_app_product_label">
+                                      {productData?.IsInReadyStock == 1 && <span className="proCat_app_instock">In Stock</span>}
+                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
                                     </div>
                                     <div
                                       onMouseEnter={() => {
