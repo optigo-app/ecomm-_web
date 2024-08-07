@@ -80,7 +80,8 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = () => {  
+    if(islogin == true){
     if (storeInit?.IsPLW == 0) {
       let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
       localStorage.setItem('TotalPriceData', priceData)
@@ -88,6 +89,9 @@ const CartPage = () => {
     } else {
       handlePay();
     }
+  }else{
+    navigate("/LoginOption")
+  }
     window.scrollTo(0, 0);
   }
 
