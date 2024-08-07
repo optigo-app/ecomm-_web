@@ -62,10 +62,11 @@ function Home() {
               {/* <BestSaller /> */}
               <BottomBanner />
               <BrandsComponent />
-              <Footer />
             </div>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 }

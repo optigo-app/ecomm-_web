@@ -42,7 +42,7 @@ import ProCat_PrivateRoutes from './ProCat_PrivateRoutes'
 
 const Procatalog_App = () => {
 
-    const [localData, setLocalData] = useState();
+    const localData = JSON.parse(localStorage.getItem('storeInit'));
     const navigation = useNavigate();
     const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
@@ -87,12 +87,10 @@ const Procatalog_App = () => {
                 }
             }).catch((err) => console.log(err))
         }
-        let localD = JSON.parse(localStorage.getItem('storeInit'));
-        setLocalData(localD);
     }, [])
 
     return (
-        <>    
+        <>
             <div>
                 {localData?.Headerno === 1 && <Header />}
                 {localData?.Headerno === 2 && <Header2 />}

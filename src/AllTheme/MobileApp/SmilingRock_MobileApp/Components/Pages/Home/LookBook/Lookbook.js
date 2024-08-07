@@ -80,6 +80,7 @@ const Lookbook = () => {
   const [isProdLoading, setIsProdLoading] = useState(true);
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [showSelectAll, setShowSelectAll] = useState(false);
 
   useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
@@ -391,6 +392,28 @@ const Lookbook = () => {
     setSelectedCategories(categoryNames);
   }, [filterData]);
 
+  useEffect(() => {
+    const category = filterData.find(ele => ele.id === 'category');
+
+    if (category) {
+      const allOptions = JSON.parse(category.options).map(opt => opt.Name);
+      // Show the Select All button if no options are selected and options are available
+      console.log('categorycategorycategory', allOptions);
+      console.log('categorycategorycategory selectedCategories', selectedCategories);
+      setShowSelectAll(selectedCategories.length !== allOptions.length);
+    }
+  }, [selectedCategories]);
+
+  const handleSelectAll = () => {
+    const category = filterData.find(ele => ele.id === 'category');
+    if (category) {
+      const allOptions = JSON.parse(category.options).map(opt => opt.Name);
+      setSelectedCategories(allOptions);
+      setShowSelectAll(false);
+    }
+  };
+
+
   const handleCheckboxChangeNew = (e, categoryId) => {
     const isChecked = e.target.checked;
     if (isChecked) {
@@ -422,10 +445,6 @@ const Lookbook = () => {
     selectedCategories
   );
 
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
 
   const calculateTotalUnitCostWithMarkUp = (details) => {
     let total = 0;
@@ -507,11 +526,6 @@ const Lookbook = () => {
     </div>
   );
 
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
-
 
   const swiperParams = {
     loop: true,
@@ -519,6 +533,7 @@ const Lookbook = () => {
     slidesPerView: 2,
   };
 
+  console.log('showSelectAll', showSelectAll);
 
   return (
     <div>
@@ -826,7 +841,18 @@ const Lookbook = () => {
                 style={{ height: "25px", width: "25px", color: "#000000ab" }}
               />
             </div>
-
+            <div style={{display: 'flex', justifyContent: 'flex-end', width:'100%'}}>
+              {showSelectAll && (
+                <button
+                  variant="contained"
+                  onClick={handleSelectAll}
+                  style={{ marginTop: '10px' }}
+                  className="smrMA_selctAllCategoryBtn"
+                >
+                  Select All
+                </button>
+              )}
+            </div>
             {filterData?.map((ele) => (
               <React.Fragment key={ele.id}>
                 {ele?.id === "category" && (
