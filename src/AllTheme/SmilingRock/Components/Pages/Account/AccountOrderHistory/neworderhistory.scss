@@ -115,6 +115,9 @@
         margin-left: 6px;
         margin-right: 6px;
     }
+    .fs_head_acc{
+        font-size: 11px !important;
+    }
  }
 
  @media (max-width:756px){
@@ -147,7 +150,7 @@
         font-size: 8px;
     }
     .fs_head_acc{
-        font-size: 12px !important;
+        font-size: 10px;
     }
  }
 
@@ -163,7 +166,7 @@
         width: 39% !important;
     }
     .fs_head_acc{
-        font-size: 12px !important;
+        font-size: 9px !important;
     }
  }
  @media (max-width:562px){
@@ -177,12 +180,12 @@
         width: 40% !important;
     }
     .fs_head_acc{
-        font-size: 12px !important;
+        font-size: 8px !important;
     }
  }
  @media(max-width:556px){
     .fs_head_acc{
-        font-size: 10px !important;
+        font-size: 8px !important;
     }
  }
  @media (max-width:548px){
@@ -195,9 +198,7 @@
     .wprice_smr_acc_noh{
         width: 40% !important;
     }
-    .fs_head_acc{
-        font-size: 10px !important;
-    }
+   
     .fs_head_acc .MuiButtonBase-root {
         min-height: 16px !important;
     }
@@ -217,11 +218,14 @@
     .w_50_noh{
         width: 50% !important;
     }
+    .fs_head_acc{
+        font-size: 8px !important;
+    }
  }
 
  @media (max-width:484px){
     .fs_head_acc{
-        font-size: 9px !important;
+        font-size: 7px !important;
     }
     .mx_4_noh_acc{
         margin-left: 3px;
@@ -238,9 +242,7 @@
     .wprice_smr_acc_noh{
         width: 40% !important;
     }
-    .fs_head_acc{
-        font-size: 10px !important;
-    }
+   
     .orderImgAcc{
         height: 100%;
         width: 100%;
@@ -305,6 +307,9 @@
     .minH_box_acc{
         min-height: 60px;
     }
+    .fs_head_acc{
+        font-size: 7px !important;
+    }
  }
 
  @media (max-width:390px){
@@ -340,6 +345,9 @@
     .w_100_noh_acc{
         width: 100% !important;
     }
+    .fs_head_acc{
+        font-size: 7px !important;
+    }
  }
  @media (max-width:320px),(max-width:360px),(max-width:365px){
     .wdate_smr_acc_noh{
@@ -351,9 +359,7 @@
     .wprice_smr_acc_noh{
         width: 40% !important;
     }
-    .fs_head_acc{
-        font-size: 8px !important;
-    }
+   
     .orderImgAcc{
         height: 100%;
         width: 100%;
@@ -400,6 +406,10 @@
     }
     .w_100_noh_acc{
         width: 100% !important;
+    }
+
+    .fs_head_acc{
+        font-size: 6px !important;
     }
  }
 
