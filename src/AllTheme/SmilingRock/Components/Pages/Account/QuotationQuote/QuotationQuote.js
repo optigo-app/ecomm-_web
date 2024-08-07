@@ -402,6 +402,9 @@ const QuotationQuote = () => {
             }
         } catch (error) {
             console.log('Error:', error);
+            setIsLoading(false);
+            setData([]);
+            setFilterData([]);
         } finally {
             setIsLoading(false);
         }
@@ -527,8 +530,9 @@ const QuotationQuote = () => {
             </Box>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-                <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
-                    <TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
+                <>
+                {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
+                    <><TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
                         <Table
                             sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
                             aria-labelledby="tableTitle"
@@ -542,7 +546,7 @@ const QuotationQuote = () => {
                                 rowCount={filterData.length}
                             />
                             <TableBody>
-                                {visibleRows.map((row, index) => {
+                                { filterData?.length > 0 ? visibleRows?.map((row, index) => {
                                 
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -583,7 +587,7 @@ const QuotationQuote = () => {
                                             
                                         </TableRow>
                                     );
-                                })}
+                                })  : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                                 {emptyRows > 0 && (
                                     <TableRow
                                         style={{
@@ -595,7 +599,7 @@ const QuotationQuote = () => {
                                 )}
                             </TableBody>
                         </Table>
-                    </TableContainer>
+                    </TableContainer> 
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
@@ -604,8 +608,10 @@ const QuotationQuote = () => {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+                    /></> 
                 </Paper>}
+                </>
+                }
 
         </Box>
     )

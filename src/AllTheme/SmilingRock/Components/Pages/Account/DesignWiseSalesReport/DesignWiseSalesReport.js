@@ -497,18 +497,22 @@ const DesignWiseSalesReport = () => {
                 subCategoryLists?.unshift({ id: subCategoryLists?.length, label: "ALL", value: "ALL" });
                 setSubCategoryList(subCategoryLists);
                 subCategoryLists?.length > 0 && setSubCategory(subCategoryLists[0]?.value);
+
                 setData(datass);
                 setFilterData(datass);
+                
             } else {
                 // alert('nodata')
                 setData([]);
                 setFilterData([]);
+                setIsLoading(false);
             }
             if (response?.Data?.rd1) {
                 setDataRd2(response?.Data?.rd1)
             }
         } catch (error) {
             console.error('Error:', error);
+            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
@@ -774,7 +778,8 @@ const DesignWiseSalesReport = () => {
 
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
-                <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
+                <>
+                { filterData?.length > 0 ? <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
                     {filteredDataPaginated?.map((products, i) => (
                         <div
                             style={{
@@ -842,7 +847,8 @@ const DesignWiseSalesReport = () => {
 
                         </div>
                     ))}
-                </Box>
+                </Box> : <div style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey', fontWeight:'bold', marginTop:'3%'}}>Data Not Present</div>}
+                </>
 
             }
 
