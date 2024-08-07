@@ -39,7 +39,6 @@
     margin-inline: 60px;
 
     .smr_AlbumImageMain {
-        height: 350px;
         width: 19%;
         padding: 0px;
         margin: 5px;
@@ -58,13 +57,12 @@
     .smr_albumName {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        margin: 0px 0px 10px 0px;
+        margin: 0px;
         text-align: center;
     }
 
     .smr_AlbumImageMain_img {
         width: 100%;
-        height: 320px;
         object-fit: contain;
     }
 

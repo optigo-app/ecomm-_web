@@ -1665,10 +1665,10 @@ const ProductDetail = () => {
 
                     { !isPriceloading && <div className="Smr_CartAndWish_portion">
                       <button
-                        className="smr_AddToCart_btn"
+                        className="smrMA_AddToCart_btn"
                         onClick={() => handleCart(!addToCartFlag)}
                       >
-                        <span className="smr_addtocart_btn_txt">
+                        <span className="smrMA_addtocart_btn_txt">
                           {!addToCartFlag ? "ADD TO CART" : "REMOVE FROM CART"}
                         </span>
                       </button>

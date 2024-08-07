@@ -33,7 +33,6 @@ const Footer = ({ fromPage }) => {
 
 
     }, 500)
-
   }, [])
 
   return (
@@ -65,15 +64,15 @@ const Footer = ({ fromPage }) => {
                     fontSize: '12px',
                     fontWeight: 500,
                     marginInline: '15px'
-                    // }}>© 2024, optigoapps</p>
-                  }}>© 2024, KayraCreation</p>
-
+                    }}>© 2024, optigoapps</p>
+                  {/* // }}>© 2024, KayraCreation</p> */}
+{/* 
                   <p style={{
                     color: '#7d7f85',
                     fontSize: '12px',
                     fontWeight: 500,
                     cursor: 'pointer'
-                  }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p>
+                  }} onClick={() => navigation('/TermsPolicy')}>Terms & Privacy</p> */}
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
