@@ -29,3 +29,7 @@ export const proCat_DiamondRangeArr = atom({
   key: 'DiamondRangeArr',
   default: []
 })
+export const defaultAddressState = atom({
+  key: 'defaultAddressState',
+  default: []
+})

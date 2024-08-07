@@ -63,7 +63,7 @@ function Home() {
               {/* <BestSaller /> */}
               <BottomBanner />
               {/* <BrandsComponent/> */}
-              <Footer />
+              {/* <Footer /> */}
             </div>
           )}
         </div>
@@ -84,7 +84,6 @@ function Home() {
               {/* <BestSaller /> */}
               <BottomBanner />
               <BrandsComponent />
-              <Footer />
             </div>
           )}
         </div>
@@ -133,6 +132,8 @@ function Home() {
           </p>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 }

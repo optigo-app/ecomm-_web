@@ -4,12 +4,7 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 const TopSection = () => {
 
 
-  const [localData, setLocalData] = useState();
-
-  useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem('storeInit'));
-    setLocalData(localData);
-  }, [])
+  const localData = JSON.parse(localStorage.getItem('storeInit'));
 
   return (
     <div>

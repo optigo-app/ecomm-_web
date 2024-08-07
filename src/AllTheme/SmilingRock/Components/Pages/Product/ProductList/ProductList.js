@@ -704,9 +704,9 @@ const ProductList = () => {
     setAccExpanded(false)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     handelFilterClearAll()
-  },[location?.key])
+  }, [location?.key])
 
   const handelPageChange = (event, value) => {
 
@@ -802,7 +802,7 @@ const ProductList = () => {
     if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true)
     } else {
-      setFilterProdListEmpty(false)        
+      setFilterProdListEmpty(false)
       setAfterCountStatus(false);
     }
   }, [productListData])
@@ -1126,7 +1126,7 @@ const ProductList = () => {
 
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] )? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1153,9 +1153,9 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1] ) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1])  ? "" : sliderValue[1] }
+    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1244,7 +1244,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={(event, newValue)=>setSliderValue(newValue)}
+              onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1292,7 +1292,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChange={() => (event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1339,7 +1339,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={(event, newValue)=>setSliderValue2(newValue)}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
               onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -2746,7 +2746,7 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
                                       {ele.Name}
@@ -3086,27 +3086,11 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="smr_product_label">
-                                      {productData?.IsInReadyStock == 1 && (
-                                        <span className="smr_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.IsBestSeller == 1 && (
-                                        <span className="smr_bestSeller">
-                                          Best Seller
-                                        </span>
-                                      )}
-                                      {productData?.IsTrending == 1 && (
-                                        <span className="smr_intrending">
-                                          Trending
-                                        </span>
-                                      )}
-                                      {productData?.IsNewArrival == 1 && (
-                                        <span className="smr_newarrival">
-                                          New Arrival
-                                        </span>
-                                      )}
+                                    <div className="smr_app_product_label">
+                                      {productData?.IsInReadyStock == 1 && <span className="smr_app_instock">In Stock</span>}
+                                      {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                      {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                      {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>}
                                     </div>
                                     <div
                                       onMouseEnter={() => {
@@ -3303,7 +3287,7 @@ const ProductList = () => {
                                               )?.toFixed(2)} */}
                                             {formatter(
                                               productData?.UnitCostWithMarkUp
-                                             )}
+                                            )}
                                           </span>
                                         </span>
                                       </div>
