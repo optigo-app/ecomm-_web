@@ -450,8 +450,8 @@ const NewOrderHistory = () => {
                                       lg={orderDetails?.length === 1 ? 3 : 3}
                                       xl={orderDetails?.length === 1 ? 3 : 3}
                                     >
-                                      <Card sx={{display:'flex', alignItems:'center'}} onClick={() => handleMoveToDetail(el)}>
-                                          <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} />
+                                      <Card sx={{display:'flex', alignItems:'center'}} >
+                                          <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} />
                                           <div>
                                             <div>{el?.designno}</div>
                                             <div>{el?.metaltypename?.toUpperCase()?.split(" ")[1]} {el?.metalcolorname?.toUpperCase()} {el?.metaltypename?.toUpperCase()?.split(" ")[0]}</div>
