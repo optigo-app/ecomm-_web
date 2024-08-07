@@ -370,12 +370,24 @@ const DynamicCollection = () => {
   };
 
   const handleInputChange = (index) => (event) => {
+
+    let diafilter = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+    )[0];
+
     const newSliderValue = [...sliderValue];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-    setSliderValue(newSliderValue);
-    handleRangeFilterApi(newSliderValue);
+      // if(index === 1  && diafilter?.Max > event.target.value){
+      //   setSliderValue(newSliderValue);
+      //   handleRangeFilterApi(newSliderValue);
+      // }
+      // if(index === 0 && diafilter?.Min < event.target.value){
+        setSliderValue(newSliderValue);
+        handleRangeFilterApi(newSliderValue);
+      // }
   };
+  // gross
   const handleInputChange1 = (index) => (event) => {
     const newSliderValue = [...sliderValue1];
     newSliderValue[index] =
@@ -383,6 +395,7 @@ const DynamicCollection = () => {
     setSliderValue1(newSliderValue);
     handleRangeFilterApi1(newSliderValue);
   };
+  // 
   const handleInputChange2 = (index) => (event) => {
     const newSliderValue = [...sliderValue2];
     newSliderValue[index] =

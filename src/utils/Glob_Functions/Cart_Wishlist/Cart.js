@@ -505,7 +505,6 @@ const useCart = () => {
 
   const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
     try {
-      debugger
       setIsPriceLoding(true)
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
       if (response?.Message === "Success") {
