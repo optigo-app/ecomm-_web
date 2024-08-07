@@ -505,35 +505,35 @@ const useCart = () => {
 
   const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
     try {
-      setIsPriceLoding(true)
-      const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
-      if (response?.Message === "Success") {
-        const resData = response?.Data?.rd[0];
-        const finalPrice = resData?.UnitCostWithMarkUp * qtyCount;
-        setSelectedItem(prevItem => ({
-          ...prevItem,
-          FinalCost: finalPrice,
-          UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
-        }));
+        setIsPriceLoding(true);
+        const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
+        if (response?.Message === "Success") {
+            const resData = response?.Data?.rd[0];
+            const finalPrice = resData?.UnitCostWithMarkUp * qtyCount;
+            setSelectedItem(prevItem => ({
+                ...prevItem,
+                FinalCost: finalPrice,
+                UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
+            }));
 
-        const updatedPricetData = cartData?.map(cart =>
-          cart?.id == selectedID ? {
-            ...cart, 
-            FinalCost: finalPrice,
-            UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
-            Size:sizedata
-          } : cart
-        );
-        setCartData(updatedPricetData);
+            setCartData(prevCartData => prevCartData.map(cart =>
+                cart.id === selectedID ? {
+                    ...cart,
+                    FinalCost: finalPrice,
+                    UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
+                    Size: sizedata
+                } : cart
+            ));
 
-        console.log('priceRes--', finalPrice);
-        setIsPriceLoding(false)
-      }
+            console.log('priceRes--', finalPrice);
+        }
     } catch (error) {
-      console.error("Failed to update quantity:", error);
-      setIsPriceLoding(false)
+        console.error("Failed to update quantity:", error);
+    } finally {
+        setIsPriceLoding(false);
     }
-  };
+};
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
