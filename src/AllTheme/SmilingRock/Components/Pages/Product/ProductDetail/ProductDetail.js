@@ -1527,7 +1527,7 @@ function checkImageAvailability(imageUrl) {
                                 null
                               }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                              {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                              {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
@@ -1687,7 +1687,7 @@ function checkImageAvailability(imageUrl) {
                               </span>
                              </div> : null}
 
-                             { formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                             {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                              <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
 
                              <span style={{display:'flex'}}>
