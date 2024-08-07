@@ -6,6 +6,7 @@ import imageNotFound from '../../../Assets/image-not-found.jpg'
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import Pako from 'pako';
 import { el_CartCount, el_WishCount } from '../../../Recoil/atom';
+import noImageFound from '../../../Assets/image-not-found.jpg';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SingleProdListAPI } from '../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
@@ -53,6 +54,7 @@ const ProductDetail = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
+  console.log('selectedThumbImg: ', selectedThumbImg);
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [thumbImgIndex, setThumbImgIndex] = useState()
   const [pdVideoArr, setPdVideoArr] = useState([]);
@@ -476,6 +478,10 @@ const ProductDetail = () => {
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
               setloadingdata(false);
+              setSelectedThumbImg({
+                link: "",
+                type: "img",
+              });
             }
 
             if (!res?.pdList[0]) {
@@ -869,6 +875,9 @@ const ProductDetail = () => {
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
+      if (FinalPdImgList.length < 1) {
+        setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
+      }
     }
 
     return finalprodListimg;
@@ -1116,48 +1125,73 @@ const ProductDetail = () => {
               <>
                 <div className='elv_ProductDet_max1400'>
                   <div className='elv_ProductDet_prod_img_max1400'>
-                    {selectedThumbImg?.type == "img" ? (
-                      <img
-                        // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                        src={selectedThumbImg?.link}
-                        alt={""}
-                        onLoad={() => setIsImageLoad(false)}
-                        className="elv_ProductDet_prod_image_max1400"
-                      />
+                    {selectedThumbImg !== undefined ? (
+                      selectedThumbImg?.type == "img" ? (
+                        <img
+                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className="elv_ProductDet_prod_image_max1400"
+                        />
+                      ) : (
+                        <div>
+                          <video
+                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            loop
+                            autoPlay
+                            playsInline
+                            muted // Add this attribute to ensure autoplay works
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              height: "100%",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>
+                      )
                     ) : (
                       <div>
                         <video
-                          src={selectedThumbImg?.link}
-                          loop={true}
-                          autoPlay={true}
+                          src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          loop
+                          autoPlay
+                          playsInline
+                          muted // Add this attribute to ensure autoplay works
                           style={{
                             width: "100%",
                             objectFit: "cover",
-                            height: "90%",
+                            height: "100%",
                             borderRadius: "8px",
                           }}
                         />
                       </div>
-                    )}
+                    )
+                    }
                   </div>
                   <div className='elv_ProductDet_prod_img_list_max1400'>
-                    {
-                      pdThumbImg?.length > 0 && (
-                        pdThumbImg?.map((item, index) => {
-                          return (
-                            <img
-                              src={item}
-                              onClick={() => {
-                                setSelectedThumbImg({ link: item, type: "img" });
-                                setThumbImgIndex(index)
-                              }}
-                              onLoad={() => setIsImageLoad(false)}
-                              className='elv_ProductDet_image_max1400'
-                            />
-                          )
-                        })
-                      )
-                    }
+                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                      pdThumbImg?.map((ele, i) => (
+                        <img
+                          src={ele}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className='elv_ProductDet_image_max1400'
+                          onClick={() => {
+                            setSelectedThumbImg({
+                              link: ele,
+                              type: "img",
+                            });
+                            setThumbImgIndex(i);
+                          }}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound
+                          }}
+                        />
+                      ))}
                     {pdVideoArr?.map((data) => (
                       <div
                         style={{
@@ -1197,23 +1231,26 @@ const ProductDetail = () => {
                   <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                 ) : (
                   <div className='elv_ProductDet_prod_img_list'>
-                    {
-                      pdThumbImg?.length > 0 && (
-                        pdThumbImg?.map((item, index) => {
-                          return (
-                            <img
-                              src={item}
-                              onClick={() => {
-                                setSelectedThumbImg({ link: item, type: "img" });
-                                setThumbImgIndex(index)
-                              }}
-                              onLoad={() => setIsImageLoad(false)}
-                              className='elv_ProductDet_image'
-                            />
-                          )
-                        })
-                      )
-                    }
+                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                      pdThumbImg?.map((ele, i) => (
+                        <img
+                          src={ele}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className='elv_ProductDet_image'
+                          onClick={() => {
+                            setSelectedThumbImg({
+                              link: ele,
+                              type: "img",
+                            });
+                            setThumbImgIndex(i);
+                          }}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound
+                          }}
+                        />
+                      ))}
                     {pdVideoArr?.map((data) => (
                       <div
                         style={{
@@ -1252,30 +1289,55 @@ const ProductDetail = () => {
                 ) : (
                   <>
                     <div className='elv_ProductDet_prod_img'>
-                      {selectedThumbImg?.type == "img" ? (
-                        <img
-                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                          src={selectedThumbImg?.link}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className="elv_ProductDet_prod_image"
-                        />
+                      {selectedThumbImg !== undefined ? (
+                        selectedThumbImg?.type == "img" ? (
+                          <img
+                            // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            alt={""}
+                            onLoad={() => setIsImageLoad(false)}
+                            className="elv_ProductDet_prod_image"
+                          />
+                        ) : (
+                          <div>
+                            <video
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              loop
+                              autoPlay
+                              playsInline
+                              muted // Add this attribute to ensure autoplay works
+                              style={{
+                                width: "100%",
+                                objectFit: "cover",
+                                position: 'relative',
+                                left: '6rem',
+                                // height: "90%",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          </div>
+                        )
                       ) : (
                         <div>
                           <video
-                            src={selectedThumbImg?.link}
-                            loop={true}
-                            autoPlay={true}
+                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            loop
+                            autoPlay
+                            playsInline
+                            muted // Add this attribute to ensure autoplay works
                             style={{
                               width: "100%",
                               objectFit: "cover",
-                              marginLeft: '3rem',
-                              height: "90%",
+                              position: 'relative',
+                              left: '6rem',
+                              // height: "90%",
                               borderRadius: "8px",
                             }}
                           />
                         </div>
-                      )}
+                      )
+                      }
                     </div>
                   </>
                 )}
@@ -1286,49 +1348,77 @@ const ProductDetail = () => {
               <>
                 <div className='elv_ProductDet_max1000'>
                   <div className='elv_ProductDet_prod_img_max1000'>
-                    {selectedThumbImg?.type == "img" ? (
-                      <img
-                        // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                        src={selectedThumbImg?.link}
-                        alt={""}
-                        onLoad={() => setIsImageLoad(false)}
-                        className="elv_ProductDet_prod_image_max1000"
-                      />
+                    {selectedThumbImg !== undefined ? (
+                      selectedThumbImg?.type == "img" ? (
+                        <img
+                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className="elv_ProductDet_prod_image_max1000"
+                        />
+                      ) : (
+                        <div>
+                          <video
+                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            loop
+                            autoPlay
+                            playsInline
+                            muted // Add this attribute to ensure autoplay works
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              marginTop: '40px',
+                              height: "100%",
+                              maxHeight: "40.625rem",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>
+                      )
                     ) : (
                       <div>
                         <video
-                          src={selectedThumbImg?.link}
-                          loop={true}
-                          autoPlay={true}
+                          src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          loop
+                          autoPlay
+                          playsInline
+                          muted // Add this attribute to ensure autoplay works
                           style={{
                             width: "100%",
                             objectFit: "cover",
                             marginTop: '40px',
-                            height: "90%",
+                            height: "100%",
+                            maxHeight: "40.625rem",
                             borderRadius: "8px",
                           }}
                         />
                       </div>
-                    )}
+                    )
+                    }
                   </div>
                   <div className='elv_ProductDet_prod_img_list_max1000'>
-                    {
-                      pdThumbImg?.length > 0 && (
-                        pdThumbImg?.map((item, index) => {
-                          return (
-                            <img
-                              src={item}
-                              onClick={() => {
-                                setSelectedThumbImg({ link: item, type: "img" });
-                                setThumbImgIndex(index)
-                              }}
-                              onLoad={() => setIsImageLoad(false)}
-                              className='elv_ProductDet_image_max1000'
-                            />
-                          )
-                        })
-                      )
-                    }
+                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                      pdThumbImg?.map((ele, i) => (
+                        <img
+                          src={ele}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className='elv_ProductDet_image_max1000'
+                          onClick={() => {
+                            setSelectedThumbImg({
+                              link: ele,
+                              type: "img",
+                            });
+                            setThumbImgIndex(i);
+                          }}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound
+                          }}
+                        />
+                      ))}
                     {pdVideoArr?.map((data) => (
                       <div
                         style={{

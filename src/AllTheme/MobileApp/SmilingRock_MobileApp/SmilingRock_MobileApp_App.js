@@ -36,6 +36,7 @@ import Coupons from './Components/Pages/StaticPages/Coupons'
 import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
 import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
+import NewOrderHistoryMapp from './Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -122,7 +123,8 @@ const SmilingRock_MobileApp_App = () => {
           <Route path="/SalesReport" element={<SalesReport />} />
           <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
           <Route path="/YourProfile" element={<YourProfile />} />
-          <Route path="/OrderHistory" element={<OrderHistory />} />
+          {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
+          <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
           <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/MobileViewComp" element={<MobileViewComp />} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./neworderhistory.scss";
+import "./neworderhistoryF.scss";
 import CircleIcon from "@mui/icons-material/Circle";
 import {
   Box,
@@ -34,8 +34,8 @@ import PrintIcon from "@mui/icons-material/Print";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
-import { formatAmount } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
-const NewOrderHistory = () => {
+import { formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+const NewOrderHistoryF = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
   const [loaderOH, setLoaderOH] = useState(false);
@@ -278,30 +278,30 @@ const NewOrderHistory = () => {
                         {/* <CardHeader sx={{ backgroundColor:'#f4f4f4', boxShadow: "none", borderBottom:'1px solid #cacaca', borderLeft:'0px', borderRight:'0px'}} */}
                         {/* title={ */}
                         { !smallDevice2 ? <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 5px", }} >
-                          <Typography className="fs_head_acc wdate_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", paddingLeft:'10px' }} >
+                          <Typography className="fs_head_accF wdate_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", paddingLeft:'10px' }} >
                             {e?.orderEntryDate?.toUpperCase()}
                           </Typography>
-                          <Typography sx={{ width: "33.33%", display: "flex", justifyContent: "center", alignItems: "center", }} className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc wstatus_smr_acc_noh`} >
+                          <Typography sx={{ width: "33.33%", display: "flex", justifyContent: "center", alignItems: "center", }} className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_accF wstatus_smr_acc_noh`} >
                             <CircleIcon sx={{ fontSize:'10px !important', marginRight: "5px" }} />{" "}
                             {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
                           </Typography>
-                          <Typography className="fs_head_acc wprice_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", position: "relative", paddingRight:'10px'}}  >
+                          <Typography className="fs_head_accF wprice_smr_acc_noh" sx={{ width: "33.33%", display: "flex", justifyContent: "flex-end", alignItems: "center", position: "relative", paddingRight:'10px'}}  >
                             <div style={{userSelect:'none'}} onClick={() => handleToggleTaxes(e?.id)}>
                               <span style={{cursor:'pointer'}}>TOTAL : </span>
                               <span style={{ color: "#4a9aa8", fontWeight: "500", cursor:'pointer' }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
                               <span> <ExpandMoreIcon style={{color:'grey', cursor:'pointer'}} /> </span>
                             </div>
                             {openTaxes === e?.id && (
-                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_acc" >
+                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_accF" >
                                 <MenuList>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
-                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF">
+                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
                                   </MenuItem>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
-                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF">
+                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
                                   </MenuItem>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc"> 
-                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF"> 
+                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
                                   </MenuItem>
                                 </MenuList>
                               </Paper>
@@ -310,8 +310,8 @@ const NewOrderHistory = () => {
                         </Box> : ''}
                         {/* } */}
                         {/* // ></CardHeader> */}
-                        <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", }} className="fs_head_acc" >
-                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", }} className="fs_head_acc" >
+                        <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", }} className="fs_head_accF" >
+                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", }} className="fs_head_accF" >
                            { !smallDevice4 && <Box sx={{ width: "33.33%", display: "flex", justifyContent: "flex-start", alignItems: "center", }} >
                               <img
                                 src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png"
@@ -320,26 +320,26 @@ const NewOrderHistory = () => {
                                 loading="eager"
                               />
                             </Box>}
-                            <Box sx={{ width: "33.33%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_acc w_50_noh w_100_noh_acc" >
+                            <Box sx={{ width: "33.33%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_accF w_50_noh w_100_noh_acc" >
            
                            
-                              { smallDevice2 && <Typography style={{display:'flex', alignItems:'center'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc w_100_noh_acc`}>
+                              { smallDevice2 && <Typography style={{display:'flex', alignItems:'center'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_accF start_noh_acc w_100_noh_acc`}>
                                 <CircleIcon sx={{ fontSize:'7px !important', marginRight: "5px" }} />
                                 {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
                               </Typography>}
-                              { smallDevice2 && <Typography className="fs_head_acc start_noh_acc w_100_noh_acc">
+                              { smallDevice2 && <Typography className="fs_head_accF start_noh_acc w_100_noh_acc">
                                 {e?.orderEntryDate}
                               </Typography>}
-                              <Typography className="fs_head_acc start_noh_acc w_100_noh_acc" style={{fontWeight:'bold'}}>
+                              <Typography className="fs_head_accF start_noh_acc w_100_noh_acc" style={{fontWeight:'bold'}}>
                                 {" "}
                                 {e?.OrderPrefix}
                                 {e?.orderno}
                               </Typography>
-                              <Typography className="fs_head_acc start_noh_acc w_100_noh_acc">
+                              <Typography className="fs_head_accF start_noh_acc w_100_noh_acc">
                                 Item : <span style={{color:'brown', fontWeight:'bold'}}>{e?.TotalQuantity}</span>
                               </Typography>
                             </Box>
-                           {  <Box sx={{ width: "33.33%", display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-end", }} className="fs_head_acc w_50_noh" > 
+                           {  <Box sx={{ width: "33.33%", display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-end", }} className="fs_head_accF w_50_noh" > 
                             <>
                               {e?.IsPLW === 1 ? ( <>
                                 <div className="minh_noh" style={{display:'flex', alignItems:'center'}}>
@@ -350,7 +350,7 @@ const NewOrderHistory = () => {
                                       <>
                                           
 
-                                          <Chip size="small" label="Approve" color="success" className="fs_head_acc2" sx={{margin:'0px 5px'}} onClick={() => handleApproveReject(e, 'approve')} />
+                                          <Chip size="small" label="Approve" color="success" className="fs_head_accF2" sx={{margin:'0px 5px'}} onClick={() => handleApproveReject(e, 'approve')} />
                                           <Chip
                                             size="small"
                                             label="Reject"
@@ -364,13 +364,13 @@ const NewOrderHistory = () => {
                                                   cursor: 'default',
                                                 },
                                               }}
-                                              className="fs_head_acc2"
+                                              className="fs_head_accF2"
                                           onClick={() => handleApproveReject(e, 'reject')}
                                         />
                                     
                                       </>
                                     )}
-                                    { e?.IsPLW === 0 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal fs_head_acc2`} label={e?.OrderStatusName} />}
+                                    { e?.IsPLW === 0 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal fs_head_accF2`} label={e?.OrderStatusName} />}
                                     </div>
                                 </div>
                                 <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />
@@ -394,23 +394,23 @@ const NewOrderHistory = () => {
                             </>
                             </Box>}
                           </Box>
-                          { smallDevice2 && <Typography className="fs_head_acc" style={{position:'relative'}} onClick={() => handleToggleTaxes(e?.id)}>
+                          { smallDevice2 && <Typography className="fs_head_accF" style={{position:'relative'}} onClick={() => handleToggleTaxes(e?.id)}>
                                 <div style={{userSelect:'none', display:'flex', justifyContent:'center', alignItems:'center'}} className="pb_25_noh start_noh_acc" onClick={() => handleToggleTaxes(e?.id)}>
                                   <span style={{cursor:'pointer'}}>TOTAL : </span>
                                   <span style={{ color: "#4a9aa8", fontWeight: "500", cursor:'pointer' }} > &nbsp; <span dangerouslySetInnerHTML={{ __html: e?.Country_CurrencyCode, }} ></span>{" "} {formatAmount(e?.orderAmountwithvat)} </span>{" "}
                                   <span> <ExpandMoreIcon style={{color:'grey', cursor:'pointer', fontSize:'12px'}} /> </span>
                                 </div>
                                 {openTaxes === e?.id && (
-                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_acc" >
+                              <Paper size="small" sx={{ position: "absolute", right: "10px", top: "25px", }} className="fs_head_accF" >
                                 <MenuList>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
-                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF">
+                                     Sub Total : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.orderAmount)} </span> 
                                   </MenuItem>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc">
-                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF">
+                                     Estimated Tax : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {formatAmount(e?.totaltaxAmount)} </span> 
                                   </MenuItem>
-                                  <MenuItem className="fs_head_acc" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_acc"> 
-                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_acc" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
+                                  <MenuItem className="fs_head_accF" sx={{ padding: "0px 5px", width: "100%", minWidth: "160px", }} size="small" > <span style={{ width: "50%", fontSize: "12px" }} className="fs_head_accF"> 
+                                     Grand Total : </span>{" "} <span className="d_end_oh fs_head_accF" style={{ width: "50%", fontSize: "12px" }} > {" "} {formatAmount(e?.orderAmountwithvat)} </span> 
                                   </MenuItem>
                                 </MenuList>
                               </Paper>
@@ -419,7 +419,7 @@ const NewOrderHistory = () => {
                          
                         </CardContent>
                         <Accordion
-                          className="fs_head_acc"
+                          className="fs_head_accF"
                           expanded={expandedAccordion === e?.id}
                           onChange={() => {
                             handleClick(e);
@@ -435,7 +435,7 @@ const NewOrderHistory = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             expanded={expandedAccordion === e?.id}
-                            className="fs_head_acc"
+                            className="fs_head_accF"
                           >
                             {expandedAccordion === e?.id
                               ? "View Less"
@@ -483,7 +483,7 @@ const NewOrderHistory = () => {
                               }
                               </>) : ''
                             }
-                            <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
+                            <Typography Typography className="fs_head_accF" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
                               setExpandedAccordion(false)
                               handleClick(e);
                             }}><ExpandLess /></Typography>
@@ -501,10 +501,10 @@ const NewOrderHistory = () => {
   );
 };
 
-export default NewOrderHistory;
+export default NewOrderHistoryF;
 
                                           // return <CardContent sx={{boxShadow: "none", padding:'0px', paddingBottom:'0px'}} key={ind}>
-                                          //           <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'0px'}} className="fs_head_acc">
+                                          //           <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'0px'}} className="fs_head_accF">
                                           //               <Box sx={{width:'33.33%', display:'flex', justifyContent:'flex-start', alignItems:'center'}}><img src="http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH_uKey/Design_Image/EK121002_1.png" alt="#orderImg" className="orderImgAcc" /></Box>
                                           //               <Box sx={{width:'33.33%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} className="fs_head_acc">
                                           //                   <Typography className="fs_head_acc"> {el?.metaltypename} {el?.metalcolorname}</Typography>

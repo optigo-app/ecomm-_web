@@ -83,6 +83,7 @@
   color: $primaryfontcolor;
   display: flex;
   justify-content: center;
+  text-transform: uppercase;
 }
 
 .option {
@@ -384,26 +385,22 @@
 
 }
 
-.smr_product_label{
+.smr_app_product_label{
   position: absolute;
-  top: 45px;
+  top: 170px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: column-reverse;
+  gap: 3px;
   font-size: 14px;
+  width:60px
+}
+.smr_app_instock{
+  background-color: #00d300;
+  color: white;
+  text-transform: uppercase;
+  width:21%
 }
 
-.smr_instock{
-  // background-color: #00800045;
-  // color: black;
-  padding: 0px 5px;
-  background-color: white !important;
-  padding: 0px 5px;
-  border: 1px solid darkgreen  !important;
-  border-radius: 50px;
-  color: darkgreen !important;
-  margin-left: 5px;
-}
 
 .smr_bestSeller{
   // background-color: #bc000075;
