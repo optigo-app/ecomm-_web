@@ -1135,7 +1135,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  {visibleRows.map((row, index) => {
+                  { filterData?.length > 0 ? visibleRows.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -1180,7 +1180,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  })}
+                  }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
