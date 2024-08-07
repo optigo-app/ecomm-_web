@@ -67,7 +67,9 @@ export default function Register() {
     if (fieldName === 'firstName') {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, firstName: 'First Name is required' }));
-      } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
+      } else if (value.length < 2) {
+        setErrors(prevErrors => ({ ...prevErrors, firstName: 'First Name Should Be Accept Minimum 2 Character' }));
+      }  else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
         setErrors(prevErrors => ({ ...prevErrors, firstName: 'Invalid First Name' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, firstName: '' }));
@@ -75,6 +77,8 @@ export default function Register() {
     } else if (fieldName === 'lastName') {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, lastName: 'Last Name is required' }));
+      }else if (value.length < 2) {
+        setErrors(prevErrors => ({ ...prevErrors, lastName: 'Last Name Should Be Accept Minimum 2 Character' }));
       } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
         setErrors(prevErrors => ({ ...prevErrors, lastName: 'Invalid Last Name' }));
       } else {
@@ -84,7 +88,7 @@ export default function Register() {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
       } else if (!/^\d{10}$/.test(value.trim())) {
-        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid mobile number' }));
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid Mobile number' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
       }
