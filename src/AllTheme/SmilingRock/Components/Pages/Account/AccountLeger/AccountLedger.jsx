@@ -781,7 +781,7 @@ const AccountLedger = () => {
                                      }
                                      </>
                                     )
-                                }) : <tr><td align='center' colSpan={18}>Data No Present</td></tr>
+                                }) : <tr><td align='center' colSpan={18} style={{ color:'grey', fontWeight:'bold'}}> Data No Present</td></tr>
                             }
                                         <tr className='border_Acc fw_bold_acc'>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>

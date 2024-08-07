@@ -35,6 +35,9 @@
     .fs_head_acc{
         font-size: 14px !important;
     }
+    .lh_head_acc{
+        line-height: 14px !important;
+    }
 
     .fs_head_acc .MuiAccordionSummary-content {
         margin: 0px !important;
@@ -57,7 +60,32 @@
         align-items: center;
     }
 
- @media (max-width:788px){
+
+
+    .pd_s_noh_acc{
+        padding-left: 4px;
+    }
+    .pd_e_noh_acc{
+        padding-right: 4px;
+    }
+    .mx_4_noh_acc{
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+
+    .w_80_noh_acc{
+        width: 80%;
+    }
+    .w_20_noh_acc{
+        width: 20%;
+    }
+    .minH_box_acc{
+        min-height: 70px;
+    }
+    
+
+ @media (max-width:788px), (max-width:790px), (max-width:805px){
     .wdate_smr_acc_noh{
         width: 30% !important;
     }
@@ -75,7 +103,20 @@
         justify-content: center;
         align-items: center;
     }
+
+    .w_80_noh_acc{
+        width: 75%;
+    }
+    .w_20_noh_acc{
+        width: 25%;
+    }
+
+    .mx_4_noh_acc{
+        margin-left: 6px;
+        margin-right: 6px;
+    }
  }
+
  @media (max-width:756px){
     .wdate_smr_acc_noh{
         width: 26% !important;
@@ -97,7 +138,20 @@
     .wprice_smr_acc_noh{
         width: 39% !important;
     }
+
+    .mx_4_noh_acc{
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    .fs_head_acc2{
+        font-size: 8px;
+    }
+    .fs_head_acc{
+        font-size: 12px !important;
+    }
  }
+
+
  @media (max-width:687px){
     .wdate_smr_acc_noh{
         width: 22% !important;
@@ -124,6 +178,11 @@
     }
     .fs_head_acc{
         font-size: 12px !important;
+    }
+ }
+ @media(max-width:556px){
+    .fs_head_acc{
+        font-size: 10px !important;
     }
  }
  @media (max-width:548px){
@@ -157,6 +216,16 @@
 
     .w_50_noh{
         width: 50% !important;
+    }
+ }
+
+ @media (max-width:484px){
+    .fs_head_acc{
+        font-size: 9px !important;
+    }
+    .mx_4_noh_acc{
+        margin-left: 3px;
+        margin-right: 3px;
     }
  }
  @media (max-width:480px){
@@ -216,6 +285,25 @@
     }
     .w_100_noh_acc{
         width: 100% !important;
+    }
+
+
+
+    .w_80_noh_acc{
+        width: 70%;
+    }
+    .w_20_noh_acc{
+        width: 30%;
+    }
+
+    .fs_head_acc{
+        font-size: 8px !important;
+    }
+
+ }
+ @media (max-width:400px){
+    .minH_box_acc{
+        min-height: 60px;
     }
  }
 

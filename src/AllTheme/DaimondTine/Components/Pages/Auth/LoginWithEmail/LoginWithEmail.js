@@ -18,7 +18,7 @@ import Cookies from 'js-cookie';
 
 
 export default function LoginWithEmail() {
-    const [islogin , setIsLoginState] = useRecoilState(dt_loginState)
+    const [islogin, setIsLoginState] = useRecoilState(dt_loginState)
     const [email, setEmail] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,7 +31,7 @@ export default function LoginWithEmail() {
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
-    
+
     const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(dt_WishCount)
 
@@ -80,7 +80,7 @@ export default function LoginWithEmail() {
                 setIsLoginState(true)
                 localStorage.setItem('LoginUser', true)
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-               
+
 
                 GetCountAPI(visiterID).then((res) => {
                     if (res) {
@@ -116,9 +116,9 @@ export default function LoginWithEmail() {
                     }
                 }).catch((err) => console.log(err))
 
-                if(redirectEmailUrl){
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
 
@@ -173,7 +173,8 @@ export default function LoginWithEmail() {
                     <div className='dt_loginSubDiv'>
                         <p style={{
                             textAlign: 'center',
-                            paddingBlock: '50px',
+                            paddingTop: '50px',
+                            margin: "0px",
                             fontSize: '25px',
                             fontFamily: 'PT Sans, sans-serif'
                         }}
@@ -181,7 +182,6 @@ export default function LoginWithEmail() {
                         >Login With Password</p>
                         <p style={{
                             textAlign: 'center',
-                            marginTop: '-80px',
                             fontSize: '15px',
                             color: '#7d7f85',
                             fontFamily: 'PT Sans, sans-serif'
