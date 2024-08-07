@@ -39,12 +39,12 @@
 // export default TabSection;
 
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import "./TabSection.modul.scss";
 import { TabImage } from "../../../Constants/TabImages";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { Hoq_loginState } from "../../../Recoil/atom";
-import Cookies from "js-cookie";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Pako from "pako";
@@ -53,28 +53,14 @@ const TabSection = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
-  const [storeInit, setStoreInit] = useState();
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-  
+  const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(Hoq_loginState);
-  
-  let loginuser = JSON.parse(localStorage.getItem('LoginUser'))
 
-  useEffect(()=>{
+  useEffect(() => {
     let storeinit = JSON.parse(localStorage.getItem("storeInit"));
     setStoreInit(storeinit);
-  },[])
-
-  const Arrials = async(finalID)=>{
-    await Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
-    .then((response) => {
-      if (response?.Data?.rd) {
-        setNewArrivalData(response?.Data?.rd);
-      }
-    })
-    .catch((err) => console.log(err));
-   }
-
+  }, []);
 
   useEffect(() => {
     const loginUserDetail = JSON.parse(
@@ -85,13 +71,20 @@ const TabSection = () => {
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
     } else {
       finalID = loginUserDetail?.id || "0";
     }
     let data = JSON.parse(localStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
-   Arrials()
+
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
+      ?.then((response) => {
+        if (response?.Data?.rd) {
+          setNewArrivalData(response?.Data?.rd);
+        }
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const ImageGenrate = (product) => {
@@ -101,6 +94,7 @@ const TabSection = () => {
         }`
       : "noImageFound";
   };
+
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
@@ -133,7 +127,9 @@ const TabSection = () => {
       }${productData?.designno}?p=${encodeObj}`
     );
   };
+
   const formatter = new Intl.NumberFormat("en-IN");
+
   return (
     <div className="hoq_main_TabSection">
       <div className="header">
@@ -175,7 +171,13 @@ const TabSection = () => {
         })}
         <div className="TabCard_main mobile-only">
           <div className="box">
-            <span onClick={()=>navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)}>View All</span>
+            <span
+              onClick={() =>
+                navigation(`/p/NewArrival/?N=${btoa("NewArrival")}`)
+              }
+            >
+              View All
+            </span>
           </div>
         </div>
       </div>

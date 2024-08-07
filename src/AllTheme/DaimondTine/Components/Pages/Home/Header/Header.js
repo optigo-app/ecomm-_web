@@ -223,20 +223,22 @@ const Header = () => {
     }
 
     const handleLogout = () => {
+        navigation("/");
         setislogin(false);
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
-        navigation('/')
+        Cookies.remove("userLoginCookie");
         window.location.reload();
+        localStorage.setItem("LoginUser", false);
+        localStorage.removeItem("storeInit");
+        localStorage.removeItem("loginUserDetail");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("selectedAddressId");
+        localStorage.removeItem("orderNumber");
+        localStorage.removeItem("registerEmail");
+        localStorage.removeItem("UploadLogicalPath");
+        localStorage.removeItem("remarks");
+        localStorage.removeItem("registerMobile");
+        localStorage.removeItem("allproductlist");
+        localStorage.clear();
     }
 
 
@@ -560,9 +562,9 @@ const Header = () => {
                         <li
                             className="dt_menu_li"
                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
-                            onClick={() => navigation('/')}
+                            onClick={() => {navigation('/');window.scrollTo(0, 0);}}
                         >
-                            <span className="nav-li-sminingSpan">
+                            <span className="nav-li-sminingSpan_Home">
                                 Home
                             </span>
                         </li>
@@ -605,53 +607,50 @@ const Header = () => {
                 </>
             </div>
 
-
             {/* header menu dropdown */}
-            <div id='shopdropdown' className={`dt_shop_dropdown 
+            {/* {selectedData?.param1[0]?.param1name && */}
+                <div id='shopdropdown' className={`dt_shop_dropdown 
                 ${expandedMenu !== null ? "open" : ""}  
                 ${isHeaderFixed ? "fixed" : ""}`}
-                onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
-                <div
-                    style={{
-                        display: "flex",
-                        padding: "50px",
-                        color: "#7d7f85",
-                        gap: "50px",
-                        justifyContent: 'space-between',
-                        width: 'fit-content',
-                        margin: '0 auto',
-                        backgroundColor: 'white',
-                        boxShadow: '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)',
-
-                    }}
-                    className="menuDropdownData"
-                >
-                    <div style={{}}>
-                        {/* Render selectedData outside the menuItems loop */}
-                        <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
-                            {selectedData?.param1?.map((param1Item, param1Index) => (
-                                // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
-                                <div key={param1Index}>
-                                    <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
-                                    <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
-                                        {param1Item?.param2?.map((param2Item, param2Index) => (
-                                            <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
-                                                menuname: leval1menu?.menuname,
-                                                key: leval1menu?.param0name,
-                                                value: leval1menu?.param0dataname,
-                                            },
-                                                {
-                                                    key: param1Item.param1name,
-                                                    value: param1Item.param1dataname,
+                    onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+                    <div
+                        style={{
+                            display: "flex",
+                            padding: "50px",
+                            color: "#7d7f85",
+                            gap: "50px",
+                            justifyContent: 'space-between',
+                            width: 'fit-content',
+                            margin: '0 auto',
+                            backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
+                            boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                        }}
+                        className="menuDropdownData"
+                    >
+                            <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
+                                {selectedData?.param1?.map((param1Item, param1Index) => (
+                                    // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
+                                    <div key={param1Index}>
+                                        <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                        <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+                                            {param1Item?.param2?.map((param2Item, param2Index) => (
+                                                <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
+                                                    menuname: leval1menu?.menuname,
+                                                    key: leval1menu?.param0name,
+                                                    value: leval1menu?.param0dataname,
                                                 },
-                                                {
-                                                    key: param2Item.param2name,
-                                                    value: param2Item.param2dataname,
-                                                })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                                                {param2Item?.param2dataname}
-                                            </p>
-                                        ))}
-                                        {/* {
+                                                    {
+                                                        key: param1Item.param1name,
+                                                        value: param1Item.param1dataname,
+                                                    },
+                                                    {
+                                                        key: param2Item.param2name,
+                                                        value: param2Item.param2dataname,
+                                                    })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                                    {param2Item?.param2dataname}
+                                                </p>
+                                            ))}
+                                            {/* {
                                         menuname: leval1menu?.menuname,
                                         key: leval1menu?.param0name,
                                         value: leval1menu?.param0dataname,
@@ -664,21 +663,19 @@ const Header = () => {
                                         key: param2Item.param2name,
                                         value: param2Item.param2dataname,
                                       } */}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
-                    </div>
 
-                    {/* <div style={{ display: 'flex', gap: '15px' }}>
+                        {/* <div style={{ display: 'flex', gap: '15px' }}>
                   <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="#" className="menuImages" />
                   <img src={`${storImagePath()}/images/Menu/Menu2.jpg`} alt="#" className="menuImages" />
                 </div> */}
 
+                    </div>
                 </div>
-            </div>
-
-
+            {/* } */}
             {/* mobileHeader................. */}
             <div className="dt_mobileViewHeaderMain" style={{ backgroundColor: drawerOpen ? 'white' : '#e1e1e1 ' }}>
                 <div className="dt_mobileView_div1">

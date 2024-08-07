@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 export default function LabGrownDiamond() {
   const [htmlContent, setHtmlContent] = useState("");
+  const MediaQuery768 = useMediaQuery('(max-width: 1000px)')
 
   useEffect(() => {
     fetch(`${storImagePath()}/static-html-page/LabGrownDiamond.html`)
@@ -26,7 +28,11 @@ export default function LabGrownDiamond() {
     <div className="hoq_privacyPolicy">
       <div>
         <div
-          className="privacy-policy"
+        style={{
+          padding : "0 15px",
+          width  : MediaQuery768 ? "95%"  :"70%",
+          margin : "0 auto"
+        }}
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </div>
