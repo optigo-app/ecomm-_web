@@ -1834,7 +1834,7 @@ function checkImageAvailability(imageUrl) {
                         >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}/${diaList
+                        )}  ${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1868,7 +1868,7 @@ function checkImageAvailability(imageUrl) {
                         >{`ColorStone Detail (${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}/${csList?.filter((ele)=>ele?.D !== "MISC")
+                        )}  ${csList?.filter((ele)=>ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
