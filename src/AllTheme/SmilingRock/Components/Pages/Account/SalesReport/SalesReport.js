@@ -718,10 +718,12 @@ const SalesReport = () => {
       }else{
         setData([]);
         setFilterData([]);
+        setIsLoading(false);
       }
       
     } catch (error) {
       console.log("Error:", error);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -1057,7 +1059,7 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+          {  <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
             <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
@@ -1069,7 +1071,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  {visibleRows.map((row, index) => {
+                  { filterData?.length > 0 ? visibleRows?.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -1114,7 +1116,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  })}
+                  }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -1127,7 +1129,7 @@ const SalesReport = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </Paper>
+          </Paper> }
         </>
       )}
     </Box>
