@@ -385,33 +385,33 @@
 
 }
 
-.smr_app_product_label{
+.smrWeb_app_product_label{
   position: absolute;
-  top: 170px;
+  bottom: 100px;
   display: flex;
   flex-direction: column-reverse;
   gap: 3px;
   font-size: 14px;
   width:60px
 }
-.smr_app_instock{
+.smrWeb_app_instock{
   background-color: #00d300;
   color: white;
   text-transform: uppercase;
-  width:21%
+  width: 70px;
 }
 
-
-.smr_bestSeller{
-  // background-color: #bc000075;
-  // color: white;
-  padding: 0px 5px;
-  background-color: white  !important;
-  padding: 0px 5px;
-  border: 1px solid red  !important;
-  border-radius: 50px;
-  color: red  !important;
-  margin-left: 5px;
+.smrWeb_app_bestSeller{
+  // padding: 0px 5px;
+  /* background-color: white !important; */
+  /* border: 1px solid red !important; */
+  /* border-radius: 50px; */
+  /* color: red !important; */
+  // margin-left: 5px;
+  background-color: #ff5100;
+  color: white; 
+  text-transform: uppercase;
+  width: 70px;
 }
 
 .smr_intrending{
@@ -426,7 +426,14 @@
   margin-left: 5px;
 }
 
-.smr_newarrival{
+.smr_app_newarrival{
+  background-color: darkblue;
+  color: white;
+  text-transform: uppercase;
+  width: 70px;
+}
+
+.smrWeb_app_newarrival{
   // background-color: lightskyblue;
   // color: black;
   padding: 0px 5px;
@@ -436,6 +443,20 @@
   border-radius: 50px;
   color: darkblue !important ;
   margin-left: 5px;
+}
+
+
+.smrWeb_app_intrending{
+  // padding: 0px 5px;
+  /* background-color: white !important; */
+  /* border: 1px solid red !important; */
+  /* border-radius: 50px; */
+  /* color: red !important; */
+  // margin-left: 5px;
+  background-color: darkorange;
+  color: white;
+  text-transform: uppercase;
+  width: 70px;
 }
 
 // .smr_shorcutCustomization{
