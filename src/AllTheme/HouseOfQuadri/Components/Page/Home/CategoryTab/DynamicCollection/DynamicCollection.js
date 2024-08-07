@@ -22,6 +22,7 @@ import { IoChevronForward } from "react-icons/io5";
 import {
   findMetalColor,
   findMetalType,
+  formatter,
   storImagePath,
 } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import {
@@ -219,6 +220,7 @@ const DynamicCollection = () => {
   //  range filter Api
 
   const handleRangeFilterApi = async (Rangeval) => {
+    setIsProdLoading(true)
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -255,15 +257,18 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setIsProdLoading(false)
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false)
       });
   };
   const handleRangeFilterApi1 = async (Rangeval1) => {
+    setIsProdLoading(true)
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -300,15 +305,19 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setIsProdLoading(false)
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false)
       });
   };
   const handleRangeFilterApi2 = async (Rangeval2) => {
+    setIsProdLoading(true)
+
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -345,12 +354,16 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+    setIsProdLoading(false)
+
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false)
+
       });
   };
 
@@ -529,6 +542,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                pattern: "\\d*(\\.\\d{0,3})?" 
               }}
             />
             <Input
@@ -541,6 +555,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                  pattern: "\\d*(\\.\\d{0,3})?" 
               }}
             />
           </div>
@@ -1790,19 +1805,19 @@ const DynamicCollection = () => {
                                       ? `Under  ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )} ${opt?.Maxval}`
+                                        )} ${formatter(opt?.Maxval)}`
                                       : opt?.Maxval == 0
                                       ? `Over  ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )} ${opt?.Minval}`
+                                        )} ${formatter(opt?.Minval)}`
                                       : `${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${opt?.Minval} - ${decodeEntities(
+                                        )}  ${formatter(opt?.Minval)} - ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${opt?.Maxval}`
+                                        )}  ${formatter(opt?.Maxval)}`
                                   }
                                 />
                               </div>

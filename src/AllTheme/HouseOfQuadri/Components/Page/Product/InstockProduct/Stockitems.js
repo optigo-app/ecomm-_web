@@ -3,6 +3,7 @@ import { Checkbox } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import Skeleton from "@mui/material/Skeleton";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 const Stockitems = ({
   stockItemArr,
   storeInit,
@@ -149,9 +150,9 @@ const Stockitems = ({
                       <span>
                         {" "}
                         {
-                          // formatter.format(
+                          formatter(
                           ele?.Amount
-                          // )
+                          )
                         }
                       </span>
                     </span>

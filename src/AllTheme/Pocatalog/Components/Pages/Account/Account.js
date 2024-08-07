@@ -20,6 +20,7 @@ import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import NewOrderHistoryPC from './AccountOrderHistory/NewOrderHistoryPC';
 
 // import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
 
@@ -144,7 +145,8 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    <OrderHistory />
+                                    {/* <OrderHistory /> */}
+                                    <NewOrderHistoryPC />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">

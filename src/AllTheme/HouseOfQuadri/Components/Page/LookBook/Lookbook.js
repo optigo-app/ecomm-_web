@@ -779,19 +779,19 @@ const Lookbook = () => {
                                   ? `Under ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Maxval}`
+                                    }  ${formatter(opt?.Maxval)}`
                                   : opt?.Maxval == 0
                                   ? `Over ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Minval}`
+                                    }  ${formatter(opt?.Minval)}`
                                   : `${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Minval} - ${
+                                    }  ${formatter(opt?.Minval)} - ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Maxval}`
+                                    }  ${formatter(opt?.Maxval)}`
                               }
                             />
                           </div>
@@ -1204,19 +1204,19 @@ const Lookbook = () => {
                                         ? `Under ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Maxval}`
+                                          } ${formatter(opt?.Maxval)}`
                                         : opt?.Maxval == 0
                                         ? `Over ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          }${opt?.Minval}`
+                                          }${formatter(opt?.Minval)}`
                                         : `${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Minval} - ${
+                                          } ${formatter(opt?.Minval)} - ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Maxval}`
+                                          } ${formatter(opt?.Maxval)}`
                                     }
                                   />
                                 </div>
@@ -1911,56 +1911,42 @@ const Lookbook = () => {
                                             <p style={{
                                               lineHeight :"14px"
                                             }}>
-                                            <span className="hoq_lb3detailDT">
-                                                NWT :{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Nwt || 0)
-                                                  .toFixed(3)
-                                                  }{" "}
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                GWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Gwt || 0)
-                                                  .toFixed(3)
-                                                 }
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                DWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Dwt || 0)
-                                                  .toFixed(3)
-                                                }{" "}
-                                                /{" "}
-                                                {(ele?.Dpcs || 0)
-                                                }
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                              CWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.CSwt || 0)
-                                                  .toFixed(3)
-                                                  }{" "}
-                                                /{" "}
-                                                {(ele?.CSpcs || 0)
-                                                }{" "}
-                                              </span>
+                                            {Number(ele?.Nwt) !== 0 && (
+                                                <>
+                                                  <span className='hoq_lb3detailDT'>NWT : </span>
+                                                  <span className='hoq_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              )}
+                                             
+                                              {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                <span className="hoq_lb3pipe"> | </span>
+                                                  <span className='hoq_lb3detailDT'>GWT: </span>
+                                                  <span className='hoq_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              }
+                                              {storeInit?.IsDiamondWeight == 1 &&
+                                                <>
+                                                  {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                    <>
+                                                      <span className='hoq_lb3pipe'> | </span>
+                                                      <span className='hoq_lb3detailDT'>DWT: </span>
+                                                      <span className='hoq_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
+                                             {storeInit?.IsStoneWeight == 1 &&
+                                                <>
+                                                  {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                    <>
+                                                      <span className='hoq_lb3pipe'> | </span>
+                                                      <span className='hoq_lb3detailDT'>CWT: </span>
+                                                      <span className='hoq_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
                                             </p>
                                               {/* <span
                                               className="hoq_currencyFont"
