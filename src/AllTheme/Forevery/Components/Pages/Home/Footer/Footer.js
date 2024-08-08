@@ -47,8 +47,19 @@ const Footer = () => {
     }, 500);
   }, []);
 
-  const handleNavigate = (path) => {
-    navigate(path);
+  const handleNavigate = (event, path) => {
+    if (
+      event?.ctrlKey ||
+      event?.shiftKey ||
+      event?.metaKey ||
+      (event?.button && event?.button === 1)
+    ) {
+      return;
+    } else {
+      event?.preventDefault();
+      navigate(path);
+      window.scrollTo(0, 0);
+    }
   };
 
   const sections = [
@@ -150,9 +161,9 @@ const Footer = () => {
                 <>
                   {section.items.map((item, idx) => (
                     <li key={idx}>
-                      <a href="#" onClick={(e) => {
+                      <a href={item?.path} onClick={(e) => {
                         e.preventDefault();
-                        handleNavigate(item.path);
+                        handleNavigate(e, item.path);
                       }}>{item.name}</a>
                     </li>
                   ))}
@@ -164,11 +175,11 @@ const Footer = () => {
       </div>
       <ul className="companyCopyRight">
         <li>© 2024 FOREVERY</li>
-        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('/terms-of-use'); }}>TERMS OF USE</a></li>
-        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('/privacy-policy'); }}>PRIVACY POLICY</a></li>
-        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('/cookies-policy'); }}>COOKIES POLICY</a></li>
-        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('/return-refund-policy'); }}>RETURN AND REFUND POLICY</a></li>
-        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('/change-cookie-preferences'); }}>CHANGE COOKIE PREFERENCES</a></li>
+        <li><a href="/terms-of-use" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/terms-of-use'); }}>TERMS OF USE</a></li>
+        <li><a href="/privacy-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/privacy-policy'); }}>PRIVACY POLICY</a></li>
+        <li><a href="/cookies-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/cookies-policy'); }}>COOKIES POLICY</a></li>
+        <li><a href="/return-refund-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/return-refund-policy'); }}>RETURN AND REFUND POLICY</a></li>
+        <li><a href="/change-cookie-preferences" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/change-cookie-preferences'); }}>CHANGE COOKIE PREFERENCES</a></li>
       </ul>
     </footer>
   );

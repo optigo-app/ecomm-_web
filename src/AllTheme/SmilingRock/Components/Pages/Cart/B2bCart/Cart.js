@@ -167,7 +167,7 @@ const CartPage = () => {
             <div className="smr_cart-title">My Cart</div>
           }
           <div className='smr_cartmainRowDiv'>
-            {!isloding && cartData.length != 0 &&
+            {!isloding && cartData?.length != 0 &&
               <div className='smr_cartButton-groups'>
                 <Link
                   className='smr_ReomoveAllCartbtn'
@@ -181,7 +181,7 @@ const CartPage = () => {
             {!isMobileScreen &&
               <div className="smr_cart-title">My Cart</div>
             }
-            {!isloding && cartData.length != 0 &&
+            {!isloding && cartData?.length != 0 &&
               <div className='smr_placeOrderMainbtnDivs'>
                 <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
