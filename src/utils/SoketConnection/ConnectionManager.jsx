@@ -114,7 +114,7 @@ const ConnectionManager = () => {
 
   return (
     <div>
-      <button className='btn btn-danger cust_btn' onClick={handleBtnClick('reacttest')}>Socket Event</button>
+      {/* <button className='btn btn-danger cust_btn' onClick={handleBtnClick('reacttest')}>Socket Event</button> */}
     </div>
   );
 };
