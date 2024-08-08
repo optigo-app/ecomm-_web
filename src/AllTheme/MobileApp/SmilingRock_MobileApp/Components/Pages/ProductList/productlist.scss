@@ -348,9 +348,9 @@
 
 }
 
-.smr_app_product_label{
+.smrMA_app_product_label{
   position: absolute;
-  top: 170px;
+  top: 180px;
   display: flex;
   flex-direction: column-reverse;
   gap: 3px;
@@ -465,7 +465,7 @@
     font-size: 12px;
   }
 
-  .smr_app_product_label{
+  .smrMA_app_product_label{
     font-size: 9px;
   }
 
@@ -514,7 +514,7 @@
     font-size: 10px;
   }
 
-  .smr_app_product_label{
+  .smrMA_app_product_label{
     font-size: 8px;
     width:100%;
   }
@@ -575,8 +575,7 @@
 }
 @media screen and (max-width:590px) {
   .smr_app_prod_Allwt{
-    height: 12px;
-    margin-block: 8px;
+    height: 20px;
   } 
   .smr_keys{
     font-size: 9px !important;

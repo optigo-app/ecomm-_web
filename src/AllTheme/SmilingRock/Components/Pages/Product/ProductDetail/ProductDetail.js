@@ -238,9 +238,13 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) =>{ if(selectMtColor) {
+        return ele?.colorname == selectMtColor
+      }
+      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+    })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -1238,11 +1242,13 @@ const ProductDetail = () => {
   const SizeSorting = (SizeArr) => {
 
     let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
+      console.log("SizeSorted",a?.sizename?.toUpperCase())
 
       return nameA - nameB;
     })
+
 
     return SizeSorted
 
