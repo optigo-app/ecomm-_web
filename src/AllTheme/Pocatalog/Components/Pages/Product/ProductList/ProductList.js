@@ -141,9 +141,9 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  }, [loginUserDetail,storeInit])
+  }, [loginUserDetail, storeInit])
 
-  console.log("selectredmetalid",selectedMetalId);
+  console.log("selectredmetalid", selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -2087,7 +2087,11 @@ const ProductList = () => {
               ) : (
                 <>
                   {!minwidth1201px ? (
-                    <div className="smr_mobile_prodSorting">
+                    <div className="proCat_mobile_prodSorting">
+                      <div className="proCat_empty_sorting_div">
+                        <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate(-1)} />
+                      </div>
+
                       <Checkbox
                         sx={{ padding: "0px 9px 0px 9px" }}
                         icon={<FilterAltIcon fontSize="large" />}
@@ -2324,11 +2328,11 @@ const ProductList = () => {
 
                   <div className="smr_mainPortion">
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
-                      <div className="proCat_topTitleList" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div className="empty_sorting_div">
+                      <div className="proCat_topTitleList" style={{ display: 'flex',  alignItems: 'center' }}>
+                        <div className="proCat_mpty_sorting_div">
                           <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate('/')} />
                         </div>
-                        <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
+                        <p className="proCat_NameTopShow" >{extractedPart}</p>
                       </div>
                       {filterData?.length > 0 && (
                         <div className="smr_filter_portion_outter">
@@ -2817,9 +2821,7 @@ const ProductList = () => {
                           <>
                             <div className="smr_main_sorting_div_proCat">
                               <div className="proCat_topTitleList_mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div className="empty_sorting_div">
-                                  <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate('/')} />
-                                </div>
+
                                 <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                               </div>
                               {/* {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
