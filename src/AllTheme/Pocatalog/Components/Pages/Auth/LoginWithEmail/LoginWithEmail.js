@@ -189,6 +189,7 @@ export default function LoginWithEmail() {
                     navigation(redirectEmailUrl);
                 } else {
                     navigation('/')
+                    window.location.reload(); 
                 }
 
                 // pdDataCalling()
@@ -198,7 +199,6 @@ export default function LoginWithEmail() {
 
                 // handelCurrencyData()
                 // getAllProdData()
-                // window.location.reload(); 
             } else {
                 errors.confirmPassword = 'Password is Invalid'
             }

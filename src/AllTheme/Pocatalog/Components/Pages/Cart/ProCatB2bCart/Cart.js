@@ -6,7 +6,7 @@ import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
 import './proCat_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
@@ -70,6 +70,7 @@ const CartPage = () => {
   } = useCart();
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [storeInit, setStoreInit] = useState();
   const [defaultAddr, setDefaultAddr] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -80,20 +81,25 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
-  const handlePlaceOrder = () => {  
-    if(islogin == true){
-    if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-      localStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
+  const handlePlaceOrder = () => {
+    const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
+    localStorage.setItem('TotalPriceData', priceData);
+  
+    if (islogin) {
+      if (storeInit?.IsPLW === 0) {
+        navigate("/Delivery");
+      } else {
+        handlePay();
+      }
     } else {
-      handlePay();
+      // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
+      // navigate(redirectUrl);
+      navigate('/loginOption')
     }
-  }else{
-    navigate("/LoginOption")
-  }
+  
     window.scrollTo(0, 0);
-  }
+  };
+  
 
   function scrollToTop() {
     window.scrollTo({
@@ -171,7 +177,7 @@ const CartPage = () => {
             <div className="proCat_cart-title">My Cart</div>
           }
           <div className='proCat_cartmainRowDiv'>
-            {!isloding && cartData.length != 0 &&
+            {!isloding && cartData?.length != 0 &&
               <div className='proCat_cartButton-groups'>
                 <Link
                   className='proCat_ReomoveAllCartbtn'
