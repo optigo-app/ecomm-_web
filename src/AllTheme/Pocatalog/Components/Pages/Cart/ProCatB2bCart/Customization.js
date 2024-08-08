@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './proCat_cartPage.scss';
+import './procat_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -54,6 +54,8 @@ const Customization = ({
       toast.success('Cart Updated Successfully');
     }
   }
+
+
 
   return (
     <>
