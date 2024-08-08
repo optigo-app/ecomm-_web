@@ -421,9 +421,18 @@ const ProductPage = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.metalcolorname == selectMtColor
-    )[0];
+
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorname == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+
+    console.log("selectMtColor", selectMtColor);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -1070,7 +1079,7 @@ const ProductPage = () => {
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
-  console.log(PdImageArr?.length > 1 )
+  console.log(PdImageArr?.length > 1);
 
   return (
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
@@ -1169,80 +1178,87 @@ const ProductPage = () => {
                 })}
               </div>
               <div className="main_image">
-                {PdImageArr?.length > 1? (
-                 <> <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                 {PdImageArr?.length > 0 ? (
-                   PdImageArr?.map((val, i) => {
-                     return (
-                       <div key={i} className="slider_card">
-                         <div className="image">
-                           {val?.type == "img" ? (
-                             <img
-                               loading="lazy"
-                               src={
-                                 val?.src ||
-                                 "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                               }
-                               alt={""}
-                               onLoad={() => setIsImageLoad(false)}
-                               onError={(e) => {
-                                 e.target.onerror = null;
-                                 e.target.src =
-                                   "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                               }}
-                             />
-                           ) : (
-                             <div
-                               style={{
-                                 height: "80vh",
-                               }}
-                             >
-                               <video
-                                 src={val?.src}
-                                 ref={videoRef}
-                                 loop={true}
-                                 autoPlay={true}
-                                 muted
-                                 style={{
-                                   width: "100%",
-                                   height: "100%",
-                                   objectFit: "scale-down",
-                                 }}
-                               />
-                             </div>
-                           )}
-                         </div>
-                       </div>
-                     );
-                   })
-                 ) : (
-                   <div className="main_image">
-                     <img
-                       src={
-                         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                       }
-                       alt={""}
-                       style={{
-                         width: "100%",
-                         height: "90%",
-                         objectFit: "contain",
-                         border: "1px solid #312f2f21",
-                         marginTop: "45px",
-                       }}
-                       onError={(e) => {
-                         e.target.onerror = null;
-                         e.target.src =
-                           "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                       }}
-                     />
-                   </div>
-                 )}
-               </Slider></>
+                {PdImageArr?.length > 1 ? (
+                  <>
+                    {" "}
+                    <Slider
+                      {...settings}
+                      ref={sliderRef}
+                      lazyLoad="progressive"
+                    >
+                      {PdImageArr?.length > 0 ? (
+                        PdImageArr?.map((val, i) => {
+                          return (
+                            <div key={i} className="slider_card">
+                              <div className="image">
+                                {val?.type == "img" ? (
+                                  <img
+                                    loading="lazy"
+                                    src={
+                                      val?.src ||
+                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                    }
+                                    alt={""}
+                                    onLoad={() => setIsImageLoad(false)}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src =
+                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                    }}
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      height: "80vh",
+                                    }}
+                                  >
+                                    <video
+                                      src={val?.src}
+                                      ref={videoRef}
+                                      loop={true}
+                                      autoPlay={true}
+                                      muted
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "scale-down",
+                                      }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className="main_image">
+                          <img
+                            src={
+                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                            }
+                            alt={""}
+                            style={{
+                              width: "100%",
+                              height: "90%",
+                              objectFit: "contain",
+                              border: "1px solid #312f2f21",
+                              marginTop: "45px",
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                            }}
+                          />
+                        </div>
+                      )}
+                    </Slider>
+                  </>
                 ) : (
                   <>
                     <div className="slider_card">
                       <div className="image">
-                        <img src={PdImageArr[0]?.src} alt="ddwd"/>
+                        <img src={PdImageArr[0]?.src} alt="ddwd" />
                       </div>
                     </div>
                   </>
@@ -2199,7 +2215,19 @@ const ProductPage = () => {
                 </span>
                 <FaHeart />
               </button>
-
+              <div className="delivery_hoq">
+                {singleProd?.InStockDays !== 0 && (
+                  <span>
+                    <CiDeliveryTruck size={24} /> Express Shipping in Stock{" "}
+                    {singleProd?.InStockDays} Days Delivery
+                  </span>
+                )}
+                {singleProd?.MakeOrderDays != 0 && (
+                  <span>
+                    Make To Order {singleProd?.MakeOrderDays} Days Delivery
+                  </span>
+                )}
+              </div>
               {/* <div className="product_ins_banner">
                 <img
                   src="https://houseofquadri.com/cdn/shop/files/IGI_Certified_1_1024x.png?v=1712319485"

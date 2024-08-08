@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <RecoilRoot>
-        <ConnectionManager />
+        {/* <ConnectionManager /> */}
         <BrowserRouter>
           <ThemeRoutes />
           <ToastContainer autoClose={2000} style={{zIndex : "99999999999999"}}/>
