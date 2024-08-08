@@ -133,7 +133,6 @@ const NewOrderHistoryPC = () => {
     const UserEmail = localStorage.getItem("userEmail");
     try {
       const response2 = await getOrderItemDetails( obj, storeinit, loginInfo, UserEmail );
-
       if (response2?.Status === "200") {
         if (response2?.Data?.rd1) {
           setOrderDetails(response2?.Data?.rd1);
@@ -146,6 +145,7 @@ const NewOrderHistoryPC = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoaderOH2(false);
     }
   };
 
