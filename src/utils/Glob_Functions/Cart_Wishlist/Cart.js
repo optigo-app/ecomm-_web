@@ -263,10 +263,10 @@ const useCart = () => {
       if (response) {
         const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
           const extractNumber = (sizeName) => parseFloat(sizeName?.replace(/[^0-9.]/g, ''));
-          
+
           const numA = extractNumber(a?.sizename);
           const numB = extractNumber(b?.sizename);
-          
+
           return numA - numB;
         });
         console.log('sortedSizeData', sortedSizeData);
@@ -279,9 +279,9 @@ const useCart = () => {
       console.error('Failed to fetch size data:', error);
     }
   };
-  
-  
-  
+
+
+
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
@@ -349,19 +349,19 @@ const useCart = () => {
       cart.id === item.id ? { ...cart, Quantity: quantity, FinalCost: priceQty } : cart
     );
     setCartData(updatedCartData);
-  
+
     const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: quantity, FinalCost: priceQty } : selectedItem;
     setSelectedItem(updatedSelectedItem);
   };
-  
+
   const handleIncrement = async (item) => {
     debugger
     const newQuantity = (item?.Quantity || 0) + 1;
     const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
-  
+
     updateCartAndSelectedItem(item, newQuantity, priceQty);
     setQtyCount(prevCount => prevCount + 1);
-  
+
     try {
       const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
       console.log("Quantity updated successfully:", response);
@@ -369,15 +369,15 @@ const useCart = () => {
       console.error("Failed to update quantity:", error);
     }
   };
-  
+
   const handleDecrement = async (item) => {
     if (item?.Quantity > 1) {
       const newQuantity = item.Quantity - 1;
       const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
-  
+
       updateCartAndSelectedItem(item, newQuantity, priceQty);
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
-  
+
       try {
         const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
         console.log("Quantity updated successfully:", response);
@@ -386,9 +386,9 @@ const useCart = () => {
       }
     }
   };
-  
+
   console.log('selectedItem', selectedItem);
-  
+
 
 
   // for dropdown changes
@@ -396,22 +396,20 @@ const useCart = () => {
     const selectedTypeName = event.target.value;
     const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
-    // console.log('eventKey--', selectedTypeName, selectedID);
 
     const updatedMTData = cartData?.map(cart =>
       cart.id == selectedID ? { ...cart, metaltypename: selectedTypeName } : cart
     );
     setCartData(updatedMTData);
 
-    const selectedMetal = metalTypeCombo.find(option => option.metaltype === selectedTypeName);
+    const selectedMetal = metalTypeCombo?.find(option => option.metaltype === selectedTypeName);
     if (selectedMetal) {
-      const selectedMetalId = selectedMetal.Metalid;
+      const selectedMetalId = selectedMetal?.Metalid;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalID(selectedMetalId);
-      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId);
+      handlePrice(selectedID, sizeId, diaIDData, colorStoneID, selectedMetalId);
     }
   };
-
 
   const handleMetalColorChange = (event) => {
     const selectedTypeName = event.target.value;
@@ -431,7 +429,6 @@ const useCart = () => {
       setMetalCOLORID(selectedMetalId);
     }
   };
-
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
@@ -459,10 +456,9 @@ const useCart = () => {
       const diaId = `${selectedDiaQId},${selectedDiaCId}`;
       console.log('Selected Metalid:', diaId);
       setdiaID(diaId);
-      handlePrice("", sizeId, diaId, colorStoneID, metalID);
+      handlePrice(selectedID, sizeId, diaId, colorStoneID, metalID);
     }
   };
-
 
   const handleSizeChange = (event) => {
     const sizedata = event?.target?.value;
@@ -482,8 +478,6 @@ const useCart = () => {
 
     handlePrice(selectedID, sizedata, diaIDData, colorStoneID, metalID);
   };
-
-
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
@@ -511,7 +505,7 @@ const useCart = () => {
       const csQid = `${selectedCSQId},${selectedCSCId}`;
       console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
       setColorStoneID(csQid);
-      handlePrice("", sizeId, diaIDData, csQid, metalID);
+      handlePrice(selectedID, sizeId, diaIDData, csQid, metalID);
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
