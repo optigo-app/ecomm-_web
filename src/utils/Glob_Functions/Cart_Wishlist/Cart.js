@@ -236,24 +236,52 @@ const useCart = () => {
 
   //get category Size
 
+  // const handleCategorySize = async (item) => {
+  //   const visiterId = Cookies.get('visiterId');
+  //   try {
+  //     const response = await getSizeData(item, visiterId, islogin);
+  //     if (response) {
+  //       console.log('categoryData', response);
+  //       setSizeCombo(response?.Data)
+  //       setSizeId(item?.Size)
+
+  //       const sizeChangeData = response?.Data?.rd.filter((size) => {
+  //         return size.sizename === item?.Size;
+  //       });
+
+  //       setSizeChangeData(sizeChangeData)
+  //     }
+  //   } catch (error) {
+  //   }
+  // }
+
   const handleCategorySize = async (item) => {
     const visiterId = Cookies.get('visiterId');
     try {
+      debugger;
       const response = await getSizeData(item, visiterId, islogin);
       if (response) {
-        console.log('categoryData', response);
-        setSizeCombo(response?.Data)
-        setSizeId(item?.Size)
-
-        const sizeChangeData = response?.Data?.rd.filter((size) => {
-          return size.sizename === item?.Size;
+        const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
+          const extractNumber = (sizeName) => parseFloat(sizeName?.replace(/[^0-9.]/g, ''));
+          
+          const numA = extractNumber(a?.sizename);
+          const numB = extractNumber(b?.sizename);
+          
+          return numA - numB;
         });
-
-        setSizeChangeData(sizeChangeData)
+        console.log('sortedSizeData', sortedSizeData);
+        setSizeCombo(sortedSizeData);
+        setSizeId(item?.Size);
+        const sizeChangeData = sortedSizeData?.filter((size) => size?.sizename == item?.Size);
+        setSizeChangeData(sizeChangeData);
       }
     } catch (error) {
+      console.error('Failed to fetch size data:', error);
     }
-  }
+  };
+  
+  
+  
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
@@ -448,7 +476,7 @@ const useCart = () => {
     );
     setCartData(updatedSizeData);
 
-    const sizeChangeData = sizeCombo?.rd.filter(size => size.sizename === sizedata);
+    const sizeChangeData = sizeCombo?.filter(size => size.sizename === sizedata);
     setSizeChangeData(sizeChangeData);
     console.log("sizeChangeData", sizeChangeData);
 
