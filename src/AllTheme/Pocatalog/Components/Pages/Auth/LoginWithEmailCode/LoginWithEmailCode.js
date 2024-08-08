@@ -122,6 +122,7 @@ export default function LoginWithEmailCode() {
                     navigation(redirectEmailUrl);
                 }else{
                     navigation('/')
+                    window.location.reload(); 
                 }
             } else {
                 errors.mobileNo = 'Code is Invalid'

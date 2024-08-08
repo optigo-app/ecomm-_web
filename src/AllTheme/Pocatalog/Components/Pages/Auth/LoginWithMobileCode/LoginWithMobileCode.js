@@ -77,6 +77,7 @@ export default function LoginWithMobileCode() {
                     navigation(redirectMobileUrl);
                 }else{
                     navigation('/')
+                    window.location.reload(); 
                 }
 
             } else {
