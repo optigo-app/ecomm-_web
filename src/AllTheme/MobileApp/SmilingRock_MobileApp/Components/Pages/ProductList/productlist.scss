@@ -358,7 +358,7 @@
   width:60px
 }
 
-.smr_app_instock{
+.smrMA_app_instock{
   // padding: 0px 5px;
   /* background-color: white !important; */
   /* border: 1px solid darkgreen !important; */
@@ -368,10 +368,10 @@
   background-color: #00d300;
   color: white;
   text-transform: uppercase;
-  width:21%
+  width:50px;
 }
 
-.smr_app_bestSeller{
+.smrMA_app_bestSeller{
   // padding: 0px 5px;
   /* background-color: white !important; */
   /* border: 1px solid red !important; */
@@ -381,10 +381,10 @@
   background-color: #ff5100;
   color: white; 
   text-transform: uppercase;
-  width: 21%;
+  width: 50px;
 }
 
-.smr_app_intrending{
+.smrMA_app_intrending{
   // padding: 0px 5px;
   /* background-color: white !important; */
   /* border: 1px solid red !important; */
@@ -394,14 +394,14 @@
   background-color: darkorange;
   color: white;
   text-transform: uppercase;
-  width: 70px;
+  width: 50px;
 }
 
-.smr_app_newarrival{
+.smrMA_app_newarrival{
   background-color: darkblue;
   color: white;
   text-transform: uppercase;
-  width: 21%;
+  width: 50px;
 }
 
 .sortItemLabelProduct{
@@ -466,7 +466,7 @@
   }
 
   .smr_app_product_label{
-    font-size: 12px;
+    font-size: 9px;
   }
 
   .smrMA_price{
@@ -515,7 +515,7 @@
   }
 
   .smr_app_product_label{
-    font-size: 7px;
+    font-size: 8px;
     width:100%;
   }
 
@@ -576,6 +576,7 @@
 @media screen and (max-width:590px) {
   .smr_app_prod_Allwt{
     height: 12px;
+    margin-block: 8px;
   } 
   .smr_keys{
     font-size: 9px !important;
