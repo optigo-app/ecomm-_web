@@ -6,12 +6,15 @@ import ThemeRoutes from './ThemeRoutes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
+import ConnectionManager from './utils/SoketConnection/ConnectionManager';
 
 function App() {
+
 
   return (
     <>
       <RecoilRoot>
+        {/* <ConnectionManager /> */}
         <BrowserRouter>
           <ThemeRoutes />
           <ToastContainer autoClose={2000} style={{zIndex : "99999999999999"}}/>

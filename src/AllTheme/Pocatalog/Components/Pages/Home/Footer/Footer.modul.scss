@@ -22,8 +22,7 @@
     }
 
     .footerSocialIcon {
-        height: 45px;
-        width: 45px;
+        padding: 10px;
         border: 1px solid #e1e1e1;
         border-radius: 50px;
         display: flex;
@@ -81,8 +80,17 @@
         width: 100%;
     }
 
+   
 
     @media screen and (max-width: 1024px) {
+
+        .proCat_AddresMain{
+            margin-left: 0px!important;
+        }
+
+        .proCat_SoicialMain{
+            margin-left: 0px!important;
+        }
 
         .footerBottomMain {
             display: flex;
@@ -129,12 +137,19 @@
             display: flex;
             flex-direction: column;
         }
+
+        .proCat_SoicialMain{
+            margin-bottom: 50px!important;
+            display: flex;
+            width: 100%!important;
+        }
+
     }
 }
 
 
 
-.smr_Footer2_main {
+.proCat_Footer2_main {
     .footerBottomMain {
         display: flex;
         justify-content: space-between;
@@ -156,8 +171,7 @@
     }
 
     .footerSocialIcon {
-        height: 45px;
-        width: 45px;
+        padding: 10px;
         border: 1px solid #e1e1e1;
         border-radius: 50px;
         display: flex;

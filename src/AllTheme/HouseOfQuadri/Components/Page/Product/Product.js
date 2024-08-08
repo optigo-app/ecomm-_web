@@ -590,7 +590,6 @@ const ProductPage = () => {
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-
         console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     }, 500);
@@ -607,8 +606,8 @@ const ProductPage = () => {
       )[0];
     }
 
-    setSelectMtColor(mcArr?.metalcolorname);
-  }, [singleProd, singleProd1]);
+    setSelectMtColor(mcArr?.colorname);
+  }, [singleProd]);
 
   const ProdCardImageFunc = async () => {
     let colImg;
@@ -1071,6 +1070,7 @@ const ProductPage = () => {
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
+  console.log(PdImageArr?.length > 1 )
 
   return (
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
@@ -1169,74 +1169,84 @@ const ProductPage = () => {
                 })}
               </div>
               <div className="main_image">
-                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                  {PdImageArr?.length > 0 ? (
-                    PdImageArr?.map((val, i) => {
-                      return (
-                        <div key={i} className="slider_card">
-                          <div className="image">
-                            {val?.type == "img" ? (
-                              <img
-                                loading="lazy"
-                                src={
-                                  val?.src ||
-                                  "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                }
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                              />
-                            ) : (
-                              <div
-                                style={{
-                                  height: "80vh",
-                                }}
-                              >
-                                <video
-                                  src={val?.src}
-                                  ref={videoRef}
-                                  loop={true}
-                                  autoPlay={true}
-                                  muted
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "scale-down",
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="main_image">
-                      <img
-                        src={
-                          "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                        }
-                        alt={""}
-                        style={{
-                          width: "100%",
-                          height: "90%",
-                          objectFit: "contain",
-                          border: "1px solid #312f2f21",
-                          marginTop: "45px",
-                        }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src =
-                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                        }}
-                      />
+                {PdImageArr?.length > 1? (
+                 <> <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                 {PdImageArr?.length > 0 ? (
+                   PdImageArr?.map((val, i) => {
+                     return (
+                       <div key={i} className="slider_card">
+                         <div className="image">
+                           {val?.type == "img" ? (
+                             <img
+                               loading="lazy"
+                               src={
+                                 val?.src ||
+                                 "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                               }
+                               alt={""}
+                               onLoad={() => setIsImageLoad(false)}
+                               onError={(e) => {
+                                 e.target.onerror = null;
+                                 e.target.src =
+                                   "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                               }}
+                             />
+                           ) : (
+                             <div
+                               style={{
+                                 height: "80vh",
+                               }}
+                             >
+                               <video
+                                 src={val?.src}
+                                 ref={videoRef}
+                                 loop={true}
+                                 autoPlay={true}
+                                 muted
+                                 style={{
+                                   width: "100%",
+                                   height: "100%",
+                                   objectFit: "scale-down",
+                                 }}
+                               />
+                             </div>
+                           )}
+                         </div>
+                       </div>
+                     );
+                   })
+                 ) : (
+                   <div className="main_image">
+                     <img
+                       src={
+                         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                       }
+                       alt={""}
+                       style={{
+                         width: "100%",
+                         height: "90%",
+                         objectFit: "contain",
+                         border: "1px solid #312f2f21",
+                         marginTop: "45px",
+                       }}
+                       onError={(e) => {
+                         e.target.onerror = null;
+                         e.target.src =
+                           "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                       }}
+                     />
+                   </div>
+                 )}
+               </Slider></>
+                ) : (
+                  <>
+                    <div className="slider_card">
+                      <div className="image">
+                        <img src={PdImageArr[0]?.src} alt="ddwd"/>
+                      </div>
                     </div>
-                  )}
-                </Slider>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -1414,7 +1424,8 @@ const ProductPage = () => {
                         </select>
                       </div>
                     ) : (
-                      SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                      SizeSorting(SizeCombo?.rd)?.length > 0 &&
+                      singleProd?.DefaultSize !== "" && (
                         <div
                           className="hoq_single_prod_customize"
                           style={{
@@ -1465,7 +1476,8 @@ const ProductPage = () => {
                   {storeInit?.IsCsCustomization === 1 &&
                   selectCsQc?.length > 0 &&
                   csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
-                    ? (SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                    ? SizeSorting(SizeCombo?.rd)?.length > 0 &&
+                      singleProd?.DefaultSize !== "" && (
                         <div
                           className="hoq_single_prod_customize"
                           style={{
@@ -1510,7 +1522,7 @@ const ProductPage = () => {
                             </select>
                           )}
                         </div>
-                      ))
+                      )
                     : null}
                 </div>
               )}
@@ -1580,14 +1592,16 @@ const ProductPage = () => {
                         {selectMtColor}
                       </span>
                     </span>
-                   {storeInit?.IsDiamondCustomization === 1 &&
+                    {storeInit?.IsDiamondCustomization === 1 &&
                     diaQcCombo?.length > 0 &&
-                    diaList?.length ?  (<span className="smr_prod_short_key">
-                      Diamond Quality Color :{" "}
-                      <span className="smr_prod_short_val">
-                        {`${selectDiaQc}`}
+                    diaList?.length ? (
+                      <span className="smr_prod_short_key">
+                        Diamond Quality Color :{" "}
+                        <span className="smr_prod_short_val">
+                          {`${selectDiaQc}`}
+                        </span>
                       </span>
-                    </span> ): null}
+                    ) : null}
                     {storeInit?.IsMetalWeight && (
                       <span className="smr_prod_short_key">
                         Net Wt :{" "}
@@ -1726,107 +1740,121 @@ const ProductPage = () => {
                         ))}
                       </div>
                     )} */}
-                     {diaList?.length > 0 && (
-                    <div className="hoq_material_details_portion_inner">
-                      <ul style={{ margin: "0px 0px 3px 0px" }}>
-                        <li
-                          style={{ fontWeight: 600 }}
-                        >{`Diamond Detail (${diaList?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )}   ${diaList
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
+                    {diaList?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                          <li
+                            style={{ fontWeight: 600 }}
+                          >{`Diamond Detail (${diaList?.reduce(
+                            (accumulator, data) => accumulator + data.M,
                             0
-                          )
-                          .toFixed(3)}ct)`}</li>
-                      </ul>
-                      <ul className="hoq_mt_detail_title_ul">
-                        <li className="hoq_proDeatilList">Shape</li>
-                        <li className="hoq_proDeatilList">Clarity</li>
-                        <li className="hoq_proDeatilList">Color</li>
-                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
-                      </ul>
-                      {diaList?.map((data) => (
+                          )}   ${diaList
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
                         <ul className="hoq_mt_detail_title_ul">
-                          <li className="hoq_proDeatilList1">{data?.F}</li>
-                          <li className="hoq_proDeatilList1">{data?.H}</li>
-                          <li className="hoq_proDeatilList1">{data?.J}</li>
-                          <li className="hoq_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
                           </li>
                         </ul>
-                      ))}
-                    </div>
-                  )}
+                        {diaList?.map((data) => (
+                          <ul className="hoq_mt_detail_title_ul">
+                            <li className="hoq_proDeatilList1">{data?.F}</li>
+                            <li className="hoq_proDeatilList1">{data?.H}</li>
+                            <li className="hoq_proDeatilList1">{data?.J}</li>
+                            <li className="hoq_proDeatilList1">
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                            </li>
+                          </ul>
+                        ))}
+                      </div>
+                    )}
                     {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
-                  {csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0 && (
-                    <div className="hoq_material_details_portion_inner">
-                      <ul style={{ margin: "10px 0px 3px 0px" }}>
-                        <li
-                          style={{ fontWeight: 600 }}
-                        >{`ColorStone Detail (${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )} ${csList?.filter((ele)=>ele?.D !== "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}ct)`}</li>
-                      </ul>
-                      <ul className="hoq_mt_detail_title_ul">
-                        <li className="hoq_proDeatilList">Shape</li>
-                        <li className="hoq_proDeatilList">Clarity</li>
-                        <li className="hoq_proDeatilList">Color</li>
-                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
-                      </ul>
-                      {csList?.filter((ele)=>ele?.D !== "MISC")?.map((data) => (
+                    {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "10px 0px 3px 0px" }}>
+                          <li
+                            style={{ fontWeight: 600 }}
+                          >{`ColorStone Detail (${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )} ${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
                         <ul className="hoq_mt_detail_title_ul">
-                          <li className="hoq_proDeatilList1">{data?.F}</li>
-                          <li className="hoq_proDeatilList1">{data?.H}</li>
-                          <li className="hoq_proDeatilList1">{data?.J}</li>
-                          <li className="hoq_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
                           </li>
                         </ul>
-                      ))}
-                    </div>
-                  )}
+                        {csList
+                          ?.filter((ele) => ele?.D !== "MISC")
+                          ?.map((data) => (
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList1">{data?.F}</li>
+                              <li className="hoq_proDeatilList1">{data?.H}</li>
+                              <li className="hoq_proDeatilList1">{data?.J}</li>
+                              <li className="hoq_proDeatilList1">
+                                {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
+                      </div>
+                    )}
 
-                  {csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 && (
-                    <div className="hoq_material_details_portion_inner">
-                      <ul style={{ margin: "10px 0px 3px 0px" }}>
-                        <li
-                          style={{ fontWeight: 600 }}
-                        >{`MISC Detail(${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )}  ${csList?.filter((ele)=>ele?.D === "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}gm)`}</li>
-                      </ul>
-                      <ul className="hoq_mt_detail_title_ul">
-                        <li className="hoq_proDeatilList">Shape</li>
-                        <li className="hoq_proDeatilList">Clarity</li>
-                        <li className="hoq_proDeatilList">Color</li>
-                        <li className="hoq_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
-                      </ul>
-                      {csList?.filter((ele)=>ele?.D === "MISC")?.map((data) => (
+                    {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "10px 0px 3px 0px" }}>
+                          <li style={{ fontWeight: 600 }}>{`MISC Detail(${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )}  ${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}gm)`}</li>
+                        </ul>
                         <ul className="hoq_mt_detail_title_ul">
-                          <li className="hoq_proDeatilList1">{data?.F}</li>
-                          <li className="hoq_proDeatilList1">{data?.H}</li>
-                          <li className="hoq_proDeatilList1">{data?.J}</li>
-                          <li className="hoq_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
                           </li>
                         </ul>
-                      ))}
-                    </div>
-                  )}
+                        {csList
+                          ?.filter((ele) => ele?.D === "MISC")
+                          ?.map((data) => (
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList1">{data?.F}</li>
+                              <li className="hoq_proDeatilList1">{data?.H}</li>
+                              <li className="hoq_proDeatilList1">{data?.J}</li>
+                              <li className="hoq_proDeatilList1">
+                                {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </AccordionDetails>

@@ -933,8 +933,8 @@ const Header = () => {
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
                         {/* <a href="/Lookbook" className="smr_A_link"> */}
-                        {/* {storeinit?.DesignSetInMenu} */}
-                        LOOKBOOK
+                        {storeinit?.DesignSetInMenu}
+                        {/* LOOKBOOK */}
                         {/* </a> */}
                       </li>
                     }
@@ -951,8 +951,8 @@ const Header = () => {
                       onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                     >
                       {/* <a href="/Lookbook" className="smr_A_link"> */}
-                      {/* {storeinit?.DesignSetInMenu} */}
-                      LOOKBOOK
+                      {storeinit?.DesignSetInMenu}
+                      {/* LOOKBOOK */}
                       {/* </a> */}
                     </li>
                   }
@@ -1257,8 +1257,8 @@ const Header = () => {
                           onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
                           <a href="/Lookbook" className="smr_A_linkFixed">
-                            {/* {storeinit?.DesignSetInMenu} */}
-                            LOOKBOOK
+                            {storeinit?.DesignSetInMenu}
+                            {/* LOOKBOOK */}
                           </a>
                         </li>
                       }
@@ -1275,8 +1275,8 @@ const Header = () => {
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
                         <a href="/Lookbook" className="smr_A_linkFixed">
-                          {/* {storeinit?.DesignSetInMenu} */}
-                          LOOKBOOK
+                          {storeinit?.DesignSetInMenu}
+                          {/* LOOKBOOK */}
                         </a>
                       </li>
                     }
