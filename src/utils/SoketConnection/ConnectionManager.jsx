@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import config from './config';
+import { GetDesignStock } from './GetDesignStock';
 
 const ConnectionManager = () => {
   let socket;
@@ -8,6 +9,7 @@ const ConnectionManager = () => {
   useEffect(() => {
     const { address, SoPath, di } = config;
 
+    console.log('configconfigconfig',config);
     const details = {
       path: SoPath,
       transports: ['websocket']
@@ -88,10 +90,8 @@ const ConnectionManager = () => {
           }
           alert('This is testing for socket');
           break;
-        case 'autologin':
-          if (typeof autologin === 'function') {
-            // autologin();
-          }
+        case 'getdesignstock':
+          GetDesignStock();
           break;
         case 'notificationaudioplay':
           if (typeof notificationAudioPlay === 'function') {
@@ -114,7 +114,7 @@ const ConnectionManager = () => {
 
   return (
     <div>
-      <button className='btn btn-danger cust_btn' onClick={handleBtnClick('reacttest')}>Socket Event</button>
+      {/* <button className='btn btn-danger cust_btn' onClick={handleBtnClick('reacttest')}>Socket Event</button> */}
     </div>
   );
 };

@@ -2255,11 +2255,17 @@ const ProductList = () => {
                                         {/* </Button> */}
                                       </div>
 
-                                      <div className="smr_app_product_label">
-                                        {productData?.IsInReadyStock == 1 && <span className="smr_app_instock">In Stock</span>}
-                                        {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>}
+                                      <div className="smrMA_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && 
+                                        <span className="smrMA_app_instock">In Stock</span>
+                                         } 
+                                        {productData?.IsBestSeller == 1 && <span className="smrMA_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && 
+                                        <span className="smrMA_app_intrending">Trending</span>
+                                        } 
+                                        {productData?.IsNewArrival == 1 &&
+                                         <span className="smrMA_app_newarrival">New</span>
+                                         } 
                                       </div>
                                       <img
                                         className="smr_productCard_Image"
