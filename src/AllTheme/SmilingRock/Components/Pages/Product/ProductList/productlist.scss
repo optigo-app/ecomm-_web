@@ -394,11 +394,13 @@
   font-size: 14px;
   width:60px
 }
+
 .smrWeb_app_instock{
   background-color: #00d300;
   color: white;
   text-transform: uppercase;
   width: 70px;
+  font-size: 10px;
 }
 
 .smrWeb_app_bestSeller{
@@ -412,6 +414,7 @@
   color: white; 
   text-transform: uppercase;
   width: 70px;
+  font-size: 10px;
 }
 
 .smr_intrending{
@@ -431,18 +434,15 @@
   color: white;
   text-transform: uppercase;
   width: 70px;
+  font-size: 10px;
 }
 
 .smrWeb_app_newarrival{
-  // background-color: lightskyblue;
-  // color: black;
-  padding: 0px 5px;
-  background-color: white  !important;
-  padding: 0px 5px;
-  border: 1px solid darkblue  !important;
-  border-radius: 50px;
-  color: darkblue !important ;
-  margin-left: 5px;
+  background-color: darkblue;
+  color: white;
+  text-transform: uppercase;
+  width: 70px;
+  font-size: 10px;
 }
 
 
@@ -457,6 +457,7 @@
   color: white;
   text-transform: uppercase;
   width: 70px;
+  font-size: 10px;
 }
 
 // .smr_shorcutCustomization{

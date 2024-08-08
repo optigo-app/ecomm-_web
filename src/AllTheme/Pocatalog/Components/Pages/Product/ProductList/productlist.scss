@@ -39,20 +39,29 @@
   width: 100%;
 }
 
-.smr_mobile_prodSorting {
+.proCat_mobile_prodSorting {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   font-family: "Rubik", sans-serif;
   width: 100%;
-  padding: 5px 10px 5px 0px;
+  margin-inline: 20px;
+  padding: 5px 25px 5px 0px;
 }
 
-.empty_sorting_div {
+.proCat_empty_sorting_div {
   display: flex;
   justify-content: start;
   align-items: center;
   width: 25%;
 
+}
+
+.proCat_mpty_sorting_div {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 29% !important;
+  padding: 0px 0px 0px 17%;
 }
 
 .smr_main_sorting_div_proCat {
@@ -61,6 +70,17 @@
   align-items: center;
   width: 100%;
   margin: 15px 70px 0px 15px
+}
+
+.proCat_NameTopShow {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: gray;
+  margin: 0px;
+  padding: 0px;
 }
 
 .container {
