@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import config from './config';
 import { GetDesignStock } from './GetDesignStock';
+import { useSetRecoilState } from 'recoil';
+import { soketProductData } from '../../AllTheme/Pocatalog/Components/Recoil/atom';
 
 const ConnectionManager = () => {
   let socket;
+  const setProductData = useSetRecoilState(soketProductData);
 
   useEffect(() => {
     const { address, SoPath, di } = config;
@@ -90,8 +93,12 @@ const ConnectionManager = () => {
           }
           alert('This is testing for socket');
           break;
-        case 'getdesignstock':
-          GetDesignStock();
+
+        case 'getsolddata':
+          
+          GetDesignStock().then((res) =>{
+            setProductData(res?.Data?.rd);
+          });
           break;
         case 'notificationaudioplay':
           if (typeof notificationAudioPlay === 'function') {
