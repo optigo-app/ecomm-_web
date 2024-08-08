@@ -41,17 +41,17 @@ const AddressManagement = () => {
 
     return (
         <div className='proCat_DeliverMainDiv'>
-            <div className='smr_secondMaindivAdd'>
-                <div className='smr_addMainDiv'>
-                    <div className='smr_TitleDetailMainDiv'>
+            <div className='proCat_secondMaindivAdd'>
+                <div className='proCat_addMainDiv'>
+                    <div className='proCat_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='smr_deliveryTitle'>Delivery</h1>
-                        <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                        <h1 className='proCat_deliveryTitle'>Delivery</h1>
+                        <p className='proCat_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className='proCat_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
-                        <div className='smr_getAddrMainDiv'>
+                        <div className='proCat_getAddrMainDiv'>
                             <Grid container spacing={2}>
                                 {addressData?.map((data, index) => (
                                     <React.Fragment key={data.id} >
@@ -85,14 +85,14 @@ const AddressManagement = () => {
                         handleDeleteClose={handleDeleteClose}
                         handleDelete={() => handleDelete()}
                     />
-                    <div className='smr_AddressBtnGroup'>
-                        <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                    <div className='proCat_AddressBtnGroup'>
+                        <button className='proCat_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
                 <Footer />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'black', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );

@@ -85,9 +85,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState();
+  const [selectedDiaId, setSelectedDiaId] = useState();
+  const [selectedCsId, setSelectedCsId] = useState();
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -141,7 +141,9 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  }, [])
+  }, [loginUserDetail,storeInit])
+
+  console.log("selectredmetalid",selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -2322,109 +2324,9 @@ const ProductList = () => {
 
                   <div className="smr_mainPortion">
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className="proCat_topTitleList" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className="empty_sorting_div">
                           <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate('/')} />
-                          {/* <span
-                            className="smr_breadcums_port "
-                            style={{ margin: "0px" }}
-                            onClick={() => {
-                              navigate("/");
-                            }}
-                          >
-                            {"Home >"}{" "}
-                          </span>
-
-                          {location?.search.charAt(1) == "A" && (
-                            <div
-                              className="smr_breadcums_port"
-                              style={{ margin: "0px 3px 0px 0px" }}
-                            >
-                              <span>{"Album"}</span>
-                            </div>
-                          )}
-
-                          {location?.search.charAt(1) == "T" && (
-                            <div
-                              className="smr_breadcums_port"
-                              style={{ margin: "0px 3px 0px 0px" }}
-
-                            >
-                              <span>{"Trending"}</span>
-                            </div>
-                          )}
-
-                          {location?.search.charAt(1) == "B" && (
-                            <div
-                              className="smr_breadcums_port"
-                              style={{ margin: "0px 3px 0px 0px" }}
-
-                            >
-                              <span>{"Best Seller"}</span>
-                            </div>
-                          )}
-
-                          {location?.search.charAt(1) == "N" && (
-                            <div
-                              className="smr_breadcums_port"
-                              style={{ margin: "0px 3px 0px 0px" }}
-
-                            >
-                              <span>{"New Arrival"}</span>
-                            </div>
-                          )}
-
-                          {IsBreadCumShow && (
-                            <div
-                              className="smr_breadcums_port"
-                              style={{ marginLeft: "3px" }}
-                            >
-                              {BreadCumsObj()?.menuname && (
-                                <span
-                                  onClick={() =>
-                                    handleBreadcums({
-                                      [BreadCumsObj()?.FilterKey]:
-                                        BreadCumsObj()?.FilterVal,
-                                    })
-                                  }
-                                >
-                                  {BreadCumsObj()?.menuname}
-                                </span>
-                              )}
-
-                              {BreadCumsObj()?.FilterVal1 && (
-                                <span
-                                  onClick={() =>
-                                    handleBreadcums({
-                                      [BreadCumsObj()?.FilterKey]:
-                                        BreadCumsObj()?.FilterVal,
-                                      [BreadCumsObj()?.FilterKey1]:
-                                        BreadCumsObj()?.FilterVal1,
-                                    })
-                                  }
-                                >
-                                  {` > ${BreadCumsObj()?.FilterVal1}`}
-                                </span>
-                              )}
-
-                              {BreadCumsObj()?.FilterVal2 && (
-                                <span
-                                  onClick={() =>
-                                    handleBreadcums({
-                                      [BreadCumsObj()?.FilterKey]:
-                                        BreadCumsObj()?.FilterVal,
-                                      [BreadCumsObj()?.FilterKey1]:
-                                        BreadCumsObj()?.FilterVal1,
-                                      [BreadCumsObj()?.FilterKey2]:
-                                        BreadCumsObj()?.FilterVal2,
-                                    })
-                                  }
-                                >
-                                  {` > ${BreadCumsObj()?.FilterVal2}`}
-                                </span>
-                              )}
-                            </div>
-                          )} */}
                         </div>
                         <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                       </div>
@@ -2914,6 +2816,12 @@ const ProductList = () => {
                         ) : (
                           <>
                             <div className="smr_main_sorting_div_proCat">
+                              <div className="proCat_topTitleList_mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div className="empty_sorting_div">
+                                  <IoArrowBack style={{ height: '25px', width: '25px', cursor: 'pointer', color: 'rgba(143, 140, 139, 0.9019607843)' }} onClick={() => navigate('/')} />
+                                </div>
+                                <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
+                              </div>
                               {/* {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
                                 <label className="label">Metal:&nbsp;</label>
                                 <select
