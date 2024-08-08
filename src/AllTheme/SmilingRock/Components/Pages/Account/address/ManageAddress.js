@@ -310,8 +310,6 @@ const ManageAddress = () => {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
         const errorsCopy = {}; // Initialize errors object
-        console.log(event);
-        console.log(formData);
     
         if (!formData.firstName.trim()) {
             errorsCopy.firstName = 'First Name is required';
@@ -387,7 +385,6 @@ const ManageAddress = () => {
             let response;
     
             if (isEditMode) {
-                console.log(formData);
     
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
@@ -425,7 +422,6 @@ const ManageAddress = () => {
                     toast.error('Error editing');
                 }
             } else {
-                console.log(formData);
     
                 // Handle add mode
                 setOpen(false); // Close modal or dialog
