@@ -372,18 +372,16 @@ const Navbar = () => {
           </span>
           <span className="contact_icon">
            <ul>
-           <Link to="/anemone">Anemone</Link>
-            <Link to="/m-d">M_D</Link>
-            <Link to="/m-cs">M_CS</Link>
-            <Link to="/m-f">M_F</Link>
-            <Link to="/m">M</Link>
-            <Link to="/mrp">MRP</Link>
-            <Link to="/image">Image</Link>
-            <Link to="/m-f-d-cs">M_F_D_CS</Link>
-            <Link to="/width">Width</Link>
-            <Link to="/high">High</Link>
-            <Link to="/generous">Generous</Link>
-            <Link to="/amber">Amber</Link>
+           {menuItems?.map((menuItem, i) => {
+              const { menuname, param1 } = menuItem;
+              return (
+                <React.Fragment key={i}>
+                  <Link>
+                    <span>{menuname}</span>
+                  </Link>
+                </React.Fragment>
+              );
+            })}
            </ul>
           </span>
           <span className="contact_icon"></span>
