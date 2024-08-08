@@ -598,7 +598,6 @@ const ProductDetail = () => {
       )[0] ?? csQcLocal[0];
     }
 
-
     const FetchProductData = async() =>{
 
       let obj={

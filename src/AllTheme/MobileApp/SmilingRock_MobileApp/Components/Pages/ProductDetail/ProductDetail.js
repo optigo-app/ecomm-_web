@@ -161,9 +161,13 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == singleProd?.MetalColorid
-    )[0];
+      (ele) =>{ if(selectMtColor) {
+        return ele?.colorname == selectMtColor
+      }
+      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+    })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -225,9 +229,13 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == singleProd?.MetalColorid
-    )[0];
+      
+      let mcArr = metalColorCombo?.filter(
+        (ele) =>{ if(selectMtColor) {
+          return ele?.colorname == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -1436,7 +1444,8 @@ const ProductDetail = () => {
                           className="menuitemSelectoreMain"
                           value={sizeData}
                           onChange={(e) => {
-                            setSizeData(e.target.value);
+                            handleCustomChange(e, "sz")
+                            // setSizeData(e.target.value);
                           }}
                         >
                           {SizeCombo?.rd?.map((ele) => (

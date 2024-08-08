@@ -112,29 +112,17 @@ const Procatalog_App = () => {
                 <Route path="/FunFact" element={<FunFact />} />
                 <Route path="/Lookbook" element={<Lookbook />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-                {storeInit?.IsB2BWebsite != 0 ?
-                    <Route path='/' element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}>
-                        <Route path="/p/*" element={<ProductList />} />
-                        <Route path="/d/*" element={<ProductDetail />} />
-                        <Route path="/cartPage" element={<Cart />} />
-                        <Route path="/myWishList" element={<Wishlist />} />
-                        <Route path="/Delivery" element={<Delivery />} />
-                        <Route path="/Payment" element={<Payment />} />
-                        <Route path="/Confirmation" element={<Confirmation />} />
-                        <Route path="/account" element={<Account />} />
-                    </Route>
-                    :
-                    <>
-                        <Route path="/p/*" element={<ProductList />} />
-                        <Route path="/d/*" element={<ProductDetail />} />
-                        <Route path="/cartPage" element={<Cart />} />
-                        <Route path="/myWishList" element={<Wishlist />} />
-                        <Route path="/Delivery" element={<Delivery />} />
-                        <Route path="/Payment" element={<Payment />} />
-                        <Route path="/Confirmation" element={<Confirmation />} />
-                        <Route path="/account" element={<Account />} />
-                    </>
-                }
+                <Route path='/' element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}>
+                    <Route path="/p/*" element={<ProductList />} />
+                    <Route path="/d/*" element={<ProductDetail />} />
+                    <Route path="/cartPage" element={<Cart />} />
+                    <Route path="/myWishList" element={<Wishlist />} />
+                    <Route path="/Delivery" element={<Delivery />} />
+                    <Route path="/Payment" element={<Payment />} />
+                    <Route path="/Confirmation" element={<Confirmation />} />
+                    <Route path="/account" element={<Account />} />
+                </Route>
+                   
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
         </>
