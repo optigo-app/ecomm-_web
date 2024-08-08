@@ -63,22 +63,22 @@ const ProductDetail = () => {
   const [addToCartFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [loginInfo, setLoginInfo] = useState();
-  const [SizeCombo,setSizeCombo] = useState();
-  const [sizeData,setSizeData] =  useState();
-  const [isPriceloading,setisPriceLoading] = useState(false)
-  const [isDataFound,setIsDataFound]=useState(false)
-  const [metalWiseColorImg,setMetalWiseColorImg] =  useState()
+  const [SizeCombo, setSizeCombo] = useState();
+  const [sizeData, setSizeData] = useState();
+  const [isPriceloading, setisPriceLoading] = useState(false)
+  const [isDataFound, setIsDataFound] = useState(false)
+  const [metalWiseColorImg, setMetalWiseColorImg] = useState()
 
-  const [designSetList,setDesignSetList] = useState();
+  const [designSetList, setDesignSetList] = useState();
 
-  const [thumbImgIndex,setThumbImgIndex] = useState()
+  const [thumbImgIndex, setThumbImgIndex] = useState()
 
-  const [diaList,setDiaList] = useState([]);
-  const [csList,setCsList] = useState([]);
+  const [diaList, setDiaList] = useState([]);
+  const [csList, setCsList] = useState([]);
 
-  const [prodLoading,setProdLoading] = useState(false)
+  const [prodLoading, setProdLoading] = useState(false)
 
-  
+
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
 
@@ -97,12 +97,12 @@ const ProductDetail = () => {
   // const [csqcRate, setCsqcRate] = useState()
   // const [csqcSettRate, setCsqcSettRate] = useState()
 
-  const [stockItemArr,setStockItemArr] = useState([]);
-  const [SimilarBrandArr,setSimilarBrandArr] = useState([]);
+  const [stockItemArr, setStockItemArr] = useState([]);
+  const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
 
   const [cartArr, setCartArr] = useState({})
 
-  
+
   let cookie = Cookies.get('visiterId')
 
   // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
@@ -126,12 +126,12 @@ const ProductDetail = () => {
     setCSSVariable();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scroll({
       top: 0,
       behavior: "auto",
-    }); 
-  },[])
+    });
+  }, [])
 
   // useEffect(()=>{
   //     getSizeData(singleProd).then((res)=>{
@@ -169,13 +169,14 @@ const ProductDetail = () => {
       )[0] ?? csQcCombo[0];
 
     let mcArr = metalColorCombo?.filter(
-      (ele) =>{ if(selectMtColor) {
-        return ele?.colorname == selectMtColor
-      }
-      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-    })[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorname == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
-    console.log("selectMtColor",selectMtColor);
+    console.log("selectMtColor", selectMtColor);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -183,15 +184,15 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: sizeData ?? singleProd?.DefaultSize ,
+      Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-      UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
     if (cartflag) {
-      CartAndWishListAPI("Cart", prodObj,cookie)
+      CartAndWishListAPI("Cart", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -204,7 +205,7 @@ const ProductDetail = () => {
           setAddToCartFlag(cartflag);
         });
     } else {
-      RemoveCartAndWishAPI("Cart", singleProd?.autocode,cookie)
+      RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -219,7 +220,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleWishList = (e,ele) => {
+  const handleWishList = (e, ele) => {
     setWishListFlag(e?.target?.checked);
 
     let metal =
@@ -251,15 +252,15 @@ const ProductDetail = () => {
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
       CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-      Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize) ,
+      Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize),
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-      UnitCostWithmarkup:singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
 
     if (e?.target?.checked == true) {
-      CartAndWishListAPI("Wish", prodObj,cookie)
+      CartAndWishListAPI("Wish", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -268,7 +269,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err));
     } else {
-      RemoveCartAndWishAPI("Wish", singleProd?.autocode,cookie)
+      RemoveCartAndWishAPI("Wish", singleProd?.autocode, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -310,79 +311,79 @@ const ProductDetail = () => {
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
 
-    setTimeout(()=>{
+    setTimeout(() => {
       if (decodeUrl) {
         let metalArr
         let diaArr
         let csArr
-        
-  
-        if(mtTypeLocal?.length){
+
+
+        if (mtTypeLocal?.length) {
           metalArr =
-          mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-          mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+            mtTypeLocal[0];
         }
-  
-        if(diaQcLocal?.length){
+
+        if (diaQcLocal?.length) {
           diaArr =
-          diaQcLocal?.filter(
+            diaQcLocal?.filter(
               (ele) =>
                 ele?.QualityId == decodeobj?.d?.split(",")[0] &&
                 ele?.ColorId == decodeobj?.d?.split(",")[1]
             )[0] ?? diaQcLocal[0];
         }
-  
-        if(csQcLocal?.length){
+
+        if (csQcLocal?.length) {
           csArr =
-          csQcLocal?.filter(
+            csQcLocal?.filter(
               (ele) =>
                 ele?.QualityId == decodeobj?.c?.split(",")[0] &&
                 ele?.ColorId == decodeobj?.c?.split(",")[1]
             )[0] ?? csQcLocal[0];
         }
-  
-          
-  
+
+
+
         setSelectMtType(metalArr?.metaltype);
-  
+
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
-  
+
         setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
-  
-        
-  
+
+
+
         // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
         //                       ? singleProd?.DefaultSize
         //                       : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
         // if(InitialSize){
         //   setSizeData(InitialSize)
         // }
-  
+
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-        
+
         // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
-    },500)
+    }, 500)
   }, [singleProd])
 
 
-  useEffect(()=>{
+  useEffect(() => {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    if(mtColorLocal?.length){
+    if (mtColorLocal?.length) {
       mcArr =
-      mtColorLocal?.filter(
+        mtColorLocal?.filter(
           (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
           // (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
         )[0]
     }
 
     setSelectMtColor(mcArr?.colorname);
-    
-  },[singleProd])
+
+  }, [singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
@@ -400,17 +401,17 @@ const ProductDetail = () => {
   //   setDaimondFiletrData(filteredDataDaimond)
   //   setColorStoneFiletrData(filteredDataColorStone)
   //   setFindingFiletrData(filteredDataFinding)
-    
+
 
   // },[sizeData,SizeCombo])
 
 
   // let metalUpdatedPrice = () => {
   //   if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
-      
+
 
   //     let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
-  
+
   //     let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
   //     console.log('fpricemetal', fprice);
 
@@ -584,38 +585,38 @@ const ProductDetail = () => {
     let diaArr;
     let csArr;
 
-    if(mtTypeLocal?.length){
-      metalArr = 
-      mtTypeLocal?.filter(
-        (ele) => ele?.Metalid == decodeobj?.m
-      )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+    if (mtTypeLocal?.length) {
+      metalArr =
+        mtTypeLocal?.filter(
+          (ele) => ele?.Metalid == decodeobj?.m
+        )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
     }
 
-    if(diaQcLocal){
+    if (diaQcLocal) {
       diaArr =
-      diaQcLocal?.filter(
-        (ele) =>
-          ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-        ele?.ColorId == decodeobj?.d?.split(",")[1]
-      )[0] ?? diaQcLocal[0];
+        diaQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.d?.split(",")[1]
+        )[0] ?? diaQcLocal[0];
     }
-  
-    if(csQcLocal){
+
+    if (csQcLocal) {
       csArr =
-      csQcLocal?.filter(
-        (ele) =>
-          ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-        ele?.ColorId == decodeobj?.c?.split(",")[1]
-      )[0] ?? csQcLocal[0];
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+            ele?.ColorId == decodeobj?.c?.split(",")[1]
+        )[0] ?? csQcLocal[0];
     }
 
 
-    const FetchProductData = async() =>{
+    const FetchProductData = async () => {
 
-      let obj={
+      let obj = {
         mt: metalArr,
-        diaQc:`${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc:`${csArr?.QualityId},${csArr?.ColorId}`
+        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+        csQc: `${csArr?.QualityId},${csArr?.ColorId}`
       }
 
       // console.log("objjj",obj)
@@ -623,76 +624,76 @@ const ProductDetail = () => {
 
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj,sizeData,obj,cookie)
-      .then(async(res) => {
-        if (res) {
-          
-          setSingleProd(res?.pdList[0]);
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
+        .then(async (res) => {
+          if (res) {
 
-          if(res?.pdList?.length > 0){
-            setisPriceLoading(false)
-            setIsImageLoad(false)
-            setSelectedThumbImg({
-              link: "",
-              type: "img",
-            });
+            setSingleProd(res?.pdList[0]);
+
+            if (res?.pdList?.length > 0) {
+              setisPriceLoading(false)
+              setIsImageLoad(false)
+              setSelectedThumbImg({
+                link: "",
+                type: "img",
+              });
+            }
+
+            if (!res?.pdList[0]) {
+              // console.log("singleprod",res?.pdList[0]);
+              setisPriceLoading(false)
+              setProdLoading(false)
+              setIsDataFound(true)
+            } else {
+              setIsDataFound(false)
+            }
+
+            setDiaList(res?.pdResp?.rd3)
+            setCsList(res?.pdResp?.rd4)
+
+            let prod = res?.pdList[0]
+
+            let initialsize = (prod && prod.DefaultSize !== "")
+              ? prod?.DefaultSize
+              : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
+                ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+
+            setSizeData(initialsize)
+
+            // await SingleFullProdPriceAPI(decodeobj).then((res) => {
+            //   setSingleProdPrice(res);
+            //   console.log("singlePrice", res);
+            // });
           }
-
-          if(!res?.pdList[0]){
-            // console.log("singleprod",res?.pdList[0]);
-            setisPriceLoading(false)
-            setProdLoading(false)
-            setIsDataFound(true)
-          }else{
-            setIsDataFound(false)
-          }
-
-          setDiaList(res?.pdResp?.rd3)
-          setCsList(res?.pdResp?.rd4)
-
-          let prod = res?.pdList[0]
-
-          let initialsize = (prod && prod.DefaultSize !== "")
-          ? prod?.DefaultSize
-          : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined 
-          ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-
-          setSizeData(initialsize)
-
-          // await SingleFullProdPriceAPI(decodeobj).then((res) => {
-          //   setSingleProdPrice(res);
-          //   console.log("singlePrice", res);
-          // });
-        }
-        return res;
-      }).then(async(resp)=>{
-          if(resp){
-            await getSizeData(resp?.pdList[0],cookie).then((res)=>{
+          return res;
+        }).then(async (resp) => {
+          if (resp) {
+            await getSizeData(resp?.pdList[0], cookie).then((res) => {
               // console.log("Sizeres",res)
               setSizeCombo(res?.Data)
-            }).catch((err)=>console.log("SizeErr",err))
+            }).catch((err) => console.log("SizeErr", err))
 
-            if(storeinitInside?.IsStockWebsite === 1){
-              await StockItemApi(resp?.pdList[0]?.autocode,"stockitem",cookie).then((res)=>{
-                setStockItemArr(res?.Data?.rd)    
-              }).catch((err)=>console.log("stockItemErr",err))
+            if (storeinitInside?.IsStockWebsite === 1) {
+              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+                setStockItemArr(res?.Data?.rd)
+              }).catch((err) => console.log("stockItemErr", err))
             }
 
-            if(storeinitInside?.IsProductDetailSimilarDesign === 1){
-              await StockItemApi(resp?.pdList[0]?.autocode,"similarbrand",obj,cookie).then((res)=>{
-                setSimilarBrandArr(res?.Data?.rd)         
-              }).catch((err)=>console.log("similarbrandErr",err))
+            if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
+              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                setSimilarBrandArr(res?.Data?.rd)
+              }).catch((err) => console.log("similarbrandErr", err))
             }
 
-            if(storeinitInside?.IsProductDetailDesignSet === 1){
-              await DesignSetListAPI(obj,resp?.pdList[0]?.designno,cookie).then((res)=>{
+            if (storeinitInside?.IsProductDetailDesignSet === 1) {
+              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
                 // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
-              }).catch((err)=>console.log("designsetErr",err))
+              }).catch((err) => console.log("designsetErr", err))
             }
           }
-      })
-      .catch((err) => console.log("err", err))
+        })
+        .catch((err) => console.log("err", err))
     }
 
     FetchProductData()
@@ -799,18 +800,18 @@ const ProductDetail = () => {
   //   }
 
   // }
-  
 
-function checkImageAvailability(imageUrl) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = imageUrl;
-  });
-}
 
-  const ProdCardImageFunc = async() => {
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const ProdCardImageFunc = async () => {
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
@@ -822,9 +823,9 @@ function checkImageAvailability(imageUrl) {
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    if(mtColorLocal?.length){
+    if (mtColorLocal?.length) {
       mcArr =
-      mtColorLocal?.filter(
+        mtColorLocal?.filter(
           (ele) => ele?.id == singleProd?.MetalColorid
         )[0]
     }
@@ -836,30 +837,30 @@ function checkImageAvailability(imageUrl) {
           singleProd?.designno +
           "_" +
           i +
-          "_"+ mcArr?.colorcode +
+          "_" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
 
-          let IsImg = checkImageAvailability(imgString)
-          if(IsImg){
-            pdImgList.push(imgString);
-          }
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
       }
 
-      if(pdImgList?.length > 0){
+      if (pdImgList?.length > 0) {
         colImg = pdImgList[0]
       }
-    } 
+    }
 
 
     let IsColImg = false;
-    if(colImg?.length > 0 ){
+    if (colImg?.length > 0) {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg",IsColImg)
-    
-    if (pd?.ImageCount > 0 && !IsColImg ) {
+    console.log("colImg", IsColImg)
+
+    if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
           storeInit?.DesignImageFol +
@@ -869,16 +870,16 @@ function checkImageAvailability(imageUrl) {
           "." +
           pd?.ImageExtension;
 
-          let IsImg = checkImageAvailability(imgString)
-          if(IsImg){
-            pdImgList.push(imgString);
-          }
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
       }
     } else {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData",pd?.VideoCount);
+    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -893,47 +894,47 @@ function checkImageAvailability(imageUrl) {
         pdvideoList.push(videoString);
       }
     }
-    else{
+    else {
       pdvideoList = [];
     }
 
     let FinalPdImgList = [];
-    
-    if(pdImgList?.length > 0 ){
-      for(let i = 0; i < pdImgList?.length ; i++ ){
-        let isImgAvl =  await checkImageAvailability(pdImgList[i])
-        if(isImgAvl){
+
+    if (pdImgList?.length > 0) {
+      for (let i = 0; i < pdImgList?.length; i++) {
+        let isImgAvl = await checkImageAvailability(pdImgList[i])
+        if (isImgAvl) {
           FinalPdImgList.push(pdImgList[i])
         }
       }
     }
 
-    console.log("SearchData",singleProd);
+    console.log("SearchData", singleProd);
 
-    if(FinalPdImgList?.length > 0) {
+    if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
-      setSelectedThumbImg({"link":FinalPdImgList[0],"type":'img'});
+      setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
     }
 
     if (pdvideoList?.length > 0) {
       setPdVideoArr(pdvideoList);
-    }else{
+    } else {
       setPdVideoArr([]);
     }
 
     return finalprodListimg;
 
-    
+
   };
 
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd,location?.key]);
+  }, [singleProd, location?.key]);
 
-  
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -942,14 +943,14 @@ function checkImageAvailability(imageUrl) {
   };
 
 
-  const handleMetalWiseColorImg = async(e) => {
+  const handleMetalWiseColorImg = async (e) => {
 
     let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    if(mtColorLocal?.length){
+    if (mtColorLocal?.length) {
       mcArr =
-      mtColorLocal?.filter(
+        mtColorLocal?.filter(
           (ele) => ele?.colorcode == e.target.value
         )[0]
     }
@@ -957,19 +958,19 @@ function checkImageAvailability(imageUrl) {
     setSelectMtColor(e.target.value)
 
     let imgLink = storeInit?.DesignImageFol +
-    (singleProd ?? singleProd1)?.designno +
-    "_" +
-    (thumbImgIndex+1) +"_"+ mcArr?.colorcode +
-    "." +
-    (singleProd ?? singleProd1)?.ImageExtension;
+      (singleProd ?? singleProd1)?.designno +
+      "_" +
+      (thumbImgIndex + 1) + "_" + mcArr?.colorcode +
+      "." +
+      (singleProd ?? singleProd1)?.ImageExtension;
 
     // setMetalWiseColorImg(imgLink)
 
     let isImg = await checkImageAvailability(imgLink)
 
-    if(isImg){
+    if (isImg) {
       setMetalWiseColorImg(imgLink)
-    }else{
+    } else {
       setMetalWiseColorImg()
     }
 
@@ -984,12 +985,12 @@ function checkImageAvailability(imageUrl) {
           singleProd?.designno +
           "_" +
           i +
-          "_"+ mcArr?.colorcode +
+          "_" + mcArr?.colorcode +
           "." +
           singleProd?.ImageExtension;
-          pdImgListCol.push(imgString);
+        pdImgListCol.push(imgString);
       }
-    } 
+    }
 
     if (singleProd?.ImageCount > 0) {
       for (let i = 1; i <= singleProd?.ImageCount; i++) {
@@ -1004,35 +1005,35 @@ function checkImageAvailability(imageUrl) {
       }
     }
 
-    
+
     let isImgCol;
-    
-    if(pdImgListCol?.length > 0){
+
+    if (pdImgListCol?.length > 0) {
       isImgCol = await checkImageAvailability(pdImgListCol[0])
     }
 
     let FinalPdColImgList = [];
-    
-    if(pdImgListCol?.length > 0 ){
-      for(let i = 0; i < pdImgListCol?.length ; i++ ){
-        let isImgAvl =  await checkImageAvailability(pdImgListCol[i])
-        if(isImgAvl){
+
+    if (pdImgListCol?.length > 0) {
+      for (let i = 0; i < pdImgListCol?.length; i++) {
+        let isImgAvl = await checkImageAvailability(pdImgListCol[i])
+        if (isImgAvl) {
           FinalPdColImgList.push(pdImgListCol[i])
-        }else{
+        } else {
           FinalPdColImgList.push(imageNotFound)
         }
       }
     }
 
-    if(FinalPdColImgList?.length > 0 && (isImgCol == true)){
+    if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
       setPdThumbImg(FinalPdColImgList)
-      setSelectedThumbImg({"link":FinalPdColImgList[thumbImgIndex],"type":'img'});
+      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
       setThumbImgIndex(thumbImgIndex)
-      
+
     }
-    else{
+    else {
       if (pdImgList?.length > 0) {
-        setSelectedThumbImg({"link":pdImgList[thumbImgIndex],"type":'img'});
+        setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
         setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
       }
@@ -1041,7 +1042,7 @@ function checkImageAvailability(imageUrl) {
 
 
     // console.log("pdImgList",pdImgList,pdImgListCol)
-  } 
+  }
 
   // useEffect(()=>{
 
@@ -1071,7 +1072,7 @@ function checkImageAvailability(imageUrl) {
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      "StockId":ele?.StockId,
+      "StockId": ele?.StockId,
       // "autocode": ele?.autocode,
       // "Metalid": ele?.MetalPurityid,
       // "MetalColorId": ele?.MetalColorid,
@@ -1084,14 +1085,14 @@ function checkImageAvailability(imageUrl) {
     }
 
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj,cookie).then((res) => {
+      CartAndWishListAPI(type, prodObj, cookie).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
         setCartCountVal(cartC);
       }).catch((err) => console.log("err", err))
     } else {
-      RemoveCartAndWishAPI(type, ele?.StockId,cookie,true).then((res) => {
+      RemoveCartAndWishAPI(type, ele?.StockId, cookie, true).then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount
         let wishC = res?.Data?.rd[0]?.Wishlistcount
         setWishCountVal(wishC)
@@ -1141,7 +1142,7 @@ function checkImageAvailability(imageUrl) {
 
   }
 
-  const handleCustomChange = async(e,type) =>{
+  const handleCustomChange = async (e, type) => {
 
     let metalArr
     let diaArr
@@ -1154,55 +1155,55 @@ function checkImageAvailability(imageUrl) {
 
     let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
 
-    if(type === "mt"){
-      metalArr = 
-      mtTypeLocal?.filter(
-        (ele) => ele?.metaltype == e.target.value
-      )[0]?.Metalid 
+    if (type === "mt") {
+      metalArr =
+        mtTypeLocal?.filter(
+          (ele) => ele?.metaltype == e.target.value
+        )[0]?.Metalid
       setSelectMtType(e.target.value)
     }
-    if(type === "dia"){
+    if (type === "dia") {
       setSelectDiaQc(e.target.value)
       diaArr =
-      diaQcLocal?.filter(
+        diaQcLocal?.filter(
           (ele) =>
             ele?.Quality == e.target.value?.split(",")[0] &&
             ele?.color == e.target.value?.split(",")[1]
         )[0]
     }
-    if(type === "cs"){
+    if (type === "cs") {
       setSelectCsQc(e.target.value)
       csArr =
-      csQcLocal?.filter(
-        (ele) =>
-          ele?.Quality == e.target.value?.split(",")[0] &&
-          ele?.color == e.target.value?.split(",")[1]
-      )[0] 
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == e.target.value?.split(",")[0] &&
+            ele?.color == e.target.value?.split(",")[1]
+        )[0]
     }
-    if(type === "sz"){
+    if (type === "sz") {
       setSizeData(e.target.value)
       size = e.target.value
     }
 
-    if(metalArr == undefined){
-      metalArr = 
-      mtTypeLocal?.filter(
-        (ele) => ele?.metaltype == selectMtType
-      )[0]?.Metalid 
+    if (metalArr == undefined) {
+      metalArr =
+        mtTypeLocal?.filter(
+          (ele) => ele?.metaltype == selectMtType
+        )[0]?.Metalid
     }
 
-    if(diaArr == undefined){
+    if (diaArr == undefined) {
       diaArr =
-      diaQcLocal?.filter(
+        diaQcLocal?.filter(
           (ele) =>
             ele?.Quality == selectDiaQc?.split(",")[0] &&
             ele?.color == selectDiaQc?.split(",")[1]
         )[0]
     }
 
-    if(csArr == undefined){
+    if (csArr == undefined) {
       csArr =
-      csQcLocal?.filter(
+        csQcLocal?.filter(
           (ele) =>
             ele?.Quality == selectCsQc?.split(",")[0] &&
             ele?.color == selectCsQc?.split(",")[1]
@@ -1210,35 +1211,35 @@ function checkImageAvailability(imageUrl) {
     }
 
     let obj = {
-      mt:metalArr,
-      diaQc:`${diaArr?.QualityId},${diaArr?.ColorId}`,
-      csQc:`${csArr?.QualityId},${csArr?.ColorId}`
+      mt: metalArr,
+      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
     }
 
-    let prod={
-      a:singleProd?.autocode,
-      b:singleProd?.designno
+    let prod = {
+      a: singleProd?.autocode,
+      b: singleProd?.designno
     }
 
     // console.log("eeee",obj)
     setisPriceLoading(true)
-    await SingleProdListAPI(prod,(size ?? sizeData),obj,cookie)
-    .then((res)=>{
-      setSingleProd1(res?.pdList[0])
+    await SingleProdListAPI(prod, (size ?? sizeData), obj, cookie)
+      .then((res) => {
+        setSingleProd1(res?.pdList[0])
 
-      if(res?.pdList?.length > 0){
-        setisPriceLoading(false)
-      }
-      setDiaList(res?.pdResp?.rd3)
-      setCsList(res?.pdResp?.rd4)
-      // console.log("res123",res)
-    }).catch((err)=>{console.log("customProdDetailErr",err)})
+        if (res?.pdList?.length > 0) {
+          setisPriceLoading(false)
+        }
+        setDiaList(res?.pdResp?.rd3)
+        setCsList(res?.pdResp?.rd4)
+        // console.log("res123",res)
+      }).catch((err) => { console.log("customProdDetailErr", err) })
 
   }
 
   const formatter = new Intl.NumberFormat('en-IN')
 
-  const SizeSorting = (SizeArr) =>{
+  const SizeSorting = (SizeArr) => {
 
     let SizeSorted = SizeArr?.sort((a, b) => {
       const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
@@ -1255,9 +1256,9 @@ function checkImageAvailability(imageUrl) {
 
   return (
     <>
-    <Helmet>
-      <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
-    </Helmet>
+      <Helmet>
+        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
+      </Helmet>
       <div className="smr_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
@@ -1284,7 +1285,7 @@ function checkImageAvailability(imageUrl) {
                           sx={{
                             width: "95%",
                             height: "750px",
-                            margin:"20px 0 0 0"
+                            margin: "20px 0 0 0"
                           }}
                           variant="rounded"
                         />
@@ -1294,7 +1295,7 @@ function checkImageAvailability(imageUrl) {
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {(selectedThumbImg?.type == "img")? (
+                        {(selectedThumbImg?.type == "img") ? (
                           <img
                             src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
@@ -1334,8 +1335,8 @@ function checkImageAvailability(imageUrl) {
                                   });
                                   setThumbImgIndex(i);
                                 }}
-                                // onError={()=>{
-                                // }}
+                              // onError={()=>{
+                              // }}
                               />
                             ))}
                           {pdVideoArr?.map((data) => (
@@ -1396,12 +1397,12 @@ function checkImageAvailability(imageUrl) {
                               </span>
                             </span>
                             {(storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && diaList?.length) ?<span className="smr_prod_short_key">
+                              diaQcCombo?.length > 0 && diaList?.length) ? <span className="smr_prod_short_key">
                               Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
                                 {`${selectDiaQc}`}
                               </span>
-                            </span>:null}
+                            </span> : null}
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
@@ -1411,7 +1412,7 @@ function checkImageAvailability(imageUrl) {
                           </div>
                         </div>
                         {storeInit?.IsProductWebCustomization == 1 &&
-                          metalTypeCombo?.length > 0 &&  storeInit?.IsMetalCustomization === 1 &&(
+                          metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
                             <div className="smr_single_prod_customize">
                               <div className="smr_single_prod_customize_metal">
                                 <label className="menuItemTimeEleveDeatil">
@@ -1434,7 +1435,7 @@ function checkImageAvailability(imageUrl) {
                                     onChange={(e) =>
                                       handleCustomChange(e, "mt")
                                     }
-                                    // onChange={(e) => setSelectMtType(e.target.value)}
+                                  // onChange={(e) => setSelectMtType(e.target.value)}
                                   >
                                     {metalTypeCombo.map((ele) => (
                                       <option
@@ -1482,53 +1483,53 @@ function checkImageAvailability(imageUrl) {
                                 </div>
                               )}
                               {(storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && diaList?.length ) ?  (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      DIAMOND :
-                                    </label>
-                                    {
-                                      <select
-                                        className="menuitemSelectoreMain"
-                                        value={selectDiaQc}
-                                        // onChange={(e) => setSelectDiaQc(e.target.value)}
-                                        onChange={(e) =>
-                                          handleCustomChange(e, "dia")
-                                        }
-                                      >
-                                        {diaQcCombo.map((ele) => (
-                                          <option
-                                            key={ele?.QualityId}
-                                            value={`${ele?.Quality},${ele?.color}`}
-                                          >{`${ele?.Quality},${ele?.color}`}</option>
-                                        ))}
-                                      </select>
-                                    }
-                                  </div>
-                                ): null}
-                              {(storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0) ? (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      COLOR STONE :
-                                    </label>
+                                diaQcCombo?.length > 0 && diaList?.length) ? (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    DIAMOND :
+                                  </label>
+                                  {
                                     <select
                                       className="menuitemSelectoreMain"
-                                      value={selectCsQc}
-                                      // onChange={(e) => setSelectCsQc(e.target.value)}
+                                      value={selectDiaQc}
+                                      // onChange={(e) => setSelectDiaQc(e.target.value)}
                                       onChange={(e) =>
-                                        handleCustomChange(e, "cs")
+                                        handleCustomChange(e, "dia")
                                       }
                                     >
-                                      {csQcCombo.map((ele) => (
+                                      {diaQcCombo.map((ele) => (
                                         <option
                                           key={ele?.QualityId}
                                           value={`${ele?.Quality},${ele?.color}`}
                                         >{`${ele?.Quality},${ele?.color}`}</option>
                                       ))}
                                     </select>
-                                  </div>
-                                )
+                                  }
+                                </div>
+                              ) : null}
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    COLOR STONE :
+                                  </label>
+                                  <select
+                                    className="menuitemSelectoreMain"
+                                    value={selectCsQc}
+                                    // onChange={(e) => setSelectCsQc(e.target.value)}
+                                    onChange={(e) =>
+                                      handleCustomChange(e, "cs")
+                                    }
+                                  >
+                                    {csQcCombo.map((ele) => (
+                                      <option
+                                        key={ele?.QualityId}
+                                        value={`${ele?.Quality},${ele?.color}`}
+                                      >{`${ele?.Quality},${ele?.color}`}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )
                                 :
                                 null
                               }
@@ -1571,22 +1572,22 @@ function checkImageAvailability(imageUrl) {
                             </div>
                           )}
 
-                          { storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
-                            <Accordion
+                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                          <Accordion
                             elevation={0}
                             sx={{
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before":
-                                {
-                                  background: "none",
-                                },
-                              width:'95.5%'
+                              {
+                                background: "none",
+                              },
+                              width: '95.5%'
                             }}
                           >
                             <AccordionSummary
@@ -1603,10 +1604,10 @@ function checkImageAvailability(imageUrl) {
                                   padding: 0,
                                 },
                               }}
-                              // className="filtercategoryLable"
-                              
+                            // className="filtercategoryLable"
+
                             >
-                              <Typography sx={{fontFamily:"TT Commons Regular",fontSize:'18px'}}>Price Breakup</Typography>
+                              <Typography sx={{ fontFamily: "TT Commons Regular", fontSize: '18px' }}>Price Breakup</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1616,7 +1617,7 @@ function checkImageAvailability(imageUrl) {
                                 // minHeight: "fit-content",
                                 // maxHeight: "300px",
                                 // overflow: "auto",
-                                padding:'0 0 16px 0',
+                                padding: '0 0 16px 0',
 
                               }}
                             >
@@ -1636,129 +1637,129 @@ function checkImageAvailability(imageUrl) {
                                 </tr>
                               </table> */}
 
-                             {(singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)!== 0 ?<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Metal</Typography>
-                              <span style={{display:'flex'}}>
-                              <Typography>
-                                {
-                                  <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                }
-                              </Typography>
-                               &nbsp;
-                              <Typography sx={{fontFamily:"TT Commons Regular"}} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost? singleProd1?.Metal_Cost :singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                             </div>:null}
-
-                             { (singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Diamond </Typography>
-
-                             <span style={{display:'flex'}}>
-                              <Typography>{
-                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>
+                                    {
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }
+                                  </Typography>
+                                  &nbsp;
+                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                 </span>
-                              }</Typography>
-                              &nbsp;
-                               <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                             </div> : null}
+                              </div> : null}
 
-                             {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Stone </Typography>
+                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
-                             <span style={{display:'flex'}}>
-                              <Typography>{
-                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                              }</Typography>
-                              &nbsp;
-                              <Typography className="smr_PriceBreakup_Price"  sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                             </div> : null}
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
 
-                             {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !==0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>MISC </Typography>
+                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
 
-                             <span style={{display:'flex'}}>
-                              <Typography>{
-                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                              }</Typography>
-                              &nbsp;
-                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                             </div> : null}
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
 
-                             {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Labour </Typography>
+                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
 
-                             <span style={{display:'flex'}}>
-                              <Typography>{
-                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                              }</Typography>
-                              &nbsp;
-                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                              </span>
-                             </div> : null}
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
 
-                             {
-                             (
+                              {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
 
-                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
-                                (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
-                                (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
-                                (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
-                                (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
-                                (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
 
-                              ) !== 0 ?
-                              
-                              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                             <Typography className="smr_Price_breakup_label" sx={{fontFamily:"TT Commons Regular"}}>Other </Typography>
+                              {
+                                (
 
-                             <span style={{display:'flex'}}>
-                              <Typography>{
-                                <span className="smr_currencyFont" sx={{fontFamily:"TT Commons Regular"}}>
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                              }</Typography>
-                              &nbsp;
-                              <Typography className="smr_PriceBreakup_Price" sx={{fontFamily:"TT Commons Regular"}}>{
-                              formatter.format((
+                                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                  (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                  (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                  (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                  (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                  (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
 
-                                (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) + 
-                                (singleProd1?.Size_MarkUp?singleProd1?.Size_MarkUp:singleProd?.Size_MarkUp)+ 
-                                (singleProd1?.DesignMarkUpAmount?singleProd1?.DesignMarkUpAmount:singleProd?.DesignMarkUpAmount) + 
-                                (singleProd1?.ColorStone_SettingCost?singleProd1?.ColorStone_SettingCost:singleProd?.ColorStone_SettingCost) + 
-                                (singleProd1?.Diamond_SettingCost?singleProd1?.Diamond_SettingCost :singleProd?.Diamond_SettingCost) + 
-                                (singleProd1?.Misc_SettingCost?singleProd1?.Misc_SettingCost:singleProd?.Misc_SettingCost)
+                                ) !== 0 ?
 
-                              )?.toFixed(2))
-                            }</Typography>
-                              </span>
-                             </div>
-                            :
-                            null 
-                            }
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                        formatter.format((
+
+                                          (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                          (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                          (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                          (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                          (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                          (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                        )?.toFixed(2))
+                                      }</Typography>
+                                    </span>
+                                  </div>
+                                  :
+                                  null
+                              }
 
                             </AccordionDetails>
                           </Accordion>
-                          )}
+                        )}
 
-                        { storeInit?.IsPriceShow === 1 &&
+                        {storeInit?.IsPriceShow === 1 &&
                           (<div className="smr_price_portion">
                             {isPriceloading ? (
                               ""
                             ) : (
                               <span className="smr_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                </span>
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
                             )}
                             &nbsp;
                             {/* {PriceWithMarkupFunction(
@@ -1772,64 +1773,72 @@ function checkImageAvailability(imageUrl) {
                                 width={140}
                                 height={30}
                               />
-                            ) : 
-                            formatter.format
-                            (
-                              singleProd1?.UnitCostWithMarkUp ??
-                              singleProd?.UnitCostWithMarkUp
-                            )
+                            ) :
+                              formatter.format
+                                (
+                                  singleProd1?.UnitCostWithMarkUp ??
+                                  singleProd?.UnitCostWithMarkUp
+                                )
                             }
                             {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
                           </div>)
                         }
 
-                        { prodLoading && <div className="Smr_CartAndWish_portion">
-                          <button
-                            className={
-                              !addToCartFlag
-                                ? "smr_AddToCart_btn"
-                                : "smr_AddToCart_btn_afterCart"
-                            }
-                            onClick={() => handleCart(!addToCartFlag)}
-                          >
-                            <span
-                              className="smr_addtocart_btn_txt"
-                              style={{ color: !addToCartFlag ? "" : "white" }}
-                            >
-                              {!addToCartFlag
-                                ? "ADD TO CART"
-                                : "REMOVE FROM CART"}
-                            </span>
-                          </button>
-                          <div className="Smr_wishlistcont">
-                            <Checkbox
-                              icon={
-                                <StarBorderIcon
-                                  sx={{ fontSize: "25px", color: "#7d7f85" }}
+                        {prodLoading &&
+                          <div>
+
+                            <div className="Smr_CartAndWish_portion">
+                              <button
+                                className={
+                                  !addToCartFlag
+                                    ? "smr_AddToCart_btn"
+                                    : "smr_AddToCart_btn_afterCart"
+                                }
+                                onClick={() => handleCart(!addToCartFlag)}
+                              >
+                                <span
+                                  className="smr_addtocart_btn_txt"
+                                  style={{ color: !addToCartFlag ? "" : "white" }}
+                                >
+                                  {!addToCartFlag
+                                    ? "ADD TO CART"
+                                    : "REMOVE FROM CART"}
+                                </span>
+                              </button>
+                              <div className="Smr_wishlistcont">
+                                <Checkbox
+                                  icon={
+                                    <StarBorderIcon
+                                      sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <StarIcon
+                                      sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                    />
+                                  }
+                                  disableRipple={true}
+                                  checked={
+                                    wishListFlag ?? singleProd?.IsInWish == 1
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => handleWishList(e, singleProd)}
                                 />
-                              }
-                              checkedIcon={
-                                <StarIcon
-                                  sx={{ fontSize: "25px", color: "#7d7f85" }}
-                                />
-                              }
-                              disableRipple={true}
-                              checked={
-                                wishListFlag ?? singleProd?.IsInWish == 1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleWishList(e, singleProd)}
-                            />
+                              </div>
+                            </div>
+                            {prodLoading &&
+                            singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                            {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                           </div>
-                        </div>}
+                        }
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="smr_material_details_portion">
-                  {(diaList?.length > 0 || csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 || csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0) && (
+                  {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
                     <p className="smr_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
@@ -1865,16 +1874,16 @@ function checkImageAvailability(imageUrl) {
                       ))}
                     </div>
                   )}
-                    {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
-                  {csList?.filter((ele)=>ele?.D !== "MISC")?.length > 0 && (
+                  {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
+                  {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`ColorStone Detail (${csList?.filter((ele)=>ele?.D !== "MISC")?.reduce(
+                        >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele)=>ele?.D !== "MISC")
+                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1887,7 +1896,7 @@ function checkImageAvailability(imageUrl) {
                         <li className="smr_proDeatilList">Color</li>
                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
-                      {csList?.filter((ele)=>ele?.D !== "MISC")?.map((data) => (
+                      {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
                         <ul className="smr_mt_detail_title_ul">
                           <li className="smr_proDeatilList1">{data?.F}</li>
                           <li className="smr_proDeatilList1">{data?.H}</li>
@@ -1900,15 +1909,15 @@ function checkImageAvailability(imageUrl) {
                     </div>
                   )}
 
-                  {csList?.filter((ele)=>ele?.D === "MISC")?.length > 0 && (
+                  {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`MISC Detail (${csList?.filter((ele)=>ele?.D === "MISC")?.reduce(
+                        >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele)=>ele?.D === "MISC")
+                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -1921,7 +1930,7 @@ function checkImageAvailability(imageUrl) {
                         <li className="smr_proDeatilList">Color</li>
                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
-                      {csList?.filter((ele)=>ele?.D === "MISC")?.map((data) => (
+                      {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
                         <ul className="smr_mt_detail_title_ul">
                           <li className="smr_proDeatilList1">{data?.F}</li>
                           <li className="smr_proDeatilList1">{data?.H}</li>
@@ -1935,7 +1944,7 @@ function checkImageAvailability(imageUrl) {
                   )}
                 </div>
 
-                {( stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
+                {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
                     <p className="smr_details_title"> Stock Items </p>
                     <div className="smr_stockitem_container">
@@ -2205,15 +2214,15 @@ function checkImageAvailability(imageUrl) {
                             </td>
                             <td className="Smr_stockItem_table_td">
                               <span>
-                              <span className="smr_currencyFont">
+                                <span className="smr_currencyFont">
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
                                 <span> {
-                                formatter.format(
-                                  ele?.Amount
+                                  formatter.format(
+                                    ele?.Amount
                                   )
-                                  }</span>
+                                }</span>
                               </span>
                             </td>
                             <td
@@ -2221,7 +2230,7 @@ function checkImageAvailability(imageUrl) {
                               style={{
                                 display: "flex",
                                 justifyContent: "center",
-                                border:'none'
+                                border: 'none'
                               }}
                             >
                               <Checkbox
@@ -2272,8 +2281,8 @@ function checkImageAvailability(imageUrl) {
                               className="smr_stockItemCard"
                               onClick={() =>
                                 // setTimeout(() => 
-                                  handleMoveToDetail(ele)
-                              // , 500)
+                                handleMoveToDetail(ele)
+                                // , 500)
                               }
                             >
                               <img
@@ -2281,11 +2290,11 @@ function checkImageAvailability(imageUrl) {
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
-                                      ele?.designno +
-                                      "_" +
-                                      "1" +
-                                      "." +
-                                      ele?.ImageExtension
+                                    ele?.designno +
+                                    "_" +
+                                    "1" +
+                                    "." +
+                                    ele?.ImageExtension
                                     : imageNotFound
                                 }
                                 alt={""}
@@ -2317,16 +2326,16 @@ function checkImageAvailability(imageUrl) {
                                   className="smr_stockItem_price_type_mt"
                                 >
                                   <spam>
-                                  <span className="smr_currencyFont">
-                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                  &nbsp;
+                                    <span className="smr_currencyFont">
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                    &nbsp;
                                   </spam>
                                   <span>{
-                                  formatter.format(
-                                    ele?.UnitCostWithMarkUp
+                                    formatter.format(
+                                      ele?.UnitCostWithMarkUp
                                     )
-                                    }</span>
+                                  }</span>
                                 </div>
                               </div>
                             </div>
@@ -2336,161 +2345,161 @@ function checkImageAvailability(imageUrl) {
                     </div>
                   )}
 
-                {storeInit?.IsProductDetailDesignSet === 1 && 
-                <div className="smr_DesignSet_main">
-                  { designSetList?.length > 0 && <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      width: "100%",
-                    }}
-                  >
-                    <p
+                {storeInit?.IsProductDetailDesignSet === 1 &&
+                  <div className="smr_DesignSet_main">
+                    {designSetList?.length > 0 && <div
                       style={{
-                        fontFamily: "FreightDisp Pro Medium",
-                        color: "#7d7f85",
-                        fontSize: "30px",
-                        // display:'none'
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
                       }}
                     >
-                      Complete The Look
-                    </p>
-                  </div>}
+                      <p
+                        style={{
+                          fontFamily: "FreightDisp Pro Medium",
+                          color: "#7d7f85",
+                          fontSize: "30px",
+                          // display:'none'
+                        }}
+                      >
+                        Complete The Look
+                      </p>
+                    </div>}
 
-                  <div className="smr_Swiper_designSet" >
-                    <Swiper
-                      modules={[Navigation, Pagination, Scrollbar]}
-                      // spaceBetween={50}
-                      // slidesPerView={3}
-                      navigation
-                      pagination={{ clickable: true }}
+                    <div className="smr_Swiper_designSet" >
+                      <Swiper
+                        modules={[Navigation, Pagination, Scrollbar]}
+                        // spaceBetween={50}
+                        // slidesPerView={3}
+                        navigation
+                        pagination={{ clickable: true }}
                       // scrollbar={{ draggable: true }}
-                    >
-                      {designSetList?.map((designSetList) => (
-                        <SwiperSlide>
-                          <div className="compeletethelook_cont">
-                            <div className="smr_ctlImg_containe">
-                              <img
-                                // src={
-                                //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
-                                // }
-                                src={
-                                  designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
-                                  designSetList?.designsetuniqueno +
-                                  "/" +
-                                  designSetList?.DefaultImageName 
-                                  :
-                                  imageNotFound
-                                }
-                                alt={""}
-                                className="ctl_img"
-                              />
-                            </div>
+                      >
+                        {designSetList?.map((designSetList) => (
+                          <SwiperSlide>
+                            <div className="compeletethelook_cont">
+                              <div className="smr_ctlImg_containe">
+                                <img
+                                  // src={
+                                  //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
+                                  // }
+                                  src={
+                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
+                                      designSetList?.designsetuniqueno +
+                                      "/" +
+                                      designSetList?.DefaultImageName
+                                      :
+                                      imageNotFound
+                                  }
+                                  alt={""}
+                                  className="ctl_img"
+                                />
+                              </div>
 
-                            <div
-                              className={
-                                (designSetList?.Designdetail == undefined
+                              <div
+                                className={
+                                  (designSetList?.Designdetail == undefined
+                                    ? []
+                                    : JSON.parse(designSetList?.Designdetail)
+                                  )?.length > 3
+                                    ? "compeletethelook_prodt_for_3"
+                                    : "compeletethelook_prodt"
+                                }
+                              >
+                                <p
+                                  style={{
+                                    fontFamily: "FreightDisp Pro Medium",
+                                    color: "#7d7f85",
+                                    fontSize: "30px",
+                                    display: "none",
+                                  }}
+                                >
+                                  Complete The Look
+                                </p>
+
+                                {(designSetList?.Designdetail == undefined
                                   ? []
                                   : JSON.parse(designSetList?.Designdetail)
-                                )?.length > 3
-                                  ? "compeletethelook_prodt_for_3"
-                                  : "compeletethelook_prodt"
-                              }
-                            >
-                              <p
-                                style={{
-                                  fontFamily: "FreightDisp Pro Medium",
-                                  color: "#7d7f85",
-                                  fontSize: "30px",
-                                  display: "none",
-                                }}
-                              >
-                                Complete The Look
-                              </p>
-
-                              {(designSetList?.Designdetail == undefined
-                                ? []
-                                : JSON.parse(designSetList?.Designdetail)
-                              )?.map((ele, i) => (
-                                <div
-                                  className="completethelook_outer"
-                                  onClick={() => handleMoveToDetail(ele)}
-                                  style={{ borderTop: i !== 0 ? "none" : "" }}
-                                >
-                                  <div style={{ display: "flex", gap: "60px" }}>
-                                    <div style={{ marginLeft: "12px" }}>
-                                      <img
-                                        src={
-                                          ele?.ImageCount > 0
-                                            ? storeInit?.DesignImageFol +
+                                )?.map((ele, i) => (
+                                  <div
+                                    className="completethelook_outer"
+                                    onClick={() => handleMoveToDetail(ele)}
+                                    style={{ borderTop: i !== 0 ? "none" : "" }}
+                                  >
+                                    <div style={{ display: "flex", gap: "60px" }}>
+                                      <div style={{ marginLeft: "12px" }}>
+                                        <img
+                                          src={
+                                            ele?.ImageCount > 0
+                                              ? storeInit?.DesignImageFol +
                                               ele?.designno +
                                               "_" +
                                               "1" +
                                               "." +
                                               ele?.ImageExtension
-                                            : imageNotFound
-                                        }
-                                        alt={""}
-                                        // src={
-                                        //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
-                                        // }
-                                        className="srthelook_img"
-                                      />
-                                    </div>
-                                    <div className="srthelook_prodinfo">
-                                      <div
-                                        style={{
-                                          fontSize: "14px",
-                                          color: "#7d7f85",
-                                          textTransform: "uppercase",
-                                        }}
-                                        className="srthelook_prodinfo_inner"
-                                      >
-                                        <p>
-                                          {ele?.designno} - {ele?.CategoryName}
-                                          <br />
-                                          {
-                                            <span className="smr_currencyFont">
-                                              {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>
+                                              : imageNotFound
                                           }
-                                          &nbsp;
-                                          {
-                                          formatter.format(
-                                            ele?.UnitCostWithMarkUp
-                                            )
-                                            }
-                                        </p>
+                                          alt={""}
+                                          // src={
+                                          //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
+                                          // }
+                                          className="srthelook_img"
+                                        />
                                       </div>
-                                      {/* <div>
+                                      <div className="srthelook_prodinfo">
+                                        <div
+                                          style={{
+                                            fontSize: "14px",
+                                            color: "#7d7f85",
+                                            textTransform: "uppercase",
+                                          }}
+                                          className="srthelook_prodinfo_inner"
+                                        >
+                                          <p>
+                                            {ele?.designno} - {ele?.CategoryName}
+                                            <br />
+                                            {
+                                              <span className="smr_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                              </span>
+                                            }
+                                            &nbsp;
+                                            {
+                                              formatter.format(
+                                                ele?.UnitCostWithMarkUp
+                                              )
+                                            }
+                                          </p>
+                                        </div>
+                                        {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>
                             &#8250;
                           </span>
                         </div> */}
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                  </div>
-                </div>}
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </div>
+                  </div>}
               </>
             )}
             <Footer />
           </div>
         </div>
-        <div className="smr_prodDetail_backtotop" onClick={()=>{
-        window.scroll({
-          top: 0,
-          behavior: "auto",
-        }); 
-    }}>
-         BACK TO TOP
-    </div>
+        <div className="smr_prodDetail_backtotop" onClick={() => {
+          window.scroll({
+            top: 0,
+            behavior: "auto",
+          });
+        }}>
+          BACK TO TOP
+        </div>
       </div>
     </>
   );

@@ -55,6 +55,8 @@ const Customization = ({
     }
   }
 
+
+
   return (
     <>
       {selectedItem?.StockId == 0 ? (
@@ -137,7 +139,7 @@ const Customization = ({
                   }
                 </>
               }
-              {sizeCombo?.rd?.length !== 0 &&
+              {sizeCombo?.rd?.length != 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>

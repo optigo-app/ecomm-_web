@@ -934,6 +934,7 @@ const Header = () => {
                       >
                         {/* <a href="/Lookbook" className="smr_A_link"> */}
                         {storeinit?.DesignSetInMenu}
+                        {/* LOOKBOOK */}
                         {/* </a> */}
                       </li>
                     }
@@ -951,6 +952,7 @@ const Header = () => {
                     >
                       {/* <a href="/Lookbook" className="smr_A_link"> */}
                       {storeinit?.DesignSetInMenu}
+                      {/* LOOKBOOK */}
                       {/* </a> */}
                     </li>
                   }
@@ -1256,6 +1258,7 @@ const Header = () => {
                         >
                           <a href="/Lookbook" className="smr_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
+                            {/* LOOKBOOK */}
                           </a>
                         </li>
                       }
@@ -1273,6 +1276,7 @@ const Header = () => {
                       >
                         <a href="/Lookbook" className="smr_A_linkFixed">
                           {storeinit?.DesignSetInMenu}
+                          {/* LOOKBOOK */}
                         </a>
                       </li>
                     }

@@ -66,9 +66,10 @@
         object-fit: contain;
     }
 
-    .smr_albumALL_div {
+    .proCat_albumALL_div {
         display: flex;
         flex-wrap: wrap;
+        min-height: 600px;
     }
 
     .proCat_AlbumLockIcone {
@@ -93,32 +94,54 @@
         .smr_AlbumImageMain_img {
             height: auto !important;
         }
+
+        .smr_AlbumImageMain {
+            width: 24% !important;
+            margin: 3px !important;
+            cursor: pointer;
+        }
+
+
     }
 
     @media screen and (max-width: 1000px) {
         margin-inline: 10px !important;
-
-
     }
 
 
+    @media screen and (max-width: 850px) {
+        .smr_AlbumImageMain {
+            width: 32% !important;
+            margin: 3px !important;
+            cursor: pointer;
+        }
+    }
+
     @media screen and (max-width: 650px) {
+        margin-inline: 2px !important;
+
         .smr_albumTitle {
             display: none;
         }
 
-        .smr_albumALL_div {
+        .proCat_albumALL_div {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
         }
 
         .smr_AlbumImageMain {
-            width: 47% !important;
+            width: 49% !important;
         }
 
         .smr_AlbumImageMain {
             margin: 2px !important;
+        }
+    }
+
+    @media screen and (max-width: 450px) {
+        .smr_AlbumImageMain {
+            width: 48% !important;
         }
     }
 }
