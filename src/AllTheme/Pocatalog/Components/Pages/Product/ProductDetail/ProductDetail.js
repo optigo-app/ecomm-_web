@@ -597,9 +597,7 @@ const ProductDetail = () => {
             ele?.ColorId == decodeobj?.c?.split(",")[1]
         )[0] ?? csQcLocal[0];
     }
-
-    const FetchProductData = async () => {
-
+    
     const FetchProductData = async() =>{
 
       let obj={
