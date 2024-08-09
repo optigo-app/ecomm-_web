@@ -117,7 +117,6 @@ const ProductList = () => {
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
   const formatter = new Intl.NumberFormat('en-IN')
-
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
