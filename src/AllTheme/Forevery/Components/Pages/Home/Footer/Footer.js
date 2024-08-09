@@ -139,22 +139,19 @@ const Footer = () => {
                       </div>
                     ))}
                   </div>
-                  <a href="/payment-methods" className="paymentLink">
+                  <a href="/payment-methods" className="paymentLink" onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigate(e, "/payment-methods");
+                      }}>
                     <h4>Secure Payment Method</h4>
                   </a>
                   <div className="paymentDiv">
-                    {socialMediaData?.map((social, index) => (
-                      <div className="footerSocialIcon" key={index}>
-                        <a href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
                           <img
-                            src={social.SImgPath}
-                            alt={social.SName}
-                            style={{ width: '24px', height: '24px', objectFit: 'cover' }}
+                            src="https://forevery.one/icons_images/card.webp"
+                            alt="paymant-merchant image"
+                            style={{ width: '100%', objectFit: 'cover', mixBlendMode:'multiply' }}
                             onError={(e) => { e.target.style.display = 'none'; }}
-                          />
-                        </a>
-                      </div>
-                    ))}
+                          />                  
                   </div>
                 </div>
               ) : (
