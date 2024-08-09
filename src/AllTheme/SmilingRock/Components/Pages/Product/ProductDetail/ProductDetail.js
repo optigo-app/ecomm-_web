@@ -171,7 +171,7 @@ const ProductDetail = () => {
     let mcArr = metalColorCombo?.filter(
       (ele) => {
         if (selectMtColor) {
-          return ele?.colorname == selectMtColor
+          return ele?.colorcode == selectMtColor
         }
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
       })[0];
@@ -241,7 +241,7 @@ const ProductDetail = () => {
 
     let mcArr = metalColorCombo?.filter(
       (ele) =>{ if(selectMtColor) {
-        return ele?.colorname == selectMtColor
+        return ele?.colorcode == selectMtColor
       }
       else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
     })[0];
@@ -381,7 +381,7 @@ const ProductDetail = () => {
         )[0]
     }
 
-    setSelectMtColor(mcArr?.colorname);
+    setSelectMtColor(mcArr?.colorcode);
 
   }, [singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
