@@ -51,17 +51,17 @@ function Home() {
               <TopSection />
               <TheDifference />
               <PromotionBaner2 />
-              {localData?.IsHomeAlbum === 1 && <Album1 />}
-              {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+              {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
+              {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
               {/* <DaimondEveyone /> */}
               {/* <ShopByCategory /> */}
-              {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-              {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-              {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
+              {/* {localData?.IsHomeNewArrival === 1 && <NewArrival1 />} */}
+              {/* {localData?.IsHomeTrending === 1 && <TrendingView1 />} */}
+              {/* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
               {/* <SustainAbility /> */}
               {/* <BestSaller /> */}
-              <BottomBanner />
-              <BrandsComponent />
+              {/* <BottomBanner /> */}
+              {/* <BrandsComponent /> */}
             </div>
         </div>
       </div>
