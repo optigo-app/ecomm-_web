@@ -21,7 +21,7 @@ import QuotationQuote from './QuotationQuote/QuotationQuote';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import NewOrderHistoryPC from './AccountOrderHistory/NewOrderHistoryPC';
-
+import Cookies from 'js-cookie';
 // import { accountDetailPage, accountDetailPages, accountValidation } from '../../../Utils/globalFunctions/GlobalFunction';
 
 function CustomTabPanel(props) {
@@ -79,6 +79,7 @@ export default function Account() {
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
 
+    const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -88,9 +89,11 @@ export default function Account() {
         setValue1(newValue);
     }
 
-    const handleLogout = () => {
-        setIsLoginState('false')
-        localStorage.setItem('LoginUser', 'false');
+   const handleLogout = () => {
+        // console.log(loginState);
+        setIsLoginState(false);
+        Cookies.remove('userLoginCookie');
+        localStorage.setItem('LoginUser', false);
         localStorage.removeItem('storeInit');
         localStorage.removeItem('loginUserDetail');
         localStorage.removeItem('remarks');
@@ -101,20 +104,57 @@ export default function Account() {
         localStorage.removeItem('remarks');
         localStorage.removeItem('registerMobile');
         localStorage.removeItem('allproductlist');
-        naviagation('/')
+        localStorage.clear();
+        navigation('/')
         window.location.reload();
-    }
+      }
 
     return (
         <div className='accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
-                    <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
+
+                    {/* <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p> */}
+                    <div className='sticky_header_web_sm_procat'>
+                        <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
+                        <div className='smlingAccountTabWebView yourAccount d_none_acc' >
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                            <Tab label="Your Profile" {...a11yProps(0)} />
+                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            <Tab label="Log Out" onClick={handleLogout} />
+                                        </Tabs>
+                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                                    </Box>
+                        </div>
+                        <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount'>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                        <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                            <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
+                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            <Tab label="Log Out" onClick={handleLogout} />
+                                        </Tabs>
+                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                                    </Box>
+                                
+                        </div>
+                    </div>
+
                     <div className='smling-AccountTabMain'>
                         <Box sx={{ width: '100%' }}>
-                            <div className='smlingAccountTabWebView'>
+                            {/* <div className='smlingAccountTabWebView'>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  > 
                                         <Tab label="Your Profile" {...a11yProps(0)} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -126,7 +166,7 @@ export default function Account() {
                             </div>
                             <div className='smlingAccountTabMobileView YourAccountPageTabs'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >  
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -135,7 +175,7 @@ export default function Account() {
                                     </Tabs>
                                 </Box>
                                
-                            </div>
+                            </div> */}
 
                             <CustomTabPanel value={value} index={0}>
                                 <div>
