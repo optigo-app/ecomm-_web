@@ -73,7 +73,7 @@ const DesignSet = ({
                     className={
                       (designSetList?.Designdetail == undefined
                         ? []
-                        : JSON.parse(designSetList?.Designdetail)
+                        : JSON?.parse(designSetList?.Designdetail)
                       )?.length > 3
                         ? "compeletethelook_prodt_for_3"
                         : "compeletethelook_prodt"
@@ -92,7 +92,7 @@ const DesignSet = ({
 
                     {(designSetList?.Designdetail == undefined
                       ? []
-                      : JSON.parse(designSetList?.Designdetail)
+                      : JSON?.parse(designSetList?.Designdetail)
                     )?.map((ele, i) => (
                       <div
                         className="completethelook_outer"

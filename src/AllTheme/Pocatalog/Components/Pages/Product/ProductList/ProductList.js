@@ -1960,64 +1960,67 @@ const ProductList = () => {
                               overflow: "auto",
                             }}
                           >
-                            {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                  gap: "12px",
-                                }}
-                                key={i}
-                              >
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      name={`Price${i}${i}`}
-                                      checked={
-                                        filterChecked[`Price${i}${i}`]
-                                          ?.checked === undefined
-                                          ? false
-                                          : filterChecked[`Price${i}${i}`]
-                                              ?.checked
-                                      }
-                                      style={{
-                                        color: "#7f7d85",
-                                        padding: 0,
-                                        width: "10px",
-                                      }}
-                                      onClick={(e) =>
-                                        handleCheckboxChange(e, ele?.id, opt)
-                                      }
-                                      size="small"
-                                    />
-                                  }
-                                  className="smr_mui_checkbox_label"
-                                  label={
-                                    opt?.Minval == 0
-                                      ? `Under ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${formatter.format(opt?.Maxval)}`
-                                      : opt?.Maxval == 0
-                                      ? `Over ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        }${formatter.format(opt?.Minval)}`
-                                      : `${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${formatter.format(opt?.Minval)} 
-                                                   - ${
-                                                     loginUserDetail?.CurrencyCode ??
-                                                     storeInit?.CurrencyCode
-                                                   } ${formatter.format(
-                                          opt?.Maxval
-                                        )}`
-                                  }
-                                />
-                              </div>
-                            ))}
+                            {(JSON.parse(ele?.options) ?? []).map(
+                              (opt, i) => (
+                                <div
+                                className="formcontroller_box"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: "12px",
+                                  }}
+                                  key={i}
+                                >
+                                  <FormControlLabel
+                                    control={
+                                      <Checkbox
+                                        name={`Price${i}${i}`}
+                                        checked={
+                                          filterChecked[`Price${i}${i}`]
+                                            ?.checked === undefined
+                                            ? false
+                                            : filterChecked[
+                                              `Price${i}${i}`
+                                            ]?.checked
+                                        }
+                                        style={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        sx={{
+                                          color: "#7f7d85",
+                                          padding: 0,
+                                          width: "10px",
+                                        }}
+                                        onClick={(e) =>
+                                          handleCheckboxChange(
+                                            e,
+                                            ele?.id,
+                                            opt
+                                          )
+                                        }
+                                        size="small"
+                                      />
+                                    }
+                                    // .MuiFormControlLabel-root .MuiFormControlLabel-label
+                                   
+                                    className="smr_mui_checkbox_label smr_mui_label_price "
+                                    label={
+                                      // <div style={{fontSize:'0.6vw !important'}}>
+                                        opt?.Minval == 0
+                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
+                                          : opt?.Maxval == 0
+                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${formatter.format(opt?.Minval)}`
+                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Minval)} 
+                                                     - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
+                                      // </div>
+                                    }
+                                  />
+                                </div>
+                              )
+                            )}
                           </AccordionDetails>
                         </Accordion>
                       )}
@@ -2070,7 +2073,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 203, height: 88 }}>
+                            <Box sx={{width:"94%", height: 88 }}>
                               {RangeFilterView(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2125,7 +2128,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 204, height: 88 }}>
+                            <Box sx={{width:"94%", height: 88}}>
                               {RangeFilterView1(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2179,7 +2182,7 @@ const ProductList = () => {
                               overflow: "auto",
                             }}
                           >
-                            <Box sx={{ width: 204, height: 88 }}>
+                            <Box sx={{width:"94%", height: 88}}>
                               {RangeFilterView2(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2833,7 +2836,7 @@ const ProductList = () => {
                                       }}
                                     >
                                       {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 203, height: 88 }}>
+                                      <Box sx={{ width:'94%', height: 88 }}>
                                         {RangeFilterView(ele)}
                                       </Box>
                                     </AccordionDetails>
@@ -2892,7 +2895,7 @@ const ProductList = () => {
                                       }}
                                     >
                                       {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 204, height: 88 }}>
+                                      <Box sx={{ width:"94%", height: 88 }}>
                                         {RangeFilterView1(ele)}
                                       </Box>
                                     </AccordionDetails>
@@ -2950,7 +2953,7 @@ const ProductList = () => {
                                         overflow: "auto",
                                       }}
                                     >
-                                      <Box sx={{ width: 204, height: 88 }}>
+                                      <Box className="smr_diamond_filter" sx={{ width:"94%", height: 88 }}>
                                         {RangeFilterView2(ele)}
                                       </Box>
                                     </AccordionDetails>

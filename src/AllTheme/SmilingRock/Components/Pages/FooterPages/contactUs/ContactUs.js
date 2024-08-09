@@ -213,11 +213,13 @@ export default function ContactUs() {
                                 <div className="address">
                                     {activeTab === 'M1' && (
                                         <div>
-                                            <p>Kayra Creation Limited</p>
+                                            <p>YAMUNA CHOWK, Rio Business Hub, IT 101, Mota Varachha, Surat, Gujarat 394101                                            </p>
+                                            <p>+91 93286 14590</p>
+                                            {/* <p>Kayra Creation Limited</p>
                                             <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
                                             <p>Kowloon-999077, Hong Kong- China</p>
                                             <p>+852-52482000</p>
-                                            <p>sales@kayracreation.com</p>
+                                            <p>sales@kayracreation.com</p> */}
                                         </div>
                                         // <div>
                                         //     <p></p>

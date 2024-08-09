@@ -39,6 +39,7 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import Navbar from "./Components/Pages/Common/NavBar/Navbar";
 import TopBar from "./Components/Pages/Common/TopBar/TopBar";
+import AppointmentPage from "./Components/Pages/Home/AppointMent/AppointmentPage";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(loginState);
@@ -200,7 +201,7 @@ const ForEveryRoutes = () => {
             </div>
           }
         />
-        {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
+        <Route path="/appointment" element={<AppointmentPage />} />
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
