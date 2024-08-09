@@ -123,6 +123,14 @@
     padding-right: 0;
 }
 
+.sticky_header_web_sm_DT{
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 50px;
+    background-color: white;
+    z-index: 10; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
 
 @media screen and (max-width: 1441px) {
 
@@ -135,7 +143,15 @@
     margin-inline: 5%;
 
     }
-
+    .sticky_header_web_sm_DT{
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 50px;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
+    
     .smilingAccountLogout{
         position: relative;
         left: 130px;
@@ -145,6 +161,15 @@
     .smlingAccountTabMobileView{
         display: none;
     }
+    .sticky_header_web_sm_DT{
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 50px;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
+    
 }
 
 @media screen and (max-width: 1049px) {
@@ -175,6 +200,15 @@
         display: flex;
         align-items: start!important;
     }
+    .sticky_header_web_sm_DT{
+        position: -webkit-sticky !important; /* For Safari */
+        position: sticky !important;
+        top: 50px;
+        background-color: white;
+        z-index: 10; /* Adjust z-index as needed */
+        padding: 10px 0;
+    }
+    
 }
 
 @media(max-width: 768px){
