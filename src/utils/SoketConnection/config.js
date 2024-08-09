@@ -2,7 +2,7 @@
 const storeInit = JSON.parse(localStorage.getItem("storeInit"));
 
 const config = {
-    di: 'orail24', //`${storeInit?.ufcc}`, //storeinit.ufcc
+    di: `${storeInit?.ufcc}`, //storeinit.ufcc
     // En_ufcc: 'orail24',
     // En_UI: '15864',
     // En_UN: 'shreon prakash',

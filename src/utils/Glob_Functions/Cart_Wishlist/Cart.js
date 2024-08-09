@@ -354,7 +354,6 @@ const useCart = () => {
   };
   
   const handleIncrement = async (item) => {
-    debugger
     const newQuantity = (item?.Quantity || 0) + 1;
     const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
   

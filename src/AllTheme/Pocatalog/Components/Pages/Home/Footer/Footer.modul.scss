@@ -80,16 +80,16 @@
         width: 100%;
     }
 
-   
+
 
     @media screen and (max-width: 1024px) {
 
-        .proCat_AddresMain{
-            margin-left: 0px!important;
+        .proCat_AddresMain {
+            margin-left: 0px !important;
         }
 
-        .proCat_SoicialMain{
-            margin-left: 0px!important;
+        .proCat_SoicialMain {
+            margin-left: 0px !important;
         }
 
         .footerBottomMain {
@@ -138,10 +138,12 @@
             flex-direction: column;
         }
 
-        .proCat_SoicialMain{
-            margin-bottom: 50px!important;
+        .proCat_SoicialMain {
+            margin-bottom: 50px !important;
             display: flex;
-            width: 100%!important;
+            width: 100% !important;
+            align-items: center !important;
+            flex-direction: column !important;
         }
 
     }

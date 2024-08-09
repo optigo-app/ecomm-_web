@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { proCat_CartCount, proCat_DiamondRangeArr, proCat_WishCount } from "../../../Recoil/atom";
+import { proCat_CartCount, proCat_DiamondRangeArr, proCat_WishCount, soketProductData } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
@@ -112,12 +112,11 @@ const ProductList = () => {
   const [value, setValue] = React.useState([]);
 
   const getDiaRangeFilter = useRecoilValue(proCat_DiamondRangeArr)
-
+  const SoketData = useRecoilValue(soketProductData);
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
   const formatter = new Intl.NumberFormat('en-IN')
-
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
@@ -128,6 +127,20 @@ const ProductList = () => {
       backgroundColor
     );
   };
+
+  const instantGetSoketApi = (param1) =>{
+    if(SoketData){
+      let socketfilterdata = SoketData?.filter((ele)=> ele?.designno == param1?.designno)[0]
+        return socketfilterdata?.StatusId
+    }
+  }
+
+  
+
+  // useEffect(() =>{
+  //   instantGetSoketApi(finalProductListData);
+  //   console.log('SoketDataSoketDataSoketData',instantGetSoketApi(finalProductListData));
+  // },[finalProductListData])
 
   useEffect(() => {
     setCSSVariable();
@@ -473,15 +486,44 @@ const ProductList = () => {
 
       let images = pdImgList;
 
+      let StatusId = 0;
+      if(SoketData){
+        let filterdata = SoketData?.find((ele)=> ele?.designno === product?.designno) 
+        StatusId = filterdata?.StatusId ?? 0
+      }
+
+
       return {
         ...product,
-        images
+        images,
+        StatusId
       };
     });
 
-    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+    console.log("finalProdWithPrice", finalProdWithPrice);
     setFinalProductListData(finalProdWithPrice);
-  }, [productListData]);
+    // console.log("SoketData",SoketData);
+
+  }, [productListData,SoketData]);
+
+  // useEffect(()=>{
+  //   const finalProdWithSocket = productListData.map((product) => {
+  //     let common = SoketData?.find((ele)=> ele?.designno === product?.designno)
+  //     if(common !== undefined && common ){
+  //       let StatusId = common?.StatusId
+  //       return {
+  //         ...product,
+  //         StatusId
+  //       }
+  //     }else{
+  //       let StatusId = 0
+  //       return {...product,StatusId}
+  //     }
+  //   })
+  //   setFinalProductListData(finalProdWithSocket);
+  //   console.log("finalProdWithPrice",finalProdWithSocket);
+  // },[productListData,SoketData])
+
   // useEffect(() => {
   //   const finalProdWithPrice = productListData.map((product) => {
   //     const newPriceData = priceListData?.rd?.find(
@@ -2766,7 +2808,6 @@ const ProductList = () => {
                           <>
                             <div className="smr_main_sorting_div_proCat">
                               <div className="proCat_topTitleList_mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
                                 <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                               </div>
                               {/* {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
@@ -2947,7 +2988,15 @@ const ProductList = () => {
                                     </div>
 
                                     <div className="proCat_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && <span className="proCat_app_instock">In Stock</span>}
+                                    {
+                                    (productData?.IsInReadyStock == 1 ||  productData?.StatusId == 1) ?
+                                    <span className="proCat_app_instock">In Stock</span>
+                                    :
+                                    (productData?.StatusId == 2) ?
+                                    <span className="proCat_app_instock">In memo</span>
+                                    :''
+                                    }
+
                                       {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
                                         {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
                                         {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
@@ -3205,3 +3254,26 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

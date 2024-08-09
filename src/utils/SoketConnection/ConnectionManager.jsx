@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
-import io from 'socket.io-client';
-import config from './config';
-import { GetDesignStock } from './GetDesignStock';
+import React, { useEffect } from "react";
+import io from "socket.io-client";
+import config from "./config";
+import { GetDesignStock } from "./GetDesignStock";
+import { useSetRecoilState } from "recoil";
+import { soketProductData } from "../../AllTheme/Pocatalog/Components/Recoil/atom";
 
 const ConnectionManager = () => {
   let socket;
 
+  const setProductData = useSetRecoilState(soketProductData);
   useEffect(() => {
     const { address, SoPath, di } = config;
 
-    console.log('configconfigconfig',config);
+    console.log("configconfigconfig", config);
     const details = {
       path: SoPath,
-      transports: ['websocket']
+      transports: ["websocket"],
     };
 
     try {
@@ -20,31 +23,33 @@ const ConnectionManager = () => {
 
       socket = io?.connect(address, details);
 
-      socket.on('connect', () => {
-        // console.log('Socket connected');
-        socket.emit('joinRoom', di);
+      socket.on("connect", () => {
+        console.log("Socket connected");
+        console.log("Socket connected configconfigconfig", config);
+        socket.emit("joinRoom", di);
       });
 
-      socket.on('disconnect', () => {
-        console.log('Socket disconnected');
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected");
       });
 
-      socket.on('connect_error', (error) => {
-        console.error('Connection Error:', error);
+      socket.on("connect_error", (error) => {
+        console.error("Connection Error:", error);
       });
 
-      socket.on('connectToRoom', (data) => {
+      socket.on("connectToRoom", (data) => {
         // console.log('Connected to room:', data);
       });
 
-      socket.on('ReceiveSignal', (data) => {
+      socket.on("ReceiveSignal", (data) => {
+        console.log("ReceiveSignal");
         try {
           if (data && data?.tvar) {
             // comboRebind(data?.tvar, data?.tparam);
             comboRebind(data?.tvar);
           }
         } catch (error) {
-          console.error('Error handling ReceiveSignal:', error);
+          console.error("Error handling ReceiveSignal:", error);
         }
       });
 
@@ -58,9 +63,8 @@ const ConnectionManager = () => {
       //     console.error('Socket is not connected.');
       //   }
       // })();
-
     } catch (error) {
-      console.error('Socket connection error:', error);
+      console.error("Socket connection error:", error);
     }
 
     return () => {
@@ -73,10 +77,10 @@ const ConnectionManager = () => {
   const handleBtnClick = (signal) => {
     return () => {
       if (socket) {
-        const data = { roomno: config.di, tmode: 'SendSignal', tvar: signal };
-        socket.emit('SendSignal', data);
+        const data = { roomno: config.di, tmode: "SendSignal", tvar: signal };
+        socket.emit("SendSignal", data);
       } else {
-        console.error('Socket is not connected.');
+        console.error("Socket is not connected.");
       }
     };
   };
@@ -84,31 +88,40 @@ const ConnectionManager = () => {
   const comboRebind = (_tvar) => {
     try {
       switch (_tvar.toLowerCase().trim()) {
-        case 'reacttest':
-          if (typeof stockNotification === 'function') {
+        case "reacttest":
+          if (typeof stockNotification === "function") {
             // stockNotification();
           }
-          alert('This is testing for socket');
+          alert("This is testing for socket");
           break;
-        case 'getdesignstock':
-          GetDesignStock();
+
+        case "getsolddata":
+          console.log(
+            "getsolddata Call",
+            window.location.pathname.startsWith("/p")
+          );
+          if (window.location.pathname.startsWith("/p") == true) {
+            GetDesignStock().then((res) => {
+              setProductData(res?.Data?.rd);
+            });
+          }
           break;
-        case 'notificationaudioplay':
-          if (typeof notificationAudioPlay === 'function') {
+        case "notificationaudioplay":
+          if (typeof notificationAudioPlay === "function") {
             // notificationAudioPlay();
           }
           break;
-        case 'metal':
-          if (typeof _ComboListArray_Metal === 'function') {
+        case "metal":
+          if (typeof _ComboListArray_Metal === "function") {
             // _ComboListArray_Metal();
           }
-          alert('Metal change happened');
+          alert("Metal change happened");
           break;
         default:
           break;
       }
     } catch (error) {
-      console.error('Error in comboRebind:', error);
+      console.error("Error in comboRebind:", error);
     }
   };
 
