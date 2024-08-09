@@ -68,8 +68,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
-  margin: 15px 70px 0px 15px
+  width: 98.3%;
+  margin: 15px 0px 10px 0px
 }
 
 .proCat_NameTopShow {
@@ -104,6 +104,13 @@
 
 .proCat_app_instock {
   background-color: #00d300;
+  color: white;
+  text-transform: uppercase;
+  width: 70px;
+}
+
+.proCat_app_MEMO {
+  background-color: #ff9632;
   color: white;
   text-transform: uppercase;
   width: 70px;
@@ -349,18 +356,22 @@
   // }
 }
 
+
+
+
 .smr_mui_checkbox_label {
   display: flex;
   justify-content: space-between;
   width: 100%;
   flex-direction: row-reverse;
   font-family: $primaryFontFamily;
+  // font-size: 12px !important;
+
+ 
 }
 
 .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
-  font-family: $primaryFontFamily;
-  color: $primaryfontcolor;
-  // font-size: 12px;
+  font-size: clamp(0.6rem, 0.9vw, 1.2rem) !important;
 }
 
 .smr_prod_datanotfound {

@@ -182,6 +182,7 @@ const ProductDetail = () => {
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
       UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
+      AlbumName: decodeUrl?.n ?? ""
     };
 
     if (cartflag) {
@@ -550,7 +551,6 @@ const ProductDetail = () => {
     }
   };
 
-  // console.log("sizeData",sizeData);
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
@@ -558,10 +558,13 @@ const ProductDetail = () => {
     let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
 
     let decodeobj = decodeAndDecompress(navVal);
+    let alName = ''
 
     if (decodeobj) {
       setDecodeUrl(decodeobj);
+      alName = decodeobj?.n
     }
+
 
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
 
@@ -586,7 +589,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        )[0] ?? "0,0";
     }
 
     if (csQcLocal) {
@@ -595,15 +598,21 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
+        )[0] ?? "0,0"
     }
+
+    console.log("csArr",csQcLocal?.filter(
+      (ele) =>
+        ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+        ele?.ColorId == decodeobj?.c?.split(",")[1]
+    ));
     
     const FetchProductData = async() =>{
 
       let obj={
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       }
 
       // console.log("objjj",obj)
@@ -611,7 +620,8 @@ const ProductDetail = () => {
 
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
+      console.log('decodeurlllll', alName);
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie , alName)
         .then(async (res) => {
           if (res) {
 
@@ -620,6 +630,11 @@ const ProductDetail = () => {
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
               setIsImageLoad(false)
+              setSelectedThumbImg({
+                link: "",
+                type: "img",
+              });
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
@@ -687,8 +702,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -861,8 +874,6 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData", pd?.VideoCount);
-
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
@@ -890,8 +901,6 @@ const ProductDetail = () => {
         }
       }
     }
-
-    console.log("SearchData", singleProd);
 
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
@@ -1284,8 +1293,10 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
-                            src={selectedThumbImg?.link ?? imageNotFound}
+                          src={selectedThumbImg?.link}
+                          // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
+                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="smr_prod_img"
@@ -1293,7 +1304,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                              src={selectedThumbImg?.link}
+                             src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1761,7 +1772,7 @@ const ProductDetail = () => {
                           </div>
                         }
 
-                        {prodLoading &&
+                        {prodLoading ?null:
                           <div>
 
                             <div className="Smr_CartAndWish_portion">
@@ -2077,7 +2088,7 @@ const ProductDetail = () => {
                                             GWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.GrossWt}
+                                            {(ele?.GrossWt)?.toFixed(3)}
                                           </span>
                                         </span>
                                       </>
@@ -2089,7 +2100,7 @@ const ProductDetail = () => {
                                       <span className="smr_prod_wt">
                                         <span className="smr_d_keys">NWT:</span>
                                         <span className="smr_d_val">
-                                          {ele?.NetWt}
+                                          {(ele?.NetWt)?.toFixed(3)}
                                         </span>
                                       </span>
                                     </>
@@ -2116,7 +2127,7 @@ const ProductDetail = () => {
                                             DWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.DiaWt}
+                                            {(ele?.DiaWt)?.toFixed(3)}
                                             {storeInit?.IsDiamondPcs === 1
                                               ? `/${ele?.DiaPcs}`
                                               : null}
@@ -2134,7 +2145,7 @@ const ProductDetail = () => {
                                             CWT:
                                           </span>
                                           <span className="smr_d_val">
-                                            {ele?.CsWt}
+                                            {(ele?.CsWt)?.toFixed(3)}
                                             {storeInit?.IsStonePcs === 1
                                               ? `/${ele?.CsPcs}`
                                               : null}
@@ -2161,9 +2172,9 @@ const ProductDetail = () => {
                                 </span>
                                 &nbsp;
                                 <span> {
-                                  // formatter.format(
-                                  ele?.Amount
-                                  // )
+                                  formatter.format(
+                                    ele?.Amount
+                                  )
                                 }</span>
                               </span>
                             </td>

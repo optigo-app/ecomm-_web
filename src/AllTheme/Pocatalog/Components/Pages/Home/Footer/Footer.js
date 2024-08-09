@@ -75,7 +75,7 @@ const Footer = ({ fromPage }) => {
                 </p>
               </div>
               <div className='proCat_SoicialMain' style={{ marginLeft: '100px', width: '40%' }}>
-                {socialMediaData?.length && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}
+                {socialMediaData?.length != 0 && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}
                 <div className='footerIconMain'>
                   {socialMediaData?.map((social, index) => (
                     <div className='footerSocialIcon'>
