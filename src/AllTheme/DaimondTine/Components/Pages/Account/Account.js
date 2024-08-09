@@ -114,7 +114,7 @@ export default function Account() {
         <div className='accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
-                    <div className='sticky-header_web_sm'>
+                    <div className='sticky_header_web_sm_DT'>
                         <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
                             <div className='smlingAccountTabWebView'>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>

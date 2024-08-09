@@ -280,7 +280,7 @@ const NewOrderHistoryMapp = () => {
           </Box>
         ) : (
           <div>
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%", paddingBottom:'15%' }}>
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
                     return (
