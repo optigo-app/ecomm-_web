@@ -493,10 +493,17 @@ const ProductPage = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) =>
-        ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorname == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+    console.log("ekekekekeb", cs);
 
     let prodObj = {
       autocode: singleProd?.autocode,

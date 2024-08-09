@@ -258,7 +258,6 @@ const useCart = () => {
   const handleCategorySize = async (item) => {
     const visiterId = Cookies.get('visiterId');
     try {
-      debugger;
       const response = await getSizeData(item, visiterId, islogin);
       if (response) {
         const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
