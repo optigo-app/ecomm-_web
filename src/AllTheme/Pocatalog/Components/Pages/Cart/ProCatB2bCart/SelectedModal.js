@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './proCat_cartPage.scss';
+import './procat_cartPage.scss';
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './proCat_cartPage.scss';
+import './procat_cartPage.scss';
 
 const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, }) => {
 

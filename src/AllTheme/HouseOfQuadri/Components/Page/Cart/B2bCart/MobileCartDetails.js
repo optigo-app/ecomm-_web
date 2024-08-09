@@ -505,7 +505,7 @@ const MobileCartDetails = ({
                       </select>
                     </div>
                   )}
-                  {sizeCombo?.rd?.length !== 0 && (
+                  {sizeCombo?.length !== 0 && (
                     <div className="option">
                       <label htmlFor="size">Size:</label>
                       <select
@@ -520,7 +520,7 @@ const MobileCartDetails = ({
                           </option>
                         ) : (
                           <>
-                            {SizeSorting(sizeCombo?.rd)?.map((option) => (
+                            {sizeCombo?.map((option) => (
                               <option key={option?.id} value={option?.sizename}>
                                 {option?.sizename}
                               </option>
