@@ -7,12 +7,14 @@ import { soketProductData } from '../../AllTheme/Pocatalog/Components/Recoil/ato
 
 const ConnectionManager = () => {
   let socket;
+
   const setProductData = useSetRecoilState(soketProductData);
+  const Url = window.location.pathname
 
   useEffect(() => {
     const { address, SoPath, di } = config;
 
-    console.log('configconfigconfig',config);
+    console.log('configconfigconfig', config);
     const details = {
       path: SoPath,
       transports: ['websocket']
@@ -95,10 +97,11 @@ const ConnectionManager = () => {
           break;
 
         case 'getsolddata':
-          
-          GetDesignStock().then((res) =>{
-            setProductData(res?.Data?.rd);
-          });
+          if (Url.startsWith('/p') == true) {
+            GetDesignStock().then((res) => {
+              setProductData(res?.Data?.rd);
+            });
+          }
           break;
         case 'notificationaudioplay':
           if (typeof notificationAudioPlay === 'function') {
