@@ -1751,7 +1751,7 @@ const ProductDetail = () => {
                                 height={30}
                               />
                             ) :
-                              // formatter.format
+                              formatter.format
                               (
                                 singleProd1?.UnitCostWithMarkUp ??
                                 singleProd?.UnitCostWithMarkUp

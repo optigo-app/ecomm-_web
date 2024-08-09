@@ -220,7 +220,7 @@ const DynamicCollection = () => {
   //  range filter Api
 
   const handleRangeFilterApi = async (Rangeval) => {
-    setIsProdLoading(true)
+    setIsProdLoading(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -257,18 +257,18 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-          setIsProdLoading(false)
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
-        setIsProdLoading(false)
+        setIsProdLoading(false);
       });
   };
   const handleRangeFilterApi1 = async (Rangeval1) => {
-    setIsProdLoading(true)
+    setIsProdLoading(true);
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -305,18 +305,18 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-          setIsProdLoading(false)
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
-        setIsProdLoading(false)
+        setIsProdLoading(false);
       });
   };
   const handleRangeFilterApi2 = async (Rangeval2) => {
-    setIsProdLoading(true)
+    setIsProdLoading(true);
 
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -354,16 +354,14 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-    setIsProdLoading(false)
-
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
-        setIsProdLoading(false)
-
+        setIsProdLoading(false);
       });
   };
 
@@ -383,7 +381,6 @@ const DynamicCollection = () => {
   };
 
   const handleInputChange = (index) => (event) => {
-
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -391,14 +388,14 @@ const DynamicCollection = () => {
     const newSliderValue = [...sliderValue];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-      // if(index === 1  && diafilter?.Max > event.target.value){
-      //   setSliderValue(newSliderValue);
-      //   handleRangeFilterApi(newSliderValue);
-      // }
-      // if(index === 0 && diafilter?.Min < event.target.value){
-        setSliderValue(newSliderValue);
-        handleRangeFilterApi(newSliderValue);
-      // }
+    // if(index === 1  && diafilter?.Max > event.target.value){
+    //   setSliderValue(newSliderValue);
+    //   handleRangeFilterApi(newSliderValue);
+    // }
+    // if(index === 0 && diafilter?.Min < event.target.value){
+    setSliderValue(newSliderValue);
+    handleRangeFilterApi(newSliderValue);
+    // }
   };
   // gross
   const handleInputChange1 = (index) => (event) => {
@@ -408,7 +405,7 @@ const DynamicCollection = () => {
     setSliderValue1(newSliderValue);
     handleRangeFilterApi1(newSliderValue);
   };
-  // 
+  //
   const handleInputChange2 = (index) => (event) => {
     const newSliderValue = [...sliderValue2];
     newSliderValue[index] =
@@ -542,7 +539,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
-                pattern: "\\d*(\\.\\d{0,3})?" 
+                pattern: "\\d*(\\.\\d{0,3})?",
               }}
             />
             <Input
@@ -555,7 +552,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
-                  pattern: "\\d*(\\.\\d{0,3})?" 
+                pattern: "\\d*(\\.\\d{0,3})?",
               }}
             />
           </div>
@@ -1192,11 +1189,11 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
     setCurrentPage(value);
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
       .then((res) => {
         if (res) {
@@ -1428,19 +1425,18 @@ const DynamicCollection = () => {
                     border: "1px solid #e1e1e1",
                     borderRadius: "8px",
                     minWidth: "270px",
-                    textTransform  :"uppercase"
+                    textTransform: "uppercase",
                   }}
                   className="select"
                   value={selectedDiaId}
                   onChange={(e) => setSelectedDiaId(e.target.value)}
-
                 >
                   {diamondQualityColorCombo?.map((diaQc) => (
                     <option
                       className="option"
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                      style={{textTransform  :"uppercase"}}
+                      style={{ textTransform: "uppercase" }}
                     >
                       {" "}
                       {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
@@ -1470,19 +1466,18 @@ const DynamicCollection = () => {
                     borderRadius: "8px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    textTransform  :"uppercase"
+                    textTransform: "uppercase",
                   }}
                   className="select"
                   value={selectedCsId}
                   onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
+                >
                   {ColorStoneQualityColorCombo?.map((csCombo) => (
                     <option
                       className="option"
                       key={csCombo?.QualityId}
                       value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                      style={{textTransform  :"uppercase"}}
-
+                      style={{ textTransform: "uppercase" }}
                     >
                       {" "}
                       {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
@@ -1550,7 +1545,12 @@ const DynamicCollection = () => {
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
-                  <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>
+                  <span
+                    style={{
+                      fontWeight: "500",
+                      fontFamily: "Tenor Sans , sans-serif",
+                    }}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0 ? (
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
@@ -1570,7 +1570,13 @@ const DynamicCollection = () => {
                       </>
                     )}
                   </span>
-                  <span onClick={() => handelFilterClearAll()} style={{fontWeight : "600" ,fontFamily  :"Tenor Sans , sans-serif",}}>
+                  <span
+                    onClick={() => handelFilterClearAll()}
+                    style={{
+                      fontWeight: "600",
+                      fontFamily: "Tenor Sans , sans-serif",
+                    }}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
@@ -1584,7 +1590,12 @@ const DynamicCollection = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>{`Total Products: ${afterFilterCount}`}</span>
+                          <span
+                            style={{
+                              fontWeight: "500",
+                              fontFamily: "Tenor Sans , sans-serif",
+                            }}
+                          >{`Total Products: ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
@@ -1814,7 +1825,9 @@ const DynamicCollection = () => {
                                       : `${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${formatter(opt?.Minval)} - ${decodeEntities(
+                                        )}  ${formatter(
+                                          opt?.Minval
+                                        )} - ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
                                         )}  ${formatter(opt?.Maxval)}`
@@ -1834,7 +1847,6 @@ const DynamicCollection = () => {
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
-                              
                             },
                             "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
@@ -1859,7 +1871,6 @@ const DynamicCollection = () => {
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
-
                               },
                             }}
                             // className="filtercategoryLable"
@@ -2066,8 +2077,8 @@ const DynamicCollection = () => {
           {/* productlist cards */}
           <div className="cc_list">
             {/* top filter bar */}
-            <div className="collections_list">
-              {/* loader */}
+            {/* <div className="collections_list">
+             
               {isProdLoading ? (
                 <LoadingSkeleton />
               ) : productListData && productListData.length > 0 ? (
@@ -2099,10 +2110,47 @@ const DynamicCollection = () => {
                   />
                 ))
               ) : (
-                // not found page
                 <NoProductFound />
               )}
-            </div>
+            </div> */}
+            {isProdLoading ? (
+              <div className="collections_list">
+                <LoadingSkeleton />
+              </div>
+            ) : productListData && productListData.length > 0 ? (
+              <div className="collections_list">
+                {productListData.map((val, i) => (
+                  <C_Card
+                    key={i}
+                    img={ImageUrl(val?.designno, val?.ImageExtension)}
+                    videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
+                    rollUpImage={RollUpImageUrl2(
+                      val?.designno,
+                      val?.ImageExtension,
+                      val?.ImageCount
+                    )}
+                    // CurrenyCode={
+                    //   loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
+                    // }
+                    title={val?.TitleLine}
+                    designo={val?.designno}
+                    decodeEntities={decodeEntities}
+                    productData={val}
+                    handleMoveToDetail={handleMoveToDetail}
+                    storeInit={storeInit}
+                    selectedMetalId={selectedMetalId}
+                    handleCartandWish={handleCartandWish}
+                    cartArr={cartArr}
+                    wishArr={wishArr}
+                    CurrencyCode={loginUserDetail?.CurrencyCode}
+                    CurrencyCode2={storeInit?.CurrencyCode}
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoProductFound />
+            )}
+
             {/* Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && ( */}
             {/* {storeInit?.IsProductListPagination == 1 && */}
             {/* {storeInit?.IsProductListPagination == 1 &&
@@ -2207,7 +2255,7 @@ const C_Card = ({
         />
         <Checkbox
           icon={
-            <FavoriteBorderIcon 
+            <FavoriteBorderIcon
               sx={{
                 fontSize: "26px",
                 color: "#7d7f85",

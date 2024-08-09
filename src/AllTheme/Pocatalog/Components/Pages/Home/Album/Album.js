@@ -228,7 +228,7 @@ const Album = () => {
         </Box>
       </Modal>
       <p className="smr_albumTitle">ALBUM</p>
-      <div className="proCat_albumALL_div">
+      <div className="proCat_albumALL_div" style={{minHeight: !albumData.length && '600px'}}>
         {albumData.map((data, index) => {
           const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
           const imgSrc = imageStatus[imageUrlI]

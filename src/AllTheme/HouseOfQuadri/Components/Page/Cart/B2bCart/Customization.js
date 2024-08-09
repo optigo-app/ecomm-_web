@@ -53,17 +53,6 @@ const Customization = ({
     }
   };
 
-  const SizeSorting = (SizeArr) => {
-    let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
-
-      return nameA - nameB;
-    });
-
-    return SizeSorted;
-  };
-
   return (
     <>
       {selectedItem?.StockId == 0 ? (
@@ -207,7 +196,7 @@ const Customization = ({
                   </select>
                 </div>
               )}
-              {sizeCombo?.rd?.length !== 0 && (
+              {sizeCombo?.length !== 0 && (
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select
@@ -217,12 +206,12 @@ const Customization = ({
                     onChange={handleSizeChange}
                   >
                     {selectedItem?.StockId != 0 ? (
-                      <option value={selectedItem?.Size}>
-                        {selectedItem?.Size}
+                      <option value={selectedItem?.size}>
+                        {selectedItem?.size}
                       </option>
-                    ) : (
+                    ) : ( 
                       <>
-                        {SizeSorting(sizeCombo?.rd)?.map((option) => (
+                        {sizeCombo?.map((option) => (
                           <option key={option?.id} value={option?.sizename}>
                             {option?.sizename}
                           </option>
