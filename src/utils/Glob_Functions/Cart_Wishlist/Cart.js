@@ -258,7 +258,6 @@ const useCart = () => {
   const handleCategorySize = async (item) => {
     const visiterId = Cookies.get('visiterId');
     try {
-      debugger;
       const response = await getSizeData(item, visiterId, islogin);
       if (response) {
         const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
@@ -355,7 +354,6 @@ const useCart = () => {
   };
   
   const handleIncrement = async (item) => {
-    debugger
     const newQuantity = (item?.Quantity || 0) + 1;
     const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
   
