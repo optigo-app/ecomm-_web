@@ -138,6 +138,14 @@ export default function ThemeRoutes() {
       })
       .catch((err) => console.log(err));
 
+
+    MetalColorCombo(finalID).then((response) => {
+      if (response?.Data?.rd) {
+        let data = JSON.stringify(response?.Data?.rd)
+        localStorage.setItem('MetalColorCombo', data)
+      }
+    }).catch((err) => console.log(err))
+
     ColorStoneQualityColorComboAPI(finalID)
       .then((response) => {
         if (response?.Data?.rd) {
@@ -184,11 +192,11 @@ export default function ThemeRoutes() {
 
       {themeNo === 5 && <HemratnaProcatalog_App />}
 
-      {themeNo === 6 &&  <Procatalog_App /> }
+      {themeNo === 6 && <Procatalog_App />}
 
       {themeNo === 7 && <HouseOfQuadri_App />}
 
-      {themeNo === 8 && <ForEveryRoutes />} 
+      {themeNo === 8 && <ForEveryRoutes />}
     </>
   );
 }

@@ -171,7 +171,7 @@ const ProductDetail = () => {
     let mcArr = metalColorCombo?.filter(
       (ele) => {
         if (selectMtColor) {
-          return ele?.colorname == selectMtColor
+          return ele?.colorcode == selectMtColor
         }
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
       })[0];
@@ -238,9 +238,13 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) =>{ if(selectMtColor) {
+        return ele?.colorcode == selectMtColor
+      }
+      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+    })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -377,7 +381,7 @@ const ProductDetail = () => {
         )[0]
     }
 
-    setSelectMtColor(mcArr?.colorname);
+    setSelectMtColor(mcArr?.colorcode);
 
   }, [singleProd])
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
@@ -633,6 +637,7 @@ const ProductDetail = () => {
                 link: "",
                 type: "img",
               });
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
@@ -702,6 +707,8 @@ const ProductDetail = () => {
   }, [location?.key]);
 
   console.log("locationKey", location?.key);
+
+  console.log("prodLoading",prodLoading);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1238,11 +1245,13 @@ const ProductDetail = () => {
   const SizeSorting = (SizeArr) => {
 
     let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
+      console.log("SizeSorted",a?.sizename?.toUpperCase())
 
       return nameA - nameB;
     })
+
 
     return SizeSorted
 
@@ -1778,7 +1787,7 @@ const ProductDetail = () => {
                           </div>)
                         }
 
-                        {prodLoading &&
+                        {prodLoading ? null :
                           <div>
 
                             <div className="Smr_CartAndWish_portion">
@@ -1821,7 +1830,8 @@ const ProductDetail = () => {
                                 />
                               </div>
                             </div>
-                            {prodLoading &&
+                            { 
+                            // prodLoading &&
                             singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
                             {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                           </div>

@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { proCat_CartCount, proCat_DiamondRangeArr, proCat_WishCount } from "../../../Recoil/atom";
+import { proCat_CartCount, proCat_DiamondRangeArr, proCat_WishCount, soketProductData } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
@@ -85,9 +85,9 @@ const ProductList = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState();
-  const [selectedDiaId, setSelectedDiaId] = useState();
-  const [selectedCsId, setSelectedCsId] = useState();
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -112,12 +112,11 @@ const ProductList = () => {
   const [value, setValue] = React.useState([]);
 
   const getDiaRangeFilter = useRecoilValue(proCat_DiamondRangeArr)
-
+  const SoketData = useRecoilValue(soketProductData);
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
   const formatter = new Intl.NumberFormat('en-IN')
-
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
@@ -128,6 +127,20 @@ const ProductList = () => {
       backgroundColor
     );
   };
+
+  const instantGetSoketApi = (param1) =>{
+    if(SoketData){
+      let socketfilterdata = SoketData?.filter((ele)=> ele?.designno == param1?.designno)[0]
+        return socketfilterdata?.StatusId
+    }
+  }
+
+  
+
+  // useEffect(() =>{
+  //   instantGetSoketApi(finalProductListData);
+  //   console.log('SoketDataSoketDataSoketData',instantGetSoketApi(finalProductListData));
+  // },[finalProductListData])
 
   useEffect(() => {
     setCSSVariable();
@@ -141,9 +154,9 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-  }, [loginUserDetail, storeInit])
+  }, [])
 
-  console.log("selectredmetalid", selectedMetalId);
+  // console.log("selectredmetalid",selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -473,15 +486,44 @@ const ProductList = () => {
 
       let images = pdImgList;
 
+      let StatusId = 0;
+      if(SoketData){
+        let filterdata = SoketData?.find((ele)=> ele?.designno === product?.designno) 
+        StatusId = filterdata?.StatusId ?? 0
+      }
+
+
       return {
         ...product,
-        images
+        images,
+        StatusId
       };
     });
 
-    // console.log("finalProdWithPrice", finalProdWithPrice?.filter((ele)=>ele?.ImageCount > 0));
+    console.log("finalProdWithPrice", finalProdWithPrice);
     setFinalProductListData(finalProdWithPrice);
-  }, [productListData]);
+    // console.log("SoketData",SoketData);
+
+  }, [productListData,SoketData]);
+
+  // useEffect(()=>{
+  //   const finalProdWithSocket = productListData.map((product) => {
+  //     let common = SoketData?.find((ele)=> ele?.designno === product?.designno)
+  //     if(common !== undefined && common ){
+  //       let StatusId = common?.StatusId
+  //       return {
+  //         ...product,
+  //         StatusId
+  //       }
+  //     }else{
+  //       let StatusId = 0
+  //       return {...product,StatusId}
+  //     }
+  //   })
+  //   setFinalProductListData(finalProdWithSocket);
+  //   console.log("finalProdWithPrice",finalProdWithSocket);
+  // },[productListData,SoketData])
+
   // useEffect(() => {
   //   const finalProdWithPrice = productListData.map((product) => {
   //     const newPriceData = priceListData?.rd?.find(
@@ -830,6 +872,8 @@ const ProductList = () => {
     }
   }
 
+  
+
   useEffect(() => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
@@ -838,7 +882,6 @@ const ProductList = () => {
 
     localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-
     if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
       if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
@@ -846,7 +889,7 @@ const ProductList = () => {
     }
 
 
-  }, [selectedMetalId, selectedDiaId, selectedCsId])
+  }, [selectedMetalId, selectedDiaId, selectedCsId,storeInit])
 
   const compressAndEncode = (inputString) => {
     try {
@@ -887,15 +930,21 @@ const ProductList = () => {
   };
 
   const handleMoveToDetail = (productData) => {
+
+    const logininfoDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+
     let output = FilterValueWithCheckedOnly()
+
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
-      m: selectedMetalId,
-      d: selectedDiaId,
-      c: selectedCsId,
+      m: (selectedMetalId ?? (logininfoDetail?.MetalId ?? storeInit?.MetalId)),
+      d: (selectedDiaId ?? (logininfoDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)),
+      c: (selectedCsId ?? (logininfoDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid)),
       f: output
     }
+
+    console.log("selectedMetalId",obj);
     // console.log('ksjkfjkjdkjfkjsdk--', obj);
     // compressAndEncode(JSON.stringify(obj))
 
@@ -1443,7 +1492,7 @@ const ProductList = () => {
               }}
             />
           </div>
-          <div
+          {/* <div
             style={{
               marginLeft: "15px",
               marginBottom: "20px",
@@ -1463,7 +1512,6 @@ const ProductList = () => {
               Customization
             </Typography>
             {storeInit?.IsMetalCustComb === 1 && <div
-            // className="smr_metal_custom"
             >
               <Typography
                 className="label"
@@ -1501,7 +1549,6 @@ const ProductList = () => {
 
             {storeInit?.IsDiamondCustComb === 1 && (
               <div
-              // className="smr_dia_custom"
               >
                 <Typography
                   className="label"
@@ -1539,7 +1586,6 @@ const ProductList = () => {
 
             {storeInit?.IsCsCustomization === 1 && (
               <div
-              // className="smr_cs_custom"
               >
                 <Typography
                   className="label"
@@ -1576,10 +1622,8 @@ const ProductList = () => {
             )}
 
             <div
-            // className="smr_sorting_custom"
             >
               <div
-              // className="container"
               >
                 <Typography
                   className="label"
@@ -1604,12 +1648,6 @@ const ProductList = () => {
                   <option className="option" value="Recommended">
                     Recommended
                   </option>
-                  {/* <option className="option" value="New">
-                    New
-                  </option>
-                  <option className="option" value="Trending">
-                    Trending
-                  </option> */}
                   <option className="option" value="In Stock">
                     In stock
                   </option>
@@ -1622,7 +1660,7 @@ const ProductList = () => {
                 </select>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="smr_mobile_filter_portion">
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
@@ -1630,7 +1668,6 @@ const ProductList = () => {
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
-                      // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                       ? "Filters"
                       :
                       <>{afterCountStatus == true ? (
@@ -1682,8 +1719,6 @@ const ProductList = () => {
                                 background: "none",
                               },
                             }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
@@ -1697,11 +1732,8 @@ const ProductList = () => {
                                   padding: 0,
                                 },
                               }}
-                            // className="filtercategoryLable"
                             >
-                              {/* <span> */}
                               {ele.Name}
-                              {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1723,23 +1755,10 @@ const ProductList = () => {
                                   }}
                                   key={opt?.id}
                                 >
-                                  {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
                                   <FormControlLabel
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
                                         checked={
                                           filterChecked[`${ele?.id}${opt?.id}`]
                                             ?.checked === undefined
@@ -1762,13 +1781,6 @@ const ProductList = () => {
                                         size="small"
                                       />
                                     }
-                                    // sx={{
-                                    //   display: "flex",
-                                    //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                    //   width: "100%",
-                                    //   flexDirection: "row-reverse", // Align items to the right
-                                    //   fontFamily:'TT Commons Regular'
-                                    // }}
                                     className="smr_mui_checkbox_label"
                                     label={opt.Name}
                                   />
@@ -1793,8 +1805,6 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1810,12 +1820,9 @@ const ProductList = () => {
                                 padding: 0,
                               },
                             }}
-                            // className="filtercategoryLable"
                             onClick={() => handleScrollHeight()}
                           >
-                            {/* <span> */}
                             {ele.Name}
-                            {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
                             sx={{
@@ -1838,23 +1845,10 @@ const ProductList = () => {
                                   }}
                                   key={i}
                                 >
-                                  {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
                                   <FormControlLabel
                                     control={
                                       <Checkbox
                                         name={`Price${i}${i}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
                                         checked={
                                           filterChecked[`Price${i}${i}`]
                                             ?.checked === undefined
@@ -1878,21 +1872,14 @@ const ProductList = () => {
                                         size="small"
                                       />
                                     }
-                                    // sx={{
-                                    //   display: "flex",
-                                    //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                    //   width: "100%",
-                                    //   flexDirection: "row-reverse", // Align items to the right
-                                    //   fontFamily:'TT Commons Regular'
-                                    // }}
                                     className="smr_mui_checkbox_label"
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                   - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${formatter.format(opt?.Minval)}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Minval)} 
+                                                   - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
                                     }
                                   />
                                 </div>
@@ -2821,7 +2808,6 @@ const ProductList = () => {
                           <>
                             <div className="smr_main_sorting_div_proCat">
                               <div className="proCat_topTitleList_mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
                                 <p style={{ margin: '0px', width: '100%', fontWeight: 600, color: 'rgba(143, 140, 139, 0.9019607843)' }}>{extractedPart}</p>
                               </div>
                               {/* {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
@@ -3002,7 +2988,15 @@ const ProductList = () => {
                                     </div>
 
                                     <div className="proCat_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && <span className="proCat_app_instock">In Stock</span>}
+                                    {
+                                    (productData?.IsInReadyStock == 1 ||  productData?.StatusId == 1) ?
+                                    <span className="proCat_app_instock">In Stock</span>
+                                    :
+                                    (productData?.StatusId == 2) ?
+                                    <span className="proCat_app_instock">In memo</span>
+                                    :''
+                                    }
+
                                       {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
                                         {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
                                         {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
@@ -3082,13 +3076,11 @@ const ProductList = () => {
                                               "smr1_prod_title_with_no_width"
                                           }
                                         >
-                                          {productData?.TitleLine?.length > 0 &&
-                                            "-"}
-                                          {productData?.TitleLine}{" "}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
-                                        <span className="smr_prod_designno">
+                                        {/* <span className="smr_prod_designno">
                                           {productData?.designno}
-                                        </span>
+                                        </span> */}
                                       </div>
                                       <div className="smr_prod_Allwt">
                                         <div
@@ -3199,9 +3191,9 @@ const ProductList = () => {
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {/* {formatter.format( */}
-                                            {productData?.UnitCostWithMarkUp}
-                                            {/* )} */}
+                                             {formatter.format( 
+                                            productData?.UnitCostWithMarkUp
+                                             )} 
                                           </span>
                                         </span>
                                       </div>
@@ -3262,3 +3254,26 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
