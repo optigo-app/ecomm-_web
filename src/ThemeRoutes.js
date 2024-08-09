@@ -32,6 +32,7 @@ export default function ThemeRoutes() {
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
+
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
@@ -41,7 +42,6 @@ export default function ThemeRoutes() {
     let data = localStorage.getItem("storeInit");
     let Logindata = JSON.parse(localStorage.getItem("storeInit"));
     let logo = JSON?.parse(data);
-
 
     if (data) {
       if (Logindata) {
@@ -54,57 +54,71 @@ export default function ThemeRoutes() {
       dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
-    Storeinit().then((response) => {
-      if (response.status === 200) {
-        setLoading(false);
+    Storeinit()
+      .then((response) => {
+        if (response.status === 200) {
+          setLoading(false);
 
         setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
-        localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
-        localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
-        localStorage.setItem('CompanyInfoData', JSON.stringify(response.data.Data.rd2[0]));
-        let visiterId = response?.data.Data?.rd2[0]?.VisitorId
-        const existingVisitorId = Cookies.get('visiterId');
-        callAllApi();
-        if (islogin == false) {
-          if (!existingVisitorId) {
-            Cookies.set('visiterId', visiterId, { path: '/', expires: 30 });
-          } else {
-            const expirationDate = Cookies.getJSON('visiterId')?.expires && new Date(Cookies.getJSON('visiterId').expires);
-            if (expirationDate && expirationDate <= new Date()) {
-              Cookies.remove('visiterId', { path: '/' });
+          localStorage.setItem(
+            "storeInit",
+            JSON.stringify(response.data.Data.rd[0])
+          );
+          localStorage.setItem(
+            "myAccountFlags",
+            JSON.stringify(response.data.Data.rd1)
+          );
+          localStorage.setItem(
+            "CompanyInfoData",
+            JSON.stringify(response.data.Data.rd2[0])
+          );
+          let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
+          const existingVisitorId = Cookies.get("visiterId");
+          callAllApi();
+          if (islogin == false) {
+            if (!existingVisitorId) {
+              Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
+            } else {
+              const expirationDate =
+                Cookies.getJSON("visiterId")?.expires &&
+                new Date(Cookies.getJSON("visiterId").expires);
+              if (expirationDate && expirationDate <= new Date()) {
+                Cookies.remove("visiterId", { path: "/" });
+              }
             }
-          }
 
-          if (response?.data?.Data?.rd[0]?.Themeno === 1) {
-            setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-          }
+            if (response?.data?.Data?.rd[0]?.Themeno === 1) {
+              setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
 
-          if (response?.data?.Data?.rd[0]?.Themeno === 2) {
-            dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-          }
+            if (response?.data?.Data?.rd[0]?.Themeno === 2) {
+              dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
 
-          if (response?.data?.Data?.rd[0]?.Themeno === 3) {
-            el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-          }
+            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
+              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
 
-          if (response?.data?.Data?.rd[0]?.Themeno === 4) {
-            smrMA_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-          }
+            if (response?.data?.Data?.rd[0]?.Themeno === 4) {
+              smrMA_setCompanyTitleLogo(
+                response?.data?.Data?.rd[0]?.companylogo
+              );
+            }
 
-          let title = response?.data?.Data?.rd[0]?.companyname;
-          let favIcon = response?.data?.Data?.rd[0]?.favicon;
-          setTitle(title);
-          setFavIcon(favIcon);
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-          });
+            let title = response?.data?.Data?.rd[0]?.companyname;
+            let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title);
+            setFavIcon(favIcon);
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: "smooth",
+            });
+          }
         }
-      }
-    })
-      .catch((err) => console.log(err))
+      })
+      .catch((err) => console.log(err));
     // .finally(() => setLoading(false));
   }, []);
 
@@ -174,7 +188,10 @@ export default function ThemeRoutes() {
           <meta name="description" content={title} />
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="manifest" href={favicon} />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
         </Helmet>
       </div>
 
