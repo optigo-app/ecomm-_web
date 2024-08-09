@@ -637,6 +637,7 @@ const ProductDetail = () => {
                 link: "",
                 type: "img",
               });
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
@@ -706,6 +707,8 @@ const ProductDetail = () => {
   }, [location?.key]);
 
   console.log("locationKey", location?.key);
+
+  console.log("prodLoading",prodLoading);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1784,7 +1787,7 @@ const ProductDetail = () => {
                           </div>)
                         }
 
-                        {prodLoading &&
+                        {prodLoading ? null :
                           <div>
 
                             <div className="Smr_CartAndWish_portion">
@@ -1827,7 +1830,8 @@ const ProductDetail = () => {
                                 />
                               </div>
                             </div>
-                            {prodLoading &&
+                            { 
+                            // prodLoading &&
                             singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
                             {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                           </div>
