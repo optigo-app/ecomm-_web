@@ -182,6 +182,7 @@ const ProductDetail = () => {
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
       UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
+      AlbumName: decodeUrl?.n ?? ""
     };
 
     if (cartflag) {
@@ -550,7 +551,6 @@ const ProductDetail = () => {
     }
   };
 
-  // console.log("sizeData",sizeData);
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
@@ -558,10 +558,13 @@ const ProductDetail = () => {
     let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
 
     let decodeobj = decodeAndDecompress(navVal);
+    let alName = ''
 
     if (decodeobj) {
       setDecodeUrl(decodeobj);
+      alName = decodeobj?.n
     }
+
 
     let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
 
@@ -603,7 +606,7 @@ const ProductDetail = () => {
       let obj={
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       }
 
       // console.log("objjj",obj)
@@ -611,7 +614,8 @@ const ProductDetail = () => {
 
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
+      console.log('decodeurlllll', alName);
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie , alName)
         .then(async (res) => {
           if (res) {
 
@@ -687,8 +691,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -861,8 +863,6 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData", pd?.VideoCount);
-
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
@@ -890,8 +890,6 @@ const ProductDetail = () => {
         }
       }
     }
-
-    console.log("SearchData", singleProd);
 
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
