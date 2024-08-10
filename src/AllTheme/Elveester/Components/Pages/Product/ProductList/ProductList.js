@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import noImageFound from '../../../Assets/image-not-found.jpg'
 import WindowIcon from "@mui/icons-material/Window";
 import SortIcon from "@mui/icons-material/Sort";
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -1907,17 +1908,17 @@ const ProductList = () => {
                                               opt?.Minval == 0
                                                 ? `Under ${decodeEntities(
                                                   loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                )} ${opt?.Maxval}`
+                                                )} ${formatter(opt?.Maxval)}`
                                                 : opt?.Maxval == 0
                                                   ? `Over ${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Minval}`
+                                                  )} ${formatter(opt?.Minval)}`
                                                   : `${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Minval
+                                                  )} ${formatter(opt?.Minval)
                                                   } - ${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Maxval}`
+                                                  )} ${formatter(opt?.Maxval)}`
                                             }
                                           />
                                         </div>
@@ -2478,8 +2479,7 @@ const Product_Card = ({
                 onError={(e) => {
                   e.target.onerror = null;
                   e.stopPropagation();
-                  e.target.src =
-                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                  e.target.src = noImageFound
                 }}
               />
             </div>
