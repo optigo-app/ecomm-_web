@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import B2bCart from "./B2bCart/Cart";
 
 const CartMain = () => {
