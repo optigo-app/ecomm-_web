@@ -2,6 +2,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="",diaRange={},netWt={},gross={}) => {
+  console.log("caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
   let MenuParams = {};
   let serachVar = ""
@@ -38,15 +39,16 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
     }
    }
 
-   console.log("serachVar",serachVar);
 
-  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-  let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-  let menuparam = JSON.parse(localStorage.getItem("menuparams"));
+  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+  let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  let menuparam = JSON.parse(sessionStorage.getItem("menuparams"));
 
-  const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+  const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
-  const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
+
+
+  const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.id ?? 0;
   const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.userid ?? "";
 
   // let diaQc = findDiaQcId(obj?.dia ?? loginInfo?.cmboDiaQCid)[0]
@@ -83,6 +85,7 @@ const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,s
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId  ??  storeinit?.MetalId): obj?.mt)
 
+  console.log("stroreeeeeeeeeeee",storeinit);
 
   const data = {
     PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,

@@ -11,7 +11,7 @@ const LoginWithEmail = () => {
     setPassword(e.target.value);
   };
 
-  const loginCredsdata = JSON.parse(localStorage.getItem('loginCreds'))
+  const loginCredsdata = JSON.parse(sessionStorage.getItem('loginCreds'))
 
   useEffect(() => {
     if (loginCredsdata && loginCredsdata.length > 0) {

@@ -2,10 +2,10 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup) => {
     try {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const { FrontEnd_RegNo } = storeInit;
-        const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
-        const UserEmail = localStorage.getItem("registerEmail")
+        const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"))
+        const UserEmail = sessionStorage.getItem("registerEmail")
 
         console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
         

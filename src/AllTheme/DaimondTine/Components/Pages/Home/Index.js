@@ -15,7 +15,7 @@ function Home() {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem("storeInit"));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
   }, []);
 

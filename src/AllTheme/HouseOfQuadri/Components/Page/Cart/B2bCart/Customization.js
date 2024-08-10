@@ -26,18 +26,18 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
-    const metalTypeData = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    const metalColorData = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    const metalTypeData = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    const metalColorData = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     const diamondQtyColorData = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     const CSQtyColorData = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);

@@ -23,10 +23,10 @@ export default function ChangePassword() {
     const [customerID, setCustomerID] = useState('');
 
     useEffect(() => {
-        const storedEmail = localStorage.getItem('registerEmail');
+        const storedEmail = sessionStorage.getItem('registerEmail');
         if (storedEmail) setEmail(storedEmail);
 
-        const storedData = localStorage.getItem('loginUserDetail');
+        const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         setCustomerID(data?.id);
 
@@ -122,7 +122,7 @@ export default function ChangePassword() {
             setIsLoading(true);
             try {
 
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 
                 const { FrontEnd_RegNo } = storeInit;
 
@@ -145,7 +145,7 @@ export default function ChangePassword() {
                     const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
                     
                     if (response?.Data?.rd[0]?.stat === 1) {
-                        localStorage.setItem('LoginUser', 'false');
+                        sessionStorage.setItem('LoginUser', 'false');
                         naviagation('/')
                         window.location.reload()
                     } else {

@@ -9,7 +9,7 @@ const CartMain = () => {
     const navigation = useNavigate();
 
     useEffect(() => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeInit);
     }, []);
 

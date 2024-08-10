@@ -32,8 +32,8 @@ const WishlistItems = ({
     const setCartCountVal = useSetRecoilState(proCat_CartCount);
     const visiterId = Cookies.get("visiterId");
 
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);

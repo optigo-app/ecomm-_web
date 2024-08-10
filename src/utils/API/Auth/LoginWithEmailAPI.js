@@ -4,7 +4,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 export const LoginWithEmailAPI = async (email, mobileNo, hashedPassword, ismobiletoke, userCookie, visiterId) => {
     let response
     try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({

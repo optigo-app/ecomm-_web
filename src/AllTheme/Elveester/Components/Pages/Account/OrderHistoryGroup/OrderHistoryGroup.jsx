@@ -27,7 +27,7 @@ function CustomTabPanel(props) {
 const OrderHistoryGroup = () => {
     const [activeTab, setActiveTab] = useState(0); // State to track the active tab
     const [value, setValue] = useState(0);
-    const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
+    const loginUSerDeatil = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
     const handleTabChange = (event, newValue) => {
         setActiveTab(newValue);

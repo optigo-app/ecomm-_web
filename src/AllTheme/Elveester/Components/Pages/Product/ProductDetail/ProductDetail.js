@@ -98,17 +98,17 @@ const ProductDetail = () => {
     handleMax1400px();
     handleMax1000px();
 
-    // const getDiamonddata = localStorage.getItem
+    // const getDiamonddata = sessionStorage.getItem
 
   }, [maxWidth1400px, maxWidth1000px])
 
   // API Integration
 
   let cookie = Cookies.get('visiterId')
-  const mTypeLocal = JSON.parse(localStorage.getItem('metalTypeCombo'));
-  const diaQcLocal = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-  const csQcLocal = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
-  const mtColorLocal = JSON.parse(localStorage.getItem('MetalColorCombo'));
+  const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+  const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+  const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
+  const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
 
   useEffect(() => {
     if (metalTypeCombo.length) {
@@ -283,11 +283,11 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
     let decodeobj = decodeAndDecompress(navVal);
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
-    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
 
-    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
 
 
     setTimeout(() => {
@@ -418,19 +418,20 @@ const ProductDetail = () => {
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
+    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
     if (decodeobj) {
       setDecodeUrl(decodeobj);
     }
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     let metalArr;
@@ -478,18 +479,11 @@ const ProductDetail = () => {
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
               setloadingdata(false);
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
             }
 
             if (!res?.pdList[0]) {
               setisPriceLoading(false);
               setIsDataFound(true);
-            }
-            else {
-              setIsDataFound(false)
             }
 
             setDiaList(res?.pdResp?.rd3);
@@ -524,29 +518,24 @@ const ProductDetail = () => {
               })
               .catch((err) => console.log("SizeErr", err));
 
-            await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
-              .then((res) => {
-                setStockItemArr(res?.Data?.rd);
-              })
-              .catch((err) => console.log("stockItemErr", err));
+            if (storeinitInside?.IsStockWebsite === 1) {
+              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+                setStockItemArr(res?.Data?.rd)
+              }).catch((err) => console.log("stockItemErr", err))
+            }
 
-            await StockItemApi(
-              resp?.pdList[0]?.autocode,
-              "similarbrand",
-              obj,
-              cookie
-            )
-              .then((res) => {
-                setSimilarBrandArr(res?.Data?.rd);
-              })
-              .catch((err) => console.log("similarbrandErr", err));
+            if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
+              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                setSimilarBrandArr(res?.Data?.rd)
+              }).catch((err) => console.log("similarbrandErr", err))
+            }
 
-            await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
-              .then((res) => {
-                console.log("designsetList", res?.Data?.rd[0]);
-                setDesignSetList(res?.Data?.rd);
-              })
-              .catch((err) => console.log("designsetErr", err));
+            if (storeinitInside?.IsProductDetailDesignSet === 1) {
+              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+                // console.log("designsetList",res?.Data?.rd[0])
+                setDesignSetList(res?.Data?.rd)
+              }).catch((err) => console.log("designsetErr", err))
+            }
           }
         })
         .catch((err) => console.log("err", err));
@@ -565,7 +554,7 @@ const ProductDetail = () => {
       const res = await MetalTypeComboAPI(cookie);
       if (res) {
         let data = res?.Data?.rd;
-        localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+        sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
         setMetalTypeCombo(data);
       }
       else {
@@ -579,7 +568,7 @@ const ProductDetail = () => {
       const res = await DiamondQualityColorComboAPI();
       if (res) {
         let data = res?.Data?.rd;
-        localStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+        sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
         setDiaQcCombo(data);
       }
       else {
@@ -593,7 +582,7 @@ const ProductDetail = () => {
       const res = await ColorStoneQualityColorComboAPI();
       if (res) {
         let data = res?.Data?.rd;
-        localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+        sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
         setCsQcCombo(data);
       }
       else {
@@ -607,7 +596,7 @@ const ProductDetail = () => {
       const res = await MetalColorCombo(cookie);
       if (res) {
         let data = res?.Data?.rd;
-        localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+        sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
         setMetalColorCombo(data);
       }
       else {
@@ -619,9 +608,9 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
-    let loginData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     if (loginData) setLoginData(loginData);
   }, []);
 
@@ -639,7 +628,7 @@ const ProductDetail = () => {
   }
 
   // const handleMetalWiseColorImg = async (e) => {
-  //   const metalColorLocal = JSON.parse(localStorage.getItem('MetalColorCombo'));
+  //   const metalColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
   //   let mcArr;
 
   //   if (metalColorLocal?.length) {
@@ -680,7 +669,7 @@ const ProductDetail = () => {
 
   const handleMetalWiseColorImg = async (e) => {
 
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -775,7 +764,7 @@ const ProductDetail = () => {
 
     let colImg;
 
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -890,7 +879,7 @@ const ProductDetail = () => {
   }, [singleProd, location?.key]);
 
   useEffect(() => {
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -1037,7 +1026,7 @@ const ProductDetail = () => {
   };
 
   const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
       a: productData?.autocode,
@@ -1058,7 +1047,7 @@ const ProductDetail = () => {
 
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       StockId: ele?.StockId,
@@ -1153,21 +1142,31 @@ const ProductDetail = () => {
                         </div>
                       )
                     ) : (
-                      <div>
-                        <video
-                          src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          loop
-                          autoPlay
-                          playsInline
-                          muted // Add this attribute to ensure autoplay works
-                          style={{
-                            width: "100%",
-                            objectFit: "cover",
-                            height: "100%",
-                            borderRadius: "8px",
-                          }}
+                      pdVideoArr?.length > 0 ? (
+                        <div>
+                          <video
+                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            loop
+                            autoPlay
+                            playsInline
+                            muted // Add this attribute to ensure autoplay works
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              height: "100%",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>) : (
+                        <img
+                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className="elv_ProductDet_prod_image_max1400"
                         />
-                      </div>
+                      )
+
                     )
                     }
                   </div>
@@ -1231,7 +1230,7 @@ const ProductDetail = () => {
                   <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                 ) : (
                   <div className='elv_ProductDet_prod_img_list'>
-                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                    {(pdThumbImg?.length > 1) &&
                       pdThumbImg?.map((ele, i) => (
                         <img
                           src={ele}
@@ -1319,23 +1318,33 @@ const ProductDetail = () => {
                           </div>
                         )
                       ) : (
-                        <div>
-                          <video
-                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            loop
-                            autoPlay
-                            playsInline
-                            muted // Add this attribute to ensure autoplay works
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              position: 'relative',
-                              left: '6rem',
-                              // height: "90%",
-                              borderRadius: "8px",
-                            }}
+                        pdVideoArr?.length > 0 ? (
+                          <div>
+                            <video
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              loop
+                              autoPlay
+                              playsInline
+                              muted // Add this attribute to ensure autoplay works
+                              style={{
+                                width: "100%",
+                                objectFit: "cover",
+                                position: 'relative',
+                                left: '6rem',
+                                // height: "90%",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            alt={""}
+                            onLoad={() => setIsImageLoad(false)}
+                            className="elv_ProductDet_prod_image"
                           />
-                        </div>
+                        )
                       )
                       }
                     </div>
@@ -1378,23 +1387,33 @@ const ProductDetail = () => {
                         </div>
                       )
                     ) : (
-                      <div>
-                        <video
-                          src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          loop
-                          autoPlay
-                          playsInline
-                          muted // Add this attribute to ensure autoplay works
-                          style={{
-                            width: "100%",
-                            objectFit: "cover",
-                            marginTop: '40px',
-                            height: "100%",
-                            maxHeight: "40.625rem",
-                            borderRadius: "8px",
-                          }}
+                      pdVideoArr?.length > 0 ? (
+                        <div>
+                          <video
+                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            loop
+                            autoPlay
+                            playsInline
+                            muted // Add this attribute to ensure autoplay works
+                            style={{
+                              width: "100%",
+                              objectFit: "cover",
+                              marginTop: '40px',
+                              height: "100%",
+                              maxHeight: "40.625rem",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <img
+                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className="elv_ProductDet_prod_image_max1000"
                         />
-                      </div>
+                      )
                     )
                     }
                   </div>
@@ -1463,7 +1482,11 @@ const ProductDetail = () => {
                             <span>Metal Color : </span> <span className='elv_ProductDet_text_max1000'>{metalColor}</span>
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
+                            {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                              <>
+                                <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
+                              </>
+                            ) : null}
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
                             <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
@@ -1848,7 +1871,11 @@ const ProductDetail = () => {
                           <span>Metal Color : </span> <span className='elv_ProductDet_text'>{metalColor}</span>
                         </div>
                         <div>
-                          <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
+                          {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                            <>
+                              <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
+                            </>
+                          ) : null}
                         </div>
                         <div>
                           <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
@@ -2253,6 +2280,13 @@ const ProductDetail = () => {
             </div>
           </>
         )}
+        {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+          <>
+            <div style={{ marginTop: '1.5rem' }}>
+              <TableComponents list={csList} details={'MISC Details'} />
+            </div>
+          </>
+        )}
       </div>
 
 
@@ -2308,7 +2342,7 @@ const TableComponents = ({ list, details }) => {
   })
   const getTotalWt = list?.reduce((total, WT) => total + WT?.N, 0)
   wtTotalVal.push({
-    total: getTotalWt.toFixed(2)
+    total: getTotalWt.toFixed(3)
   })
 
   return (
@@ -2316,7 +2350,15 @@ const TableComponents = ({ list, details }) => {
       <ul class='elv_ProductDet_diaDet'>
         <li>
           <div>
-            <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+            {details.includes('MISC') ? (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}gm)</span>
+              </>
+            ) : (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+              </>
+            )}
           </div>
         </li>
       </ul>
@@ -2336,7 +2378,7 @@ const TableComponents = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}/{val?.N}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}/{(val?.N).toFixed(3)}</td>
               </tr>
             ))}
           </tbody>

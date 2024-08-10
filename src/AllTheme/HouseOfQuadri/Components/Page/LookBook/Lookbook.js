@@ -62,7 +62,7 @@ const Lookbook = () => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery("(max-width:800px)");
 
-  const loginUserDetail = JSON?.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
@@ -87,15 +87,15 @@ const Lookbook = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
-    let storeinit = JSON?.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON?.parse(localStorage.getItem("storeInit"));
+    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
     setImageUrlDesignSet(data?.DesignImageFol);
 
-    const loginUserDetail = JSON?.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON?.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -129,8 +129,8 @@ const Lookbook = () => {
 
   useEffect(() => {
     console.log("cartItemscartItemscartItems", filterData);
-    const loginUserDetail = JSON?.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON?.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -206,8 +206,8 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    const loginUserDetail = JSON?.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON?.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
 
     const visiterID = Cookies.get("visiterId");
@@ -267,7 +267,7 @@ const Lookbook = () => {
   let cookie = Cookies.get("visiterId");
 
   const handleAddToCart = (ele, type) => {
-    let loginInfo = JSON?.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       autocode: ele?.autocode,
@@ -340,7 +340,7 @@ const Lookbook = () => {
   };
 
   const handleByCombo = (data) => {
-    let loginInfo = JSON?.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObjs = data.map((detail) => createProdObj(detail, loginInfo));
     setCartItems((prevItems) => [
       ...prevItems,

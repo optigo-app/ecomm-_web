@@ -85,9 +85,9 @@ const NewOrderHistory = () => {
 
   const getData = async () => {
     setLoaderOH(true);
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const UserEmail = localStorage.getItem("registerEmail");
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const UserEmail = sessionStorage.getItem("registerEmail");
     setUkey(storeinit?.ukey);
     // setImagePath(storeinit?.UploadLogicalPath)
     setImagePath(storeinit?.DesignImageFolBackEnd);
@@ -128,9 +128,9 @@ const NewOrderHistory = () => {
     setLoaderOH2(true);
 
     setOrderDetails([]);
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const UserEmail = localStorage.getItem("userEmail");
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const UserEmail = sessionStorage.getItem("userEmail");
     try {
       const response2 = await getOrderItemDetails( obj, storeinit, loginInfo, UserEmail );
 
@@ -150,7 +150,7 @@ const NewOrderHistory = () => {
   };
 
   const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
       a: productData?.autocode,
@@ -190,8 +190,8 @@ const NewOrderHistory = () => {
   };
 
   const handleApproveReject = async (e, status) => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let statusId = "";
     if (status === "approve") {
       statusId = 0;
@@ -199,7 +199,7 @@ const NewOrderHistory = () => {
       statusId = 2;
     }
 
-    const UserEmail = localStorage.getItem("registerEmail");
+    const UserEmail = sessionStorage.getItem("registerEmail");
 
     const body = {
       con: `{\"id\":\"Store\",\"mode\":\"SetOrderStatus\",\"appuserid\":\"${UserEmail}\"}`,

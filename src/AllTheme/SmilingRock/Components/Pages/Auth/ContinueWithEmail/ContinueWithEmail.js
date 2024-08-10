@@ -47,7 +47,7 @@ export default function ContinueWithEmail() {
     };
 
     const setCSSVariable = () => {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
           "--background-color",
@@ -76,7 +76,7 @@ export default function ContinueWithEmail() {
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
                 navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
                 if (trimmedEmail) {
-                    localStorage.setItem("registerEmail", trimmedEmail);
+                    sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
                 navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });
@@ -84,7 +84,7 @@ export default function ContinueWithEmail() {
         }).catch((err) => console.log(err))
 
 
-        // const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         // const { FrontEnd_RegNo } = storeInit;
 
         // const combinedValue = JSON.stringify({
@@ -103,7 +103,7 @@ export default function ContinueWithEmail() {
         // } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
         //     navigation('/LoginWithEmail', { state: { email: trimmedEmail } });
         //     if (trimmedEmail) {
-        //         localStorage.setItem("userEmailForPdList", trimmedEmail);
+        //         sessionStorage.setItem("userEmailForPdList", trimmedEmail);
         //     }
         // } else {
         //     navigation('/register', { state: { email: trimmedEmail } });

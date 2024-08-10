@@ -26,10 +26,10 @@ const CartList = ({
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     setTotalPrice(priceData)
@@ -38,7 +38,7 @@ const CartList = ({
   const handlePlaceOrder = () => {
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     console.log("TotalPriceData",items)
-    localStorage.setItem('TotalPriceData', priceData)
+    sessionStorage.setItem('TotalPriceData', priceData)
     navigate("/payment")
     window.scrollTo(0, 0);
   }

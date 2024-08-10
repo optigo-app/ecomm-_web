@@ -39,7 +39,7 @@ export default function TemporaryDrawer({
   const [islogin, setislogin] = useRecoilState(Hoq_loginState);
   const navigate = useNavigate();
   const fetchData = () => {
-    const value = JSON.parse(localStorage?.getItem("LoginUser"));
+    const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
     console.log(value);
   };
@@ -67,18 +67,18 @@ export default function TemporaryDrawer({
   const handleLogout = () => {
     setislogin(false);
     Cookies?.remove("userLoginCookie");
-    localStorage.setItem("LoginUser", false);
-    localStorage.removeItem("storeInit");
-    localStorage.removeItem("loginUserDetail");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("selectedAddressId");
-    localStorage.removeItem("orderNumber");
-    localStorage.removeItem("registerEmail");
-    localStorage.removeItem("UploadLogicalPath");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("registerMobile");
-    localStorage.removeItem("allproductlist");
-    localStorage.clear();
+    sessionStorage.setItem("LoginUser", false);
+    sessionStorage.removeItem("storeInit");
+    sessionStorage.removeItem("loginUserDetail");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("selectedAddressId");
+    sessionStorage.removeItem("orderNumber");
+    sessionStorage.removeItem("registerEmail");
+    sessionStorage.removeItem("UploadLogicalPath");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("registerMobile");
+    sessionStorage.removeItem("allproductlist");
+    sessionStorage.clear();
     navigate("/");
     window.location.reload();
   };

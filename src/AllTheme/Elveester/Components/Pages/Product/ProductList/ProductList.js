@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import noImageFound from '../../../Assets/image-not-found.jpg'
 import WindowIcon from "@mui/icons-material/Window";
 import SortIcon from "@mui/icons-material/Sort";
 import LocalMallIcon from '@mui/icons-material/LocalMall';
@@ -55,7 +56,7 @@ import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions
 
 const ProductList = () => {
   const location = useLocation();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
   const navigate = useNavigate();
 
@@ -406,10 +407,10 @@ const ProductList = () => {
   ]
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("storeInit"));
+    const data = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(data);
 
-    const loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
 
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
@@ -423,15 +424,15 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    let params = JSON.parse(localStorage.getItem("menuparams"));
+    let params = JSON.parse(sessionStorage.getItem("menuparams"));
     setMenuParams(params);
 
-    let metalTypeDrpdown = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
     setCarat(metalTypeDrpdown[1]?.Metalid);
 
     let diamondTypeDrpdown = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     setDiamondType(diamondTypeDrpdown);
     setClarity(
@@ -439,11 +440,11 @@ const ProductList = () => {
     );
 
     let CsQcCombo = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     setCsQcCombo(CsQcCombo);
 
-    // let getAllFilter = JSON?.parse(localStorage?.getItem("AllFilter"));
+    // let getAllFilter = JSON?.parse(sessionStorage?.getItem("AllFilter"));
     // setAllFilter(getAllFilter);
   }, []);
 
@@ -565,21 +566,21 @@ const ProductList = () => {
   }
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetaltype(data);
           }
         })
@@ -593,7 +594,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "diamondQualityColorCombo",
               JSON.stringify(data)
             );
@@ -610,7 +611,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "ColorStoneQualityColorCombo",
               JSON.stringify(data)
             );
@@ -627,7 +628,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
             setMetalColorCombo(data)
           }
         })
@@ -636,7 +637,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -685,7 +686,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
             setIsOnlyProdLoading(false);
           }, 100);
         });
@@ -695,9 +696,9 @@ const ProductList = () => {
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
     if (
       loginInfo?.MetalId !== selectedMetalId ||
@@ -721,7 +722,7 @@ const ProductList = () => {
   const handleCartandWish = async (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const prodObj = {
       "autocode": ele?.autocode,
       "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
@@ -1907,17 +1908,17 @@ const ProductList = () => {
                                               opt?.Minval == 0
                                                 ? `Under ${decodeEntities(
                                                   loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                )} ${opt?.Maxval}`
+                                                )} ${formatter(opt?.Maxval)}`
                                                 : opt?.Maxval == 0
                                                   ? `Over ${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Minval}`
+                                                  )} ${formatter(opt?.Minval)}`
                                                   : `${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Minval
+                                                  )} ${formatter(opt?.Minval)
                                                   } - ${decodeEntities(
                                                     loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${opt?.Maxval}`
+                                                  )} ${formatter(opt?.Maxval)}`
                                             }
                                           />
                                         </div>
@@ -2376,7 +2377,7 @@ const Product_Card = ({
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("storeInit"));
+    const data = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(data);
   }, [])
   return (
@@ -2478,8 +2479,7 @@ const Product_Card = ({
                 onError={(e) => {
                   e.target.onerror = null;
                   e.stopPropagation();
-                  e.target.src =
-                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                  e.target.src = noImageFound
                 }}
               />
             </div>

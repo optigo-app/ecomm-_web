@@ -60,7 +60,7 @@ const Registration = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
-            localStorage.setItem("loginCreds", JSON.stringify(loginCreds));
+            sessionStorage.setItem("loginCreds", JSON.stringify(loginCreds));
             console.log(firstName, lastName, email, mobile, password, confirmPassword)
             if (location?.search.startsWith('?mobile')) {
                 navigate("/continue-with-mobile")

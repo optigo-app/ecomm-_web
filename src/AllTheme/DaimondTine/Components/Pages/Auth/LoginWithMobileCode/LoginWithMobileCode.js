@@ -23,7 +23,7 @@ export default function LoginWithMobileCode() {
     const redirectMobileUrl = `${decodeURIComponent(updatedSearch)}`;
 
     useEffect(() => {
-        const storedMobile = localStorage.getItem('registerMobile');
+        const storedMobile = sessionStorage.getItem('registerMobile');
         if (storedMobile) setMobileNo(storedMobile);
     }, []);
 
@@ -63,10 +63,10 @@ export default function LoginWithMobileCode() {
 
         LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login').then((response) => {
             if (response.Data.rd[0].stat === 1) {
-                localStorage.setItem('LoginUser', true)
+                sessionStorage.setItem('LoginUser', true)
                 setIsLoginState(true)
-                localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-                localStorage.setItem('registerMobile', mobileNo);
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                sessionStorage.setItem('registerMobile', mobileNo);
 
                 if(redirectMobileUrl){
                     navigation(redirectMobileUrl);

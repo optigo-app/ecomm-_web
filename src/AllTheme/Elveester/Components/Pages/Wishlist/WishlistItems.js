@@ -48,8 +48,8 @@ const WishlistItems = ({
         }
     };
 
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     useEffect(() => {
         window.scroll({
@@ -103,7 +103,7 @@ const WishlistItems = ({
                             </div>
                             <div className='elv_wishlist_card_weights' style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <div className='elv_wishlist_card_weights_1' style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span>DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                                    {(item?.Dwt != "0" || item?.Dpcs != "0") && <span>DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>}
                                     <span>GWT: {(item?.Gwt || 0).toFixed(3)}</span>
                                 </div>
                                 <div className='elv_wishlist_card_weights_2'>

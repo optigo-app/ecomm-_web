@@ -3,6 +3,7 @@ import { Checkbox } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import Skeleton from "@mui/material/Skeleton";
+import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 const Stockitems = ({
   stockItemArr,
   storeInit,
@@ -12,7 +13,7 @@ const Stockitems = ({
 }) => {
   return (
     <div className="elv_Stockitems">
-      {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && (
+      {/* {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && ( */}
         <div className="elv_stockItem_div">
           <p className="elv_details_title"> Stock Items </p>
           <div className="elv_stockitem_container">
@@ -149,9 +150,9 @@ const Stockitems = ({
                       <span>
                         {" "}
                         {
-                          // formatter.format(
+                          formatter(
                           ele?.Amount
-                          // )
+                          )
                         }
                       </span>
                     </span>
@@ -197,7 +198,7 @@ const Stockitems = ({
             </table>
           </div>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

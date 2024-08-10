@@ -8,14 +8,14 @@ import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction
 
 const NewArrival = () => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [newArrivalData, setNewArrivalData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
     const islogin = useRecoilValue(dt_loginState);
     const [storeInit, setStoreInit] = useState({});
 
     useEffect(() => {
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setStoreInit(data)
         setImageUrl(data?.DesignImageFol);
 

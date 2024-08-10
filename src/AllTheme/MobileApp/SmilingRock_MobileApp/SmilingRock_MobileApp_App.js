@@ -45,8 +45,8 @@ const SmilingRock_MobileApp_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo);
 
   useEffect(() => {
-    let data = localStorage.getItem("storeInit");
-    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let data = sessionStorage.getItem("storeInit");
+    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {

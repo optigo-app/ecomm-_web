@@ -130,21 +130,21 @@ const ProductPage = () => {
   };
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
           }
         })
@@ -158,7 +158,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "diamondQualityColorCombo",
               JSON.stringify(data)
             );
@@ -175,7 +175,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "ColorStoneQualityColorCombo",
               JSON.stringify(data)
             );
@@ -192,7 +192,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
             setMetalColorCombo(data);
           }
         })
@@ -203,7 +203,7 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -212,7 +212,7 @@ const ProductPage = () => {
   }, [storeInit]);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
   }, []);
 
@@ -275,14 +275,14 @@ const ProductPage = () => {
       setDecodeUrl(decodeobj);
     }
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     let metalArr;
@@ -550,14 +550,14 @@ const ProductPage = () => {
     let navVal = location?.search.split("?p=")[1];
     let decodeobj = decodeAndDecompress(navVal);
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     setTimeout(() => {
@@ -612,7 +612,7 @@ const ProductPage = () => {
   }, [singleProd]);
 
   useEffect(() => {
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -661,7 +661,7 @@ const ProductPage = () => {
     //     pdvideoList.push(videoString);
     //   }
     // }
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -780,14 +780,14 @@ const ProductPage = () => {
     let csArr;
     let size;
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     if (type === "mt") {
@@ -867,7 +867,7 @@ const ProductPage = () => {
       });
   };
   const handleMetalWiseColorImg = async (e) => {
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     console.log(e.target.value, "metal color rrrrrr");
@@ -983,7 +983,7 @@ const ProductPage = () => {
     // console.log("pdImgList", pdImgList, pdImgListCol);
   };
   const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
       a: productData?.autocode,
@@ -1004,7 +1004,7 @@ const ProductPage = () => {
   };
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       StockId: ele?.StockId,

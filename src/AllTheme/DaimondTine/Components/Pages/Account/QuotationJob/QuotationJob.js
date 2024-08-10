@@ -587,11 +587,11 @@ const QuotationJob = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const storedData = localStorage.getItem('loginUserDetail');
+      const storedData = sessionStorage.getItem('loginUserDetail');
       const data = JSON.parse(storedData);
       const customerid = data?.id;
 
-      const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
       const { FrontEnd_RegNo } = storeInit;
       // const combinedValue = JSON.stringify({
       //   CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
@@ -693,7 +693,7 @@ const QuotationJob = () => {
 
           let jobStringArr = allAreChecked?.map((e) => e?.JobNo)?.toString();
         
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data?.id;
     

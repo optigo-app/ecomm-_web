@@ -13,7 +13,7 @@ import { dt_loginState } from '../../../Recoil/atom';
 
 
 const TrendingView1 = () => {
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
@@ -44,13 +44,13 @@ const TrendingView1 = () => {
     };
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const  IsB2BWebsite  = storeInit?.IsB2BWebsite;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -98,7 +98,7 @@ const TrendingView1 = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
 
         let obj = {

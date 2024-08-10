@@ -17,7 +17,7 @@ import Cookies from 'js-cookie';
 const DesignSet = () => {
     const [imageUrl, setImageUrl] = useState();
     const [designSetList, setDesignSetList] = useState([]);
-    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
@@ -26,8 +26,8 @@ const DesignSet = () => {
 
     useEffect(() => {
 
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -37,10 +37,10 @@ const DesignSet = () => {
             finalID = loginUserDetail?.id || '0';
         }
 
-        let storeinit = JSON.parse(localStorage.getItem('storeInit'));
+        let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInit(storeinit);
 
-        let data = JSON.parse(localStorage.getItem('storeInit'));
+        let data = JSON.parse(sessionStorage.getItem('storeInit'));
         setImageUrl(data?.DesignSetImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet', finalID)
@@ -74,7 +74,7 @@ const DesignSet = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
 
         let obj = {
             a: autoCode,
@@ -239,7 +239,7 @@ export default DesignSet;
 
 
 //     useEffect(() => {
-//         let data = JSON.parse(localStorage.getItem('storeInit'))
+//         let data = JSON.parse(sessionStorage.getItem('storeInit'))
 //         setImageUrl(data?.DesignSetImageFol);
 
 //         Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet").then((response) => {

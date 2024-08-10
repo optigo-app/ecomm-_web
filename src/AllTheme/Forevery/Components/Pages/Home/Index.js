@@ -26,7 +26,7 @@ function Home() {
   const [minHeight, setMinHeight] = useState("800px");
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem("storeInit"));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
     if (localData) {
       setMinHeight("0px");
@@ -35,7 +35,7 @@ function Home() {
   }, []);
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",

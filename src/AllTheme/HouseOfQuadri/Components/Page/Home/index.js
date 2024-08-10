@@ -15,7 +15,7 @@ import InfoSection from "./InfoSection/InfoSection";
 import Preloader from "../../../../../dum/Load";
 
 const HomePage = () => {
-  const data = JSON.parse(localStorage.getItem("storeInit"));
+  const data = JSON.parse(sessionStorage.getItem("storeInit"));
 
   useEffect(() => {
     window.scrollTo({

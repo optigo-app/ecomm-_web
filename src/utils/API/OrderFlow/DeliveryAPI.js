@@ -2,8 +2,8 @@ import { CommonAPI } from '../../API/CommonAPI/CommonAPI';
 
 export const fetchAddresses = async () => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
@@ -31,8 +31,8 @@ export const fetchAddresses = async () => {
 
 export const addAddress = async (formData) => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
@@ -55,10 +55,10 @@ export const addAddress = async (formData) => {
 
 export const editAddress = async (index, formData) => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
-        const addressData = JSON.parse(localStorage.getItem('addressData'));
+        const addressData = JSON.parse(sessionStorage.getItem('addressData'));
 
         const combinedValue = JSON.stringify({
             addrid: `${index}`, firstname: `${formData.firstName}`, lastname: `${formData.lastName}`, street: `${formData.address}`, addressprofile: `${formData.firstName + formData.lastName}`, city: `${formData.city}`, state: `${formData.state}`, country: `${formData.country}`, zip: `${formData.zipCode}`, mobileno: `${formData.mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${storedData.id}`
@@ -80,8 +80,8 @@ export const editAddress = async (index, formData) => {
 
 export const deleteAddress = async (addressId) => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({
@@ -104,8 +104,8 @@ export const deleteAddress = async (addressId) => {
 
 export const setDefaultAddress = async (address) => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
         const addressId = address?.id;
 

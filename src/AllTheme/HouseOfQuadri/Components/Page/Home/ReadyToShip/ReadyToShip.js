@@ -11,14 +11,14 @@ const ReadyToShip = () => {
   const [imageUrl, setImageUrl] = useState();
   const [bestSellerData, setBestSellerData] = useState([]);
   const [storeInit, setStoreInit] = useState({});
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const islogin = useRecoilValue(Hoq_loginState);
   const [hoveredItem, setHoveredItem] = useState(null);
   const navigation = useNavigate();
 
   useEffect(() => {
-    const loginUserDetail = JSON.parse(localStorage?.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage?.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage?.getItem("storeInit"));
     const  IsB2BWebsite  = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -28,10 +28,10 @@ const ReadyToShip = () => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
 
    const BestSeller =async()=>{

@@ -42,7 +42,7 @@ const Cart = ({
   const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
@@ -54,14 +54,14 @@ const Cart = ({
   })
 
   const handlePlaceOrder = () => {
-    let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate('/LoginOption')
       closeDrawer();
     } else {
       // let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
       // console.log("TotalPriceData", cartData)
-      // localStorage.setItem('TotalPriceData', priceData)
+      // sessionStorage.setItem('TotalPriceData', priceData)
       // navigate("/Delivery")
       closeDrawer();
     }

@@ -51,7 +51,7 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const [storeInitData, setStoreInitData] = useState();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");
   const isMediumScreen = useMediaQuery(
@@ -62,9 +62,9 @@ const CartItem = ({
   );
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
-    const isCartUpdateStatus = localStorage.getItem("cartUpdation");
+    const isCartUpdateStatus = sessionStorage.getItem("cartUpdation");
     setCountStatus(isCartUpdateStatus);
   }, [onRemove]);
 

@@ -1,8 +1,8 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const fetchWishlistDetails = async (visiterId, islogin) => {
-    let storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const storedData = localStorage.getItem("loginUserDetail");
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storedData = sessionStorage.getItem("loginUserDetail");
     const data = JSON.parse(storedData);
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.userid ?? "";

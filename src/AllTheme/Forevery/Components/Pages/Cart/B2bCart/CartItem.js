@@ -50,10 +50,10 @@ const CartItem = ({
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
 
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
@@ -119,145 +119,7 @@ const CartItem = ({
   }
 
   return (
-    <Grid
-      item
-      xs={6}
-      sm={itemLength <= 2 ? 6 : 6}
-      md={itemLength <= 2 ? 6 : 6}
-      lg={itemLength <= 2 ? 6 : 4}
-      xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
-      <Card className={itemLength <= 3 ? 'smr_cartListCard' : 'smr_cartListCard'}
-        key={item?.id}
-        sx={{
-          boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
-          // border: selectedItem?.id == item?.id && '1px solid #af8238',
-        }}
-      // onDoubleClick={openHandleUpdateCartModal}
-
-      // onMouseDown={handlePress('start')}
-      // onMouseUp={cancelPress}
-      // onMouseLeave={cancelPress}
-      // onTouchStart={handlePress('start')}
-      // onTouchEnd={cancelPress}
-      >
-        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          <CardMedia
-            component="img"
-            image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
-            alt={item?.TitleLine}
-            className='smr_cartListImage'
-            onClick={() => onSelect(item)}
-          />
-          <div className='smr_rightContentDataDiv'>
-            <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
-              <Typography variant="body2" className='smr_DesignNoTExt'>
-                {item?.designno} {item?.StockNo != "" &&
-                  <span className='smr_DesignNoTExt'>({item?.StockNo})</span>
-                }
-              </Typography>
-              <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                <div>
-                  {storeInitData?.IsGrossWeight == 1 &&
-                    <Typography variant="body2" className='smr_card-ContentsData'>
-                      GWT: {(item?.Gwt || 0).toFixed(3)}
-                    </Typography>
-                  }
-
-                  {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='smr_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
-                    </Typography>
-                  )}
-
-                </div>
-                <div>
-                  {storeInitData?.IsDiamondWeight == 1 &&
-                    <>
-                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                        <>
-                          <Typography variant="body2" className='smr_card-ContentsData'>
-                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
-                          </Typography>
-                        </>
-                      }
-                    </>
-                  }
-                  {storeInitData?.IsStoneWeight == 1 &&
-                    <>
-                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                        <>
-                          <Typography variant="body2" className='smr_card-ContentsData'>
-                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
-                          </Typography>
-                        </>
-                      }
-                    </>
-                  }
-                </div>
-              </div>
-              <Box className="smr_PriceBox">
-                <>
-                  {storeInitData?.IsPriceShow == 1 &&
-                    <span className='smr_currencyFontPrice'>
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                      {/* <span
-                        className="smr_currencyFont"
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
-                        }}
-                      /> */}
-                      {formatter(item?.UnitCostWithMarkUp)}
-                    </span>
-                  }
-                </>
-              </Box>
-              {item?.Remarks !== "" && (
-                <Typography variant="body2" className='smr_remarktext'>
-                  <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
-                </Typography>
-              )}
-            </CardContent>
-            <Box className="smr_cartbtngroupReRm">
-              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
-                {item?.Remarks ? "Update Remark" : "Add Remark"}
-              </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
-                Remove
-              </Link>
-            </Box>
-          </div>
-        </Box>
-        <div>
-          {multiSelect &&
-            <Checkbox
-              checked={multiSelect && isSelected}
-              onChange={() => onSelect(item)}
-              sx={{
-                color: "rgba(125, 127, 133, 0.4) !important",
-                position: 'absolute',
-                bottom: 0,
-                left: 2
-              }}
-            />
-          }
-        </div>
-        {item?.StockId != 0 &&
-          <div className="smr_inStockbadgeDiv">
-            <span className="smr_inStockbadgeSpan">In Stock</span>
-          </div>
-        }
-      </Card>
-      <RemarkModal
-        open={open}
-        onClose={handleClose}
-        remark={remark}
-        onRemarkChange={handleRemarkChangeInternal}
-        onSave={handleSaveInternal}
-      />
-    </Grid>
+   <div>kfjdsjhkfhjhsdj</div>
   );
 };
 

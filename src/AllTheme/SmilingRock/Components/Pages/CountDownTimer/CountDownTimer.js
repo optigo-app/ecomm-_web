@@ -5,12 +5,12 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 
 const useCountdown = () => {
-    const isloginStatus = localStorage?.getItem('LoginUser')
+    const isloginStatus = sessionStorage?.getItem('LoginUser')
     const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0 });
     const navigation = useNavigate();
     const setIsLoginState = useSetRecoilState(loginState);
     const [showTimer, setShowTimer] = useState(true);
-    const storedData = JSON.parse(localStorage.getItem('loginUserDetail')) || {};
+    const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail')) || {};
     const timerStatus = storedData?.IsTimeShow
     const entryDate = storedData.adhoc_startdate1;
     const expiryDate = storedData.adhoc_enddate1;
@@ -65,25 +65,25 @@ const useCountdown = () => {
     const handleLogout = () => {
         setIsLoginState('false');
         Cookies.remove('userLoginCookie');
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
-        localStorage.removeItem('diamondQualityColorCombo');
-        localStorage.removeItem('metalTypeCombo');
-        localStorage.removeItem('ColorStoneQualityColorCombo');
-        localStorage.removeItem('MetalColorCombo');
-        localStorage.removeItem('CompanyInfoData');
-        localStorage.removeItem('myAccountFlags');
-        localStorage.removeItem('CurrencyCombo');
-        localStorage.clear();
+        sessionStorage.setItem('LoginUser', false);
+        sessionStorage.removeItem('storeInit');
+        sessionStorage.removeItem('loginUserDetail');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('selectedAddressId');
+        sessionStorage.removeItem('orderNumber');
+        sessionStorage.removeItem('registerEmail');
+        sessionStorage.removeItem('UploadLogicalPath');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('registerMobile');
+        sessionStorage.removeItem('allproductlist');
+        sessionStorage.removeItem('diamondQualityColorCombo');
+        sessionStorage.removeItem('metalTypeCombo');
+        sessionStorage.removeItem('ColorStoneQualityColorCombo');
+        sessionStorage.removeItem('MetalColorCombo');
+        sessionStorage.removeItem('CompanyInfoData');
+        sessionStorage.removeItem('myAccountFlags');
+        sessionStorage.removeItem('CurrencyCombo');
+        sessionStorage.clear();
         navigation('/')
         window.location.reload();
     }

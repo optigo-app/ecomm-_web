@@ -19,7 +19,7 @@ const MobViewHeader = (props) => {
     // const [userMobile, setUserMobile] = useState('');
     
     // useEffect(() => {
-    //     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+    //     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     //     setFname(loginUserDetail?.firstname);
     //     setLasnane(loginUserDetail?.lastname);
     //     setUserMobile(loginUserDetail?.defaddress_shippingmobile)
