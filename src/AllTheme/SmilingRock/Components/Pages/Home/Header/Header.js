@@ -754,6 +754,7 @@ const Header = () => {
                       }}
                     >
                       {storeinit?.DesignSetInMenu}
+                      {/* LOOKBOOK */}
                     </p>
                   }
                 </>
@@ -772,6 +773,7 @@ const Header = () => {
                     }}
                   >
                     {storeinit?.DesignSetInMenu}
+                    {/* LOOKBOOK */}
                   </p>
                 }
               </>

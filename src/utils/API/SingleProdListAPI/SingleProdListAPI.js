@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId) => {
+export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId , AlbumName = '') => {
 
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
@@ -74,6 +74,7 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
     Size: `${size}`,
     IsFromDesDet: 1,
+    AlbumName: AlbumName ?? ''
   };
 
   let encData = JSON.stringify(data)

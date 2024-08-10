@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { CartCount, loginState } from '../../../Recoil/atom';
+import { for_CartCount, for_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -74,8 +74,8 @@ const CartPage = () => {
   const [defaultAddr, setDefaultAddr] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [countstatus, setCountStatus] = useState();
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const islogin = useRecoilValue(loginState);
+  const setCartCountVal = useSetRecoilState(for_CartCount)
+  const islogin = useRecoilValue(for_loginState);
   const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
