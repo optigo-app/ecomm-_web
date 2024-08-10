@@ -4,6 +4,7 @@ import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import btnStyle  from "../../../scss/Button.module.scss"
 
 const Customization = ({
   ispriceloding,
@@ -179,7 +180,7 @@ const Customization = ({
             }
           </div>
           <div className='for_UpdateCartBtn'>
-            <button className="for_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
+            <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
