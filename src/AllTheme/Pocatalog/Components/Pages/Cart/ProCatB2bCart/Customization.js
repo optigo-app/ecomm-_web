@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
