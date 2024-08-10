@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { loginState } from '../../../Recoil/atom';
+import { for_loginState } from '../../../Recoil/atom';
 
 
 export default function Register() {
@@ -38,7 +38,7 @@ export default function Register() {
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
 
-  const setIsLoginState = useSetRecoilState(loginState)
+  const setIsLoginState = useSetRecoilState(for_loginState)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === 'Enter') {

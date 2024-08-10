@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginState } from '../../Recoil/atom';
+import { for_loginState } from '../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 
@@ -8,7 +8,7 @@ const useCountdown = () => {
     const isloginStatus = localStorage?.getItem('LoginUser')
     const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0 });
     const navigation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState);
+    const setIsLoginState = useSetRecoilState(for_loginState);
     const [showTimer, setShowTimer] = useState(true);
     const storedData = JSON.parse(localStorage.getItem('loginUserDetail')) || {};
     const timerStatus = storedData?.IsTimeShow

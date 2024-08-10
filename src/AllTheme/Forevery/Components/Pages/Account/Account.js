@@ -3,7 +3,7 @@ import './Account.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from './../Home/Footer/Footer';
-import { loginState } from '../../../Components/Recoil/atom';
+import { for_loginState } from '../../../Components/Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 
 import YourProfile from './YourProfile/YourProfile';
@@ -78,7 +78,7 @@ export default function Account() {
     const [value, setValue] = useState(0);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(for_loginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
     const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
