@@ -133,7 +133,7 @@ export default function Account() {
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>
                         <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
-                        <div className='smlingAccountTabWebView yourAccount d_none_acc' >
+                        <div className='smlingAccountTabWebView yourAccount d_none_acc_smr' >
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} />
