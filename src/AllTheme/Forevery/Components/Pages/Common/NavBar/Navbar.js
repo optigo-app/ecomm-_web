@@ -40,7 +40,6 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
-  const navigate = useNavigate();
 
   return (
     <div className="right">
@@ -54,7 +53,7 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         />
         Appointment
       </span>
-      <span className="for_item_menu" onClick={navigate('/wishlist')}>
+      <span className="for_item_menu">
         <FaRegHeart size={18} />
         Wishlist
       </span>

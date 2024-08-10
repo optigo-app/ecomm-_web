@@ -86,29 +86,29 @@ const WishlistItems = ({
                                 <Typography variant="body2" className="for_card-ContentData">
                                     <span className="for_wishDT">GWT: </span>
                                     <span className="for_wishDT">
-                                        {(item?.Gwt || 0).toFixed(3)}
+                                        {(item?.Gwt || 0)?.toFixed(3)}
                                     </span>
-                                    <span className="for_pipes"> | </span>
                                     <span className="for_wishDT">NWT : </span>
                                     <span className="for_wishDT">
-                                        {(item?.Nwt || 0).toFixed(3)}
-                                    </span>
                                     <span className="for_pipes"> | </span>
+                                        {(item?.Nwt || 0)?.toFixed(3)}
+                                    </span>
                                     {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                         <>
+                                        <span className="for_pipes"> | </span>
                                             <span className="for_wishDT">DWT: </span>
                                             <span>
-                                                {(item?.Dwt || 0).toFixed(3)} /
+                                                {(item?.Dwt || 0)?.toFixed(3)} /
                                                 {(item?.Dpcs || 0)}
                                             </span>
                                         </>
                                     }
-                                    <span className="for_pipes"> | </span>
                                     {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                         <>
+                                        <span className="for_pipes"> | </span>
                                             <span className="for_wishDT">CWT: </span>
                                             <span>
-                                                {(item?.CSwt || 0).toFixed(3)} /
+                                                {(item?.CSwt || 0)?.toFixed(3)} /
                                                 {(item?.CSpcs || 0)}
                                             </span>
                                         </>
