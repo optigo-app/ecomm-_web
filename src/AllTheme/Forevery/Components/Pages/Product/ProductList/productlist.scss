@@ -493,186 +493,236 @@
               }
             }
 
-            .for_productList_listing_card_image_div {
+            .forWeb_app_product_label {
+              position: absolute;
+              right: 0;
+              display: flex;
+              flex-direction: column;
+              gap: 3px;
+              font-size: 14px;
+              font-family: $primaryFontFamily;
 
 
-              .for_rollup_video,
-              .for_rollup_img {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
+            .forWeb_app_instock {
+              background-color: #00b894;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+              font-weight: 500;
+            }
 
-                video {
-                  width: 296px;
-                  height: 246px;
-                  object-fit: cover;
-                }
+            .forWeb_app_bestSeller {
+              background-color: #ff5100;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
 
-                img {
-                  width: 296px;
-                  height: 246px;
-                  object-fit: cover;
-                }
-              }
+            .forWeb_app_newarrival {
+              background-color: darkblue;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
 
-              .for_productList_listing_card_image {
+            .forWeb_app_intrending {
+              background-color: darkorange;
+              color: white;
+              text-transform: uppercase;
+              width: 70px;
+              font-size: 10px;
+              text-align: center;
+            }
+
+          }
+
+
+          .for_productList_listing_card_image_div {
+
+
+            .for_rollup_video,
+            .for_rollup_img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+
+              video {
                 width: 296px;
                 height: 246px;
                 object-fit: cover;
               }
 
-            }
-
-            .for_productList_metaltype_div {
-              bottom: 2.5rem;
-              display: flex;
-              gap: 30px;
-              justify-content: center;
-              position: absolute;
-              padding: 5px;
-              width: 100%;
-              align-items: center;
-              z-index: 99999;
-
-              .for_metaltype_gold {
-                @include metal-type-style(#c9a63a);
-              }
-
-              .for_metaltype_gold_clicked {
-                @include metal-type-style-clicked(#c9a63a)
-              }
-
-              .for_metaltype_white {
-                @include metal-type-style(#848484);
-              }
-
-              .for_metaltype_white_clicked {
-                @include metal-type-style-clicked(#848484)
-              }
-
-              .for_metaltype_rose {
-                @include metal-type-style(#e06e6e);
-              }
-
-              .for_metaltype_rose_clicked {
-                @include metal-type-style-clicked(#e06e6e)
+              img {
+                width: 296px;
+                height: 246px;
+                object-fit: cover;
               }
             }
 
-            .for_productList_listinig_ATC_div {
-              background: #5C5C5C;
-              height: 40px;
-              color: #fff;
-              font-family: "Nunito", sans-serif;
-              display: flex;
-              align-items: center;
-              position: absolute;
-              bottom: 0;
-              width: 100%;
-              opacity: 0;
-              transition: opacity 0.3s ease;
-              cursor: pointer;
-              z-index: 100;
+            .for_productList_listing_card_image {
+              width: 296px;
+              height: 246px;
+              object-fit: cover;
+            }
 
-              .for_productList_cart_icon {
-                padding-bottom: 4px;
-                padding-left: 15px;
-                padding-right: 8px;
-                font-size: 16px;
-              }
+          }
 
-              .for_productList_cart_title {
-                font-size: 14px;
-              }
+          .for_productList_metaltype_div {
+            bottom: 2.5rem;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            position: absolute;
+            padding: 5px;
+            width: 100%;
+            align-items: center;
+            z-index: 100;
 
+            .for_metaltype_gold {
+              @include metal-type-style(#c9a63a);
+            }
+
+            .for_metaltype_gold_clicked {
+              @include metal-type-style-clicked(#c9a63a)
+            }
+
+            .for_metaltype_white {
+              @include metal-type-style(#848484);
+            }
+
+            .for_metaltype_white_clicked {
+              @include metal-type-style-clicked(#848484)
+            }
+
+            .for_metaltype_rose {
+              @include metal-type-style(#e06e6e);
+            }
+
+            .for_metaltype_rose_clicked {
+              @include metal-type-style-clicked(#e06e6e)
             }
           }
 
-          /* Show the ATC div on hover */
-          &:hover .for_productList_listinig_ATC_div {
-            opacity: 1;
-          }
+          .for_productList_listinig_ATC_div {
+            background: #5C5C5C;
+            height: 40px;
+            color: #fff;
+            font-family: "Nunito", sans-serif;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 100;
 
-          .for_productList_card_description {
-            margin-top: 10px;
-            font-family: $primaryFontFamily;
-
-            .for_productList_caratWeight {
-              display: flex;
-              align-items: center;
-              width: 100%;
-              padding-inline: 2%;
-
-              .for_carat_title {
-                color: #707070;
-                font-size: 12px;
-              }
-
-              .for_carat_weights {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-
-                .for_weight_bg {
-                  display: flex;
-                  align-items: center;
-                  background: #CECECE;
-                  height: 25px;
-                  color: #707070;
-                  font-size: 12px;
-                  padding: 0 4px;
-                }
-              }
+            .for_productList_cart_icon {
+              padding-bottom: 4px;
+              padding-left: 15px;
+              padding-right: 8px;
+              font-size: 16px;
             }
 
-            .for_productList_desc_title {
-              height: 45px;
-              margin-top: 1.7rem;
-              font-family: $primaryFontFamily;
-
-              .for_listing_desc_span {
-                width: 100%;
-                padding-inline: 4%;
-                color: $primaryfontcolor2;
-                font-size: $fontSize3;
-                font-weight: 700;
-                display: inline-block;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
+            .for_productList_cart_title {
+              font-size: 14px;
             }
 
-            .for_productList_desc_div {
-              font-family: $primaryFontFamily;
-              color: #707070;
-              font-size: 10px;
-              text-align: center;
-              height: 30px;
-              width: 100%;
-              padding-inline: 2%
-            }
-
-            .for_productList_price_div {
-              color: #000000;
-              margin-top: 10px;
-              font-size: $fontSize3;
-              height: 50px;
-              width: 100%;
-              font-weight: 700;
-              text-align: center;
-            }
           }
         }
 
+        /* Show the ATC div on hover */
+        &:hover .for_productList_listinig_ATC_div {
+          opacity: 1;
+        }
 
+        .for_productList_card_description {
+          margin-top: 10px;
+          font-family: $primaryFontFamily;
+
+          .for_productList_caratWeight {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding-inline: 2%;
+
+            .for_carat_title {
+              color: #707070;
+              font-size: 12px;
+            }
+
+            .for_carat_weights {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+
+              .for_weight_bg {
+                display: flex;
+                align-items: center;
+                background: #CECECE;
+                height: 25px;
+                color: #707070;
+                font-size: 12px;
+                padding: 0 4px;
+              }
+            }
+          }
+
+          .for_productList_desc_title {
+            height: 45px;
+            margin-top: 1.7rem;
+            font-family: $primaryFontFamily;
+
+            .for_listing_desc_span {
+              width: 100%;
+              padding-inline: 4%;
+              color: $primaryfontcolor2;
+              font-size: $fontSize3;
+              font-weight: 700;
+              display: inline-block;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .for_productList_desc_div {
+            font-family: $primaryFontFamily;
+            color: #707070;
+            font-size: 10px;
+            text-align: center;
+            height: 30px;
+            width: 100%;
+            padding-inline: 2%
+          }
+
+          .for_productList_price_div {
+            color: #000000;
+            margin-top: 10px;
+            font-size: $fontSize3;
+            height: 50px;
+            width: 100%;
+            font-weight: 700;
+            text-align: center;
+          }
+        }
       }
+
 
     }
 
-
   }
+
+
+}
 }

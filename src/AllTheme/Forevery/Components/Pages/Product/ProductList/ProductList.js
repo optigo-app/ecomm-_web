@@ -29,7 +29,7 @@ const ProductList = () => {
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
-  const [trend, setTrend] = useState(10);
+  const [trend, setTrend] = useState('Recommended');
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
@@ -56,6 +56,7 @@ const ProductList = () => {
   const [diamondType, setDiamondType] = useState([]);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterData, setFilterData] = useState([]);
+  const [sortBySelect, setSortBySelect] = useState();
   console.log('filterData: ', filterData);
 
 
@@ -76,6 +77,10 @@ const ProductList = () => {
   };
   const handleChange1 = (event) => {
     setShippingDrp(event.target.value);
+  };
+
+  const handleChangeTrend = (event) => {
+    setTrend(event.target.value);
   };
 
   useEffect(() => {
@@ -241,30 +246,6 @@ const ProductList = () => {
 
         if (res1) {
           setFilterData(res1);
-          //   setFilterPriceSlider(priceFilter);
-          //   let grossFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
-          //   )[0];
-          //   let netFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-          //   )[0];
-          //   let diaFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-          //   )[0];
-          //   setFilterGrossSlider([grossFilter?.Min, grossFilter?.Max]);
-          //   setFilterNetWTSlider([
-          //     netFilter?.Min.toFixed(3),
-          //     netFilter?.Max.toFixed(3),
-          //   ]);
-
-          //   // let diafilter = res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
-          //   // let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
-          //   // let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
-
-          //   setSliderValue([diaFilter?.Min, diaFilter?.Max])
-          //   setSliderValue1([netFilter?.Min, netFilter?.Max])
-          //   setSliderValue2([grossFilter?.Min, grossFilter?.Max])
-          //   // setFilterDiamondSlider([diaFilter?.Min, diaFilter?.Max]);
         }
       } catch (error) {
         console.error("Error fetching product list:", error);
@@ -384,6 +365,28 @@ const ProductList = () => {
     });
   }, [])
 
+  const handleSortby = async (e) => {
+    setSortBySelect(e.target?.value)
+
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    setIsOnlyProdLoading(true)
+
+    let sortby = e.target?.value
+
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false)
+      })
+  }
 
   const menuName = BreadCumsObj()?.menuname || 'Title';
   const dropdownsData = [
@@ -617,13 +620,21 @@ const ProductList = () => {
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         value={trend}
-                        onChange={handleChange}
-                        label="Age"
+                        onChange={(e) => {
+                          handleSortby(e);
+                          handleChangeTrend(e);
+                        }}
                         className="for_collection_filter_sort_select"
                       >
-                        <MenuItem value={10}>Recommended</MenuItem>
-                        <MenuItem value={20}>New</MenuItem>
-                        <MenuItem value={30}>In Stock</MenuItem>
+                        <MenuItem value='Recommended'>Recommended</MenuItem>
+                        <MenuItem value='New'>New</MenuItem>
+                        <MenuItem value='Trending'>Trending</MenuItem>
+                        {storeInit?.IsStockWebsite == 1 &&
+                          <MenuItem value='In Stock'>In Stock</MenuItem>
+                        }
+
+                        <MenuItem value='PRICE HIGH TO LOW'>Price High To Low</MenuItem>
+                        <MenuItem value='PRICE LOW TO HIGH'> Price Low To High</MenuItem>
                       </Select>
                     </FormControl>
                   </div>
@@ -718,13 +729,14 @@ const ProductList = () => {
                     videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                     RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                     loginCurrency={loginCurrency}
+                    storeInit={storeInit}
                   />
                 ))
               )}
             </div>
           </div>
         </div>
-      </div>
+      </div >
 
     </>
   );
@@ -932,7 +944,8 @@ const Product_Card = ({
   imageUrl,
   videoUrl,
   RollImageUrl,
-  loginCurrency
+  loginCurrency,
+  storeInit,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
@@ -962,6 +975,12 @@ const Product_Card = ({
               // }}
               readOnly
             />
+          </div>
+          <div className="forWeb_app_product_label">
+            {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
+            {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
+            {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
+            {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
           <div className="for_productList_listing_card_image_div"
             onMouseOver={() => setIsHover(true)}
@@ -1025,9 +1044,20 @@ const Product_Card = ({
           </div>
           <div className="for_productList_desc_div">
             <div className="">
-              <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
-              <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
-              <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}/{productData?.Dpcs}</span>
+              {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
+                <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
+              )}
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
+                <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
+              )}
+              {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
+                <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? `/${productData?.Dpcs?.toFixed(0)}`
+                  : null} |</span>
+              )}
+              <span>&nbsp;DWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                ? `/${productData?.CSpcs?.toFixed(0)}`
+                : null}</span>
             </div>
           </div>
           <div className="for_productList_price_div">
