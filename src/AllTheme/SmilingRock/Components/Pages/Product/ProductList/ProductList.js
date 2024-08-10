@@ -3194,20 +3194,20 @@ const ProductList = () => {
                                           {storeInit?.IsGrossWeight == 1 &&
                                             Number(productData?.Gwt) !== 0 && (
                                               <span className="smr_prod_wt">
-                                                <span className="smr_keys">
+                                                <span className="smr_main_keys">
                                                   GWT:
                                                 </span>
-                                                <span className="smr_val">
+                                                <span className="smr_main_val">
                                                   {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span>|</span>
+                                              <span style={{fontSize:'0.9vw'}}>|</span>
                                               <span className="smr_prod_wt">
-                                                <span className="smr_keys">NWT:</span>
-                                                <span className="smr_val">
+                                                <span className="smr_main_keys">NWT:</span>
+                                                <span className="smr_main_val">
                                                   {(productData?.Nwt)?.toFixed(3)}
                                                 </span>
                                               </span>
@@ -3218,12 +3218,12 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                                <span style={{fontSize:'0.9vw'}}>|</span>
                                                 <span className="smr_prod_wt">
-                                                  <span className="smr_keys">
+                                                  <span className="smr_main_keys">
                                                     DWT:
                                                   </span>
-                                                  <span className="smr_val">
+                                                  <span className="smr_main_val">
                                                     {(productData?.Dwt)?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs === 1
                                                       ? `/${productData?.Dpcs}`
@@ -3235,12 +3235,12 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                                <span style={{fontSize:'0.9vw'}}>|</span>
                                                 <span className="smr_prod_wt">
-                                                  <span className="smr_keys">
+                                                  <span className="smr_main_keys">
                                                     CWT:
                                                   </span>
-                                                  <span className="smr_val">
+                                                  <span className="smr_main_val">
                                                     {(productData?.CSwt)?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
