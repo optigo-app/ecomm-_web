@@ -47,24 +47,27 @@
         align-items: center;
         justify-content: center;
         height: 90px;
-        padding-inline: 10px;
-        span {
+        padding-inline: 5px;
+        .for_nav_menu {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 5px;
           height: fit-content;
           font-weight: 700;
+          gap: 2px;
           .chevorn-icon {
             margin-top: -2px;
           }
         }
       }
       &:hover {
+        transition: 0.3s ease-in-out;
         .first_nav {
           display: block;
+        transition: 0.3s ease-in-out;
         }
       }
+     
 
       .first_nav {
         transition: 0.5s ease-in-out;

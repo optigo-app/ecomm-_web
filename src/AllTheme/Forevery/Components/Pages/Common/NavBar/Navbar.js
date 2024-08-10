@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.for.scss";
 import foreverylog from "../../../images/logo/logo.webp";
 import appointment from "../../../images/navbar/appointment.png";
@@ -6,25 +6,36 @@ import { FaRegHeart } from "react-icons/fa6";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { NavbarMenu } from "../../../data/NavbarMenu";
+import btnstyle from "../../../scss/Button.module.scss";
+import NavImage from "../../../Assets/collections/bespoke-header.webp";
+import {
+  CollectionData,
+  NavbarMenu,
+  SideItems,
+  diamondShapes,
+} from "../../../data/NavbarMenu";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import style from "../../../scss/Button.module.scss";
+import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
+import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
+import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
+import { NavbarBrand } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(false);
   const [ActiveMenu, setActiveMenu] = useState({ menu: "", index: "" });
+  const Navigate = useNavigate();
   return (
     <div className="for_Navbar">
       <nav className="for_nav">
         <NavbarLeft
-          hoveredIndex={hoveredIndex}
-          setHoveredIndex={setHoveredIndex}
+          Navigate={Navigate}
           ActiveMenu={ActiveMenu}
           setActiveMenu={setActiveMenu}
         />
-        <NavbarCenter />
+        <NavbarCenter Navigate={Navigate} />
         <NavbarRight
+          Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
           setShowSearchBar={setShowSearchBar}
         />
@@ -35,11 +46,13 @@ const Navbar = () => {
 
 export default Navbar;
 
-const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
-
+const NavbarRight = ({ ShowSearchBar, setShowSearchBar, Navigate }) => {
   return (
     <div className="right">
-      <span className="for_item_menu">
+      <span className="for_item_menu" onClick={() => {
+          Navigate("/appointment");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }} >
         <img
           src={appointment}
           alt=""
@@ -49,11 +62,23 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         />
         Appointment
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/wishlist");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <FaRegHeart size={18} />
         Wishlist
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/cart");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <HiOutlineShoppingBag size={18} />
         Cart
       </span>
@@ -67,28 +92,37 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         )}
         <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/LoginOption");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <FaRegCircleUser size={19} />
         Login
       </span>
     </div>
   );
 };
-const NavbarCenter = () => {
+const NavbarCenter = ({ Navigate }) => {
   return (
     <div className="center">
-      <div className="logo_mask">
+      <div
+        className="logo_mask"
+        onClick={() => {
+          Navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <img src={foreverylog} alt="" />
       </div>
     </div>
   );
 };
-const NavbarLeft = ({
-  hoveredIndex,
-  setHoveredIndex,
-  setActiveMenu,
-  ActiveMenu,
-}) => {
+const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
+  const Nvabr = document.querySelector(".left");
+  console.log(NavbarBrand);
   return (
     <>
       <div className="left">
@@ -101,28 +135,39 @@ const NavbarLeft = ({
               onMouseLeave={() => setHoveredIndex(false)}
               onMouseOver={() => setActiveMenu({ menu: val, index: i })}
             >
-              <span>
+              <span className="for_nav_menu">
                 {val?.category}
-                {ActiveMenu === val ? (
-                  <FaChevronUp size={13} className="chevorn-icon" />
+                {ActiveMenu?.menu === val ? (
+                  <FaChevronUp
+                    size={13}
+                    className={`chevorn-icon hide-Fo-1 ${
+                      ActiveMenu?.menu === val ? "hovered-ok" : ""
+                    }`}
+                  />
                 ) : (
-                  <FaChevronDown size={13} className="chevorn-icon" />
+                  <FaChevronDown
+                    size={13}
+                    className={`chevorn-icon hide-Fo-2 ${
+                      ActiveMenu?.menu === val ? "" : "hovered-not"
+                    }`}
+                  />
                 )}
               </span>
             </div>
           );
         })}
-          {/* {
-            <NavitemsWrapper
-              setHoveredIndex={setHoveredIndex}
-              SelectedMenu={ActiveMenu}
-            />
-          } */}
+        <>
+          <NavitemsWrapper
+            SelectedMenu={ActiveMenu}
+            setActiveMenu={setActiveMenu}
+          />
+        </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ setHoveredIndex, SelectedMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+  const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
       return Menu;
@@ -131,8 +176,40 @@ const NavitemsWrapper = ({ setHoveredIndex, SelectedMenu }) => {
     }
   };
 
+  // useEffect(() => {
+  //   const element = firstNavRef.current;
+
+  //   if (element) {
+  //     // Create a mutation observer
+  //     const observer = new MutationObserver(() => {
+  //       const styles = getComputedStyle(element);
+  //       console.log(styles.display)
+
+  //       // Check if display property is 'none'
+  //       if (styles.display === 'none') {
+  //         console.log(styles.display)
+  //         setActiveMenu(null);
+  //       }
+  //     });
+
+  //     // Start observing
+  //     observer.observe(element, {
+  //       attributes: true,
+  //       attributeFilter: ['style'],
+  //       childList: false,
+  //       subtree: false
+  //     });
+
+  //     // Cleanup observer on component unmount
+  //     return () => {
+  //       observer.disconnect();
+  //     };
+  //   }
+  // }, []);
+
   return (
     <>
+      <div className="first_nav" ref={firstNavRef}>
       <div
         className="first_nav"
         // onMouseEnter={() => setHoveredIndex(true)}

@@ -1,55 +1,81 @@
-import React from 'react'
-import './LoginOption.modul.scss'
-import { useNavigate, useLocation } from 'react-router';
-
-import { FaMobileAlt } from 'react-icons/fa';
-import { IoMdMail } from 'react-icons/io';
-import Footer from '../../Home/Footer/Footer';
-
+import React from "react";
+import "./LoginOption.modul.scss";
+import { useNavigate, useLocation } from "react-router";
+import { FaMobileAlt } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
 
 const LoginOption = () => {
+  const navigation = useNavigate();
+  const location = useLocation();
 
-    const navigation = useNavigate();
-    const location = useLocation();
+  const search = location?.search;
+  const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
-    const search = location?.search
-    const redirectEmailUrl = `/ContinueWithEmail/${search}`;
+  const redirectMobileUrl = `/ContimueWithMobile/${search}`;
 
-    const redirectMobileUrl = `/ContimueWithMobile/${search}`;
-
-    return (
-        <div className='smr_Loginoption'>
-            <div className='loginDailog'>
-                <div>
-                    <p className='loginDiTile'>Log in or sign up in seconds</p>
-                    <p style={{
-                        textAlign: 'center',
-                        color: '#7d7f85',
-                    }}>Use your email or mobile number to continue with the organization.</p>
-                    <div className='smilingLoginOptionMain'>
-                        <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
-                            <IoMdMail style={{ height: '25px', width: '25px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
-                        </div>
-                        <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
-                            <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
-                        </div>
-                    </div>
-                    <p style={{
-                        marginTop: '40px', fontSize: '14px',
-                        color: '#7d7f85',
-                        textAlign: 'center'
-                    }}>By continuing, you agree to our Terms of Use. Read our Privacy Policy.</p>
-                </div>
-                <Footer />
+  return (
+    <div className="for_Loginoption" style={{
+        backgroundColor  :"#fff"
+    }}>
+      <div className="for_loginDailog">
+        <div>
+          <p className="for_loginDiTile">Log in or sign up in seconds</p>
+          <p
+          className="for_login_text"
+          >
+            Use your email or mobile number to continue with the organization.
+          </p>
+          <div className="forLoginOptionMain">
+            <div
+              className="loginMail"
+              onClick={() => navigation(redirectEmailUrl)}
+            >
+              <IoMdMail style={{ height: "25px", width: "25px" }} />
+              <p
+                style={{
+                  margin: "0px",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  paddingLeft: "25px",
+                }}
+              >
+                Continue with email
+              </p>
             </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+            <div
+              className="loginMobile"
+              onClick={() => navigation(redirectMobileUrl)}
+            >
+              <FaMobileAlt
+                style={{ height: "25px", width: "25px", marginRight: "10px" }}
+              />
+              <p
+                style={{
+                  margin: "0px",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  paddingLeft: "25px",
+                }}
+              >
+                Log in with mobile
+              </p>
             </div>
+          </div>
+          <p
+            style={{
+              marginTop: "40px",
+              fontSize: "14px",
+              color: "black",
+              textAlign: "center",
+            }}
+          >
+            By continuing, you agree to our Terms of Use. Read our Privacy
+            Policy.
+          </p>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default LoginOption
+export default LoginOption;

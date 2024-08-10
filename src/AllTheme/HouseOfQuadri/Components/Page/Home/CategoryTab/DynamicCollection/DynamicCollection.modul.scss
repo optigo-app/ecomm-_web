@@ -419,12 +419,12 @@ $scrollbar-thumb-color: #e4e4e4;
             display: flex;
             align-items: center;
             color: #7d7f85;
-            font-size: 15px;
+            font-size: 0px !important;
             &:has(span) {
               display: flex;
               align-items: center;
               gap: 2px;
-              letter-spacing: 0.5px;
+              letter-spacing: 0.2px !important;
             }
           }
           .hoq_prod_mtcolr_price {
