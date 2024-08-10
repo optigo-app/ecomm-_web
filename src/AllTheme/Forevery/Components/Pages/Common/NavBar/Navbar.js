@@ -9,6 +9,7 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { NavbarMenu } from "../../../data/NavbarMenu";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import style from "../../../scss/Button.module.scss";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(false);
@@ -35,6 +36,8 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="right">
       <span className="for_item_menu">
@@ -47,7 +50,7 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         />
         Appointment
       </span>
-      <span className="for_item_menu">
+      <span className="for_item_menu" onClick={navigate('/wishlist')}>
         <FaRegHeart size={18} />
         Wishlist
       </span>
@@ -110,12 +113,12 @@ const NavbarLeft = ({
             </div>
           );
         })}
-        {
-          <NavitemsWrapper
-            setHoveredIndex={setHoveredIndex}
-            SelectedMenu={ActiveMenu}
-          />
-        }
+          {/* {
+            <NavitemsWrapper
+              setHoveredIndex={setHoveredIndex}
+              SelectedMenu={ActiveMenu}
+            />
+          } */}
       </div>
     </>
   );

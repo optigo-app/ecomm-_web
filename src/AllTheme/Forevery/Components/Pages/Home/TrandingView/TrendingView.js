@@ -17,7 +17,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { for_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 
 const TrendingView = () => {
@@ -35,7 +35,7 @@ const TrendingView = () => {
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(for_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
 
     const isOdd = (num) => num % 2 !== 0;
@@ -246,7 +246,7 @@ export default TrendingView
 // import { useNavigate } from 'react-router-dom';
 // import pako from "pako";
 // import { useRecoilValue } from 'recoil';
-// import { loginState } from '../../../Recoil/atom';
+// import { for_loginState } from '../../../Recoil/atom';
 // import Cookies from 'js-cookie';
 
 // const TrendingView = () => {
@@ -264,7 +264,7 @@ export default TrendingView
 
 //     const [oddNumberObjects, setOddNumberObjects] = useState([]);
 //     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-//     const islogin = useRecoilValue(loginState);
+//     const islogin = useRecoilValue(for_loginState);
 
 //     const isOdd = (num) => num % 2 !== 0;
 

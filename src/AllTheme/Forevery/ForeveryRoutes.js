@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
-import Header from "./Components/Pages/Home/Header/Header";
 import Cart from "./Components/Pages/Cart/CartMain";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, loginState } from "./Components/Recoil/atom";
+import { for_companyLogo, for_loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -32,8 +31,6 @@ import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
 import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
@@ -42,15 +39,15 @@ import TopBar from "./Components/Pages/Common/TopBar/TopBar";
 import AppointmentPage from "./Components/Pages/Home/AppointMent/AppointmentPage";
 
 const ForEveryRoutes = () => {
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(for_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
-  const setIsLoginState = useSetRecoilState(loginState);
+  const setIsLoginState = useSetRecoilState(for_loginState);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(for_companyLogo);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
@@ -131,9 +128,6 @@ const ForEveryRoutes = () => {
       <div>
         <TopBar/>
         <Navbar/>
-        {/* {localData?.Headerno === 1 && <Header />} */}
-        {/* {localData?.Headerno === 2 && <Header2 />} */}
-        {/* <Header2 /> */}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -202,6 +196,7 @@ const ForEveryRoutes = () => {
           }
         />
         <Route path="/appointment" element={<AppointmentPage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
@@ -210,7 +205,7 @@ const ForEveryRoutes = () => {
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
+          
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />

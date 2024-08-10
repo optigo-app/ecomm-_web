@@ -10,7 +10,7 @@ import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } fr
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { CartCount } from '../../../Recoil/atom';
+import { for_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
@@ -42,7 +42,7 @@ const CartItem = ({
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
-  const setCartCountVal = useSetRecoilState(CartCount)
+  const setCartCountVal = useSetRecoilState(for_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
