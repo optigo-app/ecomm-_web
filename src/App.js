@@ -13,7 +13,6 @@ function App() {
     <>
       <RecoilRoot>
         <BrowserRouter>
-          <ConnectionManager />
           <ThemeRoutes />
           <ToastContainer
             autoClose={2000}
