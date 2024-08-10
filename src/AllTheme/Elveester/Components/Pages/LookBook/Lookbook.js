@@ -517,6 +517,13 @@ const Lookbook = () => {
     selectedCategories
   );
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior:'smooth'
+    })
+  },[])
+
   return (
     <div className="smr_LookBookMain">
       <Drawer
@@ -1156,10 +1163,10 @@ const Lookbook = () => {
                                     // }
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter(opt?.Maxval)}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
-                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter(opt?.Minval)}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter(opt?.Minval)} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter(opt?.Maxval)}`
                                     }
                                   />
                                 </div>
@@ -1817,17 +1824,43 @@ const Lookbook = () => {
                                                 {ele?.designno} - {ele?.CategoryName}
                                               </span>
                                               <br />
-                                              <span className='smr_lb3detailDT'>NWT : </span>
-                                              <span className='smr_lb3detailDT'>{(ele?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                              <span className='smr_lb3pipe'> | </span>
-                                              <span className='smr_lb3detailDT'>GWT: </span>
-                                              <span className='smr_lb3detailDT'>{(ele?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                              <span className='smr_lb3pipe'> | </span>
-                                              <span className='smr_lb3detailDT'>DWT: </span>
-                                              <span className='smr_lb3detailDT'>{(ele?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                              <span className='smr_lb3pipe'> | </span>
-                                              <span className='smr_lb3detailDT'>CWT: </span>
-                                              <span className='smr_lb3detailDT'>{(ele?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(ele?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                              {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                  <span className='smr_lb3detailDT'>GWT: </span>
+                                                  <span className='smr_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              }
+
+                                              {Number(ele?.Nwt) !== 0 && (
+                                                <>
+                                                  <span className='smr_lb3pipe'> | </span>
+                                                  <span className='smr_lb3detailDT'>NWT : </span>
+                                                  <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              )}
+
+                                              {storeInit?.IsDiamondWeight == 1 &&
+                                                <>
+                                                  {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                    <>
+                                                      <span className='smr_lb3pipe'> | </span>
+                                                      <span className='smr_lb3detailDT'>DWT: </span>
+                                                      <span className='smr_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
+                                              {storeInit?.IsStoneWeight == 1 &&
+                                                <>
+                                                  {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                    <>
+                                                      <span className='smr_lb3pipe'> | </span>
+                                                      <span className='smr_lb3detailDT'>CWT: </span>
+                                                      <span className='smr_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
                                               <br />
                                               {/* <span
                                               className="smr_currencyFont"
