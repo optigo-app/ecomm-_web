@@ -2422,7 +2422,7 @@ const ProductDetail = () => {
             <Footer />
           </div>
         </div>
-        <div className="smr_prodDetail_backtotop" onClick={() => {
+        <div className="smr_prodDetail_backtotop" style={{backgroundColor:'#f1e9dd',color:'black'}} onClick={() => {
           window.scroll({
             top: 0,
             behavior: "auto",

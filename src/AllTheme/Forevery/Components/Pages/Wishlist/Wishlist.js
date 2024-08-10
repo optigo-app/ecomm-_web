@@ -3,17 +3,19 @@ import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishl
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
 import Footer from "../Home/Footer/Footer";
-import "./smr_wishlist.scss";
+import "./for_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { CartCount, WishCount } from "../../Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { for_CartCount, for_WishCount, for_loginState } from "../../Recoil/atom";
 import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
+import { FaHeart } from "react-icons/fa6";
+import NewsletterSignup from "../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 
 const Wishlist = () => {
   const {
@@ -30,20 +32,19 @@ const Wishlist = () => {
     handleWishlistToCart,
     handleAddtoCartAll,
     handleMoveToDetail,
-    handelMenu
+    handelMenu,
   } = Usewishlist();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setWishCountVal = useSetRecoilState(WishCount)
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const visiterId = Cookies.get('visiterId');
-  const isMobileScreen = useMediaQuery('(max-width:768px)');
-
+  const setWishCountVal = useSetRecoilState(for_WishCount);
+  const setCartCountVal = useSetRecoilState(for_CartCount);
+  const islogin = useRecoilValue(for_loginState);
+  const visiterId = Cookies.get("visiterId");
+  const isMobileScreen = useMediaQuery("(max-width:768px)");
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
-
 
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
@@ -51,7 +52,7 @@ const Wishlist = () => {
     if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setWishCountVal(res?.wishcount);
-      })
+      });
     }
   };
 
@@ -59,20 +60,19 @@ const Wishlist = () => {
     setDialogOpen(false);
   };
 
-
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
-      toast.success("All wishlist items added in cart")
+      toast.success("All wishlist items added in cart");
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
     setCSSVariable();
-  }, [])
+  }, []);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -83,43 +83,35 @@ const Wishlist = () => {
     );
   };
 
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }
-
-  console.log("cartdataCount--", wishlistData);
-
   return (
-    <div className="smr_MainWlDiv">
-      <div className="WlMainPageDiv">
-        <div className="WlBtnGroupMainDiv">
-          {isMobileScreen &&
-            <div className="smr_Wl-title">My Wishlist</div>
-          }
-          {wishlistData?.length != 0 &&
-            <>
-              <div className="smr_WlButton-group">
-                <Link
-                  className="smr_ReomoveAllWLbtn"
-                  href="#"
-                  variant="body2"
-                  onClick={handleRemoveAllDialog}
-                >
-                  CLEAR ALL
-                </Link>
-                {!isMobileScreen &&
-                  <div className="smr_Wl-title">My Wishlist</div>
-                }
-                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
-              </div>
-            </>
-          }
-
+    <div className="for_MainWlDiv">
+      <div className="for_blacklineDiv"></div>
+      <div className="for_WishlistDiv">
+        <div className="for_wishtitleDiv">
+          <FaHeart className="for_wishHeartIcon" />
+          <span>My Wishlist</span>
         </div>
-        {!isWLLoading ? (
+      </div>
+      <div className="for_WishlistSubDiv">
+        <div className="for_wishtitlesubDiv">
+          <div className="for_wishtitleDiv">
+            <img
+              src="https://forevery.one/icons_images/accountwishlist2.png"
+              className="for_wishHeartIcon"
+            />
+            <span>My Wishlist</span>
+          </div>
+        </div>
+        <div className="for_wishlistRemoveBtndiv">
+          <button>Remove All</button>
+        </div>
+        {!islogin &&
+          <div className="for_wishLoginBtnDiv">
+            <span>To save your wish list, create an account or log in.</span>
+            <button>LOG IN / SIGN UP</button>
+          </div>
+        }
+        <div className="for_wishlistCardDiv">
           <WishlistData
             isloding={isWLLoading}
             items={wishlistData}
@@ -134,40 +126,10 @@ const Wishlist = () => {
             handleMoveToDetail={handleMoveToDetail}
             handelMenu={handelMenu}
           />
-        ) : (
-          <div style={{ marginTop: '90px' }}>
-            <SkeletonLoader />
-          </div>
-        )}
-        <ConfirmationDialog
-          open={dialogOpen}
-          onClose={handleCloseDialog}
-          onConfirm={handleConfirmRemoveAll}
-          title="Confirm"
-          content="Are you sure you want to remove all Items?"
-        />
-
-        <Footer />
+        </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "white",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
-      </div>
+      <NewsletterSignup />
+      <Footer />
     </div>
   );
 };

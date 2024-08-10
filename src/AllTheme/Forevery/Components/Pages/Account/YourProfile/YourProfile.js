@@ -3,7 +3,7 @@ import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
-import { defaultAddressState } from '../../../Recoil/atom';
+import { for_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 
@@ -15,7 +15,7 @@ export default function YourProfile() {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [errorMsg, setErrorMsg] = useState('');
-    const defaultAddress = useRecoilValue(defaultAddressState);
+    const defaultAddress = useRecoilValue(for_defaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
 
 

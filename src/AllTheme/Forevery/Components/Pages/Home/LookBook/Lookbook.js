@@ -27,7 +27,7 @@ import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListA
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, loginState } from "../../../Recoil/atom";
+import { for_CartCount, for_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -81,8 +81,8 @@ const Lookbook = () => {
   );
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
-  const islogin = useRecoilValue(loginState);
-  const setCartCountVal = useSetRecoilState(CartCount);
+  const islogin = useRecoilValue(for_loginState);
+  const setCartCountVal = useSetRecoilState(for_CartCount);
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);

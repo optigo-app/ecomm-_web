@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
-import { defaultAddressState } from '../../../Recoil/atom';
+import { for_defaultAddressState } from '../../../Recoil/atom';
 
 
 const ManageAddress = () => {
@@ -33,7 +33,7 @@ const ManageAddress = () => {
         mobileNo: ''
     });
 
-    const setDefaultAddress = useSetRecoilState(defaultAddressState);
+    const setDefaultAddress = useSetRecoilState(for_defaultAddressState);
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);

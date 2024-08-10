@@ -7,7 +7,7 @@ import './Album1.scss';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { loginState } from "../../../Recoil/atom";
+import { for_loginState } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
@@ -19,7 +19,7 @@ const Album1 = () => {
     const [albumData, setAlbumData] = useState();
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(for_loginState);
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');

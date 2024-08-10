@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, DiamondRangeArr, WishCount } from "../../../Recoil/atom";
+import { for_CartCount, for_DiamondRangeArr, for_WishCount } from "../../../Recoil/atom";
 import pako from "pako";
 import { SearchProduct } from "../../../../../../utils/API/SearchProduct/SearchProduct";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
@@ -99,8 +99,8 @@ const ProductList = () => {
 
   const [totalProductCount, setTotalProductCount] = useState();
 
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
+  const setCartCountVal = useSetRecoilState(for_CartCount)
+  const setWishCountVal = useSetRecoilState(for_WishCount)
   const [diaFilterRange, setDiaFilterRange] = useState({})
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
@@ -111,7 +111,7 @@ const ProductList = () => {
 
   const [value, setValue] = React.useState([]);
 
-  const getDiaRangeFilter = useRecoilValue(DiamondRangeArr)
+  const getDiaRangeFilter = useRecoilValue(for_DiamondRangeArr)
 
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)

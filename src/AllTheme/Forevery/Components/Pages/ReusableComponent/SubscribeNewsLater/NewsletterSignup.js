@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NewsletterSignup.scss";
+import btnStyle  from "../../../scss/Button.module.scss"
 
 const NewsletterSignup = () => {
     const [email, setEmail] = useState("");
@@ -31,7 +32,7 @@ const NewsletterSignup = () => {
                     onChange={handleInputChange}
                     required
                 />
-                <button onClick={handleSubmit}>I'm Ready for Jewelry Updates</button>
+                <button onClick={handleSubmit} className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}>I'm Ready for Jewelry Updates</button>
             </div>
             <p className="disclaimer">
                 By signing up with Forevery, you are agreeing to the terms outlined in

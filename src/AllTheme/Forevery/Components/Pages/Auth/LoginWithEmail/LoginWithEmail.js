@@ -13,7 +13,7 @@ import './LoginWithEmail.modul.scss'
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { CartCount, WishCount, loginState } from '../../../Recoil/atom';
+import { for_CartCount, for_WishCount, for_loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
@@ -30,8 +30,8 @@ export default function LoginWithEmail() {
     const navigation = useNavigate();
     const location = useLocation();
 
-    const [cartCountNum, setCartCountNum] = useRecoilState(CartCount)
-    const [wishCountNum, setWishCountNum] = useRecoilState(WishCount)
+    const [cartCountNum, setCartCountNum] = useRecoilState(for_CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount)
 
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
@@ -40,7 +40,7 @@ export default function LoginWithEmail() {
 
 
     // const setPdData = useSetRecoilState(productDataNew)
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(for_loginState)
     // const setDesignList = useSetRecoilState(designSet)
 
     // const setCartCount = useSetRecoilState(CartListCounts)
