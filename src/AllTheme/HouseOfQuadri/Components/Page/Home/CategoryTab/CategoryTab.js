@@ -15,13 +15,13 @@ const CategoryTab = () => {
   const showShapeSection = false;
 
   useEffect(() => {
-    let data = JSON.parse(localStorage?.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
     const loginUserDetail = JSON.parse(
-      localStorage?.getItem("loginUserDetail")
+      sessionStorage?.getItem("loginUserDetail")
     );
-    const storeInit = JSON.parse(localStorage?.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage?.getItem("storeInit"));
     const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     let finalID;

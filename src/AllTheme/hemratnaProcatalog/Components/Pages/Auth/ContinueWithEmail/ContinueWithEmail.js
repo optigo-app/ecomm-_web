@@ -10,7 +10,7 @@ const ContinueWithEmail = () => {
     setEmail(e.target.value);
   };
 
-  const loginCredsdata = JSON.parse(localStorage.getItem('loginCreds'))
+  const loginCredsdata = JSON.parse(sessionStorage.getItem('loginCreds'))
 
   useEffect(() => {
     // Check if the email state is already set (handling autofill)

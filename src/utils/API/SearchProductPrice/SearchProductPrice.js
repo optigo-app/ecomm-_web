@@ -2,8 +2,8 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const SearchProductPrice = async({searchVar,autocodeList}) => {
  
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"))
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"))
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let data = {
         CurrencyRate: `${loginUserDetail?.CurrencyRate}`,

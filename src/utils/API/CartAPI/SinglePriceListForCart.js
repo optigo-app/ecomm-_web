@@ -4,9 +4,9 @@ export const GetSinglePriceListApi = async (item) => {
 
   console.log("prodInfo",item);
 
-  const storeInit = JSON.parse(localStorage.getItem("storeInit"))
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"))
-  const islogin = JSON.parse(localStorage.getItem("LoginUser"))
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"))
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"))
+  const islogin = JSON.parse(sessionStorage.getItem("LoginUser"))
   const customerEmail = data?.userid ?? "";
 
 
@@ -55,7 +55,7 @@ export const GetSinglePriceListApi = async (item) => {
   let finalData;
 
   await CommonAPI(body).then((res) => {
-    localStorage.setItem("fullProdInfo", JSON.stringify(res?.Data))
+    sessionStorage.setItem("fullProdInfo", JSON.stringify(res?.Data))
     finalData = res?.Data 
   })
 

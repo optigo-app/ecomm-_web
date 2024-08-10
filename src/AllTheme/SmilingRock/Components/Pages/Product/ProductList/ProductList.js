@@ -43,19 +43,19 @@ import { Helmet } from "react-helmet";
 
 const ProductList = () => {
 
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit)
 
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetalTypeCombo(mtCombo)
 
-    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiaQcCombo(diaQcCombo)
 
-    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
     setCsQcCombo(CsQcCombo)
   }, [])
 
@@ -121,7 +121,7 @@ const ProductList = () => {
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -220,17 +220,17 @@ const ProductList = () => {
 
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
 
           }
@@ -246,7 +246,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
             setDiaQcCombo(data);
           }
         })
@@ -261,7 +261,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
             setCsQcCombo(data);
           }
         })
@@ -276,7 +276,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
           }
         })
         .catch((err) => console.log(err));
@@ -284,7 +284,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -304,7 +304,7 @@ const ProductList = () => {
 
   useEffect(() => {
 
-    let param = JSON.parse(localStorage.getItem("menuparams"))
+    let param = JSON.parse(sessionStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
     }
@@ -749,7 +749,7 @@ const ProductList = () => {
 
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       "autocode": ele?.autocode,
@@ -825,7 +825,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
             setIsOnlyProdLoading(false)
           }, 100);
         })
@@ -836,9 +836,9 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
 
     if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {

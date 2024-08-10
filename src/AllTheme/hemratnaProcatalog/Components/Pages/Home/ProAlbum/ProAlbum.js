@@ -6,7 +6,7 @@ const ProAlbum = () => {
     const [isWidthLesserThan800, setIsWidthLesserThan800] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isSignin, setIsSignIn] = useState(false);
-    const loginCredsdata = JSON.parse(localStorage.getItem('loginCreds'))
+    const loginCredsdata = JSON.parse(sessionStorage.getItem('loginCreds'))
   
     useEffect(() => {
       if (loginCredsdata && loginCredsdata.length > 0) {

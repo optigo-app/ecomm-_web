@@ -69,13 +69,13 @@ const useCart = () => {
   const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
-  const cartStatus = localStorage.getItem('isCartDrawer')
+  const cartStatus = sessionStorage.getItem('isCartDrawer')
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
     setVisiterId(visiterIdVal)
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData)
@@ -86,10 +86,10 @@ const useCart = () => {
 
 
   useEffect(() => {
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -211,13 +211,13 @@ const useCart = () => {
       const response = await removeFromCartList(item, param, visiterId, islogin);
       let resStatus = response.Data.rd[0]
       if (resStatus?.msg === "success") {
-        localStorage.setItem('cartUpdation', true)
+        sessionStorage.setItem('cartUpdation', true)
       } else {
         console.log('Failed to remove product or product not found');
       }
     } catch (error) {
       console.error("Error:", error);
-      localStorage.setItem('cartUpdation', false)
+      sessionStorage.setItem('cartUpdation', false)
     } finally {
 
     }
@@ -236,10 +236,10 @@ const useCart = () => {
         getCartData();
         setCartData([]);
         selectedItems([]);
-        localStorage.setItem('cartUpdation', true)
+        sessionStorage.setItem('cartUpdation', true)
       } else {
         console.log('Failed to remove product or product not found');
-        localStorage.setItem('cartUpdation', false)
+        sessionStorage.setItem('cartUpdation', false)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -778,7 +778,7 @@ const useCart = () => {
 
   // browse our collection
   const handelMenu = () => {
-    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
     console.log('otherparamsUrl--', menudata);
     const queryParameters1 = [
       menudata?.FilterKey && `${menudata?.FilterVal}`,

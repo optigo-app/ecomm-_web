@@ -5,7 +5,7 @@ import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
 const PrivateRoutes = ({ isLoginStatus }) => {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-  const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -34,7 +34,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         location.pathname.startsWith("/myWishList") ||
         location.pathname.startsWith("/Lookbook") 
       ) {
-        let storeInt = JSON.parse(localStorage.getItem("storeInit"));
+        let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
         if (!storeInt) {
           Storeinit();
         }

@@ -35,11 +35,11 @@ const PaymentPage = () => {
     const setCartCountVal = useSetRecoilState(el_CartCount);
 
     // useEffect(() => {
-    //     const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+    //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
     //     console.log('selectedAddressData', selectedAddressData);
     //     setSelectedAddrData(selectedAddressData)
 
-    //     const totalPriceData = JSON.parse(localStorage.getItem('totalProdPrice'));
+    //     const totalPriceData = JSON.parse(sessionStorage.getItem('totalProdPrice'));
     //     if (totalPriceData) {
     //         const totalPriceNum = parseFloat(totalPriceData?.total);
     //         const newPrice = totalPriceNum * 0.03;
@@ -63,12 +63,12 @@ const PaymentPage = () => {
             }
 
             const selectedAddressData = JSON.parse(
-                localStorage.getItem("selectedAddressId")
+                sessionStorage.getItem("selectedAddressId")
             );
             console.log("selectedAddressData", selectedAddressData);
             setSelectedAddrData(selectedAddressData);
 
-            const totalPriceData = JSON.parse(localStorage.getItem('totalProdPrice'))
+            const totalPriceData = JSON.parse(sessionStorage.getItem('totalProdPrice'))
             if (totalPriceData) {
                 const totalPriceNum = parseFloat(totalPriceData?.total);
                 console.log('totalPriceNum: ', totalPriceNum);
@@ -83,15 +83,15 @@ const PaymentPage = () => {
 
 
     // useEffect(() => {
-    //     const getCartData = localStorage.getItem('iscartData');
+    //     const getCartData = sessionStorage.getItem('iscartData');
     //     setCartString(getCartData)
     // }, [])
 
     useEffect(() => {
-        const getCartData = localStorage.getItem('isCartData');
+        const getCartData = sessionStorage.getItem('isCartData');
         console.log('getCartData: ', getCartData);
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-        const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+        const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.CurrencyCode)
         } else {
@@ -112,10 +112,10 @@ const PaymentPage = () => {
         console.log("paymentResponse", paymentResponse);
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
-            localStorage.setItem('orderNumber', num);
+            sessionStorage.setItem('orderNumber', num);
             setIsloding(false);
             navigate('/Confirmation');
-            localStorage.removeItem("orderRemark")
+            sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
@@ -123,7 +123,7 @@ const PaymentPage = () => {
             })
 
             if (cartString) {
-                localStorage.removeItem("iscartData")
+                sessionStorage.removeItem("iscartData")
             }
 
         } else {
@@ -134,7 +134,7 @@ const PaymentPage = () => {
 
     // browse our collection
     const handelMenu = () => {
-        let menudata = JSON.parse(localStorage.getItem('menuparams'));
+        let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
         if (menudata) {
             console.log('otherparamsUrl--', menudata);
             const queryParameters1 = [

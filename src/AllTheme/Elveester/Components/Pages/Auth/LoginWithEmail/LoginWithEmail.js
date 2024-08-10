@@ -63,10 +63,10 @@ export default function LoginWithEmail() {
         LoginWithEmailAPI(email, '', hashedPassword, '', '').then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
-                localStorage.setItem('registerEmail', email)
+                sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
-                localStorage.setItem('LoginUser', true)
-                localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                sessionStorage.setItem('LoginUser', true)
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                
                 if(redirectEmailUrl){
                     window.location.href = `${redirectEmailUrl}`;
@@ -94,12 +94,12 @@ export default function LoginWithEmail() {
     };
 
     const handleNavigation = () => {
-        localStorage.setItem('LoginCodeEmail', 'true');
+        sessionStorage.setItem('LoginCodeEmail', 'true');
         navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
     }
 
     const handleForgotPassword = async () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         let Domian = `https://${storeInit?.domain}`
         setIsLoading(true);
         ForgotPasswordEmailAPI(Domian, email).then((response) => {

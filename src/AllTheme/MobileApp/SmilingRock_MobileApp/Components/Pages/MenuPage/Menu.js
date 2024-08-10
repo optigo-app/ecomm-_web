@@ -23,8 +23,8 @@ const Menu = () => {
     const [menuItems, setMenuItems] = useState([]);
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-        let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         setIsB2BFlaf(storeinit?.IsB2BWebsite);
         if (storeinit?.IsB2BWebsite === 0) {
             getMenuApi();
@@ -38,8 +38,8 @@ const Menu = () => {
     }, [islogin]);
 
     const getMenuApi = async () => {
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -138,7 +138,7 @@ const Menu = () => {
             "FilterKey2": param2?.key ?? "",
             "FilterVal2": param2?.value ?? ""
         }
-        localStorage.setItem("menuparams", JSON.stringify(finalData))
+        sessionStorage.setItem("menuparams", JSON.stringify(finalData))
 
         const queryParameters1 = [
             finalData?.FilterKey && `${finalData.FilterVal}`,

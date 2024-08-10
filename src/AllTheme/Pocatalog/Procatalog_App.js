@@ -45,7 +45,7 @@ import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 
 const Procatalog_App = () => {
-  const localData = JSON.parse(localStorage.getItem("storeInit"));
+  const localData = JSON.parse(sessionStorage.getItem("storeInit"));
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(proCat_loginState);
   const location = useLocation();
@@ -54,12 +54,11 @@ const Procatalog_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
-  const storeInit = JSON.parse(localStorage.getItem("storeInit"));
 
   useEffect(() => {
-    let data = localStorage.getItem("storeInit");
+    let data = sessionStorage.getItem("storeInit");
 
-    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
@@ -80,8 +79,14 @@ const Procatalog_App = () => {
           if (response.Data.rd[0].stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
-            localStorage.setItem("LoginUser", true);
-            localStorage.setItem(
+            // sessionStorage.setItem("LoginUser", true);
+            // sessionStorage.setItem(
+            //   "loginUserDetail",
+            //   JSON.stringify(response.Data.rd[0])
+            // );
+
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
               "loginUserDetail",
               JSON.stringify(response.Data.rd[0])
             );

@@ -41,11 +41,11 @@ const Header = () => {
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
 
   useEffect(() => {
-    const value = JSON.parse(localStorage.getItem("LoginUser"));
+    const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
 
     // if (titleImg) {
-    //   const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     //   console.log("storeInit: ", storeInit);
     //   setCompanyTitleLogo(storeInit?.companylogo);
     // }
@@ -55,9 +55,9 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const value = JSON.parse(localStorage.getItem("LoginUser"));
+    const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
     console.log(storeInit?.companylogo);
     window.scroll({ behavior: "smooth", top: 0 });
@@ -81,7 +81,7 @@ const Header = () => {
 
   function ScrollToView(param) {
     if (window.location.pathname !== "/") {
-      localStorage.setItem("scrollParam", param);
+      sessionStorage.setItem("scrollParam", param);
       window.location.href = "/";
       return;
     }
@@ -149,8 +149,8 @@ const Header = () => {
 
       // const handleMoveToDetail = () => {
 
-      let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-      let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+      let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
       let obj = {
         a: "",
@@ -190,8 +190,8 @@ const Header = () => {
   const [selectedData, setSelectedData] = useState([]);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -265,7 +265,7 @@ const Header = () => {
       FilterKey2: param2?.key ?? "",
       FilterVal2: param2?.value ?? "",
     };
-    localStorage.setItem("menuparams", JSON.stringify(finalData));
+    sessionStorage.setItem("menuparams", JSON.stringify(finalData));
 
     const queryParameters1 = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -313,8 +313,8 @@ const Header = () => {
   };
 
   const getMenuApi = async () => {
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalId;
@@ -366,17 +366,17 @@ const Header = () => {
 
   const handleLogout = () => {
     setislogin(false);
-    localStorage.clear();
-    localStorage.setItem("LoginUser", false);
-    localStorage.removeItem("storeInit");
-    localStorage.removeItem("loginUserDetail");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("selectedAddressId");
-    localStorage.removeItem("orderNumber");
-    localStorage.removeItem("registerEmail");
-    localStorage.removeItem("UploadLogicalPath");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("registerMobile");
+    sessionStorage.clear();
+    sessionStorage.setItem("LoginUser", false);
+    sessionStorage.removeItem("storeInit");
+    sessionStorage.removeItem("loginUserDetail");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("selectedAddressId");
+    sessionStorage.removeItem("orderNumber");
+    sessionStorage.removeItem("registerEmail");
+    sessionStorage.removeItem("UploadLogicalPath");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("registerMobile");
     // navigation('/')
     window.location.href = "/";
     // window.location.reload();

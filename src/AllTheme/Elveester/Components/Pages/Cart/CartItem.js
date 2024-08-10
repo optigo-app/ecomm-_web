@@ -60,9 +60,9 @@ const CartItem = ({
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
+    const isCartUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
 

@@ -5,7 +5,7 @@ import B2cCart from "./CartPageB2c/Cart";
 const CartMain = () => {
     const [storeInitData, setStoreInitData] = useState(null);
     useEffect(() => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeInit);
     }, []);
 

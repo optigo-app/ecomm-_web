@@ -2,10 +2,10 @@ import { CommonAPI } from "../CommonAPI/CommonAPI"
 
 export const GetCountAPI = async (visiterId) => {
 
-    let storeInit = JSON.parse(localStorage.getItem("storeInit"))
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
-    let userEmail = localStorage.getItem("registerEmail")
-    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"))
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"))
+    let userEmail = sessionStorage.getItem("registerEmail")
+    const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo?.userid ?? 0;

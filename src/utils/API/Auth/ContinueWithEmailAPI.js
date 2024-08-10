@@ -6,7 +6,7 @@ export const ContinueWithEmailAPI = async (trimmedEmail) => {
     let response
 
     try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
 
         const combinedValue = JSON.stringify({

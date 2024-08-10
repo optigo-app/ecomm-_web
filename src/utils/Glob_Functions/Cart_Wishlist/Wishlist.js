@@ -30,8 +30,8 @@ const Usewishlist = () => {
 
 
   useEffect(() => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData?.Currencysymbol)
@@ -211,7 +211,7 @@ const Usewishlist = () => {
   //browse our collection
 
   const handelMenu = () => {
-    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
     if (menudata) {
       console.log('otherparamsUrl--', menudata);
       const queryParameters1 = [

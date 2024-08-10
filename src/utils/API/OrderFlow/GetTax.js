@@ -2,8 +2,8 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const fetchEstimateTax = async () => {
     try {
-        const storedData = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
         const estimatedTaxId = storedData?.TaxId ?? 0
         console.log('storedDatastoredDatastoredData',storedData);

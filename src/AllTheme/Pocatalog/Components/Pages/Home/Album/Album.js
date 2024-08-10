@@ -22,7 +22,7 @@ const Album = () => {
 
   // Load initial image URL from local storage
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol || "");
   }, []);
 
@@ -38,13 +38,13 @@ const Album = () => {
   // 17620240727141443263
   useEffect(() => {
     
-    let login = localStorage.getItem('LoginUser');
+    let login = sessionStorage.getItem('LoginUser');
     setISLoginSet(login);
     const fetchAlbumData = async () => {
       const loginUserDetail = JSON.parse(
-        localStorage.getItem("loginUserDetail")
+        sessionStorage.getItem("loginUserDetail")
       );
-      const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+      const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const visiterID = Cookies.get("visiterId");
 
       const queryParams = new URLSearchParams(window.location.search);
@@ -76,7 +76,7 @@ const Album = () => {
   }, [imageUrl, islogin]);
 
   const fetchAndSetAlbumData = async (value, finalID) => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     try {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
@@ -300,11 +300,11 @@ export default Album;
 
 //     console.log('AlbumValAlbumVal', AlbumVal);
 
-//     let data = JSON.parse(localStorage.getItem("storeInit"));
+//     let data = JSON.parse(sessionStorage.getItem("storeInit"));
 //     setImageUrl(data?.AlbumImageFol);
 
-//     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-//     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+//     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+//     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 //     const { IsB2BWebsite } = storeInit;
 //     const visiterID = Cookies.get('visiterId');
 //     let finalID;

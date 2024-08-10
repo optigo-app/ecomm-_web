@@ -17,10 +17,10 @@ const NewArrival = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(smrMA_loginState);
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -32,8 +32,8 @@ const NewArrival = () => {
   }
 
   useEffect(() => {
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -42,10 +42,10 @@ const NewArrival = () => {
     } else {
       finalID = loginUserDetail?.id || "0";
     }
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
@@ -76,7 +76,7 @@ const NewArrival = () => {
   };
 
   const handleNavigation = (designNo, autoCode, titleLine) => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let obj = {
       a: autoCode,
       b: designNo,

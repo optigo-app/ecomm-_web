@@ -5,7 +5,7 @@ import './Header.modul.scss'
 const Header = () => {
   const navigate = useNavigate();
   const [isSignin, setIsSignIn] = useState(false);
-  const loginCredsdata = JSON.parse(localStorage.getItem('loginCreds'))
+  const loginCredsdata = JSON.parse(sessionStorage.getItem('loginCreds'))
 
   useEffect(() => {
     if (loginCredsdata && loginCredsdata.length > 0) {
@@ -27,7 +27,7 @@ const Header = () => {
               <div>
                 {isSignin ? (
                   <>
-                    <button onClick={() => { localStorage.removeItem("loginCreds"); window.location.href = '/' }} className='hem_Top_header_loginBtn'>Logout</button>
+                    <button onClick={() => { sessionStorage.removeItem("loginCreds"); window.location.href = '/' }} className='hem_Top_header_loginBtn'>Logout</button>
                   </>
                 ) : (
                   <>

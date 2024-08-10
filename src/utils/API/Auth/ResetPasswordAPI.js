@@ -6,7 +6,7 @@ export const ResetPasswordAPI = async ( email, hashedPassword) => {
 
     try {
 
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo } = storeInit;
         const combinedValue = JSON.stringify({
             // userid: 'xoraxor802@fryshare.com', pass: `${hashedPassword}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'

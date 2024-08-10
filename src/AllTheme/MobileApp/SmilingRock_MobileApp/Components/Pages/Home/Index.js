@@ -52,12 +52,12 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const savedPosition = localStorage.getItem("scrollPosition");
+    const savedPosition = sessionStorage.getItem("scrollPosition");
     if (savedPosition) {
       window.scrollTo(0, parseInt(savedPosition, 10));
     }
     return () => {
-      localStorage.setItem("scrollPosition", window.scrollY);
+      sessionStorage.setItem("scrollPosition", window.scrollY);
     };
   }, []);
 
@@ -83,8 +83,8 @@ const Home = () => {
         if (response.Data.rd[0].stat === 1) {
           const visiterID = Cookies.get('visiterId');
           setislogin(true);
-          localStorage.setItem("LoginUser", true);
-          localStorage.setItem(
+          sessionStorage.setItem("LoginUser", true);
+          sessionStorage.setItem(
             "loginUserDetail",
             JSON.stringify(response.Data.rd[0])
           );
@@ -103,7 +103,7 @@ const Home = () => {
           CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
             if (response?.Data?.rd) {
               let data = JSON.stringify(response?.Data?.rd)
-              localStorage.setItem('CurrencyCombo', data)
+              sessionStorage.setItem('CurrencyCombo', data)
             }
           }).catch((err) => console.log(err))
 
@@ -111,7 +111,7 @@ const Home = () => {
           MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
             if (response?.Data?.rd) {
               let data = JSON.stringify(response?.Data?.rd)
-              localStorage.setItem('MetalColorCombo', data)
+              sessionStorage.setItem('MetalColorCombo', data)
             }
           }).catch((err) => console.log(err))
 
@@ -119,7 +119,7 @@ const Home = () => {
           MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
             if (response?.Data?.rd) {
               let data = JSON.stringify(response?.Data?.rd)
-              localStorage.setItem('metalTypeCombo', data)
+              sessionStorage.setItem('metalTypeCombo', data)
             }
           }).catch((err) => console.log(err))
 
@@ -141,7 +141,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem("storeInit"));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
     console.log("localDatalocalData", localData);
   }, []);

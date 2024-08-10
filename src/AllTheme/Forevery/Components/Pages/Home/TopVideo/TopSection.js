@@ -6,12 +6,12 @@ const TopSection = () => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
-  const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem("storeInit"));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
     console.log("localDatalocalData", localData);
   }, []);

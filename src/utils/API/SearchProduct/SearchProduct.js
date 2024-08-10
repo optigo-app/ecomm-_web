@@ -2,8 +2,8 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 export const SearchProduct = async(searchVar) => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   
       const data = {
           PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,

@@ -20,7 +20,7 @@ export default function YourProfile() {
 
 
     // useEffect(() => {
-    //     const storedUserData = localStorage.getItem('loginUserDetail');
+    //     const storedUserData = sessionStorage.getItem('loginUserDetail');
     //     if (storedUserData) {
     //          console.log('call');
              
@@ -38,7 +38,7 @@ export default function YourProfile() {
 
     // useEffect(() => {
 
-    //     const storedUserData = localStorage.getItem('loginUserDetail');
+    //     const storedUserData = sessionStorage.getItem('loginUserDetail');
     //     if (storedUserData && defaultAddress !== undefined) {
              
     //             setUserData(JSON.parse(storedUserData));
@@ -62,7 +62,7 @@ export default function YourProfile() {
 
 
     useEffect(() => {
-        const storedUserData = localStorage.getItem('loginUserDetail');
+        const storedUserData = sessionStorage.getItem('loginUserDetail');
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
             // if (defaultAddress) {
@@ -188,16 +188,16 @@ export default function YourProfile() {
     //     setEditMode(false);
     //     try {
     //         setIsLoading(true);
-    //         const storedData = localStorage.getItem('loginUserDetail');
+    //         const storedData = sessionStorage.getItem('loginUserDetail');
     //         const data = JSON.parse(storedData);
-    //         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    //         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     //         const { FrontEnd_RegNo } = storeInit;
     //         const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo, editedUserData);
     //         if (response?.Data?.rd[0]?.stat === 1) {
 
     //             toast.success('Edit success');
     //             setUserData(editedUserData);
-    //             localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+    //             sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
 
     //         } else {
     //             toast.error('error');
@@ -221,15 +221,15 @@ export default function YourProfile() {
             setEditMode(false);
             try {
                 setIsLoading(true);
-                const storedData = localStorage.getItem('loginUserDetail');
+                const storedData = sessionStorage.getItem('loginUserDetail');
                 const data = JSON.parse(storedData);
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
                 const { FrontEnd_RegNo } = storeInit;
                 const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
                 if (response?.Data?.rd[0]?.stat === 1) {
                     toast.success('Edit success');
                     setUserData(editedUserData);
-                    localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                    sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
                 } else {
                     toast.error('Error in saving profile.');
                 }
@@ -394,11 +394,11 @@ export default function YourProfile() {
     const fetchAddress = async() => {
         setIsLoading(true);
         try {
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
             
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
@@ -614,7 +614,7 @@ export default function YourProfile() {
 //     const [isLoading, setIsLoading] = useState(false);
 
 //     useEffect(() => {
-//         const storedUserData = localStorage.getItem('loginUserDetail');
+//         const storedUserData = sessionStorage.getItem('loginUserDetail');
 //         if (storedUserData) {
 //             setUserData(JSON.parse(storedUserData));
 //         }
@@ -638,9 +638,9 @@ export default function YourProfile() {
 //         setEditMode(false);
 //         try {
 //             setIsLoading(true);
-//             const storedData = localStorage.getItem('loginUserDetail');
+//             const storedData = sessionStorage.getItem('loginUserDetail');
 //             const data = JSON.parse(storedData);
-//             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+//             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 //             const { FrontEnd_RegNo } = storeInit;
 
 //             // const combinedValue = JSON.stringify({
@@ -671,7 +671,7 @@ export default function YourProfile() {
 
 //                 toast.success('Edit success');
 //                 setUserData(editedUserData);
-//                 localStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+//                 sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
 
 //             } else {
 //                 toast.error('error');

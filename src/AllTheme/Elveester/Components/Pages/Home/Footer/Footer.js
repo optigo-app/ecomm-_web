@@ -23,11 +23,11 @@ const Footer = () => {
         let storeInit;
         let companyInfoData;
         setTimeout(() => {
-            if (localStorage.getItem("storeInit")) {
-                storeInit = JSON?.parse(localStorage.getItem("storeInit")) ?? {};
+            if (sessionStorage.getItem("storeInit")) {
+                storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
             }
-            if (localStorage.getItem("CompanyInfoData")) {
-                companyInfoData = JSON?.parse(localStorage.getItem("CompanyInfoData")) ?? {};
+            if (sessionStorage.getItem("CompanyInfoData")) {
+                companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
                 setCompanuInfoData(companyInfoData)
                 const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
                 if (parsedSocilaMediaUrlData) {
@@ -41,7 +41,7 @@ const Footer = () => {
     }, [])
 
     const handleSubmitNewlater = async () => {
-        const storeInit = JSON?.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
         if (newslater) {
             const requestOptions = {

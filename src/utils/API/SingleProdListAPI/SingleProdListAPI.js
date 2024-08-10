@@ -2,9 +2,9 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId , AlbumName = '') => {
 
-  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-  let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+  let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
   const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo.id ?? 0;
   const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo?.userid ?? "";

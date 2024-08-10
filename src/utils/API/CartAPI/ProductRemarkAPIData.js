@@ -2,10 +2,10 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const handleProductRemark = async (data, remarks, visiterId, islogin) => {
     try {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) || {};
         const { FrontEnd_RegNo } = storeInit;
 
-        const storedData = localStorage.getItem("loginUserDetail");
+        const storedData = sessionStorage.getItem("loginUserDetail");
         const loginUserDetail = JSON.parse(storedData);
 
         const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail?.id ?? 0;

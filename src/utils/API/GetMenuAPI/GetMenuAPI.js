@@ -5,9 +5,9 @@ export const GetMenuAPI = async (finalID) => {
     try {
 
 
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
-        const userData = JSON.parse(localStorage.getItem("loginUserDetail")) ?? ""
-        const email = localStorage.getItem("registerEmail") ?? ""
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
+        const userData = JSON.parse(sessionStorage.getItem("loginUserDetail")) ?? ""
+        const email = sessionStorage.getItem("registerEmail") ?? ""
 
         const body = {
             // con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"nimesh@ymail.in\"}",

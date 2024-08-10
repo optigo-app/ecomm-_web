@@ -30,7 +30,7 @@ const Header = () => {
 
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setIsB2BFlaf(storeinit?.IsB2BWebsite);
 
     const handleScroll = () => {
@@ -80,8 +80,8 @@ const Header = () => {
 
         // const handleMoveToDetail = () => {
 
-        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
         let obj = {
           a: "",

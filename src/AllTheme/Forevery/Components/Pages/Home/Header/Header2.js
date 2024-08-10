@@ -77,14 +77,14 @@ const Header2 = () => {
     }, [menuData]);
 
     const fetchData = () => {
-        const value = JSON.parse(localStorage.getItem('LoginUser'));
+        const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
     };
 
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-        let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
 
         console.log("callll");
 
@@ -120,17 +120,17 @@ const Header2 = () => {
 
     const handleLogout = () => {
         setislogin(false);
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
+        sessionStorage.setItem('LoginUser', false);
+        sessionStorage.removeItem('storeInit');
+        sessionStorage.removeItem('loginUserDetail');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('selectedAddressId');
+        sessionStorage.removeItem('orderNumber');
+        sessionStorage.removeItem('registerEmail');
+        sessionStorage.removeItem('UploadLogicalPath');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('registerMobile');
+        sessionStorage.removeItem('allproductlist');
         navigation('/')
         window.location.reload();
     }
@@ -178,7 +178,7 @@ const Header2 = () => {
             "FilterVal2": param2?.value ?? ""
         }
 
-        localStorage.setItem("menuparams", JSON.stringify(finalData))
+        sessionStorage.setItem("menuparams", JSON.stringify(finalData))
 
         const queryParameters = [
             finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -258,16 +258,16 @@ const Header2 = () => {
         //       resData = res;
         //       console.log("res", res);
         //       setMenutransData(res)
-        //       localStorage.setItem("allproductlist", JSON.stringify(res))
-        //       localStorage.setItem("finalAllData", JSON.stringify(res))
+        //       sessionStorage.setItem("allproductlist", JSON.stringify(res))
+        //       sessionStorage.setItem("finalAllData", JSON.stringify(res))
         //     }
         //     return res
         //   }).then(async (res) => {
         //     if (res) {
-        //       let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
+        //       let autoCodeList = JSON.parse(sessionStorage.getItem("autoCodeList"))
         //       await getDesignPriceList(finalData, 1, {}, {}, autoCodeList).then((res) => {
         //         if (res) {
-        //           localStorage.setItem("getPriceData", JSON.stringify(res))
+        //           sessionStorage.setItem("getPriceData", JSON.stringify(res))
         //         }
 
         //       })
@@ -282,7 +282,7 @@ const Header2 = () => {
         // }
 
         console.log('menuData', finalData);
-        localStorage.setItem('menuparams', JSON.stringify(finalData));
+        sessionStorage.setItem('menuparams', JSON.stringify(finalData));
     };
 
     const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
