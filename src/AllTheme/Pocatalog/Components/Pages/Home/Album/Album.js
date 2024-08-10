@@ -77,7 +77,6 @@ const Album = () => {
 
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    console.log('storeInitstoreInitstoreInitstoreInit',storeInit);
     try {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
@@ -153,7 +152,6 @@ const Album = () => {
       navigate(redirectUrl);
     }
   };
-  console.log("datadatadata", albumData);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -230,10 +228,12 @@ const Album = () => {
       <p className="smr_albumTitle">ALBUM</p>
       <div className="proCat_albumALL_div" style={{minHeight: !albumData.length && '600px'}}>
         {albumData.map((data, index) => {
+          // const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+          // const imgSrc = imageStatus[imageUrlI]
+          //   ? imageUrlI
+          //   : fallbackImages[imageUrlI] || imageNotFound;
           const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-          const imgSrc = imageStatus[imageUrlI]
-            ? imageUrlI
-            : fallbackImages[imageUrlI] || imageNotFound;
+          const imgSrc = imageStatus[imageUrlI] ? imageUrlI : imageNotFound;
 
           return (
             <div

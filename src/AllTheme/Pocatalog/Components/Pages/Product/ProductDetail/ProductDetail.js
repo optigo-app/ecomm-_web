@@ -247,6 +247,7 @@ const ProductDetail = () => {
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
       UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
+      AlbumName: decodeUrl?.n ?? ""
     };
 
     if (e?.target?.checked == true) {
@@ -601,12 +602,6 @@ const ProductDetail = () => {
         )[0] ?? "0,0"
     }
 
-    console.log("csArr",csQcLocal?.filter(
-      (ele) =>
-        ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-        ele?.ColorId == decodeobj?.c?.split(",")[1]
-    ));
-    
     const FetchProductData = async() =>{
 
       let obj={
@@ -615,12 +610,10 @@ const ProductDetail = () => {
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
       }
 
-      // console.log("objjj",obj)
       setProdLoading(true)
 
       setisPriceLoading(true)
 
-      console.log('decodeurlllll', alName);
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie , alName)
         .then(async (res) => {
           if (res) {
@@ -638,7 +631,6 @@ const ProductDetail = () => {
             }
 
             if (!res?.pdList[0]) {
-              // console.log("singleprod",res?.pdList[0]);
               setisPriceLoading(false)
               setProdLoading(false)
               setIsDataFound(true)
@@ -852,8 +844,6 @@ const ProductDetail = () => {
     if (colImg?.length > 0) {
       IsColImg = await checkImageAvailability(colImg)
     }
-
-    console.log("colImg", IsColImg)
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
