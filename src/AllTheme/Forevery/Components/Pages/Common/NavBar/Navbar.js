@@ -19,16 +19,23 @@ import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
 import { NavbarBrand } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [ActiveMenu, setActiveMenu] = useState({ menu: "", index: "" });
+  const Navigate = useNavigate();
   return (
     <div className="for_Navbar">
       <nav className="for_nav">
-        <NavbarLeft ActiveMenu={ActiveMenu} setActiveMenu={setActiveMenu} />
-        <NavbarCenter />
+        <NavbarLeft
+          Navigate={Navigate}
+          ActiveMenu={ActiveMenu}
+          setActiveMenu={setActiveMenu}
+        />
+        <NavbarCenter Navigate={Navigate} />
         <NavbarRight
+          Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
           setShowSearchBar={setShowSearchBar}
         />
@@ -38,10 +45,13 @@ const Navbar = () => {
 };
 export default Navbar;
 
-const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
+const NavbarRight = ({ ShowSearchBar, setShowSearchBar, Navigate }) => {
   return (
     <div className="right">
-      <span className="for_item_menu">
+      <span className="for_item_menu" onClick={() => {
+          Navigate("/appointment");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }} >
         <img
           src={appointment}
           alt=""
@@ -51,11 +61,23 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         />
         Appointment
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/wishlist");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <FaRegHeart size={18} />
         Wishlist
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/cart");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <HiOutlineShoppingBag size={18} />
         Cart
       </span>
@@ -69,17 +91,29 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
         )}
         <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
       </span>
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/LoginOption");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <FaRegCircleUser size={19} />
         Login
       </span>
     </div>
   );
 };
-const NavbarCenter = () => {
+const NavbarCenter = ({ Navigate }) => {
   return (
     <div className="center">
-      <div className="logo_mask">
+      <div
+        className="logo_mask"
+        onClick={() => {
+          Navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <img src={foreverylog} alt="" />
       </div>
     </div>
@@ -87,10 +121,10 @@ const NavbarCenter = () => {
 };
 const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
   const Nvabr = document.querySelector(".left");
-    console.log(NavbarBrand)
+  console.log(NavbarBrand);
   return (
     <>
-      <div className="left" data-index={i}>
+      <div className="left">
         {NavbarMenu?.map((val, i) => {
           return (
             <div
@@ -101,9 +135,19 @@ const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
               <span className="for_nav_menu">
                 {val?.category}
                 {ActiveMenu?.menu === val ? (
-                  <FaChevronUp size={13} className={`chevorn-icon hide-Fo-1 ${ActiveMenu?.menu === val ? "hovered-ok": ''}`} />
+                  <FaChevronUp
+                    size={13}
+                    className={`chevorn-icon hide-Fo-1 ${
+                      ActiveMenu?.menu === val ? "hovered-ok" : ""
+                    }`}
+                  />
                 ) : (
-                  <FaChevronDown size={13} className={`chevorn-icon hide-Fo-2 ${ActiveMenu?.menu === val ? "": 'hovered-not'}`} />
+                  <FaChevronDown
+                    size={13}
+                    className={`chevorn-icon hide-Fo-2 ${
+                      ActiveMenu?.menu === val ? "" : "hovered-not"
+                    }`}
+                  />
                 )}
               </span>
             </div>
@@ -159,7 +203,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
   //     };
   //   }
   // }, []);
- 
+
   return (
     <>
       <div className="first_nav" ref={firstNavRef}>

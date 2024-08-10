@@ -93,7 +93,7 @@ export default function ContimueWithMobile() {
     };
 
     return (
-        <div className='smr_continuMobile'>
+        <div className='for_continuMobile' style={{backgroundColor  :"white"}}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -107,18 +107,14 @@ export default function ContimueWithMobile() {
                         paddingBlock: '60px',
                         marginTop: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
+                        }}
                         className='AuthScreenMainTitle'
                     >Continue With Mobile</p>
                     <p style={{
                         textAlign: 'center',
                         marginTop: '-60px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
+                                 }}
                         className='AuthScreenSubTitle'
                     >We'll check if you have an account, and help create one if you don't.</p>
 
@@ -128,7 +124,7 @@ export default function ContimueWithMobile() {
                             id="outlined-basic"
                             label="Enter Mobile No"
                             variant="outlined"
-                            className='smr_loginmobileBox'
+                            className='for_loginmobileBox'
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     handleSubmit();
@@ -146,11 +142,7 @@ export default function ContimueWithMobile() {
                         </button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     );
