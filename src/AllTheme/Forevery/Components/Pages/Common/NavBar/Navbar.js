@@ -19,6 +19,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
