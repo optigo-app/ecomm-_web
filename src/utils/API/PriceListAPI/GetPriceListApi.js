@@ -2,11 +2,11 @@ import { findCsQcId, findDiaQcId, findMetal } from "../../Glob_Functions/GlobalF
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const GetPriceListApi = async (page = 1,obj = {},filterObj = {},autocodeList,obje,mainData = "") => {
-  const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const param = JSON.parse(localStorage.getItem("menuparams"));
-  const islogin = JSON.parse(localStorage.getItem("LoginUser"));
-  const UserEmail = localStorage.getItem("registerEmail");
+  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const param = JSON.parse(sessionStorage.getItem("menuparams"));
+  const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
+  const UserEmail = sessionStorage.getItem("registerEmail");
 
   let MenuParams = {};
   let serachVar = ""

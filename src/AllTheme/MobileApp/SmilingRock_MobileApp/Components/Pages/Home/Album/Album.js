@@ -13,11 +13,11 @@ const Album = () => {
   const islogin = useRecoilValue(smrMA_loginState);
 
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
-    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get('visiterId');
     let finalID;
@@ -38,7 +38,7 @@ const Album = () => {
 
 
   const handleNavigate = (name) => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit?.IsB2BWebsite == 1) {
       if (islogin) {
         navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)

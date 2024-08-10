@@ -59,7 +59,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../../../Recoil/atom";
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 
 const DynamicCollection = () => {
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const location = useLocation();
   const { query } = useParams();
   const navigate = useNavigate();
@@ -110,26 +110,26 @@ const DynamicCollection = () => {
   console.log("wofbwejlkfbwejlkfbwejlk", loginUserDetail?.CurrencyCode);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
     console.log(storeInit);
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     SetmetalTypeCombo(mtCombo);
 
     let diaQcCombo = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     SetdiamondQualityColorCombo(diaQcCombo);
 
     let CsQcCombo = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     SetColorStoneQualityColorCombo(CsQcCombo);
   }, []);
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"));
+    let param = JSON.parse(sessionStorage.getItem("menuparams"));
 
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param);
@@ -565,7 +565,7 @@ const DynamicCollection = () => {
   useEffect(() => {
     setIsProdLoading(true);
     const fetchData = async () => {
-      const data = JSON.parse(localStorage.getItem("storeInit"));
+      const data = JSON.parse(sessionStorage.getItem("storeInit"));
       setStoreInit(data);
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -792,21 +792,21 @@ const DynamicCollection = () => {
 
   // image hover ends
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             SetmetalTypeCombo(data);
           }
         })
@@ -820,7 +820,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "diamondQualityColorCombo",
               JSON.stringify(data)
             );
@@ -837,7 +837,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "ColorStoneQualityColorCombo",
               JSON.stringify(data)
             );
@@ -854,7 +854,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
           }
         })
         .catch((err) => console.log(err));
@@ -970,7 +970,7 @@ const DynamicCollection = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
             setIsProdLoading(false);
           }, 100);
         });
@@ -1005,9 +1005,9 @@ const DynamicCollection = () => {
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
     if (
       loginInfo?.MetalId !== selectedMetalId ||
@@ -1168,7 +1168,7 @@ const DynamicCollection = () => {
   // };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -1223,7 +1223,7 @@ const DynamicCollection = () => {
 
   const handleCartandWish = (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       autocode: ele?.autocode,

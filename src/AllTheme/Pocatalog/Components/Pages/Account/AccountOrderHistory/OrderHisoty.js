@@ -37,9 +37,9 @@ const OrderHistory = () => {
 
   const getData = async () => {
     setLoaderOH(true);
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const UserEmail = localStorage.getItem("registerEmail");
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const UserEmail = sessionStorage.getItem("registerEmail");
     setUkey(storeinit?.ukey);
     // setImagePath(storeinit?.UploadLogicalPath)
     setImagePath(storeinit?.DesignImageFolBackEnd)
@@ -118,9 +118,9 @@ const OrderHistory = () => {
     setLoaderOH2(true)
     
     setOrderDetails([]);
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const UserEmail = localStorage.getItem("userEmail");
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const UserEmail = sessionStorage.getItem("userEmail");
     try {
 
 
@@ -186,7 +186,7 @@ const OrderHistory = () => {
 
   const handleMoveToDetail = (productData) => {
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
       a: productData?.autocode,

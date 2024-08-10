@@ -47,13 +47,13 @@ const Payment = () => {
     };
     console.log('orderreamrk', orderRemark);
 
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
     useEffect(() => {
-        const orderRemakdata = localStorage.getItem("orderRemark");
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-        const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+        const orderRemakdata = sessionStorage.getItem("orderRemark");
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+        const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         setOrderRemark(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
@@ -77,11 +77,11 @@ const Payment = () => {
                 console.error('Error fetching tax data:', error);
             }
 
-            const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+            const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
             console.log('selectedAddressData', selectedAddressData);
             setSelectedAddrData(selectedAddressData);
 
-            const totalPriceData = localStorage.getItem('TotalPriceData');
+            const totalPriceData = sessionStorage.getItem('TotalPriceData');
             if (totalPriceData) {
                 const totalPriceNum = parseFloat(totalPriceData);
                 const finalTotalPrice = totalPriceNum;
@@ -100,10 +100,10 @@ const Payment = () => {
         console.log("paymentResponse", paymentResponse);
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
-            localStorage.setItem('orderNumber', num);
+            sessionStorage.setItem('orderNumber', num);
             navigate('/Confirmation');
             setIsloding(false);
-            localStorage.removeItem("orderRemark")
+            sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
                 console.log('responseCount', res);
@@ -126,7 +126,7 @@ const Payment = () => {
                 // const updatedCartData = cartData.map(cart =>
                 //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
                 // );
-                localStorage.setItem('orderRemark', orderRemark ?? "")
+                sessionStorage.setItem('orderRemark', orderRemark ?? "")
             }
         } catch (error) {
             console.error("Error:", error);

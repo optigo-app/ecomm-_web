@@ -37,8 +37,8 @@ export default function SearchPage() {
 
                 // const handleMoveToDetail = () => {
 
-                let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-                let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+                let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+                let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
                 let obj = {
                     a: "",

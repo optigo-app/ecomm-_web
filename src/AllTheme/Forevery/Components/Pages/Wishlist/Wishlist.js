@@ -75,7 +75,7 @@ const Wishlist = () => {
   }, []);
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",

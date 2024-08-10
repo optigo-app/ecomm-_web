@@ -58,12 +58,12 @@ function Cart(props) {
   const islogin = useRecoilValue(dt_loginState);
   const [storeInitData, setStoreInitData] = useState();
   const navigate = useNavigate();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [totalPrice, setTotalPrice] = useState();
   const isMobileScreen = useMediaQuery("(max-width:699px)");
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
 
@@ -80,7 +80,7 @@ function Cart(props) {
   }, [cartData]);
 
   const handlePlaceOrder = () => {
-    let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
       navigate("/LoginOption");
     } else {
@@ -89,7 +89,7 @@ function Cart(props) {
         (total, item) => total + item?.FinalCost,
         0
       );
-      localStorage.setItem("TotalPriceData", priceData);
+      sessionStorage.setItem("TotalPriceData", priceData);
     }
     window.scrollTo(0, 0);
   };

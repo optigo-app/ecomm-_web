@@ -34,11 +34,11 @@ function Wishlist() {
   const islogin = useRecoilValue(dt_loginState);
   const [storeInitData, setStoreInitData] = useState();
   const navigate = useNavigate();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const isMobileScreen = useMediaQuery("(max-width:699px)");
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 

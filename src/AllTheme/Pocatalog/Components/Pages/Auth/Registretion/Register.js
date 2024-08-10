@@ -193,7 +193,7 @@ export default function Register() {
 
       setIsLoading(true);
       // try {
-      //   const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+      //   const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
       //   const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
       //   const combinedValue = JSON.stringify({
       //     firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
@@ -209,10 +209,10 @@ export default function Register() {
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          localStorage.setItem('LoginUser', true)
-          localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          sessionStorage.setItem('LoginUser', true)
+          sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           setIsLoginState(true)
-          localStorage.setItem('registerEmail', email)
+          sessionStorage.setItem('registerEmail', email)
 
           if (redirectEmailUrl) {
             navigation(redirectEmailUrl);

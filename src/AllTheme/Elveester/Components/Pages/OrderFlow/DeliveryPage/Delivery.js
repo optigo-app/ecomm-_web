@@ -41,13 +41,13 @@ const Delivery = () => {
     const [cartString, setCartString] = useState();
 
     // useEffect(() => {
-    //     const getCartData = localStorage.getItem('iscartData');
+    //     const getCartData = sessionStorage.getItem('iscartData');
     //     setCartString(getCartData)
     // }, [])
 
     // browse our collection
     const handelMenu = () => {
-        let menudata = JSON.parse(localStorage.getItem('menuparams'));
+        let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
         if (menudata) {
             console.log('otherparamsUrl--', menudata);
             const queryParameters1 = [

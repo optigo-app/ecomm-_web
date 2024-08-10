@@ -277,7 +277,7 @@ export const useAddress = () => {
         const defaultAddressItem = addressData.find(item => item.isdefault === 1);
         if (defaultAddressItem) {
             let deafu = JSON.stringify(defaultAddressItem)
-            localStorage.setItem('selectedAddressId', deafu)
+            sessionStorage.setItem('selectedAddressId', deafu)
         } else {
             return;
         }

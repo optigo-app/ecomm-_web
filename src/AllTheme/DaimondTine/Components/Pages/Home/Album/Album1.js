@@ -21,16 +21,16 @@ const Album1 = () => {
     const navigation = useNavigate();
     const islogin = useRecoilValue(dt_loginState);
     const [storeInit, setStoreInit] = useState({});
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
 
     useEffect(() => {
-        let data = JSON.parse(localStorage.getItem("storeInit"));
+        let data = JSON.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
 
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;

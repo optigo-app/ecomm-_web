@@ -27,11 +27,11 @@ const Menubar = () => {
     }
 
     useEffect(() => {
-        const value = JSON.parse(localStorage.getItem('LoginUser'));
+        const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
 
         if (titleImg) {
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             setCompanyTitleLogo(storeInit?.companylogo);
         }
         setTimeout(() => {
@@ -77,8 +77,8 @@ const Menubar = () => {
     }
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-        let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         if (storeinit?.IsB2BWebsite === 0) {
             getMenuApi();
             return;
@@ -138,7 +138,7 @@ const Menubar = () => {
             "FilterKey2": param2?.key ?? "",
             "FilterVal2": param2?.value ?? ""
         }
-        localStorage.setItem("menuparams", JSON.stringify(finalData))
+        sessionStorage.setItem("menuparams", JSON.stringify(finalData))
 
         const queryParameters1 = [
             finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -180,8 +180,8 @@ const Menubar = () => {
     }
 
     const getMenuApi = async () => {
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId')
         let finalId;
@@ -230,7 +230,7 @@ const Menubar = () => {
 
     function ScrollToView(param) {
         if (window.location.pathname !== "/") {
-            localStorage.setItem("scrollParam", param);
+            sessionStorage.setItem("scrollParam", param);
             window.location.href = "/";
             setToggle(false)
             return;

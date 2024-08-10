@@ -50,10 +50,10 @@ const CartItem = ({
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
 
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 

@@ -56,8 +56,8 @@ const HouseOfQuadri_App = () => {
     useRecoilState(Hoq_companyLogo);
 
   useEffect(() => {
-    let data = localStorage.getItem("storeInit");
-    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let data = sessionStorage.getItem("storeInit");
+    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
@@ -85,8 +85,8 @@ const HouseOfQuadri_App = () => {
   //         if (response.Data.rd[0].stat === 1) {
   //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
   //           setIsLoginState(true);
-  //           localStorage.setItem("LoginUser", true);
-  //           localStorage.setItem(
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem(
   //             "loginUserDetail",
   //             JSON.stringify(response.Data.rd[0])
   //           );
@@ -99,7 +99,7 @@ const HouseOfQuadri_App = () => {
   //       })
   //       .catch((err) => console.log(err));
   //   }
-  //   let localD = JSON.parse(localStorage.getItem("storeInit"));
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
   //   setLocalData(localD);
   // }, []);
 

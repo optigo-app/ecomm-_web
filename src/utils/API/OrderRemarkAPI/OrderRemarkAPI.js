@@ -2,8 +2,8 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const handleOrderRemark = async (orderRemark) => {
     try {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
-        const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) || {};
+        const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail")) || {};
         const { FrontEnd_RegNo } = storeInit;
 
         let customerEmail = loginUserDetail?.userid

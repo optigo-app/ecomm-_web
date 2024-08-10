@@ -27,9 +27,9 @@ const ExampleComponent = ({
     const dayOfMonth = moment(shipsDate).format('D'); 
 
     useEffect(() => {
-        const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+        const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
-        const isCartUpdateStatus = localStorage.getItem('cartUpdation');
+        const isCartUpdateStatus = sessionStorage.getItem('cartUpdation');
         setCountStatus(isCartUpdateStatus)
     }, [onRemove])
 

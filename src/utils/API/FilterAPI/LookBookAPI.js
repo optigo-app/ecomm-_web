@@ -3,12 +3,12 @@ import { CommonAPI } from "../CommonAPI/CommonAPI"
 
 export const LookBookAPI = async(MenuParams,visiterId) =>{
 
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"))
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
-    // let menuparams = JSON.parse(localStorage.getItem("menuparams"))
-    // let userEmail = localStorage.getItem("registerEmail")
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"))
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"))
+    // let menuparams = JSON.parse(sessionStorage.getItem("menuparams"))
+    // let userEmail = sessionStorage.getItem("registerEmail")
 
-    const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+    const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
     const customerId = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
     const customerEmail = storeinit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.userid ?? "";
@@ -40,7 +40,7 @@ export const LookBookAPI = async(MenuParams,visiterId) =>{
         await CommonAPI(body).then((res) => {
             if(res){
                 // console.log("res",res);
-                localStorage.setItem("AllFilter",JSON.stringify(res?.Data?.rd));
+                sessionStorage.setItem("AllFilter",JSON.stringify(res?.Data?.rd));
                 finalfilterData = res?.Data?.rd
             }
         })

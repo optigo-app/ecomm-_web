@@ -5,7 +5,7 @@ export const ForgotPasswordEmailAPI = async (Domian, email) => {
 
     let response
 
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { FrontEnd_RegNo } = storeInit;
 
     try {

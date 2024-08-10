@@ -70,18 +70,18 @@ const useCart = () => {
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
-  const cartStatus = localStorage.getItem('isCartDrawer')
+  const cartStatus = sessionStorage.getItem('isCartDrawer')
 
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
     setVisiterId(visiterIdVal)
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData)
-      const cartStatus = localStorage.getItem('isCartDrawer')
+      const cartStatus = sessionStorage.getItem('isCartDrawer')
       setCartDrawer(cartStatus)
     } else {
       setCurrencyData(storeInit)
@@ -90,10 +90,10 @@ const useCart = () => {
 
 
   useEffect(() => {
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -598,7 +598,7 @@ const useCart = () => {
 
   // browse our collection
   const handelMenu = () => {
-    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
     if (menudata) {
       console.log('otherparamsUrl--', menudata);
       const queryParameters1 = [

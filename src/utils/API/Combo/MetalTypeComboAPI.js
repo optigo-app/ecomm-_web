@@ -5,13 +5,11 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 export const MetalTypeComboAPI = async (finalID) => {
 
     let response;
-
     try {
-        const storedEmail = localStorage.getItem('registerEmail') || '';
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail')) || '0';
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail')) || '0';
 
-        const islogin = JSON.parse(localStorage.getItem("LoginUser")) ?? false;
+        const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
 
         const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail.id ?? 0;

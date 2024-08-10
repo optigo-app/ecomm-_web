@@ -33,7 +33,7 @@ const Header = () => {
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [leval1menu, setLeval1menu] = useState();
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
 
@@ -46,7 +46,7 @@ const Header = () => {
 
 
     const fetchData = () => {
-        const value = JSON.parse(localStorage.getItem('LoginUser'));
+        const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
     };
 
@@ -70,8 +70,8 @@ const Header = () => {
 
     const getMenuApi = async () => {
 
-        const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get("visiterId");
         let finalID;
@@ -107,8 +107,8 @@ const Header = () => {
     }, []);
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-        let isUserLogin = JSON.parse(localStorage.getItem("LoginUser"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         if (storeinit?.IsB2BWebsite === 0) {
             getMenuApi();
             return;
@@ -198,7 +198,7 @@ const Header = () => {
             FilterVal2: menuDataObj?.param2dataname ?? ""
         }
         // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
-        localStorage.setItem('menuparams', JSON.stringify(finalData));
+        sessionStorage.setItem('menuparams', JSON.stringify(finalData));
     };
 
 
@@ -227,18 +227,18 @@ const Header = () => {
         setislogin(false);
         Cookies.remove("userLoginCookie");
         window.location.reload();
-        localStorage.setItem("LoginUser", false);
-        localStorage.removeItem("storeInit");
-        localStorage.removeItem("loginUserDetail");
-        localStorage.removeItem("remarks");
-        localStorage.removeItem("selectedAddressId");
-        localStorage.removeItem("orderNumber");
-        localStorage.removeItem("registerEmail");
-        localStorage.removeItem("UploadLogicalPath");
-        localStorage.removeItem("remarks");
-        localStorage.removeItem("registerMobile");
-        localStorage.removeItem("allproductlist");
-        localStorage.clear();
+        sessionStorage.setItem("LoginUser", false);
+        sessionStorage.removeItem("storeInit");
+        sessionStorage.removeItem("loginUserDetail");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("selectedAddressId");
+        sessionStorage.removeItem("orderNumber");
+        sessionStorage.removeItem("registerEmail");
+        sessionStorage.removeItem("UploadLogicalPath");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("registerMobile");
+        sessionStorage.removeItem("allproductlist");
+        sessionStorage.clear();
     }
 
 
@@ -262,7 +262,7 @@ const Header = () => {
             FilterKey2: param2?.key ?? "",
             FilterVal2: param2?.value ?? "",
         };
-        localStorage.setItem("menuparams", JSON.stringify(finalData));
+        sessionStorage.setItem("menuparams", JSON.stringify(finalData));
 
         const queryParameters1 = [
             finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -350,8 +350,8 @@ const Header = () => {
 
                 // const handleMoveToDetail = () => {
 
-                let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-                let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+                let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+                let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
                 let obj = {
                     a: "",
