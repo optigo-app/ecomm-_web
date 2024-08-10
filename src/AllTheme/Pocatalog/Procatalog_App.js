@@ -53,8 +53,7 @@ const Procatalog_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] =
-    useRecoilState(proCat_companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
   const storeInit = JSON.parse(localStorage.getItem("storeInit"));
 
   useEffect(() => {
