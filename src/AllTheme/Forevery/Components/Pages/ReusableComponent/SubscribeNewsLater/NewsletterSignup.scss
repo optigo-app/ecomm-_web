@@ -1,0 +1,93 @@
+@import '../../../scss/variable.scss';
+
+.newsletter-signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: $primaryFontFamily;
+    margin: 40px 0px 20px 0px;
+
+
+    .icon {
+        margin-bottom: 15px;
+
+        img {
+            width: 100%;
+            max-width: 100px;
+        }
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .email-input {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+
+        input {
+            padding: 8px 20px;
+            font-size: $fontSize2;
+            border: 1px solid #ccc;
+            margin-right: 20px;
+            outline: none;
+            color: $primaryfontcolor;
+            width: 250px;
+
+            &:focus {
+                border-color: #000;
+            }
+        }
+
+        button {
+            padding: 8px 20px;
+            font-size: $fontSize2;
+        }
+    }
+
+    .disclaimer {
+        font-size: $fontSize1;
+        color: $primaryfontcolor2;
+        margin-top: 20px;
+        width: 500px;
+        padding: 0;
+        margin: 0;
+    }
+    .newslatterEmail{
+        a{
+            text-decoration: none;
+            color: $primaryfontcolor2;
+            font-size: $fontSize1;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .email-input {
+            flex-direction: column;
+
+            input {
+                border-radius: 5px;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            button {
+                border-radius: 5px;
+                width: 100%;
+            }
+        }
+        .disclaimer{
+            width: 100%;
+        }
+    }
+}

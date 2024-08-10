@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
-import Header from "./Components/Pages/Home/Header/Header";
 import Cart from "./Components/Pages/Cart/CartMain";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, loginState } from "./Components/Recoil/atom";
+import { for_companyLogo, for_loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -32,25 +31,26 @@ import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
 import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 import ForgotPass from "./Components/Pages/Auth/forgotPass/ForgotPass";
-import Header2 from "./Components/Pages/Home/Header/Header2";
-import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+import Navbar from "./Components/Pages/Common/NavBar/Navbar";
+import TopBar from "./Components/Pages/Common/TopBar/TopBar";
+import AppointmentPage from "./Components/Pages/Home/AppointMent/AppointmentPage";
 
 const ForEveryRoutes = () => {
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(for_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
-  const setIsLoginState = useSetRecoilState(loginState);
+  const setIsLoginState = useSetRecoilState(for_loginState);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(for_companyLogo);
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -61,8 +61,8 @@ const ForEveryRoutes = () => {
   useEffect(() => {
     setCSSVariable();
 
-    let data = localStorage.getItem("storeInit");
-    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let data = sessionStorage.getItem("storeInit");
+    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
@@ -83,8 +83,8 @@ const ForEveryRoutes = () => {
           if (response.Data.rd[0].stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
-            localStorage.setItem("LoginUser", true);
-            localStorage.setItem(
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
               "loginUserDetail",
               JSON.stringify(response.Data.rd[0])
             );
@@ -97,7 +97,7 @@ const ForEveryRoutes = () => {
         })
         .catch((err) => console.log(err));
     }
-    let localD = JSON.parse(localStorage.getItem("storeInit"));
+    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
 
   }, []);
@@ -126,9 +126,8 @@ const ForEveryRoutes = () => {
       <title>{localData?.BrowserTitle}</title>
     </Helmet>
       <div>
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
-        {/* <Header2 /> */}
+        <TopBar/>
+        <Navbar/>
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -196,15 +195,17 @@ const ForEveryRoutes = () => {
             </div>
           }
         />
-        {/* <Route path="/ContactUs" element={<ContactUs />} /> */}
+        <Route path="/appointment" element={<AppointmentPage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<Cart />} />
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
         {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
+          
+          
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />

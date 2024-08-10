@@ -2,8 +2,8 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const removeFromCartList = async (data,param, visiterId, islogin) => {
   try {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit")) || {};
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail")) || {};
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) || {};
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail")) || {};
     const { FrontEnd_RegNo } = storeInit;
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail?.userid ?? "";

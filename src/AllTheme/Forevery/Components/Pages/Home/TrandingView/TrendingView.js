@@ -17,12 +17,12 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { for_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 
 const TrendingView = () => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
 
@@ -35,7 +35,7 @@ const TrendingView = () => {
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(for_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
 
     const isOdd = (num) => num % 2 !== 0;
@@ -52,13 +52,13 @@ const TrendingView = () => {
     };
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -106,7 +106,7 @@ const TrendingView = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
 
         let obj = {
@@ -246,12 +246,12 @@ export default TrendingView
 // import { useNavigate } from 'react-router-dom';
 // import pako from "pako";
 // import { useRecoilValue } from 'recoil';
-// import { loginState } from '../../../Recoil/atom';
+// import { for_loginState } from '../../../Recoil/atom';
 // import Cookies from 'js-cookie';
 
 // const TrendingView = () => {
 
-//     const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+//     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 //     const [trandingViewData, setTrandingViewData] = useState([]);
 //     const [imageUrl, setImageUrl] = useState();
 
@@ -264,7 +264,7 @@ export default TrendingView
 
 //     const [oddNumberObjects, setOddNumberObjects] = useState([]);
 //     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-//     const islogin = useRecoilValue(loginState);
+//     const islogin = useRecoilValue(for_loginState);
 
 //     const isOdd = (num) => num % 2 !== 0;
 
@@ -280,13 +280,13 @@ export default TrendingView
 //     };
 
 //     useEffect(() => {
-//         let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+//         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
 //         setStoreInit(storeinit)
 
-//         let data = JSON.parse(localStorage.getItem('storeInit'))
+//         let data = JSON.parse(sessionStorage.getItem('storeInit'))
 //         setImageUrl(data?.DesignImageFol);
-//         const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-//         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+//         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+//         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 //         const { IsB2BWebsite } = storeInit;
 //         const visiterID = Cookies.get('visiterId');
 //         let finalID;
@@ -334,7 +334,7 @@ export default TrendingView
 //     };
 
 //     const handleNavigation = (designNo, autoCode, titleLine) => {
-//         const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+//         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
 //         const { IsB2BWebsite } = storeInit;
 
 //         let obj = {

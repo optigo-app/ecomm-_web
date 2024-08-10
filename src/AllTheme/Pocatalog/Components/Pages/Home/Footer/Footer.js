@@ -12,7 +12,7 @@ const Footer = ({ fromPage }) => {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    let localD = JSON.parse(localStorage.getItem('storeInit'));
+    let localD = JSON.parse(sessionStorage.getItem('storeInit'));
     setLocalData(localD);
   }, [])
 
@@ -20,11 +20,11 @@ const Footer = ({ fromPage }) => {
     let storeInit;
     let companyInfoData;
     setTimeout(() => {
-      if (localStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(localStorage.getItem("storeInit")) ?? {};
+      if (sessionStorage.getItem("storeInit")) {
+        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
       }
-      if (localStorage.getItem("CompanyInfoData")) {
-        companyInfoData = JSON?.parse(localStorage.getItem("CompanyInfoData")) ?? {};
+      if (sessionStorage.getItem("CompanyInfoData")) {
+        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
         setCompanuInfoData(companyInfoData)
         const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
         if (parsedSocilaMediaUrlData) {
@@ -45,13 +45,13 @@ const Footer = ({ fromPage }) => {
         <div className='ProCat_Footer1_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
             <div className='footerMoreOption'>
-              <div style={{ marginLeft: '100px' }}>
+              <div className='proCat_AddresMain' style={{ marginLeft: '100px' }}>
                 <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
                 <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
                   <IoLocationOutline style={{ width: '22px', height: '22px' }} />
-                  <span style={{ color: '#7d7f85', fontSize: '14px' , width: '80%'}}>
-                  D-Block G20, ITC( International Trade Centre),
-                        Majura Gate, Ring Road,
+                  <span style={{ color: '#7d7f85', fontSize: '14px', width: '80%' }}>
+                    D-Block G20, ITC( International Trade Centre),
+                    Majura Gate, Ring Road,
                     {/* {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode} */}
                   </span>
                 </p>
@@ -74,8 +74,8 @@ const Footer = ({ fromPage }) => {
                   </span>
                 </p>
               </div>
-              <div style={{marginLeft: '100px', width: '40%'}}>
-                <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>
+              <div className='proCat_SoicialMain' style={{ marginLeft: '100px', width: '40%' }}>
+                {socialMediaData?.length != 0 && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}
                 <div className='footerIconMain'>
                   {socialMediaData?.map((social, index) => (
                     <div className='footerSocialIcon'>
@@ -93,7 +93,7 @@ const Footer = ({ fromPage }) => {
       }
 
       {localData?.Footerno === 2 &&
-        <div className='smr_Footer2_main'>
+        <div className='proCat_Footer2_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
 
             <div className='footerIconMain'>

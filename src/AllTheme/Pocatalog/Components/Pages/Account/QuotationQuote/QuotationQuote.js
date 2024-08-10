@@ -370,10 +370,10 @@ const QuotationQuote = () => {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id; 
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             // const combinedValue = JSON.stringify({
             //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
@@ -546,7 +546,7 @@ const QuotationQuote = () => {
                                 rowCount={filterData.length}
                             />
                             <TableBody>
-                                {visibleRows.map((row, index) => {
+                                { filterData?.length > 0 ? visibleRows.map((row, index) => {
                                 
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -587,7 +587,7 @@ const QuotationQuote = () => {
                                             
                                         </TableRow>
                                     );
-                                })}
+                                }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
                                 {emptyRows > 0 && (
                                     <TableRow
                                         style={{

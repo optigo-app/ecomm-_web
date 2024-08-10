@@ -9,7 +9,7 @@ const Confirmation = () => {
   const navigate = useNavigate();
   const [orderNo, setOrderNo] = useState();
   useEffect(() => {
-    let orderNo = localStorage.getItem("orderNumber");
+    let orderNo = sessionStorage.getItem("orderNumber");
     setOrderNo(orderNo);
   }, []);
 

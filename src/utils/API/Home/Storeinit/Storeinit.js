@@ -18,6 +18,7 @@ export const Storeinit = async (param) => {
 
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
+    || window.location.hostname === 'forevery.web'
     || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
   // const APIURL = (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/storev26/ReactStore.aspx';
@@ -25,11 +26,7 @@ export const Storeinit = async (param) => {
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
-
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'elvee.web' : window.location.hostname,
-
-//   
-
+    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'developerstore' : window.location.hostname,

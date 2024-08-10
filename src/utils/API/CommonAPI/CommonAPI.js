@@ -18,6 +18,7 @@ const APIURL = (window.location.hostname === 'localhost'
 
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
+    || window.location.hostname === 'forevery.web'
     || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
 
@@ -27,13 +28,13 @@ const APIURL = (window.location.hostname === 'localhost'
 
 
 export const CommonAPI = async (body) => {
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     try {
         // const { YearCode, version, token , sv } = storeInit;
-        const YearCode = storeInit?.YearCode ;
-        const version = storeInit?.version ;
-        const token = storeInit?.token ;
-        const sv = storeInit?.sv ;
+        const YearCode = storeInit?.YearCode ?? '' ;
+        const version = storeInit?.version  ?? '';
+        const token = storeInit?.token ?? '';
+        const sv = storeInit?.sv ?? '';
 
         const header = {
             Authorization: `Bearer ${token}`,

@@ -16,36 +16,28 @@ import BestSellerSection from './BestSellerSection/BestSellerSection';
 
 function Home() {
 
-  const [localData, setLocalData] = useState();
-
-  useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem('storeInit'));
-    setLocalData(localData);
-    console.log('localDatalocalData', localData);
-  }, [])
-
   return (
     <div className='ProCat_home_index_main'>
-        <div className='smiling_home_index_Submain'>
-          <TopSection />
-          {/* <TheDifference />
+      <div className='smiling_home_index_Submain'>
+        <TopSection />
+        {/* <TheDifference />
           <PromotionBaner1 /> */}
-          {/* {localData?.IsHomeAlbum === 1 &&  */}
-          <Album />
-          {/* } */}
-          {/* {localData?.IsHomeTrending === 1 && <TrendingView />}
+        {/* {localData?.IsHomeAlbum === 1 &&  */}
+        <Album />
+        {/* } */}
+        {/* {localData?.IsHomeTrending === 1 && <TrendingView />}
           {localData?.IsHomeNewArrival === 1 && <NewArrival />}
           {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
           {localData?.IsHomeDesignSet === 1 && <DesignSet />} */}
-          {/* <BottomBanner /> */}
-          <Footer />
-        </div>
+        {/* <BottomBanner /> */}
+        <Footer />
+      </div>
       <div>
         <p style={{
           paddingBlock: '30px',
           margin: '0px',
           textAlign: 'center',
-          color: 'white',
+          color: 'black',
           cursor: 'pointer',
           fontSize: '13px',
           fontWeight: 500,

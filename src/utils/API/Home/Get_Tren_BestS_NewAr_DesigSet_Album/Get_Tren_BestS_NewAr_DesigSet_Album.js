@@ -3,9 +3,9 @@ import { CommonAPI } from "../../CommonAPI/CommonAPI";
 export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}) => {
     let response;
     try {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
-        const userData = JSON.parse(localStorage.getItem("loginUserDetail")) ?? ""
-        let userLogin = localStorage.getItem('LoginUser')
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
+        const userData = JSON.parse(sessionStorage.getItem("loginUserDetail")) ?? ""
+        let userLogin = sessionStorage.getItem('LoginUser')
 
         const combinedValue = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
@@ -71,7 +71,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
 
 
 
-        const email = localStorage.getItem("registerEmail") ?? ""
+        const email = sessionStorage.getItem("registerEmail") ?? ""
 
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"${mode}\",\"appuserid\":\"${email}\"}`,

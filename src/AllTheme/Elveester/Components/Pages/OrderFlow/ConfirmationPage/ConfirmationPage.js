@@ -11,9 +11,9 @@ const ConfirmationPage = () => {
   const [storeInit, setStoreInit] = useState();
 
   useEffect(() => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeInit);
-    let orderNo = localStorage.getItem('orderNumber')
+    let orderNo = sessionStorage.getItem('orderNumber')
     setOrderNo(orderNo)
   }, [])
 

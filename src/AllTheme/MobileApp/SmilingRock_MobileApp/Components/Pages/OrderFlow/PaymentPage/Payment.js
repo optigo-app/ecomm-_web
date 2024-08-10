@@ -30,7 +30,7 @@ const Payment = () => {
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
     const [storeInitData, setStoreInitData] = useState();
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     const setCartCountVal = useSetRecoilState(smrMA_CartCount);
     const islogin = useRecoilValue(smrMA_loginState);
@@ -45,7 +45,7 @@ const Payment = () => {
 
     
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
@@ -60,9 +60,9 @@ const Payment = () => {
     console.log('orderreamrk', orderRemark);
 
     useEffect(() => {
-        const orderRemakdata = localStorage.getItem("orderRemark");
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-        const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+        const orderRemakdata = sessionStorage.getItem("orderRemark");
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+        const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         setOrderRemark(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
@@ -89,7 +89,7 @@ const Payment = () => {
                 console.error('Error fetching tax data:', error);
             }
 
-            // const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+            // const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
             // console.log('selectedAddressData', selectedAddressData);
             const defaultAddress = addressData?.find(item => item?.isdefault === 1);
             setSelectedAddrData(defaultAddress);
@@ -98,7 +98,7 @@ const Payment = () => {
                 setIsOrderloding(false);
             }
 
-            const totalPriceData = localStorage.getItem('TotalPriceData');
+            const totalPriceData = sessionStorage.getItem('TotalPriceData');
             if (totalPriceData) {
                 const totalPriceNum = parseFloat(totalPriceData);
                 const finalTotalPrice = totalPriceNum;
@@ -111,11 +111,11 @@ const Payment = () => {
 
 
     // useEffect(() => {
-    //     const selectedAddressData = JSON.parse(localStorage.getItem('selectedAddressId'));
+    //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
     //     console.log('selectedAddressData', selectedAddressData);
     //     setSelectedAddrData(selectedAddressData)
 
-    //     const totalPriceData = localStorage.getItem('TotalPriceData');
+    //     const totalPriceData = sessionStorage.getItem('TotalPriceData');
     //     if (totalPriceData) {
     //         const totalPriceNum = parseFloat(totalPriceData);
     //         const newPrice = totalPriceNum * 0.03;
@@ -134,7 +134,7 @@ const Payment = () => {
             console.log("paymentResponse", paymentResponse);
             if (paymentResponse?.Data?.rd[0]?.stat == 1) {
                 let num = paymentResponse.Data?.rd[0]?.orderno
-                localStorage.setItem('orderNumber', num);
+                sessionStorage.setItem('orderNumber', num);
                 navigate('/Confirmation');
                 setIsloding(false);
 
@@ -166,7 +166,7 @@ const Payment = () => {
                 // const updatedCartData = cartData.map(cart =>
                 //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
                 // );
-                localStorage.setItem('orderRemark', orderRemark)
+                sessionStorage.setItem('orderRemark', orderRemark)
             }
         } catch (error) {
             console.error("Error:", error);

@@ -16,7 +16,7 @@ const HomeTab = () => {
   const getCartListCount = useRecoilValue(smrMA_CartCount)
   const islogin = useRecoilValue(smrMA_loginState);
   const location = useLocation();
-  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
   useEffect(() => {

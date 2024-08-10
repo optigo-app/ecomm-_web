@@ -25,7 +25,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
    
     if (isLoginStatus != true) {
         if (location.pathname.startsWith('/p') || location.pathname.startsWith('/d') || location.pathname.startsWith('/CartPage')) {
-                let storeInt = JSON.parse(localStorage.getItem("storeInit"));
+                let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
                 if (!storeInt) {
                     Storeinit();
                 }

@@ -21,7 +21,7 @@ const DesignSet2 = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
   const [designSetList, setDesignSetList] = useState([]);
-  const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(dt_loginState);
   const [swiper, setSwiper] = useState(null);
@@ -29,8 +29,8 @@ const DesignSet2 = () => {
 
   useEffect(() => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get('visiterId');
     let finalID;
@@ -40,10 +40,10 @@ const DesignSet2 = () => {
       finalID = loginUserDetail?.id || '0';
     }
 
-    let storeinit = JSON.parse(localStorage.getItem('storeInit'));
+    let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(localStorage.getItem('storeInit'));
+    let data = JSON.parse(sessionStorage.getItem('storeInit'));
     setImageUrl(data?.DesignSetImageFol);
     setImageUrlDesignSet(data?.DesignImageFol);
 

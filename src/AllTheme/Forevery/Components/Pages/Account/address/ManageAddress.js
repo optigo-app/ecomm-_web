@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
-import { defaultAddressState } from '../../../Recoil/atom';
+import { for_defaultAddressState } from '../../../Recoil/atom';
 
 
 const ManageAddress = () => {
@@ -33,7 +33,7 @@ const ManageAddress = () => {
         mobileNo: ''
     });
 
-    const setDefaultAddress = useSetRecoilState(defaultAddressState);
+    const setDefaultAddress = useSetRecoilState(for_defaultAddressState);
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
@@ -51,10 +51,10 @@ const ManageAddress = () => {
         try {
             setOpenDelete(false);
             setIsLoading(true);
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data?.id;
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
@@ -200,10 +200,10 @@ const ManageAddress = () => {
         try {
             setIsLoading(true); // Set loading state
     
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
     
             let response;
@@ -401,7 +401,7 @@ const ManageAddress = () => {
     };
 
     const loginDetail = () => {
-        const storedData = localStorage.getItem('loginUserDetail');
+        const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
@@ -413,7 +413,7 @@ const ManageAddress = () => {
         try {
 
             let loginCred = loginDetail();
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
 
             const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
@@ -440,11 +440,11 @@ const ManageAddress = () => {
 
         try {
             setIsLoading(true);
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
             
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);

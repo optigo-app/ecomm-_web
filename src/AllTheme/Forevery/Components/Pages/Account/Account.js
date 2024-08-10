@@ -3,7 +3,7 @@ import './Account.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from './../Home/Footer/Footer';
-import { loginState } from '../../../Components/Recoil/atom';
+import { for_loginState } from '../../../Components/Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 
 import YourProfile from './YourProfile/YourProfile';
@@ -24,7 +24,7 @@ import { accountDetailPages, accountValidation } from '../../../../../utils/Glob
 import Plm from './PLM/Plm';
 import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
-import NewOrderHistory from './AccountOrderHistory/NewOrderHistory';
+import NewOrderHistoryF from './AccountOrderHistory/NewOrderHistoryF';
 
 
 function CustomTabPanel(props) {
@@ -78,10 +78,10 @@ export default function Account() {
     const [value, setValue] = useState(0);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(for_loginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
-    const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
+    const loginUSerDeatil = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -93,17 +93,17 @@ export default function Account() {
 
     // const handleLogout = () => {
     //     setIsLoginState('false')
-    //     localStorage.setItem('LoginUser', 'false');
-    //     localStorage.removeItem('storeInit');
-    //     localStorage.removeItem('loginUserDetail');
-    //     localStorage.removeItem('remarks');
-    //     localStorage.removeItem('selectedAddressId');
-    //     localStorage.removeItem('orderNumber');
-    //     localStorage.removeItem('registerEmail');
-    //     localStorage.removeItem('UploadLogicalPath');
-    //     localStorage.removeItem('remarks');
-    //     localStorage.removeItem('registerMobile');
-    //     localStorage.removeItem('allproductlist');
+    //     sessionStorage.setItem('LoginUser', 'false');
+    //     sessionStorage.removeItem('storeInit');
+    //     sessionStorage.removeItem('loginUserDetail');
+    //     sessionStorage.removeItem('remarks');
+    //     sessionStorage.removeItem('selectedAddressId');
+    //     sessionStorage.removeItem('orderNumber');
+    //     sessionStorage.removeItem('registerEmail');
+    //     sessionStorage.removeItem('UploadLogicalPath');
+    //     sessionStorage.removeItem('remarks');
+    //     sessionStorage.removeItem('registerMobile');
+    //     sessionStorage.removeItem('allproductlist');
     //     naviagation('/')
     //     window.location.reload();
     // }
@@ -111,18 +111,18 @@ export default function Account() {
         // console.log(loginState);
         setIsLoginState(false);
         Cookies.remove('userLoginCookie');
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
-        localStorage.clear();
+        sessionStorage.setItem('LoginUser', false);
+        sessionStorage.removeItem('storeInit');
+        sessionStorage.removeItem('loginUserDetail');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('selectedAddressId');
+        sessionStorage.removeItem('orderNumber');
+        sessionStorage.removeItem('registerEmail');
+        sessionStorage.removeItem('UploadLogicalPath');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('registerMobile');
+        sessionStorage.removeItem('allproductlist');
+        sessionStorage.clear();
         navigation('/')
         window.location.reload();
       }
@@ -178,7 +178,7 @@ export default function Account() {
                                 <div>
                                     {/* <OrderHistory /> */}
                                     {/* <OrderHistoryGroup /> */}
-                                    <NewOrderHistory />
+                                    <NewOrderHistoryF />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">

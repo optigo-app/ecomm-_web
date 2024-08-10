@@ -26,18 +26,18 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
-    const metalTypeData = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    const metalColorData = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    const metalTypeData = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    const metalColorData = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     const diamondQtyColorData = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     const CSQtyColorData = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
@@ -51,17 +51,6 @@ const Customization = ({
     if (resUpdate?.msg == "success") {
       toast.success("Cart Updated Successfully");
     }
-  };
-
-  const SizeSorting = (SizeArr) => {
-    let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
-
-      return nameA - nameB;
-    });
-
-    return SizeSorted;
   };
 
   return (
@@ -207,7 +196,7 @@ const Customization = ({
                   </select>
                 </div>
               )}
-              {sizeCombo?.rd?.length !== 0 && (
+              {sizeCombo?.length !== 0 && (
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select
@@ -217,12 +206,12 @@ const Customization = ({
                     onChange={handleSizeChange}
                   >
                     {selectedItem?.StockId != 0 ? (
-                      <option value={selectedItem?.Size}>
-                        {selectedItem?.Size}
+                      <option value={selectedItem?.size}>
+                        {selectedItem?.size}
                       </option>
-                    ) : (
+                    ) : ( 
                       <>
-                        {SizeSorting(sizeCombo?.rd)?.map((option) => (
+                        {sizeCombo?.map((option) => (
                           <option key={option?.id} value={option?.sizename}>
                             {option?.sizename}
                           </option>

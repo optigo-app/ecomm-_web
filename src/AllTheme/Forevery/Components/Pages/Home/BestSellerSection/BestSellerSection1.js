@@ -4,7 +4,7 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
-import { loginState } from '../../../Recoil/atom';
+import { for_loginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
@@ -16,8 +16,8 @@ const ProductGrid = () => {
     const [storeInit, setStoreInit] = useState({});
 
     const navigation = useNavigate();
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const islogin = useRecoilValue(loginState);
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const islogin = useRecoilValue(for_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
 
 
@@ -35,8 +35,8 @@ const ProductGrid = () => {
 
     useEffect(() => {
 
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -46,10 +46,10 @@ const ProductGrid = () => {
             finalID = loginUserDetail?.id || '0';
         }
 
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {

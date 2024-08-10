@@ -1,6 +1,6 @@
 @import '../../scss/variable.scss';
 
-.ProCat_WlListCard {
+.proCat_WlListCard {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -12,23 +12,36 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        
     }
 
-    .ProCat_WlListImage {
+    .proCat_WlListImage {
         width: 100%;
+        // max-height: 400px;
+        object-fit: contain;
+        cursor: pointer;
+        // height: 300px;
+    }
+
+    .proCat_WlListImage2 {
+        width: 100%;
+        max-height: 500px;
         object-fit: cover;
         cursor: pointer;
+        // height: 400px;
     }
 
     .cardText {
         flex: 1;
         padding: 10px;
+        max-height: 150px;
+        height: 110px;
     }
 }
 
-.ProCat_MainWlDiv {
+.proCat_MainWlDiv {
     background-color: $backgroundColor;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
 }
 
 .WlMainPageDiv {
@@ -42,49 +55,48 @@
     }
 }
 
-.ProCat_WlMainPage {
+.proCat_WlMainPage {
     display: flex;
     gap: 30px;
     margin-bottom: -8%;
 }
 
-.smrProcat_WlBtnGroupMainDiv {
+.WlBtnGroupMainDiv {
     text-align: center;
     padding-top: 40px;
 
-    .ProCat_Wl-title {
+    .proCat_Wl-title {
         color: $titleColor;
-        padding-bottom: 35px;
         font-size: $fontSize8;
     }
 
-    .ProCat_WlButton-group {
+    .proCat_WlButton-group {
         display: flex;
-        gap: 1rem;
+        padding-inline: 15px;
         justify-content: space-between;
-        margin-bottom: 2rem;
+        align-items: center;
+        border-radius: 0px;
 
-        .ProCat_ReomoveAllWLbtn {
+        .proCat_ReomoveAllWLbtn {
             display: flex;
             align-items: center;
-            margin-inline: 6%;
+            width: 200px;
             font-size: $fontSize1;
             color: $titleColor !important;
             text-decoration-color: $titleColor !important;
         }
 
-        .ProCat_WlAddToCartBtn {
-            font-family: $homePageFontFamily !important;
+        .proCat_WlAddToCartBtn {
+            font-family: $primaryFontFamily !important;
             background-color: $btn1hoverColor;
             color: $btn1hoverFontColor;
             font-size: $fontSize2;
             border: none;
             outline: none;
             height: 45px;
-            border-radius: 5px;
+            border-radius: 0px;
             width: 200px;
             font-weight: 500;
-            margin-inline: 6%;
             cursor: pointer;
             transition: background-color 0.3s;
 
@@ -93,7 +105,7 @@
             }
 
 
-            &.ProCat_cartActivebtn {
+            &.proCat_cartActivebtn {
                 background-color: $btn1ActivebgColor;
                 color: $btn1hoverFontColor;
             }
@@ -102,20 +114,22 @@
 }
 
 
-.ProCat_noWishlistData {
+.proCat_noWishlistData {
     text-align: center;
+    height: 100%;
+    margin-bottom: 155px;
 
-    .ProCat_title {
+    .proCat_title {
         color: $titleColor;
         font-size: $fontSize6;
     }
 
-    .ProCat_desc {
+    .proCat_desc {
         color: $titleColor;
         font-size: $fontSize4;
     }
 
-    .ProCat_browseOurCollectionbtn {
+    .proCat_browseOurCollectionbtn {
         background-color: #7d7f85;
         border: none;
         color: #fff;
@@ -127,20 +141,83 @@
     }
 }
 
-.ProCat_WlListData {
-    padding: 60px 100px 10px 100px;
+.proCat_WlListData {
+    padding: 60px 14px 10px 15px;
     margin-bottom: -8%;
+
+    .proCat_wlListGrid {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        opacity: 1;
+        transition: opacity .5s ease;
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+
+    // .fade-in {
+    //     opacity: 1;
+    // }
+
+
+    // .proCat_wlListGrid {
+    //     display: flex !important;
+    //     justify-content: center !important;
+    //     align-items: center !important;
+    //     opacity: 1;
+    //     transition: opacity 0.8s ease-in-out;
+    //     transform: translateX(0);
+    //     animation: slide-in 0.8s forwards ease-in-out;
+    // }
+
+    // .fade-out {
+    //     animation: slide-out 0.8s forwards ease-in-out;
+    // }
+
+    // @keyframes slide-out {
+    //     from {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+
+    //     to {
+    //         transform: translateX(-500px);
+    //         opacity: 0;
+    //     }
+    // }
+
+    // @keyframes slide-in {
+    //     from {
+    //         transform: translateX(500px);
+    //         opacity: 0;
+    //     }
+
+    //     to {
+    //         transform: translateX(0);
+    //         opacity: 1;
+    //     }
+    // }
+
+
+    .proCat_wlToggleButtonDiv {
+        display: flex;
+        justify-content: end;
+        padding-bottom: 20px;
+    }
 }
 
-.ProCat_WlListCard {
+.proCat_WlListCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     position: relative;
+    border-radius: 0px !important;
 
 }
 
-.ProCat_wishDT {
+.proCat_wishDT {
     font-size: $fontSize1;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
 }
 
 .closeWlIconDiv {
@@ -155,11 +232,11 @@
     cursor: pointer;
 }
 
-.ProCat_Wl-CartbtnDiv {
+.proCat_Wl-CartbtnDiv {
     text-align: center;
     margin-bottom: 10px;
 
-    .ProCat_Wl-Cartbtn {
+    .proCat_Wl-Cartbtn {
         width: 150px;
         height: 30px;
         font-size: $fontSize2;
@@ -177,29 +254,33 @@
     }
 }
 
-.ProCat_card-ContentData {
+.proCat_card-ContentData {
     text-align: center;
     color: $titleColor !important;
     font-size: $fontSize1 !important;
-    font-family: $homePageFontFamily;
+    font-family: $primaryFontFamily;
     padding-bottom: 6px;
 }
 
+.proCat_WlTitleline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
 @media (max-width: 1750px) {
-    .smrProcat_WlBtnGroupMainDiv {
-        .ProCat_WlButton-group {
-            .ProCat_WlAddToCartBtn {
+    .WlBtnGroupMainDiv {
+        .proCat_WlButton-group {
+            .proCat_WlAddToCartBtn {
                 width: 140px;
                 font-size: $fontSize1;
             }
         }
     }
-    .ProCat_cardContent {
-        padding: 0 !important;
 
-        .ProCat_pipe {
-            margin: 0 5px;
-        }
+    .proCat_cardContent {
+        padding: 0 !important;
 
         .cardText {
             padding: 2px;
@@ -216,20 +297,17 @@
 }
 
 @media (max-width: 1350px) {
-    .smrProcat_WlBtnGroupMainDiv {
-        .ProCat_WlButton-group {
-            .ProCat_WlAddToCartBtn {
+    .WlBtnGroupMainDiv {
+        .proCat_WlButton-group {
+            .proCat_WlAddToCartBtn {
                 width: 140px;
                 font-size: $fontSize1;
             }
         }
     }
-    .ProCat_cardContent {
-        padding: 0 !important;
 
-        .ProCat_pipe {
-            margin: 0 5px;
-        }
+    .proCat_cardContent {
+        padding: 0 !important;
 
         .cardText {
             padding: 2px;
@@ -246,20 +324,17 @@
 }
 
 @media (max-width: 1050px) {
-    .smrProcat_WlBtnGroupMainDiv {
-        .ProCat_WlButton-group {
-            .ProCat_WlAddToCartBtn {
+    .WlBtnGroupMainDiv {
+        .proCat_WlButton-group {
+            .proCat_WlAddToCartBtn {
                 width: 140px;
                 font-size: $fontSize1;
             }
         }
     }
-    .ProCat_cardContent {
-        padding: 0 !important;
 
-        .ProCat_pipe {
-            margin: 0 5px;
-        }
+    .proCat_cardContent {
+        padding: 0 !important;
 
         .cardText {
             padding: 2px;
@@ -277,54 +352,50 @@
 
 
 @media (max-width: 768px) {
-    .ProCat_WlListData {
+    .proCat_WlListData {
         padding: 10px 10px 10px 10px;
         margin-bottom: -8%;
     }
 
-    .ProCat_card-ContentData .ProCat_DesignNoTExt .ProCat_Wl-Cartbtn {
+    .proCat_card-ContentData .proCat_DesignNoTExt .proCat_Wl-Cartbtn {
         font-size: $fontSize2 !important;
     }
 }
 
 @media (max-width: 600px) {
-    .ProCat_WlListData {
+    .proCat_WlListData {
         padding: 10px 10px 10px 10px;
         margin-bottom: -8%;
     }
 
-    .smrProcat_WlBtnGroupMainDiv {
-        .ProCat_WlButton-group {
-            .ProCat_WlAddToCartBtn {
+    .WlBtnGroupMainDiv {
+        .proCat_WlButton-group {
+            .proCat_WlAddToCartBtn {
                 width: 120px;
                 font-size: $fontSize1;
             }
         }
     }
 
-    .ProCat_card-ContentData {
+    .proCat_card-ContentData {
         font-size: $fontSize1 !important;
     }
 
-    .ProCat_DesignNoTExt {
+    .proCat_DesignNoTExt {
         font-size: $fontSize1 !important;
     }
 
-    .ProCat_Wl-Cartbtn {
+    .proCat_Wl-Cartbtn {
         font-size: $fontSize1 !important;
         text-align: center;
         width: 100% !important;
     }
 
-    .ProCat_cardContent {
+    .proCat_cardContent {
         padding: 0 !important;
 
-        .ProCat_currencyFont {
+        .proCat_currencyFont {
             // margin-left: 40px;
-        }
-
-        .ProCat_pipe {
-            margin: 0 5px;
         }
 
         .cardText {
@@ -342,43 +413,40 @@
 }
 
 @media (max-width: 320px) {
-    .ProCat_WlListData {
-        padding: 10px 10px 10px 10px;
+    .proCat_WlListData {
+        padding: 6px;
         margin-bottom: -8%;
     }
 
-    .smrProcat_WlBtnGroupMainDiv {
-        .ProCat_WlButton-group {
-            .ProCat_WlAddToCartBtn {
-                width: 120px;
-                font-size: $fontSize1;
+    .WlBtnGroupMainDiv {
+        .proCat_WlButton-group {
+            .proCat_WlAddToCartBtn {
+                width: 100px !important;
+                font-size: $fontSize0 !important;
+                height: 34px !important;
             }
         }
     }
 
-    .ProCat_card-ContentData {
+    .proCat_card-ContentData {
         font-size: $fontSize1 !important;
     }
 
-    .ProCat_DesignNoTExt {
+    .proCat_DesignNoTExt {
         font-size: $fontSize1 !important;
     }
 
-    .ProCat_Wl-Cartbtn {
+    .proCat_Wl-Cartbtn {
         font-size: $fontSize1 !important;
         text-align: center;
         width: 100% !important;
     }
 
-    .ProCat_cardContent {
+    .proCat_cardContent {
         padding: 0 !important;
 
-        .ProCat_currencyFont {
+        .proCat_currencyFont {
             // margin-left: 40px;
-        }
-
-        .ProCat_pipe {
-            margin: 0 5px;
         }
 
         .cardText {
@@ -400,28 +468,39 @@
 
 // skelton scss
 
-.smrProCat_addwishlistSkeltonMainBox {
+.proCat_addwishlistSkeltonMainBox {
     padding: 0px 60px;
-    .smrProCat_addwishlistSkelton {
+
+    .proCat_addwishlistSkelton {
         height: 450px;
         box-shadow: none !important;
 
-        .smrProCat_addwishlistSkelton {
+        .proCat_addwishlistSkelton {
             background-color: #f6f6f6 !important;
         }
     }
 }
 
 @media(max-width:650px) {
-    .smrProCat_addwishlistSkeltonMainBox {
+    .proCat_addwishlistSkeltonMainBox {
         padding: 0px 10px;
     }
 
-    .smrProCat_addwishlistSkelton {
+    .proCat_addwishlistSkelton {
         height: 250px !important;
     }
-}
 
-.ProCat_pipe {
-    margin: 0px 10px;
+    .proCat_WlButton-group {
+        padding-top: 30px;
+    }
+
+    // .proCat_toggleWishButtonDiv {
+    //     height: 30px !important;
+    // }
+
+    .proCat_WlListData {
+        .proCat_wlToggleButtonDiv {
+            padding-top: 30px;
+        }
+    }
 }

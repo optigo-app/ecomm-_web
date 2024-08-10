@@ -3,7 +3,7 @@ import "./Album.modul.scss";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { proCat_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { Box, Modal } from "@mui/material";
@@ -12,10 +12,9 @@ import { Get_Procatalog } from "../../../../../../utils/API/Home/Get_Procatalog/
 const Album = () => {
   const [albumData, setAlbumData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  const [imageUrl1, setImageUrl1] = useState("");
   const [imageStatus, setImageStatus] = useState({});
   const navigate = useNavigate();
-  const islogin = useRecoilValue(proCat_loginState);
+  const [islogin , setISLoginSet] = useRecoilState(proCat_loginState);
   const [open, setOpen] = useState(false);
   const [fallbackImages, setFallbackImages] = useState({});
   const [designSubData, setDesignSubData] = useState();
@@ -23,9 +22,8 @@ const Album = () => {
 
   // Load initial image URL from local storage
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol || "");
-    setImageUrl1(data?.DesignImageFol);
   }, []);
 
   function checkImageAvailability(imageUrl) {
@@ -39,22 +37,25 @@ const Album = () => {
 
   // 17620240727141443263
   useEffect(() => {
+    
+    let login = sessionStorage.getItem('LoginUser');
+    setISLoginSet(login);
     const fetchAlbumData = async () => {
       const loginUserDetail = JSON.parse(
-        localStorage.getItem("loginUserDetail")
+        sessionStorage.getItem("loginUserDetail")
       );
-      const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-      const { IsB2BWebsite } = storeInit;
+      const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const visiterID = Cookies.get("visiterId");
 
       const queryParams = new URLSearchParams(window.location.search);
       const ALCVAL = queryParams.get('ALC');
       const finalID =
-        IsB2BWebsite == 0
+      storeInit?.IsB2BWebsite == 0
           ? islogin
             ? loginUserDetail?.id || "0"
             : visiterID
           : loginUserDetail?.id || "0";
+
       if (ALCVAL) {
         sessionStorage.setItem('ALCVALUE', ALCVAL);
         await fetchAndSetAlbumData(ALCVAL, finalID);
@@ -68,12 +69,14 @@ const Album = () => {
       }
     };
 
-    if (imageUrl) {
+
+    // if (imageUrl || login == null) {
       fetchAlbumData();
-    }
+    // }
   }, [imageUrl, islogin]);
 
   const fetchAndSetAlbumData = async (value, finalID) => {
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     try {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
@@ -83,7 +86,7 @@ const Album = () => {
         const fallbackImages = {};  // To store fallback images based on ImageCount
 
         for (const data of response.Data.rd) {
-          const fullImageUrl = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+          const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
           const imageAvailable = await checkImageAvailability(fullImageUrl);
 
           if (!imageAvailable && data?.AlbumDetail) {
@@ -94,7 +97,7 @@ const Album = () => {
                 const designDetails = JSON.parse(detail.Designdetail);
                 designDetails.forEach((design) => {
                   if (design.ImageCount > 1) {
-                    const fallbackImage = `${imageUrl1}${design?.designno}_1.${design.ImageExtension}`;
+                    const fallbackImage = `${storeInit?.AlbumImageFol}${design?.designno}_1.${design.ImageExtension}`;
                     fallbackImages[fullImageUrl] = fallbackImage;
                   }
                 });
@@ -149,7 +152,6 @@ const Album = () => {
       navigate(redirectUrl);
     }
   };
-  console.log("datadatadata", albumData);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -224,12 +226,14 @@ const Album = () => {
         </Box>
       </Modal>
       <p className="smr_albumTitle">ALBUM</p>
-      <div className="smr_albumALL_div">
+      <div className="proCat_albumALL_div" style={{minHeight: !albumData.length && '600px'}}>
         {albumData.map((data, index) => {
+          // const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+          // const imgSrc = imageStatus[imageUrlI]
+          //   ? imageUrlI
+          //   : fallbackImages[imageUrlI] || imageNotFound;
           const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-          const imgSrc = imageStatus[imageUrlI]
-            ? imageUrlI
-            : fallbackImages[imageUrlI] || imageNotFound;
+          const imgSrc = imageStatus[imageUrlI] ? imageUrlI : imageNotFound;
 
           return (
             <div
@@ -296,11 +300,11 @@ export default Album;
 
 //     console.log('AlbumValAlbumVal', AlbumVal);
 
-//     let data = JSON.parse(localStorage.getItem("storeInit"));
+//     let data = JSON.parse(sessionStorage.getItem("storeInit"));
 //     setImageUrl(data?.AlbumImageFol);
 
-//     const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-//     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+//     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+//     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
 //     const { IsB2BWebsite } = storeInit;
 //     const visiterID = Cookies.get('visiterId');
 //     let finalID;

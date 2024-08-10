@@ -40,10 +40,10 @@ const Cart = ({
   const islogin = useRecoilValue(loginState);
   const [totalPrice, setTotalPrice] = useState();
   const [storeInitData, setStoreInitData] = useState();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
@@ -57,7 +57,7 @@ const Cart = ({
   },[items])
 
   const handlePlaceOrder = () => {
-    let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
       navigate('/LoginOption')
       closeDrawer();
@@ -65,7 +65,7 @@ const Cart = ({
       navigate("/Delivery")
       let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
       console.log("TotalPriceData", items)
-      localStorage.setItem('TotalPriceData', priceData)
+      sessionStorage.setItem('TotalPriceData', priceData)
       closeDrawer();
     }
     window.scrollTo(0, 0);

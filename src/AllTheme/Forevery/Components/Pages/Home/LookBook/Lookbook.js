@@ -27,7 +27,7 @@ import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListA
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, loginState } from "../../../Recoil/atom";
+import { for_CartCount, for_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -65,7 +65,7 @@ const Lookbook = () => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery('(max-width:800px)');
 
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
@@ -81,8 +81,8 @@ const Lookbook = () => {
   );
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
-  const islogin = useRecoilValue(loginState);
-  const setCartCountVal = useSetRecoilState(CartCount);
+  const islogin = useRecoilValue(for_loginState);
+  const setCartCountVal = useSetRecoilState(for_CartCount);
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
@@ -104,15 +104,15 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
     setImageUrlDesignSet(data?.DesignImageFol);
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -146,8 +146,8 @@ const Lookbook = () => {
 
   useEffect(() => {
     console.log("cartItemscartItemscartItems", filterData);
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -223,8 +223,8 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
 
     const visiterID = Cookies.get("visiterId");
@@ -284,7 +284,7 @@ const Lookbook = () => {
   let cookie = Cookies.get("visiterId");
 
   const handleAddToCart = (ele, type) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       autocode: ele?.autocode,
@@ -357,7 +357,7 @@ const Lookbook = () => {
   };
 
   const handleByCombo = (data) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObjs = data.map((detail) => createProdObj(detail, loginInfo));
     setCartItems((prevItems) => [
       ...prevItems,

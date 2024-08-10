@@ -1,0 +1,548 @@
+@import "../../../scss/variable.scss";
+
+@mixin CenterItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+@mixin Title {
+  font-size: 16px;
+  padding: 4px 0;
+  font-weight: 700;
+}
+.for_Navbar {
+  width: 100%;
+  position: fixed;
+  top: 25px;
+  z-index: 9999;
+  font-family: $primaryFontFamily;
+  background-color: white;
+  .for_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 15px;
+    gap: 10px;
+
+    .center {
+      @include CenterItem();
+      flex: 0.4;
+      .logo_mask {
+        width: 180px;
+        height: 60px;
+        img {
+          max-width: 100%;
+          height: 100%;
+          object-fit: scale-down;
+        }
+      }
+    }
+    .left {
+      position: relative;
+      @include CenterItem();
+      .for_menu_items {
+        font-size: $fontSize2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90px;
+        padding-inline: 10px;
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          height: fit-content;
+          font-weight: 700;
+          .chevorn-icon {
+            margin-top: -2px;
+          }
+        }
+      }
+      &:hover {
+        .first_nav {
+          display: block;
+        }
+      }
+
+      .first_nav {
+        transition: 0.5s ease-in-out;
+        display: none;
+        width: 100%;
+        position: fixed;
+        top: 115px;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.205);
+        .bg-for-hoverlay {
+          height: auto;
+          background-color: #fff;
+          box-shadow: 0px 5px 10px -10px rgba(38, 57, 77, 0.6);
+          display: flex;
+          flex-direction: column;
+          .nav_bottom_top_head {
+            width: 100%;
+            display: flex;
+            background-color: #fcf5f5;
+            justify-content: space-between;
+            height: 55px;
+            .active_menu_for {
+              flex: 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: $fontSize3;
+              font-weight: 600;
+              cursor: pointer;
+            }
+          }
+          .for_Selected_Menu_item_list {
+            width: 100%;
+            height: auto;
+            .For_Nav_first_Menu {
+              display: flex;
+              height: auto;
+              width: 100%;
+              padding: 35px 10px 15px 35px;
+              div {
+                flex: 1;
+              }
+              .for_first_col {
+                display: flex;
+                flex-direction: column;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  border-right: 1px solid rgba(206, 202, 202, 0.623);
+                  margin-right: 15px;
+                  height: fit-content;
+                  .for_col_1 {
+                    display: flex;
+                    margin-bottom: 15px;
+                    flex-direction: column;
+                    .ring-types {
+                      display: flex;
+                      gap: 15px;
+                      padding-bottom: 10px;
+                      span {
+                        font-size: 14px;
+                        cursor: pointer;
+                      }
+                    }
+                  }
+                  .for_col_2 {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                    h3 {
+                      padding: 0;
+                      margin: 5px 0;
+                    }
+                    .ring-types-col {
+                      margin-top: 2px;
+                      display: grid;
+                      grid-template-columns: 1fr 1fr;
+                      span {
+                        font-weight: 600;
+                        font-size: $fontSize02;
+                        padding: 2px 0;
+                        cursor: pointer;
+                      }
+                    }
+                  }
+                  .for_col_3 {
+                    height: auto;
+                    h3 {
+                      margin-top: 5px;
+                      display: flex;
+                      align-items: center;
+                      padding: 0;
+                      gap: 2px;
+                      cursor: pointer;
+                    }
+                  }
+                }
+              }
+              .for_second_col {
+                display: flex;
+                flex-direction: column;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  display: flex;
+                  justify-content: space-between;
+                  .for_col_1 {
+                    border-right: 1px solid rgba(206, 202, 202, 0.623);
+                    margin-right: 15px;
+                  }
+                  h3 {
+                    font-size: $fontSize02;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-weight: 600;
+                    img {
+                      width: 18px;
+                      height: 18px;
+                      object-fit: contain;
+                    }
+                  }
+                  .ring-types {
+                    display: flex;
+                    flex-direction: column;
+                    span {
+                      font-size: 15px;
+                      font-weight: 400;
+                      color: black;
+                      padding: 4px 0;
+                    }
+                  }
+                }
+              }
+            }
+            .Second_Nav_first_Menu {
+              display: flex;
+              height: auto;
+              width: 100%;
+              padding: 35px 10px 15px 35px;
+              div {
+                flex: 1;
+              }
+              .for_first_col {
+                display: flex;
+                flex-direction: column;
+                flex: 0.4;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  border-right: 1px solid rgba(206, 202, 202, 0.623);
+                  margin-right: 15px;
+                  height: fit-content;
+                  .for_col_2 {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                    h3 {
+                      padding: 0;
+                      margin: 5px 0;
+                    }
+                    .ring-types-col {
+                      margin-top: 2px;
+                      display: grid;
+                      grid-template-columns: 1fr 1fr;
+                      span {
+                        font-weight: 600;
+                        font-size: $fontSize02;
+                        padding: 5px 0;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                      }
+                      .view-all-last {
+                        font-weight: 700;
+                        margin-top: 5px;
+                      }
+                    }
+                  }
+                }
+              }
+              .for_second_col {
+                display: flex;
+                flex-direction: column;
+                flex: 0.5;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  display: flex;
+                  flex-direction: column;
+                  span {
+                    font-size: $fontSize02;
+                    font-weight: 600;
+                    cursor: pointer;
+                    display: flex;
+                    gap: 5px;
+                    align-items: center;
+                    padding: 5px 0;
+                  }
+                }
+              }
+              .for_third_col {
+                flex: 1.5;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+              }
+            }
+            .Third_Nav_first_Menu {
+              display: flex;
+              height: auto;
+              width: 100%;
+              padding: 35px 10px 15px 35px;
+              justify-content: center;
+              gap: 2.5rem;
+              .first_Section {
+                display: flex;
+                gap: 1.5rem;
+                .for_collection_card {
+                  position: relative;
+                  width: 280px;
+                  height: 302px;
+                  .details_col {
+                    z-index: 10;
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    height: 100%;
+                    width: auto;
+                    padding: 10px;
+                    .for_title {
+                      font-size: 25px;
+                      font-weight: 500;
+                      color: black;
+                      text-transform: uppercase;
+                      line-height: 24px;
+                    }
+                    .for_collection_static {
+                      font-size: $fontSize5;
+                      font-weight: 300;
+                    }
+                    .for_btn {
+                      padding: 6px 15px !important ;
+                      text-transform: uppercase;
+                      font-size: $fontSize2;
+                      background-color: transparent;
+                    }
+                  }
+                  img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    z-index: 2;
+                  }
+                }
+              }
+              .second_section {
+                width: 35%;
+                height: auto;
+                .images {
+                  width: 100%;
+                  height: 100%;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  border: 1px solid #fc9e9e;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-end;
+                  padding: 25px;
+                  .for-s-card {
+                    flex: 1;
+                    &:last-child {
+                      text-align: right;
+                      color: white;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: start;
+                      align-content: start;
+                      button {
+                        background-color: transparent;
+                        color: white !important;
+                        border: 1px solid white;
+                        &:hover {
+                          border: 1px solid black;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .Fourth_Nav_first_Menu {
+              display: flex;
+              display: flex;
+              height: auto;
+              width: 100%;
+              padding: 35px 10px 15px 35px;
+              justify-content: center;
+              div {
+                flex: 1;
+                border-right: 1px solid rgba(206, 202, 202, 0.623);
+                margin-right: 15px;
+                &:last-child {
+                  border: none;
+                }
+                &:nth-child(3) {
+                  border: none;
+                }
+              }
+              .for_first_col {
+                display: flex;
+                flex-direction: column;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  height: fit-content;
+                  .for_col_1 {
+                    display: flex;
+                    flex-direction: column;
+                    h3 {
+                      margin: 5px 0;
+                      padding: 0;
+                    }
+                    .ring-types {
+                      display: flex;
+                      padding-bottom: 10px;
+                      flex-direction: column;
+                      span {
+                        font-size: 14px;
+                        cursor: pointer;
+                        font-weight: 500;
+                        padding: 4px 0;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .Fifth_Nav_first_Menu {
+              display: flex;
+              display: flex;
+              height: auto;
+              width: 100%;
+              padding: 35px 10px 15px 35px;
+              justify-content: center;
+              div {
+                flex: 1;
+                border-right: 1px solid rgba(206, 202, 202, 0.623);
+                margin-right: 15px;
+                &:last-child {
+                  border: none;
+                }
+                &:nth-child(3) {
+                  border: none;
+                }
+                &:nth-child(2) {
+                  border: none;
+                }
+              }
+              .for_first_col {
+                display: flex;
+                flex-direction: column;
+                margin-right: 25px;
+                h3 {
+                  @include Title();
+                }
+                .for_ring_section {
+                  height: fit-content;
+                  .for_col_1 {
+                    display: flex;
+                    flex-direction: column;
+                    h3 {
+                      margin: 5px 0;
+                      padding: 0;
+                    }
+                    .ring-types {
+                      display: flex;
+                      padding-bottom: 10px;
+                      flex-direction: column;
+                      span {
+                        font-size: 14px;
+                        cursor: pointer;
+                        font-weight: 500;
+                        padding: 4px 0;
+                      }
+                    }
+                    .alphabet-types {
+                      display: grid;
+                      width: 30%;
+                      margin-top: 10px;
+                      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+                      grid-gap: 5px;
+                      .alphabet {
+                        border: none;
+                        height: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 40px;
+                        border-radius: 50%;
+                        &:hover {
+                          background-color: pink;
+                          transition: 0.1s ease-in;
+                          cursor: pointer;
+                        }
+                        span {
+                          font-weight: 700;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              .for_third_col {
+                flex: 1;
+                height: auto;
+                .second_section {
+                  position: relative;
+                  .for-s-card {
+                    position: absolute;
+                    bottom: 0;
+                    padding: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    h3 {
+                      font-weight: 600;
+                      span {
+                        font-weight: 400;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .right {
+      @include CenterItem();
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      .for_item_menu {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        gap: 5px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .search_main {
+        position: relative;
+        .for_search_bar {
+          position: absolute;
+          right: 2rem;
+          width: 380px;
+          height: 48px;
+          border-radius: 5px;
+          outline: none;
+          border: 1px solid #cccccc;
+          text-align: center;
+          transition: 0.3s ease-in-out;
+        }
+      }
+    }
+  }
+}

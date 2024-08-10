@@ -63,13 +63,13 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("isCart_hOQ", cartCountNum);
+    sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
 
   useEffect(() => {
-    const value = JSON.parse(localStorage.getItem("LoginUser"));
+    const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
     console.log(storeInit?.companylogo);
     window.scroll({ behavior: "smooth", top: 0 });
@@ -115,7 +115,7 @@ const Navbar = () => {
   // }, 50); // Debounce delay of 50ms
 
   const fetchData = () => {
-    const value = JSON.parse(localStorage?.getItem("LoginUser"));
+    const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
     console.log(value);
   };
@@ -124,18 +124,18 @@ const Navbar = () => {
     navigate("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
-    localStorage.setItem("LoginUser", false);
-    localStorage.removeItem("storeInit");
-    localStorage.removeItem("loginUserDetail");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("selectedAddressId");
-    localStorage.removeItem("orderNumber");
-    localStorage.removeItem("registerEmail");
-    localStorage.removeItem("UploadLogicalPath");
-    localStorage.removeItem("remarks");
-    localStorage.removeItem("registerMobile");
-    localStorage.removeItem("allproductlist");
-    localStorage.clear();
+    sessionStorage.setItem("LoginUser", false);
+    sessionStorage.removeItem("storeInit");
+    sessionStorage.removeItem("loginUserDetail");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("selectedAddressId");
+    sessionStorage.removeItem("orderNumber");
+    sessionStorage.removeItem("registerEmail");
+    sessionStorage.removeItem("UploadLogicalPath");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("registerMobile");
+    sessionStorage.removeItem("allproductlist");
+    sessionStorage.clear();
     window.location.reload();
   };
 
@@ -197,9 +197,9 @@ const Navbar = () => {
 
   const getMenuApi = async () => {
     const loginUserDetail = JSON.parse(
-      localStorage?.getItem("loginUserDetail")
+      sessionStorage?.getItem("loginUserDetail")
     );
-    const storeInit = JSON.parse(localStorage?.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage?.getItem("storeInit"));
     const IsB2BWebsite = storeInit?.IsB2BWebsite;
     const visiterID = Cookies.get("visiterId");
     setLoggedUserDetails(loginUserDetail);
@@ -228,7 +228,7 @@ const Navbar = () => {
       FilterKey2: param2?.key ?? "",
       FilterVal2: param2?.value ?? "",
     };
-    localStorage.setItem("menuparams", JSON.stringify(finalData));
+    sessionStorage.setItem("menuparams", JSON.stringify(finalData));
 
     const queryParameters1 = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -313,8 +313,8 @@ const Navbar = () => {
 
         // const handleMoveToDetail = () => {
 
-        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-        let storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
         let obj = {
           a: "",
@@ -338,8 +338,8 @@ const Navbar = () => {
     }
   };
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage?.getItem("storeInit"));
-    let isUserLogin = JSON.parse(localStorage?.getItem("LoginUser"));
+    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
 
     console.log("callll");
     console.log(LoggedUserDetails);
@@ -370,6 +370,21 @@ const Navbar = () => {
               Contact
             </a>
           </span>
+          <span className="contact_icon">
+           <ul>
+           {menuItems?.map((menuItem, i) => {
+              const { menuname, param1 } = menuItem;
+              return (
+                <React.Fragment key={i}>
+                  <Link>
+                    <span>{menuname}</span>
+                  </Link>
+                </React.Fragment>
+              );
+            })}
+           </ul>
+          </span>
+          <span className="contact_icon"></span>
         </div>
         <nav className="navbar">
           <NavbarleftSlide
@@ -615,10 +630,8 @@ const NavbarRightSide = ({
             </button>
           </Tooltip>
         ) : (
-          <Link to={"/LoginOption"} >
-            <small style={{ fontSize: "1rem" ,fontWeight  : "500"}}>
-              Login
-            </small>
+          <Link to={"/LoginOption"}>
+            <small style={{ fontSize: "1rem", fontWeight: "500" }}>Login</small>
           </Link>
         )}
       </div>
@@ -651,7 +664,7 @@ const NavbarRightSide2 = ({
           </>
         )}
 
-        {islogin ?(
+        {islogin ? (
           <>
             {/* <Link to={"/wishlist"}>
               <Tooltip title="Wishlist">
@@ -684,9 +697,16 @@ const NavbarRightSide2 = ({
               />
             </Tooltip>
           </>
-        )  : <Link to={"/LoginOption"} style={{
-          fontWeight  : "500"
-        }}>Login</Link>}
+        ) : (
+          <Link
+            to={"/LoginOption"}
+            style={{
+              fontWeight: "500",
+            }}
+          >
+            Login
+          </Link>
+        )}
 
         {/* {HaveItem.length !== 0 && <span className="have_item"></span>} */}
       </div>
@@ -710,8 +730,8 @@ const NavbarCenter = ({
         <div
           className="logo"
           style={{
-            marginTop: islogin ? "10px" :  "30px",
-            marginBottom: islogin ? "" :  "-15px",
+            marginTop: islogin ? "10px" : "30px",
+            marginBottom: islogin ? "" : "-15px",
           }}
         >
           <Link to={"/"}>
@@ -741,13 +761,18 @@ const NavbarCenter = ({
                     <React.Fragment key={i}>
                       <li>
                         <span
-                          onClick={() =>{
+                          onClick={() => {
                             handleMenu({
                               menuname: menuname,
                               key: menuItem?.param0name,
                               value: menuItem?.param0dataname,
-                            })  ;  window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
-                          }
+                            });
+                            window.scrollTo({
+                              behavior: "smooth",
+                              top: 0,
+                              left: 0,
+                            });
+                          }}
                         >
                           {menuname}
                         </span>
@@ -764,7 +789,7 @@ const NavbarCenter = ({
                                     ({ param1dataname, param1name }, j) => (
                                       <li>
                                         <span
-                                          onClick={() =>{
+                                          onClick={() => {
                                             handleMenu(
                                               {
                                                 menuname: menuname,
@@ -775,8 +800,13 @@ const NavbarCenter = ({
                                                 key: param1name,
                                                 value: param1dataname,
                                               }
-                                            ); window.scrollTo({ behavior: "smooth", top: 0, left: 0 })}
-                                          }
+                                            );
+                                            window.scrollTo({
+                                              behavior: "smooth",
+                                              top: 0,
+                                              left: 0,
+                                            });
+                                          }}
                                         >
                                           {param1dataname}
                                         </span>
@@ -823,14 +853,14 @@ const NavbarCenter = ({
               </ul>
             </>
           )}
-           {isMobileMenu && (
-                <TemporaryDrawer
-                  menuItems={menuItems}
-                  handleMenu={handleMenu}
-                  setisMobileMenu={setisMobileMenu}
-                  isMobileMenu={isMobileMenu}
-                />
-              )}
+          {isMobileMenu && (
+            <TemporaryDrawer
+              menuItems={menuItems}
+              handleMenu={handleMenu}
+              setisMobileMenu={setisMobileMenu}
+              isMobileMenu={isMobileMenu}
+            />
+          )}
         </div>
       </div>
     </>

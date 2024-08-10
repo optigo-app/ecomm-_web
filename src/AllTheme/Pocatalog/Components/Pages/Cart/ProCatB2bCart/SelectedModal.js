@@ -3,24 +3,24 @@ import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 
 
 
 const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) => {
   return (
-    <Accordion className='procat_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
+    <Accordion className='proCat_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ padding: '0' }}>
-        <Typography className='procat_FilterTitle'>{title}</Typography>
+        <Typography className='proCat_FilterTitle'>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails className='procat_filterAccordianDetail' style={{ padding: '0' }}>
+      <AccordionDetails className='proCat_filterAccordianDetail' style={{ padding: '0' }}>
         {items?.map(item => (
-          <div className='procat_filter-AccrodianDetails' key={item.id}>
-            <Typography className='procat_filterAccordianDeatilTitle'>{item.name}</Typography>
+          <div className='proCat_filter-AccrodianDetails' key={item.id}>
+            <Typography className='proCat_filterAccordianDeatilTitle'>{item.name}</Typography>
             <Checkbox
               checked={checkedItems[title]?.[item.id] || false}
               onChange={() => handleCheckboxChange(item.id, title)}
-              className='procat_filterCheckbox'
+              className='proCat_filterCheckbox'
             />
           </div>
         ))}
@@ -108,10 +108,10 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   // for Short-combo data
   useEffect(() => {
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -121,26 +121,26 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   return (
     <Modal
-      className="procat_modal"
+      className="proCat_modal"
       open={open}
       onClose={onClose}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
 
     >
-      <div className="procat_paper">
-        <div className='procat_Modal_Title'>
-          <Typography className='procat_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
+      <div className="proCat_paper">
+        <div className='proCat_Modal_Title'>
+          <Typography className='proCat_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
             Update Cart
           </Typography>
-          <IconButton className="procat_closeIcon" onClick={onClose}>
+          <IconButton className="proCat_closeIcon" onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
         <Divider />
-        <div className='procat_cartmodal_body'>
+        <div className='proCat_cartmodal_body'>
           <div>
-            <div className="procat_ShortCutCombo-section">
+            <div className="proCat_ShortCutCombo-section">
               <div>
                 <FormControl className="form-control">
                   <InputLabel id="metalTypeMaster">Metal Type</InputLabel>
@@ -206,49 +206,49 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
               </div>
             </div>
           </div>
-          <div className='procat_cartModal-Divider'>
+          <div className='proCat_cartModal-Divider'>
             <Divider />
           </div>
           <Grid container spacing={2}>
             <Grid item xs={6} md={3}>
-              <div className='procat_Modal-FilterList'>
+              <div className='proCat_Modal-FilterList'>
                 {generateFilterAccordions(filterArr, checkedItems, handleCheckboxChange)}
               </div>
             </Grid>
             <Grid item xs={6} md={9}>
-              <div className='procat_Modal-cardList'>
+              <div className='proCat_Modal-cardList'>
                 <Grid container spacing={2}>
                   {filteredItems?.map(product => (
                     <Grid item key={product.id} xs={12} sm={4} md={4}>
-                      <Card className='procat_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
+                      <Card className='proCat_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
                         <CardActionArea>
                           <CardMedia
                             component="img"
                             image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
                             alt={product?.TitleLine}
-                            className='procat_cartListImage'
+                            className='proCat_cartListImage'
                           />
                           <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                               <div>
-                                <Typography variant="body2" className='procat_card-ContentData'>
+                                <Typography variant="body2" className='proCat_card-ContentData'>
                                   NWT: {product?.netwt}
                                 </Typography>
-                                <Typography variant="body2" className='procat_card-ContentData'>
+                                <Typography variant="body2" className='proCat_card-ContentData'>
                                   DWT: {product?.dwt}
                                 </Typography>
                               </div>
                               <div>
-                                <Typography variant="body2" className='procat_card-ContentData'>
+                                <Typography variant="body2" className='proCat_card-ContentData'>
                                   CWT: {product?.cwt}
                                 </Typography>
-                                <Typography variant="body2" className='procat_card-ContentData'>
+                                <Typography variant="body2" className='proCat_card-ContentData'>
                                   GWT: {product?.gwt}
                                 </Typography>
                               </div>
                             </div>
                             <div className='designNocartList'>
-                              <p className='procat_DesignNoTExt'>{product?.designno}</p>
+                              <p className='proCat_DesignNoTExt'>{product?.designno}</p>
                             </div>
                             <div className='closeCartIconDiv'>
                               <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(product); }} />
@@ -263,12 +263,12 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
             </Grid>
           </Grid>
           <Divider sx={{ margin: '10px 0px' }} />
-          <CardActions className='procat_projectUpdateCartBtn-group'>
-            <div className="procat_projectUpdateCartBtn-group">
-              <button className="procat_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
+          <CardActions className='proCat_projectUpdateCartBtn-group'>
+            <div className="proCat_projectUpdateCartBtn-group">
+              <button className="proCat_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
                 Update
               </button>
-              <button className="procat_cartCancel-btn" onClick={onCancelCart}>
+              <button className="proCat_cartCancel-btn" onClick={onCancelCart}>
                 Cancel
               </button>
             </div>

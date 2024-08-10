@@ -26,7 +26,7 @@ function Home() {
   const [minHeight, setMinHeight] = useState("800px");
 
   useEffect(() => {
-    let localData = JSON.parse(localStorage.getItem("storeInit"));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
     if (localData) {
       setMinHeight("0px");
@@ -35,7 +35,7 @@ function Home() {
   }, []);
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -47,92 +47,26 @@ function Home() {
     <>
       <div className="smiling_home_index_main">
         <div style={{ minHeight: minHeight , backgroundColor: 'white' }}>
-          {localData?.Blockno === 1 && (
-            <div className="smiling_home_index_Submain">
-              <TopSection />
-              <TheDifference />
-              <PromotionBaner1 />
-              {localData?.IsHomeAlbum === 1 && <Album />}
-              {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-              {/* <DaimondEveyone /> */}
-              {/* <ShopByCategory /> */}
-              {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-              {localData?.IsHomeTrending === 1 && <TrendingView />}
-              {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-              {/* <SustainAbility /> */}
-              {/* <BestSaller /> */}
-              <BottomBanner />
-              {/* <BrandsComponent/> */}
-              <Footer />
-            </div>
-          )}
-        </div>
-        <div style={{ minHeight: minHeight , backgroundColor: 'white' }}>
-          {localData?.Blockno === 2 && (
             <div className="smiling_home_index_Submain">
               <TopSection />
               <TheDifference />
               <PromotionBaner2 />
-              {localData?.IsHomeAlbum === 1 && <Album1 />}
-              {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+              {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
+              {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
               {/* <DaimondEveyone /> */}
               {/* <ShopByCategory /> */}
-              {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
-              {localData?.IsHomeTrending === 1 && <TrendingView1 />}
-              {localData?.IsHomeDesignSet === 1 && <DesignSet1 />}
+              {/* {localData?.IsHomeNewArrival === 1 && <NewArrival1 />} */}
+              {/* {localData?.IsHomeTrending === 1 && <TrendingView1 />} */}
+              {/* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
               {/* <SustainAbility /> */}
               {/* <BestSaller /> */}
-              <BottomBanner />
-              <BrandsComponent />
-              <Footer />
+              {/* <BottomBanner /> */}
+              {/* <BrandsComponent /> */}
             </div>
-          )}
-        </div>
-
-        {/* <div style={{ minHeight: localData?.Blockno === 2 && '700px' }}>
-        {localData?.Blockno === 2 &&
-          <div className='smiling_home_index_Submain'>
-            <TopSection />
-            <TheDifference />
-            <PromotionBaner1 />
-            {localData?.IsHomeBestSeller === 1 && <PromoSetSection />}
-            {localData?.IsHomeAlbum === 1 && <Album />}
-            <DaimondEveyone />
-            <ShopByCategory />
-            {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-            {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-            {localData?.IsHomeTrending === 1 && <TrendingView />}
-            <SustainAbility />
-            <BestSaller />
-            <BottomBanner />
-            <BrandsComponent/>
-            <Footer />
-          </div>
-        }
-      </div> */}
-        <div>
-          <p
-            style={{
-              paddingBlock: "30px",
-              margin: "0px",
-              textAlign: "center",
-              color: "white",
-              cursor: "pointer",
-              fontSize: "13px",
-              fontWeight: 500,
-              letterSpacing: "1px",
-            }}
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              })
-            }
-          >
-            BACK TO TOP
-          </p>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 }

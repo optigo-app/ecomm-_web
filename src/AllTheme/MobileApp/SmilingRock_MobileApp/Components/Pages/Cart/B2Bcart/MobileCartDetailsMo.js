@@ -41,16 +41,16 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -157,7 +157,7 @@ const MobileCartDetails = ({
                   }
                 </>
               }
-              {sizeCombo?.rd?.length !== 0 &&
+              {sizeCombo?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Mastermanagement_CategorySize} value={selectedItem?.size} onChange={handleSizeChange}>
@@ -165,7 +165,7 @@ const MobileCartDetails = ({
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
                       <>
-                        {sizeCombo?.rd?.map(option => (
+                        {sizeCombo?.map(option => (
                           <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                         ))}
                       </>

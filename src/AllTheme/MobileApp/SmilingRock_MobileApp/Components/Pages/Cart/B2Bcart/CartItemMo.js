@@ -26,11 +26,11 @@ const CartItem = ({
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 

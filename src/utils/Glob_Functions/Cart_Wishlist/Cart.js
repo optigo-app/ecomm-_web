@@ -70,18 +70,18 @@ const useCart = () => {
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
-  const cartStatus = localStorage.getItem('isCartDrawer')
+  const cartStatus = sessionStorage.getItem('isCartDrawer')
 
 
   useEffect(() => {
     const visiterIdVal = Cookies.get('visiterId');
     setVisiterId(visiterIdVal)
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const storedData = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setStoreInit(storeInit)
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData)
-      const cartStatus = localStorage.getItem('isCartDrawer')
+      const cartStatus = sessionStorage.getItem('isCartDrawer')
       setCartDrawer(cartStatus)
     } else {
       setCurrencyData(storeInit)
@@ -90,10 +90,10 @@ const useCart = () => {
 
 
   useEffect(() => {
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -236,23 +236,51 @@ const useCart = () => {
 
   //get category Size
 
+  // const handleCategorySize = async (item) => {
+  //   const visiterId = Cookies.get('visiterId');
+  //   try {
+  //     const response = await getSizeData(item, visiterId, islogin);
+  //     if (response) {
+  //       console.log('categoryData', response);
+  //       setSizeCombo(response?.Data)
+  //       setSizeId(item?.Size)
+
+  //       const sizeChangeData = response?.Data?.rd.filter((size) => {
+  //         return size.sizename === item?.Size;
+  //       });
+
+  //       setSizeChangeData(sizeChangeData)
+  //     }
+  //   } catch (error) {
+  //   }
+  // }
+
   const handleCategorySize = async (item) => {
+    const visiterId = Cookies.get('visiterId');
     try {
       const response = await getSizeData(item, visiterId, islogin);
       if (response) {
-        console.log('categoryData', response);
-        setSizeCombo(response?.Data)
-        setSizeId(item?.Size)
+        const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
+          const extractNumber = (sizeName) => parseFloat(sizeName?.replace(/[^0-9.]/g, ''));
 
-        const sizeChangeData = response?.Data?.rd.filter((size) => {
-          return size.sizename === item?.Size;
+          const numA = extractNumber(a?.sizename);
+          const numB = extractNumber(b?.sizename);
+
+          return numA - numB;
         });
-
-        setSizeChangeData(sizeChangeData)
+        console.log('sortedSizeData', sortedSizeData);
+        setSizeCombo(sortedSizeData);
+        setSizeId(item?.Size);
+        const sizeChangeData = sortedSizeData?.filter((size) => size?.sizename == item?.Size);
+        setSizeChangeData(sizeChangeData);
       }
     } catch (error) {
+      console.error('Failed to fetch size data:', error);
     }
-  }
+  };
+
+
+
 
   // update cart
   const handleUpdateCart = async (updatedItems) => {
@@ -315,63 +343,50 @@ const useCart = () => {
   };
 
   // for quantity
+  const updateCartAndSelectedItem = (item, quantity, priceQty) => {
+    const updatedCartData = cartData.map(cart =>
+      cart.id === item.id ? { ...cart, Quantity: quantity, FinalCost: priceQty } : cart
+    );
+    setCartData(updatedCartData);
+
+    const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: quantity, FinalCost: priceQty } : selectedItem;
+    setSelectedItem(updatedSelectedItem);
+  };
+
   const handleIncrement = async (item) => {
-    let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity + 1);
-    console.log('priceQty:', priceQty);
-    if (storeInit?.IsB2BWebsite === 0) {
-      const updatedCartData = cartData.map(cart =>
-        cart.id === item.id ? { ...cart, Quantity: (item?.Quantity || 0) + 1, FinalCost: priceQty } : cart
-      );
-      setCartData(updatedCartData);
-    } else {
-      const updatedCartData = cartData.map(cart =>
-        cart.id === item.id ? { ...cart, Quantity: (item?.Quantity || 0) + 1, FinalCost: priceQty } : cart
-      );
-      setCartData(updatedCartData);
-      const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: (item?.Quantity || 0) + 1, FinalCost: (priceQty) } : selectedItem;
-      setSelectedItem(updatedSelectedItem);
-    }
+    const newQuantity = (item?.Quantity || 0) + 1;
+    const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
+
+    updateCartAndSelectedItem(item, newQuantity, priceQty);
     setQtyCount(prevCount => prevCount + 1);
-    let lastEnteredQuantity = item?.Quantity + 1;
-    let num = item?.id;
+
     try {
-      const response = await updateQuantity(num, lastEnteredQuantity, visiterId, islogin);
+      const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
       console.log("Quantity updated successfully:", response);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     }
   };
 
-
   const handleDecrement = async (item) => {
-    if (item?.Quantity != 1) {
-      let priceQty = (item?.UnitCostWithMarkUp) * (item?.Quantity - 1);
-      if (storeInit?.IsB2BWebsite === 0) {
-        const updatedQtytData = cartData?.map(cart =>
-          cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
-        );
-        setCartData(updatedQtytData);
-      } else {
-        const updatedQtytData = cartData?.map(cart =>
-          cart.id == item.id ? { ...cart, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : cart
-        );
-        setCartData(updatedQtytData);
+    if (item?.Quantity > 1) {
+      const newQuantity = item.Quantity - 1;
+      const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
 
-        const updatedSelectedItem = selectedItem.id === item.id ? { ...selectedItem, Quantity: item?.Quantity > 1 ? item?.Quantity - 1 : 1, FinalCost: (priceQty) } : selectedItem;
-        setSelectedItem(updatedSelectedItem);
-      }
+      updateCartAndSelectedItem(item, newQuantity, priceQty);
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
-      const updatedQtyCount = qtyCount > 1 ? item?.Quantity - 1 : 1;
-      let num = selectedItem?.id;
-      if (qtyCount > 1) {
-        try {
-          const response = await updateQuantity(num, updatedQtyCount, visiterId, islogin);
-        } catch (error) {
-          console.error("Failed to update quantity:", error);
-        }
+
+      try {
+        const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
+        console.log("Quantity updated successfully:", response);
+      } catch (error) {
+        console.error("Failed to update quantity:", error);
       }
     }
   };
+
+  console.log('selectedItem', selectedItem);
+
 
 
   // for dropdown changes
@@ -379,22 +394,20 @@ const useCart = () => {
     const selectedTypeName = event.target.value;
     const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
-    // console.log('eventKey--', selectedTypeName, selectedID);
 
     const updatedMTData = cartData?.map(cart =>
       cart.id == selectedID ? { ...cart, metaltypename: selectedTypeName } : cart
     );
     setCartData(updatedMTData);
 
-    const selectedMetal = metalTypeCombo.find(option => option.metaltype === selectedTypeName);
+    const selectedMetal = metalTypeCombo?.find(option => option.metaltype === selectedTypeName);
     if (selectedMetal) {
-      const selectedMetalId = selectedMetal.Metalid;
+      const selectedMetalId = selectedMetal?.Metalid;
       console.log('SelectedMetalid:', selectedMetalId);
       setMetalID(selectedMetalId);
-      handlePrice(sizeId, diaIDData, colorStoneID, selectedMetalId);
+      handlePrice(selectedID, sizeId, diaIDData, colorStoneID, selectedMetalId);
     }
   };
-
 
   const handleMetalColorChange = (event) => {
     const selectedTypeName = event.target.value;
@@ -414,7 +427,6 @@ const useCart = () => {
       setMetalCOLORID(selectedMetalId);
     }
   };
-
 
   const handleDiamondChange = (event) => {
     const value = event.target.value;
@@ -442,10 +454,9 @@ const useCart = () => {
       const diaId = `${selectedDiaQId},${selectedDiaCId}`;
       console.log('Selected Metalid:', diaId);
       setdiaID(diaId);
-      handlePrice("",sizeId, diaId, colorStoneID, metalID);
+      handlePrice(selectedID, sizeId, diaId, colorStoneID, metalID);
     }
   };
-
 
   const handleSizeChange = (event) => {
     const sizedata = event?.target?.value;
@@ -459,14 +470,12 @@ const useCart = () => {
     );
     setCartData(updatedSizeData);
 
-    const sizeChangeData = sizeCombo?.rd.filter(size => size.sizename === sizedata);
+    const sizeChangeData = sizeCombo?.filter(size => size.sizename === sizedata);
     setSizeChangeData(sizeChangeData);
     console.log("sizeChangeData", sizeChangeData);
 
-    handlePrice(selectedID,sizedata, diaIDData, colorStoneID, metalID);
+    handlePrice(selectedID, sizedata, diaIDData, colorStoneID, metalID);
   };
-
-
 
   const handleColorStoneChange = (event) => {
     const value = event.target.value;
@@ -494,7 +503,7 @@ const useCart = () => {
       const csQid = `${selectedCSQId},${selectedCSCId}`;
       console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
       setColorStoneID(csQid);
-      handlePrice("",sizeId, diaIDData, csQid, metalID);
+      handlePrice(selectedID, sizeId, diaIDData, csQid, metalID);
     }
 
     console.log('kdjhkjhdhjas--', selectedCS);
@@ -505,7 +514,7 @@ const useCart = () => {
 
   const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
     try {
-      setIsPriceLoding(true)
+      setIsPriceLoding(true);
       const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
       if (response?.Message === "Success") {
         const resData = response?.Data?.rd[0];
@@ -513,27 +522,29 @@ const useCart = () => {
         setSelectedItem(prevItem => ({
           ...prevItem,
           FinalCost: finalPrice,
-          UnitCostWithMarkUp: resData?.UnitCostWithMarkUp
+          UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
+          Quantity: qtyCount
         }));
 
-        const updatedPricetData = cartData?.map(cart =>
-          cart?.id == selectedID ? {
-            ...cart, 
+        setCartData(prevCartData => prevCartData.map(cart =>
+          cart.id === selectedID ? {
+            ...cart,
             FinalCost: finalPrice,
             UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
-            Size:sizedata
+            Quantity: qtyCount,
+            Size: sizedata
           } : cart
-        );
-        setCartData(updatedPricetData);
+        ));
 
         console.log('priceRes--', finalPrice);
-        setIsPriceLoding(false)
       }
     } catch (error) {
       console.error("Failed to update quantity:", error);
-      setIsPriceLoding(false)
+    } finally {
+      setIsPriceLoding(false);
     }
   };
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -587,7 +598,7 @@ const useCart = () => {
 
   // browse our collection
   const handelMenu = () => {
-    let menudata = JSON.parse(localStorage.getItem('menuparams'));
+    let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
     if (menudata) {
       console.log('otherparamsUrl--', menudata);
       const queryParameters1 = [

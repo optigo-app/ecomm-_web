@@ -32,7 +32,7 @@ import Cookies from 'js-cookie'
 
 const ProductList = () => {
 
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   let location = useLocation();
   let navigate = useNavigate();
@@ -164,17 +164,17 @@ const ProductList = () => {
 
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI()
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
 
           }
@@ -190,7 +190,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("diamondQualityColorCombo",JSON.stringify(data));
+            sessionStorage.setItem("diamondQualityColorCombo",JSON.stringify(data));
             setDiaQcCombo(data);
           }
         })
@@ -205,7 +205,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data) );
+            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data) );
             setCsQcCombo(data);
           }
         })
@@ -220,7 +220,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
           }
         })
         .catch((err) => console.log(err));
@@ -229,8 +229,8 @@ const ProductList = () => {
 
   useEffect(() => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
 
     let mtid = loginUserDetail?.MetalId ?? storeinit?.MetalId
     setSelectedMetalId(mtid)
@@ -247,7 +247,7 @@ const ProductList = () => {
 
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -273,21 +273,21 @@ const ProductList = () => {
   // },[location?.key])
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit)
 
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetalTypeCombo(mtCombo)
 
-    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiaQcCombo(diaQcCombo)
 
-    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
     setCsQcCombo(CsQcCombo)
   }, [])
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"))
+    let param = JSON.parse(sessionStorage.getItem("menuparams"))
     if(location?.state?.SearchVal === undefined){
       setMenuParams(param)
      }
@@ -701,7 +701,7 @@ const ProductList = () => {
   }
   const handleCartandWish = (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       "autocode": ele?.autocode,
@@ -774,7 +774,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
             setIsProdLoading(false)
           }, 100);
           window.scroll({
@@ -790,9 +790,9 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
     
     if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
       if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
@@ -2255,11 +2255,17 @@ const ProductList = () => {
                                         {/* </Button> */}
                                       </div>
 
-                                      <div className="smr_app_product_label">
-                                        {productData?.IsInReadyStock == 1 && <span className="smr_app_instock">In Stock</span>}
-                                        {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New Arrival</span>}
+                                      <div className="smrMA_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && 
+                                        <span className="smrMA_app_instock">In Stock</span>
+                                         } 
+                                        {productData?.IsBestSeller == 1 && <span className="smrMA_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && 
+                                        <span className="smrMA_app_intrending">Trending</span>
+                                        } 
+                                        {productData?.IsNewArrival == 1 &&
+                                         <span className="smrMA_app_newarrival">New</span>
+                                         } 
                                       </div>
                                       <img
                                         className="smr_productCard_Image"

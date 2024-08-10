@@ -51,7 +51,7 @@ const CartItem = ({
   const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const [storeInitData, setStoreInitData] = useState();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");
   const isMediumScreen = useMediaQuery(
@@ -62,9 +62,9 @@ const CartItem = ({
   );
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
-    const isCartUpdateStatus = localStorage.getItem("cartUpdation");
+    const isCartUpdateStatus = sessionStorage.getItem("cartUpdation");
     setCountStatus(isCartUpdateStatus);
   }, [onRemove]);
 
@@ -203,24 +203,38 @@ const CartItem = ({
                   flexWrap: "wrap",
                 }}
               >
-                <div>
-                  <Typography variant="body2" className="hoq_card-ContentsData">
-                    NWT: {(item?.Nwt || 0).toFixed(3)}
-                  </Typography>
-                  <Typography variant="body2" className="hoq_card-ContentsData">
-                    CWT: {(item?.CSwt || 0).toFixed(3)} /
-                    {(item?.CSpcs || 0).toFixed(0)}
-                  </Typography>
-                </div>
-                <div>
-                  <Typography variant="body2" className="hoq_card-ContentsData">
-                    GWT: {(item?.Gwt || 0).toFixed(3)}
-                  </Typography>
-                  <Typography variant="body2" className="hoq_card-ContentsData">
-                    DWT: {(item?.Dwt || 0).toFixed(3)} /
-                    {(item?.Dpcs || 0).toFixed(0)}
-                  </Typography>
-                </div>
+                {Number(item?.Nwt) !== 0 && (
+                    <Typography variant="body2" className='hoq_card-ContentsData'>
+                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                    </Typography>
+                  )}
+                 {storeInitData?.IsStoneWeight == 1 &&
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='hoq_card-ContentsData'>
+                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
+                          </Typography>
+                        </>
+                      }
+                    </>
+                  }
+                {storeInitData?.IsGrossWeight == 1 &&
+                    <Typography variant="body2" className='hoq_card-ContentsData'>
+                      GWT: {(item?.Gwt || 0).toFixed(3)}
+                    </Typography>
+                  }
+                 {storeInitData?.IsDiamondWeight == 1 &&
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='hoq_card-ContentsData'>
+                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
+                          </Typography>
+                        </>
+                      }
+                    </>
+                  }
               </div>
               {item?.StockNo != "" && (
                 <span className="hoq_DesignNoTExt">{item?.StockNo}</span>

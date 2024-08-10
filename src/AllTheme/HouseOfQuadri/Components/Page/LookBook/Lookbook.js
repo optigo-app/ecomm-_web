@@ -62,7 +62,7 @@ const Lookbook = () => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery("(max-width:800px)");
 
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
@@ -87,15 +87,15 @@ const Lookbook = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON?.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let data = JSON.parse(localStorage.getItem("storeInit"));
+    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignSetImageFol);
     setImageUrlDesignSet(data?.DesignImageFol);
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -129,8 +129,8 @@ const Lookbook = () => {
 
   useEffect(() => {
     console.log("cartItemscartItemscartItems", filterData);
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -206,8 +206,8 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
 
     const visiterID = Cookies.get("visiterId");
@@ -256,7 +256,7 @@ const Lookbook = () => {
 
   const parseDesignDetails = (details) => {
     try {
-      return JSON.parse(details);
+      return JSON?.parse(details);
     } catch (error) {
       console.error("Error parsing design details:", error);
       return [];
@@ -267,7 +267,7 @@ const Lookbook = () => {
   let cookie = Cookies.get("visiterId");
 
   const handleAddToCart = (ele, type) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       autocode: ele?.autocode,
@@ -340,7 +340,7 @@ const Lookbook = () => {
   };
 
   const handleByCombo = (data) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObjs = data.map((detail) => createProdObj(detail, loginInfo));
     setCartItems((prevItems) => [
       ...prevItems,
@@ -379,7 +379,7 @@ const Lookbook = () => {
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
     };
-    let encodeObj = compressAndEncode(JSON.stringify(obj));
+    let encodeObj = compressAndEncode(JSON?.stringify(obj));
     navigate(
       `/d/${titleLine?.replace(/\s+/g, `_`)}${
         titleLine?.length > 0 ? "_" : ""
@@ -415,7 +415,7 @@ const Lookbook = () => {
       ?.map((set) => ({
         ...set,
         Designdetail: JSON?.stringify(
-          JSON.parse(set.Designdetail)?.filter((detail) =>
+          JSON?.parse(set.Designdetail)?.filter((detail) =>
             selectedCategories?.includes(detail.CategoryName)
           )
         ),
@@ -591,7 +591,7 @@ const Lookbook = () => {
                             overflow: "auto",
                           }}
                         >
-                          {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                          {(JSON?.parse(ele?.options) ?? []).map((opt) => (
                             <div
                               style={{
                                 display: "flex",
@@ -702,7 +702,7 @@ const Lookbook = () => {
                           overflow: "auto",
                         }}
                       >
-                        {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
+                        {(JSON?.parse(ele?.options) ?? []).map((opt, i) => (
                           <div
                             style={{
                               display: "flex",
@@ -779,19 +779,19 @@ const Lookbook = () => {
                                   ? `Under ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Maxval}`
+                                    }  ${formatter(opt?.Maxval)}`
                                   : opt?.Maxval == 0
                                   ? `Over ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Minval}`
+                                    }  ${formatter(opt?.Minval)}`
                                   : `${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Minval} - ${
+                                    }  ${formatter(opt?.Minval)} - ${
                                       loginUserDetail?.CurrencyCode ??
                                       storeInit?.CurrencyCode
-                                    }  ${opt?.Maxval}`
+                                    }  ${formatter(opt?.Maxval)}`
                               }
                             />
                           </div>
@@ -870,7 +870,7 @@ const Lookbook = () => {
                       overflow: "auto",
                     }}
                   >
-                    {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                    {(JSON?.parse(ele?.options) ?? []).map((opt) => (
                       <div
                         style={{
                           display: "flex",
@@ -1002,7 +1002,7 @@ const Lookbook = () => {
                                 overflow: "auto",
                               }}
                             >
-                              {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                              {(JSON?.parse(ele?.options) ?? []).map((opt) => (
                                 <div
                                   style={{
                                     display: "flex",
@@ -1204,19 +1204,19 @@ const Lookbook = () => {
                                         ? `Under ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Maxval}`
+                                          } ${formatter(opt?.Maxval)}`
                                         : opt?.Maxval == 0
                                         ? `Over ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          }${opt?.Minval}`
+                                          }${formatter(opt?.Minval)}`
                                         : `${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Minval} - ${
+                                          } ${formatter(opt?.Minval)} - ${
                                             loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                          } ${opt?.Maxval}`
+                                          } ${formatter(opt?.Maxval)}`
                                     }
                                   />
                                 </div>
@@ -1376,15 +1376,15 @@ const Lookbook = () => {
                         <p style={{ fontSize: "13px", margin: "2px" }}>
                           DWT:{" "}
                           {calculateTotalUnitCostWithMarkUpDwt(
-                            JSON.parse(slide.Designdetail)
+                            JSON?.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
                           | GWT:{" "}
                           {calculateTotalUnitCostWithMarkUpGWt(
-                            JSON.parse(slide.Designdetail)
+                            JSON?.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
                           | NWT:{" "}
                           {calculateTotalUnitCostWithMarkUpNwt(
-                            JSON.parse(slide.Designdetail)
+                            JSON?.parse(slide.Designdetail)
                           ).toFixed(3)}{" "}
                         </p>
                         <div
@@ -1413,7 +1413,7 @@ const Lookbook = () => {
                             /> */}
                             &nbsp;
                             {calculateTotalUnitCostWithMarkUp(
-                              JSON.parse(slide.Designdetail)
+                              JSON?.parse(slide.Designdetail)
                             ).toLocaleString('en-IN')}
                           </p>
                           <button
@@ -1603,15 +1603,15 @@ const Lookbook = () => {
                             <p style={{ fontSize: "13px", margin: "2px" }}>
                               DWT:{" "}
                               {calculateTotalUnitCostWithMarkUpDwt(
-                                JSON.parse(slide.Designdetail)
+                                JSON?.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
                               | GWT:{" "}
                               {calculateTotalUnitCostWithMarkUpGWt(
-                                JSON.parse(slide.Designdetail)
+                                JSON?.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
                               | NWT:{" "}
                               {calculateTotalUnitCostWithMarkUpNwt(
-                                JSON.parse(slide.Designdetail)
+                                JSON?.parse(slide.Designdetail)
                               ).toFixed(3)}{" "}
                             </p>
                             <div
@@ -1640,7 +1640,7 @@ const Lookbook = () => {
                                 </span>
                                 &nbsp;
                                 {calculateTotalUnitCostWithMarkUp(
-                                  JSON.parse(slide.Designdetail)
+                                  JSON?.parse(slide.Designdetail)
                                 ).toLocaleString('en-IN')}
                               </p>
                               <button
@@ -1911,56 +1911,42 @@ const Lookbook = () => {
                                             <p style={{
                                               lineHeight :"14px"
                                             }}>
-                                            <span className="hoq_lb3detailDT">
-                                                NWT :{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Nwt || 0)
-                                                  .toFixed(3)
-                                                  }{" "}
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                GWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Gwt || 0)
-                                                  .toFixed(3)
-                                                 }
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                DWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.Dwt || 0)
-                                                  .toFixed(3)
-                                                }{" "}
-                                                /{" "}
-                                                {(ele?.Dpcs || 0)
-                                                }
-                                              </span>
-                                              <span className="hoq_lb3pipe">
-                                                {" "}
-                                                |{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                              CWT:{" "}
-                                              </span>
-                                              <span className="hoq_lb3detailDT">
-                                                {(ele?.CSwt || 0)
-                                                  .toFixed(3)
-                                                  }{" "}
-                                                /{" "}
-                                                {(ele?.CSpcs || 0)
-                                                }{" "}
-                                              </span>
+                                            {Number(ele?.Nwt) !== 0 && (
+                                                <>
+                                                  <span className='hoq_lb3detailDT'>NWT : </span>
+                                                  <span className='hoq_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              )}
+                                             
+                                              {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                <span className="hoq_lb3pipe"> | </span>
+                                                  <span className='hoq_lb3detailDT'>GWT: </span>
+                                                  <span className='hoq_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                              }
+                                              {storeInit?.IsDiamondWeight == 1 &&
+                                                <>
+                                                  {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                    <>
+                                                      <span className='hoq_lb3pipe'> | </span>
+                                                      <span className='hoq_lb3detailDT'>DWT: </span>
+                                                      <span className='hoq_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
+                                             {storeInit?.IsStoneWeight == 1 &&
+                                                <>
+                                                  {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                    <>
+                                                      <span className='hoq_lb3pipe'> | </span>
+                                                      <span className='hoq_lb3detailDT'>CWT: </span>
+                                                      <span className='hoq_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                    </>
+                                                  }
+                                                </>
+                                              }
                                             </p>
                                               {/* <span
                                               className="hoq_currencyFont"
@@ -2019,7 +2005,7 @@ const Lookbook = () => {
                                       </span>
                                       &nbsp;
                                       {calculateTotalUnitCostWithMarkUp(
-                                        JSON.parse(slide.Designdetail)
+                                        JSON?.parse(slide.Designdetail)
                                       ).toLocaleString('en-IN')}
                                     </span>
                                   </div>

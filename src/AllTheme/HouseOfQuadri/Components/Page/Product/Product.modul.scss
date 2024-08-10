@@ -14,7 +14,6 @@
     margin-bottom: 10px;
     font-weight: 600;
   }
-
   p {
     font-size: 18px;
     color: #666;
@@ -108,15 +107,15 @@
           display: block;
         }
         .box {
-          width: 100px ;
-          height: 150px ;
+          width: 100px;
+          height: 150px;
           display: flex;
           align-items: center;
           justify-content: center;
           background-color: rgba(235, 232, 232, 0.329);
           min-height: 150px;
           img {
-            width:100% !important;
+            width: 100% !important;
             height: 100% !important;
             object-fit: contain;
             mix-blend-mode: multiply;
@@ -183,7 +182,7 @@
     .product_details {
       width: 60%;
       height: auto;
-      overflow-y: scroll;
+      // overflow-y: scroll;
       padding-top: 2rem;
       &::-webkit-scrollbar {
         display: none;
@@ -300,6 +299,17 @@
                 margin-top: -3px;
               }
             }
+          }
+        }
+        .delivery_hoq {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          padding: 0;
+          margin: 0;
+          span {
+            padding: 2px 0;
           }
         }
         .hoq_single_prod_customize {
@@ -994,13 +1004,13 @@
           }
         }
         .product_main_Details {
-          .hoq_single_prod_customize_main{
-            .first_row_hoq_new{
-              .hoq_single_prod_customize{
-                label{
+          .hoq_single_prod_customize_main {
+            .first_row_hoq_new {
+              .hoq_single_prod_customize {
+                label {
                   font-size: 16px;
                 }
-                select{
+                select {
                   font-size: 1rem !important;
                 }
               }
@@ -1075,7 +1085,7 @@
       }
     }
   }
-  @media screen and (max-width : 380px) {
+  @media screen and (max-width: 380px) {
     main {
       .images_slider {
         width: 100%;
@@ -1095,7 +1105,7 @@
       }
     }
   }
-  @media screen and (max-width : 345px) {
+  @media screen and (max-width: 345px) {
     main {
       .images_slider {
         width: 100%;

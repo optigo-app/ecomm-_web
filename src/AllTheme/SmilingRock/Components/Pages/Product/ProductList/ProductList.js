@@ -43,19 +43,19 @@ import { Helmet } from "react-helmet";
 
 const ProductList = () => {
 
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit)
 
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetalTypeCombo(mtCombo)
 
-    let diaQcCombo = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiaQcCombo(diaQcCombo)
 
-    let CsQcCombo = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
+    let CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
     setCsQcCombo(CsQcCombo)
   }, [])
 
@@ -121,7 +121,7 @@ const ProductList = () => {
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
     document.documentElement.style.setProperty(
       "--background-color",
@@ -220,17 +220,17 @@ const ProductList = () => {
 
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
-    let csQcLocal = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"));
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
 
           }
@@ -246,7 +246,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
             setDiaQcCombo(data);
           }
         })
@@ -261,7 +261,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
             setCsQcCombo(data);
           }
         })
@@ -276,7 +276,7 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
           }
         })
         .catch((err) => console.log(err));
@@ -284,7 +284,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -304,7 +304,7 @@ const ProductList = () => {
 
   useEffect(() => {
 
-    let param = JSON.parse(localStorage.getItem("menuparams"))
+    let param = JSON.parse(sessionStorage.getItem("menuparams"))
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
     }
@@ -704,9 +704,9 @@ const ProductList = () => {
     setAccExpanded(false)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     handelFilterClearAll()
-  },[location?.key])
+  }, [location?.key])
 
   const handelPageChange = (event, value) => {
 
@@ -749,7 +749,7 @@ const ProductList = () => {
 
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       "autocode": ele?.autocode,
@@ -802,7 +802,7 @@ const ProductList = () => {
     if (productListData?.length === 0 || !productListData) {
       setFilterProdListEmpty(true)
     } else {
-      setFilterProdListEmpty(false)        
+      setFilterProdListEmpty(false)
       setAfterCountStatus(false);
     }
   }, [productListData])
@@ -825,7 +825,7 @@ const ProductList = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
             setIsOnlyProdLoading(false)
           }, 100);
         })
@@ -836,9 +836,9 @@ const ProductList = () => {
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
 
     if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
@@ -1126,7 +1126,7 @@ const ProductList = () => {
 
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] )? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1153,9 +1153,9 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1] ) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1])  ? "" : sliderValue[1] }
+    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1244,7 +1244,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={(event, newValue)=>setSliderValue(newValue)}
+              onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1292,7 +1292,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={()=>(event, newValue)=>setSliderValue1(newValue)}
+              onChange={() => (event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1339,7 +1339,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={(event, newValue)=>setSliderValue2(newValue)}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
               onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1530,7 +1530,7 @@ const ProductList = () => {
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                     >
                       {" "}
-                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                      {`${diaQc.Quality},${diaQc.color}`}
                     </option>
                   ))}
                 </select>
@@ -2746,7 +2746,7 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
                                       {ele.Name}
@@ -3086,27 +3086,11 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="smr_product_label">
-                                      {productData?.IsInReadyStock == 1 && (
-                                        <span className="smr_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.IsBestSeller == 1 && (
-                                        <span className="smr_bestSeller">
-                                          Best Seller
-                                        </span>
-                                      )}
-                                      {productData?.IsTrending == 1 && (
-                                        <span className="smr_intrending">
-                                          Trending
-                                        </span>
-                                      )}
-                                      {productData?.IsNewArrival == 1 && (
-                                        <span className="smr_newarrival">
-                                          New Arrival
-                                        </span>
-                                      )}
+                                    <div className="smrWeb_app_product_label">
+                                      {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
+                                      {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
+                                      {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
+                                      {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
                                     </div>
                                     <div
                                       onMouseEnter={() => {
@@ -3210,20 +3194,20 @@ const ProductList = () => {
                                           {storeInit?.IsGrossWeight == 1 &&
                                             Number(productData?.Gwt) !== 0 && (
                                               <span className="smr_prod_wt">
-                                                <span className="smr_keys">
+                                                <span className="smr_main_keys">
                                                   GWT:
                                                 </span>
-                                                <span className="smr_val">
+                                                <span className="smr_main_val">
                                                   {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span>|</span>
+                                              <span style={{fontSize:'0.9vw'}}>|</span>
                                               <span className="smr_prod_wt">
-                                                <span className="smr_keys">NWT:</span>
-                                                <span className="smr_val">
+                                                <span className="smr_main_keys">NWT:</span>
+                                                <span className="smr_main_val">
                                                   {(productData?.Nwt)?.toFixed(3)}
                                                 </span>
                                               </span>
@@ -3234,12 +3218,12 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                                <span style={{fontSize:'0.9vw'}}>|</span>
                                                 <span className="smr_prod_wt">
-                                                  <span className="smr_keys">
+                                                  <span className="smr_main_keys">
                                                     DWT:
                                                   </span>
-                                                  <span className="smr_val">
+                                                  <span className="smr_main_val">
                                                     {(productData?.Dwt)?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs === 1
                                                       ? `/${productData?.Dpcs}`
@@ -3251,12 +3235,12 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                                <span style={{fontSize:'0.9vw'}}>|</span>
                                                 <span className="smr_prod_wt">
-                                                  <span className="smr_keys">
+                                                  <span className="smr_main_keys">
                                                     CWT:
                                                   </span>
-                                                  <span className="smr_val">
+                                                  <span className="smr_main_val">
                                                     {(productData?.CSwt)?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
@@ -3303,7 +3287,7 @@ const ProductList = () => {
                                               )?.toFixed(2)} */}
                                             {formatter(
                                               productData?.UnitCostWithMarkUp
-                                             )}
+                                            )}
                                           </span>
                                         </span>
                                       </div>

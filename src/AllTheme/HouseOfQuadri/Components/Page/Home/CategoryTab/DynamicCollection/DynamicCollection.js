@@ -22,6 +22,7 @@ import { IoChevronForward } from "react-icons/io5";
 import {
   findMetalColor,
   findMetalType,
+  formatter,
   storImagePath,
 } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import {
@@ -58,7 +59,7 @@ import { Hoq_CartCount, Hoq_WishCount } from "../../../../Recoil/atom";
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 
 const DynamicCollection = () => {
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const location = useLocation();
   const { query } = useParams();
   const navigate = useNavigate();
@@ -109,26 +110,26 @@ const DynamicCollection = () => {
   console.log("wofbwejlkfbwejlkfbwejlk", loginUserDetail?.CurrencyCode);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
     console.log(storeInit);
-    let mtCombo = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     SetmetalTypeCombo(mtCombo);
 
     let diaQcCombo = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     SetdiamondQualityColorCombo(diaQcCombo);
 
     let CsQcCombo = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     SetColorStoneQualityColorCombo(CsQcCombo);
   }, []);
 
   useEffect(() => {
-    let param = JSON.parse(localStorage.getItem("menuparams"));
+    let param = JSON.parse(sessionStorage.getItem("menuparams"));
 
     if (location?.state?.SearchVal === undefined) {
       setMenuParams(param);
@@ -219,6 +220,7 @@ const DynamicCollection = () => {
   //  range filter Api
 
   const handleRangeFilterApi = async (Rangeval) => {
+    setIsProdLoading(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -255,15 +257,18 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false);
       });
   };
   const handleRangeFilterApi1 = async (Rangeval1) => {
+    setIsProdLoading(true);
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -300,15 +305,19 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false);
       });
   };
   const handleRangeFilterApi2 = async (Rangeval2) => {
+    setIsProdLoading(true);
+
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -345,12 +354,14 @@ const DynamicCollection = () => {
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+          setIsProdLoading(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
         setIsOnlyProdLoading(false);
+        setIsProdLoading(false);
       });
   };
 
@@ -370,7 +381,6 @@ const DynamicCollection = () => {
   };
 
   const handleInputChange = (index) => (event) => {
-
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
     )[0];
@@ -378,14 +388,14 @@ const DynamicCollection = () => {
     const newSliderValue = [...sliderValue];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
-      // if(index === 1  && diafilter?.Max > event.target.value){
-      //   setSliderValue(newSliderValue);
-      //   handleRangeFilterApi(newSliderValue);
-      // }
-      // if(index === 0 && diafilter?.Min < event.target.value){
-        setSliderValue(newSliderValue);
-        handleRangeFilterApi(newSliderValue);
-      // }
+    // if(index === 1  && diafilter?.Max > event.target.value){
+    //   setSliderValue(newSliderValue);
+    //   handleRangeFilterApi(newSliderValue);
+    // }
+    // if(index === 0 && diafilter?.Min < event.target.value){
+    setSliderValue(newSliderValue);
+    handleRangeFilterApi(newSliderValue);
+    // }
   };
   // gross
   const handleInputChange1 = (index) => (event) => {
@@ -395,7 +405,7 @@ const DynamicCollection = () => {
     setSliderValue1(newSliderValue);
     handleRangeFilterApi1(newSliderValue);
   };
-  // 
+  //
   const handleInputChange2 = (index) => (event) => {
     const newSliderValue = [...sliderValue2];
     newSliderValue[index] =
@@ -529,6 +539,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                pattern: "\\d*(\\.\\d{0,3})?",
               }}
             />
             <Input
@@ -541,6 +552,7 @@ const DynamicCollection = () => {
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider",
+                pattern: "\\d*(\\.\\d{0,3})?",
               }}
             />
           </div>
@@ -553,7 +565,7 @@ const DynamicCollection = () => {
   useEffect(() => {
     setIsProdLoading(true);
     const fetchData = async () => {
-      const data = JSON.parse(localStorage.getItem("storeInit"));
+      const data = JSON.parse(sessionStorage.getItem("storeInit"));
       setStoreInit(data);
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
@@ -780,21 +792,21 @@ const DynamicCollection = () => {
 
   // image hover ends
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             SetmetalTypeCombo(data);
           }
         })
@@ -808,7 +820,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "diamondQualityColorCombo",
               JSON.stringify(data)
             );
@@ -825,7 +837,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "ColorStoneQualityColorCombo",
               JSON.stringify(data)
             );
@@ -842,7 +854,7 @@ const DynamicCollection = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
           }
         })
         .catch((err) => console.log(err));
@@ -958,7 +970,7 @@ const DynamicCollection = () => {
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
             setIsProdLoading(false);
           }, 100);
         });
@@ -993,9 +1005,9 @@ const DynamicCollection = () => {
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    localStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
     if (
       loginInfo?.MetalId !== selectedMetalId ||
@@ -1156,7 +1168,7 @@ const DynamicCollection = () => {
   // };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -1177,11 +1189,11 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
     setCurrentPage(value);
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
       .then((res) => {
         if (res) {
@@ -1211,7 +1223,7 @@ const DynamicCollection = () => {
 
   const handleCartandWish = (e, ele, type) => {
     console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       autocode: ele?.autocode,
@@ -1413,19 +1425,18 @@ const DynamicCollection = () => {
                     border: "1px solid #e1e1e1",
                     borderRadius: "8px",
                     minWidth: "270px",
-                    textTransform  :"uppercase"
+                    textTransform: "uppercase",
                   }}
                   className="select"
                   value={selectedDiaId}
                   onChange={(e) => setSelectedDiaId(e.target.value)}
-
                 >
                   {diamondQualityColorCombo?.map((diaQc) => (
                     <option
                       className="option"
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                      style={{textTransform  :"uppercase"}}
+                      style={{ textTransform: "uppercase" }}
                     >
                       {" "}
                       {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
@@ -1455,19 +1466,18 @@ const DynamicCollection = () => {
                     borderRadius: "8px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    textTransform  :"uppercase"
+                    textTransform: "uppercase",
                   }}
                   className="select"
                   value={selectedCsId}
                   onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
+                >
                   {ColorStoneQualityColorCombo?.map((csCombo) => (
                     <option
                       className="option"
                       key={csCombo?.QualityId}
                       value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                      style={{textTransform  :"uppercase"}}
-
+                      style={{ textTransform: "uppercase" }}
                     >
                       {" "}
                       {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
@@ -1535,7 +1545,12 @@ const DynamicCollection = () => {
             {filterData?.length > 0 && (
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
-                  <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>
+                  <span
+                    style={{
+                      fontWeight: "500",
+                      fontFamily: "Tenor Sans , sans-serif",
+                    }}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0 ? (
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
@@ -1555,7 +1570,13 @@ const DynamicCollection = () => {
                       </>
                     )}
                   </span>
-                  <span onClick={() => handelFilterClearAll()} style={{fontWeight : "600" ,fontFamily  :"Tenor Sans , sans-serif",}}>
+                  <span
+                    onClick={() => handelFilterClearAll()}
+                    style={{
+                      fontWeight: "600",
+                      fontFamily: "Tenor Sans , sans-serif",
+                    }}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
@@ -1569,7 +1590,12 @@ const DynamicCollection = () => {
                             className="pSkelton"
                           />
                         ) : (
-                          <span style={{fontWeight : "500" ,fontFamily  :"Tenor Sans , sans-serif",}}>{`Total Products: ${afterFilterCount}`}</span>
+                          <span
+                            style={{
+                              fontWeight: "500",
+                              fontFamily: "Tenor Sans , sans-serif",
+                            }}
+                          >{`Total Products: ${afterFilterCount}`}</span>
                         )}
                       </>
                     )}
@@ -1790,19 +1816,21 @@ const DynamicCollection = () => {
                                       ? `Under  ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )} ${opt?.Maxval}`
+                                        )} ${formatter(opt?.Maxval)}`
                                       : opt?.Maxval == 0
                                       ? `Over  ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )} ${opt?.Minval}`
+                                        )} ${formatter(opt?.Minval)}`
                                       : `${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${opt?.Minval} - ${decodeEntities(
+                                        )}  ${formatter(
+                                          opt?.Minval
+                                        )} - ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${opt?.Maxval}`
+                                        )}  ${formatter(opt?.Maxval)}`
                                   }
                                 />
                               </div>
@@ -1819,7 +1847,6 @@ const DynamicCollection = () => {
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
-                              
                             },
                             "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
@@ -1844,7 +1871,6 @@ const DynamicCollection = () => {
 
                               "&.MuiAccordionSummary-root": {
                                 padding: 0,
-
                               },
                             }}
                             // className="filtercategoryLable"
@@ -2051,8 +2077,8 @@ const DynamicCollection = () => {
           {/* productlist cards */}
           <div className="cc_list">
             {/* top filter bar */}
-            <div className="collections_list">
-              {/* loader */}
+            {/* <div className="collections_list">
+             
               {isProdLoading ? (
                 <LoadingSkeleton />
               ) : productListData && productListData.length > 0 ? (
@@ -2084,10 +2110,47 @@ const DynamicCollection = () => {
                   />
                 ))
               ) : (
-                // not found page
                 <NoProductFound />
               )}
-            </div>
+            </div> */}
+            {isProdLoading ? (
+              <div className="collections_list">
+                <LoadingSkeleton />
+              </div>
+            ) : productListData && productListData.length > 0 ? (
+              <div className="collections_list">
+                {productListData.map((val, i) => (
+                  <C_Card
+                    key={i}
+                    img={ImageUrl(val?.designno, val?.ImageExtension)}
+                    videoUrl={VideoUrl(1, val?.designno, val?.VideoExtension)}
+                    rollUpImage={RollUpImageUrl2(
+                      val?.designno,
+                      val?.ImageExtension,
+                      val?.ImageCount
+                    )}
+                    // CurrenyCode={
+                    //   loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
+                    // }
+                    title={val?.TitleLine}
+                    designo={val?.designno}
+                    decodeEntities={decodeEntities}
+                    productData={val}
+                    handleMoveToDetail={handleMoveToDetail}
+                    storeInit={storeInit}
+                    selectedMetalId={selectedMetalId}
+                    handleCartandWish={handleCartandWish}
+                    cartArr={cartArr}
+                    wishArr={wishArr}
+                    CurrencyCode={loginUserDetail?.CurrencyCode}
+                    CurrencyCode2={storeInit?.CurrencyCode}
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoProductFound />
+            )}
+
             {/* Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && ( */}
             {/* {storeInit?.IsProductListPagination == 1 && */}
             {/* {storeInit?.IsProductListPagination == 1 &&
@@ -2192,7 +2255,7 @@ const C_Card = ({
         />
         <Checkbox
           icon={
-            <FavoriteBorderIcon 
+            <FavoriteBorderIcon
               sx={{
                 fontSize: "26px",
                 color: "#7d7f85",

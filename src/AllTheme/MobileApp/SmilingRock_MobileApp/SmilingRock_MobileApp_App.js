@@ -36,6 +36,7 @@ import Coupons from './Components/Pages/StaticPages/Coupons'
 import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
 import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
+import NewOrderHistoryMapp from './Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp';
 
 const SmilingRock_MobileApp_App = () => {
 
@@ -44,8 +45,8 @@ const SmilingRock_MobileApp_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo);
 
   useEffect(() => {
-    let data = localStorage.getItem("storeInit");
-    let Logindata = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let data = sessionStorage.getItem("storeInit");
+    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
@@ -122,7 +123,8 @@ const SmilingRock_MobileApp_App = () => {
           <Route path="/SalesReport" element={<SalesReport />} />
           <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
           <Route path="/YourProfile" element={<YourProfile />} />
-          <Route path="/OrderHistory" element={<OrderHistory />} />
+          {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
+          <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
           <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/MobileViewComp" element={<MobileViewComp />} />

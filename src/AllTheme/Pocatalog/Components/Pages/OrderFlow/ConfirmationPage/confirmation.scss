@@ -1,10 +1,10 @@
 @import '../../../scss/variable.scss';
 
-.proCat_confirMaindiv{
+.proCat_confirMaindiv {
     background-color: $backgroundColor;
 }
 
-.smr_confirSecondMaindiv{
+.proCat_confirSecondMaindiv {
     margin-inline: 6%;
     background-color: #fff;
 }
@@ -14,6 +14,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 70px;
+    position: relative;
 }
 
 .thankYouContent {
@@ -31,7 +32,7 @@
 }
 
 .orderNumber p {
-    font-size: $fontSize3   ;
+    font-size: $fontSize3 ;
     color: $titleColor;
 }
 
@@ -43,7 +44,7 @@
 .continueShoppingBtn {
     margin-top: 20px;
     height: 40px;
-    width: 150px;
+    width: 190px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
     color: $btn1hoverFontColor;
@@ -52,14 +53,44 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-  
+
     &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
+        color: $btn1hoverFontColor;
+        background-color: $btn1ActivebgColor;
     }
 }
 
-.smr_orderCnfThankyouImage{
+.proCat_orderCnfThankyouImage {
     height: 250px;
     width: 250px
+}
+.proCat_plwlPrintDiv{
+    // position: absolute;
+    // top: 50px;
+    // right: 50px;
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;    
+    justify-content: center;
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1hoverFontColor;
+    background-color: $btn1ActivebgColor;
+    border: 1px solid $btn1FontColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #fff;
+        color: $titleColor;
+    }
+
+    .icon {
+        margin-right: 5px;
+    }
+}
 }

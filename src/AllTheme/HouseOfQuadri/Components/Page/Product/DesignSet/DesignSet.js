@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "./style.scss";
+import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const DesignSet = ({
   storeInit,
@@ -72,7 +73,7 @@ const DesignSet = ({
                     className={
                       (designSetList?.Designdetail == undefined
                         ? []
-                        : JSON.parse(designSetList?.Designdetail)
+                        : JSON?.parse(designSetList?.Designdetail)
                       )?.length > 3
                         ? "compeletethelook_prodt_for_3"
                         : "compeletethelook_prodt"
@@ -91,7 +92,7 @@ const DesignSet = ({
 
                     {(designSetList?.Designdetail == undefined
                       ? []
-                      : JSON.parse(designSetList?.Designdetail)
+                      : JSON?.parse(designSetList?.Designdetail)
                     )?.map((ele, i) => (
                       <div
                         className="completethelook_outer"
@@ -138,9 +139,9 @@ const DesignSet = ({
                                 }
                                 &nbsp;
                                 {
-                                  // formatter.format(
+                                  formatter(
                                   ele?.UnitCostWithMarkUp
-                                  // )
+                                  )
                                 }
                               </p>
                             </div>

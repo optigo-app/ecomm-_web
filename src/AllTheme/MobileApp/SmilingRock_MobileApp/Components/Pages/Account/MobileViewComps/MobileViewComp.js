@@ -23,22 +23,22 @@ const MobileViewComp = () => {
 
     const handleLogout = () => {
         setIsLoginState('false')
-        localStorage.setItem('LoginUser', 'false');
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
+        sessionStorage.setItem('LoginUser', 'false');
+        sessionStorage.removeItem('storeInit');
+        sessionStorage.removeItem('loginUserDetail');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('selectedAddressId');
+        sessionStorage.removeItem('orderNumber');
+        sessionStorage.removeItem('registerEmail');
+        sessionStorage.removeItem('UploadLogicalPath');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('registerMobile');
         naviagation('/')
         window.location.reload();
     }
 
     useEffect(() => {
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         setFname(loginUserDetail?.firstname);
         setLasnane(loginUserDetail?.lastname);
         setUserMobile(loginUserDetail?.defaddress_shippingmobile)

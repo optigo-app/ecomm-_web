@@ -5,7 +5,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { for_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
@@ -14,15 +14,15 @@ const NewArrival = () => {
     const [newArrivalData, setNewArrivalData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [storeInit, setStoreInit] = useState({});
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(for_loginState);
 
     useEffect(() => {
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -31,10 +31,10 @@ const NewArrival = () => {
         } else {
             finalID = loginUserDetail?.id || '0';
         }
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
-        let data = JSON.parse(localStorage.getItem('storeInit'))
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {

@@ -1,36 +1,36 @@
 import { atom } from "recoil";
 
-export const companyLogo = atom({
-    key:'companyLogo',
+export const for_companyLogo = atom({
+    key:'for_companyLogo',
     default:[]
 })
 
-export const loginState = atom({
-  key: 'loginState',
+export const for_loginState = atom({
+  key: 'for_loginState',
   default: false,
 })
 
-export const CartCount = atom({
-  key: 'CartCount',
+export const for_CartCount = atom({
+  key: 'for_CartCount',
   default: 0
 })
 
-export const WishCount = atom({
-  key: 'WishCount',
+export const for_WishCount = atom({
+  key: 'for_WishCount',
   default: 0
 })
 
-export const cartB2CDrawer = atom({
-  key: 'cartB2CDrawer',
+export const for_cartB2CDrawer = atom({
+  key: 'for_cartB2CDrawer',
   default: false
 })
 
-export const DiamondRangeArr = atom({
-  key: 'DiamondRangeArr',
+export const for_DiamondRangeArr = atom({
+  key: 'for_DiamondRangeArr',
   default: []
 })
 
-export const defaultAddressState = atom({
-  key: 'defaultAddressState',
+export const for_defaultAddressState = atom({
+  key: 'for_defaultAddressState',
   default: null,
 });

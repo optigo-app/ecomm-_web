@@ -206,24 +206,25 @@
     margin-top: 20px;
 }
 
-.smr_AddToCart_btn{
+.smrMA_AddToCart_btn{
     border:1px solid #7d7f85;
     width: 80%;
     height: 30%;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 49px;
     cursor: pointer;
-    background-color: white;
+    background-color: #7d7f85;
 }
 
-.smr_addtocart_btn_txt{
+.smrMA_addtocart_btn_txt{
     font-family: $primaryFontFamilyMedium;
     font-size: 15px;
     letter-spacing: 1.5px;
     position: relative;
-    color:$primaryfontcolor2;
+    color: white;
 }
 
 .Smr_wishlistcont{
@@ -354,11 +355,11 @@
 }
   
 .dt_keys {
-font-size: 12px ;
+font-size: 9px;
 }
 
 .dt_val {
-font-size: 12px;
+font-size: 9px;
 font-weight: 400;
 }
 

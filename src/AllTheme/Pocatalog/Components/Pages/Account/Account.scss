@@ -123,6 +123,14 @@
     padding-right: 0;
 }
 
+.sticky_header_web_sm_procat{
+    position: -webkit-sticky !important; /* For Safari */
+    position: sticky !important;
+    top: 55px;
+    background-color: white;
+    z-index: 10; /* Adjust z-index as needed */
+    padding: 10px 0;
+}
 
 @media screen and (max-width: 1441px) {
 

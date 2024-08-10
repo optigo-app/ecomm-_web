@@ -130,21 +130,21 @@ const ProductPage = () => {
   };
 
   const callAllApi = () => {
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
       MetalTypeComboAPI(cookie)
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("metalTypeCombo", JSON.stringify(data));
+            sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
           }
         })
@@ -158,7 +158,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "diamondQualityColorCombo",
               JSON.stringify(data)
             );
@@ -175,7 +175,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem(
+            sessionStorage.setItem(
               "ColorStoneQualityColorCombo",
               JSON.stringify(data)
             );
@@ -192,7 +192,7 @@ const ProductPage = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            localStorage.setItem("MetalColorCombo", JSON.stringify(data));
+            sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
             setMetalColorCombo(data);
           }
         })
@@ -203,7 +203,7 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    const logininfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);
 
@@ -212,7 +212,7 @@ const ProductPage = () => {
   }, [storeInit]);
 
   useEffect(() => {
-    let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
   }, []);
 
@@ -275,14 +275,14 @@ const ProductPage = () => {
       setDecodeUrl(decodeobj);
     }
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     let metalArr;
@@ -421,9 +421,18 @@ const ProductPage = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.metalcolorname == selectMtColor
-    )[0];
+
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorname == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+
+    console.log("selectMtColor", selectMtColor);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -484,10 +493,17 @@ const ProductPage = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) =>
-        ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+
+    let mcArr = metalColorCombo?.filter((ele) => {
+      if (selectMtColor) {
+        return ele?.colorname == selectMtColor;
+      } else {
+        return (
+          ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+        );
+      }
+    })[0];
+    console.log("ekekekekeb", cs);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -534,14 +550,14 @@ const ProductPage = () => {
     let navVal = location?.search.split("?p=")[1];
     let decodeobj = decodeAndDecompress(navVal);
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     setTimeout(() => {
@@ -590,14 +606,13 @@ const ProductPage = () => {
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-
         console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     }, 500);
   }, [singleProd]);
 
   useEffect(() => {
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -607,8 +622,8 @@ const ProductPage = () => {
       )[0];
     }
 
-    setSelectMtColor(mcArr?.metalcolorname);
-  }, [singleProd, singleProd1]);
+    setSelectMtColor(mcArr?.colorname);
+  }, [singleProd]);
 
   const ProdCardImageFunc = async () => {
     let colImg;
@@ -646,7 +661,7 @@ const ProductPage = () => {
     //     pdvideoList.push(videoString);
     //   }
     // }
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     if (mtColorLocal?.length) {
@@ -765,14 +780,14 @@ const ProductPage = () => {
     let csArr;
     let size;
 
-    let mtTypeLocal = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
     let diaQcLocal = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
 
     let csQcLocal = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
 
     if (type === "mt") {
@@ -852,7 +867,7 @@ const ProductPage = () => {
       });
   };
   const handleMetalWiseColorImg = async (e) => {
-    let mtColorLocal = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
     console.log(e.target.value, "metal color rrrrrr");
@@ -968,7 +983,7 @@ const ProductPage = () => {
     // console.log("pdImgList", pdImgList, pdImgListCol);
   };
   const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
       a: productData?.autocode,
@@ -989,7 +1004,7 @@ const ProductPage = () => {
   };
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
-    let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
       StockId: ele?.StockId,
@@ -1071,6 +1086,7 @@ const ProductPage = () => {
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
+  console.log(PdImageArr?.length > 1);
 
   return (
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
@@ -1169,74 +1185,91 @@ const ProductPage = () => {
                 })}
               </div>
               <div className="main_image">
-                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                  {PdImageArr?.length > 0 ? (
-                    PdImageArr?.map((val, i) => {
-                      return (
-                        <div key={i} className="slider_card">
-                          <div className="image">
-                            {val?.type == "img" ? (
-                              <img
-                                loading="lazy"
-                                src={
-                                  val?.src ||
-                                  "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                }
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                              />
-                            ) : (
-                              <div
-                                style={{
-                                  height: "80vh",
-                                }}
-                              >
-                                <video
-                                  src={val?.src}
-                                  ref={videoRef}
-                                  loop={true}
-                                  autoPlay={true}
-                                  muted
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "scale-down",
-                                  }}
-                                />
+                {PdImageArr?.length > 1 ? (
+                  <>
+                    {" "}
+                    <Slider
+                      {...settings}
+                      ref={sliderRef}
+                      lazyLoad="progressive"
+                    >
+                      {PdImageArr?.length > 0 ? (
+                        PdImageArr?.map((val, i) => {
+                          return (
+                            <div key={i} className="slider_card">
+                              <div className="image">
+                                {val?.type == "img" ? (
+                                  <img
+                                    loading="lazy"
+                                    src={
+                                      val?.src ||
+                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                    }
+                                    alt={""}
+                                    onLoad={() => setIsImageLoad(false)}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src =
+                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                    }}
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      height: "80vh",
+                                    }}
+                                  >
+                                    <video
+                                      src={val?.src}
+                                      ref={videoRef}
+                                      loop={true}
+                                      autoPlay={true}
+                                      muted
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "scale-down",
+                                      }}
+                                    />
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className="main_image">
+                          <img
+                            src={
+                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                            }
+                            alt={""}
+                            style={{
+                              width: "100%",
+                              height: "90%",
+                              objectFit: "contain",
+                              border: "1px solid #312f2f21",
+                              marginTop: "45px",
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                            }}
+                          />
                         </div>
-                      );
-                    })
-                  ) : (
-                    <div className="main_image">
-                      <img
-                        src={
-                          "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                        }
-                        alt={""}
-                        style={{
-                          width: "100%",
-                          height: "90%",
-                          objectFit: "contain",
-                          border: "1px solid #312f2f21",
-                          marginTop: "45px",
-                        }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src =
-                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                        }}
-                      />
+                      )}
+                    </Slider>
+                  </>
+                ) : (
+                  <>
+                    <div className="slider_card">
+                      <div className="image">
+                        <img src={PdImageArr[0]?.src} alt="ddwd" />
+                      </div>
                     </div>
-                  )}
-                </Slider>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -1309,7 +1342,7 @@ const ProductPage = () => {
                             value={selectMtType}
                             onChange={(e) => handleCustomChange(e, "mt")}
                             // onChange={(e) => setSelectMtType(e.target.value)}
-                            style={{ fontSize: "1.2rem" }}
+                            style={{ fontSize: "1rem" }}
                           >
                             {metalTypeCombo.map((ele) => (
                               <option key={ele?.Metalid} value={ele?.metaltype}>
@@ -1350,7 +1383,7 @@ const ProductPage = () => {
                               id="metal_c_hoq"
                               value={selectMtColor}
                               onChange={(e) => handleMetalWiseColorImg(e)}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {metalColorCombo?.map((ele) => (
                                 <option
@@ -1379,7 +1412,7 @@ const ProductPage = () => {
                             value={selectDiaQc}
                             // onChange={(e) => setSelectDiaQc(e.target.value)}
                             onChange={(e) => handleCustomChange(e, "dia")}
-                            style={{ fontSize: "1.2rem" }}
+                            style={{ fontSize: "1rem" }}
                           >
                             {diaQcCombo.map((ele) => (
                               <option
@@ -1403,7 +1436,7 @@ const ProductPage = () => {
                           value={selectCsQc}
                           // onChange={(e) => setSelectCsQc(e.target.value)}
                           onChange={(e) => handleCustomChange(e, "cs")}
-                          style={{ fontSize: "1.2rem" }}
+                          style={{ fontSize: "1rem" }}
                         >
                           {csQcCombo.map((ele) => (
                             <option
@@ -1414,7 +1447,8 @@ const ProductPage = () => {
                         </select>
                       </div>
                     ) : (
-                      SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                      SizeSorting(SizeCombo?.rd)?.length > 0 &&
+                      singleProd?.DefaultSize !== "" && (
                         <div
                           className="hoq_single_prod_customize"
                           style={{
@@ -1443,7 +1477,7 @@ const ProductPage = () => {
                               //   setSizeData(e.target.value);
                               // }}
                               onChange={(e) => handleCustomChange(e, "sz")}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {SizeSorting(SizeCombo?.rd)?.map((ele) => (
                                 <option
@@ -1465,7 +1499,8 @@ const ProductPage = () => {
                   {storeInit?.IsCsCustomization === 1 &&
                   selectCsQc?.length > 0 &&
                   csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
-                    ? SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                    ? SizeSorting(SizeCombo?.rd)?.length > 0 &&
+                      singleProd?.DefaultSize !== "" && (
                         <div
                           className="hoq_single_prod_customize"
                           style={{
@@ -1494,7 +1529,7 @@ const ProductPage = () => {
                               //   setSizeData(e.target.value);
                               // }}
                               onChange={(e) => handleCustomChange(e, "sz")}
-                              style={{ fontSize: "1.2rem" }}
+                              style={{ fontSize: "1rem" }}
                             >
                               {SizeSorting(SizeCombo?.rd)?.map((ele) => (
                                 <option
@@ -1580,12 +1615,16 @@ const ProductPage = () => {
                         {selectMtColor}
                       </span>
                     </span>
-                    <span className="smr_prod_short_key">
-                      Diamond Quality Color :{" "}
-                      <span className="smr_prod_short_val">
-                        {`${selectDiaQc}`}
+                    {storeInit?.IsDiamondCustomization === 1 &&
+                    diaQcCombo?.length > 0 &&
+                    diaList?.length ? (
+                      <span className="smr_prod_short_key">
+                        Diamond Quality Color :{" "}
+                        <span className="smr_prod_short_val">
+                          {`${selectDiaQc}`}
+                        </span>
                       </span>
-                    </span>
+                    ) : null}
                     {storeInit?.IsMetalWeight && (
                       <span className="smr_prod_short_key">
                         Net Wt :{" "}
@@ -1651,7 +1690,7 @@ const ProductPage = () => {
                     {/* {diaList?.length > 0 && (
                       <p className="hoq_details_title"> Product Details</p>
                     )} */}
-                    {diaList?.length > 0 && (
+                    {/* {diaList?.length > 0 && (
                       <div className="hoq_material_details_portion_inner">
                         <ul
                           style={{
@@ -1665,7 +1704,7 @@ const ProductPage = () => {
                           >{`Diamond Detail(${diaList?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
-                          )}/${diaList
+                          )}   ${diaList
                             ?.reduce(
                               (accumulator, data) => accumulator + data?.N,
                               0
@@ -1676,7 +1715,7 @@ const ProductPage = () => {
                           <li className="hoq_proDeatilList">Shape</li>
                           <li className="hoq_proDeatilList">Clarity</li>
                           <li className="hoq_proDeatilList">Color</li>
-                          <li className="hoq_proDeatilList">Pcs/Wt</li>
+                          <li className="hoq_proDeatilList">Pcs &nbsp; Wt</li>
                         </ul>
                         {diaList?.map((data) => (
                           <ul className="hoq_mt_detail_title_ul">
@@ -1684,7 +1723,7 @@ const ProductPage = () => {
                             <li className="hoq_proDeatilList1">{data?.H}</li>
                             <li className="hoq_proDeatilList1">{data?.J}</li>
                             <li className="hoq_proDeatilList1">
-                              {data.M}/{data?.N?.toFixed(3)}
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -1722,6 +1761,121 @@ const ProductPage = () => {
                             </li>
                           </ul>
                         ))}
+                      </div>
+                    )} */}
+                    {diaList?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "0px 0px 3px 0px" }}>
+                          <li
+                            style={{ fontWeight: 600 }}
+                          >{`Diamond Detail (${diaList?.reduce(
+                            (accumulator, data) => accumulator + data.M,
+                            0
+                          )}   ${diaList
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
+                          </li>
+                        </ul>
+                        {diaList?.map((data) => (
+                          <ul className="hoq_mt_detail_title_ul">
+                            <li className="hoq_proDeatilList1">{data?.F}</li>
+                            <li className="hoq_proDeatilList1">{data?.H}</li>
+                            <li className="hoq_proDeatilList1">{data?.J}</li>
+                            <li className="hoq_proDeatilList1">
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                            </li>
+                          </ul>
+                        ))}
+                      </div>
+                    )}
+                    {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
+                    {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "10px 0px 3px 0px" }}>
+                          <li
+                            style={{ fontWeight: 600 }}
+                          >{`ColorStone Detail (${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )} ${csList
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
+                        </ul>
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
+                          </li>
+                        </ul>
+                        {csList
+                          ?.filter((ele) => ele?.D !== "MISC")
+                          ?.map((data) => (
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList1">{data?.F}</li>
+                              <li className="hoq_proDeatilList1">{data?.H}</li>
+                              <li className="hoq_proDeatilList1">{data?.J}</li>
+                              <li className="hoq_proDeatilList1">
+                                {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
+                      </div>
+                    )}
+
+                    {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                      <div className="hoq_material_details_portion_inner">
+                        <ul style={{ margin: "10px 0px 3px 0px" }}>
+                          <li style={{ fontWeight: 600 }}>{`MISC Detail(${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data.M,
+                              0
+                            )}  ${csList
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}gm)`}</li>
+                        </ul>
+                        <ul className="hoq_mt_detail_title_ul">
+                          <li className="hoq_proDeatilList">Shape</li>
+                          <li className="hoq_proDeatilList">Clarity</li>
+                          <li className="hoq_proDeatilList">Color</li>
+                          <li className="hoq_proDeatilList">
+                            Pcs&nbsp;&nbsp;Wt
+                          </li>
+                        </ul>
+                        {csList
+                          ?.filter((ele) => ele?.D === "MISC")
+                          ?.map((data) => (
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList1">{data?.F}</li>
+                              <li className="hoq_proDeatilList1">{data?.H}</li>
+                              <li className="hoq_proDeatilList1">{data?.J}</li>
+                              <li className="hoq_proDeatilList1">
+                                {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              </li>
+                            </ul>
+                          ))}
                       </div>
                     )}
                   </div>
@@ -2068,7 +2222,19 @@ const ProductPage = () => {
                 </span>
                 <FaHeart />
               </button>
-
+              <div className="delivery_hoq">
+                {singleProd?.InStockDays !== 0 && (
+                  <span>
+                    <CiDeliveryTruck size={24} /> Express Shipping in Stock{" "}
+                    {singleProd?.InStockDays} Days Delivery
+                  </span>
+                )}
+                {singleProd?.MakeOrderDays != 0 && (
+                  <span>
+                    Make To Order {singleProd?.MakeOrderDays} Days Delivery
+                  </span>
+                )}
+              </div>
               {/* <div className="product_ins_banner">
                 <img
                   src="https://houseofquadri.com/cdn/shop/files/IGI_Certified_1_1024x.png?v=1712319485"

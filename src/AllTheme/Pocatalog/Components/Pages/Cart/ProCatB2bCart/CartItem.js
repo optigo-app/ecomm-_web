@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
+import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
@@ -47,12 +48,12 @@ const CartItem = ({
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
-  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+  const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1000px)');
 
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
 
@@ -117,100 +118,113 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
-
-
-  const width = isLargeScreen && itemLength <= 3 ? '390px' :
-    isMediumScreen && itemLength <= 3 ? '330px' : isMobileScreen && itemLength == 1 ? '300px' :
-      '100%';
-
-
   return (
     <Grid
       item
-      xs={12}
+      xs={6}
       sm={itemLength <= 2 ? 6 : 6}
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='procat_cartListCardGrid'>
-      <Card className='procat_cartListCard'
+      className='proCat_cartListCardGrid'>
+      <Card className={itemLength <= 3 ? 'proCat_cartListCard' : 'proCat_cartListCard'}
         key={item?.id}
         sx={{
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
           // border: selectedItem?.id == item?.id && '1px solid #af8238',
-          maxWidth: 450,
-          width: width
         }}
-        // onDoubleClick={openHandleUpdateCartModal}
+      // onDoubleClick={openHandleUpdateCartModal}
 
-        onMouseDown={handlePress('start')}
-        onMouseUp={cancelPress}
-        onMouseLeave={cancelPress}
-        onTouchStart={handlePress('start')}
-        onTouchEnd={cancelPress}
+      // onMouseDown={handlePress('start')}
+      // onMouseUp={cancelPress}
+      // onMouseLeave={cancelPress}
+      // onTouchStart={handlePress('start')}
+      // onTouchEnd={cancelPress}
       >
-        <Box className="procat_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="proCat_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
             alt={item?.TitleLine}
-            className='procat_cartListImage'
+            className='proCat_cartListImage'
             onClick={() => onSelect(item)}
           />
-          <div className='procat_rightContentDataDiv'>
-            <CardContent className='procat_cartcontentData' onClick={() => onSelect(item)}>
-              <Typography variant="body2" className='procat_DesignNoTExt'>
+          <div className='proCat_rightContentDataDiv'>
+            <CardContent className='proCat_cartcontentData' onClick={() => onSelect(item)}>
+              <Typography variant="body2" className='proCat_DesignNoTExt'>
                 {item?.designno} {item?.StockNo != "" &&
-                  <span className='procat_DesignNoTExt'>({item?.StockNo})</span>
+                  <span className='proCat_DesignNoTExt'>({item?.StockNo})</span>
                 }
               </Typography>
-              <div className='procat_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div className='proCat_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
-                  <Typography variant="body2" className='procat_card-ContentsData'>
-                    GWT: {(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
-                  <Typography variant="body2" className='procat_card-ContentsData'>
-                    DWT: {(item?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}
-                  </Typography>
+                  {storeInitData?.IsGrossWeight == 1 &&
+                    <Typography variant="body2" className='proCat_card-ContentsData'>
+                      GWT: {(item?.Gwt || 0).toFixed(3)}
+                    </Typography>
+                  }
+
+                  {Number(item?.Nwt) !== 0 && (
+                    <Typography variant="body2" className='proCat_card-ContentsData'>
+                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                    </Typography>
+                  )}
+
                 </div>
                 <div>
-                  <Typography variant="body2" className='procat_card-ContentsData'>
-                    NWT: {(item?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
-                  <Typography variant="body2" className='procat_card-ContentsData'>
-                    CWT: {(item?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(item?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}
-                  </Typography>
+                  {storeInitData?.IsDiamondWeight == 1 &&
+                    <>
+                      {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='proCat_card-ContentsData'>
+                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
+                          </Typography>
+                        </>
+                      }
+                    </>
+                  }
+                  {storeInitData?.IsStoneWeight == 1 &&
+                    <>
+                      {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                        <>
+                          <Typography variant="body2" className='proCat_card-ContentsData'>
+                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
+                          </Typography>
+                        </>
+                      }
+                    </>
+                  }
                 </div>
               </div>
-              <Box className="procat_PriceBox">
+              <Box className="proCat_PriceBox">
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <span className='procat_currencyFontPrice'>
-                      <span className="procat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className='proCat_currencyFontPrice'>
+                      <span className="proCat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {/* <span
-                        className="procat_currencyFont"
+                        className="proCat_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
                       /> */}
-                      {(item?.UnitCostWithMarkUp)}
+                      {formatter(item?.UnitCostWithMarkUp)}
                     </span>
                   }
                 </>
               </Box>
               {item?.Remarks !== "" && (
-                <Typography variant="body2" className='procat_remarktext'>
+                <Typography variant="body2" className='proCat_remarktext'>
                   <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>
               )}
             </CardContent>
-            <Box className="procat_cartbtngroupReRm">
-              <Link className='procat_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+            <Box className="proCat_cartbtngroupReRm">
+              <Link className='proCat_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='procat_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              <Link className='proCat_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>
@@ -231,8 +245,8 @@ const CartItem = ({
           }
         </div>
         {item?.StockId != 0 &&
-          <div className="procat_inStockbadgeDiv">
-            <span className="procat_inStockbadgeSpan">In Stock</span>
+          <div className="proCat_inStockbadgeDiv">
+            <span className="proCat_inStockbadgeSpan">In Stock</span>
           </div>
         }
       </Card>

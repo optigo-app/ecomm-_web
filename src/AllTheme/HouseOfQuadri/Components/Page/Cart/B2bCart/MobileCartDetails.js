@@ -40,12 +40,12 @@
 //   const [storeInitData, setStoreInitData] = useState();
 
 //   useEffect(() => {
-//     const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+//     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
 //     setStoreInitData(storeinitData)
-//     const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-//     const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-//     const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-//     const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+//     const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+//     const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+//     const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+//     const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
 //     setMetalTypeCombo(metalTypeData);
 //     setMetalColorCombo(metalColorData);
 //     setDiamondQualityColorCombo(diamondQtyColorData);
@@ -310,19 +310,19 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
-    const storeinitData = JSON.parse(localStorage.getItem("storeInit"));
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
 
-    const metalTypeData = JSON.parse(localStorage.getItem("metalTypeCombo"));
-    const metalColorData = JSON.parse(localStorage.getItem("MetalColorCombo"));
+    const metalTypeData = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    const metalColorData = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     const diamondQtyColorData = JSON.parse(
-      localStorage.getItem("diamondQualityColorCombo")
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     const CSQtyColorData = JSON.parse(
-      localStorage.getItem("ColorStoneQualityColorCombo")
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
@@ -505,25 +505,22 @@ const MobileCartDetails = ({
                       </select>
                     </div>
                   )}
-                  {sizeCombo?.rd?.length !== 0 && (
+                  {sizeCombo?.length !== 0 && (
                     <div className="option">
                       <label htmlFor="size">Size:</label>
                       <select
                         name={selectedItem?.id}
                         id="size"
-                        defaultValue={
-                          selectedItem?.Mastermanagement_CategorySize
-                        }
-                        value={selectedItem?.size}
+                        value={selectedItem?.Size}
                         onChange={handleSizeChange}
                       >
                         {mrpbasedPriceFlag == 1 ? (
-                          <option value={selectedItem?.size}>
-                            {selectedItem?.size}
+                          <option value={selectedItem?.Size}>
+                            {selectedItem?.Size}
                           </option>
                         ) : (
                           <>
-                            {SizeSorting(sizeCombo?.rd)?.map((option) => (
+                            {sizeCombo?.map((option) => (
                               <option key={option?.id} value={option?.sizename}>
                                 {option?.sizename}
                               </option>

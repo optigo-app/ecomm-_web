@@ -70,7 +70,7 @@ const CartPage = () => {
     } else {
       let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
       console.log("TotalPriceData", cartData)
-      localStorage.setItem('TotalPriceData', priceData)
+      sessionStorage.setItem('TotalPriceData', priceData)
       navigate("/Delivery")
       window.scrollTo(0, 0);
     }
@@ -87,7 +87,7 @@ const CartPage = () => {
   const [countstatus, setCountStatus] = useState();
 
   useEffect(() => {
-    const iswishUpdateStatus = localStorage.getItem('cartUpdation');
+    const iswishUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(iswishUpdateStatus)
   }, [handleRemoveItem, handleRemoveAll])
 
