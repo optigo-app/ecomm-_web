@@ -24,8 +24,6 @@ const ConnectionManager = () => {
       socket = io?.connect(address, details);
 
       socket.on("connect", () => {
-        console.log("Socket connected");
-        console.log("Socket connected configconfigconfig", config);
         socket.emit("joinRoom", di);
       });
 
