@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.for.scss";
 import foreverylog from "../../../images/logo/logo.webp";
 import appointment from "../../../images/navbar/appointment.png";
@@ -8,7 +8,6 @@ import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import btnstyle from "../../../scss/Button.module.scss";
 import NavImage from "../../../Assets/collections/bespoke-header.webp";
-import LetterBanner from "../../../Assets/letter-diamond-menu-banner.png";
 import {
   CollectionData,
   NavbarMenu,
@@ -19,7 +18,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { NavbarBrand } from "react-bootstrap";
 
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
@@ -40,7 +39,6 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
-
   return (
     <div className="right">
       <span className="for_item_menu">
@@ -88,9 +86,11 @@ const NavbarCenter = () => {
   );
 };
 const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
+  const Nvabr = document.querySelector(".left");
+    console.log(NavbarBrand)
   return (
     <>
-      <div className="left">
+      <div className="left" data-index={i}>
         {NavbarMenu?.map((val, i) => {
           return (
             <div
@@ -98,25 +98,29 @@ const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
               key={i}
               onMouseOver={() => setActiveMenu({ menu: val, index: i })}
             >
-              <span>
+              <span className="for_nav_menu">
                 {val?.category}
                 {ActiveMenu?.menu === val ? (
-                  <FaChevronUp size={13} className="chevorn-icon" />
+                  <FaChevronUp size={13} className={`chevorn-icon hide-Fo-1 ${ActiveMenu?.menu === val ? "hovered-ok": ''}`} />
                 ) : (
-                  <FaChevronDown size={13} className="chevorn-icon" />
+                  <FaChevronDown size={13} className={`chevorn-icon hide-Fo-2 ${ActiveMenu?.menu === val ? "": 'hovered-not'}`} />
                 )}
               </span>
             </div>
           );
         })}
         <>
-          <NavitemsWrapper SelectedMenu={ActiveMenu} />
+          <NavitemsWrapper
+            SelectedMenu={ActiveMenu}
+            setActiveMenu={setActiveMenu}
+          />
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+  const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
       return Menu;
@@ -125,9 +129,40 @@ const NavitemsWrapper = ({ SelectedMenu }) => {
     }
   };
 
+  // useEffect(() => {
+  //   const element = firstNavRef.current;
+
+  //   if (element) {
+  //     // Create a mutation observer
+  //     const observer = new MutationObserver(() => {
+  //       const styles = getComputedStyle(element);
+  //       console.log(styles.display)
+
+  //       // Check if display property is 'none'
+  //       if (styles.display === 'none') {
+  //         console.log(styles.display)
+  //         setActiveMenu(null);
+  //       }
+  //     });
+
+  //     // Start observing
+  //     observer.observe(element, {
+  //       attributes: true,
+  //       attributeFilter: ['style'],
+  //       childList: false,
+  //       subtree: false
+  //     });
+
+  //     // Cleanup observer on component unmount
+  //     return () => {
+  //       observer.disconnect();
+  //     };
+  //   }
+  // }, []);
+ 
   return (
     <>
-      <div className="first_nav">
+      <div className="first_nav" ref={firstNavRef}>
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
             {NavbarMenuRender(NavbarMenu).map((val, i) => {
