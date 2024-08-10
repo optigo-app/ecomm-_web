@@ -1,10 +1,14 @@
 @import '../../../scss/variable.scss';
 
 
-.smr_continuMobile {
+.for_continuMobile {
 
-
-    background-color: $backgroundColor;
+    height: 75vh;
+    margin-top: 80px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -16,7 +20,7 @@
         background-color: white;
     }
 
-    .smr_loginmobileBox {
+    .for_loginmobileBox {
         width: 420px;
         margin: 10px;
     }
@@ -97,7 +101,7 @@
     }
 
     @media screen and (max-width: 700px) {
-        .smr_loginmobileBox {
+        .for_loginmobileBox {
             width: 90%;
         }
 

@@ -139,13 +139,13 @@ export default function LoginWithEmail() {
         const hashedPassword = hashPasswordSHA1(confirmPassword);
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, '', hashedPassword, '', '',visiterId).then((response) => {
+        LoginWithEmailAPI(email, '', hashedPassword, '', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
 
                 console.log('responseresponse', response?.Data?.rd[0]?.Token);
-                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
@@ -189,7 +189,7 @@ export default function LoginWithEmail() {
                     navigation(redirectEmailUrl);
                 } else {
                     navigation('/')
-                    window.location.reload(); 
+                    window.location.reload();
                 }
 
                 // pdDataCalling()

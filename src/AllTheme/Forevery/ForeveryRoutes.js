@@ -37,6 +37,7 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import Navbar from "./Components/Pages/Common/NavBar/Navbar";
 import TopBar from "./Components/Pages/Common/TopBar/TopBar";
 import AppointmentPage from "./Components/Pages/Home/AppointMent/AppointmentPage";
+import Footer from "./Components/Pages/Home/Footer/Footer";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -47,7 +48,8 @@ const ForEveryRoutes = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(for_companyLogo);
+  const [companyTitleLogo, setCompanyTitleLogo] =
+    useRecoilState(for_companyLogo);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -75,59 +77,57 @@ const ForEveryRoutes = () => {
     }
   });
 
-  useEffect(() => {
-    const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
-      LoginWithEmailAPI("", "", "", "", cookieValue)
-        .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-            setIsLoginState(true);
-            sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem(
-              "loginUserDetail",
-              JSON.stringify(response.Data.rd[0])
-            );
-            if (redirectEmailUrl) {
-              navigation(redirectEmailUrl);
-            } else {
-              navigation("/");
-            }
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localD);
-
-  }, []);
-
+  // useEffect(() => {
+  //   const cookieValue = Cookies.get("userLoginCookie");
+  //   if (cookieValue) {
+  //     LoginWithEmailAPI("", "", "", "", cookieValue)
+  //       .then((response) => {
+  //         if (response.Data.rd[0].stat === 1) {
+  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+  //           setIsLoginState(true);
+  //           sessionStorage.setItem("LoginUser", true);
+  //           sessionStorage.setItem(
+  //             "loginUserDetail",
+  //             JSON.stringify(response.Data.rd[0])
+  //           );
+  //           if (redirectEmailUrl) {
+  //             navigation(redirectEmailUrl);
+  //           } else {
+  //             navigation("/");
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setLocalData(localD);
+  // }, []);
 
   if (islogin === true) {
     const restrictedPaths = [
-        '/LoginOption',
-        '/ContinueWithEmail',
-        '/ContinueWithMobile',
-        '/LoginWithEmailCode',
-        '/LoginWithMobileCode',
-        '/ForgotPass',
-        '/LoginWithEmail',
-        '/register'
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
     ];
 
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-        return navigation("/");
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+      return navigation("/");
     }
-}
+  }
 
   return (
     <>
-    <Helmet>
-      <title>{localData?.BrowserTitle}</title>
-    </Helmet>
+      <Helmet>
+        <title>{localData?.BrowserTitle}</title>
+      </Helmet>
       <div>
-        <TopBar/>
-        <Navbar/>
+        <TopBar />
+        <Navbar />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -212,9 +212,10 @@ const ForEveryRoutes = () => {
           <Route path="/account" element={<Account />} />
           </Route>
           <Route path="/Lookbook" element={<Lookbook />} /> */}
-          <Route path="/p/*" element={<ProductList />} />
+        <Route path="/p/*" element={<ProductList />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <Footer/>
     </>
   );
 };
