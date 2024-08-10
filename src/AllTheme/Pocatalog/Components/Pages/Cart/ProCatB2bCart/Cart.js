@@ -4,7 +4,7 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
@@ -83,7 +83,7 @@ const CartPage = () => {
 
   const handlePlaceOrder = () => {
     const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
-    localStorage.setItem('TotalPriceData', priceData);
+    sessionStorage.setItem('TotalPriceData', priceData);
   
     if (islogin) {
       if (storeInit?.IsPLW === 0) {
@@ -110,7 +110,7 @@ const CartPage = () => {
 
 
   useEffect(() => {
-    const iswishUpdateStatus = localStorage.getItem('cartUpdation');
+    const iswishUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(iswishUpdateStatus)
   }, [handleRemoveItem, handleRemoveAll])
 
@@ -134,7 +134,7 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeInit);
     if (storeInit?.IsPLW == 1) {
       if (addressData && addressData.addressData) {
@@ -157,7 +157,7 @@ const CartPage = () => {
     console.log("paymentResponse", paymentResponse);
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
-      localStorage.setItem('orderNumber', num);
+      sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
         console.log('responseCount', res);

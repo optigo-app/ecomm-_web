@@ -75,11 +75,11 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-                localStorage.setItem('registerEmail', email)
+                sessionStorage.setItem('registerEmail', email)
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 setIsLoginState(true)
-                localStorage.setItem('LoginUser', true)
-                localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                sessionStorage.setItem('LoginUser', true)
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
 
                 GetCountAPI(visiterID).then((res) => {
@@ -96,7 +96,7 @@ export default function LoginWithEmail() {
                 CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('CurrencyCombo', data)
+                        sessionStorage.setItem('CurrencyCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -104,7 +104,7 @@ export default function LoginWithEmail() {
                 MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('MetalColorCombo', data)
+                        sessionStorage.setItem('MetalColorCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -112,7 +112,7 @@ export default function LoginWithEmail() {
                 MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('metalTypeCombo', data)
+                        sessionStorage.setItem('metalTypeCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -142,12 +142,12 @@ export default function LoginWithEmail() {
     };
 
     const handleNavigation = () => {
-        localStorage.setItem('LoginCodeEmail', 'true');
+        sessionStorage.setItem('LoginCodeEmail', 'true');
         navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
     }
 
     const handleForgotPassword = async () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         let Domian = `https://${storeInit?.domain}`
         setIsLoading(true);
         ForgotPasswordEmailAPI(Domian, email).then((response) => {

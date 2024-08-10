@@ -41,7 +41,7 @@ const CartItem = ({
   const islogin = useRecoilValue(proCat_loginState)
 
   useEffect(() => {
-    const isCartUpdateStatus = localStorage.getItem('cartUpdation');
+    const isCartUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(isCartUpdateStatus)
   }, [onRemove])
 

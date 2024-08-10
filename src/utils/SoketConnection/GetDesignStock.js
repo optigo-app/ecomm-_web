@@ -4,8 +4,8 @@ export const GetDesignStock = async (visiterId) => {
   let response;
 
   try {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const email = localStorage.getItem("registerEmail") ?? "";
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const email = sessionStorage.getItem("registerEmail") ?? "";
 
     let body = {
       con: `{\"id\":\"\",\"mode\":\"GetDesignStock\",\"appuserid\":\"${

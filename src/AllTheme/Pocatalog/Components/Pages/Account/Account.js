@@ -79,7 +79,7 @@ export default function Account() {
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
 
-    const loginUSerDeatil = JSON.parse(localStorage.getItem('loginUserDetail'))
+    const loginUSerDeatil = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -93,18 +93,18 @@ export default function Account() {
         // console.log(loginState);
         setIsLoginState(false);
         Cookies.remove('userLoginCookie');
-        localStorage.setItem('LoginUser', false);
-        localStorage.removeItem('storeInit');
-        localStorage.removeItem('loginUserDetail');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('selectedAddressId');
-        localStorage.removeItem('orderNumber');
-        localStorage.removeItem('registerEmail');
-        localStorage.removeItem('UploadLogicalPath');
-        localStorage.removeItem('remarks');
-        localStorage.removeItem('registerMobile');
-        localStorage.removeItem('allproductlist');
-        localStorage.clear();
+        sessionStorage.setItem('LoginUser', false);
+        sessionStorage.removeItem('storeInit');
+        sessionStorage.removeItem('loginUserDetail');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('selectedAddressId');
+        sessionStorage.removeItem('orderNumber');
+        sessionStorage.removeItem('registerEmail');
+        sessionStorage.removeItem('UploadLogicalPath');
+        sessionStorage.removeItem('remarks');
+        sessionStorage.removeItem('registerMobile');
+        sessionStorage.removeItem('allproductlist');
+        sessionStorage.clear();
         navigation('/')
         window.location.reload();
       }

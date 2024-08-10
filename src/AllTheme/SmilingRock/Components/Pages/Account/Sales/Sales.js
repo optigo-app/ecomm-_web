@@ -324,11 +324,11 @@ const Sales = () => {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const storedData = localStorage.getItem('loginUserDetail');
+            const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
 
-            const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             let currencyRate = "1";
             // const combinedValue = JSON.stringify({

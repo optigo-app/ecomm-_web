@@ -11,7 +11,7 @@ const Confirmation = () => {
     const [storeInit, setStoreInit] = useState();
 
     const setCSSVariable = () => {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
           "--background-color",
@@ -24,15 +24,15 @@ const Confirmation = () => {
 
         setCSSVariable();
         
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeInit);
-        let orderNo = localStorage.getItem('orderNumber')
+        let orderNo = sessionStorage.getItem('orderNumber')
         setOrderNo(orderNo)
     }, [])
 
     const handleNavigate = () => {
         navigate('/')
-        localStorage.removeItem("TotalPriceData");
+        sessionStorage.removeItem("TotalPriceData");
     }
     // const handleNavigate = () => {
     //     if (location?.pathname == "/Confirmation") {

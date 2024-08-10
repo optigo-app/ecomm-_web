@@ -81,7 +81,7 @@ const CartPage = () => {
   })
 
   useEffect(() => {
-    localStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
+    sessionStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
   }, [getTotalPrice])
 
   const [border, setBorder] = useState(false);
@@ -104,7 +104,7 @@ const CartPage = () => {
   const handleClosePriceModal = () => setOpenPriceModal(false);
 
   useEffect(() => {
-    const iswishUpdateStatus = localStorage.getItem('cartUpdation');
+    const iswishUpdateStatus = sessionStorage.getItem('cartUpdation');
     setCountStatus(iswishUpdateStatus)
   }, [handleRemoveItem, handleRemoveAll])
 
@@ -116,7 +116,7 @@ const CartPage = () => {
     setOrderRemark(e.target.value);
   };
 
-  const loginInfo = JSON.parse(localStorage.getItem('loginUserDetail'));
+  const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'));
 
   const handleSaveInternal = () => {
     handleOrderRemarkFun(orderRemark);
@@ -164,7 +164,7 @@ const CartPage = () => {
 
   const handleMoveToOrder = () => {
     navigate('/Delivery');
-    localStorage.setItem('iscartData', randomNumber);
+    sessionStorage.setItem('iscartData', randomNumber);
   }
 
   const handleOrderRemarkFun = async (remark) => {
@@ -176,7 +176,7 @@ const CartPage = () => {
         // const updatedCartData = cartData.map(cart =>
         //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
         // );
-        localStorage.setItem('orderRemark', orderRemark)
+        sessionStorage.setItem('orderRemark', orderRemark)
       }
     } catch (error) {
       console.error("Error:", error);

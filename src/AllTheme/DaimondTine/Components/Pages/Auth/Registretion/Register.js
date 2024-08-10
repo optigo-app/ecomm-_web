@@ -197,10 +197,10 @@ export default function Register() {
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          localStorage.setItem('LoginUser', true)
-          localStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          sessionStorage.setItem('LoginUser', true)
+          sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           setIsLoginState(true)
-          localStorage.setItem('registerEmail', email)
+          sessionStorage.setItem('registerEmail', email)
 
           if (redirectEmailUrl) {
             navigation(redirectEmailUrl);

@@ -59,7 +59,7 @@ export default function ContinueWithEmail() {
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
                 navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
                 if (trimmedEmail) {
-                    localStorage.setItem("registerEmail", trimmedEmail);
+                    sessionStorage.setItem("registerEmail", trimmedEmail);
                 }
             } else {
                 navigation(redirectSignUpUrl, { state: { email: trimmedEmail } });

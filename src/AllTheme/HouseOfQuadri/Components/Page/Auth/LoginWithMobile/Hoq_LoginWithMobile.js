@@ -57,7 +57,7 @@ export default function ContimueWithMobile() {
     }
 
     // try {
-    //     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+    //     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     //     const { FrontEnd_RegNo } = storeInit;
     //     const combinedValue = JSON.stringify({
     //         country_code: '91', mobile: `${mobileNo}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`
@@ -87,10 +87,10 @@ export default function ContimueWithMobile() {
         ) {
           toast.success("OTP send Sucssessfully");
           navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
-          localStorage.setItem("registerMobile", mobileNo);
+          sessionStorage.setItem("registerMobile", mobileNo);
         } else {
           navigation(redirectSignUpUrl, { state: { mobileNo: mobileNo } });
-          localStorage.setItem("registerMobile", mobileNo);
+          sessionStorage.setItem("registerMobile", mobileNo);
         }
       })
       .catch((err) => console.log(err));

@@ -20,7 +20,7 @@ const HemratnaProcatalog_App = () => {
   const [showFooter, setShowFooter] = useState(true);
 
   useEffect(() => {
-    const storedData = localStorage.getItem('storeInit');
+    const storedData = sessionStorage.getItem('storeInit');
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);

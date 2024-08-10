@@ -47,7 +47,7 @@ const AccountLedger = () => {
     useEffect(() => {
 
 
-        const userName = JSON.parse(localStorage.getItem('loginUserDetail'));
+        const userName = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         setUserName(userName?.customercode)
 
         getLedgerData();
@@ -58,9 +58,9 @@ const AccountLedger = () => {
     const getLedgerData = async() => {
         setLoaderAC(true)
         
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
-        let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
-        const UserEmail = localStorage.getItem("userEmail");
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        const UserEmail = sessionStorage.getItem("userEmail");
         try {
             
         // let EncodeData = {

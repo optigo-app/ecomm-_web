@@ -29,13 +29,13 @@ export default function LoginWithEmailCode() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const storedEmail = localStorage.getItem('registerEmail');
-                const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+                const storedEmail = sessionStorage.getItem('registerEmail');
+                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
                 if (storedEmail) {
                     setEmail(storedEmail);
-                    const value = localStorage.getItem('LoginCodeEmail');
+                    const value = sessionStorage.getItem('LoginCodeEmail');
                     if (value === 'true') {
-                        localStorage.setItem('LoginCodeEmail', 'false');
+                        sessionStorage.setItem('LoginCodeEmail', 'false');
                         LoginWithEmailCodeAPI(email).then((response) => {
                             if (response.Data.Table1[0].stat === '1') {
                                 toast.success('OTP send Sucssessfully');
@@ -103,8 +103,8 @@ export default function LoginWithEmailCode() {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
-                localStorage.setItem('LoginUser', true)
-                localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                sessionStorage.setItem('LoginUser', true)
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
                 if(redirectEmailUrl){
                     navigation(redirectEmailUrl);
@@ -123,7 +123,7 @@ export default function LoginWithEmailCode() {
         setResendTimer(120);
         LoginWithEmailCodeAPI(email).then((response) => {
             if (response.Data.Table1[0].stat === '1') {
-                localStorage.setItem('LoginCodeEmail', 'false');
+                sessionStorage.setItem('LoginCodeEmail', 'false');
                 toast.success('OTP send Sucssessfully');
             } else {
                 toast.error('OTP send Error');

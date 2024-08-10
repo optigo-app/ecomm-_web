@@ -100,8 +100,8 @@ export default function LoginWithEmail() {
 
     // const handelCurrencyData = () =>{
 
-    //     let currencyData = JSON.parse(localStorage.getItem('CURRENCYCOMBO'));
-    //     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
+    //     let currencyData = JSON.parse(sessionStorage.getItem('CURRENCYCOMBO'));
+    //     let loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     //     console.log("param",loginData);
 
     //     const filterData = currencyData?.filter((cd)=>cd?.Currencyid === loginData?.CurrencyCodeid)
@@ -110,9 +110,9 @@ export default function LoginWithEmail() {
 
     //     if(filterData.length && filterData){
     //         if(Array.isArray(filterData)){
-    //             localStorage.setItem("currencyData",JSON.stringify(filterData[0]))
+    //             sessionStorage.setItem("currencyData",JSON.stringify(filterData[0]))
     //         }else{
-    //             localStorage.setItem("currencyData",JSON.stringify(filterData))
+    //             sessionStorage.setItem("currencyData",JSON.stringify(filterData))
     //         }
     //     }else{
     //         let DefaultObj = {
@@ -123,7 +123,7 @@ export default function LoginWithEmail() {
     //             "CurrencyRate": 1.00000,
     //             "IsDefault": 1
     //         }
-    //         localStorage.setItem("currencyData",JSON.stringify(DefaultObj))
+    //         sessionStorage.setItem("currencyData",JSON.stringify(DefaultObj))
     //     }
     // }  
 
@@ -146,10 +146,10 @@ export default function LoginWithEmail() {
 
                 console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
-                localStorage.setItem('registerEmail', email)
+                sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
-                localStorage.setItem('LoginUser', true)
-                localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+                sessionStorage.setItem('LoginUser', true)
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
                 GetCountAPI(visiterID).then((res) => {
                     if (res) {
@@ -165,7 +165,7 @@ export default function LoginWithEmail() {
                 CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('CurrencyCombo', data)
+                        sessionStorage.setItem('CurrencyCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -173,7 +173,7 @@ export default function LoginWithEmail() {
                 MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('MetalColorCombo', data)
+                        sessionStorage.setItem('MetalColorCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -181,7 +181,7 @@ export default function LoginWithEmail() {
                 MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
                     if (response?.Data?.rd) {
                         let data = JSON.stringify(response?.Data?.rd)
-                        localStorage.setItem('metalTypeCombo', data)
+                        sessionStorage.setItem('metalTypeCombo', data)
                     }
                 }).catch((err) => console.log(err))
 
@@ -207,7 +207,7 @@ export default function LoginWithEmail() {
         // try {
         //     setIsLoading(true);
 
-        //     const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        //     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         //     const { FrontEnd_RegNo } = storeInit;
         //     const combinedValue = JSON.stringify({
         //         userid: `${email}`, mobileno: '', pass: `${hashedPassword}`, mobiletoken: '', FrontEnd_RegNo: `${FrontEnd_RegNo}`
@@ -222,10 +222,10 @@ export default function LoginWithEmail() {
 
         //     if (response.Data.rd[0].stat === 1) {
         //         let resData = response.Data.rd[0]
-        //         localStorage.setItem('registerEmail', email)
+        //         sessionStorage.setItem('registerEmail', email)
         //         setIsLoginState('true')
-        //         localStorage.setItem('LoginUser', 'true')
-        //         localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+        //         sessionStorage.setItem('LoginUser', 'true')
+        //         sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
         //         navigation('/');
         //         pdDataCalling()
         //         designDataCall()
@@ -250,13 +250,13 @@ export default function LoginWithEmail() {
     };
 
     const handleNavigation = () => {
-        localStorage.setItem('LoginCodeEmail', 'true');
+        sessionStorage.setItem('LoginCodeEmail', 'true');
         navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
     }
 
     const handleForgotPassword = async () => {
         // try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         // const { FrontEnd_RegNo, domain } = storeInit;
 
         // // let Domian = `https://${domain}`

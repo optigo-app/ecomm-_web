@@ -16,8 +16,8 @@ const PromotionBaner1 = () => {
 
 
     useEffect(() => {
-        const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-        const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get("visiterId");
         let finalID;
@@ -36,7 +36,7 @@ const PromotionBaner1 = () => {
     }, []);
 
     const handleNavigate = () => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
                 navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)

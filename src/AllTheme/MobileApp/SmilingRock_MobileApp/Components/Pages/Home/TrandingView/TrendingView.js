@@ -19,7 +19,7 @@ import { smrMA_loginState } from '../../../Recoil/atom';
 
 const TrendingView = () => {
 
-    const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
 
@@ -31,7 +31,7 @@ const TrendingView = () => {
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
     const [imageUrls, setImageUrls] = useState([]);
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     const settings = {
         dots: true,
@@ -45,13 +45,13 @@ const TrendingView = () => {
     };
 
     useEffect(() => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
-        let storeInitData = JSON.parse(localStorage.getItem('storeInit'))
+        let storeInitData = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(storeInitData?.DesignImageFol);
-        const loginUserDetail = JSON.parse(localStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -97,7 +97,7 @@ const TrendingView = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
 
         let obj = {
@@ -128,7 +128,7 @@ const TrendingView = () => {
     }
 
     const handleNavigate = () => {
-        let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         if (storeinit?.IsB2BWebsite == 1) {
             if (islogin) {
                 navigation(`/p/Trending/?T=${btoa('Trending')}`)
@@ -356,7 +356,7 @@ export default TrendingView
 
 
 //     useEffect(() => {
-//         let data = JSON.parse(localStorage.getItem('storeInit'))
+//         let data = JSON.parse(sessionStorage.getItem('storeInit'))
 //         setImageUrl(data?.DesignImageFol);
 
 //         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending").then((response) => {

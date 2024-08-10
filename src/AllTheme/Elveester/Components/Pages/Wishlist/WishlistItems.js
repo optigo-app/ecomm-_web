@@ -48,8 +48,8 @@ const WishlistItems = ({
         }
     };
 
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     useEffect(() => {
         window.scroll({

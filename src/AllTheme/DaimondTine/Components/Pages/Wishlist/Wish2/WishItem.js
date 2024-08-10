@@ -28,10 +28,10 @@ const WishItem = ({
     const setWishlistCount = useSetRecoilState(dt_WishCount);
     const setCartCount = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
-    const loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"));
+    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     useEffect(() => {
-        const storeinitData = JSON.parse(localStorage.getItem('storeInit'));
+        const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
     }, [])
 

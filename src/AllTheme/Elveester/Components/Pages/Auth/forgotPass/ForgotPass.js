@@ -22,7 +22,7 @@ export default function ForgotPass() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const storedEmail = localStorage.getItem('userEmailForPdList');
+        const storedEmail = sessionStorage.getItem('userEmailForPdList');
         if (storedEmail) {
             setEmail(storedEmail);
         }

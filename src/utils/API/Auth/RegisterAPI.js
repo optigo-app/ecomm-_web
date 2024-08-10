@@ -6,7 +6,7 @@ export const RegisterAPI = async (firstName, lastName, email, mobileNo, hashedPa
     let response;
 
     try {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
         const combinedValue = JSON.stringify({
             firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobileno: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'

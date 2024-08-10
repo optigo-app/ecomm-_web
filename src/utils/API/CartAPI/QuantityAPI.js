@@ -2,9 +2,9 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const updateQuantity = async (num, lastEnteredQuantity, visiterId, islogin) => {
   try {
-    const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { FrontEnd_RegNo } = storeInit;
-    const storedData = localStorage.getItem("loginUserDetail");
+    const storedData = sessionStorage.getItem("loginUserDetail");
     const data = JSON.parse(storedData);
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.userid ?? "";

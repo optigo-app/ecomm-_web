@@ -27,7 +27,7 @@ const LoginWithMobileCode = () => {
     return () => clearInterval(countdownInterval);
   }, [timeLeft]);
 
-  const loginCredsdata = JSON.parse(localStorage.getItem('loginCreds'))
+  const loginCredsdata = JSON.parse(sessionStorage.getItem('loginCreds'))
 
   useEffect(() => {
     if (loginCredsdata && loginCredsdata.length > 0) {

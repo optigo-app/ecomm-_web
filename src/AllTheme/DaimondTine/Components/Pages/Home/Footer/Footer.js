@@ -21,7 +21,7 @@ export default function Footer() {
 
 
     const handleSubmitNewlater = async () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
         if (email) {
             if (newslater) {
@@ -44,9 +44,9 @@ export default function Footer() {
     }
 
     useEffect(() => {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
         setStoreInitData(storeInit);
-        const companyInfoData = JSON.parse(localStorage.getItem("CompanyInfoData")) ?? ""
+        const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? ""
         if (companyInfoData) {
             setCompanuInfoData(companyInfoData)
             const parsedSocilaMediaUrlData = (companyInfoData?.SocialLinkObj);

@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 
 
 
@@ -108,10 +108,10 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   // for Short-combo data
   useEffect(() => {
-    const metalTypeData = JSON.parse(localStorage.getItem('metalTypeCombo'));
-    const metalColorData = JSON.parse(localStorage.getItem('MetalColorCombo'));
-    const diamondQtyColorData = JSON.parse(localStorage.getItem('diamondQualityColorCombo'));
-    const CSQtyColorData = JSON.parse(localStorage.getItem('ColorStoneQualityColorCombo'));
+    const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);

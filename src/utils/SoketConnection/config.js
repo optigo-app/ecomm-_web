@@ -1,5 +1,5 @@
 
-const storeInit = JSON.parse(localStorage.getItem("storeInit"));
+const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
 const config = {
     di: `${storeInit?.ufcc}`, //storeinit.ufcc

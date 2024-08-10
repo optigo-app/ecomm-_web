@@ -1,5 +1,5 @@
 export function storImagePath() {
-  let storeinit = JSON.parse(localStorage.getItem("storeInit"))
+  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"))
   let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname}`
   // let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
@@ -7,28 +7,28 @@ export function storImagePath() {
 }
 
 export function findMetalColor(paramId) {
-  let metalColorArr = JSON.parse(localStorage.getItem("MetalColorCombo"))
+  let metalColorArr = JSON.parse(sessionStorage.getItem("MetalColorCombo"))
   let item = metalColorArr.filter(item => item?.id === paramId)
   return item
 }
 
 
 export function findMetalType(paramId) {
-  let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
+  let metalTypeArr = JSON.parse(sessionStorage.getItem("metalTypeCombo"))
   let item = metalTypeArr.filter(item => item?.Metalid == paramId)
   // console.log("findMetal pro",paramId,item);
   return item
 }
 
 export function findMetal(param) {
-  let metalTypeArr = JSON.parse(localStorage.getItem("metalTypeCombo"))
+  let metalTypeArr = JSON.parse(sessionStorage.getItem("metalTypeCombo"))
   let item = metalTypeArr.filter(item => item?.metaltype === param)
   return item
 }
 
 export function findDiaQcId(param) {
 
-  let diaQCArr = JSON.parse(localStorage.getItem("diamondQualityColorCombo"))
+  let diaQCArr = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"))
   let quality = param.split(",")[0]
   let color = param.split(",")[1]
 
@@ -40,7 +40,7 @@ export function findDiaQcId(param) {
 
 export function findCsQcId(param) {
 
-  let CsQCArr = JSON.parse(localStorage.getItem("ColorStoneQualityColorCombo"))
+  let CsQCArr = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"))
   let quality = param.split(",")[0]
   let color = param.split(",")[1]
 
