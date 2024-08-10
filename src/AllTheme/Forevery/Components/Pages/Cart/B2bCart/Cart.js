@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
 import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/NewsletterSignup';
-
+import btnStyle  from "../../../scss/Button.module.scss"
 
 const CartPage = () => {
   const addressData = useAddress();
@@ -162,71 +162,25 @@ const CartPage = () => {
 
   return (
     <div className='for_MainBGDiv'>
+      <div className="for_cart-title">Cart</div>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          {isMobileScreen &&
-            <div className="for_cart-title">My Cart</div>
+          {!isloding && cartData.length != 0 &&
+            <div className='for_cartButton-groups'>
+              <Link
+                className='for_ReomoveAllCartbtn'
+                variant="body2"
+                onClick={handleRemoveAllDialog}
+              >
+                Clear All
+              </Link>
+            </div>
           }
-          <div className='for_cartmainRowDiv'>
-            {!isloding && cartData.length != 0 &&
-              <div className='for_cartButton-groups'>
-                <Link
-                  className='for_ReomoveAllCartbtn'
-                  variant="body2"
-                  onClick={handleRemoveAllDialog}
-                >
-                  Clear All
-                </Link>
-              </div>
-            }
-            {!isMobileScreen &&
-              <div className="for_cart-title">My Cart</div>
-            }
-            {!isloding && cartData.length != 0 &&
-              <div className='for_placeOrderMainbtnDivs'>
-                <button className="for_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-              </div>
-            }
-          </div>
-
-          {/* {!isloding && cartData.length != 0 &&
-            <>
-              <div className="for_cartButton-group">
-                <button className="for_cartBtn for_cartActivebtn">List View</button>
-                <button className='for_cartBtn'>Image View</button>
-                <button className='for_cartBtn' onClick={handleRemoveAll}>Clear All</button>
-                <div>
-                  <Link
-                    className='for_ReomoveAllCartbtn'
-                    variant="body2"
-                    onClick={handleRemoveAllDialog}
-                  >
-                    Clear All
-                  </Link>
-                  <Link
-                    className='for_ReomoveAllCartbtn for_SelectAllCartbtn'
-                    variant="body2"
-                    onClick={handleMultiSelectToggle}
-                  >
-                    {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
-                  </Link>
-                </div>
-
-                <button className='for_cartBtn'>Show ProductList</button>
-
-                <button className='for_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
-                {multiSelect && selectedItems.length != 0 &&
-                  <button className='for_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                }
-                <div className='for_placeOrderMobileMainbtnDiv'>
-                  <button className="for_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
-                </div>
-              </div>
-              <div className='for_placeOrderMainbtnDiv'>
-                <button className="for_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-              </div>
-            </>
-          } */}
+          {!isloding && cartData.length != 0 &&
+            <div className='for_placeOrderMainbtnDivs'>
+              <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={handlePlaceOrder}>Place Order</button>
+            </div>
+          }
         </div>
         {!isloding ? (
           <>
@@ -352,8 +306,8 @@ const CartPage = () => {
         />
 
       </div>
-      <NewsletterSignup/>
-        <Footer />
+      <NewsletterSignup />
+      <Footer />
     </div>
   );
 };
