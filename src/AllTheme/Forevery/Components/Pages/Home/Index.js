@@ -20,37 +20,57 @@ import NewArrival1 from "./NewArrival/NewArrival1";
 import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
+import TopVideoSection from "./Common/TopVideoSection/TopVideoSection";
+import ShoptheCollections from "./Common/ShoptheCollections/ShoptheCollections";
+import LabgrownDiamondInfo from "./Common/LabgrownDiamondInfo/LabgrownDiamondInfo";
+import ShapeSection from "./Common/ShapeSection/ShapeSection";
+import DiamondLifeTime from "./Common/DiamondLifeTime/DiamondLifeTime";
+import ProductCarousel from "./Common/ProductCarousel/ProductCarousel";
 
 function Home() {
-  const [localData, setLocalData] = useState();
-  const [minHeight, setMinHeight] = useState("800px");
+  // const [localData, setLocalData] = useState();
+  // const [minHeight, setMinHeight] = useState("800px");
 
-  useEffect(() => {
-    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localData);
-    if (localData) {
-      setMinHeight("0px");
-    }
-    setCSSVariable();
-  }, []);
+  // // useEffect(() => {
+  // //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
+  // //   setLocalData(localData);
+  // //   if (localData) {
+  // //     setMinHeight("0px");
+  // //   }
+  // //   setCSSVariable();
+  // // }, []);
 
-  const setCSSVariable = () => {
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
-    document.documentElement.style.setProperty(
-      "--background-color",
-      backgroundColor
-    );
-  };
+  // // const setCSSVariable = () => {
+  // //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  // //   const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
+  // //   document.documentElement.style.setProperty(
+  // //     "--background-color",
+  // //     backgroundColor
+  // //   );
+  // // };
 
   return (
     <>
-      <div className="smiling_home_index_main">
-        <div style={{ minHeight: minHeight , backgroundColor: 'white' }}>
-            <div className="smiling_home_index_Submain">
-              <TopSection />
+      <div className="for_home_index_main">
+        <div style={{ backgroundColor: 'white' }}>
+            <div className="for_home_index_Submain">
+              <TopVideoSection/>
+              <ShoptheCollections/>
+              <LabgrownDiamondInfo/>
+              <ShapeSection/>
+              <DiamondLifeTime/>
+              <ProductCarousel/>
+
+
+
+
+
+
+
+
+              {/* <TopSection />
               <TheDifference />
-              <PromotionBaner2 />
+              <PromotionBaner2 /> */}
               {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
               {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
               {/* <DaimondEveyone /> */}
@@ -65,8 +85,6 @@ function Home() {
             </div>
         </div>
       </div>
-      <Footer />
-
     </>
   );
 }

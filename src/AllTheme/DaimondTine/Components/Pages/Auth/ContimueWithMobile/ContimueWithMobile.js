@@ -28,9 +28,9 @@ export default function ContimueWithMobile() {
 
         if (fieldName === 'mobileNo') {
             if (!formattedValue) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. Is Required' }));
             } else if (!/^\d{10}$/.test(formattedValue)) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid mobile number' }));
+                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid Mobile Number' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
             }
@@ -42,10 +42,10 @@ export default function ContimueWithMobile() {
         }
 
         if (!mobileNo.trim()) {
-            setErrors({ mobileNo: 'Mobile No. is required' });
+            setErrors({ mobileNo: 'Mobile No. is Required' });
             return;
         } else if (!/^\d{10}$/.test(mobileNo.trim())) {
-            setErrors({ mobileNo: 'Enter Valid mobile number' });
+            setErrors({ mobileNo: 'Enter Valid Mobile Number' });
             return;
         }
 
@@ -100,7 +100,7 @@ export default function ContimueWithMobile() {
                             <TextField
                                 autoFocus
                                 id="outlined-basic"
-                                label="Enetr Mobile No"
+                                label="Enter Mobile No"
                                 variant="outlined"
                                 className='labgrowRegister'
                                 onKeyDown={(event) => {

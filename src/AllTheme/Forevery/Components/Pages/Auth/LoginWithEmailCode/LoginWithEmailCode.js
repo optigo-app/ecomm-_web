@@ -165,23 +165,30 @@ export default function LoginWithEmailCode() {
         // }
     };
 
+    useEffect(()=>{
+        window.scrollTo({
+          behavior  :"smooth",
+          top  : 0,
+          left : 0
+        })
+      },[])
+    
+
     return (
-        <div className='smr_loginwithemailCode' style={{ backgroundColor: '#c0bbb1', paddingTop: '10px' }}>
+        <div className='smr_loginwithemailCode' style={{ backgroundColor: 'white', paddingTop: '10px' }}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div style={{ backgroundColor: 'white' }}>
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
                         paddingBlock: '60px',
                         marginTop: '15px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Code</p>
@@ -189,8 +196,6 @@ export default function LoginWithEmailCode() {
                         textAlign: 'center',
                         marginTop: '-80px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {email}.</p>
@@ -215,14 +220,10 @@ export default function LoginWithEmailCode() {
                         />
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'black', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
+                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LoginOption.modul.scss";
 import { useNavigate, useLocation } from "react-router";
 import { FaMobileAlt } from "react-icons/fa";
@@ -12,6 +12,14 @@ const LoginOption = () => {
   const redirectEmailUrl = `/ContinueWithEmail/${search}`;
 
   const redirectMobileUrl = `/ContimueWithMobile/${search}`;
+
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top  : 0,
+      left : 0
+    })
+  },[])
 
   return (
     <div className="for_Loginoption" style={{

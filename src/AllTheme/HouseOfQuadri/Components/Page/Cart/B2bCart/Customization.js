@@ -196,7 +196,7 @@ const Customization = ({
                   </select>
                 </div>
               )}
-              {sizeCombo?.length !== 0 && (
+              {sizeCombo?.rd?.length !== 0 && (
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select
@@ -211,7 +211,7 @@ const Customization = ({
                       </option>
                     ) : ( 
                       <>
-                        {sizeCombo?.map((option) => (
+                        {sizeCombo?.rd?.map((option) => (
                           <option key={option?.id} value={option?.sizename}>
                             {option?.sizename}
                           </option>

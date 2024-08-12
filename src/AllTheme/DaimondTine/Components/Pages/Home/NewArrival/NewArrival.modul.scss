@@ -1,26 +1,23 @@
-
 @import '../../../scss/variable';
 
 
 .dt_newArrivalMain {
 
     // background: #f0e0e0;
-    margin-top: 20px;
-
     .dt_titleNewArrival {
         font-family: "Rosarivo", Sans-serif;
         color: #7d7f85;
         text-decoration: uppercase !important;
     }
 
-    .dt_newArrivalPdTitle{
+    .dt_newArrivalPdTitle {
         color: #7d7f85;
         font-size: 16px;
         font-weight: 500;
         margin: 0px;
     }
 
-    .dt_newArrivalMian{
+    .dt_newArrivalMian {
         padding: 20px;
         background-color: $homePageColor;
     }
@@ -30,12 +27,29 @@
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         text-align: center;
+        padding: 1% 0px 1% 0px;
     }
 
-    .dt_newArrivalPdPrice{
+    .dt_newArrivalPdPrice {
         font-size: 14px;
         font-weight: bold;
         color: #7d7f85;
         margin: 0px;
+    }
+
+    .dt_NewArrivalProductMain {
+        width: 20% !important;
+        padding: 5px;
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .dt_NewArrivalProductMain {
+            width: 50% !important;
+        }
+
+        .dt_newArrivalGridMain {
+            padding: 0px 10px 0px 20px !important;
+        }
     }
 }
