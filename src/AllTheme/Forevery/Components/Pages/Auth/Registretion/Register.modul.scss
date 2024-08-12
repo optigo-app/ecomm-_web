@@ -1,4 +1,14 @@
+@import "../../../scss/variable.scss";
+
 .smr_registerMain {
+    height: 90vh;
+    margin-top: 80px !important;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: $primaryFontFamily;
+    margin-bottom: 5rem;
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -16,25 +26,26 @@
         margin: 10px;
     }
 
-    .createBtnRegister {
+    .for_createBtnRegister {
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: black;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 1;
         cursor: pointer;
+        border-radius: 2px;
         transition: all 0.5s ease;
     }
 
-    .createBtnRegister:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
-    }
+    // .createBtnRegister:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
     .SmilingSignInHere {
         color: #7d7f85;
