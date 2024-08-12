@@ -440,8 +440,9 @@ const ProductDetail = () => {
 
     if (mtTypeLocal?.length) {
       metalArr =
-        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
-          ?.Metalid ?? mtTypeLocal[0]?.Metalid;
+        mtTypeLocal?.filter(
+          (ele) => ele?.Metalid == decodeobj?.m
+        )[0]?.Metalid ?? decodeobj?.m;
     }
 
     if (diaQcLocal) {
@@ -450,7 +451,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        )[0] ?? `${decodeobj?.d?.split(",")[0]},${decodeobj?.d?.split(",")[1]}`;
     }
 
     if (csQcLocal) {
@@ -459,8 +460,9 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
+        )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
     }
+    
     setloadingdata(true);
     const FetchProductData = async () => {
       let obj = {

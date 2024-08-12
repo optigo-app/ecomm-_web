@@ -9,38 +9,45 @@ import noImageFound from '../../../Assets/image-not-found.jpg'
 import { Helmet } from "react-helmet";
 import Cookies from 'js-cookie'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import Pagination from "@mui/material/Pagination";
+import { Navigation, Autoplay } from 'swiper/modules';
 import { BsHandbag } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import { FormControl, Input, MenuItem, Select, Slider } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, Input, MenuItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
+import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
+import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import { for_CartCount, for_WishCount } from "../../../Recoil/atom";
+import { useSetRecoilState } from "recoil";
+import { CheckBox } from "@mui/icons-material";
+import Pako from "pako";
 
 
 const ProductList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dropdownRefs = useRef({})
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
 
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
-  const [trend, setTrend] = useState(10);
+  const [trend, setTrend] = useState('Recommended');
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
+  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  console.log('selectedDiaId: ', selectedDiaId);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [storeInit, setStoreInit] = useState({});
   const [locationKey, setLocationKey] = useState();
@@ -56,8 +63,12 @@ const ProductList = () => {
   const [diamondType, setDiamondType] = useState([]);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterData, setFilterData] = useState([]);
-  console.log('filterData: ', filterData);
+  const [sortBySelect, setSortBySelect] = useState();
+  const [currPage, setCurrPage] = useState(1);
 
+  const setCartCountVal = useSetRecoilState(for_CartCount);
+  const setWishCountVal = useSetRecoilState(for_WishCount);
+  const [cartArr, setCartArr] = useState({})
 
   const handleCardHover = () => {
     setHoverIndex(!hoverIndex);
@@ -76,6 +87,10 @@ const ProductList = () => {
   };
   const handleChange1 = (event) => {
     setShippingDrp(event.target.value);
+  };
+
+  const handleChangeTrend = (event) => {
+    setTrend(event.target.value);
   };
 
   useEffect(() => {
@@ -199,6 +214,59 @@ const ProductList = () => {
     return;
   };
 
+  const handleCartandWish = async (e, ele, type) => {
+    console.log("event", e.target.checked, ele, type);
+
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const prodObj = {
+      "autocode": ele?.autocode,
+      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
+      "MetalColorId": ele?.MetalColorid,
+      "DiaQCid": (selectedDiaId ?? loginInfo?.cmboDiaQCid),
+      "CsQCid": (selectedCsId ?? loginInfo?.cmboCSQCid),
+      "Size": ele?.DefaultSize,
+      "Unitcost": ele?.UnitCost,
+      "markup": ele?.DesignMarkUp,
+      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
+      "Remark": "",
+    }
+
+    if (type === "Cart") {
+      setCartArr(prev => ({
+        ...prev,
+        [ele?.autocode]: e.target.checked
+      }));
+    }
+
+    if (e.target.checked) {
+      await CartAndWishListAPI(type, prodObj, cookie).then((res) => {
+        console.log(res?.Data?.rd[0])
+        if (res) {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount
+          let wishC = res?.Data?.rd[0]?.Wishlistcount
+          setWishCountVal(wishC)
+          setCartCountVal(cartC);
+        }
+      }).catch((err) => console.log("addtocartwishErr", err))
+
+    } else {
+
+      await RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res1) => {
+        console.log('res1: ', res1);
+        if (res1) {
+          let cartC = res1?.Data?.rd[0]?.Cartlistcount
+          let wishC = res1?.Data?.rd[0]?.Wishlistcount
+          setWishCountVal(wishC)
+          setCartCountVal(cartC)
+        }
+      }).catch((err) => console.log("removecartwishErr", err))
+
+    }
+
+
+  }
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -241,30 +309,6 @@ const ProductList = () => {
 
         if (res1) {
           setFilterData(res1);
-          //   setFilterPriceSlider(priceFilter);
-          //   let grossFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
-          //   )[0];
-          //   let netFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-          //   )[0];
-          //   let diaFilter = JSON.parse(
-          //     res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-          //   )[0];
-          //   setFilterGrossSlider([grossFilter?.Min, grossFilter?.Max]);
-          //   setFilterNetWTSlider([
-          //     netFilter?.Min.toFixed(3),
-          //     netFilter?.Max.toFixed(3),
-          //   ]);
-
-          //   // let diafilter = res1?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
-          //   // let diafilter1 = res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
-          //   // let diafilter2 = res1?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
-
-          //   setSliderValue([diaFilter?.Min, diaFilter?.Max])
-          //   setSliderValue1([netFilter?.Min, netFilter?.Max])
-          //   setSliderValue2([grossFilter?.Min, grossFilter?.Max])
-          //   // setFilterDiamondSlider([diaFilter?.Min, diaFilter?.Max]);
         }
       } catch (error) {
         console.error("Error fetching product list:", error);
@@ -354,6 +398,7 @@ const ProductList = () => {
   }
 
   const BreadCumsObj = () => {
+
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
 
     const values = BreadCum[0].split(',');
@@ -384,6 +429,58 @@ const ProductList = () => {
     });
   }, [])
 
+  console.log('BreadCumsObj: ', BreadCumsObj());
+
+  useEffect(() => {
+    let output = selectedValues.filter((ele) => ele.value)
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    console.log(
+      "locationkey",
+      location?.key !== locationKey,
+      location?.key,
+      locationKey
+    );
+
+    if (location?.key === locationKey) {
+      setIsOnlyProdLoading(true);
+      ProductListApi(output, 1, obj, prodListType, cookie)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlyProdLoading(false);
+        });
+    }
+  }, [selectedValues]);
+
+  const handleSortby = async (e) => {
+    setSortBySelect(e.target?.value)
+
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+
+    setIsOnlyProdLoading(true)
+
+    let sortby = e.target?.value
+
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlyProdLoading(false)
+      })
+  }
 
   const menuName = BreadCumsObj()?.menuname || 'Title';
   const dropdownsData = [
@@ -437,6 +534,8 @@ const ProductList = () => {
       const existingIndex = prev.findIndex(item => item?.dropdownIndex === index)
       return prev.filter((_, i) => i !== existingIndex);
     })
+    setCaratRangeValue([0.96, 41.81])
+    setPriceRangeValue([5000, 250000])
   }
 
   const handleClearSelectedvalues = () => {
@@ -444,8 +543,78 @@ const ProductList = () => {
     setSelectedMetalId(loginUserDetail?.MetalId)
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid)
     setSelectedCsId(loginUserDetail?.cmboCSQCid)
-
+    setCaratRangeValue([0.96, 41.81])
+    setPriceRangeValue([5000, 250000])
   }
+
+  const handelPageChange = (event, value) => {
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    setIsProdLoading(true);
+    setCurrPage(value)
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }, 100)
+    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err)).finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false)
+        }, 100);
+      })
+  }
+
+  const handelCustomCombo = (obj) => {
+
+    if (location?.state?.SearchVal === undefined) {
+      setIsOnlyProdLoading(true);
+      ProductListApi({}, 1, obj, prodListType, cookie, sortBySelect)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setTimeout(() => {
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            setIsOnlyProdLoading(false);
+          }, 100);
+        });
+    }
+  };
+
+  useEffect(() => {
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+
+    if (
+      loginInfo?.MetalId !== selectedMetalId ||
+      loginInfo?.cmboDiaQCid !== selectedDiaId ||
+      loginInfo?.cmboCSQCid !== selectedCsId
+    ) {
+      if (
+        selectedMetalId !== "" ||
+        selectedDiaId !== "" ||
+        selectedCsId !== ""
+      ) {
+        handelCustomCombo(obj);
+      }
+    }
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
 
   const StyledRating = styled(Rating)({
@@ -457,6 +626,42 @@ const ProductList = () => {
     },
   });
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (productData) => {
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: selectedMetalId,
+      d: selectedDiaId,
+      c: selectedCsId,
+      p:  BreadCumsObj(),
+      f: {},
+    };
+    console.log("ksjkfjkjdkjfkjsdk--", obj);
+    // compressAndEncode(JSON.stringify(obj))
+
+    // decodeAndDecompress()
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    navigate(
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+
   return (
     <>
       {/* <Helmet>
@@ -466,7 +671,7 @@ const ProductList = () => {
         <div className="for_productList_div">
           <div className="for_productList_banner_swiper">
             <Swiper
-              modules={[Autoplay, Pagination, Navigation]}
+              modules={[Autoplay, Navigation]}
               autoplay={{
                 delay: 5000,
                 disableOnInteraction: false,
@@ -617,13 +822,21 @@ const ProductList = () => {
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         value={trend}
-                        onChange={handleChange}
-                        label="Age"
+                        onChange={(e) => {
+                          handleSortby(e);
+                          handleChangeTrend(e);
+                        }}
                         className="for_collection_filter_sort_select"
                       >
-                        <MenuItem value={10}>Recommended</MenuItem>
-                        <MenuItem value={20}>New</MenuItem>
-                        <MenuItem value={30}>In Stock</MenuItem>
+                        <MenuItem value='Recommended'>Recommended</MenuItem>
+                        <MenuItem value='New'>New</MenuItem>
+                        <MenuItem value='Trending'>Trending</MenuItem>
+                        {storeInit?.IsStockWebsite == 1 &&
+                          <MenuItem value='In Stock'>In Stock</MenuItem>
+                        }
+
+                        <MenuItem value='PRICE HIGH TO LOW'>Price High To Low</MenuItem>
+                        <MenuItem value='PRICE LOW TO HIGH'> Price Low To High</MenuItem>
                       </Select>
                     </FormControl>
                   </div>
@@ -678,7 +891,7 @@ const ProductList = () => {
                 </div>
               </div>
               <div className="for_productList_total_filtered_data_div">
-                <span className="for_total_filtered_span">Showing 250 results</span>
+                <span className="for_total_filtered_span">Showing {afterFilterCount || 0} results</span>
               </div>
               <div className="for_productList_shipping_div">
                 <div className="for_collection_filter_dropdown_sort_ship">
@@ -706,8 +919,8 @@ const ProductList = () => {
               </div>
             </div>
             <div className="for_productList_listing_div">
-              {isOnlyProdLoading ? "Loading..." : (
-                productListData.map((item) => (
+              {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
+                productListData?.map((item) => (
                   <Product_Card
                     StyledRating={StyledRating}
                     productData={item}
@@ -718,13 +931,38 @@ const ProductList = () => {
                     videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                     RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                     loginCurrency={loginCurrency}
+                    storeInit={storeInit}
+                    handleCartandWish={handleCartandWish}
+                    cartArr={cartArr}
+                    handleMoveToDetail={handleMoveToDetail}
                   />
                 ))
               )}
             </div>
+            {storeInit?.IsProductListPagination == 1 &&
+              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBlock: "3%",
+                    width: '100%'
+                  }}
+                >
+                  <Pagination
+                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                    size={maxwidth464px ? "small" : "large"}
+                    shape="circular"
+                    onChange={handelPageChange}
+                    page={currPage}
+                    showFirstButton
+                    showLastButton
+                  />
+                </div>
+              )}
           </div>
         </div>
-      </div>
+      </div >
 
     </>
   );
@@ -751,7 +989,7 @@ const CollectionDropdown = forwardRef(({
         <FaAngleDown />
       </div>
       <div className={open ? "for_collection_filter_option_div" : 'for_collection_filter_option_div_hide'}>
-        {data.map((i) => {
+        {data?.map((i) => {
           {
             return (
               type === 'high' ? (
@@ -764,7 +1002,7 @@ const CollectionDropdown = forwardRef(({
                   key={i}
                 >
                   <input
-                    type="checkbox"
+                    type="radio"
                     checked={check1 === i}
                   />
                   <span>{i}</span>
@@ -782,7 +1020,7 @@ const CollectionDropdown = forwardRef(({
                       key={i.Metalid}
                     >
                       <input
-                        type="checkbox"
+                        type="radio"
                         checked={check1 === i?.metaltype}
                       />
                       <span>{i?.metaltype}</span>
@@ -800,7 +1038,7 @@ const CollectionDropdown = forwardRef(({
                       key={i?.QualityId}
                     >
                       <input
-                        type="checkbox"
+                        type="radio"
                         checked={check1 === `${i.Quality}#${i?.color}`}
                       />
                       <span>{`${i.Quality}#${i?.color}`}</span>
@@ -838,7 +1076,7 @@ const CollectionPriceRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_hide'}>
+      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
             value={data}
@@ -892,7 +1130,7 @@ const CollectionCaratRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_hide'}>
+      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
             value={data}
@@ -932,7 +1170,11 @@ const Product_Card = ({
   imageUrl,
   videoUrl,
   RollImageUrl,
-  loginCurrency
+  loginCurrency,
+  storeInit,
+  handleCartandWish,
+  cartArr,
+  handleMoveToDetail
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
@@ -947,9 +1189,11 @@ const Product_Card = ({
     txt.innerHTML = html;
     return txt.value;
   };
+
+  const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
   return (
     <>
-      <div className="for_productCard_mainDiv">
+      <div className="for_productCard_mainDiv" onClick={() => handleMoveToDetail(productData)}>
         <div className="for_productList_listing_card_div">
           <div className="for_product_listing_ratings_div">
             <StyledRating
@@ -962,6 +1206,12 @@ const Product_Card = ({
               // }}
               readOnly
             />
+          </div>
+          <div className="forWeb_app_product_label">
+            {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
+            {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
+            {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
+            {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
           <div className="for_productList_listing_card_image_div"
             onMouseOver={() => setIsHover(true)}
@@ -1006,10 +1256,26 @@ const Product_Card = ({
               </div>
             ))}
           </div>
-          <div className="for_productList_listinig_ATC_div">
-            <div className="for_productList_cart_icon"><BsHandbag /></div>
-            <div className="for_productList_cart_title">Add to Cart</div>
-          </div>
+          <FormControlLabel
+            control={
+              <>
+                <Checkbox
+                  icon={<BsHandbag style={{ color: '#fff', fontSize: '16px' }} />}
+                  checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '16px' }} />}
+                  onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                  checked={
+                    cartArr[productData?.autocode] ??
+                      productData?.IsInCart === 1
+                      ? true
+                      : false
+                  }
+                  className="for_productList_cart_title"
+                />
+              </>
+            }
+            label={<span className={`for_productList_cart_title`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+            className="for_productList_listinig_ATC_div"
+          />
         </div>
         <div className="for_productList_card_description">
           <div className="for_productList_caratWeight">
@@ -1025,9 +1291,20 @@ const Product_Card = ({
           </div>
           <div className="for_productList_desc_div">
             <div className="">
-              <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
-              <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
-              <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}/{productData?.Dpcs}</span>
+              {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
+                <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
+              )}
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
+                <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
+              )}
+              {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
+                <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? `/${productData?.Dpcs?.toFixed(0)}`
+                  : null} |</span>
+              )}
+              <span>&nbsp;DWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                ? `/${productData?.CSpcs?.toFixed(0)}`
+                : null}</span>
             </div>
           </div>
           <div className="for_productList_price_div">
@@ -1042,7 +1319,10 @@ const Product_Card = ({
             </span>
           </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }
+
+
+
