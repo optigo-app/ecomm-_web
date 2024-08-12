@@ -23,6 +23,8 @@
 
 .for_productList_MainDiv {
   .for_productList_div {
+    margin-top: 8rem;
+
     .for_productList_banner_swiper {
       position: relative;
 
@@ -180,11 +182,9 @@
               position: absolute;
               top: 2.6rem;
               background: white;
-              // max-width: 100%;
               width: 12rem;
-              box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
               font-family: $primaryFontFamily;
-
               z-index: 1000;
               padding: 1rem;
 
@@ -212,10 +212,7 @@
 
                 input {
                   margin-left: 10px;
-
-                  &:checked {
-                    background-color: #000;
-                  }
+                  accent-color: black;
                 }
 
                 span {
@@ -324,6 +321,24 @@
               width: 100%;
               box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
               font-family: $primaryFontFamily;
+
+              opacity: 0;
+              transform: translateY(-10px);
+              visibility: hidden;
+              transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+            }
+
+            .for_collection_filter_option_div_slide_hide {
+              position: absolute;
+              top: 2.6rem;
+              background: white;
+              display: none;
+              width: 25rem;
+              box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+              font-family: $primaryFontFamily;
+
+              z-index: 1000;
+              padding: 1rem;
             }
 
           }
@@ -463,13 +478,14 @@
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 16px;
         margin-top: 16px;
-        padding-bottom: 20px;
+        padding-bottom: 50px;
         padding-inline: 5px;
 
         .for_productCard_mainDiv {
 
           width: 100%;
           height: auto;
+          cursor: pointer;
           border: 1px solid transparent;
           transition: border 0.3s ease;
 
@@ -501,228 +517,282 @@
               gap: 3px;
               font-size: 14px;
               font-family: $primaryFontFamily;
+              z-index: 100;
 
+              .forWeb_app_instock {
+                background-color: #00b894;
+                color: white;
+                text-transform: uppercase;
+                width: 70px;
+                font-size: 10px;
+                text-align: center;
+                font-weight: 500;
+              }
 
-            .forWeb_app_instock {
-              background-color: #00b894;
-              color: white;
-              text-transform: uppercase;
-              width: 70px;
-              font-size: 10px;
-              text-align: center;
-              font-weight: 500;
+              .forWeb_app_bestSeller {
+                background-color: #ff5100;
+                color: white;
+                text-transform: uppercase;
+                width: 70px;
+                font-size: 10px;
+                text-align: center;
+              }
+
+              .forWeb_app_newarrival {
+                background-color: darkblue;
+                color: white;
+                text-transform: uppercase;
+                width: 70px;
+                font-size: 10px;
+                text-align: center;
+              }
+
+              .forWeb_app_intrending {
+                background-color: darkorange;
+                color: white;
+                text-transform: uppercase;
+                width: 70px;
+                font-size: 10px;
+                text-align: center;
+              }
+
             }
 
-            .forWeb_app_bestSeller {
-              background-color: #ff5100;
-              color: white;
-              text-transform: uppercase;
-              width: 70px;
-              font-size: 10px;
-              text-align: center;
+
+            .for_productList_listing_card_image_div {
+
+
+              .for_rollup_video,
+              .for_rollup_img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+
+                video {
+                  width: 314px;
+                  height: 246px;
+                  object-fit: cover;
+                }
+
+                img {
+                  width: 314px;
+                  height: 246px;
+                  object-fit: cover;
+                }
+              }
+
+              .for_productList_listing_card_image {
+                width: 314px;
+                height: 246px;
+                object-fit: cover;
+              }
+
             }
 
-            .forWeb_app_newarrival {
-              background-color: darkblue;
-              color: white;
-              text-transform: uppercase;
-              width: 70px;
-              font-size: 10px;
-              text-align: center;
-            }
-
-            .forWeb_app_intrending {
-              background-color: darkorange;
-              color: white;
-              text-transform: uppercase;
-              width: 70px;
-              font-size: 10px;
-              text-align: center;
-            }
-
-          }
-
-
-          .for_productList_listing_card_image_div {
-
-
-            .for_rollup_video,
-            .for_rollup_img {
+            .for_productList_metaltype_div {
+              bottom: 2.5rem;
+              display: flex;
+              gap: 50px;
+              justify-content: center;
               position: absolute;
-              top: 0;
-              left: 0;
+              padding: 5px;
               width: 100%;
-              height: 100%;
-              z-index: 1;
+              align-items: center;
+              z-index: 100;
 
-              video {
-                width: 296px;
-                height: 246px;
-                object-fit: cover;
+              .for_metaltype_gold {
+                @include metal-type-style(#c9a63a);
               }
 
-              img {
-                width: 296px;
-                height: 246px;
-                object-fit: cover;
+              .for_metaltype_gold_clicked {
+                @include metal-type-style-clicked(#c9a63a)
+              }
+
+              .for_metaltype_white {
+                @include metal-type-style(#848484);
+              }
+
+              .for_metaltype_white_clicked {
+                @include metal-type-style-clicked(#848484)
+              }
+
+              .for_metaltype_rose {
+                @include metal-type-style(#e06e6e);
+              }
+
+              .for_metaltype_rose_clicked {
+                @include metal-type-style-clicked(#e06e6e)
               }
             }
 
-            .for_productList_listing_card_image {
-              width: 296px;
-              height: 246px;
-              object-fit: cover;
+            .for_ATC_handler {
+              position: absolute;
+              /* Take the checkbox out of the normal flow */
+              opacity: 0;
+              /* Make it invisible */
+              width: 0;
+              /* No width */
+              height: 0;
+              /* No height */
+              overflow: hidden;
+              /* Prevent any overflow */
+              border: 0;
+              /* No border */
             }
 
-          }
-
-          .for_productList_metaltype_div {
-            bottom: 2.5rem;
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            position: absolute;
-            padding: 5px;
-            width: 100%;
-            align-items: center;
-            z-index: 100;
-
-            .for_metaltype_gold {
-              @include metal-type-style(#c9a63a);
-            }
-
-            .for_metaltype_gold_clicked {
-              @include metal-type-style-clicked(#c9a63a)
-            }
-
-            .for_metaltype_white {
-              @include metal-type-style(#848484);
-            }
-
-            .for_metaltype_white_clicked {
-              @include metal-type-style-clicked(#848484)
-            }
-
-            .for_metaltype_rose {
-              @include metal-type-style(#e06e6e);
-            }
-
-            .for_metaltype_rose_clicked {
-              @include metal-type-style-clicked(#e06e6e)
-            }
-          }
-
-          .for_productList_listinig_ATC_div {
-            background: #5C5C5C;
-            height: 40px;
-            color: #fff;
-            font-family: "Nunito", sans-serif;
-            display: flex;
-            align-items: center;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-            z-index: 100;
-
-            .for_productList_cart_icon {
-              padding-bottom: 4px;
-              padding-left: 15px;
-              padding-right: 8px;
-              font-size: 16px;
-            }
-
-            .for_productList_cart_title {
-              font-size: 14px;
-            }
-
-          }
-        }
-
-        /* Show the ATC div on hover */
-        &:hover .for_productList_listinig_ATC_div {
-          opacity: 1;
-        }
-
-        .for_productList_card_description {
-          margin-top: 10px;
-          font-family: $primaryFontFamily;
-
-          .for_productList_caratWeight {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding-inline: 2%;
-
-            .for_carat_title {
-              color: #707070;
-              font-size: 12px;
-            }
-
-            .for_carat_weights {
+            .for_productList_listinig_ATC_div {
+              background: #5C5C5C;
+              height: 40px;
+              color: #fff;
+              font-family: "Nunito", sans-serif;
               display: flex;
               align-items: center;
-              gap: 5px;
+              position: absolute;
+              bottom: 0;
+              width: 100%;
+              opacity: 0;
+              transition: opacity 0.3s ease;
+              cursor: pointer;
+              z-index: 100;
+              margin-inline: 0px;
 
-              .for_weight_bg {
-                display: flex;
-                align-items: center;
-                background: #CECECE;
-                height: 25px;
+              .for_productList_cart_icon {
+                padding-bottom: 4px;
+                padding-left: 15px;
+                padding-right: 8px;
+                font-size: 16px;
+              }
+
+              .for_productList_cart_title {
+                font-size: 14px;
+                color: #fff;
+                font-family: "Nunito", sans-serif;
+              }
+
+            }
+          }
+
+          /* Show the ATC div on hover */
+          &:hover .for_productList_listinig_ATC_div {
+            opacity: 1;
+          }
+
+          .for_productList_card_description {
+            margin-top: 10px;
+            font-family: $primaryFontFamily;
+
+            .for_productList_caratWeight {
+              display: flex;
+              align-items: center;
+              width: 100%;
+              padding-inline: 2%;
+
+              .for_carat_title {
                 color: #707070;
                 font-size: 12px;
-                padding: 0 4px;
+              }
+
+              .for_carat_weights {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                .for_weight_bg {
+                  display: flex;
+                  align-items: center;
+                  background: #CECECE;
+                  height: 25px;
+                  color: #707070;
+                  font-size: 12px;
+                  padding: 0 4px;
+                }
               }
             }
-          }
 
-          .for_productList_desc_title {
-            height: 45px;
-            margin-top: 1.7rem;
-            font-family: $primaryFontFamily;
+            .for_productList_desc_title {
+              height: 45px;
+              margin-top: 1.7rem;
+              font-family: $primaryFontFamily;
 
-            .for_listing_desc_span {
+              .for_listing_desc_span {
+                width: 100%;
+                padding-inline: 4%;
+                color: $primaryfontcolor2;
+                font-size: $fontSize3;
+                font-weight: 700;
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+
+            .for_productList_desc_div {
+              font-family: $primaryFontFamily;
+              color: #707070;
+              font-size: 10px;
+              text-align: center;
+              height: 30px;
               width: 100%;
-              padding-inline: 4%;
-              color: $primaryfontcolor2;
+              padding-inline: 2%
+            }
+
+            .for_productList_price_div {
+              color: #000000;
+              margin-top: 10px;
               font-size: $fontSize3;
+              height: 50px;
+              width: 100%;
               font-weight: 700;
-              display: inline-block;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+              text-align: center;
             }
           }
-
-          .for_productList_desc_div {
-            font-family: $primaryFontFamily;
-            color: #707070;
-            font-size: 10px;
-            text-align: center;
-            height: 30px;
-            width: 100%;
-            padding-inline: 2%
-          }
-
-          .for_productList_price_div {
-            color: #000000;
-            margin-top: 10px;
-            font-size: $fontSize3;
-            height: 50px;
-            width: 100%;
-            font-weight: 700;
-            text-align: center;
-          }
         }
-      }
 
+
+      }
 
     }
 
+
   }
-
-
 }
+
+.for_global_spinner {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(farthest-side, #0000 40%, #000000 41%);
+  background: linear-gradient(0deg, #000000 50%, #000000 0) center/4.5px 100%,
+    linear-gradient(90deg, rgba(21, 21, 31, 0.25) 50%, #000000 0) center/100% 4.5px;
+  background-repeat: no-repeat;
+  animation: for_global_spinner-d3o0rx 1s infinite steps(12);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%, -50%);
+}
+
+.for_global_spinner::before,
+.for_global_spinner::after {
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.915;
+  transform: rotate(30deg);
+}
+
+.for_global_spinner::after {
+  opacity: 0.83;
+  transform: rotate(60deg);
+}
+
+@keyframes for_global_spinner-d3o0rx {
+  100% {
+    transform: rotate(1turn);
+  }
 }
