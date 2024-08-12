@@ -32,7 +32,6 @@ function CustomTabPanel(props) {
         a11yProps(1)
     }, [])
 
-
     return (
         <div
             role="tabpanel"
@@ -132,14 +131,14 @@ export default function Account() {
                             <div className='smlingAccountTabMobileView YourAccountPageTabs'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                     <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   
-                                        <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        <Tab label="PLM" {...a11yProps(5)} />
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        <Tab label="Your Profile" className='tabPanel_DT' {...a11yProps(0)} sx={{  width: '90%', borderColor: 'divider', padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
+                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
+                                        <Tab label="PLM" {...a11yProps(5)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
+                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
+                                        <Tab label="Log Out" onClick={handleLogout} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
                                     </Tabs>
                                 </Box>
                                
