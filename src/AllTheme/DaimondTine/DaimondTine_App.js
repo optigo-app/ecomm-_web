@@ -23,6 +23,10 @@ import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
 import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
 import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
 import Cookies from "js-cookie";
+import FAQ from './Components/Pages/StaticPages/FAQ/FAQ'
+import TermsAndConditions from './Components/Pages/StaticPages/Terms&Condition/TermsCondition'
+import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'
+import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
 
 
 const DaimondTine_App = () => {
@@ -108,6 +112,10 @@ const DaimondTine_App = () => {
         <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
         <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/ContactUs" element={<ContactUs />} />
+        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+        <Route path="/term&condition" element={<TermsAndConditions />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />
         <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList/>} />

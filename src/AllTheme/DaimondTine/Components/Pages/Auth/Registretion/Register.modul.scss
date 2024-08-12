@@ -94,7 +94,30 @@
         background-color: white;
         width: 30%;
     }
+
+    @media screen and (max-width: 1500px) {
+        .dt_registerSubDiv {
+            width: 50%;
+        }
+    }
+
+
+    @media screen and (max-width: 1200px) {
+        .dt_registerSubDiv {
+            width: 70%;
+        }
+
+        
+        .dt_registerMainD{
+            padding: 100px 0px 0px 0px!important;
+        }
+    }
+
     @media screen and (max-width: 700px) {
+
+        .dt_registerSubDiv {
+            width: 90%;
+        }
 
         .submitBtnForgot {
             width: 90%!important;
@@ -110,7 +133,7 @@
         }
 
         .labgrowRegister {
-            width: 80%;
+            width: 90%;
             margin: 10px;
         }
 
