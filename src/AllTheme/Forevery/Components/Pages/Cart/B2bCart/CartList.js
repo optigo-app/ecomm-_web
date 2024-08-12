@@ -24,7 +24,13 @@ const CartList = ({
   console.log('itemgsgdhas-', selectedItem);
   return (
     <div className="for_RightCartList">
-      <Grid container spacing={1}>
+      <div className='for_tablelable'>
+        <p>Image</p>
+        <p>Product Details</p>
+        <p>Price</p>
+        <p>Total Price</p>
+      </div>
+      <>
         {items.map((item, index) => (
           <CartItem
             key={item.id}
@@ -50,7 +56,7 @@ const CartList = ({
             openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
         ))}
-      </Grid>
+      </>
     </div>
   );
 };
