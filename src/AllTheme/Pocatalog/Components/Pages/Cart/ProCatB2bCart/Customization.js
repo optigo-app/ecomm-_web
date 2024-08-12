@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -139,7 +139,7 @@ const Customization = ({
                   }
                 </>
               }
-              {sizeCombo?.length != 0 &&
+              {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>
@@ -147,7 +147,7 @@ const Customization = ({
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
                       <>
-                        {sizeCombo?.map(option => (
+                        {sizeCombo?.rd?.map(option => (
                           <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                         ))}
                       </>

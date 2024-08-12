@@ -77,7 +77,7 @@ const Procatalog_App = () => {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token,{ path: "/", expires: 30 });
             setIsLoginState(true);
             // sessionStorage.setItem("LoginUser", true);
             // sessionStorage.setItem(

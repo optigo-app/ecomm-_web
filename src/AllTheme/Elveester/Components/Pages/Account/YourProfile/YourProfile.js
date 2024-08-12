@@ -66,6 +66,9 @@ export default function YourProfile() {
         const storedUserData = sessionStorage.getItem('loginUserDetail');
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
+            let obj = {...parsedUserData};
+            obj.mobileno = obj.mobileno.replace(/-/g, '');
+            setUserData(obj);
             // if (defaultAddress) {
             //     const updatedUserData = {
             //         ...parsedUserData,
@@ -85,7 +88,7 @@ export default function YourProfile() {
             // } else {
             //     setUserData(parsedUserData);
             // }
-            setUserData(parsedUserData);
+
         }
     }, []);
 

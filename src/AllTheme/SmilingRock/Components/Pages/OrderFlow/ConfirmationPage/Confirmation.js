@@ -61,7 +61,7 @@ const Confirmation = () => {
                                 <p>Comming soon...</p>
                             </div>
                         }
-                        <button className="continueShoppingBtn" onClick={handleNavigate}>Continue Shopping</button>
+                        <button className="smr_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
                 <Footer />

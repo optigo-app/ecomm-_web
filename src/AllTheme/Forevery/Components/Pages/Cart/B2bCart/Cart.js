@@ -82,13 +82,14 @@ const CartPage = () => {
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
   const handlePlaceOrder = () => {
-    if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-      sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
-    } else {
-      handlePay();
-    }
+    // if (storeInit?.IsPLW == 0) {
+    //   let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
+    //   sessionStorage.setItem('TotalPriceData', priceData)
+    //   navigate("/Delivery")
+    // } else {
+    //   handlePay();
+    // }
+    alert("Added soon...")
     window.scrollTo(0, 0);
   }
 
@@ -307,7 +308,6 @@ const CartPage = () => {
 
       </div>
       <NewsletterSignup />
-      <Footer />
     </div>
   );
 };

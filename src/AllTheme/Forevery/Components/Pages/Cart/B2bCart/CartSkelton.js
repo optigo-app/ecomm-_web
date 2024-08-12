@@ -7,7 +7,7 @@ const CartPageSkeleton = () => {
       <Grid item xs={12} md={9} className='for_cartSkeltonListCardGrid'>
         <Grid container spacing={1}>
           {[...Array(9)].map((_, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} key={index}>
               <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={240} animation="wave" />
             </Grid>
           ))}
