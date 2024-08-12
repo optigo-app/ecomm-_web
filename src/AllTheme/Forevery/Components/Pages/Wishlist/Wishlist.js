@@ -105,31 +105,40 @@ const Wishlist = () => {
         <div className="for_wishlistRemoveBtndiv">
           <button>Remove All</button>
         </div>
-        {!islogin &&
-          <div className="for_wishLoginBtnDiv">
-            <span>To save your wish list, create an account or log in.</span>
-            <button>LOG IN / SIGN UP</button>
+        {!isWLLoading && (
+          <>
+            {!islogin && (
+              <div className="for_wishLoginBtnDiv">
+                <span>To save your wish list, create an account or log in.</span>
+                <button>LOG IN / SIGN UP</button>
+              </div>
+            )}
+          </>
+        )}
+        {!isWLLoading ? (
+          <div className="for_wishlistCardDiv">
+            <WishlistData
+              isloding={isWLLoading}
+              items={wishlistData}
+              updateCount={updateCount}
+              countDataUpdted={countDataUpdted}
+              curr={CurrencyData}
+              itemInCart={itemInCart}
+              decodeEntities={decodeEntities}
+              WishCardImageFunc={WishCardImageFunc}
+              handleRemoveItem={handleRemoveItem}
+              handleWishlistToCart={handleWishlistToCart}
+              handleMoveToDetail={handleMoveToDetail}
+              handelMenu={handelMenu}
+            />
+          </div>
+        ) :
+          <div style={{ marginTop: '90px' }}>
+            <SkeletonLoader />
           </div>
         }
-        <div className="for_wishlistCardDiv">
-          <WishlistData
-            isloding={isWLLoading}
-            items={wishlistData}
-            updateCount={updateCount}
-            countDataUpdted={countDataUpdted}
-            curr={CurrencyData}
-            itemInCart={itemInCart}
-            decodeEntities={decodeEntities}
-            WishCardImageFunc={WishCardImageFunc}
-            handleRemoveItem={handleRemoveItem}
-            handleWishlistToCart={handleWishlistToCart}
-            handleMoveToDetail={handleMoveToDetail}
-            handelMenu={handelMenu}
-          />
-        </div>
       </div>
       <NewsletterSignup />
-      <Footer />
     </div>
   );
 };

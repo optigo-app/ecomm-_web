@@ -157,7 +157,7 @@ const MobileCartDetails = ({
                       }
                     </>
                   }
-                  {sizeCombo?.length !== 0 &&
+                 {sizeCombo?.rd?.length !== 0 &&
                     <div className="option">
                       <label htmlFor="size">Size:</label>
                       <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>
@@ -165,7 +165,7 @@ const MobileCartDetails = ({
                           <option value={selectedItem?.Size}>{selectedItem?.Size}</option>
                         ) :
                           <>
-                            {sizeCombo?.map(option => (
+                            {sizeCombo?.rd?.map(option => (
                               <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                             ))}
                           </>
