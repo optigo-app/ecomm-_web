@@ -1,0 +1,83 @@
+@import "../../../../scss/variable.scss";
+
+.forevery_ShoptheCollections {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-bottom: 2rem;
+  .heading {
+    width: 100%;
+    display: flex;
+    padding: 50px 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .title_for {
+      font-size: 40px;
+      font-weight: 500;
+    }
+    .para_for {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .for_collections {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    .for_card {
+      margin-top: 15px;
+      width: 420px;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      .for_square {
+        width: 360px;
+        border: 1px solid rgba(255, 255, 255, 0.788);
+        height: 360px;
+        z-index: 2;
+        opacity: 0;
+      }
+      &:hover .for_square {
+        opacity: 1;
+        transition: 0.33s ease-in-out;
+        width: 395px;
+        height: 395px;
+      }
+      &:hover img {
+        scale: 1.1;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+        transition: 0.2s ease-in;
+        &:hover {
+          scale: 1.1;
+        }
+      }
+      .for_btn {
+        z-index: 2;
+        background-color: #fff;
+        position: absolute;
+        width: 70%;
+        padding: 7px 0;
+        bottom: 0;
+        border: none;
+        outline: none;
+        font-weight: 300;
+        font-size: 14px;
+      }
+    }
+  }
+}

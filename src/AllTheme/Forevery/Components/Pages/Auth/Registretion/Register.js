@@ -243,6 +243,14 @@ export default function Register() {
     }
   };
 
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top  : 0,
+      left : 0
+    })
+  },[])
+
   return (
     <div className='smr_registerMain'>
       {isLoading && (
@@ -250,15 +258,13 @@ export default function Register() {
           <CircularProgress className='loadingBarManage' />
         </div>
       )}
-      <div style={{ backgroundColor: '#c0bbb1' }}>
+      <div style={{ backgroundColor: 'white' }}>
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',
             marginTop: '0px',
             paddingTop: '5%',
             fontSize: '40px',
-            color: '#7d7f85',
-            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
           }}
             className='AuthScreenRegisterMainTitle'
           >Register</p>
@@ -381,19 +387,15 @@ export default function Register() {
               }}
             />
 
-            <button className='createBtnRegister' onClick={handleSubmit}>CREATE ACCOUNT</button>
+            <button className='for_createBtnRegister' onClick={handleSubmit}>CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
+            <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
           </div>
-          <Footer />
         </div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
       </div>
     </div>
   );

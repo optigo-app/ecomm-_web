@@ -1,4 +1,13 @@
-.smr_loginmobileCodeMain {
+@import "../../../scss/variable.scss";
+   
+.for_loginmobileCodeMain {
+    height: 75vh;
+    margin-top: 80px !important;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: $primaryFontFamily;
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;
@@ -15,7 +24,7 @@
         margin: 10px;
     }
 
-    .smling-forgot-main {
+    .for-forgot-main {
         margin-inline: 6%;
         background-color: white;
     }
@@ -28,20 +37,21 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: black;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 1;
         transition: all 0.5s ease;
+        border-radius: 2px;
     }
 
-    .createBtnRegister:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
-    }
+    // .createBtnRegister:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
     .SmilingSignInHere {
         color: #7d7f85;
@@ -74,21 +84,22 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: black;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 1;
+        border-radius: 2px;
         cursor: pointer;
         transition: all 0.5s ease;
     }
 
-    .submitBtnForgot:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
-    }
+    // .submitBtnForgot:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
 
     @media screen and (max-width: 950px) {

@@ -130,71 +130,73 @@ const ForEveryRoutes = () => {
         <Navbar />
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/LoginOption"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginOption />
-            </div>
-          }
-        />
-        <Route
-          path="/ContinueWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <ContinueWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/ContimueWithMobile"
-          element={
-            <div className="authFlowBakcColor">
-              <ContimueWithMobile />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmailCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmailCode />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithMobileCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithMobileCode />
-            </div>
-          }
-        />
-        <Route
-          path="/ForgotPass"
-          element={
-            <div className="authFlowBakcColor">
-              <ForgotPass />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <div className="authFlowBakcColor">
-              <Register />
-            </div>
-          }
-        />
+        <>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/LoginOption"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginOption />
+              </div>
+            }
+          />
+          <Route
+            path="/ContinueWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <ContinueWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/ContimueWithMobile"
+            element={
+              <div className="authFlowBakcColor">
+                <ContimueWithMobile />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmailCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmailCode />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithMobileCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithMobileCode />
+              </div>
+            }
+          />
+          <Route
+            path="/ForgotPass"
+            element={
+              <div className="authFlowBakcColor">
+                <ForgotPass />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <div className="authFlowBakcColor">
+                <Register />
+              </div>
+            }
+          />
+        </>
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
@@ -215,7 +217,7 @@ const ForEveryRoutes = () => {
         <Route path="/p/*" element={<ProductList />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </>
   );
 };
