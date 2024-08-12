@@ -77,7 +77,6 @@ const ManageAddress = () => {
     }
     const handleOpen = (item, addressIndex = null, args) => {
         // setIsEditMode(addressIndex !== null);
-                console.log(item, addressIndex, args);
 
             if(args === 'edit'){
                 setIsEditMode(true);

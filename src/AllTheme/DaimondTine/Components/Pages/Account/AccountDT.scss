@@ -208,7 +208,13 @@
         z-index: 10; /* Adjust z-index as needed */
         padding: 10px 0;
     }
+  
     
+}
+@media (max-width:1023px){
+    .tabPanel_DT > .css-1cpnqbe-MuiButtonBase-root-MuiTab-root{
+        padding: 0px !important;
+    }
 }
 
 @media(max-width: 768px){
