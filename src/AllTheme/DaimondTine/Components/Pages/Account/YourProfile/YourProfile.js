@@ -382,7 +382,7 @@ export default function YourProfile() {
                     )}
                 </div>}
                 {  <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='SmilingAddEditAddrwess btn_bg_color_DT' style={{ marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
@@ -466,8 +466,8 @@ export default function YourProfile() {
                             </>
                         )}
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                          <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                          <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                          <button type='submit' className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT'  style={{  marginInline: '5px' }}>Save</button>
+                          <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                       </div>
                     </form>
                 </div>
