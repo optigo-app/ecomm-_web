@@ -24,9 +24,12 @@
     }
 
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 700px),(max-width: 768px){
         .userProfileMain {
             width: 100%;
+        }
+        .m_top_15_DT{
+            margin-top: 10%;
         }
 
     }
@@ -36,6 +39,10 @@
         .smilingEditProfilePopup {
             width: 95% !important;
             margin: 5px !important;
+        }
+
+        .m_top_15_DT{
+            margin-top: 17%;
         }
 
      

@@ -304,7 +304,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }} className='m_top_15_DT'>
                 {  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>
