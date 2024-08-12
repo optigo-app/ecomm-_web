@@ -37,7 +37,7 @@ const Album = () => {
 
   // 17620240727141443263
   useEffect(() => {
-    
+    console.log('calllllllllllllll');
     let login = sessionStorage.getItem('LoginUser');
     setISLoginSet(login);
     const fetchAlbumData = async () => {
@@ -73,7 +73,8 @@ const Album = () => {
     // if (imageUrl || login == null) {
       fetchAlbumData();
     // }
-  }, [imageUrl, islogin]);
+  }, []);
+// }, [imageUrl, islogin]);
 
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -83,7 +84,7 @@ const Album = () => {
         setAlbumData(response.Data.rd);
 
         const status = {};
-        const fallbackImages = {};  // To store fallback images based on ImageCount
+        const fallbackImages = {};  
 
         for (const data of response.Data.rd) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
