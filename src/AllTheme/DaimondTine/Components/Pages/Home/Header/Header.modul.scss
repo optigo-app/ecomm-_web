@@ -104,7 +104,6 @@
   .nav-li-sminingSpan_Home{
     color: black !important;
     position: relative !important;
-    text-decoration: underline !important;
     font-weight: 600;
   }
 
@@ -259,6 +258,13 @@
   @media screen and (max-width: 650px) {
     .dt_mobile_div3_li1 {
       display: none;
+    }
+
+    .dt_mobile_login_text{
+      display: flex;
+      align-items: center;
+      margin-inline: 4px!important;
+      font-weight: 600;
     }
 
   }

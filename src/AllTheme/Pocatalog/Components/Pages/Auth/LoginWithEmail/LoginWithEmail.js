@@ -259,7 +259,7 @@ export default function LoginWithEmail() {
         // const { FrontEnd_RegNo, domain } = storeInit;
 
         // // let Domian = `https://${domain}`
-        let Domian = `https://${storeInit?.domain}`
+        let Domian = `${window?.location?.protocol}//${storeInit?.domain}`
 
         // const combinedValue = JSON.stringify({
         //     domain: `${Domian}`, userid: `${email}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
