@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 // import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
+import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { defaultAddressStateDT } from './../../../Recoil/atom';
 
 
@@ -74,9 +75,17 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
-    const handleOpen = (item, addressIndex = null) => {
-        setIsEditMode(addressIndex !== null);
+    const handleOpen = (item, addressIndex = null, args) => {
+        // setIsEditMode(addressIndex !== null);
+
+            if(args === 'edit'){
+                setIsEditMode(true);
+            }else{
+                setIsEditMode(false);
+            }
+            
         if (addressIndex !== null && addressData.length > addressIndex) {
+            
             setEditId(item.id)
             const address = addressData[addressIndex];
             if (address) {
@@ -117,35 +126,30 @@ const ManageAddress = () => {
         setOpenDelete(true);
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-    
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent default form submission
         const errorsCopy = {}; // Initialize errors object
-
+    
         if (!formData.firstName.trim()) {
             errorsCopy.firstName = 'First Name is required';
         } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
             errorsCopy.firstName = 'First Name must contain only letters';
-        } else if (formData.firstName?.trim()?.length < 2) {
+        } else if (formData.firstName.trim().length < 2) {
             errorsCopy.firstName = 'Enter minimum 2 characters';
-        } else if (formData.firstName?.trim()?.length > 45) {
+        } else if (formData.firstName.trim().length > 45) {
             errorsCopy.firstName = 'Enter maximum 45 characters';
-        } else {
-            errorsCopy.firstName = '';
         }
-
+    
         if (!formData.lastName.trim()) {
             errorsCopy.lastName = 'Last Name is required';
         } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
             errorsCopy.lastName = 'Last Name must contain only letters';
-        } else if (formData.lastName?.trim()?.length < 2) {
+        } else if (formData.lastName.trim().length < 2) {
             errorsCopy.lastName = 'Enter minimum 2 characters';
-        } else if (formData.lastName?.trim()?.length > 45) {
+        } else if (formData.lastName.trim().length > 45) {
             errorsCopy.lastName = 'Enter maximum 45 characters';
-        } else {
-            errorsCopy.lastName = '';
         }
-
+    
         if (!formData.mobileNo.trim()) {
             errorsCopy.mobileNo = 'Mobile No. is required';
         } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
@@ -155,45 +159,37 @@ const ManageAddress = () => {
         if (!formData.address.trim()) {
             errorsCopy.address = 'Address is required';
         }
-
+    
         if (!formData.country.trim()) {
             errorsCopy.country = 'Country is required';
         } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
             errorsCopy.country = 'Country name must contain only letters';
-        } else {
-            errorsCopy.country = '';
         }
-
+    
         if (!formData.state.trim()) {
             errorsCopy.state = 'State is required';
         } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
             errorsCopy.state = 'State name must contain only letters';
-        } else {
-            errorsCopy.state = '';
         }
-
+    
         if (!formData.city.trim()) {
             errorsCopy.city = 'City is required';
         } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
             errorsCopy.city = 'City name must contain only letters';
-        } else {
-            errorsCopy.city = '';
         }
-
+    
         if (!formData.zipCode.trim()) {
             errorsCopy.zipCode = 'ZIP Code is required';
         } else if (!/^\d+$/.test(formData.zipCode.trim())) {
             errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-        } else if (formData.zipCode?.trim()?.length !== 6) {
+        } else if (formData.zipCode.trim().length !== 6) {
             errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-        } else {
-            errorsCopy.zipCode = '';
         }
-
-        // If there are any errors, update state and return
+    
+        // Update errors state and prevent submission if there are errors
+        setErrors(errorsCopy);
         if (Object.keys(errorsCopy).length > 0) {
-            setErrors(errorsCopy);
-            return;
+            return; // Exit if there are validation errors
         }
     
         try {
@@ -208,9 +204,9 @@ const ManageAddress = () => {
             let response;
     
             if (isEditMode) {
+    
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
-    
                 response = await handleEditAddress(
                     editId,
                     formData,
@@ -235,14 +231,17 @@ const ManageAddress = () => {
                         zip: formData.zipCode,
                         shippingmobile: formData.mobileNo
                     };
-    
                     const updatedAddressData = [...addressData];
                     updatedAddressData[editAddressIndex] = editedAddress;
                     setAddressData(updatedAddressData);
+                    if (editedAddress?.isdefault === 1) {
+                        setDefaultAddress(editedAddress);
+                    }
                 } else {
                     toast.error('Error editing');
                 }
             } else {
+    
                 // Handle add mode
                 setOpen(false); // Close modal or dialog
     
@@ -509,8 +508,14 @@ const ManageAddress = () => {
                     fontWeight: "700",
                     opacity:'.8'
                 }} className='savedAddress'>Saved Addresses</p>
-                <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManageDT savedAddressManageBtn' variant="contained" sx={{ background: "#f0e0e0", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box>
+                <Box sx={{ paddingLeft: "15px", display:'flex', justifyContent:'flex-end', alignItems:'center' }}>
+                    {/* <Button className='muiSmilingRocksBtnManageDT  btn_bg_color_DT' variant="contained" sx={{  padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={handleOpen}>ADD NEW ADDRESS</Button></Box> */}
+                    <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT'
+                                                    variant="contained"
+                                                    sx={{
+                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
+                                                        marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
+                                                    }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -555,15 +560,16 @@ const ManageAddress = () => {
                                             </Box>
                                             
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
-                                                <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
+                                                <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT' variant="contained"
 
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
                                                     }}
-                                                    onClick={() => handleOpen(item, index)}
+                                                    onClick={() => handleOpen(item, index, 'edit')}
+
                                                 >Edit</Button>
-                                                <Button className='muiSmilingRocksBtnManageEdit'
+                                                <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
@@ -587,10 +593,17 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 /> */}
+                <ConfirmationDialog
+                    open={openDelete}
+                    onClose={handleCloseDialog}
+                    onConfirm={handleDeleteAddressBtn}
+                    title="Delete Address"
+                    content="Are you sure you want to delete address?"
+                />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
@@ -681,8 +694,8 @@ const ManageAddress = () => {
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
+                                    <button type="submit" className='smilingDeleveryformSaveBtnDT btn_bg_color_DT'>{isEditMode ? 'Edit' : 'Add'}</button>
+                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtnDT btn_bg_color_DT'>
                                         Cancel
                                     </button>
                                 </div>
