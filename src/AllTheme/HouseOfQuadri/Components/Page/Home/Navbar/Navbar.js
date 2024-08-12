@@ -337,6 +337,7 @@ const Navbar = () => {
       }
     }
   };
+  
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));

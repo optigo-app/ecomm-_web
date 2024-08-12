@@ -23,6 +23,9 @@ export default function YourProfile() {
         const storedUserData = sessionStorage.getItem('loginUserDetail');
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
+            let obj = {...parsedUserData};
+            obj.mobileno = obj.mobileno.replace(/-/g, '');
+            setUserData(obj);
             // if (defaultAddress) {
             //     const updatedUserData = {
             //         ...parsedUserData,
@@ -42,7 +45,6 @@ export default function YourProfile() {
             // } else {
             //     setUserData(parsedUserData);
             // }
-            setUserData(parsedUserData);
         }
     }, []);
 
@@ -304,7 +306,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }} className='m_top_15_DT'>
                 {  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>
@@ -382,7 +384,7 @@ export default function YourProfile() {
                     )}
                 </div>}
                 {  <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='SmilingAddEditAddrwess btn_bg_color_DT' style={{ marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
@@ -466,8 +468,8 @@ export default function YourProfile() {
                             </>
                         )}
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                          <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                          <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                          <button type='submit' className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT'  style={{  marginInline: '5px' }}>Save</button>
+                          <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                       </div>
                     </form>
                 </div>

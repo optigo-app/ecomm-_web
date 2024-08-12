@@ -1,0 +1,13 @@
+@import "../../../../scss/variable.scss";
+
+.for_DiamondLifeTime {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  padding: 0 80px;
+  margin-top: 8rem;
+  .for_DiamondLifeTime_video {
+    width: 100%;
+    height: 100%;
+  }
+}

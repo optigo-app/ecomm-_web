@@ -132,7 +132,7 @@ export default function LoginWithEmailCode() {
     };
 
     return (
-        <div className='dt_loginWithEmailCodeMain'>
+        <div className='dt_loginWithEmailCodeMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">

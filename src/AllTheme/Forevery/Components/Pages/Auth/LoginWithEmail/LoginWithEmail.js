@@ -72,6 +72,14 @@ export default function LoginWithEmail() {
     //     })
     // }
 
+    useEffect(()=>{
+        window.scrollTo({
+          behavior  :"smooth",
+          top  : 0,
+          left : 0
+        })
+      },[])
+    
 
     useEffect(() => {
 
@@ -305,7 +313,7 @@ export default function LoginWithEmail() {
         // }
     }
     return (
-        <div className='smr_loginEmail'>
+        <div className='for_loginEmail' style={{backgroundColor  :"white"}}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -313,14 +321,12 @@ export default function LoginWithEmail() {
                 </div>
             )}
             <div>
-                <div className='smr_loginEmailD'>
+                <div className='for_loginEmailD'>
                     <p style={{
                         textAlign: 'center',
                         paddingBlock: '60px',
                         marginTop: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Password</p>
@@ -328,8 +334,6 @@ export default function LoginWithEmail() {
                         textAlign: 'center',
                         marginTop: '-80px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
                         className='AuthScreenSubTitle'
                     >using {email}</p>
@@ -341,7 +345,7 @@ export default function LoginWithEmail() {
                             label="Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_loginPasswordBox'
+                            className='for_loginPasswordBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
@@ -369,18 +373,14 @@ export default function LoginWithEmail() {
                         />
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
                         <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                        <p style={{ textAlign: 'center' ,marginTop : "10px" }}>Go passwordless! we'll send you an email.</p>
 
-                        <p style={{ color: 'blue', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                        <p style={{ color: 'black', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     );

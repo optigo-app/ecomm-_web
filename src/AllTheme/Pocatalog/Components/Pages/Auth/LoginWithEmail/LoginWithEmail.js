@@ -143,7 +143,6 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-
                 console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 sessionStorage.setItem('registerEmail', email)
@@ -260,7 +259,7 @@ export default function LoginWithEmail() {
         // const { FrontEnd_RegNo, domain } = storeInit;
 
         // // let Domian = `https://${domain}`
-        let Domian = `https://${storeInit?.domain}`
+        let Domian = `${window?.location?.protocol}//${storeInit?.domain}`
 
         // const combinedValue = JSON.stringify({
         //     domain: `${Domian}`, userid: `${email}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'

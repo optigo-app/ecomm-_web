@@ -62,6 +62,12 @@ const useCart = () => {
   const [finalPriceWithMarkup, setFinalPriceWithMarkup] = useState();
   const [handleUpdate, setHandleUpdate] = useState();
   const [cartDrawer, setCartDrawer] = useState();
+  const [mtType, setMtType] = useState();
+  const [mtColor, setMtColor] = useState();
+  const [diaColor, setDiaColor] = useState();
+  const [diaQua, setDiaQua] = useState();
+  const [csColor, setCsColor] = useState();
+  const [csQua, setCsQua] = useState();
 
   const [visiterId, setVisiterId] = useState();
   const islogin = useRecoilValue(loginState)
@@ -236,48 +242,48 @@ const useCart = () => {
 
   //get category Size
 
-  // const handleCategorySize = async (item) => {
-  //   const visiterId = Cookies.get('visiterId');
-  //   try {
-  //     const response = await getSizeData(item, visiterId, islogin);
-  //     if (response) {
-  //       console.log('categoryData', response);
-  //       setSizeCombo(response?.Data)
-  //       setSizeId(item?.Size)
-
-  //       const sizeChangeData = response?.Data?.rd.filter((size) => {
-  //         return size.sizename === item?.Size;
-  //       });
-
-  //       setSizeChangeData(sizeChangeData)
-  //     }
-  //   } catch (error) {
-  //   }
-  // }
-
   const handleCategorySize = async (item) => {
     const visiterId = Cookies.get('visiterId');
     try {
       const response = await getSizeData(item, visiterId, islogin);
       if (response) {
-        const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
-          const extractNumber = (sizeName) => parseFloat(sizeName?.replace(/[^0-9.]/g, ''));
+        console.log('categoryData', response);
+        setSizeCombo(response?.Data)
+        setSizeId(item?.Size)
 
-          const numA = extractNumber(a?.sizename);
-          const numB = extractNumber(b?.sizename);
-
-          return numA - numB;
+        const sizeChangeData = response?.Data?.rd?.filter((size) => {
+          return size.sizename === item?.Size;
         });
-        console.log('sortedSizeData', sortedSizeData);
-        setSizeCombo(sortedSizeData);
-        setSizeId(item?.Size);
-        const sizeChangeData = sortedSizeData?.filter((size) => size?.sizename == item?.Size);
-        setSizeChangeData(sizeChangeData);
+
+        setSizeChangeData(sizeChangeData)
       }
     } catch (error) {
-      console.error('Failed to fetch size data:', error);
     }
-  };
+  }
+
+  // const handleCategorySize = async (item) => {
+  //   const visiterId = Cookies.get('visiterId');
+  //   try {
+  //     const response = await getSizeData(item, visiterId, islogin);
+  //     if (response) {
+  //       const sortedSizeData = response?.Data?.rd?.sort((a, b) => {
+  //         const extractNumber = (sizeName) => parseFloat(sizeName?.replace(/[^0-9.]/g, ''));
+
+  //         const numA = extractNumber(a?.sizename);
+  //         const numB = extractNumber(b?.sizename);
+
+  //         return numA - numB;
+  //       });
+  //       console.log('sortedSizeData', sortedSizeData);
+  //       setSizeCombo(sortedSizeData);
+  //       setSizeId(item?.Size);
+  //       const sizeChangeData = sortedSizeData?.filter((size) => size?.sizename == item?.Size);
+  //       setSizeChangeData(sizeChangeData);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to fetch size data:', error);
+  //   }
+  // };
 
 
 
@@ -295,6 +301,23 @@ const useCart = () => {
         setOpenMobileModal(false);
         setHandleUpdate(resStatus)
         // toast.success('Cart Updated Successfully')
+
+        const Price = finalPrice?.UnitCostWithMarkUp * qtyCount;
+        const updatedCartData = cartData.map(cart =>
+          cart?.id === updatedItems?.id ? { ...cart,
+            metaltypename:mtType,
+            metalcolorname:mtColor,
+            diamondquality:diaQua,
+            diamondcolor:diaColor,
+            colorstonecolor:csColor,
+            colorstonequality:csQua,
+            FinalCost: Price,
+            UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp,
+            Quantity: qtyCount,
+            Size: sizeId
+          } : cart
+        );
+        setCartData(updatedCartData)
         return resStatus;
       } else {
         console.log('Failed to update product or product not found');
@@ -388,17 +411,17 @@ const useCart = () => {
   console.log('selectedItem', selectedItem);
 
 
-
   // for dropdown changes
   const handleMetalTypeChange = async (event) => {
     const selectedTypeName = event.target.value;
     const selectedID = event.target.name;
+    setMtType(selectedTypeName)
     setSelectedItem(prevItem => ({ ...prevItem, metaltypename: selectedTypeName }));
 
-    const updatedMTData = cartData?.map(cart =>
-      cart.id == selectedID ? { ...cart, metaltypename: selectedTypeName } : cart
-    );
-    setCartData(updatedMTData);
+    // const updatedMTData = cartData?.map(cart =>
+    //   cart.id == selectedID ? { ...cart, metaltypename: selectedTypeName } : cart
+    // );
+    // setCartData(updatedMTData);
 
     const selectedMetal = metalTypeCombo?.find(option => option.metaltype === selectedTypeName);
     if (selectedMetal) {
@@ -412,13 +435,14 @@ const useCart = () => {
   const handleMetalColorChange = (event) => {
     const selectedTypeName = event.target.value;
     const selectedID = event.target.name;
+    setMtColor(selectedTypeName)
     setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
     console.log('eventKey--', selectedTypeName);
 
-    const updatedMTCData = cartData?.map(cart =>
-      cart.id == selectedID ? { ...cart, metalcolorname: selectedTypeName } : cart
-    );
-    setCartData(updatedMTCData);
+    // const updatedMTCData = cartData?.map(cart =>
+    //   cart.id == selectedID ? { ...cart, metalcolorname: selectedTypeName } : cart
+    // );
+    // setCartData(updatedMTCData);
 
     const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
     if (selectedMetal) {
@@ -433,19 +457,21 @@ const useCart = () => {
     const selectedID = event.target.name;
     const [quality, color] = value.split(',');
 
+    setDiaColor(color);
+    setDiaQua(quality);
     setSelectedItem(prevItem => ({
       ...prevItem,
       diamondquality: quality,
       diamondcolor: color
     }));
 
-    const updatedQtytData = cartData?.map(cart =>
-      cart.id == selectedID ? {
-        ...cart, diamondquality: quality,
-        diamondcolor: color
-      } : cart
-    );
-    setCartData(updatedQtytData);
+    // const updatedQtytData = cartData?.map(cart =>
+    //   cart.id == selectedID ? {
+    //     ...cart, diamondquality: quality,
+    //     diamondcolor: color
+    //   } : cart
+    // );
+    // setCartData(updatedQtytData);
 
     const selectedDia = diamondQualityColorCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedDia) {
@@ -459,18 +485,19 @@ const useCart = () => {
   };
 
   const handleSizeChange = (event) => {
+    debugger
     const sizedata = event?.target?.value;
     const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));
     setSizeId(sizedata);
     console.log("sizeIdkdnk", sizedata);
 
-    const updatedSizeData = cartData?.map(cart =>
-      cart.id == selectedID ? { ...cart, Size: sizedata } : cart
-    );
-    setCartData(updatedSizeData);
+    // const updatedSizeData = cartData?.map(cart =>
+    //   cart.id == selectedID ? { ...cart, Size: sizedata } : cart
+    // );
+    // setCartData(updatedSizeData);
 
-    const sizeChangeData = sizeCombo?.filter(size => size.sizename === sizedata);
+    const sizeChangeData = sizeCombo?.rd?.filter(size => size.sizename === sizedata);
     setSizeChangeData(sizeChangeData);
     console.log("sizeChangeData", sizeChangeData);
 
@@ -482,19 +509,22 @@ const useCart = () => {
     const selectedID = event.target.name;
     const [quality, color] = value.split(',');
 
+    setCsColor(color);
+    setCsQua(quality);
+
     setSelectedItem(prevItem => ({
       ...prevItem,
       colorstonequality: quality,
       colorstonecolor: color
     }));
 
-    const updatedQtytData = cartData?.map(cart =>
-      cart.id == selectedID ? {
-        ...cart, colorstonequality: quality,
-        colorstonecolor: color
-      } : cart
-    );
-    setCartData(updatedQtytData);
+    // const updatedQtytData = cartData?.map(cart =>
+    //   cart.id == selectedID ? {
+    //     ...cart, colorstonequality: quality,
+    //     colorstonecolor: color
+    //   } : cart
+    // );
+    // setCartData(updatedQtytData);
 
     const selectedCS = ColorStoneCombo.find(option => option.Quality === quality && option.color === color);
     if (selectedCS) {
@@ -509,7 +539,6 @@ const useCart = () => {
     console.log('kdjhkjhdhjas--', selectedCS);
   };
 
-
   // for price api
 
   const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
@@ -519,6 +548,7 @@ const useCart = () => {
       if (response?.Message === "Success") {
         const resData = response?.Data?.rd[0];
         const finalPrice = resData?.UnitCostWithMarkUp * qtyCount;
+        setFinalPrice(resData)
         setSelectedItem(prevItem => ({
           ...prevItem,
           FinalCost: finalPrice,
@@ -526,15 +556,15 @@ const useCart = () => {
           Quantity: qtyCount
         }));
 
-        setCartData(prevCartData => prevCartData.map(cart =>
-          cart.id === selectedID ? {
-            ...cart,
-            FinalCost: finalPrice,
-            UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
-            Quantity: qtyCount,
-            Size: sizedata
-          } : cart
-        ));
+        // setCartData(prevCartData => prevCartData.map(cart =>
+        //   cart.id === selectedID ? {
+        //     ...cart,
+        //     FinalCost: finalPrice,
+        //     UnitCostWithMarkUp: resData?.UnitCostWithMarkUp,
+        //     Quantity: qtyCount,
+        //     Size: sizedata
+        //   } : cart
+        // ));
 
         console.log('priceRes--', finalPrice);
       }
@@ -544,8 +574,7 @@ const useCart = () => {
       setIsPriceLoding(false);
     }
   };
-
-
+  
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;

@@ -18,13 +18,13 @@
   z-index: 9999;
   font-family: $primaryFontFamily;
   background-color: white;
+
   .for_nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2px 15px;
     gap: 10px;
-
+    padding: 0 50px 0 0px;
     .center {
       @include CenterItem();
       flex: 0.4;
@@ -42,16 +42,16 @@
       position: relative;
       @include CenterItem();
       .for_menu_items {
-        font-size: $fontSize2;
+        font-size: 13px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         height: 90px;
-        padding-inline: 5px;
+        padding-inline: 8px;
         .for_nav_menu {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           height: fit-content;
           font-weight: 700;
           gap: 2px;
@@ -64,10 +64,9 @@
         transition: 0.3s ease-in-out;
         .first_nav {
           display: block;
-        transition: 0.3s ease-in-out;
+          transition: 0.3s ease-in-out;
         }
       }
-     
 
       .first_nav {
         transition: 0.5s ease-in-out;
@@ -522,8 +521,8 @@
       @include CenterItem();
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 2rem;
+      justify-content: flex-end;
+      gap: 1.8rem;
       .for_item_menu {
         display: flex;
         align-items: center;
@@ -531,6 +530,67 @@
         gap: 5px;
         font-weight: 700;
         font-size: 14px;
+      }
+      .for_login_user_dropdown {
+        padding: 1px 10px;
+        position: relative;
+        .user_logged_in_for {
+          text-overflow: ellipsis;
+          color: black;
+          cursor: pointer;
+          text-align: center;
+        }
+        .for_dropdown {
+          right: -35px;
+          position: absolute;
+          height: auto;
+          width: 120px;
+          background-color: #fff;
+          top: 25px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+            rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+          transition: 0.3s ease-in-out;
+          text-align: center;
+          display: none;
+          div {
+            width: 100%;
+            list-style: none;
+            text-align: center;
+            padding: 0px 3px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            .item_a {
+              list-style: none;
+              display: flex;
+              gap: 2px;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              margin-top: 5px;
+              transition: 0.5s ease-in-out;
+              margin-bottom: 5px;
+              li {
+                font-size: 12px;
+                text-transform: uppercase;
+                font-weight: 500;
+                width: 100%;
+                cursor: pointer;
+                padding: 3px 0;
+                &:hover {
+                  background-color: #f1f1f1;
+                }
+              }
+            }
+            hr {
+              padding: 0;
+              margin: 0;
+            }
+          }
+        }
+        &:hover .for_dropdown {
+          display: block;
+        }
       }
       .search_main {
         position: relative;
@@ -544,6 +604,7 @@
           border: 1px solid #cccccc;
           text-align: center;
           transition: 0.3s ease-in-out;
+          z-index: 50;
         }
       }
     }

@@ -96,12 +96,12 @@ const Album1 = () => {
 
     return (
         <div className="dt_album_container">
-            <div className='smr_ablbumtitleDiv'>
+            {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
                 <span className='smr_albumtitle'>Album</span>
                 {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
                     View more
                 </Link> */}
-            </div>
+            </div>}
             <Box className="tabs"
                 sx={{
                     flexGrow: 1,

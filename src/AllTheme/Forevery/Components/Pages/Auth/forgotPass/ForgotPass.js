@@ -28,6 +28,14 @@ export default function ForgotPass() {
 
     }, []); // 
 
+    useEffect(()=>{
+        window.scrollTo({
+          behavior  :"smooth",
+          top  : 0,
+          left : 0
+        })
+      },[])
+    
 
 
     const handleInputChange = (e, setter, fieldName) => {
@@ -117,21 +125,19 @@ export default function ForgotPass() {
 
 
     return (
-        <div className='smr_forgotMain'>
+        <div className='for_forgotMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='smr_forgotSubDiv'>
+            <div style={{ backgroundColor: 'white' }}>
+                <div className='for_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
                         padding: '60px',
                         margin: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
 
                         className='AuthScreenMainTitle'
@@ -140,8 +146,6 @@ export default function ForgotPass() {
                         textAlign: 'center',
                         marginTop: '-60px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                     }}
 
                         className='AuthScreenSubTitle'
@@ -154,7 +158,7 @@ export default function ForgotPass() {
                             label="Password"
                             type={showPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_forgotBox'
+                            className='for_forgotBox'
                             style={{ margin: '15px' }}
                             value={password}
                             onChange={handlePasswordChange}
@@ -186,7 +190,7 @@ export default function ForgotPass() {
                             label="Confirm Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_forgotBox'
+                            className='for_forgotBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
@@ -208,15 +212,10 @@ export default function ForgotPass() {
                             }}
                         />
 
-                        <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
+                        <button className='for_createBtnRegister' onClick={handleSubmit}>Change Password</button>
+                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
-                    <Footer />
-
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     )

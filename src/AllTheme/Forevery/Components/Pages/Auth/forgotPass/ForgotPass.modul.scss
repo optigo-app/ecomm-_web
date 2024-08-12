@@ -1,4 +1,14 @@
-.smr_forgotMain {
+@import "../../../scss/variable.scss";
+   
+   
+.for_forgotMain {
+    height: 75vh;
+    margin-top: 80px !important;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: $primaryFontFamily;
 
     .smling-forgot-main {
         margin-inline: 6%;
@@ -14,7 +24,7 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: black;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
@@ -23,14 +33,14 @@
         transition: all 0.5s ease;
     }
 
-    .submitBtnForgot:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
-    }
+    // .submitBtnForgot:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
     .cancleForgot {
-        color: #7d7f85;
+        color: white;
         font-size: 12px;
         margin-top: 25px;
         font-weight: 500;
@@ -63,16 +73,16 @@
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
-    .smr_forgotBox {
+    .for_forgotBox {
         width: 420px;
         margin: 10px;
     }
 
-    .createBtnRegister {
+    .for_createBtnRegister {
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: black;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
@@ -89,7 +99,7 @@
     }
 
 
-    .smr_forgotSubDiv {
+    .for_forgotSubDiv {
         margin-inline: 6%;
         background-color: white;
     }
@@ -112,7 +122,7 @@
             height: 50px !important;
         }
 
-        .smr_forgotBox {
+        .for_forgotBox {
             width: 90%;
             margin: 10px;
         }

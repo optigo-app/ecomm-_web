@@ -66,6 +66,20 @@
                     cursor: pointer;
                 }
             }
+
+            
+            @media (max-width: 600px) {
+                .smr_lookbookImageRightDT {
+                    position: absolute;
+                    top: 80%;
+                    left: 40%;
+                }
+                h2 {
+                    font-size: 30px!important;
+                }
+
+            }
+
         }
 
         .smr_rightSideTR {
@@ -92,7 +106,7 @@
                     }
                 }
 
-                .product-info {
+                .trending_ifno_web_product_info {
                     padding: 5px;
                     background-color: #fff;
 
@@ -114,7 +128,7 @@
                     }
 
                     span {
-                        font-size: $fontSize1;
+                        font-size: $fontSize2;
                         font-family: $primaryFontFamily;
                         color: $titleColor;
                         letter-spacing: .5px;
@@ -122,6 +136,71 @@
 
                     .smr_btpipe {
                         margin: 0px 3px;
+                    }
+                }
+
+                .trending_ifno_mobile_product_info {
+                    padding: 5px;
+                    background-color: #fff;
+
+                    h3 {
+                        font-size: $fontSize1;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        margin: 0;
+                        letter-spacing: .5px;
+                    }
+
+                    p {
+                        margin: 5px 0;
+                        font-size: $fontSize2;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        font-weight: bold;
+                        letter-spacing: .5px;
+                    }
+
+                    span {
+                        font-size: $fontSize2;
+                        font-family: $primaryFontFamily;
+                        color: $titleColor;
+                        letter-spacing: .5px;
+                    }
+
+                    .smr_btpipe {
+                        margin: 0px 3px;
+                    }
+                }
+
+
+                @media screen and (min-width: 700px) {
+                    .trending_ifno_mobile_product_info {
+                        display: none !important;
+                    }
+                }
+
+                @media screen and (max-width: 701px) {
+                    .trending_ifno_web_product_info {
+                        display: none !important;
+                    }
+
+
+                    .dt_bestS_mobile_singleView_main {
+                        display: flex;
+                    }
+
+                    .dt_bestS_mobile_singleView {
+                        width: 50%;
+                        height: 19px !important;
+                    }
+
+                    .trending_ifno_mobile_product_info {
+                        padding: 1px !important;
+
+                        span {
+                            font-size: 10px !important;
+                            letter-spacing: .5px;
+                        }
                     }
                 }
             }
@@ -178,6 +257,8 @@
         }
 
         @media (max-width: 500px) {
+            padding: 5px !important;
+
             .smr_rightSideTR {
                 .product-card {
                     width: calc(50% - 5px);
