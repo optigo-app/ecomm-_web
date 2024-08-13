@@ -28,6 +28,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { Badge } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import Preloader  from '../../../../../../dum/Load';
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -178,6 +179,7 @@ const Navbar = () => {
 
   return (
     <div className="for_Navbar">
+      <Preloader />
       <nav className="for_nav">
         <NavbarLeft
           Navigate={Navigate}

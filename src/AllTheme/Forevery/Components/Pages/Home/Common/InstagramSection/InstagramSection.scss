@@ -1,0 +1,71 @@
+@import "../../../../scss/variable.scss";
+
+.for_InstagramSection {
+  width: 100%;
+  height: 100vh;
+  // background-color: greenyellow;
+  font-family: $primaryFontFamily;
+  margin-bottom: 1rem;
+  .for_heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    .title-insta {
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #e16c52;
+      padding-top: 10px;
+    }
+    .desc_insta {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1b1b1b;
+    }
+  }
+  .insta_carousel_frame {
+    height: 372px;
+    width: 100%;
+    margin-top: 5rem;
+    .main_swiper_carousel {
+      width: 70%;
+      position: relative;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      .mobile_frame {
+        position: absolute;
+        top: -75px;
+        height: 523px;
+        width: 323px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 3;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .swiper-slide {
+        z-index: 1;
+        .insta_card {
+          padding: 2px;
+          width: 300px;
+          height: 100%;
+          margin-left: -7.2rem;
+          border: 1px solid rgba(192, 192, 192, 0.61);
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+  }
+}

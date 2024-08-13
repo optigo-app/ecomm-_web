@@ -1,0 +1,75 @@
+@import "../../../../scss/variable.scss";
+
+@mixin Truncate($lines) {
+  display: -webkit-box;
+  text-align: center;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.for_GetInTouch {
+  width: 100%;
+  font-family: $primaryFontFamily;
+  height: auto;
+  .main_warapper {
+    width: 88%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .image_overlay_getin {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 650px;
+      width: 88%;
+      margin-bottom: -200px;
+      z-index: 2;
+    }
+    .image_backward_details {
+      height: auto;
+      background-color: #f5f5f5;
+      width: 100%;
+      height: 500px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 2rem;
+      .store-content {
+        .for_get_title {
+          font-size: 24px;
+          font-weight: 600;
+        }
+        .get_desc {
+          font-size: 14px;
+          font-weight: 500;
+          @include Truncate(4);
+          padding: 10px 25rem;
+          color: #1b1b1b;
+          letter-spacing: 0.2px;
+        }
+        .store-btns {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          .or {
+            border: none;
+            outline: none;
+            font-size: 20px;
+          }
+          .forevery-btn-get {
+            padding: 10px 40px;
+            text-align: center;
+            background-color: transparent;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
