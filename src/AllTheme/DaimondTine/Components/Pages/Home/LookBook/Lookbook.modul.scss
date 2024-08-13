@@ -18,14 +18,22 @@
 }
 
 .dt_LookBookMain {
-  background-color: $backgroundColor;
-
+  // background-color: $homePageColor;
 
   .smr_lookbookFilterMain {
     position: sticky;
     top: 0;
-    height: 80vh;
     width: 20%;
+  }
+
+  .dt_lookBookShowMain{
+    max-height: 80vh;
+    padding-right: 10px;
+    overflow: scroll;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 2px !important;
   }
 
   .smr_lookBookViveBoxSet {
@@ -37,7 +45,7 @@
   }
 
   .smr_LookBookSubMainDiv {
-    margin-inline: 6%;
+    padding-inline: 6%;
     background-color: white;
   }
 
@@ -300,10 +308,10 @@
       border: none;
       font-weight: 600;
       font-size: 13px;
-      color: #fff;
+      color: black;
       border: 1px solid #7d7f85;
       border-radius: 0px;
-      background: #7d7f85;
+      background: #f0e0e0;
     }
 
     .smr_lookBookPriceShow {
@@ -354,7 +362,7 @@
     padding-top: 75px !important;
 
     .dt_lb3designList_title {
-      margin: 5px 0px 5px 0px!important;
+      margin: 5px 0px 5px 0px !important;
     }
   }
 

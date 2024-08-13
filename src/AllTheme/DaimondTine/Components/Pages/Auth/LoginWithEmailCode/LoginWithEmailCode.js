@@ -108,7 +108,7 @@ export default function LoginWithEmailCode() {
         }
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login', '', visiterId).then((response) => {
+        LoginWithEmailAPI(email, '', mobileNo, 'otp_email_login', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 const visiterID = Cookies.get('visiterId');
