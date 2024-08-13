@@ -30,7 +30,7 @@ const SocialMedia = () => {
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
                     {photos.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo">
+                        <div key={index} className="dt_instagram_photo" onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')}>
                             <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
                             <div className="dt_socialMedioverlay"></div>
                         </div>
@@ -38,7 +38,7 @@ const SocialMedia = () => {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
+                <Button onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
                     Follow us
                 </Button>
             </div>

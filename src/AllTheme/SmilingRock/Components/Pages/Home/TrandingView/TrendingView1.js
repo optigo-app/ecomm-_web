@@ -84,7 +84,6 @@ const TrendingView1 = () => {
         }
         return finalprodListimg
     }
-
     const compressAndEncode = (inputString) => {
         try {
             const uint8Array = new TextEncoder().encode(inputString);
@@ -95,7 +94,6 @@ const TrendingView1 = () => {
             return null;
         }
     };
-
     const handleNavigation = (designNo, autoCode, titleLine) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
@@ -116,7 +114,6 @@ const TrendingView1 = () => {
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
         // }
     }
-
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;

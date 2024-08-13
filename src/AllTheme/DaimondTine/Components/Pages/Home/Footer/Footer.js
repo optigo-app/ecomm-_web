@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import { dt_companyLogo } from '../../../Recoil/atom';
-
+import { dt_companyLogo, dt_loginState } from '../../../Recoil/atom';
+import Cookies from "js-cookie";
 
 export default function Footer() {
     const titleImg = useRecoilValue(dt_companyLogo);
@@ -12,6 +12,7 @@ export default function Footer() {
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
     const [email, setEmail] = useState();
+    const [islogin , setIsLogin] = useRecoilState(dt_loginState);
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
 
@@ -25,6 +26,7 @@ export default function Footer() {
         const newslater = storeInit?.newslatter;
         if (email) {
             if (newslater) {
+                setEmail('');
                 const requestOptions = {
                     method: "GET",
                     redirect: "follow"
@@ -55,13 +57,32 @@ export default function Footer() {
     }, [])
 
     const openPdf = () => {
-        window.open(`${storImagePath()}/pdf/size-guide-diamondtine.pdf`, '_blank');
+        window.open(`${storImagePath()}/html/size_guide_diamondtine.pdf`, '_blank');
     };
+
+    const handleLogout = () => {
+        navigation("/");
+        setIsLogin(false);
+        Cookies.remove("userLoginCookie");
+        window.location.reload();
+        sessionStorage.setItem("LoginUser", false);
+        sessionStorage.removeItem("storeInit");
+        sessionStorage.removeItem("loginUserDetail");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("selectedAddressId");
+        sessionStorage.removeItem("orderNumber");
+        sessionStorage.removeItem("registerEmail");
+        sessionStorage.removeItem("UploadLogicalPath");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("registerMobile");
+        sessionStorage.removeItem("allproductlist");
+        sessionStorage.clear();
+    }
 
     return (
         <div className='dt_footer_main'>
             <div className='daimondFooterMain'>
-                <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%', marginTop:'50px' }}>
+                <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%', marginTop: '50px' }}>
                     <div className='subScriMain'>
                         <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
                         <p className='subScriMainSubTitle'>and stay in the loop with us</p> b
@@ -83,31 +104,40 @@ export default function Footer() {
                             <p className='FoooterTextLink' onClick={() => navigation('/faq')}>FAQs</p>
                             <p className='FoooterTextLink' onClick={openPdf}>Size Guide</p>
                             {/* <p className='FoooterTextLink'>Gift Cards</p> */}
-                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Material & Care</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Material & Care</p>
                             <p className='FoooterTextLink' onClick={() => navigation('/term&condition')}>Terms & Conditions</p>
                             <p className='FoooterTextLink' onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
-                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Shipping & Returns</p>
-                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Shipping & Returns</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Exchange & Buyback</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}
                             <p className='FoooterTextLink' onClick={() => handleNavigte('/contactUs')}>Contact us</p>
                         </div>
-                        <div className='FooterLinkMainBox'>
-                            <p className='footerMoteText'>MY ACCOUNT</p>
-                            <p className='FoooterTextLink'  onClick={() => navigation('/LoginOption')}>Sign In</p>
-                            {/* <p className='FoooterTextLink'>Track Your Order</p> */}
-                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Help</p>
-                        </div>
+                        {islogin == true ?
+                            <div className='FooterLinkMainBox'>
+                                <p className='footerMoteText'>MY ACCOUNT</p>
+                                <p className='FoooterTextLink' onClick={() => navigation('/account')}>Account</p>
+                                <p className='FoooterTextLink' onClick={handleLogout}>Sign Out</p>
+                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                            </div>
+                            :
+                            <div className='FooterLinkMainBox'>
+                                <p className='footerMoteText'>MY ACCOUNT</p>
+                                <p className='FoooterTextLink' onClick={() => navigation('/LoginOption')}>Sign In</p>
+                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                            </div>
+                        }
+
                     </div>
                 </div>
                 <div className='footerBottom'>
                     {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
                     {/* <img src={titleImg} className='logoImgFooter' /> */}
-                    <p className='FooterBottomText'>Copyright © 2023 Diamondtine. All Rights Reserved.</p>
+                    <p className='FooterBottomText'>Copyright © 2024 Diamondtine. All Rights Reserved.</p>
                 </div>
             </div>
         </div>

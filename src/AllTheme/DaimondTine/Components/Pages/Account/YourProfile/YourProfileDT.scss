@@ -9,7 +9,10 @@
     }
 
 
-
+.btn_bg_color_DT{
+    background-color:#f0e0e0 !important;
+    color: black !important;
+}
 
     @media screen and (max-width: 1000px) {
         .mobileEditProfileDiv {
@@ -21,9 +24,12 @@
     }
 
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 700px),(max-width: 768px){
         .userProfileMain {
             width: 100%;
+        }
+        .m_top_15_DT{
+            margin-top: 10%;
         }
 
     }
@@ -33,6 +39,10 @@
         .smilingEditProfilePopup {
             width: 95% !important;
             margin: 5px !important;
+        }
+
+        .m_top_15_DT{
+            margin-top: 17%;
         }
 
      
@@ -76,7 +86,7 @@
     
 
 
-.smr_SmilingAddEditAddrwess {
+.smr_SmilingAddEditAddrwessDT {
     height: 40px;
     width: 160px;
     font-family: "PT Sans", sans-serif !important;
@@ -88,7 +98,7 @@
     font-weight: 500;
 }
 
-.smr_SmilingAddEditAddrwess:hover {
+.smr_SmilingAddEditAddrwessDT:hover {
     background-color: #fff !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

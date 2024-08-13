@@ -105,9 +105,9 @@ const MobileViewComp = () => {
                     <p className='menuMainAccountTitle'>Account Ledger</p>
                         <FaChevronRight />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px', marginBottom: '30px' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px', marginBottom: '30px' }}>
                         <p className='smilingAccountLogoutMobile' onClick={handleLogout}>LOG OUT</p>
-                </div>
+                </div> */}
             </div>
         </div>
     </>

@@ -8,6 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
+import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 
 const AddressManagement = () => {
     const {
@@ -45,8 +46,8 @@ const AddressManagement = () => {
                 <div className='dt_addMainDiv'>
                     <div className='dt_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='dt_deliveryTitle'>Delivery</h1>
-                        <p className='dt_deliverydesc'>Order Will be delivered to selected address</p>
+                            <h1 className='dt_deliveryTitle'>Delivery</h1>
+                            <p className='dt_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
                         <button className='dt_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
@@ -80,11 +81,19 @@ const AddressManagement = () => {
                         errors={errors}
                         isEditMode={isEditMode}
                     />
-                    <DeleteDialog
+                    {/* <DeleteDialog
                         openDelete={openDelete}
                         handleDeleteClose={handleDeleteClose}
                         handleDelete={() => handleDelete()}
+                    /> */}
+                    <ConfirmationDialog
+                        open={openDelete}
+                        onClose={handleDeleteClose}
+                        onConfirm={handleDelete}
+                        title="Confirm"
+                        content="Are you sure you want to remove this address?"
                     />
+
                     <div className='dt_AddressBtnGroup'>
                         <button className='dt_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>

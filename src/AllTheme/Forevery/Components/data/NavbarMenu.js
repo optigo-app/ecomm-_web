@@ -1,28 +1,11 @@
 import { GiDiamondRing } from "react-icons/gi";
 import { IoDiamondOutline } from "react-icons/io5";
-import roundImg from "../Assets/diamond/i-round.png";
-import pearImg from "../Assets/diamond/i-peer.png";
-import princessImg from "../Assets/diamond/i-princess.png";
-import asscherImg from "../Assets/diamond/i-asscher.png";
-import cushionImg from "../Assets/diamond/i-cushion.png";
-import heartImg from "../Assets/diamond/i-heart.png";
-import ovalImg from "../Assets/diamond/i-oval.png";
-import radiantImg from "../Assets/diamond/i-radiant.png";
-import emeraldImg from "../Assets/diamond/i-emerald.png";
-import marquiseImg from "../Assets/diamond/i-marquise.png";
-import ringsS from "../Assets/diamond/side/wedding-rings.png";
-import earringsS from "../Assets/diamond/side/easrrings.png";
-import pendantS from "../Assets/diamond/side/s.png";
 
-import Collection1 from "../Assets/collections/ikigai-banner.webp";
-import Collection2 from "../Assets/collections/heritage-banner.webp";
-import Collection3 from "../Assets/collections/icon-banner.webp";
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 
+console.log(`${storImagePath()}/Forevery/writing.png`);
 const Writing = (
-  <img
-    src="https://www.forevery.one/images_new/bespoke-icon.png"
-    alt="writing"
-  />
+  <img src={`${storImagePath()}/Forevery/writing.png`} alt="writing" />
 );
 
 const Women = (
@@ -37,7 +20,7 @@ const Mens = (
     alt=""
   />
 );
- const NavbarMenu = [
+const NavbarMenu = [
   {
     category: "Engagement & Wedding Diamonds",
     submenu: [
@@ -106,45 +89,108 @@ const Mens = (
 
 // Creating an array of diamond objects
 const diamondShapes = [
-  { name: "Round", img: roundImg },
-  { name: "Pear", img: pearImg },
-  { name: "Princess", img: princessImg },
-  { name: "Asscher", img: asscherImg },
-  { name: "Cushion", img: cushionImg },
-  { name: "Heart", img: heartImg },
-  { name: "Oval", img: ovalImg },
-  { name: "Radiant", img: radiantImg },
-  { name: "Emerald", img: emeraldImg },
-  { name: "Marquise", img: marquiseImg },
+  { name: "Round", img: `${storImagePath()}/Forevery/diamond/i-round.png` },
+  { name: "Pear", img: `${storImagePath()}/Forevery/diamond/i-peer.png` },
+  {
+    name: "Princess",
+    img: `${storImagePath()}/Forevery/diamond/i-princess.png`,
+  },
+  { name: "Asscher", img: `${storImagePath()}/Forevery/diamond/i-asscher.png` },
+  { name: "Cushion", img: `${storImagePath()}/Forevery/diamond/i-cushion.png` },
+  { name: "Heart", img: `${storImagePath()}/Forevery/diamond/i-heart.png` },
+  { name: "Oval", img: `${storImagePath()}/Forevery/diamond/i-oval.png` },
+  { name: "Radiant", img: `${storImagePath()}/Forevery/diamond/i-radiant.png` },
+  { name: "Emerald", img: `${storImagePath()}/Forevery/diamond/i-emerald.png` },
+  {
+    name: "Marquise",
+    img: `${storImagePath()}/Forevery/diamond/i-marquise.png`,
+  },
+];
+// diamond
+const SideItems = [
+  {
+    name: "Diamond Rings",
+    img: `${storImagePath()}/Forevery/diamond/side/wedding-rings.png`,
+  },
+  {
+    name: "Diamond Earrings",
+    img: `${storImagePath()}/Forevery/diamond/side/easrrings.png`,
+  },
+  {
+    name: "Diamond Pendant",
+    img: `${storImagePath()}/Forevery/diamond/side/s.png`,
+  },
 ];
 
-
-
-const SideItems = [
-  {name  :"Diamond Rings" , img :ringsS},
-  {name  :"Diamond Earrings" , img :pendantS},
-  {name  :"Diamond Pendant" , img : earringsS}
-]
-
-// ikgai
-// IKIGAI
-// collection
-// shop the collection
-// heritage-banner
-// heritage
-// collection
-// shop the collection
-// icon-banner
-// Icon
-// collection
-// shop the collection
-// bespoke jewelry  make 
-
-
 const CollectionData = [
-  {name  :"IKIGAI" ,img : Collection1},
-  {name  :"heritage" ,img :Collection2 },
-  {name  :"Icon" ,img : Collection3},
-]
+  {
+    name: "IKIGAI",
+    img: `${storImagePath()}/Forevery/collections/ikigai-banner.webp`,
+    link : `/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u`
+  },
+  {
+    name: "heritage",
+    img: `${storImagePath()}/Forevery/collections/heritage-banner.webp`,
+    link : `/p/Width/B/?M=Qi9jb2xsZWN0aW9u`
+  },
+  {
+    name: "Icon",
+    img: `${storImagePath()}/Forevery/collections/icon-banner.webp`,
+    link : `/p/M_CS/Artifact/?M=QXJ0aWZhY3QvY29sbGVjdGlvbg==`
+  },
+];
 
-export  {SideItems ,diamondShapes ,NavbarMenu ,CollectionData};
+const CollectionArray = [
+  {
+    titel: "Engagement Ring",
+    img: `${storImagePath()}/Forevery/home/collection/76.webp`,
+  },
+  {
+    titel: "Wedding Ring",
+    img: `${storImagePath()}/Forevery/home/collection/77.webp`,
+  },
+  {
+    titel: "Diamond Earrings",
+    img: `${storImagePath()}/Forevery/home/collection/78.webp`,
+  },
+  {
+    titel: "Fine Jewelry",
+    img: `${storImagePath()}/Forevery/home/collection/79.webp`,
+  },
+];
+const shapes = [
+  { name: "Round", img: `${storImagePath()}/Forevery/home/shape/round.png` },
+  {
+    name: "Princess",
+    img: `${storImagePath()}/Forevery/home/shape/princess.png`,
+  },
+  {
+    name: "Cushion",
+    img: `${storImagePath()}/Forevery/home/shape/cushion.png`,
+  },
+  {
+    name: "Asscher",
+    img: `${storImagePath()}/Forevery/home/shape/asscher.jpg`,
+  },
+  {
+    name: "Marquise",
+    img: `${storImagePath()}/Forevery/home/shape/marqise.png`,
+  },
+  { name: "Oval", img: `${storImagePath()}/Forevery/home/shape/oval.png` },
+  {
+    name: "Radiant",
+    img: `${storImagePath()}/Forevery/home/shape/radiant.png`,
+  },
+  { name: "Pear", img: `${storImagePath()}/Forevery/home/shape/pear.jpg` },
+  { name: "Emerald", img: `${storImagePath()}/Forevery/home/shape/emrald.png` },
+  { name: "Heart", img: `${storImagePath()}/Forevery/home/shape/heart.png` },
+];
+
+export {
+  SideItems,
+  diamondShapes,
+  NavbarMenu,
+  CollectionData,
+  CollectionArray,
+  shapes
+};

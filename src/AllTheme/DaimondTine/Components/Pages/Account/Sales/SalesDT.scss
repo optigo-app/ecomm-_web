@@ -12,6 +12,13 @@
     border: 0px !important;
 }
 
+.footerPaginateSDT .MuiTablePagination-selectLabel {
+    margin-bottom: 0px !important;
+}
+.footerPaginateSDT .MuiTablePagination-displayedRows {
+    margin-bottom: 0px !important;
+}
+
 @media(max-width: 768px) {
     .salesApiSection {
         padding: 15px 7px !important;

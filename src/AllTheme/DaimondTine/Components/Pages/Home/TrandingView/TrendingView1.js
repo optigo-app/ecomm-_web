@@ -14,7 +14,7 @@ import { dt_loginState } from '../../../Recoil/atom';
 
 const TrendingView1 = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    
+
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
 
@@ -51,7 +51,7 @@ const TrendingView1 = () => {
         setImageUrl(data?.DesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        const  IsB2BWebsite  = storeInit?.IsB2BWebsite;
+        const IsB2BWebsite = storeInit?.IsB2BWebsite;
         const visiterID = Cookies.get('visiterId');
         let finalID;
         if (IsB2BWebsite == 0) {
@@ -179,7 +179,7 @@ const TrendingView1 = () => {
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             <img src={`${storImagePath()}/images/HomePage/Banner/promoSetMainBanner3.jpg`} alt="modalimages" />
-                            
+
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
@@ -199,19 +199,43 @@ const TrendingView1 = () => {
                                             alt={data.name}
                                         />
                                     </div>
-                                    <div className="product-info">
-                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
-                                        <span className='smr_btdetailDT'>GWT: </span>
-                                        <span className='smr_btdetailDT'>{(data?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                        <span className='smr_btpipe'> | </span>
-                                        <span className='smr_btdetailDT'>NWT : </span>
-                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
-                                        <span className='smr_btpipe'> | </span>
-                                        <span className='smr_btdetailDT'>DWT: </span>
-                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.Dpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span>
-                                        <span className='smr_btpipe'> | </span>
-                                        <span className='smr_btdetailDT'>CWT: </span>
-                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0).toFixed(3)?.replace(/\.?0+$/, '')} / {(data?.CSpcs || 0).toFixed(3)?.replace(/\.?0+$/, '')}{' '}</span>
+                                    <div className="trending_ifno_web_product_info">
+                                        <h3>{data?.designno}{data?.TitleLine != "" && " - " + data?.TitleLine}</h3>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_btdetailDT'>GWT: </span>
+                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                        }
+                                        {Number(data?.Nwt) !== 0 && (
+                                            <>
+                                                <span className='smr_btpipe'>|</span>
+                                                <span className='smr_btdetailDT'>NWT : </span>
+                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                        )}
+                                        {storeInit?.IsDiamondWeight == 1 &&
+                                            <>
+                                                {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>DWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                        {storeInit?.IsStoneWeight == 1 &&
+                                            <>
+                                                {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>CWT: </span>
+                                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
                                         <p>
                                             <span
                                                 className="smr_currencyFont"
@@ -221,7 +245,71 @@ const TrendingView1 = () => {
                                                     ),
                                                 }}
                                             /> {formatter(data?.UnitCostWithMarkUp)}
-                                            </p>
+                                        </p>
+                                    </div>
+
+
+                                    <div className="trending_ifno_mobile_product_info">
+                                        <h3>{data?.designno}</h3>
+
+                                        {(storeInit?.IsGrossWeight == 1 || Number(data?.Nwt) !== 0) &&
+                                            <div className='dt_bestS_mobile_singleView_main'>
+                                                <div className='dt_bestS_mobile_singleView'>
+                                                    {storeInit?.IsGrossWeight == 1 &&
+                                                        <>
+                                                            <span className='smr_btdetailDT'>GWT: </span>
+                                                            <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                    }
+                                                </div>
+                                                <div className='dt_bestS_mobile_singleView'>
+                                                    {Number(data?.Nwt) !== 0 && (
+                                                        <>
+                                                            <span className='smr_btdetailDT'>NWT : </span>
+                                                            <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        }
+                                        {(storeInit?.IsDiamondWeight == 1) || (storeInit?.IsStoneWeight == 1) &&
+                                            <div className='dt_bestS_mobile_singleView_main'>
+                                                <div className='dt_bestS_mobile_singleView'>
+                                                    {storeInit?.IsDiamondWeight == 1 &&
+                                                        <>
+                                                            {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                                <>
+                                                                    <span className='smr_btdetailDT'>DWT: </span>
+                                                                    <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                                </>
+                                                            }
+                                                        </>
+                                                    }
+                                                </div>
+                                                <div className='dt_bestS_mobile_singleView'>
+                                                    {storeInit?.IsStoneWeight == 1 &&
+                                                        <>
+                                                            {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                                <>
+                                                                    <span className='smr_btdetailDT'>CWT: </span>
+                                                                    <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                                </>
+                                                            }
+                                                        </>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        <p>
+                                            <span
+                                                className="smr_currencyFont"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: decodeEntities(
+                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                    ),
+                                                }}
+                                            /> {formatter(data?.UnitCostWithMarkUp)}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

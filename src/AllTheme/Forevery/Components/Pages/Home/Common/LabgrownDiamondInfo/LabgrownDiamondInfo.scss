@@ -1,0 +1,54 @@
+@import "../../../../scss/variable.scss";
+
+.for_LabgrownDiamondInfo {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  color: white;
+  padding: 0 90px;
+  .labgrown_Diamonds {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 490px;
+  }
+  .banner-wrap{
+    display: flex;
+    flex-direction: column;
+    padding: 110px 55px;
+    .main_wrap_title{
+        width: 45%;
+        .title_head{
+            font-size: 32px;
+            font-weight: 600;
+        }
+        .paragraph{
+            font-size: 14px;
+        }
+    }
+    .labgrown-mobile-content{
+        display: grid;
+        grid-template-columns: 14% 14% 14%;
+        grid-gap: 30px;
+        margin-top: 25px;
+        .blocks{
+            .lg-items-head{
+                display: flex;
+                align-items:center;
+                gap: 10px;
+                img{
+                    width: 35x;
+                    height: 35x;
+                    object-fit: cover;
+                }
+                .text-capitalize{
+                    font-size: 16px;
+                }
+            }
+            .mini_para{
+                font-size: 13.2px;
+            }
+        }
+    }
+}
+}

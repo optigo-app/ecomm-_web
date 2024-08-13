@@ -1069,7 +1069,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  {visibleRows.map((row, index) => {
+                  { visibleRows?.length > 0 ? visibleRows?.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -1114,13 +1114,14 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  })}
+                  }) : <TableCell colSpan={headCells?.length} align="center" sx={{fontSize:'25px', fontWeight:'bold', color:'grey'}}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
+              className="footerPaginateSRDT"
               count={filterData.length}
               rowsPerPage={rowsPerPage}
               page={page}

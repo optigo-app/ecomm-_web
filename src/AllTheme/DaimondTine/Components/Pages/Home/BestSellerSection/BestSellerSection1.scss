@@ -43,7 +43,7 @@
                     }
                 }
 
-                .product-info {
+                .dt_bestSaller_product_info_Web {
                     padding: 5px;
                     background-color: #fff;
 
@@ -53,6 +53,9 @@
                         font-family: $primaryFontFamily;
                         margin: 0;
                         letter-spacing: .5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     p {
@@ -65,7 +68,7 @@
                     }
 
                     span {
-                        font-size: $fontSize1;
+                        font-size: $fontSize2;
                         font-family: $primaryFontFamily;
                         color: $titleColor;
                         letter-spacing: .5px;
@@ -74,6 +77,75 @@
                     .smr_btpipe {
                         margin: 0px 3px;
                     }
+                }
+
+                .dt_bestSaller_product_info_mobile {
+                    padding: 5px;
+                    background-color: #fff;
+
+                    h3 {
+                        font-size: $fontSize1;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        margin: 0;
+                        letter-spacing: .5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    p {
+                        margin: 5px 0;
+                        font-size: $fontSize2;
+                        color: $titleColor;
+                        font-family: $primaryFontFamily;
+                        font-weight: bold;
+                        letter-spacing: .5px;
+                    }
+
+                    span {
+                        font-size: $fontSize2;
+                        font-family: $primaryFontFamily;
+                        color: $titleColor;
+                        letter-spacing: .5px;
+                    }
+
+                    .smr_btpipe {
+                        margin: 0px 3px;
+                    }
+                }
+
+
+
+                @media screen and (min-width: 700px) {
+                    .dt_bestSaller_product_info_mobile {
+                        display: none !important;
+                    }
+                }
+
+                @media screen and (max-width: 701px) {
+                    .dt_bestSaller_product_info_Web {
+                        display: none !important;
+                    }
+
+                    .dt_bestS_mobile_singleView_main {
+                        display: flex;
+                    }
+
+                    .dt_bestS_mobile_singleView {
+                        width: 50%;
+                        height: 19px !important;
+                    }
+
+                    .dt_bestSaller_product_info_mobile {
+                        padding: 1px !important;
+
+                        span {
+                            font-size: 10px !important;
+                            letter-spacing: .5px;
+                        }
+                    }
+
                 }
             }
         }
@@ -124,6 +196,19 @@
                     cursor: pointer;
                 }
             }
+
+            @media (max-width: 600px) {
+                .smr_lookbookImageRightDT {
+                    position: absolute;
+                    top: 80%;
+                    left: 40%;
+
+                }
+                h2 {
+                    font-size: 30px!important;
+                }
+
+            }
         }
 
         @media (max-width: 1200px) {
@@ -135,13 +220,13 @@
                 }
             }
 
-            .smr_rightSideBestSeler{
+            .smr_rightSideBestSeler {
                 width: 40%;
             }
         }
 
         @media (max-width: 950px) {
-            .smr_rightSideBestSeler{
+            .smr_rightSideBestSeler {
                 width: 100%;
                 order: 1;
             }
@@ -150,12 +235,14 @@
                 width: 100%;
                 order: 2;
                 margin-top: 10px;
-                .product-card { 
+
+                .product-card {
                     width: calc(50% - 10px);
                 }
             }
 
         }
+
         @media (max-width: 768px) {
             .smr_leftSideBestSeler {
                 .product-card {

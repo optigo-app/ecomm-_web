@@ -148,6 +148,10 @@ const CartItem = ({
             alt={item?.TitleLine}
             className='smr_cartListImage'
             onClick={() => onSelect(item)}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `${storeInitData?.DesignImageFol}${item?.designno}_1.${item?.ImageExtension}`;
+          }}
           />
           <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
@@ -160,13 +164,13 @@ const CartItem = ({
                 <div>
                   {storeInitData?.IsGrossWeight == 1 &&
                     <Typography variant="body2" className='smr_card-ContentsData'>
-                      GWT: {(item?.Gwt || 0).toFixed(3)}
+                      GWT: {(item?.Gwt || 0)?.toFixed(3)}
                     </Typography>
                   }
 
                   {Number(item?.Nwt) !== 0 && (
                     <Typography variant="body2" className='smr_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                      NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
                     </Typography>
                   )}
 
@@ -177,7 +181,7 @@ const CartItem = ({
                       {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                         <>
                           <Typography variant="body2" className='smr_card-ContentsData'>
-                            DWT: {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}
+                            DWT: {(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}
                           </Typography>
                         </>
                       }
@@ -188,7 +192,7 @@ const CartItem = ({
                       {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                         <>
                           <Typography variant="body2" className='smr_card-ContentsData'>
-                            CWT: {(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}
+                            CWT: {(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}
                           </Typography>
                         </>
                       }

@@ -1,9 +1,11 @@
 @import "../../../scss/variable";
 
 .dt_album_container {
+ 
+
     .smr_ablbumtitleDiv {
         text-align: center;
-        padding-block: 3%;
+        padding: 1% 0px 1% 0px;
 
         .smr_albumtitle {
             font-size: 28px;
@@ -87,7 +89,7 @@
                 font-size: $fontSize2;
                 font-family: $primaryFontFamily;
                 letter-spacing: .5px;
-                color: $titleColor;
+                color: #7d7f85;
                 font-weight: bold;
                 padding: 0;
                 margin: 0;
@@ -115,8 +117,8 @@
 
         .swiper-button-disabled {
             opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
+            cursor: pointer;
+            pointer-events: auto;
             background-color: #ababab;
         }
     }

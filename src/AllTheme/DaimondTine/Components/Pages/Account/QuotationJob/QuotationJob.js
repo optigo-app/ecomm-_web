@@ -1046,7 +1046,7 @@ const scrollToTop = () => {
                 <TableBody>
            
 
-                  {stableSort(filterData, getComparator(order, orderBy))
+                  { filterData?.length > 0 ? stableSort(filterData, getComparator(order, orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
                       let serialNumber = page * rowsPerPage + rowIndex + 1;
@@ -1071,13 +1071,14 @@ const scrollToTop = () => {
                           })}
                         </TableRow>
                       );
-                    })}
+                    }) : <TableCell sx={{fontSize:'25px', fontWeight:'bold', color:'grey'}} colSpan={columns?.length} align='center'>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
+              className='footerPaginateJobDT'
               count={filterData.length}
               rowsPerPage={rowsPerPage}
               page={page}

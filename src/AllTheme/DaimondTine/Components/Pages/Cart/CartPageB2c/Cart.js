@@ -79,17 +79,19 @@ function Cart(props) {
     }, 300);
   }, [cartData]);
 
+  // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
-      navigate("/LoginOption");
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      // navigate(redirectUrl);
+      navigate('/loginOption')
     } else {
       navigate("/Delivery");
-      let priceData = cartData?.reduce(
-        (total, item) => total + item?.FinalCost,
-        0
-      );
-      sessionStorage.setItem("TotalPriceData", priceData);
     }
     window.scrollTo(0, 0);
   };
@@ -115,7 +117,7 @@ function Cart(props) {
   return (
     <div className="dt_MainCartDiv">
       <div
-        className="bg-imageCart"
+        className="dt_bg-imageCart"
         style={{
           backgroundImage: `url(${storImagePath()}/images/BannerImage/TopBanner1.png)`,
         }}
@@ -125,13 +127,7 @@ function Cart(props) {
           <div className="textContainerData">
             <div style={{ textAlign: "center" }}>
               <p
-                className="designCounttext"
-                style={{
-                  fontSize: 30,
-                  fontWeight: 400,
-                  letterSpacing: 1,
-                  textTransform: "capitalize",
-                }}
+                className="dt_CartdesignCounttext"
               >
                 Shopping Cart <br />
               </p>
@@ -190,6 +186,7 @@ function Cart(props) {
                             handleIncrement={handleIncrement}
                             handleDecrement={handleDecrement}
                             onRemoveItem={handleRemoveItem}
+                            handleMoveToDetail={handleMoveToDetail}
                           />
                         ))}
                       </tbody>
@@ -333,25 +330,6 @@ function Cart(props) {
       )}
 
       <Footer />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "#a8807c",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
-      </div>
     </div>
   );
 }

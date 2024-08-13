@@ -21,9 +21,9 @@ import DesignWiseSalesReport from './SalesReportDesignWise/DesignWiseSalesReport
 import AccountLedger from './AccountLedger/AccountLedger';
 import ChangePassword from './ChangePassword/ChangePassword';
 import YourProfile from './YourProfile/YourProfile';
-import OrderHistory from './OrderHistory/OrderHistory';
 import ManageAddress from './ManageAddress/ManageAddress';
 import Plm from './PLM/PLM';
+import NewOrderHistoryDT from './OrderHistory/NewOrderHistoryDT';
 
 
 function CustomTabPanel(props) {
@@ -31,7 +31,6 @@ function CustomTabPanel(props) {
     useEffect(() => {
         a11yProps(1)
     }, [])
-
 
     return (
         <div
@@ -132,14 +131,14 @@ export default function Account() {
                             <div className='smlingAccountTabMobileView YourAccountPageTabs'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                     <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   
-                                        <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        <Tab label="PLM" {...a11yProps(5)} />
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        <Tab label="Your Profile" className='tabPanel_DT' {...a11yProps(0)} sx={{  width: '90%', borderColor: 'divider', padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
+                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
+                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
+                                        <Tab label="PLM" {...a11yProps(5)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
+                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
+                                        <Tab label="Log Out" onClick={handleLogout} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
                                     </Tabs>
                                 </Box>
                                
@@ -184,15 +183,16 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    <OrderHistory />
+                                    {/* <OrderHistory /> */}
                                     {/* <OrderHistoryGroup /> */}
+                                    <NewOrderHistoryDT />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage accountSalesPageDT">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
                                     sx={{ background: "#f0e0e0", ...tabIndicator }} scrollButtons="auto">

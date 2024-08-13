@@ -3,7 +3,7 @@
 .dt_MainCartDiv {
   font-family: $primaryFontFamily;
 
-  .bg-imageCart {
+  .dt_bg-imageCart {
     background-position: 50%;
     background-size: cover;
     height: 140px;
@@ -29,6 +29,12 @@
       transform: translate(-50%, -50%);
       width: 100%;
       z-index: 1;
+    }
+
+    .dt_CartdesignCounttext {
+      color: #000;
+      font-size: $fontSize7;
+      text-transform: capitalize;
     }
   }
 
@@ -66,6 +72,7 @@
 
           .product-details {
             margin-left: 10px;
+
             p {
               margin: 0;
               font-size: $fontSize1;
@@ -110,27 +117,28 @@
               font-family: $primaryFontFamily;
             }
           }
+
           .dt_Wl-CartbtnDiv {
             text-align: center;
             margin-bottom: 10px;
-        
+
             .dt_Wl-Cartbtn {
-                width: 150px;
-                height: 30px;
-                font-size: $fontSize2;
-                color: $titleColor;
-                font-weight: 500;
-                border: none;
-                background: none;
-                text-transform: capitalize !important;
-                cursor: pointer;
-        
-                &:hover {
-                    color: $btn1hoverFontColor;
-                    background-color: $btn1ActivebgColor;
-                }
+              width: 150px;
+              height: 30px;
+              font-size: $fontSize2;
+              color: $titleColor;
+              font-weight: 500;
+              border: none;
+              background: none;
+              text-transform: capitalize !important;
+              cursor: pointer;
+
+              &:hover {
+                color: $btn1hoverFontColor;
+                background-color: $btn1ActivebgColor;
+              }
             }
-        }
+          }
         }
 
         .remove {
@@ -228,8 +236,10 @@
           td {
             padding: 5px;
           }
+
           .product {
             width: 260px;
+
             img {
               width: 100%;
               max-width: 130px;
@@ -270,8 +280,10 @@
           td {
             padding: 5px;
           }
+
           .product {
             width: 230px;
+
             img {
               width: 100%;
               max-width: 100px;
@@ -292,8 +304,10 @@
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: 1000px) {
   .dt_MainCartDiv {
+    padding-top: 57px;
+
     .cart {
       flex-direction: column;
 
@@ -387,7 +401,9 @@
 }
 
 @media (max-width: 699px) {
-  .dt_MainCartDiv, .dt_MainWishDiv {
+
+  .dt_MainCartDiv,
+  .dt_MainWishDiv {
     .dt_res-card-container {
       display: flex;
       flex-wrap: wrap;
@@ -480,7 +496,7 @@
 
     .dt_res-card-title {
       width: 95%;
-      max-width: 95%; 
+      max-width: 95%;
       font-size: $fontSize0;
       color: $titleColor;
       text-overflow: ellipsis;
@@ -529,5 +545,8 @@
       width: 100%;
     }
 
+    .dt_designCounttext {
+      font-size: $fontSize4 !important;
+    }
   }
 }

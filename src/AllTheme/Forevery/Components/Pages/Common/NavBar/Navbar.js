@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.for.scss";
-import foreverylog from "../../../images/logo/logo.webp";
-import appointment from "../../../images/navbar/appointment.png";
 import { FaRegHeart } from "react-icons/fa6";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import btnstyle from "../../../scss/Button.module.scss";
-import NavImage from "../../../Assets/collections/bespoke-header.webp";
-import LetterBanner from "../../../Assets/letter-diamond-menu-banner.png";
 import {
   CollectionData,
   NavbarMenu,
@@ -20,18 +16,191 @@ import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import {
+  for_CartCount,
+  for_WishCount,
+  for_loginState,
+} from "../../../Recoil/atom";
+import Cookies from "js-cookie";
+import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
+import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
+import { Badge } from "@mui/material";
+import Pako from "pako";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import Preloader from "../../../../../../dum/Load";
 
+const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
+const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
+const BespokeImage = `${storImagePath()}/Forevery/collections/bespoke-header.webp`;
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [ActiveMenu, setActiveMenu] = useState({ menu: "", index: "" });
+  const Navigate = useNavigate();
+  const [islogin, setislogin] = useRecoilState(for_loginState);
+  const [LoggedUserDetails, setLoggedUserDetails] = useState();
+  const [menuData, setMenuData] = useState([]);
+  const [cartCountNum, setCartCountNum] = useRecoilState(for_CartCount);
+  const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    sessionStorage.setItem("isCart_hOQ", cartCountNum);
+  }, [cartCountNum]);
+
+  const handleLogout = () => {
+    Navigate("/");
+    setislogin(false);
+    Cookies.remove("userLoginCookie");
+    sessionStorage.setItem("LoginUser", false);
+    sessionStorage.removeItem("storeInit");
+    sessionStorage.removeItem("loginUserDetail");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("selectedAddressId");
+    sessionStorage.removeItem("orderNumber");
+    sessionStorage.removeItem("registerEmail");
+    sessionStorage.removeItem("UploadLogicalPath");
+    sessionStorage.removeItem("remarks");
+    sessionStorage.removeItem("registerMobile");
+    sessionStorage.removeItem("allproductlist");
+    sessionStorage.clear();
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const fetchData = () => {
+      const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
+      setislogin(value);
+      console.log(value);
+    };
+    fetchData();
+  }, []);
+
+  const getMenuApi = async () => {
+    const loginUserDetail = JSON.parse(
+      sessionStorage?.getItem("loginUserDetail")
+    );
+    const storeInit = JSON.parse(sessionStorage?.getItem("storeInit"));
+    const IsB2BWebsite = storeInit?.IsB2BWebsite;
+    const visiterID = Cookies.get("visiterId");
+    setLoggedUserDetails(loginUserDetail);
+    let finalId;
+
+    if (IsB2BWebsite === 0) {
+      finalId = islogin === false ? visiterID : loginUserDetail?.id || "0";
+    } else {
+      finalId = loginUserDetail?.id || "0";
+    }
+
+    await GetMenuAPI(finalId)
+      .then((response) => {
+        setMenuData(response?.Data?.rd);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
+    console.log("callll");
+    console.log(LoggedUserDetails);
+    if (storeinit?.IsB2BWebsite === 0) {
+      getMenuApi();
+      return;
+    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
+      getMenuApi();
+      return;
+    } else {
+      return;
+    }
+  }, [islogin]);
+
+  useEffect(() => {
+    const visiterID = Cookies?.get("visiterId");
+    GetCountAPI(visiterID)
+      .then((res) => {
+        if (res) {
+          setCartCountNum(res?.cartcount);
+          setWishCountNum(res?.wishcount);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("getCountApiErr", err);
+        }
+      });
+  }, []);
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const searchDataFucn = (e) => {
+    if (e.key === "Enter") {
+      if (searchText) {
+        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+
+        // const handleMoveToDetail = () => {
+
+        let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+
+        let obj = {
+          a: "",
+          b: searchText,
+          m: loginInfo?.MetalId ?? storeInit?.MetalId,
+          d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+          c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+          f: {},
+        };
+
+        let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+        Navigate(`/d/${searchText}?p=${encodeObj}`);
+        // toggleOverlay();
+        setSearchText("");
+        setShowSearchBar(!ShowSearchBar);
+        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+        // }
+      }
+    }
+  };
+
   return (
     <div className="for_Navbar">
+      <Preloader />
       <nav className="for_nav">
-        <NavbarLeft ActiveMenu={ActiveMenu} setActiveMenu={setActiveMenu} />
-        <NavbarCenter />
+        <NavbarLeft
+          Navigate={Navigate}
+          ActiveMenu={ActiveMenu}
+          setActiveMenu={setActiveMenu}
+          setHoveredIndex={setHoveredIndex}
+          hoveredIndex={hoveredIndex}
+        />
+        <NavbarCenter Navigate={Navigate} />
         <NavbarRight
+          Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
           setShowSearchBar={setShowSearchBar}
+          user={LoggedUserDetails?.firstname}
+          islogin={islogin}
+          handleLogout={handleLogout}
+          wishCountNum={wishCountNum}
+          cartCountNum={cartCountNum}
+          searchDataFucn={searchDataFucn}
+          searchText={searchText}
+          setSearchText={setSearchText}
         />
       </nav>
     </div>
@@ -39,26 +208,103 @@ const Navbar = () => {
 };
 export default Navbar;
 
-const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
-
+const NavbarRight = ({
+  ShowSearchBar,
+  setShowSearchBar,
+  Navigate,
+  user,
+  islogin,
+  handleLogout,
+  wishCountNum,
+  cartCountNum,
+  searchText,
+  setSearchText,
+  searchDataFucn,
+}) => {
+  const searchInputRef = useRef(null);
+  useEffect(() => {
+    if (ShowSearchBar && searchInputRef.current) {
+      searchInputRef.current.focus();
+    } else {
+      setSearchText("");
+    }
+  }, [ShowSearchBar]);
   return (
     <div className="right">
-      <span className="for_item_menu">
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/appointment");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <img
-          src={appointment}
+          src={`${storImagePath()}/Forevery/appointment.png`}
           alt=""
           width={18}
           height={18}
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "contain", marginRight: "5px" }}
         />
         Appointment
       </span>
-      <span className="for_item_menu">
-        <FaRegHeart size={18} />
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/wishlist");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <Badge
+          style={{ size: "1px" }}
+          sx={{
+            "& .MuiBadge-badge": {
+              fontSize: "9.4px",
+              borderRadius: "100%",
+              marginRight: "6px",
+              marginTop: "3px",
+              bgcolor: "#DC637D",
+              width: 6,
+              height: 14,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          }}
+          badgeContent={wishCountNum}
+          color="primary"
+        >
+          <FaRegHeart size={18} style={{ marginRight: "5px" }} />
+        </Badge>
         Wishlist
       </span>
-      <span className="for_item_menu">
-        <HiOutlineShoppingBag size={18} />
+      <span
+        className="for_item_menu"
+        onClick={() => {
+          Navigate("/cart");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <Badge
+          style={{ size: "1px" }}
+          sx={{
+            "& .MuiBadge-badge": {
+              fontSize: "9.4px",
+              borderRadius: "100%",
+              marginRight: "6px",
+              marginTop: "3px",
+              bgcolor: "#DC637D",
+              width: 6,
+              height: 14,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          }}
+          badgeContent={cartCountNum}
+          color="primary"
+        >
+          <HiOutlineShoppingBag size={18} style={{ marginRight: "5px" }} />
+        </Badge>
         Cart
       </span>
       <span className="for_item_menu search_main">
@@ -67,27 +313,98 @@ const NavbarRight = ({ ShowSearchBar, setShowSearchBar }) => {
             type="text"
             placeholder="Search Forevery"
             className="for_search_bar"
+            value={searchText}
+            autoFocus
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={searchDataFucn}
           />
         )}
         <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
       </span>
-      <span className="for_item_menu">
-        <FaRegCircleUser size={19} />
-        Login
-      </span>
+      {!islogin ? (
+        <>
+          {" "}
+          <span
+            className="for_item_menu"
+            onClick={() => {
+              Navigate("/LoginOption");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            <FaRegCircleUser size={19} style={{ marginRight: "5px" }} />
+            Login
+          </span>
+        </>
+      ) : (
+        <>
+          <div className="for_login_user_dropdown">
+            <span className="user_logged_in_for">{user}</span>
+            <div className="for_dropdown">
+              <div>
+                <div
+                  className="item_a"
+                  onClick={() => {
+                    Navigate("/account");
+                    window.scrollTo({ behavior: "smooth", top: 0 });
+                  }}
+                >
+                  <li>my account</li>
+                </div>
+                <div
+                  className="item_a"
+                  onClick={() => {
+                    Navigate("/account");
+                    window.scrollTo({ behavior: "smooth", top: 0 });
+                  }}
+                >
+                  <li>my orders</li>
+                </div>
+                <div
+                  className="item_a"
+                  onClick={() => {
+                    Navigate("/account");
+                    window.scrollTo({ behavior: "smooth", top: 0 });
+                  }}
+                >
+                  <li>my details</li>
+                </div>
+                <hr />
+                <div className="item_a" onClick={() => handleLogout()}>
+                  <li>log out</li>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
-const NavbarCenter = () => {
+const NavbarCenter = ({ Navigate }) => {
   return (
     <div className="center">
-      <div className="logo_mask">
-        <img src={foreverylog} alt="" />
+      <div
+        className="logo_mask"
+        onClick={() => {
+          Navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <img
+          src={`${storImagePath()}/Forevery/logo.webp`}
+          alt=""
+          style={{ cursor: "pointer" }}
+        />
       </div>
     </div>
   );
 };
-const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
+const NavbarLeft = ({
+  setActiveMenu,
+  ActiveMenu,
+  setHoveredIndex,
+  hoveredIndex,
+}) => {
   return (
     <>
       <div className="left">
@@ -96,27 +413,41 @@ const NavbarLeft = ({ setActiveMenu, ActiveMenu }) => {
             <div
               className="for_menu_items"
               key={i}
-              onMouseOver={() => setActiveMenu({ menu: val, index: i })}
+              onMouseOver={() => {
+                setActiveMenu({ menu: val, index: i });
+                setHoveredIndex(i);
+              }}
+              onMouseOut={() => setHoveredIndex(null)}
             >
-              <span>
+              <span className="for_nav_menu">
                 {val?.category}
-                {ActiveMenu?.menu === val ? (
-                  <FaChevronUp size={13} className="chevorn-icon" />
+                {hoveredIndex === i ? (
+                  <FaChevronUp
+                    size={13}
+                    className={`chevorn-icon hide-Fo-1 `}
+                  />
                 ) : (
-                  <FaChevronDown size={13} className="chevorn-icon" />
+                  <FaChevronDown
+                    size={13}
+                    className={`chevorn-icon hide-Fo-2 `}
+                  />
                 )}
               </span>
             </div>
           );
         })}
         <>
-          <NavitemsWrapper SelectedMenu={ActiveMenu} />
+          <NavitemsWrapper
+            SelectedMenu={ActiveMenu}
+            setActiveMenu={setActiveMenu}
+          />
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+  const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
       return Menu;
@@ -124,10 +455,9 @@ const NavitemsWrapper = ({ SelectedMenu }) => {
       return Menu?.slice(0, 4);
     }
   };
-
   return (
     <>
-      <div className="first_nav">
+      <div className="first_nav" ref={firstNavRef}>
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
             {NavbarMenuRender(NavbarMenu).map((val, i) => {
@@ -199,7 +529,7 @@ const FirstNavMenu = ({ data }) => {
             <div className="for_col_3">
               <h3>
                 <img
-                  src="https://www.forevery.one/images_new/bespoke-icon.png"
+                  src={`${storImagePath()}/Forevery/writing.png`}
                   alt=""
                   width={20}
                   height={20}
@@ -214,10 +544,7 @@ const FirstNavMenu = ({ data }) => {
           <div className="for_ring_section">
             <div className="for_col_1">
               <h3>
-                <img
-                  src="https://www.forevery.one/images_new/foreveryimg/wedding-women.png"
-                  alt=""
-                />{" "}
+                <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
                 Womens
               </h3>
               <div class="ring-types">
@@ -230,11 +557,7 @@ const FirstNavMenu = ({ data }) => {
             </div>
             <div className="for_col_2">
               <h3>
-                <img
-                  src="https://www.forevery.one/images_new/foreveryimg/wedding-men.png"
-                  alt=""
-                />{" "}
-                Men
+                <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
               </h3>
 
               <div class="ring-types">
@@ -246,10 +569,7 @@ const FirstNavMenu = ({ data }) => {
           </div>
         </div>
         <div className="for_third_col">
-          <img
-            src="https://www.forevery.one/images_new/foreveryimg/engagement-submenu-img.png"
-            alt=""
-          />
+          <img src={commonImage} alt="" />
         </div>
       </div>
     </>
@@ -291,15 +611,13 @@ const SecondNavMenu = ({ data }) => {
         </div>
       </div>
       <div className="for_third_col">
-        <img
-          src="https://www.forevery.one/images_new/foreveryimg/engagement-submenu-img.png"
-          alt=""
-        />
+        <img src={commonImage} alt="" />
       </div>
     </div>
   );
 };
 const ThirdNavMenu = ({ data }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="Third_Nav_first_Menu">
@@ -312,6 +630,7 @@ const ThirdNavMenu = ({ data }) => {
                   <span className="for_title">{val?.name}</span>
                   <span className="for_collection_static">Collection</span>
                   <button
+                    onClick={() => Navigate(val?.link)}
                     className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
                   >
                     Shop the Collection
@@ -324,12 +643,17 @@ const ThirdNavMenu = ({ data }) => {
         <div className="second_section">
           <div
             className="images"
-            style={{ backgroundImage: `url(${NavImage})` }}
+            style={{ backgroundImage: `url(${BespokeImage})` }}
           >
             <div className="for-s-card">
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                }
               >
                 Show More
               </button>
@@ -338,6 +662,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                }
               >
                 Show More
               </button>
@@ -401,10 +730,7 @@ const FourNavMenu = ({ data }) => {
           </div>
         </div>
         <div className="for_third_col">
-          <img
-            src="https://www.forevery.one/images_new/foreveryimg/engagement-submenu-img.png"
-            alt=""
-          />
+          <img src={commonImage} alt="" />
         </div>
       </div>
     </>
@@ -425,7 +751,7 @@ const LatsNavMenu = ({ data }) => {
               <div class="ring-types">
                 <span class="ring-type">
                   <img
-                    src="https://www.forevery.one/images_new/foreveryimg/letter-diamond/letter-diamond-ring.png"
+                    src={`${storImagePath()}/Forevery/lastnav/letter-diamond-ring.png`}
                     alt=""
                     width={16}
                     height={16}
@@ -435,7 +761,7 @@ const LatsNavMenu = ({ data }) => {
                 </span>
                 <span class="ring-type">
                   <img
-                    src="https://www.forevery.one/images_new/foreveryimg/letter-diamond/letter-diamond-earring.png"
+                    src={`${storImagePath()}/Forevery/lastnav/letter-diamond-earring.png`}
                     alt=""
                     width={16}
                     height={16}
@@ -445,7 +771,7 @@ const LatsNavMenu = ({ data }) => {
                 </span>
                 <span class="ring-type">
                   <img
-                    src="https://www.forevery.one/images_new/foreveryimg/letter-diamond/letter-diamond-bracelet.png"
+                    src={`${storImagePath()}/Forevery/lastnav/letter-diamond-bracelet.png`}
                     alt=""
                     width={16}
                     height={16}
@@ -455,7 +781,7 @@ const LatsNavMenu = ({ data }) => {
                 </span>
                 <span class="ring-type">
                   <img
-                    src="https://www.forevery.one/images_new/foreveryimg/letter-diamond/letter-diamond-necklace.png"
+                    src={`${storImagePath()}/Forevery/lastnav/letter-diamond-necklace.png`}
                     alt=""
                     width={16}
                     height={16}
@@ -485,10 +811,7 @@ const LatsNavMenu = ({ data }) => {
         </div>
         <div className="for_third_col">
           <div className="second_section">
-            <img
-              src="https://www.forevery.one/images_new/foreveryimg/letter-diamond-menu-banner.png"
-              alt=""
-            />
+            <img src={LetterImage} alt="" />
             <div className="for-s-card">
               <h3>
                 Letter <span>Diamond Jewlery</span>

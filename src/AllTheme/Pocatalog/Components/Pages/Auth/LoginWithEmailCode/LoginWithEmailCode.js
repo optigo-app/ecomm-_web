@@ -7,9 +7,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
-import { useSetRecoilState } from 'recoil';
-import { proCat_loginState } from '../../../Recoil/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { proCat_CartCount, proCat_loginState, proCat_WishCount } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
+import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
+import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 
 
 export default function LoginWithEmailCode() {
@@ -22,6 +26,9 @@ export default function LoginWithEmailCode() {
     const setIsLoginState = useSetRecoilState(proCat_loginState)
     const location = useLocation();
 
+    const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
+    
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
@@ -114,9 +121,47 @@ export default function LoginWithEmailCode() {
         LoginWithEmailAPI(email, mobileNo, 'otp_email_login', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
+                const visiterID = Cookies.get('visiterId');
+                console.log('responseresponse', response?.Data?.rd[0]?.Token);
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+                sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
+
+                GetCountAPI(visiterID).then((res) => {
+                    if (res) {
+                        setCartCountNum(res?.cartcount)
+                        setWishCountNum(res?.wishcount)
+                    }
+                }).catch((err) => {
+                    if (err) {
+                        console.log("getCountApiErr", err);
+                    }
+                })
+
+                CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('CurrencyCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('MetalColorCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('metalTypeCombo', data)
+                    }
+                }).catch((err) => console.log(err))
 
                 if(redirectEmailUrl){
                     navigation(redirectEmailUrl);

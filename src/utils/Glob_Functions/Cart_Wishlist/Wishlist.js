@@ -25,10 +25,6 @@ const Usewishlist = () => {
   const [countDataUpdted, setCountDataUpdated] = useState();
   const [isProcessing, setIsProcessing] = useState(false);
 
-
-  const islogin = useRecoilValue(loginState)
-
-
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -45,7 +41,7 @@ const Usewishlist = () => {
     const visiterId = Cookies.get('visiterId');
     setIsWlLoading(true);
     try {
-      const response = await fetchWishlistDetails(visiterId, islogin);
+      const response = await fetchWishlistDetails(visiterId);
       if (response?.Data) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
@@ -68,7 +64,7 @@ const Usewishlist = () => {
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
     try {
-      const response = await removeFromCartList(item, param, visiterId, islogin);
+      const response = await removeFromCartList(item, param, visiterId);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg == "success") {
         return resStatus;
@@ -85,7 +81,7 @@ const Usewishlist = () => {
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
     try {
-      const response = await removeFromCartList('IsDeleteAll', param, visiterId, islogin);
+      const response = await removeFromCartList('IsDeleteAll', param, visiterId);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg == "success") {
         setWishlistData([]);
@@ -104,7 +100,7 @@ const Usewishlist = () => {
     let param = "";
     if (item?.IsInCart !== 1) {
       try {
-        const response = await handleWishlistToCartAPI(param, item, visiterId, islogin);
+        const response = await handleWishlistToCartAPI(param, item, visiterId);
         let resStatus = response?.Data?.rd[0];
 
         if (resStatus?.msg === "success") {
@@ -138,7 +134,7 @@ const Usewishlist = () => {
 
       if (!allItemsInCart) {
         try {
-          const response = await handleWishlistToCartAPI(param, {}, visiterId, islogin);
+          const response = await handleWishlistToCartAPI(param, {}, visiterId);
           resStatus = response?.Data?.rd[0];
           if (resStatus?.msg === "success") {
             getWishlistData();
@@ -169,10 +165,20 @@ const Usewishlist = () => {
     return txt.value;
   };
 
+  // const WishCardImageFunc = (pd) => {
+  //   let finalprodListimg;
+  //   if (pd?.ImageCount > 0) {
+  //     finalprodListimg = storeInit?.DesignImageFol + pd?.designno + "_" + '1' + "." + pd?.ImageExtension
+  //   } else {
+  //     finalprodListimg = imageNotFound;
+  //   }
+  //   return finalprodListimg;
+  // }
+
   const WishCardImageFunc = (pd) => {
     let finalprodListimg;
     if (pd?.ImageCount > 0) {
-      finalprodListimg = storeInit?.DesignImageFol + pd?.designno + "_" + '1' + "." + pd?.ImageExtension
+      finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
     } else {
       finalprodListimg = imageNotFound;
     }

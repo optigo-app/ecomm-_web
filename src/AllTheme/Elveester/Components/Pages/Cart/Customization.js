@@ -149,7 +149,7 @@ const Customization = ({
                 </>
               }
 
-              {SizeSorting(sizeCombo?.rd)?.length !== 0 &&
+              {sizeCombo?.rd?.length !== 0 &&
                 <div className="elv_option">
                   <label htmlFor="size">Size:</label>
                   <select id="size" name={selectedItem?.id}  defaultValue={selectedItem?.Size} value={selectedItem?.Size} onChange={handleSizeChange}>

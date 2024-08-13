@@ -33,9 +33,9 @@ export default function ContinueWithEmail() {
         const trimmedValue = value.trim();
         setEmail(trimmedValue);
         if (!trimmedValue) {
-            setEmailError('Email is required.');
+            setEmailError('Email Is Required.');
         } else if (!validateEmail(trimmedValue)) {
-            setEmailError('Please enter a valid email');
+            setEmailError('Please Enter A Valid Email');
         } else {
             setEmailError('');
         }
@@ -44,11 +44,11 @@ export default function ContinueWithEmail() {
     const handleSubmit = async () => {
         const trimmedEmail = email.trim();
         if (!trimmedEmail) {
-            setEmailError('Email is required.');
+            setEmailError('Email Is Required.');
             return;
         }
         if (!validateEmail(trimmedEmail)) {
-            setEmailError('Please enter a valid email.');
+            setEmailError('Please Enter A Valid Email.');
             return;
         }
         setIsLoading(true);

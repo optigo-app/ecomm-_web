@@ -10,7 +10,7 @@
   font-family: $primaryFontFamily;
   position: fixed;
   top: 0;
-  z-index: 1;
+  z-index: 9999;
   span {
     color: white;
     font-size: 13px;

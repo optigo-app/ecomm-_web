@@ -9,7 +9,7 @@ import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { for_CartCount, for_WishCount, for_loginState } from "../../Recoil/atom";
-import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
@@ -102,34 +102,50 @@ const Wishlist = () => {
             <span>My Wishlist</span>
           </div>
         </div>
-        <div className="for_wishlistRemoveBtndiv">
+        <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
           <button>Remove All</button>
         </div>
-        {!islogin &&
-          <div className="for_wishLoginBtnDiv">
-            <span>To save your wish list, create an account or log in.</span>
-            <button>LOG IN / SIGN UP</button>
+        {!isWLLoading && (
+          <>
+            {!islogin && (
+              <div className="for_wishLoginBtnDiv">
+                <span>To save your wish list, create an account or log in.</span>
+                <button>LOG IN / SIGN UP</button>
+              </div>
+            )}
+          </>
+        )}
+        {!isWLLoading ? (
+          <div className="for_wishlistCardDiv">
+            <WishlistData
+              isloding={isWLLoading}
+              items={wishlistData}
+              updateCount={updateCount}
+              countDataUpdted={countDataUpdted}
+              curr={CurrencyData}
+              itemInCart={itemInCart}
+              decodeEntities={decodeEntities}
+              WishCardImageFunc={WishCardImageFunc}
+              handleRemoveItem={handleRemoveItem}
+              handleWishlistToCart={handleWishlistToCart}
+              handleMoveToDetail={handleMoveToDetail}
+              handelMenu={handelMenu}
+            />
+          </div>
+        ) :
+          <div style={{ marginTop: '90px' }}>
+            <SkeletonLoader />
           </div>
         }
-        <div className="for_wishlistCardDiv">
-          <WishlistData
-            isloding={isWLLoading}
-            items={wishlistData}
-            updateCount={updateCount}
-            countDataUpdted={countDataUpdted}
-            curr={CurrencyData}
-            itemInCart={itemInCart}
-            decodeEntities={decodeEntities}
-            WishCardImageFunc={WishCardImageFunc}
-            handleRemoveItem={handleRemoveItem}
-            handleWishlistToCart={handleWishlistToCart}
-            handleMoveToDetail={handleMoveToDetail}
-            handelMenu={handelMenu}
-          />
-        </div>
+         <ConfirmationDialog
+          open={dialogOpen}
+          onClose={handleCloseDialog}
+          onConfirm={handleConfirmRemoveAll}
+          title="Confirm"
+          content="Are you sure you want to remove all Items?"
+        />
       </div>
       <NewsletterSignup />
-      <Footer />
     </div>
   );
 };
