@@ -150,23 +150,39 @@ const DesignWiseSalesReport = () => {
         }
     }
 
+    // const handleGrossWtSliderCustom = (val) => (event) => {
+    //     let vals = event.target.value;
+
+    //     const newValue = [...grossWtSlider];
+    //     newValue[val] = vals === '' ? '' : Number(event.target.value);
+    //     setGrossWtSlider(newValue);
+    //     handleSearch(event, fromDate, toDate, netWtSlider[0], netWtSlider[1], newValue[0], newValue[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm);
+    // }
     const handleGrossWtSliderCustom = (val) => (event) => {
-        let vals = event.target.value;
-        let min = 0;
-        let max = 0;
+        let vals = event.target.value === '' ? '' : Number(event.target.value);
         const newValue = [...grossWtSlider];
-        newValue[val] = vals === '' ? '' : Number(event.target.value);
+        newValue[val] = vals;
         setGrossWtSlider(newValue);
         handleSearch(event, fromDate, toDate, netWtSlider[0], netWtSlider[1], newValue[0], newValue[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm);
     }
 
-    const handleBlurGrossWt = (index) => (event) => {
-        if (grossWtSlider[index] < grossWtLimit?.min) {
-            setGrossWtSlider([0, grossWtSlider[1]]);
-        } else if (grossWtSlider[index] > grossWtLimit?.max) {
-            setGrossWtSlider([grossWtSlider[0], grossWtLimit?.max]);
-        }
+    // const handleBlurGrossWt = (index) => (event) => {
+    //     if (grossWtSlider[index] < grossWtLimit?.min) {
+    //         setGrossWtSlider([0, grossWtSlider[1]]);
+    //     } else if (grossWtSlider[index] > grossWtLimit?.max) {
+    //         setGrossWtSlider([grossWtSlider[0], grossWtLimit?.max]);
+    //     }
+    // }
+
+const handleBlurGrossWt = (index) => (event) => {
+    const newValue = [...grossWtSlider];
+    if (newValue[index] < grossWtLimit?.min) {
+        newValue[index] = grossWtLimit?.min;
+    } else if (newValue[index] > grossWtLimit?.max) {
+        newValue[index] = grossWtLimit?.max;
     }
+    setGrossWtSlider(newValue);
+}
 
     const handleChangeProductType = (eve) => {
         setProductType(eve?.target?.value);
@@ -525,6 +541,11 @@ const DesignWiseSalesReport = () => {
         }
     }, []);
 
+    useEffect(() => {
+        setGrossWtSlider([grossWtLimit?.min, grossWtLimit?.max]);
+        setMinDistanceGrossWt(0); // Set to 0 for small ranges
+    }, [grossWtLimit]);
+
     return (
         <Box className="designWiseSalesReport">
             <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
@@ -771,11 +792,13 @@ const DesignWiseSalesReport = () => {
 
 
 
-            {isLoading ?
+            {isLoading ? 
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
+                <>
                 <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
-                    {filteredDataPaginated?.map((products, i) => (
+                    { filteredDataPaginated?.map((products, i) => (
                         <div
+                        key={i}
                             style={{
                                 minWidth: "100%",
                                 border: "1px solid #e1e1e1",
@@ -844,6 +867,8 @@ const DesignWiseSalesReport = () => {
                     ))}
                 </Box>
 
+                <div>{filteredDataPaginated?.length === 0 && <p style={{marginTop:'20px', fontWeight:'bold', fontSize:'15px', color:'red', width:'100%', textAlign:'center'}}>Data Not Present</p>}</div>
+                </>
             }
 
             {filterData?.length !== 0 && <ReactPaginate

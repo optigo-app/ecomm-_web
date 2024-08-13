@@ -79,7 +79,8 @@ const Plm = () => {
       </div>
       <div className="fieldContainer">
         {/* <form onSubmit={handleSubmit}> */}
-        <form>
+        {/* <form> */}
+        <div>
           <Grid container spacing={2}>
             <Grid item xs={12} className=" margin_plm"> 
               <TextField
@@ -102,7 +103,6 @@ const Plm = () => {
                     name="logo"
                     label="Upload Logo"
                     onChange={handleFileChange}
-                    required
                     fullWidth
                     InputLabelProps={{
                       shrink: true,
@@ -140,7 +140,6 @@ const Plm = () => {
                 variant="outlined"
                 value={formData.markUp}
                 onChange={handleChange}
-                required
                 // style={{ minWidth: "400px", maxWidth: "400px" }}
                 className="FieldWidthPLM"
                 InputLabelProps={{
@@ -156,7 +155,8 @@ const Plm = () => {
                 <button  className='SmilingAddEditAddrwessDT' style={{ backgroundColor: '#f0e0e0', marginTop: '15px' }} onClick={() => handleSave()}>Save</button>
             </Grid>
           </Grid>
-        </form>
+          </div>
+        {/* </form> */}
       </div>
     </div>
     </div>
