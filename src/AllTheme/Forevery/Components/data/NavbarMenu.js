@@ -126,14 +126,17 @@ const CollectionData = [
   {
     name: "IKIGAI",
     img: `${storImagePath()}/Forevery/collections/ikigai-banner.webp`,
+    link : `/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u`
   },
   {
     name: "heritage",
     img: `${storImagePath()}/Forevery/collections/heritage-banner.webp`,
+    link : `/p/Width/B/?M=Qi9jb2xsZWN0aW9u`
   },
   {
     name: "Icon",
     img: `${storImagePath()}/Forevery/collections/icon-banner.webp`,
+    link : `/p/M_CS/Artifact/?M=QXJ0aWZhY3QvY29sbGVjdGlvbg==`
   },
 ];
 
