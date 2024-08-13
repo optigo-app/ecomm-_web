@@ -31,7 +31,7 @@ export default function LoginOption() {
                                 <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px', fontFamily: 'PT Sans, sans-serif' }}>Log in with mobile</p>
                             </div>
                         </div>
-                        <p style={{ marginTop: '40px', fontSize: '14px', textAlign: 'center', marginBottom: '30px', fontFamily: 'PT Sans, sans-serif' }}>By continuing, you agree to our Terms of Use. Read our Privacy Policy.</p>
+                        <p style={{ marginTop: '40px', fontSize: '14px', textAlign: 'center', marginBottom: '30px', fontFamily: 'PT Sans, sans-serif' }}>By continuing, you agree to our <span style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/term&condition')}>Terms of Use.</span> Read our <span style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy.</span></p>
                     </div>
                 </div>
                 <Footer />

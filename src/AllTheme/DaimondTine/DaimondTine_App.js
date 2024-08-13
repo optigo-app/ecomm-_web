@@ -28,6 +28,7 @@ import TermsAndConditions from './Components/Pages/StaticPages/Terms&Condition/T
 import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'
 import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
 import ScrollToTop from './Components/Pages/ScrollToTop '
+import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 
 
 const DaimondTine_App = () => {
@@ -117,6 +118,7 @@ const DaimondTine_App = () => {
         <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/term&condition" element={<TermsAndConditions />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />
+        <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList/>} />
           <Route path="/d/*" element={<ProductDetail/>} />
