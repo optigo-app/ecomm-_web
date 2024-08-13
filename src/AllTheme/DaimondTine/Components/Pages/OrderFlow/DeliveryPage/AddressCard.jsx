@@ -30,7 +30,7 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
     };
 
     return (
-        <Grid item xs={12} sm={6} md={4} lg={3} style={{marginBottom:'20px'}}>
+        <Grid item xs={12} sm={6} md={4} lg={3} style={{ marginBottom: '20px' }}>
             <Card
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -52,14 +52,16 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
                 </CardContent>
 
                 {/* {showButtons && ( */}
-                    <div className='dt_editDeleteBtngroup' >
-                        <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
-                            <MdModeEditOutline className='dt_editIcon' />
-                        </Button>
+                <div className='dt_editDeleteBtngroup' >
+                    <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
+                        <MdModeEditOutline className='dt_editIcon' />
+                    </Button>
+                    {isdefault != 1 &&
                         <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
                             <MdDelete className='dt_DeleteIcon' />
                         </Button>
-                    </div>
+                    }
+                </div>
                 {/* )} */}
             </Card>
         </Grid>

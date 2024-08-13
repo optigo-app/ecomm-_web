@@ -581,12 +581,13 @@ const useCart = () => {
   const CartCardImageFunc = (pd) => {
     let finalprodListimg;
     if (pd?.ImageCount > 0) {
-      finalprodListimg = storeInit?.DesignImageFol + pd?.designno + "_" + '1' + "." + pd?.ImageExtension
+      finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
     } else {
       finalprodListimg = imageNotFound;
     }
     return finalprodListimg;
   }
+  
 
 
   const compressAndEncode = (inputString) => {
