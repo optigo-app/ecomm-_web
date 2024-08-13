@@ -10,6 +10,7 @@
     background: none;
     background-position: 50%;
     background-size: cover;
+    font-family: $primaryFontFamily;
 
     .overlay {
       position: absolute;
@@ -31,8 +32,10 @@
       z-index: 1;
     }
 
-    .designCounttext {
-      color: $titleColor;
+    .dt_WishdesignCounttext {
+      color: #000;
+      font-size: $fontSize7;
+      text-transform: capitalize;
     }
   }
 
@@ -241,6 +244,7 @@
 
 @media (max-width: 999px) {
   .dt_MainWishDiv {
+    padding-top: 57px;
     .cart {
       flex-direction: row;
       .cart-items {
