@@ -34,6 +34,14 @@ export default function ContinueWithEmail() {
     return regex.test(email);
   };
 
+  useEffect(()=>{
+    window.scrollTo({
+      behavior  :"smooth",
+      top  : 0,
+      left : 0
+    })
+  },[])
+
   const handleEmailChange = (event) => {
     const { value } = event.target;
     const trimmedValue = value.trim();

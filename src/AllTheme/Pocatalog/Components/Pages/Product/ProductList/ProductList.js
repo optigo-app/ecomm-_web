@@ -1588,7 +1588,7 @@ const ProductList = () => {
   return (
     <>
       <Helmet>
-        <title>{DynamicListPageTitleLineFunc()}</title>
+        <title>{decodeURI(DynamicListPageTitleLineFunc())}</title>
       </Helmet>
       <div id="top">
         <Drawer

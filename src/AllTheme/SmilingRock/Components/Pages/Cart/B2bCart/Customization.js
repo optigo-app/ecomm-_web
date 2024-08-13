@@ -55,7 +55,7 @@ const Customization = ({
     }
   }
 
-  console.log("sizeCombo",sizeCombo);
+  console.log("sizeCombo", sizeCombo);
 
   return (
     <>
@@ -121,7 +121,7 @@ const Customization = ({
               }
               {storeInitData?.IsCsCustomization == 1 &&
                 <>
-                   {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
+                  {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Color Stone:</label>
                       <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
@@ -139,16 +139,16 @@ const Customization = ({
                   }
                 </>
               }
-              {sizeCombo?.length !== 0 &&
+              {sizeCombo?.rd?.length !== 0 &&
                 <div className="option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" name={selectedItem?.id} 
-                  value={selectedItem?.Size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id}
+                    value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
                       <>
-                        {sizeCombo?.map(option => (
+                        {sizeCombo?.rd?.map(option => (
                           <option key={option?.id} value={option?.sizename}>{option?.sizename}</option>
                         ))}
                       </>
@@ -202,7 +202,7 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-             {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+            {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
                 <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
@@ -239,7 +239,7 @@ const Customization = ({
                           ),
                         }}
                       /> */}
-                       <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :

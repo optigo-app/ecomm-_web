@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -92,6 +92,14 @@ export default function ContimueWithMobile() {
         // }
     };
 
+    useEffect(()=>{
+        window.scrollTo({
+          behavior  :"smooth",
+          top  : 0,
+          left : 0
+        })
+      },[])
+    
     return (
         <div className='for_continuMobile' style={{backgroundColor  :"white"}}>
             <ToastContainer />
@@ -100,7 +108,7 @@ export default function ContimueWithMobile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div >
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
@@ -140,7 +148,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

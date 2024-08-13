@@ -25,10 +25,11 @@
     display: flex;
     width: 130px;
     height: 45px;
+    border: none;
 
     .bttn-left {
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
+        // border-top-left-radius: 0px;
+        // border-bottom-left-radius: 0px;
     }
 
     .input {
@@ -36,10 +37,12 @@
         padding: 0;
         margin: 0;
         text-align: center;
-        border-top: 1px solid #ececec;
-        border-bottom: 1px solid #ececec;
-        border-left: none;
-        border-right: none;
+        border: none;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+        // border-top: 1px solid #bfbfbf;
+        // border-bottom: 1px solid #bfbfbf;
+        // border-left: none;
+        // border-right: none;
     }
 
     a.bttn,
@@ -48,8 +51,10 @@
         padding: 0;
         text-align: center;
         color: $titleColor;
-        border: 1px solid #ececec;
-        box-shadow: none;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+        // border: 1px solid #bfbfbf;
+        // box-shadow: none;
+        border: none;
         background-color: white;
         font-size: 24px;
         cursor: pointer;
@@ -60,8 +65,8 @@
     }
 
     .bttn-right {
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
+        // border-top-right-radius: 0px;
+        // border-bottom-right-radius: 0px;
     }
 }
 

@@ -65,7 +65,7 @@ const MobileCartDetails = ({
 
 
   return (
-    <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+    <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto', zIndex:'99999999' }}>
       <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrMo_Cart-imageDiv">
           <img

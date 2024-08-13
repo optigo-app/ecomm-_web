@@ -90,26 +90,6 @@ const CartItem = ({
     }
   };
 
-  const [pressing, setPressing] = useState(false);
-  const pressTimer = useRef(null);
-
-  const handlePress = (action) => {
-    return () => {
-      // if (!multiSelect && selectedItemsLength === 0) return;
-      // else if (multiSelect && selectedItemsLength === 0) return;
-      pressTimer.current = setTimeout(() => {
-        // openHandleUpdateCartModal();
-        // console.log('selectedItemsssssss', selectedItemsLength);
-        alert('Long Pressed Detected...')
-      }, 5000);
-      setPressing(action === 'start');
-    };
-  }
-
-  const cancelPress = () => {
-    clearTimeout(pressTimer.current);
-    setPressing(false);
-  };
 
   function truncateText(text, maxLength) {
     if (text.length <= maxLength) {
@@ -119,7 +99,82 @@ const CartItem = ({
   }
 
   return (
-   <div>kfjdsjhkfhjhsdj</div>
+    <>
+      <div className="for_cart-item"
+        style={{
+          boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+        }}
+        onClick={() => onSelect(item)}
+      >
+        <div className="for_cart-item__image">
+          <img src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt={item?.productName} />
+        </div>
+        <div className="for_cart-item__details">
+          <h3>{item?.designno != "" && item?.designno}
+            {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
+          <p>{item?.productDescription}</p>
+          {/* {item?.sku != "" &&
+            <p>SKU: {item?.sku}</p>
+          } */}
+          <div className="for_weightsContainer">
+            {storeInitData?.IsGrossWeight == 1 &&
+              <div className="for_weightPair">
+                <span className="for_weightLabel">Gwt:</span>
+                <span className="for_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
+              </div>
+            }
+            {Number(item?.Nwt) !== 0 && (
+              <div className="for_weightPair">
+                <span className="for_pipe">|</span>
+                <span className="for_weightLabel">Nwt:</span>
+                <span className="for_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+              </div>
+            )}
+            {storeInitData?.IsDiamondWeight == 1 &&
+              <>
+                {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                  <div className="for_weightPair">
+                    <span className="for_pipe">|</span>
+                    <span className="for_weightLabel">Dwt:</span>
+                    <span className="for_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                  </div>
+                }
+              </>
+            }
+            {storeInitData?.IsGrossWeight == 1 &&
+              <>
+                {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                  <div className="for_weightPair">
+                    <span className="for_pipe">|</span>
+                    <span className="for_weightLabel">Cwt:</span>
+                    <span className="for_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                  </div>
+                }
+              </>
+            }
+          </div>
+          {item?.Size != "" &&
+            <p className='for_ringSize'>Ring Size: {item?.Size}</p>
+          }
+          {/* <span className="for_change-size">CHANGE SIZE</span> */}
+        </div>
+        {storeInitData?.IsPriceShow == 1 &&
+          <div className="for_cart-item__price">
+            <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
+            <span className="for_price-excl-vat">(Excl. VAT)</span>
+          </div>
+        }
+        {storeInitData?.IsPriceShow == 1 &&
+          <div className="for_cart-item__total-price">
+            <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
+            <span className="for_price-excl-vat">(Excl. VAT)</span>
+          </div>
+        }
+        <div className="for_cart-item__remove">
+          <button className="for_remove-button" onClick={() => handleRemoveItem(item, index)}>×</button>
+        </div>
+      </div>
+    </>
   );
 };
 
