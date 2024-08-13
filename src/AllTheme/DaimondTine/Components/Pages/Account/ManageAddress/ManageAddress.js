@@ -125,7 +125,6 @@ const ManageAddress = () => {
         setDeleteId(item);
         setOpenDelete(true);
     }
-
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
         const errorsCopy = {}; // Initialize errors object
@@ -282,6 +281,7 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
+        
     
 
     const handleClose = () => {
@@ -445,7 +445,7 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+            
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -466,8 +466,7 @@ const ManageAddress = () => {
                         
                     }else{
                         setDefaultAddress(res);
-                        setAddressData(response?.Data?.rd);
-                        
+                        setAddressData(response?.Data?.rd);                        
                     }
                 }
 
@@ -484,6 +483,7 @@ const ManageAddress = () => {
 
     };
 
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -495,7 +495,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div>
+            <div className='manageAddressSecDT'>
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
@@ -525,7 +525,7 @@ const ManageAddress = () => {
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
-                                addressData?.map((item, index) => {
+                               addressData?.length > 0 ? addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>
                                         <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
                                             <Box sx={{ display: "flex", flexWrap: "wrap", }}>
@@ -569,17 +569,26 @@ const ManageAddress = () => {
                                                     onClick={() => handleOpen(item, index, 'edit')}
 
                                                 >Edit</Button>
-                                                <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT'
-                                                    variant="contained"
-                                                    sx={{
-                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
-                                                        marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
-                                                    }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>
+                                                { item.isdefault !== 1 &&   <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT' variant="contained"
+
+                                                sx={{
+                                                    background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
+                                                    maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",marginLeft: "15px"
+                                                }}
+                                                onClick={() => handleOpenDelete(item.id)}
+                                                >Delete</Button>
+                                                // <Button className='muiSmilingRocksBtnManageEdit btn_bg_color_DT'
+                                                //     variant="contained"
+                                                //     sx={{
+                                                //         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
+                                                //         marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
+                                                //     }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>
+                                                    }
                                             </Box>
 
                                         </Box>
                                     </Box>
-                                })
+                                }) : <div style={{fontSize:'25px', width:'100%', textAlign:'center', color:'grey', fontWeight:'bold'}}>Data Not Present</div>
                             }
                         </Box>
                     }

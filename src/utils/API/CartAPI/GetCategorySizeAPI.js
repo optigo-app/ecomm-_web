@@ -1,10 +1,11 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const getSizeData = async (item, visiterId, islogin) => {
+export const getSizeData = async (item, visiterId) => {
     try {
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
       const storedData = sessionStorage.getItem("loginUserDetail") || "0";
+      const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
       const data = JSON.parse(storedData);
       // const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 

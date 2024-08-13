@@ -45,6 +45,12 @@ const Plm = () => {
     data.append('fileUrl', formData?.logoPreview);
     data.append('markUp', formData?.markUp);
 
+    setFormData({
+      labelName: "",
+      logo: null,
+      markUp: 0,
+      logoPreview:null
+    })
 
     
 
@@ -54,6 +60,16 @@ const Plm = () => {
     setShowPreview(!showPreview);
   };
 
+  const handleSave = () => {
+
+    setFormData({
+      labelName: "",
+      logo: null,
+      markUp: 0,
+      logoPreview:null
+    })
+  }
+
   return (
     <>
     <div className="plm_container">
@@ -62,7 +78,9 @@ const Plm = () => {
         Private Label Setup
       </div>
       <div className="fieldContainer">
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}> */}
+        {/* <form> */}
+        <div>
           <Grid container spacing={2}>
             <Grid item xs={12} className=" margin_plm"> 
               <TextField
@@ -74,7 +92,6 @@ const Plm = () => {
                 onChange={handleChange}
                 // style={{ minWidth: "400px", maxWidth: "400px" }}
                 className="FieldWidthPLM"
-                required
               />
             </Grid>
             <Grid item xs={12} className="margin_plm">
@@ -86,7 +103,6 @@ const Plm = () => {
                     name="logo"
                     label="Upload Logo"
                     onChange={handleFileChange}
-                    required
                     fullWidth
                     InputLabelProps={{
                       shrink: true,
@@ -124,7 +140,6 @@ const Plm = () => {
                 variant="outlined"
                 value={formData.markUp}
                 onChange={handleChange}
-                required
                 // style={{ minWidth: "400px", maxWidth: "400px" }}
                 className="FieldWidthPLM"
                 InputLabelProps={{
@@ -137,10 +152,11 @@ const Plm = () => {
               />
             </Grid>
             <Grid item xs={12} sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                <button  className='SmilingAddEditAddrwessDT' style={{ backgroundColor: '#f0e0e0', marginTop: '15px' }}>Save</button>
+                <button  className='SmilingAddEditAddrwessDT' style={{ backgroundColor: '#f0e0e0', marginTop: '15px' }} onClick={() => handleSave()}>Save</button>
             </Grid>
           </Grid>
-        </form>
+          </div>
+        {/* </form> */}
       </div>
     </div>
     </div>

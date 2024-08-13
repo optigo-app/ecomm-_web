@@ -13,11 +13,22 @@ import DesignSet from './DesignSet/DesignSet';
 import Album from './Album/Album';
 import NewArrival from './NewArrival/NewArrival';
 import BestSellerSection from './BestSellerSection/BestSellerSection';
+import { Helmet } from 'react-helmet';
 
 function Home() {
 
+  const [title, setTitle] = useState();
+
+  useEffect(() => {
+    let data = JSON.parse(sessionStorage.getItem('storeInit'));
+    setTitle(data?.companyname);
+  }, [])
+
   return (
     <div className='ProCat_home_index_main'>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
       <div className='smiling_home_index_Submain'>
         <TopSection />
         {/* <TheDifference />

@@ -34,7 +34,7 @@ export default function Register() {
   const search = location?.search
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-
+  const singupRedirectUrl = `/LoginOption/${search}`;
 
   const setIsLoginState = useSetRecoilState(dt_loginState)
 
@@ -69,26 +69,28 @@ export default function Register() {
         setErrors(prevErrors => ({ ...prevErrors, firstName: 'First Name is required' }));
       } else if (value.length < 2) {
         setErrors(prevErrors => ({ ...prevErrors, firstName: 'First Name Should Be Accept Minimum 2 Character' }));
-      }  else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
-        setErrors(prevErrors => ({ ...prevErrors, firstName: 'Invalid First Name' }));
+      } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
+        setErrors(prevErrors => ({ ...prevErrors, firstName: 'First Name Accept Only Alphabet' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, firstName: '' }));
       }
     } else if (fieldName === 'lastName') {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, lastName: 'Last Name is required' }));
-      }else if (value.length < 2) {
+      } else if (value.length < 2) {
         setErrors(prevErrors => ({ ...prevErrors, lastName: 'Last Name Should Be Accept Minimum 2 Character' }));
       } else if (!/^(?![\d\s!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`])[^\s][^\n]+$/.test(value)) {
-        setErrors(prevErrors => ({ ...prevErrors, lastName: 'Invalid Last Name' }));
+        setErrors(prevErrors => ({ ...prevErrors, lastName: 'Last Name Accept Only Alphabet' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, lastName: '' }));
       }
     } else if (fieldName === 'mobileNo') {
       if (!value.trim()) {
-        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. is required' }));
-      } else if (!/^\d{10}$/.test(value.trim())) {
-        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid Mobile number' }));
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number is required' }));
+      } else if (!/^\d+$/.test(value.trim())) {
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number must contain only numeric value' }));
+      } else if (value?.trim()?.length !== 10) {
+        setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number must be exactly 10 digits' }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
       }
@@ -104,7 +106,7 @@ export default function Register() {
       if (!value.trim()) {
         setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
       } else if (value !== password) {
-        setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+        setErrors(prevErrors => ({ ...prevErrors, confirmPassword: "Passwords doesn't match" }));
       } else {
         setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
       }
@@ -188,25 +190,27 @@ export default function Register() {
     if (!confirmPassword.trim()) {
       errors.confirmPassword = 'Confirm Password is required';
     } else if (confirmPassword !== password) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = "Passwords doesn't match";
     }
 
     if (Object.keys(errors).length === 0 && passwordError.length === 0) {
       const hashedPassword = hashPasswordSHA1(password);
       setIsLoading(true);
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
+
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          sessionStorage.setItem('LoginUser', true)
-          sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState(true)
-          sessionStorage.setItem('registerEmail', email)
+          navigation(singupRedirectUrl);
 
-          if (redirectEmailUrl) {
-            navigation(redirectEmailUrl);
-          } else {
-            navigation('/')
-          }
+          // sessionStorage.setItem('LoginUser', true)
+          // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          // setIsLoginState(true)
+          // sessionStorage.setItem('registerEmail', email)
+          // if (redirectEmailUrl) {
+          //   navigation(redirectEmailUrl);
+          // } else {
+          //   navigation('/')
+          // }
 
         } else {
           if (response.Data?.rd[0].ismobileexists === 1) {

@@ -142,13 +142,13 @@ export default function LoginWithEmail() {
     };
 
     const handleNavigation = () => {
-        sessionStorage.setItem('LoginCodeEmail', 'true');
+        sessionStorage.setItem('LoginCodeEmail', true);
         navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
     }
 
     const handleForgotPassword = async () => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        let Domian = `https://${storeInit?.domain}`
+        let Domian = `${window?.location?.protocol}//${storeInit?.domain}`
         setIsLoading(true);
         ForgotPasswordEmailAPI(Domian, email).then((response) => {
             setIsLoading(false);

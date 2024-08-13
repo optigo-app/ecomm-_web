@@ -14,6 +14,7 @@ import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 const Wishlist = () => {
   const {
@@ -94,6 +95,9 @@ const Wishlist = () => {
 
   return (
     <div className="proCat_MainWlDiv">
+       <Helmet>
+        <title>Wishlist</title>
+      </Helmet>
       <div className="WlMainPageDiv">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&

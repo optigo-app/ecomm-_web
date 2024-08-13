@@ -1,10 +1,10 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handleProductRemark = async (data, remarks, visiterId, islogin) => {
+export const handleProductRemark = async (data, remarks, visiterId) => {
     try {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) || {};
         const { FrontEnd_RegNo } = storeInit;
-
+        const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
         const storedData = sessionStorage.getItem("loginUserDetail");
         const loginUserDetail = JSON.parse(storedData);
 

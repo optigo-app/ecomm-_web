@@ -171,7 +171,7 @@ const CartItem = ({
           </div>
         }
         <div className="for_cart-item__remove">
-          <button className="for_remove-button">×</button>
+          <button className="for_remove-button" onClick={() => handleRemoveItem(item, index)}>×</button>
         </div>
       </div>
     </>

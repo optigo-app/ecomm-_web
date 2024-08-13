@@ -21,9 +21,9 @@ import DesignWiseSalesReport from './SalesReportDesignWise/DesignWiseSalesReport
 import AccountLedger from './AccountLedger/AccountLedger';
 import ChangePassword from './ChangePassword/ChangePassword';
 import YourProfile from './YourProfile/YourProfile';
-import OrderHistory from './OrderHistory/OrderHistory';
 import ManageAddress from './ManageAddress/ManageAddress';
 import Plm from './PLM/PLM';
+import NewOrderHistoryDT from './OrderHistory/NewOrderHistoryDT';
 
 
 function CustomTabPanel(props) {
@@ -183,15 +183,16 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    <OrderHistory />
+                                    {/* <OrderHistory /> */}
                                     {/* <OrderHistoryGroup /> */}
+                                    <NewOrderHistoryDT />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage accountSalesPageDT">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
                                     sx={{ background: "#f0e0e0", ...tabIndicator }} scrollButtons="auto">

@@ -8,7 +8,7 @@ import { dt_CartCount, dt_companyLogo, dt_loginState, dt_WishCount } from '../..
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { GoHeart } from "react-icons/go";
-import { FaFacebookF, FaPowerOff } from "react-icons/fa";
+import { FaAngleUp, FaChevronDown, FaChevronUp, FaFacebookF, FaPowerOff } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
@@ -35,6 +35,7 @@ const Header = () => {
     const [leval1menu, setLeval1menu] = useState();
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+    const [socialMediaData, setSocialMediaData] = useState([]);
 
 
     const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount);
@@ -52,6 +53,16 @@ const Header = () => {
 
     useEffect(() => {
         const visiterID = Cookies.get("visiterId");
+        let companyInfoData;
+
+        if (sessionStorage.getItem("CompanyInfoData")) {
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
+            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+            if (parsedSocilaMediaUrlData) {
+              setSocialMediaData(parsedSocilaMediaUrlData)
+            }
+          }
+
         GetCountAPI(visiterID)
             .then((res) => {
                 if (res) {
@@ -378,13 +389,21 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: '#acabab', textDecoration: 'none' }}>
-                        Call: +91-9810876359
+                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px",cursor:'pointer', color: '#acabab', textDecoration: 'none' }}>
+                        Call: +91-98997 78849
                     </a>
                 </div>
                 <div className="dai_login_link">
-                    <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
-                    <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} />
+                    {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
+
+                    {socialMediaData?.map((social, index) => (
+                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                        <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
+                          onError={(e) => { e.target.style.display = 'none'; }} />
+                      </a>
+                  ))}
+
+                    {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
                         <p style={{ margin: '0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
                             Login
@@ -519,20 +538,8 @@ const Header = () => {
                                 </Badge>
                             </>
                         }
-                        {IsB2BWebsiteChek == 1 ?
-                            islogin == true ?
-                                <Tooltip title="Account">
-                                    <li
-                                        className="dt_nav_li_smining"
-                                        style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                        onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
-                                    >
-                                        <IoPersonOutline color="#7D7F85" fontSize='25px' />
-                                    </li>
-                                </Tooltip>
-                                :
-                                ''
-                            :
+                        {
+                            islogin == true &&
                             <Tooltip title="Account">
                                 <li
                                     className="dt_nav_li_smining"
@@ -562,7 +569,7 @@ const Header = () => {
                         <li
                             className="dt_menu_li"
                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
-                            onClick={() => {navigation('/');window.scrollTo(0, 0);}}
+                            onClick={() => { navigation('/'); window.scrollTo(0, 0); }}
                         >
                             <span className="nav-li-sminingSpan_Home">
                                 Home
@@ -603,54 +610,87 @@ const Header = () => {
                                 FAQS
                             </span>
                         </li>
+                        {IsB2BWebsiteChek == 1 ? (
+                            islogin === true ? (
+                                <>
+                                    {storeinit?.IsDesignSetInMenu == 1 &&
+                                        <li
+                                            className="dt_menu_li"
+                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                            onClick={() => navigation('/Lookbook')}
+                                        >
+                                            <span className="nav-li-sminingSpan">
+                                                {storeinit?.DesignSetInMenu}
+                                            </span>
+                                        </li>
+                                    }
+                                </>
+                            ) : (
+                                ""
+                            )
+                        ) : (
+                            <>
+                                {storeinit?.IsDesignSetInMenu == 1 &&
+                                    <li
+                                        className="dt_menu_li"
+                                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                        onClick={() => navigation('/Lookbook')}
+                                    >
+                                        <span className="nav-li-sminingSpan">
+                                            {storeinit?.DesignSetInMenu}
+                                        </span>
+                                    </li>
+                                }
+                            </>
+                        )}
                     </ul>
                 </>
             </div>
 
             {/* header menu dropdown */}
             {/* {selectedData?.param1[0]?.param1name && */}
-                <div id='shopdropdown' className={`dt_shop_dropdown 
+            <div id='shopdropdown' className={`dt_shop_dropdown 
                 ${expandedMenu !== null ? "open" : ""}  
                 ${isHeaderFixed ? "fixed" : ""}`}
-                    onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
-                    <div
-                        style={{
-                            display: "flex",
-                            padding: "50px",
-                            color: "#7d7f85",
-                            gap: "50px",
-                            justifyContent: 'space-between',
-                            width: 'fit-content',
-                            margin: '0 auto',
-                            backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
-                            boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
-                        }}
-                        className="menuDropdownData"
-                    >
-                            <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
-                                {selectedData?.param1?.map((param1Item, param1Index) => (
-                                    // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
-                                    <div key={param1Index}>
-                                        <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
-                                        <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
-                                            {param1Item?.param2?.map((param2Item, param2Index) => (
-                                                <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
-                                                    menuname: leval1menu?.menuname,
-                                                    key: leval1menu?.param0name,
-                                                    value: leval1menu?.param0dataname,
-                                                },
-                                                    {
-                                                        key: param1Item.param1name,
-                                                        value: param1Item.param1dataname,
-                                                    },
-                                                    {
-                                                        key: param2Item.param2name,
-                                                        value: param2Item.param2dataname,
-                                                    })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                                                    {param2Item?.param2dataname}
-                                                </p>
-                                            ))}
-                                            {/* {
+                onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+                <div
+                    style={{
+                        display: "flex",
+                        padding: "30px",
+                        color: "#7d7f85",
+                        gap: "50px",
+                        justifyContent: 'space-between',
+                        width: 'fit-content',
+                        margin: '0 auto',
+                        backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
+                        boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                    }}
+                    className="menuDropdownData"
+                >
+                    <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
+                        {selectedData?.param1?.map((param1Item, param1Index) => (
+                            // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
+                            <div key={param1Index}>
+                                <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+                                    {param1Item?.param2?.map((param2Item, param2Index) => (
+                                        <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
+                                            menuname: leval1menu?.menuname,
+                                            key: leval1menu?.param0name,
+                                            value: leval1menu?.param0dataname,
+                                        },
+                                            {
+                                                key: param1Item.param1name,
+                                                value: param1Item.param1dataname,
+                                            },
+                                            {
+                                                key: param2Item.param2name,
+                                                value: param2Item.param2dataname,
+                                            })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                            {param2Item?.param2dataname}
+                                        </p>
+                                    ))}
+                                    {/* {
                                         menuname: leval1menu?.menuname,
                                         key: leval1menu?.param0name,
                                         value: leval1menu?.param0dataname,
@@ -663,34 +703,48 @@ const Header = () => {
                                         key: param2Item.param2name,
                                         value: param2Item.param2dataname,
                                       } */}
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
-                        {/* <div style={{ display: 'flex', gap: '15px' }}>
+                    {/* <div style={{ display: 'flex', gap: '15px' }}>
                   <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="#" className="menuImages" />
                   <img src={`${storImagePath()}/images/Menu/Menu2.jpg`} alt="#" className="menuImages" />
                 </div> */}
 
-                    </div>
                 </div>
+            </div>
             {/* } */}
             {/* mobileHeader................. */}
             <div className="dt_mobileViewHeaderMain" style={{ backgroundColor: drawerOpen ? 'white' : '#e1e1e1 ' }}>
                 <div className="dt_mobileView_div1">
-                    {drawerOpen ?
-                        <IconButton onClick={() => setDrawerOpen(false)}>
-                            <CloseIcon />
-                        </IconButton>
+                    {IsB2BWebsiteChek == 1 ? islogin &&
+                        (drawerOpen ?
+                            <IconButton onClick={() => setDrawerOpen(false)}>
+                                <CloseIcon />
+                            </IconButton>
+                            :
+                            <IconButton
+                                style={{ color: "#7D7F85" }}
+                                onClick={() => setDrawerOpen(true)}
+                                aria-label="open menu"
+                            >
+                                <MenuIcon style={{ fontSize: "35px" }} className="mobileViewSmilingTop4Icone" />
+                            </IconButton>)
                         :
-                        <IconButton
-                            style={{ color: "#7D7F85" }}
-                            onClick={() => setDrawerOpen(true)}
-                            aria-label="open menu"
-                        >
-                            <MenuIcon style={{ fontSize: "35px" }} className="mobileViewSmilingTop4Icone" />
-                        </IconButton>
+                        (drawerOpen ?
+                            <IconButton onClick={() => setDrawerOpen(false)}>
+                                <CloseIcon />
+                            </IconButton>
+                            :
+                            <IconButton
+                                style={{ color: "#7D7F85" }}
+                                onClick={() => setDrawerOpen(true)}
+                                aria-label="open menu"
+                            >
+                                <MenuIcon style={{ fontSize: "35px" }} className="mobileViewSmilingTop4Icone" />
+                            </IconButton>)
                     }
                 </div>
                 <div className="dt_mobileView_div2">
@@ -705,58 +759,115 @@ const Header = () => {
                         </li>
                     ) : */}
                     <ul className='dt_mobile_div3_ulMain'>
-                        {islogin &&
-                            <Badge
-                                badgeContent={wishCountNum}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                        marginInline: '10px'
-                                    },
-                                }}
-                                className='dt_mobile_div3_li1'
-                            >
-                                <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
-                                    <GoHeart color="#7D7F85" fontSize='30px' />
+
+                        {drawerOpen ?
+                            <>
+                                {IsB2BWebsiteChek == 1 ?
+                                    islogin &&
+                                    <Badge
+                                        badgeContent={wishCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                        className='dt_mobile_div3_li1'
+                                    >
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                            <GoHeart color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                    :
+                                    <Badge
+                                        badgeContent={wishCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                        className='dt_mobile_div3_li1'
+                                    >
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                            <GoHeart color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                }
+                            </>
+
+                            :
+                            <>
+                                {IsB2BWebsiteChek == 1 ?
+                                    islogin &&
+                                    <Badge
+                                        badgeContent={cartCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                    >
+                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                            <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                    :
+                                    <Badge
+                                        badgeContent={cartCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                    >
+                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                            <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                }
+                            </>
+                        }
+                        {drawerOpen &&
+                            (IsB2BWebsiteChek == 1 ?
+                                islogin &&
+                                <li
+                                    className='dt_mobile_div3_li1'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
-                            </Badge>
-                        }
+                                :
+                                <li
+                                    className='dt_mobile_div3_li1'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
+                                </li>)
 
-
-                        <Badge
-                            badgeContent={cartCountNum}
-                            max={1000}
-                            overlap={"rectangular"}
-                            color="secondary"
-                            sx={{
-                                '& .MuiBadge-badge': {
-                                    backgroundColor: '#a8807c',
-                                    marginInline: '10px'
-                                },
-                            }}
-                        >
-                            <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
-                                <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
-                            </li>
-                        </Badge>
-                        {islogin &&
-                            <li
-                                className='dt_mobile_div3_li1'
-                                style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
-                                <IoPersonOutline color="#7D7F85" fontSize='30px' />
-                            </li>
                         }
-                        {islogin ? (
-                            <li className='dt_mobile_div3_li3' style={{ marginInline: '10px' }} onClick={handleLogout}>
-                                <FaPowerOff fontSize='30px' color="#7D7F85" />
-                            </li>
-                        ) :
-                            <li style={{ marginInline: '10px' }} onClick={() => navigation('/LoginOption')}>
-                                <span style={{ display: 'block', width: '50px' }}>Log In</span>
-                            </li>
+                        {!drawerOpen &&
+                            (islogin ? (
+                                <li className='dt_mobile_div3_li3' style={{ marginInline: '10px' }} onClick={handleLogout}>
+                                    <FaPowerOff fontSize='30px' color="#7D7F85" />
+                                </li>
+                            ) :
+                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => navigation('/LoginOption')}>
+                                    <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                </li>
+                            )
                         }
                     </ul>
                     {/* } */}
@@ -784,6 +895,8 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
+
+
                                 {islogin == true &&
                                     <Badge
                                         badgeContent={wishCountNum}
@@ -848,7 +961,13 @@ const Header = () => {
                                         onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                                         style={{ width: '100%' }}
                                     >
-                                        <p style={{ padding: '0px 0px 10px 15px', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>{menuItem.menuname}</p>
+                                        <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>{menuItem.menuname}
+                                            {selectedMenu === menuItem.menuname ?
+                                                <FaChevronUp style={{ marginRight: '15px', color: '#9b978f' }} />
+                                                :
+                                                <FaChevronDown style={{ marginRight: '15px', color: '#9b978f' }} />
+                                            }
+                                        </p>
                                     </ButtonBase>
                                     {selectedMenu === menuItem.menuname && (
                                         <>
@@ -867,7 +986,7 @@ const Header = () => {
                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                                         >
-                                                            <p style={{ margin: '5px 0px 5px 15px' }}>{subMenuItem.param1dataname}</p>
+                                                            <p style={{ margin: '5px 0px 5px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                                                         </ButtonBase>
                                                         {selectedMenu === menuItem.menuname && (
                                                             <>
