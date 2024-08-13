@@ -1,56 +1,144 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Productdetail.scss'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import btnstyle from "../../../scss/Button.module.scss";
 import Slider from "react-slick";
 import Cookies from 'js-cookie'
+import imageNotFound from '../../../Assets/image-not-found.jpg';
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { SingleProdListAPI } from '../../../../../../utils/API/SingleProdListAPI/SingleProdListAPI';
 import Pako from 'pako';
-import { GoHeart } from "react-icons/go";
+import { GoHeart, GoHeartFill } from "react-icons/go";
+import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
+import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
+import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI';
+import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
+import { Checkbox, FormControl, Skeleton } from '@mui/material';
+import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import Services from '../../ReusableComponent/OurServives/OurServices';
+import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
+import RelatedProduct from './RelatedProduct/RelatedProduct';
+import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/NewsletterSignup';
+import { IoIosPlayCircle } from 'react-icons/io';
+import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
+import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
+import { useSetRecoilState } from 'recoil';
+import { for_CartCount, for_WishCount } from '../../../Recoil/atom';
 
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const sliderRef = useRef(null);
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
+  const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+  const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+  const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
+  const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
 
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-  const [isProdLoading, setIsProdLoading] = useState(false);
-  const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
-  const [prodListType, setprodListType] = useState();
-  const [productListData, setProductListData] = useState([]);
-  const [afterFilterCount, setAfterFilterCount] = useState();
-  const [filterData, setFilterData] = useState([]);
-  const [locationKey, setLocationKey] = useState();
+  const [metalType, setMetaltype] = useState([]);
+  const [diamondType, setDiamondType] = useState([]);
+  const [loginCurrency, setLoginCurrency] = useState();
+  const [storeInit, setStoreInit] = useState({});
+  const [metalTypeCombo, setMetalTypeCombo] = useState([])
+  const [diaQcCombo, setDiaQcCombo] = useState([])
+  const [csQcCombo, setCsQcCombo] = useState([])
+  const [selectDiaQc, setSelectDiaQc] = useState();
+  const [metalColor, setMetalColor] = useState();
+  const [isImageload, setIsImageLoad] = useState(true);
+  const [netWTData, setnetWTData] = useState([])
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
+  const [selectCsQC, setSelectCsQC] = useState();
   const [SizeCombo, setSizeCombo] = useState([]);
   const [sizeData, setSizeData] = useState();
+  const [thumbImgIndex, setThumbImgIndex] = useState()
+  const [pdThumbImg, setPdThumbImg] = useState([]);
+  console.log('pdThumbImg: ', pdThumbImg);
+  const [pdVideoArr, setPdVideoArr] = useState([]);
+  console.log('pdVideoArr: ', pdVideoArr);
+  const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState({});
+  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState({});
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
+  const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
   const [isDataFound, setIsDataFound] = useState(false)
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
   const [loadingdata, setloadingdata] = useState(false);
   const [path, setpath] = useState();
 
+  const setCartCountVal = useSetRecoilState(for_CartCount)
+  const setWishCountVal = useSetRecoilState(for_WishCount)
+  const [addToCardFlag, setAddToCartFlag] = useState(null);
+  const [wishListFlag, setWishListFlag] = useState(null);
+
+  const services = [
+    {
+      title: 'Free Shipping',
+      description: 'Now it\'s easier for customers to get the beautiful and sustainable diamonds they want without paying extra for shipping.',
+      image: 'https://forevery.one/images_new/new-home/free-ship.png',
+      link: '#',
+      btnText: "Read More"
+    },
+    {
+      title: 'Free 30 Day Returns',
+      description: 'Forevery offers a hassle-free jewelry shopping experience with its 30-DAY Returns policy. Get ready to shop confidently.',
+      image: 'https://forevery.one/images_new/new-home/free-return.png',
+      link: '#',
+      btnText: "Read More"
+    },
+    {
+      title: 'Free Lifetime Warranty',
+      description: 'Shop with Confidence; a lifetime warranty covers every piece of fine jewelry you buy.',
+      image: 'https://forevery.one/images_new/new-home/waranty.png',
+      link: '#',
+      btnText: "Read More"
+    },
+    {
+      title: '60-Days Free Resizing',
+      description: 'Within 60 days of purchase, resize your jewelry to the perfect fit without any additional costs.',
+      image: 'https://forevery.one/images_new/new-home/resizing.png',
+      link: '#',
+      btnText: "Read More"
+    },
+    {
+      title: 'Free Engraving',
+      description: 'Add sentimental value to the piece and make it a unique and meaningful gift.',
+      image: 'https://forevery.one/images_new/new-home/engraving.png',
+      link: '#',
+      btnText: "Read More"
+    }
+  ];
+
 
   const baseUrl = `https://www.forevery.one/storage/jewelry_media/`;
   const settings = {
     customPaging: function (i) {
       return (
-        <a className="for_ProductDet_thumb_image_div">
-          <img className="for_ProductDet_image_thumb" src={`${baseUrl}614/${i + 1538}.jpg`} />
-        </a>
+        <>
+          <a className="for_ProductDet_thumb_image_div" onClick={(e) => {
+            e.preventDefault();
+            if (sliderRef.current) {
+              sliderRef.current.slickGoTo(i); // Go to the slide associated with the clicked thumbnail
+            }
+          }}>
+            <img className="for_ProductDet_image_thumb" src={`${baseUrl}614/${i + 1538}.jpg`} />
+          </a>
+        </>
       );
     },
+
     dots: true,
     arrows: false,
     dotsClass: "for_slick_thumb",
@@ -59,6 +147,244 @@ const ProductDetail = () => {
     slidesToShow: 1,
     slidesToScroll: 1
   }
+
+  const callAllApi = async () => {
+    if (!mTypeLocal || mTypeLocal?.length === 0) {
+      const res = await MetalTypeComboAPI(cookie);
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
+        setMetalTypeCombo(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setMetalTypeCombo(mTypeLocal);
+    }
+
+    if (!diaQcLocal || diaQcLocal?.length === 0) {
+      const res = await DiamondQualityColorComboAPI();
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+        setDiaQcCombo(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setDiaQcCombo(diaQcLocal)
+    }
+
+    if (!csQcLocal || csQcLocal?.length === 0) {
+      const res = await ColorStoneQualityColorComboAPI();
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+        setCsQcCombo(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setCsQcCombo(csQcLocal)
+    }
+
+    if (!mtColorLocal || mtColorLocal?.length === 0) {
+      const res = await MetalColorCombo(cookie);
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
+        setMetalColorCombo(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setMetalColorCombo(mtColorLocal)
+    }
+  }
+
+
+  useEffect(() => {
+    callAllApi();
+  }, [storeInit])
+
+  const handleCustomChange = async (e, type) => {
+    let metalArr;
+    let diaArr;
+    let csArr;
+    let size;
+
+    if (type === 'mt') {
+      metalArr = mTypeLocal?.find((ele) => {
+        return ele?.metaltype === e.target.value
+      })?.Metalid;
+      setMetaltype(e.target.value)
+    }
+    if (type === 'mc') {
+      setMetalColor(e.target.value)
+    }
+    if (type === 'dt') {
+      diaArr = diaQcLocal?.find((ele) => {
+        return ele?.Quality === e.target.value?.split(',')[0] &&
+          ele?.color === e.target.value?.split(",")[1]
+      })
+      setSelectDiaQc(e.target.value)
+    }
+    if (type === 'cs') {
+      csArr = csQcLocal.find((ele) => {
+        return ele?.Quality === e.target.value?.split(',')[0] &&
+          ele?.color === e.target.value?.split(",")[1]
+      })
+      setSelectCsQC(e.target.value)
+    }
+    if (type === "size") {
+      setSizeData(e.target.value)
+      size = e.target.value
+    }
+
+    if (metalArr == undefined) {
+      metalArr =
+        mTypeLocal?.filter(
+          (ele) => ele?.metaltype == metalType
+        )[0]?.Metalid
+    }
+
+    if (diaArr == undefined) {
+      diaArr =
+        diaQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == selectDiaQc?.split(",")[0] &&
+            ele?.color == selectDiaQc?.split(",")[1]
+        )[0]
+    }
+
+    if (csArr == undefined) {
+      csArr =
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == selectCsQC?.split(",")[0] &&
+            ele?.color == selectCsQC?.split(",")[1]
+        )[0]
+    }
+
+    let obj = {
+      mt: metalArr,
+      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+    }
+
+
+    let prod = {
+      a: singleProd?.autocode,
+      b: singleProd?.designno
+    }
+
+    setisPriceLoading(true)
+    const res = await SingleProdListAPI(prod, (size ?? sizeData), obj, cookie)
+    if (res) {
+      setSingleProd1(res?.pdList[0])
+    }
+
+    if (res?.pdList?.length > 0) {
+      setisPriceLoading(false)
+    }
+    setnetWTData(res?.pdList[0])
+    setDiaList(res?.pdResp?.rd3)
+    setCsList(res?.pdResp?.rd4)
+  }
+
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  const handleMetalWiseColorImg = async (e) => {
+
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == e.target.value
+        )[0]
+    }
+
+    setMetalColor(e.target.value)
+
+    let imgLink = storeInit?.DesignImageFol +
+      (singleProd ?? singleProd1)?.designno +
+      "_" +
+      (thumbImgIndex + 1) + "_" + mcArr?.colorcode +
+      "." +
+      (singleProd ?? singleProd1)?.ImageExtension;
+
+    // setMetalWiseColorImg(imgLink)
+
+    let isImg = await checkImageAvailability(imgLink)
+
+    let pd = singleProd;
+    let pdImgListCol = [];
+    let pdImgList = [];
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+        pdImgListCol.push(imgString);
+      }
+    }
+
+    if (singleProd?.ImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "." +
+          singleProd?.ImageExtension;
+        pdImgList.push(imgString);
+      }
+    }
+
+
+    let isImgCol;
+
+    if (pdImgListCol?.length > 0) {
+      isImgCol = await checkImageAvailability(pdImgListCol[0])
+    }
+
+    if (pdImgListCol?.length > 0 && (isImgCol == true)) {
+      setPdThumbImg(pdImgListCol)
+      setSelectedThumbImg({ "link": pdImgListCol[thumbImgIndex], "type": 'img' });
+      setThumbImgIndex(thumbImgIndex)
+
+    }
+    else {
+      if (pdImgList?.length > 0) {
+        setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
+        setPdThumbImg(pdImgList)
+        setThumbImgIndex(thumbImgIndex)
+      }
+    }
+
+    // console.log("pdImgList",pdImgList,pdImgListCol)
+  }
+
 
   const BreadCumsObj = () => {
     let BreadCum = location?.search.split("?p=")[1];
@@ -85,12 +411,11 @@ const ProductDetail = () => {
     return result
   }
 
-
-
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
-    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
+    console.log('decodeobj: ', decodeobj);
     if (decodeobj) {
       setDecodeUrl(decodeobj);
       setpath(decodeobj?.p)
@@ -184,35 +509,35 @@ const ProductDetail = () => {
           }
           return res;
         })
-        // .then(async (resp) => {
-        //   if (resp) {
-        //     await getSizeData(resp?.pdList[0], cookie)
-        //       .then((res) => {
-        //         console.log("Sizeres", res);
-        //         setSizeCombo(res?.Data);
-        //       })
-        //       .catch((err) => console.log("SizeErr", err));
+        .then(async (resp) => {
+          if (resp) {
+            await getSizeData(resp?.pdList[0], cookie)
+              .then((res) => {
+                console.log("Sizeres", res);
+                setSizeCombo(res?.Data);
+              })
+              .catch((err) => console.log("SizeErr", err));
 
-        //     if (storeinitInside?.IsStockWebsite === 1) {
-        //       await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
-        //         setStockItemArr(res?.Data?.rd)
-        //       }).catch((err) => console.log("stockItemErr", err))
-        //     }
+            //     if (storeinitInside?.IsStockWebsite === 1) {
+            //       await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+            //         setStockItemArr(res?.Data?.rd)
+            //       }).catch((err) => console.log("stockItemErr", err))
+            //     }
 
-        //     if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
-        //       await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
-        //         setSimilarBrandArr(res?.Data?.rd)
-        //       }).catch((err) => console.log("similarbrandErr", err))
-        //     }
+            if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
+              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                setSimilarBrandArr(res?.Data?.rd)
+              }).catch((err) => console.log("similarbrandErr", err))
+            }
 
-        //     if (storeinitInside?.IsProductDetailDesignSet === 1) {
-        //       await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-        //         // console.log("designsetList",res?.Data?.rd[0])
-        //         setDesignSetList(res?.Data?.rd)
-        //       }).catch((err) => console.log("designsetErr", err))
-        //     }
-        //   }
-        // })
+            //     if (storeinitInside?.IsProductDetailDesignSet === 1) {
+            //       await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+            //         // console.log("designsetList",res?.Data?.rd[0])
+            //         setDesignSetList(res?.Data?.rd)
+            //       }).catch((err) => console.log("designsetErr", err))
+            //     }
+          }
+        })
         .catch((err) => console.log("err", err));
     };
 
@@ -241,6 +566,263 @@ const ProductDetail = () => {
     } catch (error) {
       console.error("Error decoding and decompressing:", error);
       return null;
+    }
+  }
+
+  const ProdCardImageFunc = async () => {
+    let finalprodListimg;
+    let pdImgList = [];
+    let pdvideoList = [];
+
+    let pd = singleProd;
+
+    let colImg;
+
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0]
+    }
+
+    if (singleProd?.ColorImageCount > 0) {
+      for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          singleProd?.designno +
+          "_" +
+          i +
+          "_" + mcArr?.colorcode +
+          "." +
+          singleProd?.ImageExtension;
+
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+
+      if (pdImgList?.length > 0) {
+        colImg = pdImgList[0]
+      }
+    }
+
+
+    let IsColImg = false;
+    if (colImg?.length > 0) {
+      IsColImg = await checkImageAvailability(colImg)
+    }
+
+    console.log("colImg", IsColImg)
+
+    if (pd?.ImageCount > 0 && !IsColImg) {
+      for (let i = 1; i <= pd?.ImageCount; i++) {
+        let imgString =
+          storeInit?.DesignImageFol +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.ImageExtension;
+
+        let IsImg = checkImageAvailability(imgString)
+        if (IsImg) {
+          pdImgList.push(imgString);
+        }
+      }
+    } else {
+      finalprodListimg = imageNotFound;
+    }
+
+    console.log("SearchData", pd?.VideoCount);
+
+    if (pd?.VideoCount > 0) {
+      for (let i = 1; i <= pd?.VideoCount; i++) {
+        let videoString =
+          (storeInit?.DesignImageFol).slice(0, -13) +
+          "video/" +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.VideoExtension;
+        pdvideoList.push(videoString);
+      }
+    }
+    else {
+      pdvideoList = [];
+    }
+
+    let FinalPdImgList = [];
+
+    if (pdImgList?.length > 0) {
+      for (let i = 0; i < pdImgList?.length; i++) {
+        let isImgAvl = await checkImageAvailability(pdImgList[i])
+        if (isImgAvl) {
+          FinalPdImgList.push(pdImgList[i])
+        }
+      }
+    }
+
+    console.log("SearchData", singleProd);
+
+    if (FinalPdImgList?.length > 0) {
+      finalprodListimg = FinalPdImgList[0];
+      setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
+      setPdThumbImg(FinalPdImgList);
+      setThumbImgIndex(0)
+    }
+
+    if (pdvideoList?.length > 0) {
+      setPdVideoArr(pdvideoList);
+      if (FinalPdImgList.length < 1) {
+        setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
+      }
+    }
+
+    return finalprodListimg;
+
+
+  };
+
+  useEffect(() => {
+    ProdCardImageFunc();
+  }, [singleProd, location?.key]);
+
+  const handleCart = async (cartFlag) => {
+    console.log('cartFlag: ', cartFlag);
+    const metal =
+      metalTypeCombo?.find((ele) => {
+        return ele?.metaltype == metalType
+      }) ?? metalTypeCombo;
+
+    const dia =
+      diaQcCombo?.find((ele) => {
+        return ele?.Quality == selectDiaQc?.split(",")[0] &&
+          ele?.color == selectDiaQc?.split(",")[1]
+      }) ?? diaQcCombo;
+
+    const cs =
+      csQcCombo?.find((ele) => {
+        return ele?.Quality == selectCsQC?.split(",")[0] &&
+          ele?.color == selectCsQC?.split(",")[1]
+      }) ?? csQcCombo;
+
+    const mcArr =
+      metalColorCombo?.find((ele) => {
+        return ele?.metalcolorname == metalColor
+      }) ?? metalColorCombo;
+
+    const prodObj = {
+      autocode: singleProd?.autocode,
+      Metalid: metal?.Metalid,
+      MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
+      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
+      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      Size: sizeData ?? singleProd?.DefaultSize,
+      Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+      markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      Remark: "",
+    }
+
+    if (cartFlag) {
+      let res = await CartAndWishListAPI("Cart", prodObj, cookie);
+      if (res) {
+        try {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        } catch (error) {
+          console.log("err", error)
+        }
+        setAddToCartFlag(cartFlag);
+      }
+    }
+    else {
+      let res1 = await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie);
+      if (res1) {
+        try {
+          let cartC = res1?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res1?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        } catch (error) {
+          console.log("err", error);
+        }
+        setAddToCartFlag(cartFlag);
+      }
+    }
+  }
+
+  const handleWishList = async (e, ele) => {
+    console.log('e: ', e);
+    setWishListFlag(e?.target?.checked);
+
+    const metal =
+      metalTypeCombo?.find((ele) => {
+        return ele?.metaltype == metalType
+      }) ?? metalTypeCombo;
+
+    const dia =
+      diaQcCombo?.find((ele) => {
+        return ele?.Quality == selectDiaQc?.split(",")[0] &&
+          ele?.color == selectDiaQc?.split(",")[1]
+      }) ?? diaQcCombo;
+
+    const cs =
+      csQcCombo?.find((ele) => {
+        return ele?.Quality == selectCsQC?.split(",")[0] &&
+          ele?.color == selectCsQC?.split(",")[1]
+      }) ?? csQcCombo;
+
+    const mcArr =
+      metalColorCombo?.find((ele) => {
+        return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+      }) ?? metalColorCombo;
+
+    const prodObj = {
+      autocode: singleProd?.autocode,
+      Metalid: metal?.Metalid,
+      MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
+      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
+      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      Size: sizeData ?? singleProd?.DefaultSize,
+      Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+      markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+      UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+      Remark: "",
+    }
+
+    if (e.target.checked === true) {
+      let res = await CartAndWishListAPI("Wish", prodObj, cookie);
+      if (res) {
+        try {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        } catch (error) {
+          console.log("err", error)
+        }
+      }
+    }
+    else {
+      let res1 = await RemoveCartAndWishAPI("Wish", singleProd?.autocode, cookie);
+      if (res1) {
+        try {
+          let cartC = res1?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res1?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        } catch (error) {
+          console.log("err", error);
+        }
+      }
     }
   }
 
@@ -298,6 +880,30 @@ const ProductDetail = () => {
 
   }
 
+  useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem("storeInit"));
+    setStoreInit(data);
+
+    const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+    setLoginCurrency(loginData)
+
+    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    setSelectedMetalId(mtid);
+
+    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    setSelectedDiaId(diaid);
+
+    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    setSelectedCsId(csid);
+
+    let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+    setMetaltype(metalTypeDrpdown);
+
+    let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+    setDiamondType(diamondTypeDrpdown);
+
+  }, []);
+
 
   useEffect(() => {
     window.scroll({
@@ -306,6 +912,54 @@ const ProductDetail = () => {
     });
   }, [])
 
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const handleMoveToDetail = (productData) => {
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: selectedMetalId,
+      d: selectedDiaId,
+      c: selectedCsId,
+      p: BreadCumsObj(),
+      f: {},
+    };
+    console.log("ksjkfjkjdkjfkjsdk--", obj);
+    // compressAndEncode(JSON.stringify(obj))
+
+    // decodeAndDecompress()
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    navigate(
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
+
+  const SizeSorting = (SizeArr) => {
+
+    let SizeSorted = SizeArr?.sort((a, b) => {
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+
+      return nameA - nameB;
+    })
+
+    return SizeSorted
+
+  }
 
   return (
     <div className="for_ProductDet_mainDiv">
@@ -314,7 +968,7 @@ const ProductDetail = () => {
           <div className="for_ProductDet_container_div">
             <div className="for_ProductDet_left_prodImages">
               <div className="for_slider_container">
-                <Slider className="for_slick_slider" {...settings}>
+                <Slider className="for_slick_slider" {...settings} ref={sliderRef}>
                   <div className="for_ProductDet_image_div">
                     <img className="for_ProductDet_image" src={`${baseUrl}614/1538.jpg`} />
                   </div>
@@ -411,12 +1065,236 @@ const ProductDetail = () => {
                     </div>
                   </div>
                   <div className="for_ProductDet_title_wishlist">
-                    <GoHeart className="for_wishlist_icon" />
+                    {/* <GoHeart className="for_wishlist_icon" checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                      onChange={(e) => handleWishList(e, singleProd)} /> */}
+                    <Checkbox
+                      icon={
+                        <GoHeartFill size={26} color='black' />
+                      }
+                      checkedIcon={
+                        <GoHeart size={26} color='black' />
+                      }
+                      
+                      className='for_wishlist_icon'
+                      disableRipple={true}
+                      checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                      onChange={(e) => handleWishList(e, singleProd, 'Wish')}
+                    />
                   </div>
                 </div>
-
+                <div className="for_ProductDet_prodWeights_div">
+                  {storeInit?.IsProductWebCustomization == 1 &&
+                    metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                      <>
+                        <div className="for_prodWeights_metalType_div">
+                          <div className="for_prodWeights_metalType_title">
+                            Metal:
+                          </div>
+                          {singleProd?.IsMrpBase == 1 ?
+                            <span className="for_prodWeights_weights_drp">
+                              {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                            </span>
+                            :
+                            <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              <select
+                                className="for_prodWeights_weights_drp"
+                                value={metalType}
+                                onChange={(e) => handleCustomChange(e, 'mt')}
+                              >
+                                {metalTypeCombo.map((ele) => (
+                                  <option key={ele?.Metalid} value={ele?.metaltype}>
+                                    {ele?.metaltype}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          }
+                        </div>
+                        {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
+                          <div className="for_prodWeights_metalType_div">
+                            <div className="for_prodWeights_metalType_title">
+                              metal color
+                            </div>
+                            {singleProd?.IsMrpBase == 1 ?
+                              <span className="for_prodWeights_weights_drp">
+                                {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                              </span>
+                              :
+                              <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                                <select
+                                  className="for_prodWeights_weights_drp"
+                                  value={metalColor}
+                                  onChange={(e) => handleMetalWiseColorImg(e)}
+                                >
+                                  {metalColorCombo?.map((ele) => (
+                                    <option key={ele?.id} value={ele?.metalcolorname}>
+                                      {ele?.metalcolorname}
+                                    </option>
+                                  ))}
+                                </select>
+                              </FormControl>
+                            }
+                          </div>
+                        )}
+                        {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                          <div className="for_prodWeights_metalType_div">
+                            <div className="for_prodWeights_metalType_title">
+                              Diamond Quality
+                            </div>
+                            <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              <select
+                                className="for_prodWeights_weights_drp"
+                                value={selectDiaQc}
+                                onChange={(e) => handleCustomChange(e, 'dt')}
+                              >
+                                {diaQcCombo.map((ele) => (
+                                  <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                    {`${ele?.Quality}#${ele?.color}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          </div>
+                        ) : null}
+                        {(storeInit?.IsCsCustomization === 1 &&
+                          selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                          <div className="for_prodWeights_metalType_div">
+                            <div className="for_prodWeights_metalType_title">
+                              Color stone quality
+                            </div>
+                            <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              <select
+                                className="for_prodWeights_weights_drp"
+                                value={selectCsQC}
+                                onChange={(e) => handleCustomChange(e, 'cs')}
+                              >
+                                {csQcCombo.map((ele) => (
+                                  <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                    {`${ele?.Quality}#${ele?.color}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          </div>
+                        ) : null}
+                        {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                          <div className="for_prodWeights_metalType_div">
+                            <div className="for_prodWeights_metalType_title">
+                              Size
+                            </div>
+                            {singleProd?.IsMrpBase == 1 ?
+                              <span className="for_prodWeights_weights_drp">
+                                {singleProd?.DefaultSize}
+                              </span>
+                              :
+                              <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                                <select
+                                  className="for_prodWeights_weights_drp"
+                                  value={sizeData}
+                                  onChange={(e) => handleCustomChange(e, 'size')}
+                                >
+                                  {SizeSorting(SizeCombo?.rd)?.map((ele) => (
+                                    <option key={ele?.id} value={ele?.sizename}>
+                                      {ele?.sizename}
+                                    </option>
+                                  ))}
+                                </select>
+                              </FormControl>
+                            }
+                          </div>
+                        )}
+                      </>
+                    )}
+                </div>
+                <div className="for_productDet_price_div">
+                  <span>INR <span>{Number(50000).toLocaleString('en-IN')}</span></span>
+                </div>
+                <div className="for_productDet_ATC_div">
+                  <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
+                    {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
+                  </button>
+                </div>
+                <div className="for_productDet_shipping_fee_div">
+                  <div className="for_productDet_shipping_icon">
+                    <img className='for_productDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                  </div>
+                  <div className="for_productDet_shipp_desc">
+                    <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
+                    <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
+                  </div>
+                </div>
+                <div className="for_productDet_calender_div">
+                  <div className="for_productDet_calender_icon">
+                    <img className='for_productDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
+                  </div>
+                  <div className="for_productDet_calender_desc">
+                    <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
+                    <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+          <div className="for_ProductDet_prod_desc_mainDIv">
+            <div className="for_ProductDet_desc">
+              <span className='for_ProductDet_desc_title'>Product Description</span>
+              <p className='for_ProductDet_desc_1_para'>Discover unparalleled elegance with our Italian-crafted Oval Diamond Ring, a masterpiece designed for the discerning luxury connoisseur. This exquisite ring features a brilliant oval lab-grown diamond, known for its impeccable clarity and extraordinary brilliance. Handcrafted in Italy, this piece marries timeless design with cutting-edge technology, offering a sustainable and ethically sourced alternative to traditional diamonds</p>
+            </div>
+            <div className="for_ProductDet_desc">
+              <span className='for_ProductDet_desc_title'>Diamond Rings Information</span>
+              <p className='for_ProductDet_desc_2_para'>Key Features: <br />
+                Lab-Grown Diamond: Our oval diamond is meticulously created in a state-of-the-art laboratory, ensuring superior quality and ethical sourcing.
+                Italian Craftsmanship: Each ring is handcrafted by skilled artisans in Italy, reflecting centuries of tradition and a commitment to perfection.
+                Luxurious Setting: The diamond is set in a sleek, modern band made from the finest materials, designed to highlight the stone's natural beauty.</p>
+            </div>
+            <div className="for_ProductDet_desc">
+              <span className='for_ProductDet_desc_title'>Stone Information</span>
+              <div className='for_ProductDet_desc_div'>
+                <div>Diamond Size : <span>0.50CT To 3.00CT</span></div>
+                <div>Diamond Quality : <span>VVS2/VS1</span></div>
+                <div>Diamond Color : <span> D / E</span></div>
+                <div>Diamond Origin : <span>Lab Grown Diamond CVD TYPE 2A</span></div>
+                <div>CARAT WEIGHT : <span>0.5</span></div>
+              </div>
+              {diaList?.length > 0 && (
+                <>
+                  <div style={{ marginBlock: '10px' }}>
+                    <TableComponents list={diaList} details={'Diamond Details'} />
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="for_ProductDet_services_div">
+            <Services title={"Our Exclusive services"} services={services} />
+          </div>
+          <div className="for_ProductDet_Similiar_products_div">
+            <RelatedProduct
+              SimilarBrandArr={SimilarBrandArr}
+              handleMoveToDetail={handleMoveToDetail}
+              storeInit={storeInit}
+              loginInfo={loginUserDetail}
+            />
+          </div>
+        </div>
+        <div className="for_ProductDet_trend_coll_banner_div">
+          <div className="for_trend_coll_details_div">
+            <div className="for_trend_coll_det_title">
+              <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+              <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
+              <div className='for_trend_coll_para'>
+                <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+              </div>
+              <div className="for_trend_coll_btn">
+                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15}`}>View all jewelry collection</button>
+              </div>
+            </div>
+          </div>
+          <div className='for_trend_coll_image_div'>
+            <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DetailsBanner/fine-jewelery-banner.webp`} alt="" />
+          </div>
+          <div className="for_ProductDet_NewsLetter">
+            <NewsletterSignup />
           </div>
         </div>
       </div>
@@ -425,3 +1303,61 @@ const ProductDetail = () => {
 }
 
 export default ProductDetail
+
+const TableComponents = ({ list, details }) => {
+
+  const pcsTotalVal = [];
+  const wtTotalVal = [];
+
+  const getTotalPcs = list?.reduce((total, pcs) => total + pcs?.M, 0)
+  pcsTotalVal.push({
+    total: getTotalPcs
+  })
+  const getTotalWt = list?.reduce((total, WT) => total + WT?.N, 0)
+  wtTotalVal.push({
+    total: getTotalWt.toFixed(3)
+  })
+
+  return (
+    <>
+      <ul class='for_ProductDet_diaDet_ff'>
+        <li>
+          <div>
+            {details.includes('MISC') ? (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}gm)</span>
+              </>
+            ) : (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+              </>
+            )}
+          </div>
+        </li>
+      </ul>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        <table style={{ width: '75rem', marginInline: 'auto', }}>
+          <thead className='for_ProductDet_weight_names_ff' style={{ color: '#7d7f85', fontWeight: '600', textDecoration: 'underline' }}>
+            <tr style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <th style={{ flex: '1' }}>Shape</th>
+              <th style={{ flex: '1' }}>Clarity</th>
+              <th style={{ flex: '1' }}>Color</th>
+              <th style={{ flex: '1' }}>Pcs/wt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list?.map((val, i) => (
+              <tr key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}/{(val?.N).toFixed(3)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+
+}

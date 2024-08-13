@@ -2,10 +2,10 @@ import React from 'react';
 import './OurServices.scss';
 
 
-const Services = ({services}) => {
+const Services = ({ title, services }) => {
   return (
     <div className='for_serviceMainDiv'>
-        <h2>Our Services</h2>
+      <h2>{title}</h2>
       <div className="for_services-container">
         <div className="for_services-list">
           {services?.map((service, index) => (

@@ -1,11 +1,11 @@
 @import "../../../scss/variable.scss";
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 
 .for_ProductDet_mainDiv {
     .for_ProductDet_div {
         margin-top: 8rem;
 
         .for_ProductDet_details_container {
-            border: 1px solid blue;
             max-width: 82.5rem;
             margin-inline: auto;
 
@@ -19,6 +19,21 @@
                 width: 65px;
             }
 
+            .for_ProductDet_prod_img_list {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                bottom: 8rem;
+                gap: 10px;
+        
+                .for_ProductDet_image {
+                    height: 58px;
+                    width: 58px;
+                    border: 1px solid #e1e1e1;
+                    cursor: pointer;
+                }
+            }
+
 
 
             .for_ProductDet_container_div {
@@ -27,7 +42,6 @@
                 gap: 45px;
 
                 .for_ProductDet_left_prodImages {
-                    border: 1px solid green;
                     flex: 1 50%;
 
                     .for_slider_container {
@@ -54,9 +68,9 @@
                 }
 
                 .for_ProductDet_right_prodDetails {
-                    border: 1px solid orange;
                     flex: 1 50%;
                     font-family: $primaryFontFamily;
+                    height: 36rem;
 
                     .for_ProductDet_breadcrumbs {
                         font-size: 13px;
@@ -74,6 +88,7 @@
                     .for_ProductDet_title_main_div {
                         display: flex;
                         justify-content: space-between;
+                        margin-bottom: 8px;
 
                         .for_ProductDet_title_div {
                             display: flex;
@@ -102,8 +117,263 @@
 
                     }
 
+                    .for_ProductDet_prodWeights_div {
+                        font-family: $primaryFontFamily;
+
+                        .for_prodWeights_metalType_div {
+                            display: flex;
+                            justify-content: start;
+                            align-items: center;
+                            padding-bottom: 15px;
+
+                            .for_prodWeights_metalType_title {
+                                width: 11rem;
+                                font-size: $fontSize3;
+                                font-weight: 700;
+                                text-transform: capitalize;
+                            }
+
+                            .for_prodWeights_weights_drp {
+                                background: transparent;
+                                border: none;
+                                font-size: 13px;
+                                text-transform: uppercase;
+                                font-family: $primaryFontFamily;
+                                color: $primaryfontcolor2;
+                                outline: none;
+                                font-weight: 600;
+                                border-bottom: 1px solid #707070;
+
+                                select:hover {
+                                    background-color: black;
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
+
+                    .for_productDet_price_div {
+                        margin-top: 2rem;
+                        display: flex;
+                        font-size: 30px;
+                        color: #030303D6;
+                        font-weight: 700;
+                    }
+
+                    .for_productDet_ATC_div {
+                        margin-top: 1.5rem;
+
+                        .for_productDet_ATC {
+                            text-transform: uppercase;
+                            width: 288px;
+                            height: 44px;
+                            font-size: $fontSize4;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .for_productDet_shipping_fee_div {
+                        margin-top: 2rem;
+                        display: flex;
+                        gap: 10px;
+
+                        .for_productDet_shipping_icon {
+
+                            .for_productDet_shipp_image {
+                                max-width: 40px;
+                            }
+                        }
+
+                        .for_productDet_shipp_desc {
+                            display: flex;
+                            flex-direction: column;
+
+                            .for_shipp_desc_title_1 {
+                                color: $titleColor;
+                                font-size: $fontSize2;
+                                font-weight: 600;
+                                text-transform: capitalize;
+                            }
+
+                            .for_shipp_desc_title_2 {
+                                color: #313131;
+                                font-size: $fontSize1;
+                                line-height: normal;
+                                max-width: 500px;
+                                font-weight: 600;
+
+                                .for_shipp_desc_bold {
+                                    font-weight: 700;
+                                }
+                            }
+                        }
+                    }
+
+
+                    .for_productDet_calender_div {
+                        margin-top: 0.8rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+
+                        .for_productDet_calender_icon {
+
+                            .for_productDet_calender_image {
+                                max-width: 40px;
+                                margin-left: 5px;
+                            }
+                        }
+
+                        .for_productDet_calender_desc {
+                            display: flex;
+                            flex-direction: column;
+
+                            .for_calender_desc_title_1 {
+                                color: $titleColor;
+                                font-size: $fontSize2;
+                                font-weight: 600;
+                                text-transform: capitalize;
+                            }
+
+                            .for_calender_desc_title_2 {
+                                color: #313131;
+                                font-size: $fontSize2;
+                                line-height: normal;
+                                max-width: 500px;
+                                font-weight: 600;
+
+                                .for_calender_desc_bold {
+                                    font-weight: 700;
+                                }
+                            }
+                        }
+                    }
+
 
                 }
+            }
+
+            .for_ProductDet_prod_desc_mainDIv {
+                margin-top: 3rem;
+                margin-bottom: 5rem;
+                font-family: $primaryFontFamily;
+
+                .for_ProductDet_desc {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .for_ProductDet_desc_title {
+                        font-size: $fontSize4;
+                        text-transform: capitalize;
+                        font-weight: 700;
+                    }
+
+                    .for_ProductDet_desc_1_para {
+                        font-size: $fontSize2;
+                    }
+
+                    .for_ProductDet_desc_2_para {
+                        font-size: $fontSize2;
+                        text-transform: uppercase;
+                    }
+
+                    .for_ProductDet_desc_div {
+                        font-size: $fontSize2;
+                        color: $primaryfontcolor2;
+                    }
+
+                    .for_ProductDet_diaDet_ff {
+                        text-align: left;
+                        font-weight: 700;
+                        color: $primaryfontcolor2;
+                        margin-block: 5px;
+                        padding-left: 20px;
+                        font-family: $primaryFontFamily;
+                    }
+
+                    .for_ProductDet_weights_ff {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .for_ProductDet_weight_names_ff {
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+
+            .for_ProductDet_Similiar_products_div {
+                margin-top: 5rem;
+                max-width: 90rem;
+                margin-inline: auto;
+            }
+        }
+
+        .for_ProductDet_trend_coll_banner_div {
+            margin-top: 3rem;
+
+            .for_trend_coll_image {
+                width: 100%;
+            }
+
+            .for_trend_coll_details_div {
+                position: relative;
+
+                .for_trend_coll_det_title {
+                    position: absolute;
+                    right: 0;
+                    width: 52%;
+                    height: auto;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    margin-top: 7rem;
+
+                    .for_trenf_coll_tit1 {
+                        text-align: center;
+                        font-family: "Parisienne", cursive;
+                        font-size: 35px;
+                        font-weight: 500;
+                    }
+
+                    .for_trenf_coll_tit2 {
+                        text-align: center;
+                        font-family: "Nunito", sans-serif;
+                        font-size: 40px;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                    }
+
+                    .for_trend_coll_para {
+                        width: 69%;
+                        margin-inline: auto;
+
+                        p {
+                            text-align: center;
+                            font-size: $fontSize2;
+                            line-height: 25px;
+                        }
+                    }
+
+                    .for_trend_coll_btn {
+                        display: flex;
+                        justify-content: center;
+
+                        .for_trend_jewel_coll {
+                            text-transform: uppercase;
+                            width: 22rem;
+                            height: 40px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            background: transparent;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -112,7 +382,6 @@
 
 .for_slick_thumb {
     position: absolute;
-    border: 1px solid red;
     right: 35.4rem;
     bottom: 22.45rem;
     display: flex !important;
