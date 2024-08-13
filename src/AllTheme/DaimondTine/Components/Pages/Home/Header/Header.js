@@ -35,6 +35,7 @@ const Header = () => {
     const [leval1menu, setLeval1menu] = useState();
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+    const [socialMediaData, setSocialMediaData] = useState([]);
 
 
     const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount);
@@ -52,6 +53,16 @@ const Header = () => {
 
     useEffect(() => {
         const visiterID = Cookies.get("visiterId");
+        let companyInfoData;
+
+        if (sessionStorage.getItem("CompanyInfoData")) {
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
+            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+            if (parsedSocilaMediaUrlData) {
+              setSocialMediaData(parsedSocilaMediaUrlData)
+            }
+          }
+
         GetCountAPI(visiterID)
             .then((res) => {
                 if (res) {
@@ -378,13 +389,21 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px", color: '#acabab', textDecoration: 'none' }}>
+                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px",cursor:'pointer', color: '#acabab', textDecoration: 'none' }}>
                         Call: +91-98997 78849
                     </a>
                 </div>
                 <div className="dai_login_link">
                     {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
-                    <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} />
+
+                    {socialMediaData?.map((social, index) => (
+                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                        <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
+                          onError={(e) => { e.target.style.display = 'none'; }} />
+                      </a>
+                  ))}
+
+                    {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
                         <p style={{ margin: '0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
                             Login

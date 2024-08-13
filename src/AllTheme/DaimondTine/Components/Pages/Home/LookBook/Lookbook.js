@@ -51,6 +51,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { dt_CartCount, dt_loginState } from "../../../Recoil/atom";
+import Footer from "../Footer/Footer";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -928,7 +929,7 @@ const Lookbook = () => {
                       : ""}
                   </span>
                 </span>
-                <div style={{ marginTop: "12px" }}>
+                <div className="dt_lookBookShowMain" style={{ marginTop: "12px" }}>
                   {filterData?.map((ele) => (
                     <>
                       {!ele?.id?.includes("Range") &&
@@ -1163,10 +1164,10 @@ const Lookbook = () => {
                                     // }
                                     label={
                                       opt?.Minval == 0
-                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                     }
                                   />
                                 </div>
@@ -1204,7 +1205,7 @@ const Lookbook = () => {
                   onClick={handleOpen}
                   className="smr_lookBookSelectViewBtn"
                   style={{
-                    background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
+                    background: selectedCategories.length !== 0 ? "rgb(168, 128, 124)" : "#ffff",
                     color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85"
                   }}
                 >
@@ -2107,28 +2108,7 @@ const Lookbook = () => {
           </div>
         </div>
       )}
-      <div>
-        <p
-          style={{
-            paddingBlock: "30px",
-            margin: "0px",
-            textAlign: "center",
-            color: "white",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: 500,
-            letterSpacing: "1px",
-          }}
-          onClick={() =>
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            })
-          }
-        >
-          BACK TO TOP
-        </p>
-      </div>
+     <Footer />
     </div>
   );
 };
