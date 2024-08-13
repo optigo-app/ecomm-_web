@@ -70,9 +70,6 @@ const useCart = () => {
   const [csQua, setCsQua] = useState();
 
   const [visiterId, setVisiterId] = useState();
-  const islogin = useRecoilValue(loginState)
-  const setCartCountVal = useSetRecoilState(CartCount)
-  const setWishCountVal = useSetRecoilState(WishCount)
 
   const isLargeScreen = useMediaQuery('(min-width:1050px)');
   const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
@@ -110,7 +107,7 @@ const useCart = () => {
     setIsLoading(true);
     const visiterId = Cookies.get('visiterId');
     try {
-      const response = await fetchCartDetails(visiterId, islogin);
+      const response = await fetchCartDetails(visiterId);
 
       if (response?.Data) {
         setCartData(response?.Data?.rd);
@@ -133,7 +130,7 @@ const useCart = () => {
   };
 
 
-  console.log('hshahdhasghda', cartDrawer);
+
   useEffect(() => {
     getCartData();
   }, [cartStatus]);
@@ -206,7 +203,7 @@ const useCart = () => {
     }, 2);
 
     try {
-      const response = await removeFromCartList(item, param, visiterId, islogin);
+      const response = await removeFromCartList(item, param, visiterId);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg === "success") {
         return resStatus;
@@ -221,11 +218,11 @@ const useCart = () => {
   const handleRemoveAll = async () => {
     let param = "Cart"
     try {
-      const response = await removeFromCartList('IsDeleteAll', param, visiterId, islogin);
+      const response = await removeFromCartList('IsDeleteAll', param, visiterId);
       let resStatus = response.Data.rd[0]
       if (resStatus?.msg === "success") {
-        setCartCountVal(resStatus?.Cartlistcount)
-        setWishCountVal(resStatus?.Wishlistcount)
+        // setCartCountVal(resStatus?.Cartlistcount)
+        // setWishCountVal(resStatus?.Wishlistcount)
         setSelectedItem([]);
         getCartData();
         setCartData([]);
@@ -245,7 +242,7 @@ const useCart = () => {
   const handleCategorySize = async (item) => {
     const visiterId = Cookies.get('visiterId');
     try {
-      const response = await getSizeData(item, visiterId, islogin);
+      const response = await getSizeData(item, visiterId);
       if (response) {
         console.log('categoryData', response);
         setSizeCombo(response?.Data)
@@ -347,7 +344,7 @@ const useCart = () => {
   const handleSave = async (data) => {
     setShowRemark(false);
     try {
-      const response = await handleProductRemark(data, productRemark, visiterId, islogin);
+      const response = await handleProductRemark(data, productRemark, visiterId);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
         const updatedCartData = cartData.map(cart =>
@@ -384,7 +381,7 @@ const useCart = () => {
     setQtyCount(prevCount => prevCount + 1);
 
     try {
-      const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
+      const response = await updateQuantity(item.id, newQuantity, visiterId);
       console.log("Quantity updated successfully:", response);
     } catch (error) {
       console.error("Failed to update quantity:", error);
@@ -400,7 +397,7 @@ const useCart = () => {
       setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
 
       try {
-        const response = await updateQuantity(item.id, newQuantity, visiterId, islogin);
+        const response = await updateQuantity(item.id, newQuantity, visiterId);
         console.log("Quantity updated successfully:", response);
       } catch (error) {
         console.error("Failed to update quantity:", error);
@@ -544,7 +541,7 @@ const useCart = () => {
   const handlePrice = async (selectedID, sizedata, diaId, csQid, selectedMetalId) => {
     try {
       setIsPriceLoding(true);
-      const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId, islogin);
+      const response = await fetchSingleProdDT(selectedItem, sizedata, diaId, csQid, selectedMetalId, visiterId);
       if (response?.Message === "Success") {
         const resData = response?.Data?.rd[0];
         const finalPrice = resData?.UnitCostWithMarkUp * qtyCount;

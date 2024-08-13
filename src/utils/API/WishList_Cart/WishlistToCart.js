@@ -1,8 +1,9 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const handleWishlistToCartAPI = async (param, item, visiterId, islogin) => {
+export const handleWishlistToCartAPI = async (param, item, visiterId) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = sessionStorage.getItem("loginUserDetail");
+    const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     const { FrontEnd_RegNo } = storeInit;
     const data = JSON.parse(storedData);
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
