@@ -200,12 +200,13 @@ const ForEveryRoutes = () => {
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/p/*" element={<ProductList />} />
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
         {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
-          <Route path="/d/*" element={<ProductDetail />} />
           
           
           <Route path="/Delivery" element={<Delivery />} />
@@ -214,7 +215,7 @@ const ForEveryRoutes = () => {
           <Route path="/account" element={<Account />} />
           </Route>
           <Route path="/Lookbook" element={<Lookbook />} /> */}
-        <Route path="/p/*" element={<ProductList />} />
+        
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
