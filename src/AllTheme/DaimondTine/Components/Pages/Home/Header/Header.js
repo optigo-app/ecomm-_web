@@ -35,6 +35,7 @@ const Header = () => {
     const [leval1menu, setLeval1menu] = useState();
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+    const [socialMediaData, setSocialMediaData] = useState([]);
 
 
     const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount);
@@ -52,6 +53,16 @@ const Header = () => {
 
     useEffect(() => {
         const visiterID = Cookies.get("visiterId");
+        let companyInfoData;
+
+        if (sessionStorage.getItem("CompanyInfoData")) {
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
+            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+            if (parsedSocilaMediaUrlData) {
+              setSocialMediaData(parsedSocilaMediaUrlData)
+            }
+          }
+
         GetCountAPI(visiterID)
             .then((res) => {
                 if (res) {
@@ -378,13 +389,21 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: '#acabab', textDecoration: 'none' }}>
-                        Call: +91-9810876359
+                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px",cursor:'pointer', color: '#acabab', textDecoration: 'none' }}>
+                        Call: +91-98997 78849
                     </a>
                 </div>
                 <div className="dai_login_link">
-                    <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
-                    <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} />
+                    {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
+
+                    {socialMediaData?.map((social, index) => (
+                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                        <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
+                          onError={(e) => { e.target.style.display = 'none'; }} />
+                      </a>
+                  ))}
+
+                    {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
                         <p style={{ margin: '0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
                             Login
@@ -521,15 +540,15 @@ const Header = () => {
                         }
                         {
                             islogin == true &&
-                                <Tooltip title="Account">
-                                    <li
-                                        className="dt_nav_li_smining"
-                                        style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                        onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
-                                    >
-                                        <IoPersonOutline color="#7D7F85" fontSize='25px' />
-                                    </li>
-                                </Tooltip>
+                            <Tooltip title="Account">
+                                <li
+                                    className="dt_nav_li_smining"
+                                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
+                                    onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
+                                >
+                                    <IoPersonOutline color="#7D7F85" fontSize='25px' />
+                                </li>
+                            </Tooltip>
                         }
                         {islogin &&
                             <li
@@ -591,6 +610,39 @@ const Header = () => {
                                 FAQS
                             </span>
                         </li>
+                        {IsB2BWebsiteChek == 1 ? (
+                            islogin === true ? (
+                                <>
+                                    {storeinit?.IsDesignSetInMenu == 1 &&
+                                        <li
+                                            className="dt_menu_li"
+                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                            onClick={() => navigation('/Lookbook')}
+                                        >
+                                            <span className="nav-li-sminingSpan">
+                                                {storeinit?.DesignSetInMenu}
+                                            </span>
+                                        </li>
+                                    }
+                                </>
+                            ) : (
+                                ""
+                            )
+                        ) : (
+                            <>
+                                {storeinit?.IsDesignSetInMenu == 1 &&
+                                    <li
+                                        className="dt_menu_li"
+                                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                        onClick={() => navigation('/Lookbook')}
+                                    >
+                                        <span className="nav-li-sminingSpan">
+                                            {storeinit?.DesignSetInMenu}
+                                        </span>
+                                    </li>
+                                }
+                            </>
+                        )}
                     </ul>
                 </>
             </div>
@@ -604,7 +656,7 @@ const Header = () => {
                 <div
                     style={{
                         display: "flex",
-                        padding: "50px",
+                        padding: "30px",
                         color: "#7d7f85",
                         gap: "50px",
                         justifyContent: 'space-between',
@@ -707,104 +759,115 @@ const Header = () => {
                         </li>
                     ) : */}
                     <ul className='dt_mobile_div3_ulMain'>
-                        {IsB2BWebsiteChek == 1 ?
-                            islogin &&
-                            <Badge
-                                badgeContent={wishCountNum}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                        marginInline: '10px'
-                                    },
-                                }}
-                                className='dt_mobile_div3_li1'
-                            >
-                                <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
-                                    <GoHeart color="#7D7F85" fontSize='30px' />
-                                </li>
-                            </Badge>
-                            :
-                            <Badge
-                                badgeContent={wishCountNum}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                        marginInline: '10px'
-                                    },
-                                }}
-                                className='dt_mobile_div3_li1'
-                            >
-                                <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
-                                    <GoHeart color="#7D7F85" fontSize='30px' />
-                                </li>
-                            </Badge>
-                        }
 
-                        {IsB2BWebsiteChek == 1 ?
-                            islogin &&
-                            <Badge
-                                badgeContent={cartCountNum}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                        marginInline: '10px'
-                                    },
-                                }}
-                            >
-                                <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
-                                    <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
-                                </li>
-                            </Badge>
-                            :
-                            <Badge
-                                badgeContent={cartCountNum}
-                                max={1000}
-                                overlap={"rectangular"}
-                                color="secondary"
-                                sx={{
-                                    '& .MuiBadge-badge': {
-                                        backgroundColor: '#a8807c',
-                                        marginInline: '10px'
-                                    },
-                                }}
-                            >
-                                <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
-                                    <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
-                                </li>
-                            </Badge>
-                        }
+                        {drawerOpen ?
+                            <>
+                                {IsB2BWebsiteChek == 1 ?
+                                    islogin &&
+                                    <Badge
+                                        badgeContent={wishCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                        className='dt_mobile_div3_li1'
+                                    >
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                            <GoHeart color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                    :
+                                    <Badge
+                                        badgeContent={wishCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                        className='dt_mobile_div3_li1'
+                                    >
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                            <GoHeart color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                }
+                            </>
 
-                        {IsB2BWebsiteChek == 1 ?
-                            islogin &&
-                            <li
-                                className='dt_mobile_div3_li1'
-                                style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
-                                <IoPersonOutline color="#7D7F85" fontSize='30px' />
-                            </li>
                             :
-                            <li
-                                className='dt_mobile_div3_li1'
-                                style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
-                                <IoPersonOutline color="#7D7F85" fontSize='30px' />
-                            </li>
+                            <>
+                                {IsB2BWebsiteChek == 1 ?
+                                    islogin &&
+                                    <Badge
+                                        badgeContent={cartCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                    >
+                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                            <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                    :
+                                    <Badge
+                                        badgeContent={cartCountNum}
+                                        max={1000}
+                                        overlap={"rectangular"}
+                                        color="secondary"
+                                        sx={{
+                                            '& .MuiBadge-badge': {
+                                                backgroundColor: '#a8807c',
+                                                marginInline: '10px'
+                                            },
+                                        }}
+                                    >
+                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                            <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
+                                        </li>
+                                    </Badge>
+                                }
+                            </>
                         }
-                        {islogin ? (
-                            <li className='dt_mobile_div3_li3' style={{ marginInline: '10px' }} onClick={handleLogout}>
-                                <FaPowerOff fontSize='30px' color="#7D7F85" />
-                            </li>
-                        ) :
-                            <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => navigation('/LoginOption')}>
-                                <span style={{ display: 'block', width: '50px' }}>Log In</span>
-                            </li>
+                        {drawerOpen &&
+                            (IsB2BWebsiteChek == 1 ?
+                                islogin &&
+                                <li
+                                    className='dt_mobile_div3_li1'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
+                                </li>
+                                :
+                                <li
+                                    className='dt_mobile_div3_li1'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
+                                </li>)
+
+                        }
+                        {!drawerOpen &&
+                            (islogin ? (
+                                <li className='dt_mobile_div3_li3' style={{ marginInline: '10px' }} onClick={handleLogout}>
+                                    <FaPowerOff fontSize='30px' color="#7D7F85" />
+                                </li>
+                            ) :
+                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => navigation('/LoginOption')}>
+                                    <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                </li>
+                            )
                         }
                     </ul>
                     {/* } */}
@@ -832,8 +895,8 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                
-                                
+
+
                                 {islogin == true &&
                                     <Badge
                                         badgeContent={wishCountNum}
