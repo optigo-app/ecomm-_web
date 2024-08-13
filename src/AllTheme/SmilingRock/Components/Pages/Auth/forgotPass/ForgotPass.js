@@ -100,6 +100,7 @@ export default function ForgotPass() {
         if (Object.keys(errors).length === 0) {
             const hashedPassword = hashPasswordSHA1(password);
             setIsLoading(true);
+            console.log('useriduseriduseriduserid',userid);
             ResetPasswordAPI(userid, hashedPassword).then((response) => {
                 if (response.Data.rd[0].stat === 1) {
                     navigation('/ContinueWithEmail');
