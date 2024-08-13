@@ -125,7 +125,6 @@ const ManageAddress = () => {
         setDeleteId(item);
         setOpenDelete(true);
     }
-
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
         const errorsCopy = {}; // Initialize errors object
@@ -282,6 +281,7 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
+        
     
 
     const handleClose = () => {
@@ -445,7 +445,7 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-
+            
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -483,6 +483,7 @@ const ManageAddress = () => {
         }
 
     };
+
 
     useEffect(() => {
         fetchData();
@@ -569,12 +570,12 @@ const ManageAddress = () => {
                                                     onClick={() => handleOpen(item, index, 'edit')}
 
                                                 >Edit</Button>
-                                                <Button className='muiSmilingRocksBtnManageEditDT btn_bg_color_DT'
+                                                { item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
                                                         marginLeft: "15px", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
-                                                    }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>
+                                                    }} onClick={() => handleOpenDelete(item.id)}>Delete</Button>}
                                             </Box>
 
                                         </Box>
