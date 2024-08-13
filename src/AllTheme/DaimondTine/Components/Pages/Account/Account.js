@@ -21,9 +21,9 @@ import DesignWiseSalesReport from './SalesReportDesignWise/DesignWiseSalesReport
 import AccountLedger from './AccountLedger/AccountLedger';
 import ChangePassword from './ChangePassword/ChangePassword';
 import YourProfile from './YourProfile/YourProfile';
-import OrderHistory from './OrderHistory/OrderHistory';
 import ManageAddress from './ManageAddress/ManageAddress';
 import Plm from './PLM/PLM';
+import NewOrderHistoryDT from './OrderHistory/NewOrderHistoryDT';
 
 
 function CustomTabPanel(props) {
@@ -183,8 +183,9 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    <OrderHistory />
+                                    {/* <OrderHistory /> */}
                                     {/* <OrderHistoryGroup /> */}
+                                    <NewOrderHistoryDT />
                                 </div>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
