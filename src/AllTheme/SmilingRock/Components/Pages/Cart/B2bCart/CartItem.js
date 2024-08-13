@@ -148,6 +148,10 @@ const CartItem = ({
             alt={item?.TitleLine}
             className='smr_cartListImage'
             onClick={() => onSelect(item)}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `${storeInitData?.DesignImageFol}${item?.designno}_1.${item?.ImageExtension}`;
+          }}
           />
           <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
