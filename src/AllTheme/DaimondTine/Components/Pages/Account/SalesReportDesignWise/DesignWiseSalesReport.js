@@ -867,7 +867,7 @@ const handleBlurGrossWt = (index) => (event) => {
                     ))}
                 </Box>
 
-                <div>{filteredDataPaginated?.length === 0 && <p style={{marginTop:'20px', fontWeight:'bold', fontSize:'15px', color:'red', width:'100%', textAlign:'center'}}>Data Not Present</p>}</div>
+                <div>{filteredDataPaginated?.length === 0 && <p className='fs_dwsr_DT' style={{marginTop:'20px', fontWeight:'bold', color:'grey', width:'100%', textAlign:'center'}}>Data Not Present</p>}</div>
                 </>
             }
 
