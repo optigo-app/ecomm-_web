@@ -124,7 +124,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(4);
     }
     // .finally(() => setLoading(false));
   }, []);
