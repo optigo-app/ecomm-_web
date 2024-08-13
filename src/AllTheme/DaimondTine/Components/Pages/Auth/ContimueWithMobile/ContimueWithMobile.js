@@ -27,10 +27,12 @@ export default function ContimueWithMobile() {
         setter(formattedValue);
 
         if (fieldName === 'mobileNo') {
-            if (!formattedValue) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile No. Is Required' }));
-            } else if (!/^\d{10}$/.test(formattedValue)) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Enter Valid Mobile Number' }));
+            if (!value.trim()) {
+                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number is required' }));
+            } else if (!/^\d+$/.test(value.trim())) {
+                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number must contain only numeric value' }));
+            } else if (value?.trim()?.length !== 10) {
+                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Mobile Number must be exactly 10 digits' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
             }

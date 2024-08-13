@@ -86,6 +86,12 @@
     color: black !important;
 }
 
+.footerPaginateSRDT .MuiTablePagination-selectLabel {
+    margin-bottom: 0px !important;
+}
+.footerPaginateSRDT .MuiTablePagination-displayedRows {
+    margin-bottom: 0px !important;
+}
 @media(max-width: 768px){
     .salesReport .MuiTablePagination-root{
         padding-bottom: 0 !important;

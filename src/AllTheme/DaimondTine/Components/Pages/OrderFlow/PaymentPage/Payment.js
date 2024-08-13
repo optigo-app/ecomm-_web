@@ -28,6 +28,7 @@ const Payment = () => {
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
+    const [orderRemakdata, setOrderRemarkData] = useState();
     const islogin = useRecoilValue(dt_loginState)
 
     const handleOpen = () => setOpen(true);
@@ -38,13 +39,18 @@ const Payment = () => {
     };
 
     const handleSaveInternal = () => {
-        if (orderRemark && orderRemark !== "null") {
-            handleOrderRemarkFun(orderRemark);
+        const trimmedRemark = orderRemark.trim();
+    
+        if (trimmedRemark && trimmedRemark !== "null") {
+            handleOrderRemarkFun(trimmedRemark);
             handleClose();
         } else {
             toast.info("Please add a remark first!");
         }        
     };
+    
+    
+
     console.log('orderreamrk', orderRemark);
 
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -54,7 +60,7 @@ const Payment = () => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-        setOrderRemark(orderRemakdata);
+        setOrderRemarkData(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
         } else {
@@ -118,15 +124,16 @@ const Payment = () => {
     const handleOrderRemarkChange = () => {
 
     }
-    const handleOrderRemarkFun = async () => {
+    const handleOrderRemarkFun = async (trimmedRemark) => {
         try {
-            const response = await handleOrderRemark(orderRemark);
+            const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
                 // const updatedCartData = cartData.map(cart =>
                 //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
                 // );
-                sessionStorage.setItem('orderRemark', orderRemark ?? "")
+                setOrderRemarkData(resStatus?.orderremarks)
+                sessionStorage.setItem('orderRemark', trimmedRemark ?? "")
             }
         } catch (error) {
             console.error("Error:", error);
@@ -158,7 +165,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemark == "" ? "Add order Remark" : "Update order Remark"}
+                            {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='dt_paymentDetailMainDiv'>
@@ -172,7 +179,7 @@ const Payment = () => {
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
                                 <p className='dt_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
-                                    Order Remark : {orderRemark}
+                                    Order Remark : {orderRemakdata}
                                 </p>
 
                             </div>

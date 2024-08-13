@@ -76,13 +76,7 @@ function Wishlist() {
           <div className="textContainerData">
             <div style={{ textAlign: "center" }}>
               <p
-                className="designCounttext"
-                style={{
-                  fontSize: 30,
-                  fontWeight: 400,
-                  letterSpacing: 1,
-                  textTransform: "capitalize"
-                }}
+                className="dt_WishdesignCounttext"
               >
                 My Wishlist <br />
               </p>
@@ -173,25 +167,6 @@ function Wishlist() {
       }
 
       <Footer />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "#a8807c",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
-      </div>
     </div>
   );
 }

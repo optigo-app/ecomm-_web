@@ -533,7 +533,7 @@ const QuotationQuote = () => {
                                 rowCount={filterData.length}
                             />
                             <TableBody>
-                                {visibleRows.map((row, index) => {
+                                { visibleRows?.length > 0 ? visibleRows.map((row, index) => {
                                 
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -574,7 +574,7 @@ const QuotationQuote = () => {
                                             
                                         </TableRow>
                                     );
-                                })}
+                                }) : <TableCell align="center" sx={{color:'grey', fontWeight:'bold', fontSize:'25px'}} colSpan={6}>Data Not Present</TableCell>}
                                 {emptyRows > 0 && (
                                     <TableRow
                                         style={{
@@ -590,6 +590,7 @@ const QuotationQuote = () => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
+                        className="footerPageinateDT"
                         count={filterData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}

@@ -142,7 +142,7 @@ export default function LoginWithEmail() {
     };
 
     const handleNavigation = () => {
-        sessionStorage.setItem('LoginCodeEmail', 'true');
+        sessionStorage.setItem('LoginCodeEmail', true);
         navigation('/LoginWithEmailCode', { state: { email: location.state?.email } });
     }
 

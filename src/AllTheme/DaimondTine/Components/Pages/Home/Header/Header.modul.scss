@@ -164,7 +164,7 @@
   .dt_shop_dropdown.open.fixed {
     position: fixed;
     top: 0;
-    box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+    // box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
     z-index: 1000;
     transform: translateY(0px);
     transition: all 0.4s ease;
@@ -256,9 +256,9 @@
   }
 
   @media screen and (max-width: 650px) {
-    .dt_mobile_div3_li1 {
-      display: none;
-    }
+    // .dt_mobile_div3_li1 {
+    //   display: none;
+    // }
 
     .dt_mobile_login_text{
       display: flex;
@@ -269,9 +269,9 @@
 
   }
 
-  @media screen and (max-width: 450px) {
-    .dt_mobile_div3_li3 {
-      display: none;
-    }
-  }
+  // @media screen and (max-width: 450px) {
+  //   .dt_mobile_div3_li3 {
+  //     display: none;
+  //   }
+  // }
 }

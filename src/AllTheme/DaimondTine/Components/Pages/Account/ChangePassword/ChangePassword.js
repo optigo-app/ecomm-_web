@@ -47,7 +47,7 @@ export default function ChangePassword() {
             }
         } else if (fieldName === 'oldPassword') {
             if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'oldPassword is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
             }
@@ -99,7 +99,7 @@ export default function ChangePassword() {
         const errors = {};
 
         if (!oldPassword.trim()) {
-            errors.oldPassword = 'oldPassword is required';
+            errors.oldPassword = 'Old Password is required';
         }
 
         if (!password.trim()) {
@@ -169,13 +169,13 @@ export default function ChangePassword() {
     return (
         <>
         <ToastContainer />
-        <div>
+        <div className='cpDT'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }} className='cpDT'>
                 <TextField
                     id="outlined-confirm-password-input"
                     label="Old Password"

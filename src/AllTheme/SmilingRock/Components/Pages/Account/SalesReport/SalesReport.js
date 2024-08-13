@@ -1116,7 +1116,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                  }) : <TableCell colSpan={headCells?.length} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
