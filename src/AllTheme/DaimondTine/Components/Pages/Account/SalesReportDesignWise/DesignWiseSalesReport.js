@@ -819,7 +819,8 @@ const handleBlurGrossWt = (index) => (event) => {
                                     {products?.imgsrc ? (
                                         <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
                                     ) : (
-                                        <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                        // <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                        <Skeleton variant="rectangular" width={"100%"} height={335}  />
                                     )}
                                 </Box>
 
