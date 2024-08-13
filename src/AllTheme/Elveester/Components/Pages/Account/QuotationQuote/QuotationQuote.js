@@ -542,7 +542,7 @@ const QuotationQuote = () => {
                                 rowCount={filterData.length}
                             />
                             <TableBody>
-                                {visibleRows.map((row, index) => {
+                                { visibleRows?.length > 0 ? visibleRows?.map((row, index) => {
                                 
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -583,7 +583,7 @@ const QuotationQuote = () => {
                                             
                                         </TableRow>
                                     );
-                                })}
+                                }) : <TableCell colSpan={headCells?.length} align='center' sx={{fontWeight:'bold', color:'grey'}} >Data Not Present</TableCell>}
                                 {emptyRows > 0 && (
                                     <TableRow
                                         style={{

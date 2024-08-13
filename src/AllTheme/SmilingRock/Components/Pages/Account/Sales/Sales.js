@@ -520,7 +520,7 @@ const Sales = () => {
                                                             </div></TableCell>
                                             </TableRow>
                                         );
-                                    }) : <TableCell colSpan={5} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                                    }) : <TableCell colSpan={headCells?.length} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                                     {emptyRows > 0 && (
                                         <TableRow
                                             style={{
