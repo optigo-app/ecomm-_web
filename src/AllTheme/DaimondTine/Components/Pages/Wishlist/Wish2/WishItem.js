@@ -60,6 +60,10 @@ const WishItem = ({
                 <img
                     src={item?.ImageCount !== 0 ? CartCardImageFunc(item) : noImageFound}
                     alt={item?.name}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = `${storeInitData?.DesignImageFol}${item?.designno}_1.${item?.ImageExtension}`;
+                    }}
                 />
                  <div className="product-details">
                     <p>{item?.TitleLine}</p>

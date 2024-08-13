@@ -8,6 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
+import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 
 const AddressManagement = () => {
     const {
@@ -80,10 +81,17 @@ const AddressManagement = () => {
                         errors={errors}
                         isEditMode={isEditMode}
                     />
-                    <DeleteDialog
+                    {/* <DeleteDialog
                         openDelete={openDelete}
                         handleDeleteClose={handleDeleteClose}
                         handleDelete={() => handleDelete()}
+                    /> */}
+                      <ConfirmationDialog
+                        open={openDelete}
+                        onClose={handleDeleteClose}
+                        onConfirm={handleDelete}
+                        title="Confirm"
+                        content="Are you sure you want to remove this address?"
                     />
                     <div className='smr_AddressBtnGroup'>
                         <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>

@@ -46,6 +46,10 @@ const CartItem = ({
                 <img
                     src={cartData?.ImageCount !== 0 ? CartCardImageFunc(cartData) : noImageFound}
                     alt={cartData?.name}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = `${storeInitData?.DesignImageFol}${cartData?.designno}_1.${cartData?.ImageExtension}`;
+                    }}
                 />
                 <div className="product-details">
                     <p>{cartData?.TitleLine}</p>
