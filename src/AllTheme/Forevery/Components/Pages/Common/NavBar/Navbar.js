@@ -28,7 +28,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { Badge } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import Preloader  from '../../../../../../dum/Load';
+import Preloader from "../../../../../../dum/Load";
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -617,6 +617,7 @@ const SecondNavMenu = ({ data }) => {
   );
 };
 const ThirdNavMenu = ({ data }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="Third_Nav_first_Menu">
@@ -629,6 +630,7 @@ const ThirdNavMenu = ({ data }) => {
                   <span className="for_title">{val?.name}</span>
                   <span className="for_collection_static">Collection</span>
                   <button
+                    onClick={() => Navigate(val?.link)}
                     className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
                   >
                     Shop the Collection
@@ -647,6 +649,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                }
               >
                 Show More
               </button>
@@ -655,6 +662,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                }
               >
                 Show More
               </button>
