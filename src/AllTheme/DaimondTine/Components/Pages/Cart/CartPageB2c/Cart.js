@@ -186,6 +186,7 @@ function Cart(props) {
                             handleIncrement={handleIncrement}
                             handleDecrement={handleDecrement}
                             onRemoveItem={handleRemoveItem}
+                            handleMoveToDetail={handleMoveToDetail}
                           />
                         ))}
                       </tbody>
