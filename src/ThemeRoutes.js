@@ -27,7 +27,7 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(2);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -61,7 +61,8 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200) {
             setLoading(false);
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem(
@@ -124,8 +125,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(2);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(4);
     }
     // .finally(() => setLoading(false));
   }, []);

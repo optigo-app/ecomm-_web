@@ -1,3 +1,4 @@
+import { Navigate, useNavigate } from "react-router-dom";
 import { CollectionArray } from "../../../../data/NavbarMenu";
 import "./ShoptheCollections.scss";
 import React from "react";
@@ -26,12 +27,15 @@ const ShoptheCollections = () => {
 
 export default ShoptheCollections;
 
-const Card = ({
-  title = "",
-  img = "",
-}) => {
+const Card = ({ title = "", img = "" }) => {
+  const Navigate = useNavigate();
   return (
-    <div className="for_card">
+    <div
+      className="for_card"
+      onClick={() =>
+        Navigate("/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u")
+      }
+    >
       <img src={img} alt="" />
       <div className="for_square"></div>
       <button className="for_btn">{title}</button>

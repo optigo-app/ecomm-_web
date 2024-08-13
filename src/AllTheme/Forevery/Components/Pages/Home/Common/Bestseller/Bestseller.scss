@@ -1,0 +1,85 @@
+@import "../../../../scss/variable.scss";
+
+.for_Bestseller {
+  width: 100%;
+  height: auto;
+  margin-bottom: 25px;
+  font-family: $primaryFontFamily;
+  .for_heading {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 16px 0;
+    margin-bottom: 2rem;
+    button {
+      padding: 5px 15px;
+      background-color: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.412) !important;
+      border-radius: 0 !important;
+      color: black;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  .vid_block {
+    display: flex;
+    align-items: center;
+    width: 88%;
+    margin: 0 auto;
+    .video-column {
+      flex: 1;
+      video {
+        height: auto;
+        max-height: 440px;
+        -o-object-fit: cover;
+        object-fit: cover;
+        width: 100%;
+      }
+    }
+    .for_details {
+      background: linear-gradient(to right, #f7faff, #f5edea);
+      flex: 0.72;
+      max-height: 440px;
+      height: 440px;
+      padding: 80px;
+      margin-top: -8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      .for_title {
+        font-size: 32px;
+        font-weight: 500;
+        color: #1b1b1b;
+      }
+      .for_Subtitle {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      .det_para {
+        font-size: 14px;
+        font-weight: 400;
+        padding-right: 25px;
+      }
+      .for_col_btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        button {
+          border: 1px solid #1b1b1b;
+          font-size: 14px;
+          font-weight: 400;
+          padding: 6px 32px;
+          color: rgb(0, 0, 0);
+          &:hover {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
