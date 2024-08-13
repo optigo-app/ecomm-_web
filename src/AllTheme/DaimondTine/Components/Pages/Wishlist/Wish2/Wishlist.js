@@ -173,25 +173,6 @@ function Wishlist() {
       }
 
       <Footer />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "#a8807c",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
-      </div>
     </div>
   );
 }

@@ -53,6 +53,9 @@
                         font-family: $primaryFontFamily;
                         margin: 0;
                         letter-spacing: .5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     p {
@@ -86,6 +89,9 @@
                         font-family: $primaryFontFamily;
                         margin: 0;
                         letter-spacing: .5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     p {
