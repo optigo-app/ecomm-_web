@@ -299,7 +299,7 @@ const Header = () => {
 
         let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-        const url = `/p/${queryParameters1}/?M=${btoa(
+        const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
             menuEncoded
         )}`;
 
