@@ -37,7 +37,7 @@ const NewOrderHistoryDT = () => {
   const [ukey, setUkey] = useState("");
   const [image_path, setImagePath] = useState("");
   const navigate = useNavigate();
-  // const [openListStatus, setOpenListStatus] = useState(false);
+
   const [openListStatus, setOpenListStatus] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -229,11 +229,6 @@ const NewOrderHistoryDT = () => {
     } else {
       return "_color3";
     }
-    // }else if(status?.toLowerCase() === 'approval pending'){
-    //   return "_color3"
-    // }else{
-    //   return null
-    // }
   };
 
   const handlePrintOH = (id) => {
@@ -345,7 +340,7 @@ const NewOrderHistoryDT = () => {
                             </>
                             </Box>}
                           </Box>}
-                          { max400px && <Box className="fs_head_acc minH_box_acc" >                           
+                          { max400px && <Box className="fs_head_acc minH_box_acc">                           
                             <Box sx={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding:'5px 0px' }} className="fs_head_acc w_100_noh_acc" >
                                <Typography style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
                                 <CircleIcon sx={{ fontSize:'7px !important', marginRight: "5px" }} />
@@ -404,7 +399,6 @@ const NewOrderHistoryDT = () => {
                               expandedAccordion === e?.id ? null : e?.id
                               )
                             }
-
                           }
                         >
                           <AccordionSummary

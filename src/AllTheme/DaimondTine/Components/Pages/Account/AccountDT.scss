@@ -215,6 +215,9 @@
     .tabPanel_DT > .css-1cpnqbe-MuiButtonBase-root-MuiTab-root{
         padding: 0px !important;
     }
+    .accountSalesPageDT{
+        margin-top: 15% !important;
+       }
 }
 
 @media(max-width: 768px){
@@ -248,6 +251,13 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
     margin-top: 50px !important;
+   }
+
+   .smling-AccountTabMain{
+        margin-top: 5% !important;
+   }
+   .accountSalesPageDT{
+    margin-top: 15% !important;
    }
 }
 
