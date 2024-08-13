@@ -58,7 +58,7 @@ const Cart = ({
 
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    if (storeInit?.IsB2BWebsite == 0 && islogin == false) {
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate('/LoginOption')
       closeDrawer();
     } else {
