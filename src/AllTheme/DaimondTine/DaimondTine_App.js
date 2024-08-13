@@ -34,14 +34,14 @@ import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 const DaimondTine_App = () => {
 
   const navigation = useNavigate();
-  const [islogin , setIsLoginState] = useRecoilState(dt_loginState)
+  const [islogin, setIsLoginState] = useRecoilState(dt_loginState)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(dt_companyLogo);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [localData, setLocalData] = useState();
-  
+
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -57,7 +57,7 @@ const DaimondTine_App = () => {
     }
   });
 
-  
+
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
     if (cookieValue) {
@@ -84,22 +84,28 @@ const DaimondTine_App = () => {
     setLocalData(localD);
   }, []);
 
-  if (islogin == true) {
-    const restrictedPaths = [
-        '/LoginOption',
-        '/ContinueWithEmail',
-        '/ContinueWithMobile',
-        '/LoginWithEmailCode',
-        '/LoginWithMobileCode',
-        '/ForgotPass',
-        '/LoginWithEmail',
-        '/register'
-    ];
+  useEffect(() => {
+    setTimeout(() => {
+      if (islogin == true) {
+        const restrictedPaths = [
+          '/LoginOption',
+          '/ContinueWithEmail',
+          '/ContinueWithMobile',
+          '/LoginWithEmailCode',
+          '/LoginWithMobileCode',
+          '/ForgotPass',
+          '/LoginWithEmail',
+          '/register'
+        ];
 
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-        return navigation("/");
-    }
-}
+        if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+          return navigation("/");
+        }
+      }
+
+    }, 3000);
+  }, [])
+
 
   return (
     <div>
@@ -120,8 +126,8 @@ const DaimondTine_App = () => {
         <Route path="/ForgotPass" element={<ForgotPass />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
-          <Route path="/p/*" element={<ProductList/>} />
-          <Route path="/d/*" element={<ProductDetail/>} />
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/account" element={<Account />} />
           <Route path="/cartPage" element={<CartMain />} />
           <Route path="/myWishList" element={<Wishlist />} />

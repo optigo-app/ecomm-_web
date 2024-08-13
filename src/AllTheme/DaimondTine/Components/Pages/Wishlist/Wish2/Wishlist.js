@@ -76,13 +76,7 @@ function Wishlist() {
           <div className="textContainerData">
             <div style={{ textAlign: "center" }}>
               <p
-                className="designCounttext"
-                style={{
-                  fontSize: 30,
-                  fontWeight: 400,
-                  letterSpacing: 1,
-                  textTransform: "capitalize"
-                }}
+                className="dt_WishdesignCounttext"
               >
                 My Wishlist <br />
               </p>
