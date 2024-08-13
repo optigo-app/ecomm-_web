@@ -454,7 +454,7 @@ const NewOrderHistoryDT = () => {
                               }
                               </>) : ''
                             }
-                            { orderDetails?.length > 1 && <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
+                            { <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', marginTop:'0.7%', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
                               setExpandedAccordion(false)
                               handleClick(e);
                             }}><ExpandLess /></Typography>}

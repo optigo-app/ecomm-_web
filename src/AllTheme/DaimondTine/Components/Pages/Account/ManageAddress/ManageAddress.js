@@ -466,8 +466,7 @@ const ManageAddress = () => {
                         
                     }else{
                         setDefaultAddress(res);
-                        setAddressData(response?.Data?.rd);
-                        
+                        setAddressData(response?.Data?.rd);                        
                     }
                 }
 
@@ -526,7 +525,7 @@ const ManageAddress = () => {
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
-                                addressData?.map((item, index) => {
+                               addressData?.length > 0 ? addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>
                                         <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
                                             <Box sx={{ display: "flex", flexWrap: "wrap", }}>
@@ -589,7 +588,7 @@ const ManageAddress = () => {
 
                                         </Box>
                                     </Box>
-                                })
+                                }) : <div style={{fontSize:'25px', width:'100%', textAlign:'center', color:'grey', fontWeight:'bold'}}>Data Not Present</div>
                             }
                         </Box>
                     }
