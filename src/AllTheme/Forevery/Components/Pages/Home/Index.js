@@ -33,6 +33,7 @@ import HistoryPage from "./Common/HistoryPage/HistoryPage";
 import NewsletterSignup from "../../Pages/ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import GetInTouch from "./Common/GetInTouch/GetInTouch";
 import InstagramSection from "./Common/InstagramSection/InstagramSection";
+import Faq from "../ReusableComponent/Faq/Faq";
 
 function Home() {
   // const [localData, setLocalData] = useState();
