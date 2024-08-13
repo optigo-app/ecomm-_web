@@ -28,8 +28,10 @@
 .salesApiTableQWeb .MuiTablePagination-selectLabel, .salesApiTableQWeb .MuiTablePagination-displayedRows {
     margin-bottom: 0px !important;
 }
-
  .footerPageinateDT .MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
+}
+ .footerPageinateDT .MuiTablePagination-displayedRows{
     margin-bottom: 0px !important;
 }
 
@@ -77,12 +79,7 @@
 .AllQuoteBtn {
     padding-bottom: 35px;
 }
-.salesApiTableQWeb .MuiTablePagination-selectLabel, .salesApiTableQWeb .MuiTablePagination-displayedRows {
-    margin-bottom: 0 !important;
-}
- .footerPageinateDT .MuiTablePagination-selectLabel .css-pdct74-MuiTablePagination-selectLabel{
-    margin-bottom: 0px !important;
-}
+
 
 @media(max-width: 768px) {
     .QuotePadSec {

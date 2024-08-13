@@ -13,6 +13,9 @@
         max-width: 70px;
         max-height: 70px;
     }
+    .fs_head_acc_tax{
+        font-size: 11px !important;
+    }
 
     .text_danger_oh{
         color: #dc3545;
@@ -118,6 +121,9 @@
     .fs_head_acc{
         font-size: 11px !important;
     }
+    .fs_head_acc_tax{
+        font-size: 10px !important;
+    }
  }
 
  @media (max-width:756px){
@@ -152,6 +158,9 @@
     .fs_head_acc{
         font-size: 10px;
     }
+    .fs_head_acc_tax{
+        font-size: 10px !important;
+    }
  }
 
 
@@ -168,6 +177,9 @@
     .fs_head_acc{
         font-size: 9px !important;
     }
+    .fs_head_acc_tax{
+        font-size: 9px !important;
+    }
  }
  @media (max-width:562px){
     .wdate_smr_acc_noh{
@@ -182,9 +194,15 @@
     .fs_head_acc{
         font-size: 8px !important;
     }
+    .fs_head_acc_tax{
+        font-size: 8px !important;
+    }
  }
  @media(max-width:556px){
     .fs_head_acc{
+        font-size: 8px !important;
+    }
+    .fs_head_acc_tax{
         font-size: 8px !important;
     }
  }
@@ -221,6 +239,9 @@
     .fs_head_acc{
         font-size: 8px !important;
     }
+    .fs_head_acc_tax{
+        font-size: 8px !important;
+    }
  }
 
  @media (max-width:484px){
@@ -230,6 +251,9 @@
     .mx_4_noh_acc{
         margin-left: 3px;
         margin-right: 3px;
+    }
+    .fs_head_acc_tax{
+        font-size: 7px !important;
     }
  }
  @media (max-width:480px){
@@ -301,13 +325,18 @@
     .fs_head_acc{
         font-size: 7px !important;
     }
-
+    .fs_head_acc_tax{
+        font-size: 7px !important;
+    }
  }
  @media (max-width:400px){
     .minH_box_acc{
         min-height: 60px;
     }
     .fs_head_acc{
+        font-size: 7px !important;
+    }
+    .fs_head_acc_tax{
         font-size: 7px !important;
     }
  }
@@ -346,6 +375,9 @@
         width: 100% !important;
     }
     .fs_head_acc{
+        font-size: 7px !important;
+    }
+    .fs_head_acc_tax{
         font-size: 7px !important;
     }
  }
@@ -409,6 +441,9 @@
     }
 
     .fs_head_acc{
+        font-size: 7px !important;
+    }
+    .fs_head_acc_tax{
         font-size: 7px !important;
     }
  }
