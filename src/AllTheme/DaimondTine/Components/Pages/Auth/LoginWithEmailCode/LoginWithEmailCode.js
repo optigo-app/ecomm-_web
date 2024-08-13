@@ -6,8 +6,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWithEmailCodeAPI';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
-import { dt_loginState } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { dt_CartCount, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
+import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
+import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
+import Cookies from 'js-cookie';
 
 export default function LoginWithEmailCode() {
     const [email, setEmail] = useState('');
@@ -17,7 +22,7 @@ export default function LoginWithEmailCode() {
     const [mobileNo, setMobileNo] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
 
-    
+
     const setIsLoginState = useSetRecoilState(dt_loginState)
     const location = useLocation();
 
@@ -25,6 +30,9 @@ export default function LoginWithEmailCode() {
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
+
+    const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount)
+    const [wishCountNum, setWishCountNum] = useRecoilState(dt_WishCount)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,9 +42,9 @@ export default function LoginWithEmailCode() {
                 if (storedEmail) {
                     setEmail(storedEmail);
                     const value = sessionStorage.getItem('LoginCodeEmail');
-                    if (value === 'true') {
-                        sessionStorage.setItem('LoginCodeEmail', 'false');
-                        LoginWithEmailCodeAPI(email).then((response) => {
+                    if (value == 'true') {
+                        sessionStorage.setItem('LoginCodeEmail', false);
+                        LoginWithEmailCodeAPI(storedEmail).then((response) => {
                             if (response.Data.Table1[0].stat === '1') {
                                 toast.success('OTP send Sucssessfully');
                             } else {
@@ -93,22 +101,61 @@ export default function LoginWithEmailCode() {
     };
 
     const handleSubmit = async () => {
+        const visiterId = Cookies.get('visiterId');
         if (!mobileNo.trim()) {
             errors.mobileNo = 'Password is required';
             return;
         }
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
+        LoginWithEmailAPI(email, mobileNo, 'otp_email_login', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
+                const visiterID = Cookies.get('visiterId');
+                sessionStorage.setItem('registerEmail', email)
+                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
-                if(redirectEmailUrl){
+
+                GetCountAPI(visiterID).then((res) => {
+                    if (res) {
+                        setCartCountNum(res?.cartcount)
+                        setWishCountNum(res?.wishcount)
+                    }
+                }).catch((err) => {
+                    if (err) {
+                        console.log("getCountApiErr", err);
+                    }
+                })
+
+                CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('CurrencyCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('MetalColorCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+
+                MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+                    if (response?.Data?.rd) {
+                        let data = JSON.stringify(response?.Data?.rd)
+                        sessionStorage.setItem('metalTypeCombo', data)
+                    }
+                }).catch((err) => console.log(err))
+
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
             } else {
@@ -123,7 +170,7 @@ export default function LoginWithEmailCode() {
         setResendTimer(120);
         LoginWithEmailCodeAPI(email).then((response) => {
             if (response.Data.Table1[0].stat === '1') {
-                sessionStorage.setItem('LoginCodeEmail', 'false');
+                sessionStorage.setItem('LoginCodeEmail', false);
                 toast.success('OTP send Sucssessfully');
             } else {
                 toast.error('OTP send Error');

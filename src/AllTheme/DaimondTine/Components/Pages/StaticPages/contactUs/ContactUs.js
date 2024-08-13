@@ -135,7 +135,7 @@ export default function ContactUs() {
                             </div>
                             <button className='Fo-contactBox1BtnSub'>SUBMIT</button>
                         </div> */}
-                        <div className='Fo-contactBox1'>
+                        <div className='dt_Fo_contactBox1'>
                             <form onSubmit={handleSubmit}>
                                 <div>
                                     <p className='Fo-contactBox1Title'>FULL NAME</p>

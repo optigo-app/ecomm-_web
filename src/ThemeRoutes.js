@@ -61,9 +61,7 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200) {
             setLoading(false);
-
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem(
