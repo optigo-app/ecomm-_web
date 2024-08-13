@@ -590,6 +590,7 @@ const QuotationQuote = () => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
+                        className="footerPageinateDT"
                         count={filterData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}

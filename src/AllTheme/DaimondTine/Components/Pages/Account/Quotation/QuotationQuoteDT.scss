@@ -25,11 +25,12 @@
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
-.salesApiTableQWeb .MuiTablePagination-selectLabel,
-.salesApiTableQWeb .MuiTablePagination-displayedRows {
-    margin-bottom: 0;
+.salesApiTableQWeb .MuiTablePagination-selectLabel, .salesApiTableQWeb .MuiTablePagination-displayedRows {
+    margin-bottom: 0px !important;
 }
-
+ .footerPageinateDT .css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
+}
 .salesApiTableQWeb>.MuiTableContainer-root {
     max-height: 590px;
 }
@@ -73,6 +74,12 @@
 
 .AllQuoteBtn {
     padding-bottom: 35px;
+}
+.salesApiTableQWeb .MuiTablePagination-selectLabel, .salesApiTableQWeb .MuiTablePagination-displayedRows {
+    margin-bottom: 0 !important;
+}
+ .footerPageinateDT .MuiTablePagination-selectLabel .css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
 }
 
 @media(max-width: 768px) {

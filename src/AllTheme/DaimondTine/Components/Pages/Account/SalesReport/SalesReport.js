@@ -1121,6 +1121,7 @@ const SalesReport = () => {
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
+              className="footerPaginateSRDT"
               count={filterData.length}
               rowsPerPage={rowsPerPage}
               page={page}
