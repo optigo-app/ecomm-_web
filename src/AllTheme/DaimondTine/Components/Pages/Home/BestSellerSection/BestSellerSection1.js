@@ -133,7 +133,7 @@ const BestSellerSection1 = () => {
                                         />
                                     </div>
                                     <div className="dt_bestSaller_product_info_Web">
-                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
+                                        <h3>{data?.designno}{data?.TitleLine != "" && " - " + data?.TitleLine}</h3>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>

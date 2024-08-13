@@ -519,8 +519,8 @@ const Header = () => {
                                 </Badge>
                             </>
                         }
-                        {IsB2BWebsiteChek == 1 ?
-                            islogin == true ?
+                        {
+                            islogin == true &&
                                 <Tooltip title="Account">
                                     <li
                                         className="dt_nav_li_smining"
@@ -530,18 +530,6 @@ const Header = () => {
                                         <IoPersonOutline color="#7D7F85" fontSize='25px' />
                                     </li>
                                 </Tooltip>
-                                :
-                                ''
-                            :
-                            <Tooltip title="Account">
-                                <li
-                                    className="dt_nav_li_smining"
-                                    style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                                    onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
-                                >
-                                    <IoPersonOutline color="#7D7F85" fontSize='25px' />
-                                </li>
-                            </Tooltip>
                         }
                         {islogin &&
                             <li
@@ -844,6 +832,8 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                
+                                
                                 {islogin == true &&
                                     <Badge
                                         badgeContent={wishCountNum}
@@ -908,12 +898,12 @@ const Header = () => {
                                         onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
                                         style={{ width: '100%' }}
                                     >
-                                        <p style={{ padding: '0px 0px 10px 15px',display:'flex', justifyContent:'space-between', alignItems:'center',  margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>{menuItem.menuname}
-                                        {selectedMenu === menuItem.menuname ? 
-                                        <FaChevronUp  style={{marginRight: '15px', color: '#9b978f'}}/>
-                                        :
-                                        <FaChevronDown style={{marginRight: '15px', color: '#9b978f'}}/> 
-                                        }
+                                        <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>{menuItem.menuname}
+                                            {selectedMenu === menuItem.menuname ?
+                                                <FaChevronUp style={{ marginRight: '15px', color: '#9b978f' }} />
+                                                :
+                                                <FaChevronDown style={{ marginRight: '15px', color: '#9b978f' }} />
+                                            }
                                         </p>
                                     </ButtonBase>
                                     {selectedMenu === menuItem.menuname && (
@@ -933,7 +923,7 @@ const Header = () => {
                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                                         >
-                                                            <p style={{ margin: '5px 0px 5px 15px' , fontWeight: 500}}>{subMenuItem.param1dataname}</p>
+                                                            <p style={{ margin: '5px 0px 5px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                                                         </ButtonBase>
                                                         {selectedMenu === menuItem.menuname && (
                                                             <>
