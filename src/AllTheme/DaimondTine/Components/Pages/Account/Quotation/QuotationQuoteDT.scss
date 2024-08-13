@@ -25,11 +25,12 @@
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
-.salesApiTableQWeb .MuiTablePagination-selectLabel,
-.salesApiTableQWeb .MuiTablePagination-displayedRows {
-    margin-bottom: 0;
+.salesApiTableQWeb .MuiTablePagination-selectLabel, .salesApiTableQWeb .MuiTablePagination-displayedRows {
+    margin-bottom: 0 !important;
 }
-
+ .footerPageinateDT .css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0 !important;
+}
 .salesApiTableQWeb>.MuiTableContainer-root {
     max-height: 590px;
 }
