@@ -27,6 +27,7 @@ import FAQ from './Components/Pages/StaticPages/FAQ/FAQ'
 import TermsAndConditions from './Components/Pages/StaticPages/Terms&Condition/TermsCondition'
 import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'
 import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
+import ScrollToTop from './Components/Pages/ScrollToTop '
 
 
 const DaimondTine_App = () => {
@@ -105,7 +106,6 @@ const DaimondTine_App = () => {
   }, [])
 
 
-
   return (
     <div>
       <Header />
@@ -134,6 +134,7 @@ const DaimondTine_App = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
         </Route>
       </Routes>
+      <ScrollToTop />
     </div>
   )
 }

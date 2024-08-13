@@ -1078,6 +1078,7 @@ const scrollToTop = () => {
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
+              className='footerPaginateJobDT'
               count={filterData.length}
               rowsPerPage={rowsPerPage}
               page={page}

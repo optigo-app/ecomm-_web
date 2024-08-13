@@ -34,8 +34,8 @@ const NewArrival = () => {
         txt.innerHTML = html;
         return txt.value;
     }
-    
-    
+
+
     const compressAndEncode = (inputString) => {
         try {
             const uint8Array = new TextEncoder().encode(inputString);
@@ -63,11 +63,18 @@ const NewArrival = () => {
     return (
         <div className='dt_newArrivalMain'>
             {/* <h1 className='dt_titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1> */}
-            {newArrivalData?.length != 0 && <p className='smr_bestseler1Title'>New Arrival</p>}
+            {newArrivalData?.length != 0 &&
+                <p className='smr_bestseler1Title'>
+                    New Arrival
+                    {newArrivalData?.length > 5 && <span className='dt_ViewAllBtn_new' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                        View more
+                    </span>}
+                </p>
+            }
 
             <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px' }}>
                 {newArrivalData?.slice(0, 5).map((product, index) => (
-                    <Grid key={index} className='dt_NewArrivalProductMain'  onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                    <Grid key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                         <div className='dt_newArrivalMian'>
                             <img
                                 style={{ height: "100%", width: "100%" }}

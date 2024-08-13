@@ -68,7 +68,7 @@
 
 .quotationFiltersText .MuiTablePagination-selectLabel,
 .quotationFiltersText .MuiTablePagination-displayedRows {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 .statusSelect>div {
@@ -131,6 +131,9 @@
     right: 0px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
+}
+.footerPaginateJobDT .css-pdct74-MuiTablePagination-selectLabel{
+    margin-bottom: 0px !important;
 }
 
 @media(max-width: 768px) {
