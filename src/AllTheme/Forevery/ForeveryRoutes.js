@@ -38,6 +38,10 @@ import Navbar from "./Components/Pages/Common/NavBar/Navbar";
 import TopBar from "./Components/Pages/Common/TopBar/TopBar";
 import AppointmentPage from "./Components/Pages/Home/AppointMent/AppointmentPage";
 import Footer from "./Components/Pages/Home/Footer/Footer";
+import DiamondFilter from "./Components/Pages/Diamond/DiamondFilter/DiamondFilter";
+import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
+import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
+import DiamondPage from "./Components/Pages/Diamond";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -201,7 +205,15 @@ const ForEveryRoutes = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/d/*" element={<ProductDetail />} />
-        <Route path="/p/*" element={<ProductList />} />
+        <Route path="/p/*" element={<DiamondPage />} />
+        <Route
+          path="/certified-loose-lab-grown-diamonds/*"
+          element={<DiamondPage />}
+        >
+          <Route path="settings/*" element={<SettingPage />} />
+          <Route path="diamond/*" element={<DiamondFilter />} />
+          <Route path="ring/*" element={<RingPage />} />
+        </Route>
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
@@ -215,7 +227,7 @@ const ForEveryRoutes = () => {
           <Route path="/account" element={<Account />} />
           </Route>
           <Route path="/Lookbook" element={<Lookbook />} /> */}
-        
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
