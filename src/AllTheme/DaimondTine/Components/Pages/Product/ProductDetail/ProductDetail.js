@@ -25,6 +25,8 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -143,30 +145,34 @@ const ProductDetail = () => {
   const handleCart = (cartflag) => {
     let metal =
       metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      (loginInfo?.MetalId ?? storeInit?.MetalId);
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
-    let mcArr = metalColorCombo?.filter(
-      (ele) =>
-        ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+
+      let mcArr = metalColorCombo?.filter(
+        (ele) =>{ if(selectMtColor) {
+          return ele?.colorname == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+        
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.Metalid ?? 0,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -209,30 +215,34 @@ const ProductDetail = () => {
 
     let metal =
       metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      (loginInfo?.MetalId ?? storeInit?.MetalId);
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+
     let mcArr = metalColorCombo?.filter(
-      (ele) =>
-        ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) =>{ if(selectMtColor) {
+        return ele?.colorname == selectMtColor
+      }
+      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+
+    })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.Metalid ?? 0,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd1?.DefaultSize ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -302,7 +312,7 @@ const ProductDetail = () => {
         if (mtTypeLocal?.length) {
           metalArr =
             mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            (loginInfo?.MetalId ?? storeInit?.MetalId);
         }
 
         if (diaQcLocal?.length) {
@@ -311,7 +321,7 @@ const ProductDetail = () => {
               (ele) =>
                 ele?.QualityId == decodeobj?.d?.split(",")[0] &&
                 ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+            )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
         }
 
         if (csQcLocal?.length) {
@@ -320,14 +330,16 @@ const ProductDetail = () => {
               (ele) =>
                 ele?.QualityId == decodeobj?.c?.split(",")[0] &&
                 ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+            )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
         }
 
-        setSelectMtType(metalArr?.metaltype);
+        console.log("csArr",csArr)
 
-        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
+        setSelectMtType(metalArr?.metaltype ?? 0);
 
-        setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
+        setSelectDiaQc(`${diaArr?.Quality ?? 0},${diaArr?.color ?? 0}`);
+
+        setSelectCsQc(`${csArr?.Quality ?? 0},${csArr?.color ?? 0}`);
 
         // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
         //                       ? singleProd?.DefaultSize
@@ -558,7 +570,7 @@ const ProductDetail = () => {
     if (mtTypeLocal?.length) {
       metalArr =
         mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
-          ?.Metalid ?? mtTypeLocal[0]?.Metalid;
+          ?.Metalid ?? (loginInfo?.MetalId ?? storeInit?.MetalId);
     }
 
     if (diaQcLocal) {
@@ -567,7 +579,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? diaQcLocal[0];
+        )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
     }
 
     if (csQcLocal) {
@@ -576,14 +588,14 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? csQcLocal[0];
+        )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
     }
 
     const FetchProductData = async () => {
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+        mt: metalArr ?? 0,
+        diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
       };
 
       // console.log("objjj",obj)
@@ -603,6 +615,7 @@ const ProductDetail = () => {
                 link: "",
                 type: "img",
               });
+              setProdLoading(false);
             }
 
             if (!res?.pdList[0]) {
@@ -1064,7 +1077,7 @@ const ProductDetail = () => {
     }
 
     let obj = {
-      mt: metalArr,
+      mt: metalArr ,
       diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
       csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
     };
@@ -1125,11 +1138,12 @@ const ProductDetail = () => {
               display: "flex",
               justifyContent: "center",
               padding: "15px",
+              visibility:"hidden"
             }}
           >
             <div className="breadCrumb_menu">
-              <span style={{ textTransform: "uppercase  " }}>
-                {singleProd?.TitleLine}
+              <span style={{ textTransform: "uppercase" }}>
+                {singleProd?.TitleLine ? `${singleProd?.TitleLine } (${singleProd?.designno})`: singleProd?.designno}
               </span>
             </div>
           </div>
@@ -1158,11 +1172,13 @@ const ProductDetail = () => {
                 >
                   {selectedThumbImg?.type == "img" ? (
                     <img
-                      src={
-                        pdThumbImg?.length > 0
-                          ? selectedThumbImg?.link
-                          : imageNotFound
-                      }
+                      // src={
+                      //   pdThumbImg?.length > 0
+                      //     ? selectedThumbImg?.link
+                      //     : imageNotFound
+                      // }
+                      src={selectedThumbImg?.link}
+                      onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                       alt={""}
                       onLoad={() => setIsImageLoad(false)}
                       className="dt_prod_img"
@@ -1221,15 +1237,16 @@ const ProductDetail = () => {
                           autoPlay={true}
                           loop={true}
                           className="dt_prod_thumb_img"
-                          style={{ height: "100px", objectFit: "cover" }}
+                          // style={{ height: "100px", objectFit: "cover" }}
                         />
                         <IoIosPlayCircle
-                          style={{
-                            position: "absolute",
-                            color: "white",
-                            width: "50px",
-                            height: "50px",
-                          }}
+                        className="Dt_palyCircle"
+                          // style={{
+                          //   position: "absolute",
+                          //   color: "white",
+                          //   width: "50px",
+                          //   height: "50px",
+                          // }}
                         />
                       </div>
                     ))}
@@ -1240,7 +1257,7 @@ const ProductDetail = () => {
               </div>
               <div className="srprodetail2">
                 <div className="srprodetail2-cont">
-                  <p className="smilingProdutDetltTitle">{singleProd?.TitleLine}</p>
+                  <p className="smilingProdutDetltTitle">{singleProd?.TitleLine ? `${singleProd?.TitleLine ?? ""} (${singleProd?.designno ?? ""})` : singleProd?.designno}</p>
 
                   {storeInit?.IsPriceShow === 1 &&
                     (isPriceloading ? (
@@ -1449,7 +1466,7 @@ const ProductDetail = () => {
                       </div>
                     ) : null}
 
-                    {SizeSorting(SizeCombo?.rd)?.length > 0 ? (
+                    {(SizeCombo?.rd?.length > 0 && singleProd?.DefaultSize !== "")  ? (
                       <div
                         style={{
                           display: "flex",
@@ -1511,10 +1528,11 @@ const ProductDetail = () => {
                         Metal Color:{" "}
                         <span className="part1_value">{selectMtColor}</span>
                       </sapn>
-                      <sapn className="part1_key">
+                      {(storeInit?.IsDiamondCustomization === 1 &&
+                              diaQcCombo?.length > 0 && diaList?.length) ?<sapn className="part1_key">
                         Diamond Quality Color:{" "}
                         <span className="part1_value">{`${selectDiaQc}`}</span>
-                      </sapn>
+                      </sapn> : null}
                       <sapn className="part1_key">
                         Net Wt:{" "}
                         <span className="part1_value">
@@ -1711,7 +1729,7 @@ const ProductDetail = () => {
                       </div>
                     ))}
 
-                  <div>
+                  {!prodLoading ? (<div>
                     <div
                       style={{
                         display: "flex",
@@ -1747,12 +1765,12 @@ const ProductDetail = () => {
                             control={
                               <Checkbox
                                 icon={
-                                  <StarBorderIcon
+                                  <FavoriteBorderIcon
                                     sx={{ fontSize: "25px", color: "#d2815f" }}
                                   />
                                 }
                                 checkedIcon={
-                                  <StarIcon
+                                  <FavoriteIcon
                                     sx={{ fontSize: "25px", color: "#d2815f" }}
                                   />
                                 }
@@ -1773,14 +1791,14 @@ const ProductDetail = () => {
                     </div>
                     {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
                     {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
-                  </div>
+                  </div>) : null}
                 </div>
               </div>
             </div>
 
 
           </div>
-          <div className="smr_material_details_portion">
+          <div className="smr_material_details_portion" style={{marginBottom:'50px'}}>
             {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
               <p className="smr_details_title"> Product Details</p>
             )}
@@ -1888,9 +1906,9 @@ const ProductDetail = () => {
           </div>
 
           {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
-            <div className="smr_stockItem_div">
+            <div className="smr_stockItem_div" style={{marginBottom:"50px"}}>
               <p className="smr_details_title"> Stock Items </p>
-              <div className="smr_stockitem_container">
+              <div className="dt_stockitem_container" >
                 {/* <div className="smr_stock_item_card">
                   {stockItemArr?.map((ele) => (
                     <div className="smr_stockItemCard">
@@ -2215,9 +2233,9 @@ const ProductDetail = () => {
 
           {storeInit?.IsProductDetailSimilarDesign == 1 &&
             SimilarBrandArr?.length > 0 && (
-              <div className="smr_stockItem_div">
+              <div className="smr_stockItem_div" style={{marginBottom:"50px"}}>
                 <p className="smr_details_title"> Similar Designs</p>
-                <div className="smr_stockitem_container">
+                <div className="dt_stockitem_container">
                   <div className="smr_stock_item_card">
                     {SimilarBrandArr?.map((ele) => (
                       <div
