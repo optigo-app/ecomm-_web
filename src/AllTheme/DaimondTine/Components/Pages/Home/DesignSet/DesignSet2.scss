@@ -14,16 +14,30 @@
         position: relative;
     }
 
-    .smrMA_desognSetTitle {
+    .dt_desognSetTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         // margin-top: 20px;
         margin: 0;
         padding: 0;
         padding: 1% 0px 1% 0px;
     }
+
+    
+  .dt_designSetViewmoreBtn{
+    color: $titleColor !important;
+    margin: 0px 20px !important;
+    text-decoration: underline;
+    cursor: pointer;
+    text-decoration-color: $titleColor !important;
+    font-size: $fontSize2 !important;
+  }
+
 
     .card {
         width: 350px;
