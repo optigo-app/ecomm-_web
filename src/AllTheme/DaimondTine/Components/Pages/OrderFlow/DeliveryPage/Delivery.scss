@@ -84,17 +84,22 @@
 .dt_defualt_addrSelectedHide{
   display: none !important;
 }
+.dt_addcardContentDiv{
+  margin-top: 10px;
+}
 
 .dt_addrTypoTitle {
   color: $titleColor;
   font-family: $homePageFontFamily !important;
   text-transform: capitalize;
+  font-size: $fontSize4 !important;
 }
 
 .dt_addrTypo {
   color: $titleColor;
   font-family: $homePageFontFamily !important;
   text-transform: capitalize;
+  font-size: $fontSize2 !important;
 }
 
 .dt_AddressBtnGroup {
