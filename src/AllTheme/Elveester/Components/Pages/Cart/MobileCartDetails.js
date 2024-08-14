@@ -5,6 +5,7 @@ import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import noImageFound from "../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -41,6 +42,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+  const [imageSrc, setImageSrc] = useState(noImageFound);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -76,13 +78,22 @@ const MobileCartDetails = ({
 
   }
 
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
 
   return (
     <Modal open={open} onClose={handleClose} className="elvMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="elvMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="elvMo_Cart-imageDiv">
           <img
-            src={CartCardImageFunc(selectedItem)}
+            src={imageSrc}
             alt="Cluster Diamond"
             className='elvMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
@@ -90,7 +101,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="elvMo_Cart_R-details">
               <p className='elvMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
