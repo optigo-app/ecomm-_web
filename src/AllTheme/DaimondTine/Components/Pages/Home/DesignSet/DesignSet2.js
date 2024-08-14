@@ -129,13 +129,31 @@ const DesignSet2 = () => {
   console.log('jkksdjkjfkdsj', designSetList);
 
   console.log('designSetListdesignSetList', designSetList);
+  const redirectUrl = `/loginOption/?LoginRedirect=/Lookbook`;
 
   const handleNavigate = () => {
-    navigate("/Lookbook");
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    if (storeInit?.IsB2BWebsite == 1) {
+      if (islogin == true) {
+        navigate("/Lookbook");
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      } else {
+        navigate(redirectUrl);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    } else {
+      navigate("/Lookbook");
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
   }
 
 
@@ -157,10 +175,10 @@ const DesignSet2 = () => {
         {designSetList?.length !== 0 && (
           <>
             <div className='smr_DesignSetTitleDiv'>
-              <p className='smrMA_desognSetTitle'>Complete Your Look
-                <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
+              <p className='dt_desognSetTitle'>Complete Your Look
+                <p className='dt_designSetViewmoreBtn' onClick={handleNavigate}>
                   View more
-                </Link>
+                </p>
               </p>
             </div>
             {/* <Swiper

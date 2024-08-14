@@ -122,7 +122,7 @@ function Wishlist() {
                               currency={CurrencyData}
                               itemInCart={itemInCart}
                               decodeEntities={decodeEntities}
-                              CartCardImageFunc={WishCardImageFunc}
+                              WishCardImageFunc={WishCardImageFunc}
                               itemsLength={wishlistData?.length}
                               handleRemoveItem={handleRemoveItem}
                               handleWishlistToCart={handleWishlistToCart}

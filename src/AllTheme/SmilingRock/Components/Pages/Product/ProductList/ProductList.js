@@ -131,17 +131,22 @@ const ProductList = () => {
 
   useEffect(() => {
     setCSSVariable();
+    const storeInitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    const loginUserDetailInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId
+    let mtid = loginUserDetailInside?.MetalId ?? storeInitInside?.MetalId
     setSelectedMetalId(mtid)
 
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
+    let diaid = loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid
     setSelectedDiaId(diaid)
 
-    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
     setSelectedCsId(csid)
 
   }, [])
+
+
+  console.log("selectedMetalId",selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 

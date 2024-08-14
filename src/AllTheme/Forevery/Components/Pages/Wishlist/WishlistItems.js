@@ -27,6 +27,7 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const setWishCountVal = useSetRecoilState(for_WishCount);
     const setCartCountVal = useSetRecoilState(for_CartCount);
     const visiterId = Cookies.get("visiterId");
@@ -53,6 +54,16 @@ const WishlistItems = ({
         }
     };
 
+    useEffect(() => {
+        if (item?.ImageCount > 0) {
+          WishCardImageFunc(item).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [item]);
+
     return (
         <>
             <Grid
@@ -67,9 +78,7 @@ const WishlistItems = ({
                     <div className="for_cardContentMainDiv">
                         <CardMedia
                             component="img"
-                            image={
-                                item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-                            }
+                            image={imageSrc}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
                             onClick={() => handleMoveToDetail(item)}

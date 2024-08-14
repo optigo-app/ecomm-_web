@@ -28,6 +28,7 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const setWishCountVal = useSetRecoilState(proCat_WishCount);
     const setCartCountVal = useSetRecoilState(proCat_CartCount);
     const visiterId = Cookies.get("visiterId");
@@ -54,6 +55,16 @@ const WishlistItems = ({
         }
     };
 
+    useEffect(() => {
+        if (item?.ImageCount > 0) {
+          WishCardImageFunc(item).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [item]);
+
     return (
         <>
             {selectedValue == 1 ? (
@@ -69,9 +80,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={
-                                    item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-                                }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="proCat_WlListImage"
                                 onClick={() => handleMoveToDetail(item)}
@@ -169,9 +178,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={
-                                    item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-                                }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="proCat_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}
