@@ -20,14 +20,14 @@ const Album1 = () => {
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
     const islogin = useRecoilValue(dt_loginState);
-    const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
+
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
     useEffect(() => {
         let data = JSON.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
-        setStoreInit(data)
 
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -127,32 +127,30 @@ const Album1 = () => {
                     ))}
                 </Tabs>
             </Box>
-            <div className="swiper-container">
+            <div className="Dt_swiper_container">
                 {albumData?.map((album) =>
                     album?.AlbumName === selectedAlbum ? (
                         <Swiper
                             key={album?.Albumid}
                             spaceBetween={10}
                             slidesPerView={4}
-                            breakpoints={{
-                                1200: {
-                                    slidesPerView: 4,
-                                },
-                                992: {
-                                    slidesPerView: 3,
-                                },
-                                768: {
-                                    slidesPerView: 2,
-                                },
-                                576: {
-                                    slidesPerView: 2,
-                                }
-                            }}
+                            // breakpoints={{
+                            //     1200: {
+                            //         slidesPerView: 4,
+                            //     },
+                            //     992: {
+                            //         slidesPerView: 3,
+                            //     },
+                            //     768: {
+                            //         slidesPerView: 2,
+                            //     },
+                            // }}
                             lazy={true}
-                            navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
+                            navigation={true}
+                            // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
-                            pagination={isMobileScreen && (true)}
+                            pagination={false}
                         >
                             {JSON?.parse(album?.Designdetail)?.map((design) => (
                                 <SwiperSlide key={design?.autocode} className="swiper-slide-custom">

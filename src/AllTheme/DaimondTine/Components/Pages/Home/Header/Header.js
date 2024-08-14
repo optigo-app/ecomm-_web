@@ -389,7 +389,7 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px", cursor: 'pointer', color: '#acabab', textDecoration: 'none' }}>
+                    <a href={`tel:${'98997 78849'}`} className="FontFamilySet" style={{ fontSize: "12px", cursor: 'pointer', color: '#acabab', textDecoration: 'none' }}>
                         Call: +91-98997 78849
                     </a>
                 </div>
@@ -575,7 +575,10 @@ const Header = () => {
                                 Home
                             </span>
                         </li>
-                        {menuItems.map((item, index) => (
+                        {menuItems.map((item, index) => 
+                        
+                        // console.log('itemitemitem',item)
+                        (
                             <li
                                 className="dt_menu_li"
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
@@ -600,7 +603,11 @@ const Header = () => {
                                     {item.menuname}
                                 </span>
                             </li>
-                        ))}
+                        )
+                    
+                    )
+                        
+                        }
                         <li
                             className="dt_menu_li"
                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer" }}
