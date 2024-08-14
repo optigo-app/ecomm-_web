@@ -295,51 +295,50 @@ const ProductDetail = () => {
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
-    let diaQcLocal = JSON.parse(
-      sessionStorage.getItem("diamondQualityColorCombo")
-    );
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
 
-    let csQcLocal = JSON.parse(
-      sessionStorage.getItem("ColorStoneQualityColorCombo")
-    );
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+
 
     setTimeout(() => {
       if (decodeUrl) {
-        let metalArr;
-        let diaArr;
-        let csArr;
+        let metalArr
+        let diaArr
+        let csArr
+
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            (loginInfo?.MetalId ?? storeInit?.MetalId);
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
 
-        console.log("csArr",csArr)
+        setSelectMtType(metalArr?.metaltype)
 
-        setSelectMtType(metalArr?.metaltype ?? 0);
+        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
-        setSelectDiaQc(`${diaArr?.Quality ?? 0},${diaArr?.color ?? 0}`);
+        setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
 
-        setSelectCsQc(`${csArr?.Quality ?? 0},${csArr?.color ?? 0}`);
+
 
         // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
         //                       ? singleProd?.DefaultSize
@@ -354,8 +353,8 @@ const ProductDetail = () => {
 
         // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
-    }, 500);
-  }, [singleProd]);
+    }, 500)
+  }, [singleProd])
 
   useEffect(() => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -546,6 +545,7 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
 
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let decodeobj = decodeAndDecompress(navVal);
 
@@ -555,13 +555,9 @@ const ProductDetail = () => {
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
-    let diaQcLocal = JSON.parse(
-      sessionStorage.getItem("diamondQualityColorCombo")
-    );
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
 
-    let csQcLocal = JSON.parse(
-      sessionStorage.getItem("ColorStoneQualityColorCombo")
-    );
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
 
     let metalArr;
     let diaArr;
@@ -569,8 +565,9 @@ const ProductDetail = () => {
 
     if (mtTypeLocal?.length) {
       metalArr =
-        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
-          ?.Metalid ?? (loginInfo?.MetalId ?? storeInit?.MetalId);
+        mtTypeLocal?.filter(
+          (ele) => ele?.Metalid == decodeobj?.m
+        )[0]?.Metalid
     }
 
     if (diaQcLocal) {
@@ -579,7 +576,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+        )[0];
     }
 
     if (csQcLocal) {
@@ -588,60 +585,61 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid);
+        )[0]
     }
 
+    // console.log("decodeobj",(diaArr))
+
+
     const FetchProductData = async () => {
+
       let obj = {
-        mt: metalArr ?? 0,
-        diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
-        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
-      };
+        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
+      }
 
       // console.log("objjj",obj)
-      setProdLoading(true);
+      setProdLoading(true)
 
-      setisPriceLoading(true);
+      setisPriceLoading(true)
 
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
+
             setSingleProd(res?.pdList[0]);
 
             if (res?.pdList?.length > 0) {
-              setisPriceLoading(false);
-              setIsImageLoad(false);
+              setisPriceLoading(false)
+              setIsImageLoad(false)
               setSelectedThumbImg({
                 link: "",
                 type: "img",
               });
-              setProdLoading(false);
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
               // console.log("singleprod",res?.pdList[0]);
-              setisPriceLoading(false);
-              setProdLoading(false);
-              setIsDataFound(true);
+              setisPriceLoading(false)
+              setProdLoading(false)
+              setIsDataFound(true)
             } else {
-              setIsDataFound(false);
+              setIsDataFound(false)
             }
 
-            setDiaList(res?.pdResp?.rd3);
-            setCsList(res?.pdResp?.rd4);
+            setDiaList(res?.pdResp?.rd3)
+            setCsList(res?.pdResp?.rd4)
 
-            let prod = res?.pdList[0];
+            let prod = res?.pdList[0]
 
-            let initialsize =
-              prod && prod.DefaultSize !== ""
-                ? prod?.DefaultSize
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                  ?.sizename === undefined
-                  ? SizeCombo?.rd[0]?.sizename
-                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename;
+            let initialsize = (prod && prod.DefaultSize !== "")
+              ? prod?.DefaultSize
+              : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
+                ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
 
-            setSizeData(initialsize);
+            setSizeData(initialsize)
 
             // await SingleFullProdPriceAPI(decodeobj).then((res) => {
             //   setSingleProdPrice(res);
@@ -649,56 +647,43 @@ const ProductDetail = () => {
             // });
           }
           return res;
-        })
-        .then(async (resp) => {
+        }).then(async (resp) => {
           if (resp) {
-            await getSizeData(resp?.pdList[0], cookie)
-              .then((res) => {
-                // console.log("Sizeres",res)
-                setSizeCombo(res?.Data);
-              })
-              .catch((err) => console.log("SizeErr", err));
+            await getSizeData(resp?.pdList[0], cookie).then((res) => {
+              // console.log("Sizeres",res)
+              setSizeCombo(res?.Data)
+            }).catch((err) => console.log("SizeErr", err))
 
             if (storeinitInside?.IsStockWebsite === 1) {
-              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
-                .then((res) => {
-                  setStockItemArr(res?.Data?.rd);
-                })
-                .catch((err) => console.log("stockItemErr", err));
+              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+                setStockItemArr(res?.Data?.rd)
+              }).catch((err) => console.log("stockItemErr", err))
             }
 
             if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
-              await StockItemApi(
-                resp?.pdList[0]?.autocode,
-                "similarbrand",
-                obj,
-                cookie
-              )
-                .then((res) => {
-                  setSimilarBrandArr(res?.Data?.rd);
-                })
-                .catch((err) => console.log("similarbrandErr", err));
+              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                setSimilarBrandArr(res?.Data?.rd)
+              }).catch((err) => console.log("similarbrandErr", err))
             }
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
-                .then((res) => {
-                  // console.log("designsetList",res?.Data?.rd[0])
-                  setDesignSetList(res?.Data?.rd);
-                })
-                .catch((err) => console.log("designsetErr", err));
+              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+                // console.log("designsetList",res?.Data?.rd[0])
+                setDesignSetList(res?.Data?.rd)
+              }).catch((err) => console.log("designsetErr", err))
             }
           }
         })
-        .catch((err) => console.log("err", err));
-    };
+        .catch((err) => console.log("err", err))
+    }
 
-    FetchProductData();
+    FetchProductData()
 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
+
   }, [location?.key]);
 
   console.log("locationKey", location?.key);
@@ -1316,11 +1301,7 @@ const ProductDetail = () => {
                           <span
                             style={{ fontSize: "13px", color: "rgb(66, 66, 66)" }}
                           >
-                            {
-                              metalTypeCombo?.filter(
-                                (ele) => ele?.Metalid == singleProd?.MetalPurityid
-                              )[0]?.metaltype
-                            }
+                            {singleProd?.MetalTypePurity}
                           </span>
                         ) : (
                           <select
@@ -1358,11 +1339,7 @@ const ProductDetail = () => {
                           <span
                             style={{ fontSize: "13px", color: "rgb(66, 66, 66)" }}
                           >
-                            {
-                              metalTypeCombo?.filter(
-                                (ele) => ele?.Metalid == singleProd?.MetalPurityid
-                              )[0]?.metaltype
-                            }
+                            {singleProd?.DiaQuaCol}
                           </span>
                         ) : (
                           <select
@@ -1401,11 +1378,7 @@ const ProductDetail = () => {
                           <span
                             style={{ fontSize: "13px", color: "rgb(66, 66, 66)" }}
                           >
-                            {
-                              metalTypeCombo?.filter(
-                                (ele) => ele?.Metalid == singleProd?.MetalPurityid
-                              )[0]?.metaltype
-                            }
+                            {singleProd?.CsQuaCol}
                           </span>
                         ) : (
                           <select
@@ -1520,19 +1493,23 @@ const ProductDetail = () => {
                         gap: "15px",
                       }}
                     >
-                      <span className="part1_key">
+                      {(singleProd?.MetalTypePurity !== "" && selectMtType) ?<span className="part1_key">
                         Metal Purity:{" "}
-                        <span className="part1_value">{selectMtType}</span>
-                      </span>
+                        <span className="part1_value">{singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}</span>
+                      </span> : null}
                       <sapn className="part1_key">
                         Metal Color:{" "}
-                        <span className="part1_value">{selectMtColor}</span>
+                        <span className="part1_value">{JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                                    (ele) => ele?.colorcode == selectMtColor
+                                          )[0]?.metalcolorname}</span>
                       </sapn>
+
                       {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length) ?<sapn className="part1_key">
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ?<sapn className="part1_key">
                         Diamond Quality Color:{" "}
                         <span className="part1_value">{`${selectDiaQc}`}</span>
                       </sapn> : null}
+                      
                       <sapn className="part1_key">
                         Net Wt:{" "}
                         <span className="part1_value">
@@ -1542,7 +1519,7 @@ const ProductDetail = () => {
                     </div>
                   </div>
 
-                  {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                  {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
                     <Accordion
                       elevation={0}
                       sx={{

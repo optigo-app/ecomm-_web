@@ -1341,22 +1341,24 @@ const ProductDetail = () => {
                         <span className="smr_single_prod_designno">
                           {singleProd?.designno}
                         </span>
-                        <span className="smr_prod_short_key">
+                        {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
                           Metal Purity :{" "}
                           <span className="smr_prod_short_val">
-                            {selectMtType}
+                          {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
                           </span>
-                        </span>
+                        </span>: null}
                         <span className="smr_prod_short_key">
                           Metal Color :{" "}
                           <span className="smr_prod_short_val">
-                            {selectMtColor}
+                          {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                                    (ele) => ele?.colorcode == selectMtColor
+                                          )[0]?.metalcolorname}
                           </span>
                         </span>
-                        {diaList?.length > 0 ? <span className="smr_prod_short_key">
+                        {(diaList?.length > 0 && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
                           Diamond Quality & Color:{" "}
                           <span className="smr_prod_short_val">
-                            {`${selectDiaQc}`}
+                          {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
                           </span>
                         </span> : null}
                         {storeInit?.IsMetalWeight == 1 ?<span className="smr_prod_short_key">
@@ -1370,6 +1372,18 @@ const ProductDetail = () => {
                         <label className="menuItemTimeEleveDeatil">
                           METAL TYPE:
                         </label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                  <span className="menuitemSelectoreMain">
+                                    {/* {
+                                      metalTypeCombo?.filter(
+                                        (ele) =>
+                                          ele?.Metalid ==
+                                          singleProd?.MetalPurityid
+                                      )[0]?.metaltype
+                                    } */}
+                                    {singleProd?.MetalTypePurity}
+                                  </span>
+                                ) : (
                         <select
                           className="menuitemSelectoreMain"
                           value={selectMtType}
@@ -1381,12 +1395,22 @@ const ProductDetail = () => {
                               {ele?.metaltype}
                             </option>
                           ))}
-                        </select>
+                        </select>)}
                       </div>
                       <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           METAL COLOR:
                         </label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {
+                                        metalColorCombo?.filter(
+                                          (ele) =>
+                                            ele?.id == singleProd?.MetalColorid
+                                        )[0]?.metalcolorname
+                                      }
+                                    </span>
+                                  ) : (
                         <select
                           className="menuitemSelectoreMain"
                           value={selectMtColor}
@@ -1397,12 +1421,20 @@ const ProductDetail = () => {
                               {ele?.metalcolorname}
                             </option>
                           ))}
-                        </select>
+                        </select>)}
                       </div>
                       {(storeInit?.IsDiamondCustomization === 1 && diaList?.length > 0)  && (<div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">
                           DAIMOND :
                         </label>
+                        {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.DiaQuaCol}
+                                      </span>
+                                    ) 
+                                    :
+                                    (
                         <select
                           className="menuitemSelectoreMain"
                           value={selectDiaQc}
@@ -1415,13 +1447,19 @@ const ProductDetail = () => {
                               value={`${ele?.Quality},${ele?.color}`}
                             >{`${ele?.Quality},${ele?.color}`}</option>
                           ))}
-                        </select>
+                        </select>)}
                       </div>)}
                       {(storeInit?.IsCsCustomization === 1 &&  csList?.length > 0 ) && (
                         <div className="smr_single_prod_customize_outer">
                           <label className="menuItemTimeEleveDeatil">
                             COLOR STONE :
                           </label>
+                          {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.CsQuaCol}
+                                      </span>
+                                    ):(
                           <select
                             className="menuitemSelectoreMain"
                             value={selectCsQc}
@@ -1434,12 +1472,17 @@ const ProductDetail = () => {
                                 value={`${ele?.Quality},${ele?.color}`}
                               >{`${ele?.Quality},${ele?.color}`}</option>
                             ))}
-                          </select>
+                          </select>)}
                         </div>
                       )}
                       {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                       {SizeSorting(SizeCombo?.rd)?.length > 0 && <div className="smr_single_prod_customize_outer">
                         <label className="menuItemTimeEleveDeatil">SIZE:</label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {singleProd?.DefaultSize}
+                                    </span>
+                                  ) : (
                         <select
                           className="menuitemSelectoreMain"
                           value={sizeData}
@@ -1459,11 +1502,11 @@ const ProductDetail = () => {
                               {ele?.sizename}
                             </option>
                           ))}
-                        </select>
+                        </select>)}
                       </div>}
                     </div>}
 
-                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                        {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
                           <Accordion
                             elevation={0}
                             sx={{
