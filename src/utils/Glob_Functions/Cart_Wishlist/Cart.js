@@ -581,9 +581,9 @@ const useCart = () => {
   const CartCardImageFunc = (pd) => {
     return new Promise((resolve) => {
       let finalprodListimg;
-  
+      const mtcCode = metalColorCombo.find(option => option.metalcolorname === pd?.metalcolorname);
       if (pd?.ImageCount > 0) {
-        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
+        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         const img = new Image();
         img.src = finalprodListimg;
   
@@ -600,6 +600,7 @@ const useCart = () => {
       }
     });
   };
+
   
 
   const compressAndEncode = (inputString) => {
