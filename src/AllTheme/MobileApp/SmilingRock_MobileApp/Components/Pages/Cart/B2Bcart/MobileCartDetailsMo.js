@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState } from 'recoil';
 import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -201,7 +202,7 @@ const MobileCartDetails = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {selectedItem?.FinalCost}
+                    {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) : (
                   <Skeleton className='smrmo_CartSkelton' variant="text" width="50%" animation="wave" />

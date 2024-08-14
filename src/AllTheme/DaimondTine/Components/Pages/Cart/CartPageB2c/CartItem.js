@@ -43,13 +43,13 @@ const CartItem = ({
 
     useEffect(() => {
         if (cartData?.ImageCount > 0) {
-          CartCardImageFunc(cartData).then((src) => {
-            setImageSrc(src);
-          });
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [cartData]);
+    }, [cartData]);
 
     return (
         <tr>
@@ -84,12 +84,16 @@ const CartItem = ({
                 }
             </td>
             <td className="dt_quantity">
-                <QuantitySelector
-                    cartData={cartData}
-                    qtyCount={qtyCount}
-                    handleIncrement={handleIncrement}
-                    handleDecrement={handleDecrement}
-                />
+                {cartData?.StockId != 0 ? (
+                    <span>{cartData?.Quantity}</span>
+                ) :
+                    <QuantitySelector
+                        cartData={cartData}
+                        qtyCount={qtyCount}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                    />
+                }
             </td>
             <td className="total">
                 {storeInitData?.IsPriceShow == 1 &&

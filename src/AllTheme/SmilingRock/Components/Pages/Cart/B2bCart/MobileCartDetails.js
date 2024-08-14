@@ -89,7 +89,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="smrMo_Cart_R-details">
               <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
