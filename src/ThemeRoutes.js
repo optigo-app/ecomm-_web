@@ -11,10 +11,7 @@ import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Helmet } from "react-helmet";
-import {
-  companyLogo,
-  loginState,
-} from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
@@ -27,7 +24,7 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(1);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -126,7 +123,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(2);
+      setThemeNo(1);
     }
     // .finally(() => setLoading(false));
   }, []);

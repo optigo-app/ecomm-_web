@@ -5,6 +5,7 @@ import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -35,6 +36,7 @@ const MobileCartDetails = ({
   handleClose
 }) => {
 
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -63,13 +65,23 @@ const MobileCartDetails = ({
     }
   }
 
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
+
 
   return (
     <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrMo_Cart-imageDiv">
           <img
-            src={CartCardImageFunc(selectedItem)}
+            src={imageSrc}
             alt="Cluster Diamond"
             className='smrMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
@@ -77,7 +89,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="smrMo_Cart_R-details">
               <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />

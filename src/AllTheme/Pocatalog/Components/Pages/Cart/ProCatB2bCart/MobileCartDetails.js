@@ -5,6 +5,7 @@ import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -34,13 +35,13 @@ const MobileCartDetails = ({
   open,
   handleClose
 }) => {
-
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
- const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'))
+  const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -63,13 +64,23 @@ const MobileCartDetails = ({
     }
   }
 
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
+
 
   return (
     <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrMo_Cart-imageDiv">
           <img
-            src={CartCardImageFunc(selectedItem)}
+            src={imageSrc}
             alt="Cluster Diamond"
             className='smrMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
@@ -77,7 +88,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="smrMo_Cart_R-details">
               <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
@@ -157,7 +168,7 @@ const MobileCartDetails = ({
                       }
                     </>
                   }
-                 {sizeCombo?.rd?.length !== 0 &&
+                  {sizeCombo?.rd?.length !== 0 &&
                     <div className="option">
                       <label htmlFor="size">Size:</label>
                       <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>
@@ -182,8 +193,8 @@ const MobileCartDetails = ({
                     {!ispriceloding ? (
                       <span>
                         {loginInfo?.CurrencyCode ??
-                            storeInitData?.CurrencyCode}{" "}
-                          &nbsp; {formatter(selectedItem?.FinalCost)}
+                          storeInitData?.CurrencyCode}{" "}
+                        &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
                       <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -244,7 +255,7 @@ const MobileCartDetails = ({
                     <div className="smrMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                        {loginInfo?.CurrencyCode ??
+                          {loginInfo?.CurrencyCode ??
                             storeInitData?.CurrencyCode}{" "}
                           &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
