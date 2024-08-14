@@ -11,6 +11,7 @@ import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI
 import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { smrMA_CartCount } from '../../../Recoil/atom';
 import Cookies from "js-cookie";
+import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
@@ -22,6 +23,7 @@ const CartItem = ({
   itemLength,
   handleMoveToDetail
 }) => {
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [dialogOpen, setDialogOpen] = useState(false);
   const setCartCountVal = useSetRecoilState(smrMA_CartCount)
   const [storeInitData, setStoreInitData] = useState();
@@ -33,6 +35,16 @@ const CartItem = ({
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
+
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -83,7 +95,7 @@ const CartItem = ({
         <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
-            image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
+            image={imageSrc}
             alt={item?.TitleLine}
             className='smrMo_cartListImage'
           />
@@ -140,7 +152,7 @@ const CartItem = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {(item?.UnitCostWithMarkUp)}
+                    {formatter(item?.UnitCostWithMarkUp)}
                   </span>
                 }
                 <p className='smrMo_QuanittyP'>Qty: <span>{item?.Quantity}</span></p>
@@ -154,7 +166,8 @@ const CartItem = ({
           }
         </Box>
         <Box className="smrMo_cartbtngroupReRm">
-          {item?.StockId == 0 &&
+
+          {(item?.StockId == 0 && item?.IsMrpBase == 0) &&
             <Button
               className='smrMo_ItemUpdatebtn'
               fullWidth

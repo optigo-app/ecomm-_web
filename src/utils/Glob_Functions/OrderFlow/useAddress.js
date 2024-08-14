@@ -106,10 +106,11 @@ export const useAddress = () => {
                 if (!value) error = 'Last name is required';
                 else if (value.length <= 1 && /^[A-Za-z0-9]+$/.test(value)) error = 'Last name must contain at least two characters.'
                 break;
-            case 'mobileNo':
-                if (!value) error = 'Mobile number is required';
-                else if (value.length < 10) error = 'Mobile number must be at least 10 digits';
-                break;
+                case 'mobileNo':
+                    if (!value) error = 'Mobile number is required';
+                    else if (!numbersOnlyRegex.test(value)) error = 'Mobile number must contain only digits';
+                    else if (value.length !== 10) error = 'Mobile number must be exactly 10 digits';
+                    break;
             case 'address':
                 if (!value) error = 'Address is required';
                 break;
@@ -127,8 +128,8 @@ export const useAddress = () => {
                 break;
             case 'zipCode':
                 if (!value) error = 'ZIP code is required';
-                else if (value.length > 6) error = 'Zip Code cannot exceed 6 characters';
-                else if (!numbersOnlyRegex.test(value)) error = 'Only numeric characters are allowed in the Zip Code.'
+                else if (value.length < 2 || value.length > 6) error = 'ZIP code must be between 2 and 6 characters';
+                else if (!numbersOnlyRegex.test(value)) error = 'Only numeric characters are allowed in the ZIP code.';
                 break;
             default:
                 break;
@@ -157,8 +158,10 @@ export const useAddress = () => {
         }
         if (!formData.mobileNo) {
             formErrors.mobileNo = 'Mobile number is required';
-        } else if (formData.mobileNo.length < 10) {
-            formErrors.mobileNo = 'Mobile number must be at least 10 digits';
+        } else if (!numbersOnlyRegex.test(formData.mobileNo)) {
+            formErrors.mobileNo = 'Mobile number must contain only digits';
+        } else if (formData.mobileNo.length !== 10) {
+            formErrors.mobileNo = 'Mobile number must be exactly 10 digits';
         }
         if (!formData.address) formErrors.address = 'Address is required'
         if (!formData.country) {
@@ -178,10 +181,10 @@ export const useAddress = () => {
         }
         if (!formData.zipCode) {
             formErrors.zipCode = 'ZIP code is required';
-        } else if(formData.zipCode.length > 6){
-            formErrors.zipCode = 'Zip Code cannot exceed 6 characters';
-        } else if(!numbersOnlyRegex.test(formData.zipCode)){
-            formErrors.zipCode = 'Only numeric characters are allowed in the Zip Code.';
+        } else if (formData.zipCode.length < 2 || formData.zipCode.length > 6) {
+            formErrors.zipCode = 'ZIP code must be between 2 and 6 characters';
+        } else if (!numbersOnlyRegex.test(formData.zipCode)) {
+            formErrors.zipCode = 'Only numeric characters are allowed in the ZIP code.';
         }
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;

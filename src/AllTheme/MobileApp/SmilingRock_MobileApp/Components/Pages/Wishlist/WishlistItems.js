@@ -25,7 +25,7 @@ const WishlistItems = (
         handleWishlistToCart,
         handleMoveToDetail
     }) => {
-
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const setWishCountVal = useSetRecoilState(smrMA_WishCount)
     const setCartCountVal = useSetRecoilState(smrMA_CartCount)
     const visiterId = "";
@@ -37,7 +37,7 @@ const WishlistItems = (
                 setCartCountVal(res?.cartcount);
             })
         }
-      };
+    };
 
     const handleRemoveItemFun = async (item) => {
         const returnValue = await handleRemoveItem(item);
@@ -48,13 +48,23 @@ const WishlistItems = (
         }
     };
 
+    useEffect(() => {
+        if (item?.ImageCount > 0) {
+            WishCardImageFunc(item).then((src) => {
+                setImageSrc(src);
+            });
+        } else {
+            setImageSrc(noImageFound);
+        }
+    }, [item]);
+
     return (
         <Grid sx={{ paddingLeft: '12px !important', paddingTop: '10px !important' }} item xs={itemsLength !== 1 ? 6 : 12} sm={itemsLength !== 1 ? 6 : 12} md={itemsLength <= 2 ? 6 : 4} lg={itemsLength <= 2 ? 6 : 3}>
             <Card className='smrMo_WlListCard'>
                 <div className='cardContent'>
                     <CardMedia
                         component="img"
-                        image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
+                        image={imageSrc}
                         alt={item?.TitleLine}
                         className='smrMo_WlListImage'
                         onClick={() => handleMoveToDetail(item)}
@@ -62,7 +72,7 @@ const WishlistItems = (
                     <CardContent className='smrMo_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='smrMo_card-ContentData smrMo_WlTitleline'>
-                            {item?.designno != "" && item?.designno}{item?.TitleLine != "" &&  " - " + item?.TitleLine}
+                                {item?.designno != "" && item?.designno}{item?.TitleLine != "" && " - " + item?.TitleLine}
                             </Typography>
                             <Typography variant="body2" className='smrMo_card-ContentData'>
                                 <span className='smrMo_wishDT'>NWT : </span>

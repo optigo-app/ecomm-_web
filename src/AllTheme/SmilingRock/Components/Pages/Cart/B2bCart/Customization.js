@@ -55,11 +55,11 @@ const Customization = ({
     }
   }
 
-  console.log("sizeCombo", sizeCombo);
+  console.log("selectedItem", selectedItem);
 
   return (
     <>
-      {selectedItem?.StockId == 0 ? (
+      {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="smr_CartCusto_R-details">
           <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />

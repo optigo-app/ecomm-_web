@@ -28,12 +28,24 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
+    const [imageSrc, setImageSrc] = useState(noImageFound);
+
     const setWishCountVal = useSetRecoilState(WishCount);
     const setCartCountVal = useSetRecoilState(CartCount);
     const visiterId = Cookies.get("visiterId");
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    useEffect(() => {
+        if (item?.ImageCount > 0) {
+            WishCardImageFunc(item).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [item]);
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
@@ -69,9 +81,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={
-                                    item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-                                }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="smr_WlListImage"
                                 onClick={() => handleMoveToDetail(item)}
@@ -169,9 +179,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={
-                                    item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-                                }
+                                image={imageSrc }
                                 alt={item?.TitleLine}
                                 className="smr_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}
