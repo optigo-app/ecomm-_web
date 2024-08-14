@@ -34,7 +34,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.mobileNo}
                         helperText={errors.mobileNo}
                         fullWidth
-                        type='number'
+                        // type='number'
                         className='dt_addressTextFields'
                     />
                     <TextField
@@ -80,7 +80,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.zipCode}
                         helperText={errors.zipCode}
                         fullWidth
-                        type='number'
+                        // type='number'
                         className='dt_addressTextFields'
                     />
                 </DialogContent>

@@ -59,7 +59,7 @@ const Customization = ({
 
   return (
     <>
-      {selectedItem?.StockId == 0 ? (
+      {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="proCat_CartCusto_R-details">
           <p className='proCat_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
@@ -121,7 +121,7 @@ const Customization = ({
               }
               {storeInitData?.IsCsCustomization == 1 &&
                 <>
-                   {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
+                  {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                     <div className="option">
                       <label htmlFor="diamond">Color Stone:</label>
                       <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
@@ -201,7 +201,7 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-             {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+            {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
                 <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
@@ -238,7 +238,7 @@ const Customization = ({
                           ),
                         }}
                       /> */}
-                       <span className="proCat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      <span className="proCat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :

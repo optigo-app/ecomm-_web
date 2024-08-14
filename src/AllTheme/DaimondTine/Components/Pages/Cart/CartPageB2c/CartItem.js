@@ -18,9 +18,10 @@ const CartItem = ({
     decodeEntities,
     handleDecrement,
     handleIncrement,
-    onRemoveItem
+    onRemoveItem,
+    handleMoveToDetail
 }) => {
-
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const [storeInitData, setStoreInitData] = useState();
     const setCartCountVal = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
@@ -40,16 +41,23 @@ const CartItem = ({
         }
     };
 
+    useEffect(() => {
+        if (cartData?.ImageCount > 0) {
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
+        } else {
+            setImageSrc(noImageFound);
+        }
+    }, [cartData]);
+
     return (
         <tr>
             <td className="product">
                 <img
-                    src={cartData?.ImageCount !== 0 ? CartCardImageFunc(cartData) : noImageFound}
+                    src={imageSrc}
                     alt={cartData?.name}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `${storeInitData?.DesignImageFol}${cartData?.designno}_1.${cartData?.ImageExtension}`;
-                    }}
+                    onClick={() => handleMoveToDetail(cartData)}
                 />
                 <div className="product-details">
                     <p>{cartData?.TitleLine}</p>
@@ -76,12 +84,16 @@ const CartItem = ({
                 }
             </td>
             <td className="dt_quantity">
-                <QuantitySelector
-                    cartData={cartData}
-                    qtyCount={qtyCount}
-                    handleIncrement={handleIncrement}
-                    handleDecrement={handleDecrement}
-                />
+                {cartData?.StockId != 0 ? (
+                    <span>{cartData?.Quantity}</span>
+                ) :
+                    <QuantitySelector
+                        cartData={cartData}
+                        qtyCount={qtyCount}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                    />
+                }
             </td>
             <td className="total">
                 {storeInitData?.IsPriceShow == 1 &&

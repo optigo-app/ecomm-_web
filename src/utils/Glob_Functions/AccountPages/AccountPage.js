@@ -1,3 +1,4 @@
+import { handleDefaultSelectionAddress } from "../../API/AccountTabs/manageAddress";
 
 export const accountDetailPages = () => {
     let arr = [
@@ -159,3 +160,252 @@ export function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
   
+//address form validation
+export const validateAddressFormAccount = (formData) => {
+    const errorsCopy = {}; // Initialize errors object
+
+    if (!formData.firstName.trim()) {
+        errorsCopy.firstName = 'First Name is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
+        errorsCopy.firstName = 'First Name must contain only letters';
+    } else if (formData.firstName.trim().length < 2) {
+        errorsCopy.firstName = 'Enter minimum 2 characters';
+    } else if (formData.firstName.trim().length > 45) {
+        errorsCopy.firstName = 'Enter maximum 45 characters';
+    }
+
+    if (!formData.lastName.trim()) {
+        errorsCopy.lastName = 'Last Name is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
+        errorsCopy.lastName = 'Last Name must contain only letters';
+    } else if (formData.lastName.trim().length < 2) {
+        errorsCopy.lastName = 'Enter minimum 2 characters';
+    } else if (formData.lastName.trim().length > 45) {
+        errorsCopy.lastName = 'Enter maximum 45 characters';
+    }
+
+    if (!formData.mobileNo.trim()) {
+        errorsCopy.mobileNo = 'Mobile No. is required';
+    } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
+        errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
+    }
+
+    if (!formData.address.trim()) {
+        errorsCopy.address = 'Address is required';
+    }
+
+    if (!formData.country.trim()) {
+        errorsCopy.country = 'Country is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
+        errorsCopy.country = 'Country name must contain only letters';
+    }
+
+    if (!formData.state.trim()) {
+        errorsCopy.state = 'State is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
+        errorsCopy.state = 'State name must contain only letters';
+    }
+
+    if (!formData.city.trim()) {
+        errorsCopy.city = 'City is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
+        errorsCopy.city = 'City name must contain only letters';
+    }
+
+    if (!formData.zipCode.trim()) {
+        errorsCopy.zipCode = 'ZIP Code is required';
+    } else if (!/^\d+$/.test(formData.zipCode.trim())) {
+        errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
+    } else if (formData.zipCode.trim().length !== 6) {
+        errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
+    }
+
+    return errorsCopy;
+}
+//address form fields on change validations
+export const validateAddressFieldAccount = (fieldName, value) => {
+    let error = '';
+
+    switch (fieldName) {
+        case 'firstName':
+            if (!value.trim()) {
+                error = 'First Name is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                error = 'First Name must contain only letters';
+            } else if (value.trim().length < 2) {
+                error = 'Enter minimum 2 characters';
+            } else if (value.trim().length > 45) {
+                error = 'Enter maximum 45 characters';
+            }
+            break;
+        case 'lastName':
+            if (!value.trim()) {
+                error = 'Last Name is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                error = 'Last Name must contain only letters';
+            } else if (value.trim().length < 2) {
+                error = 'Enter minimum 2 characters';
+            } else if (value.trim().length > 45) {
+                error = 'Enter maximum 45 characters';
+            }
+            break;
+        case 'address':
+            error = value.trim() ? '' : 'Address is required';
+            break;
+        case 'country':
+            if (!value.trim()) {
+                error = 'Country is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                error = 'Country name must contain only letters';
+            }
+            break;
+        case 'state':
+            if (!value.trim()) {
+                error = 'State is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                error = 'State name must contain only letters';
+            }
+            break;
+        case 'city':
+            if (!value.trim()) {
+                error = 'City is required';
+            } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+                error = 'City name must contain only letters';
+            }
+            break;
+        case 'zipCode':
+            if (!value.trim()) {
+                error = 'ZIP Code is required';
+            } else if (!/^\d+$/.test(value.trim())) {
+                error = 'ZIP Code must contain only numeric values';
+            } else if (value.trim().length !== 6) {
+                error = 'ZIP Code must be exactly 6 digits';
+            }
+            break;
+        case 'mobileNo':
+            if (!value.trim()) {
+                error = 'Mobile Number is required';
+            } else if (!/^\d+$/.test(value.trim())) {
+                error = 'Mobile Number must contain only numeric values';
+            } else if (value.trim().length !== 10) {
+                error = 'Mobile Number must be exactly 10 digits';
+            }
+            break;
+        default:
+            break;
+    }
+
+    return error;
+};
+
+
+
+//your profile validation function account
+// src/utils/validationUtils.js
+
+export const validateUserDataYPAccount = (editedUserData) => {
+    let tempErrors = {};
+
+    // First Name validation
+    if (!editedUserData.firstname?.trim().length) {
+        tempErrors.firstname = "First Name is required";
+    } else if (!/^[a-zA-Z\s]+$/.test(editedUserData.firstname.trim())) {
+        tempErrors.firstname = "First Name must contain only letters";
+    } else if (editedUserData.firstname.trim().length < 2) {
+        tempErrors.firstname = "Enter minimum 2 characters";
+    } else if (editedUserData.firstname.trim().length > 45) {
+        tempErrors.firstname = "Enter maximum 45 characters";
+    } else {
+        tempErrors.firstname = "";
+    }
+
+    // Last Name validation
+    if (!editedUserData.lastname?.trim().length) {
+        tempErrors.lastname = "Last Name is required";
+    } else if (!/^[a-zA-Z\s]+$/.test(editedUserData.lastname.trim())) {
+        tempErrors.lastname = "Last Name must contain only letters";
+    } else if (editedUserData.lastname.trim().length < 2) {
+        tempErrors.lastname = "Enter minimum 2 characters";
+    } else if (editedUserData.lastname.trim().length > 45) {
+        tempErrors.lastname = "Enter maximum 45 characters";
+    } else {
+        tempErrors.lastname = "";
+    }
+
+    // Mobile Number validation
+    if (!editedUserData.mobileno?.trim().length) {
+        tempErrors.mobileno = "Mobile Number is required";
+    } else if (!/^\d{10}$/.test(editedUserData.mobileno.trim())) {
+        tempErrors.mobileno = "Mobile Number must contain exactly 10 digits and only numbers";
+    } else {
+        tempErrors.mobileno = "";
+    }
+
+    // User ID validation
+    if (!editedUserData.userid) {
+        tempErrors.userid = "User ID is required";
+    }
+
+    // Street Address validation
+    if (!editedUserData.street) {
+        tempErrors.street = "Address is required";
+    }
+
+    // Check if all errors are empty strings or undefined
+    const isValid = Object.values(tempErrors).every(x => !x);
+
+    return { errors: tempErrors, isValid: isValid };
+};
+// validation.js
+
+export const validateChangeYPAccount = (id, value) => {
+    let error = '';
+
+    switch (id) {
+        case 'firstname':
+            if (!value?.trim().length) {
+                error = "First Name is required";
+            } else if (!/^[a-zA-Z\s]+$/.test(value?.trim())) {
+                error = "First Name must contain only letters";
+            } else if (value.trim().length < 2) {
+                error = "Enter minimum 2 characters";
+            } else if (value.trim().length > 45) {
+                error = "Enter maximum 45 characters";
+            }
+            break;
+
+        case 'lastname':
+            if (!value?.trim().length) {
+                error = "Last Name is required";
+            } else if (!/^[a-zA-Z\s]+$/.test(value?.trim())) {
+                error = "Last Name must contain only letters";
+            } else if (value.trim().length < 2) {
+                error = "Enter minimum 2 characters";
+            } else if (value.trim().length > 45) {
+                error = "Enter maximum 45 characters";
+            }
+            break;
+
+        case 'street':
+            if (!value.trim()) {
+                error = 'Address is required';
+            }
+            break;
+
+        case 'mobileno':
+            if (!value.trim()) {
+                error = 'Mobile Number is required';
+            } else if (!/^\d+$/.test(value.trim())) {
+                error = 'Mobile Number must contain only numeric values';
+            } else if (value?.trim()?.length !== 10) {
+                error = 'Mobile Number must be exactly 10 digits';
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return error;
+};
+

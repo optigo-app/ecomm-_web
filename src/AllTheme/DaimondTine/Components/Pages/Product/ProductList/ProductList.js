@@ -71,12 +71,12 @@ const ProductList = () => {
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
   const [selectedMetalId, setSelectedMetalId] = useState(
-    loginUserDetail?.MetalId
+    loginUserDetail?.MetalId ?? storeInit?.MetalId
   );
   const [selectedDiaId, setSelectedDiaId] = useState(
-    loginUserDetail?.cmboDiaQCid
+    loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
   );
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [prodListType, setprodListType] = useState();
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -115,6 +115,16 @@ const ProductList = () => {
   // useEffect(()=>{
   //   setMenuData(menuList)
   // },[])
+
+
+  useEffect(()=>{
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId)
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)
+    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid)
+  },[location?.key])
+
+  console.log("selectedMetalId",selectedMetalId)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -310,30 +320,33 @@ const ProductList = () => {
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
-    const values = BreadCum[0].split(",");
-    const labels = BreadCum[1].split(",");
+    const values = BreadCum[0]?.split(",");
+    const labels = BreadCum[1]?.split(",");
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || "";
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce(
-      (acc, [key, value], index) => {
-        acc[`FilterKey${index === 0 ? "" : index}`] =
-          key.charAt(0).toUpperCase() + key.slice(1);
-        acc[`FilterVal${index === 0 ? "" : index}`] = value;
-        return acc;
-      },
-      {}
-    );
+    let result = {}; 
+
+    if(updatedBreadCum){
+      result = Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+          acc[`FilterKey${index === 0 ? "" : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+          acc[`FilterVal${index === 0 ? "" : index}`] = value;
+          return acc;
+        },
+        {}
+      );
+    }
+
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-
-    result.menuname = decodeURI(location?.pathname)
-      .slice(3)
-      .slice(0, -1)
-      .split("/")[0];
+    if(location?.search.charAt(1) == "A" || location?.search.charAt(1) == "N" || location?.search.charAt(1) == "B" || location?.search.charAt(1) == "T"){
+      return;
+    }else{
+      result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0];
+    }
 
     return result;
   };
@@ -569,15 +582,15 @@ const ProductList = () => {
 
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
-    handleRangeFilterApi(newValue);
+    handleRangeFilterApi(newValue)
   };
   const handleSliderChange1 = (event, newValue) => {
     setSliderValue1(newValue);
-    handleRangeFilterApi1(newValue);
+    handleRangeFilterApi1(newValue)
   };
   const handleSliderChange2 = (event, newValue) => {
     setSliderValue2(newValue);
-    handleRangeFilterApi2(newValue);
+    handleRangeFilterApi2(newValue)
   };
 
   const handleInputChange = (index) => (event) => {
@@ -585,22 +598,165 @@ const ProductList = () => {
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue(newSliderValue);
-    handleRangeFilterApi(newSliderValue);
+    handleRangeFilterApi(newSliderValue)
   };
   const handleInputChange1 = (index) => (event) => {
-    const newSliderValue = [...sliderValue1];
+    const newSliderValue = [...sliderValue1]
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue1(newSliderValue);
-    handleRangeFilterApi1(newSliderValue);
+    handleRangeFilterApi1(newSliderValue)
   };
   const handleInputChange2 = (index) => (event) => {
-    const newSliderValue = [...sliderValue2];
+    const newSliderValue = [...sliderValue2]
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue2(newSliderValue);
-    handleRangeFilterApi2(newSliderValue);
+    handleRangeFilterApi2(newSliderValue)
   };
+
+  const RangeFilterView = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue}
+              onChange={(event, newValue) => setSliderValue(newValue)}
+              onChangeCommitted={handleSliderChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue[0].toFixed(3)}
+              margin="none"
+              onChange={handleInputChange(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue[1].toFixed(3)}
+              margin="none"
+              onChange={handleInputChange(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+  const RangeFilterView1 = (ele) => {
+    // console.log("netwt",ele)
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue1}
+              onChange={() => (event, newValue) => setSliderValue1(newValue)}
+              onChangeCommitted={handleSliderChange1}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue1[0].toFixed(3)}
+              margin="dense"
+              onChange={handleInputChange1(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue1[1].toFixed(3)}
+              margin="dense"
+              onChange={handleInputChange1(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+  const RangeFilterView2 = (ele) => {
+    return (
+      <>
+        <div>
+          <div>
+            <Slider
+              value={sliderValue2}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
+              onChangeCommitted={handleSliderChange2}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={JSON?.parse(ele?.options)[0]?.Min}
+              max={JSON?.parse(ele?.options)[0]?.Max}
+              step={0.001}
+              sx={{ marginTop: "25px" }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Input
+              value={sliderValue2[0].toFixed(3)}
+              margin="dense"
+              onChange={handleInputChange2(0)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+            <Input
+              value={sliderValue2[1].toFixed(3)}
+              margin="dense"
+              onChange={handleInputChange2(1)}
+              inputProps={{
+                step: 0.001,
+                min: JSON?.parse(ele?.options)[0]?.Min,
+                max: JSON?.parse(ele?.options)[0]?.Max,
+                type: "number",
+                "aria-labelledby": "range-slider"
+              }}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
 
   const compressAndEncode = (inputString) => {
     try {
@@ -715,146 +871,6 @@ const ProductList = () => {
     }
   };
 
-  const RangeFilterView = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue}
-              onChange={handleSliderChange}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue[0]}
-              margin="dense"
-              onChange={handleInputChange(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue[1]}
-              margin="dense"
-              onChange={handleInputChange(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue1}
-              onChange={handleSliderChange1}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue1[0]}
-              margin="dense"
-              onChange={handleInputChange1(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue1[1]}
-              margin="dense"
-              onChange={handleInputChange1(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-  const RangeFilterView2 = (ele) => {
-    return (
-      <>
-        <div>
-          <div>
-            <Slider
-              value={sliderValue2}
-              onChange={handleSliderChange2}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              step={0.001}
-              sx={{ marginTop: "25px" }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Input
-              value={sliderValue2[0]}
-              margin="dense"
-              onChange={handleInputChange2(0)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-            <Input
-              value={sliderValue2[1]}
-              margin="dense"
-              onChange={handleInputChange2(1)}
-              inputProps={{
-                step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
-                type: "number",
-                "aria-labelledby": "range-slider",
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-
   useEffect(() => {
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
@@ -900,6 +916,16 @@ const ProductList = () => {
     // })
     // }
   }, [filterChecked]);
+
+  
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
 
   const handelCustomCombo = (obj) => {
     let output = FilterValueWithCheckedOnly();
@@ -1122,6 +1148,27 @@ const ProductList = () => {
       });
     }
   };
+
+  console.log("BreadCumsObj()",BreadCumsObj())
+
+  const handleLabelMenuName = () =>{
+    switch (location?.search.charAt(1)) {
+      case "A":
+        return "ALBUM"
+
+      case "T":
+        return "TRENDING"
+
+      case "B":
+        return "BEST SELLER"
+
+      case "N":
+        return "NEW ARRIVAL"
+    
+      default:
+        return menuList?.menuname
+    }
+  } 
 
   return (
     <div>
@@ -1357,7 +1404,7 @@ const ProductList = () => {
                       </>
                     }
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span onClick={() => {if(Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0){ handelFilterClearAll()}}}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
@@ -1600,7 +1647,7 @@ const ProductList = () => {
                                       opt?.Minval == 0
                                         ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                         : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
                                           : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
                                     }
@@ -1661,7 +1708,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 203, height: 88 }}>
+                            <Box sx={{ width:"94%", height: 88 }}>
                               {RangeFilterView(ele)}
                             </Box>
                           </AccordionDetails>
@@ -1717,7 +1764,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 204, height: 88 }}>
+                            <Box sx={{ width:"94%", height: 88 }}>
                               {RangeFilterView1(ele)}
                             </Box>
                           </AccordionDetails>
@@ -1772,7 +1819,7 @@ const ProductList = () => {
                               overflow: "auto",
                             }}
                           >
-                            <Box sx={{ width: 204, height: 88 }}>
+                            <Box sx={{ width:"94%", height: 88 }}>
                               {RangeFilterView2(ele)}
                             </Box>
                           </AccordionDetails>
@@ -1790,7 +1837,8 @@ const ProductList = () => {
         <div className="text-container">
           <div className="textContainerData">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="designCounttext">{menuList?.menuname}</p>
+              {/* <p className="designCounttext">{menuList?.menuname}</p> */}
+              <p className="designCounttext">{handleLabelMenuName()}</p>
             </div>
           </div>
         </div>
@@ -1807,7 +1855,7 @@ const ProductList = () => {
         <div className="breadCrumb_menu_List">
           <span
             style={{
-              textTransform: "uppercase",
+              // textTransform: "uppercase",
               display: "flex",
               width: maxwidth1483 ? "100%":"20%",
             }}
@@ -1819,7 +1867,7 @@ const ProductList = () => {
                 navigate("/");
               }}
             >
-              {"Home >"}{" "}
+              {"Home/"}
             </span>
 
             {location?.search.charAt(1) == "A" && (
@@ -1861,7 +1909,7 @@ const ProductList = () => {
             {IsBreadCumShow && (
               <div
                 className="smr_breadcums_port_app"
-                style={{ marginLeft: "3px" }}
+                // style={{ marginLeft: "3px" }}
               >
                 {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
                 {BreadCumsObj()?.menuname && (
@@ -1886,7 +1934,7 @@ const ProductList = () => {
                       })
                     }
                   >
-                    {` > ${BreadCumsObj()?.FilterVal1}`}
+                    {`/${BreadCumsObj()?.FilterVal1}`}
                   </span>
                 )}
 
@@ -1902,7 +1950,7 @@ const ProductList = () => {
                       })
                     }
                   >
-                    {` > ${BreadCumsObj()?.FilterVal2}`}
+                    {`/${BreadCumsObj()?.FilterVal2}`}
                   </span>
                 )}
               </div>
@@ -1945,7 +1993,7 @@ const ProductList = () => {
                       fontFamily: "Poppins, sans-serif",
                     }}
                   >
-                    Metal:
+                    Metal :
                   </label>
                   <select
                     className="sortMenuSelection"
@@ -1978,7 +2026,7 @@ const ProductList = () => {
                       fontFamily: "Poppins, sans-serif",
                     }}
                   >
-                    Diamond:
+                    Diamond :
                   </label>
                   <select
                     className="sortMenuSelection"
@@ -2012,7 +2060,7 @@ const ProductList = () => {
                       fontFamily: "Poppins, sans-serif",
                     }}
                   >
-                    Color Stone:
+                    Color Stone :
                   </label>
                   <select
                     className="sortMenuSelection"
@@ -2047,7 +2095,7 @@ const ProductList = () => {
                     fontFamily: "Poppins, sans-serif",
                   }}
                 >
-                  sort by:
+                  Sort by :
                 </label>
                 <select
                   className="sortMenuSelection"
@@ -2132,7 +2180,7 @@ const ProductList = () => {
                               </>
                             )}
                           </span>
-                          <span onClick={() => handelFilterClearAll()}>
+                          <span onClick={() => {if(Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0){ handelFilterClearAll()}}}>
                             {Object.values(filterChecked).filter(
                               (ele) => ele.checked
                             )?.length > 0 ? (
@@ -2345,6 +2393,7 @@ const ProductList = () => {
                                                 size="small"
                                               />
                                             }
+                                            style={{fontSize:'12px !important'}}
                                             className="smr_mui_checkbox_label"
                                             label={
                                               opt?.Minval == 0
@@ -2356,7 +2405,7 @@ const ProductList = () => {
                                                 ? `Over ${
                                                     loginUserDetail?.CurrencyCode ??
                                                     storeInit?.CurrencyCode
-                                                  }${opt?.Minval}`
+                                                  } ${opt?.Minval}`
                                                 : `${
                                                     loginUserDetail?.CurrencyCode ??
                                                     storeInit?.CurrencyCode
@@ -2419,7 +2468,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                    <Box sx={{ width: 203, height: 88 }}>
+                                    <Box sx={{ width:"94%", height: 88 }}>
                                       {RangeFilterView(ele)}
                                     </Box>
                                   </AccordionDetails>
@@ -2471,7 +2520,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                    <Box sx={{ width: 204, height: 88 }}>
+                                    <Box sx={{ width:"94%", height: 88 }}>
                                       {RangeFilterView1(ele)}
                                     </Box>
                                   </AccordionDetails>
@@ -2527,7 +2576,7 @@ const ProductList = () => {
                                       overflow: "auto",
                                     }}
                                   >
-                                    <Box sx={{ width: 204, height: 88 }}>
+                                    <Box sx={{ width:"94%", height: 88 }}>
                                       {RangeFilterView2(ele)}
                                     </Box>
                                   </AccordionDetails>
@@ -2628,7 +2677,7 @@ const ProductList = () => {
                                                   ]
                                                 : productData?.images?.length >
                                                   0
-                                                ? productData?.images[0]
+                                                ? ( checkImageAvailability(productData?.images[0]) === true ? productData?.images[0] : imageNotFound)
                                                 : imageNotFound
                                             }
                                             alt=""

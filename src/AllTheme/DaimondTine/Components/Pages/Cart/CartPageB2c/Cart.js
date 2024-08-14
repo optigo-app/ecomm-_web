@@ -79,7 +79,7 @@ function Cart(props) {
     }, 300);
   }, [cartData]);
 
-  // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     let priceData = cartData?.reduce(
@@ -88,8 +88,8 @@ function Cart(props) {
     );
     sessionStorage.setItem("TotalPriceData", priceData);
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
-      // navigate(redirectUrl);
-      navigate('/loginOption')
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
       navigate("/Delivery");
     }
@@ -186,6 +186,7 @@ function Cart(props) {
                             handleIncrement={handleIncrement}
                             handleDecrement={handleDecrement}
                             onRemoveItem={handleRemoveItem}
+                            handleMoveToDetail={handleMoveToDetail}
                           />
                         ))}
                       </tbody>

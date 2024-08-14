@@ -39,6 +39,7 @@ const CartItem = ({
   handleCancel,
   openHandleUpdateCartModal
 }) => {
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -98,6 +99,16 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
+
   return (
     <>
       <div className="for_cart-item"
@@ -107,7 +118,7 @@ const CartItem = ({
         onClick={() => onSelect(item)}
       >
         <div className="for_cart-item__image">
-          <img src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt={item?.productName} />
+          <img src={imageSrc} alt='Product-image'/>
         </div>
         <div className="for_cart-item__details">
           <h3>{item?.designno != "" && item?.designno}

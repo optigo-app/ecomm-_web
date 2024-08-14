@@ -98,7 +98,7 @@ const AppointmentPage = () => {
                     ))}
                 </div>
             </div>
-            <Services services={services}/>
+            <Services title={"Our Services"} services={services}/>
             <NewsletterSignup/>
             </div>
         </div>

@@ -18,7 +18,7 @@ import { RxCross1 } from "react-icons/rx";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import { Checkbox, FormControl, FormControlLabel, Input, MenuItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
-import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
@@ -34,9 +34,9 @@ const ProductList = () => {
   const location = useLocation();
   const dropdownRefs = useRef({})
   let maxwidth464px = useMediaQuery('(max-width:464px)')
-
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
+
   const [trend, setTrend] = useState('Recommended');
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -47,6 +47,7 @@ const ProductList = () => {
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [storeInit, setStoreInit] = useState({});
@@ -110,10 +111,10 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("storeInit"));
+    const data = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(data);
 
-    const loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
+    const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
 
     let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
@@ -125,10 +126,10 @@ const ProductList = () => {
     let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
     setSelectedCsId(csid);
 
-    let metalTypeDrpdown = JSON.parse(localStorage.getItem("metalTypeCombo"));
+    let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
 
-    let diamondTypeDrpdown = JSON.parse(localStorage.getItem("diamondQualityColorCombo"));
+    let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
     setDiamondType(diamondTypeDrpdown);
 
   }, []);
@@ -137,44 +138,44 @@ const ProductList = () => {
 
   const links = [
     {
-      link: 'https://www.forevery.one/uploads/FlashSaleBanner/1-1.jpg',
+      link: `${storImagePath()}/images/ProductListing/Banner/1.jpg`,
     },
     {
-      link: 'https://www.forevery.one/storage/uploads/FlashSaleBanner/28-1.png',
+      link: `${storImagePath()}/images/ProductListing/Banner/2.png`,
     },
     {
-      link: 'https://www.forevery.one/storage/uploads/FlashSaleBanner/33-1.png',
+      link: `${storImagePath()}/images/ProductListing/Banner/3.png`,
     },
   ]
 
   const categoryArr = [
     {
       title: 'All Jewelry',
-      image: 'https://www.forevery.one/images_new/foreveryimg/all-jewelry.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/all-jewelry.svg`
     },
     {
       title: 'Diamond Rings',
-      image: 'https://www.forevery.one/images_new/foreveryimg/Diamond_Rings.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`
     },
     {
       title: 'Diamond Earings',
-      image: 'https://www.forevery.one/images_new/foreveryimg/Diamond_Studs.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`
     },
     {
       title: 'Diamond Braceletes',
-      image: 'https://www.forevery.one/images_new/foreveryimg/Diamond-bracelets.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`
     },
     {
       title: 'Diamond Necklaces',
-      image: 'https://www.forevery.one/images_new/foreveryimg/diamond-necklaces.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`
     },
     {
       title: 'Diamond Pendants',
-      image: 'https://www.forevery.one/images_new/foreveryimg/pendant.png'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`
     },
     {
       title: 'Signet Rings',
-      image: '	https://www.forevery.one/images_new/foreveryimg/signetring.svg'
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/signetring.svg`
     },
   ]
 
@@ -265,8 +266,6 @@ const ProductList = () => {
 
 
   }
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -429,7 +428,6 @@ const ProductList = () => {
     });
   }, [])
 
-  console.log('BreadCumsObj: ', BreadCumsObj());
 
   useEffect(() => {
     let output = selectedValues.filter((ele) => ele.value)
@@ -572,49 +570,49 @@ const ProductList = () => {
       })
   }
 
-  const handelCustomCombo = (obj) => {
+  // const handelCustomCombo = (obj) => {
 
-    if (location?.state?.SearchVal === undefined) {
-      setIsOnlyProdLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setTimeout(() => {
-            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-            setIsOnlyProdLoading(false);
-          }, 100);
-        });
-    }
-  };
+  //   if (location?.state?.SearchVal === undefined) {
+  //     setIsOnlyProdLoading(true);
+  //     ProductListApi({}, 1, obj, prodListType, cookie, sortBySelect)
+  //       .then((res) => {
+  //         if (res) {
+  //           setProductListData(res?.pdList);
+  //           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //         }
+  //         return res;
+  //       })
+  //       .catch((err) => console.log("err", err))
+  //       .finally(() => {
+  //         setTimeout(() => {
+  //           sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+  //           setIsOnlyProdLoading(false);
+  //         }, 100);
+  //       });
+  //   }
+  // };
 
-  useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+  // useEffect(() => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  //   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+  //   sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
-    if (
-      loginInfo?.MetalId !== selectedMetalId ||
-      loginInfo?.cmboDiaQCid !== selectedDiaId ||
-      loginInfo?.cmboCSQCid !== selectedCsId
-    ) {
-      if (
-        selectedMetalId !== "" ||
-        selectedDiaId !== "" ||
-        selectedCsId !== ""
-      ) {
-        handelCustomCombo(obj);
-      }
-    }
-  }, [selectedMetalId, selectedDiaId, selectedCsId]);
+  //   if (
+  //     loginInfo?.MetalId !== selectedMetalId ||
+  //     loginInfo?.cmboDiaQCid !== selectedDiaId ||
+  //     loginInfo?.cmboCSQCid !== selectedCsId
+  //   ) {
+  //     if (
+  //       selectedMetalId !== "" ||
+  //       selectedDiaId !== "" ||
+  //       selectedCsId !== ""
+  //     ) {
+  //       handelCustomCombo(obj);
+  //     }
+  //   }
+  // }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
 
   const StyledRating = styled(Rating)({
@@ -646,7 +644,7 @@ const ProductList = () => {
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
-      p:  BreadCumsObj(),
+      p: BreadCumsObj(),
       f: {},
     };
     console.log("ksjkfjkjdkjfkjsdk--", obj);
@@ -785,6 +783,8 @@ const ProductList = () => {
                     ref={el => dropdownRefs.current[index] = el}
                     setSelectedMetalId={setSelectedMetalId}
                     setSelectedDiaId={setSelectedDiaId}
+                    selectedMetalId={selectedMetalId}
+                    selectedDiaId={selectedDiaId}
                   />
                 ))}
 
@@ -981,6 +981,8 @@ const CollectionDropdown = forwardRef(({
   title,
   index,
   data,
+  selectedMetalId,
+  selectedDiaId,
 }, ref) => {
   return (
     <div className="for_collection_filter_dropdown" onClick={() => handleOpen(index)} ref={ref}>
@@ -990,64 +992,40 @@ const CollectionDropdown = forwardRef(({
       </div>
       <div className={open ? "for_collection_filter_option_div" : 'for_collection_filter_option_div_hide'}>
         {data?.map((i) => {
-          {
-            return (
-              type === 'high' ? (
-                <div
-                  className={`for_collction_filter_options ${check1 === i ? 'selected' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent event from bubbling up to the parent
-                    handleButton(i);
-                  }}
-                  key={i}
-                >
-                  <input
-                    type="radio"
-                    checked={check1 === i}
-                  />
-                  <span>{i}</span>
-                </div>
-              ) : (
-                type === 'metal' ? (
-                  <>
-                    <div
-                      className={`for_collction_filter_options ${check1 === i?.metaltype ? 'selected' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent event from bubbling up to the parent
-                        handleButton(i?.metaltype);
-                        setSelectedMetalId(i?.Metalid)
-                      }}
-                      key={i.Metalid}
-                    >
-                      <input
-                        type="radio"
-                        checked={check1 === i?.metaltype}
-                      />
-                      <span>{i?.metaltype}</span>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div
-                      className={`for_collction_filter_options ${check1 === `${i.Quality}#${i?.color}` ? 'selected' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent event from bubbling up to the parent
-                        handleButton(`${i.Quality}#${i?.color}`);
-                        setSelectedDiaId(`${i?.QualityId},${i?.ColorId}`)
-                      }}
-                      key={i?.QualityId}
-                    >
-                      <input
-                        type="radio"
-                        checked={check1 === `${i.Quality}#${i?.color}`}
-                      />
-                      <span>{`${i.Quality}#${i?.color}`}</span>
-                    </div>
-                  </>
-                )
-              )
-            )
+          let isChecked = false;
+
+          if (type === 'high') {
+            isChecked = check1 === i;
+          } else if (type === 'metal') {
+            isChecked = selectedMetalId === i?.Metalid;
+          } else if (type === 'diamond') {
+            isChecked = selectedDiaId === `${i?.QualityId},${i?.ColorId}`;
           }
+
+          return (
+            <div
+              className={`for_collction_filter_options ${isChecked ? 'selected' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event from bubbling up to the parent
+                if (type === 'metal') {
+                  handleButton(i?.metaltype);
+                  setSelectedMetalId(i?.Metalid);
+                } else if (type === 'diamond') {
+                  handleButton(`${i.Quality}#${i?.color}`);
+                  setSelectedDiaId(`${i?.QualityId},${i?.ColorId}`);
+                } else {
+                  handleButton(i);
+                }
+              }}
+              key={type === 'metal' ? i.Metalid : type === 'diamond' ? `${i?.QualityId},${i?.ColorId}` : i}
+            >
+              <input
+                type="radio"
+                checked={isChecked}
+              />
+              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : i?.metaltype || i}</span>
+            </div>
+          );
         })}
       </div>
     </div>
@@ -1193,7 +1171,7 @@ const Product_Card = ({
   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
   return (
     <>
-      <div className="for_productCard_mainDiv" onClick={() => handleMoveToDetail(productData)}>
+      <div className="for_productCard_mainDiv">
         <div className="for_productList_listing_card_div">
           <div className="for_product_listing_ratings_div">
             <StyledRating
@@ -1217,6 +1195,7 @@ const Product_Card = ({
             onMouseOver={() => setIsHover(true)}
             onMouseOut={() => setIsHover(false)}
             onMouseLeave={() => setIsHover(false)}
+            onClick={() => handleMoveToDetail(productData)}
           >
             {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
               <>
@@ -1277,7 +1256,7 @@ const Product_Card = ({
             className="for_productList_listinig_ATC_div"
           />
         </div>
-        <div className="for_productList_card_description">
+        <div className="for_productList_card_description" onClick={() => handleMoveToDetail(productData)}>
           <div className="for_productList_caratWeight">
             <span className="for_carat_title">Carat Weight:</span>
             <div className="for_carat_weights">

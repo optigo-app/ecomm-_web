@@ -18,12 +18,12 @@ const WishItem = ({
     itemsLength,
     currency,
     decodeEntities,
-    CartCardImageFunc,
+    WishCardImageFunc,
     handleRemoveItem,
     handleWishlistToCart,
     handleMoveToDetail
 }) => {
-
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const [storeInitData, setStoreInitData] = useState();
     const setWishlistCount = useSetRecoilState(dt_WishCount);
     const setCartCount = useSetRecoilState(dt_CartCount);
@@ -54,16 +54,22 @@ const WishItem = ({
         }
     };
 
+    useEffect(() => {
+        if (item?.ImageCount > 0) {
+            WishCardImageFunc(item).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [item]);
+
     return (
         <tr>
             <td className="product" onClick={() => handleMoveToDetail(item)}>
                 <img
-                    src={item?.ImageCount !== 0 ? CartCardImageFunc(item) : noImageFound}
+                    src={imageSrc}
                     alt={item?.name}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `${storeInitData?.DesignImageFol}${item?.designno}_1.${item?.ImageExtension}`;
-                    }}
                 />
                  <div className="product-details">
                     <p>{item?.TitleLine}</p>
