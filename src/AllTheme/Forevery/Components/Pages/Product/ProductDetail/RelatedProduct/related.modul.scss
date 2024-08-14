@@ -11,6 +11,9 @@
         }
 
         .for_related_products_swipper_div {
+            cursor: pointer;
+            margin-top: 2rem;
+
             .for_related_products_card_div {
                 width: 100%;
                 position: relative;
@@ -44,6 +47,11 @@
 }
 
 .for_RelatedmySwiper {
+    .swiper-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
     .swiper-button-prev:after {
         content: "prev";
         font-size: 13px;

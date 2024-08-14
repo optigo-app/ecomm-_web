@@ -44,10 +44,11 @@ const RelatedProduct = ({
               modules={[Navigation, Autoplay]}
               className="for_RelatedmySwiper"
             >
-              {Array.from({ length: 10 }).map((val, i) => {
+              {/* {Array.from({ length: 10 }).map((val, i) => { */}
+              {SimilarBrandArr?.slice(0, 4)?.map((elv, i) => {
                 return (
                   <SwiperSlide>
-                    <div className="for_related_products_card_div">
+                    {/* <div className="for_related_products_card_div">
                       <div className="for_related_ratings_div">
                         <StyledRating
                           name="simple-controlled"
@@ -61,8 +62,18 @@ const RelatedProduct = ({
                       <div className="for_related_card_image_div">
                         <img className="for_related_card_image" src={`${storImagePath()}/Forevery/image.jpg`} alt="" />
                       </div>
-                    </div>
-                    {/* <div className="for_related_products_card_div" onClick={() => handleMoveToDetail(elv)}>
+                    </div> */}
+                    <div className="for_related_products_card_div" onClick={() => handleMoveToDetail(elv)}>
+                      <div className="for_related_ratings_div">
+                        <StyledRating
+                          name="simple-controlled"
+                          value={ratingvalue}
+                          size="small"
+                          color="#8f8e8c"
+                          className="for_related_rating"
+                          readOnly
+                        />
+                      </div>
                       <div className="for_related_card_image_div">
                         <img className="for_related_card_image" src={elv?.ImageCount > 0
                           ? storeInit?.DesignImageFol +
@@ -73,7 +84,7 @@ const RelatedProduct = ({
                           elv?.ImageExtension
                           : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"} alt={elv?.id} />
                       </div>
-                    </div> */}
+                    </div>
                   </SwiperSlide>
                 );
               })}
