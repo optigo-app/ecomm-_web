@@ -11,6 +11,7 @@ import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI
 import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { smrMA_CartCount } from '../../../Recoil/atom';
 import Cookies from "js-cookie";
+import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
@@ -151,7 +152,7 @@ const CartItem = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {(item?.UnitCostWithMarkUp)}
+                    {formatter(item?.UnitCostWithMarkUp)}
                   </span>
                 }
                 <p className='smrMo_QuanittyP'>Qty: <span>{item?.Quantity}</span></p>
@@ -165,7 +166,8 @@ const CartItem = ({
           }
         </Box>
         <Box className="smrMo_cartbtngroupReRm">
-          {item?.StockId == 0 &&
+
+          {(item?.StockId == 0 && item?.IsMrpBase == 0) &&
             <Button
               className='smrMo_ItemUpdatebtn'
               fullWidth

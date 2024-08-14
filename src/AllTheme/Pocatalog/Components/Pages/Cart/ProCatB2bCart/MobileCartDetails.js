@@ -41,7 +41,7 @@ const MobileCartDetails = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
- const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'))
+  const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'))
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -88,7 +88,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="smrMo_Cart_R-details">
               <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
@@ -168,7 +168,7 @@ const MobileCartDetails = ({
                       }
                     </>
                   }
-                 {sizeCombo?.rd?.length !== 0 &&
+                  {sizeCombo?.rd?.length !== 0 &&
                     <div className="option">
                       <label htmlFor="size">Size:</label>
                       <select id="size" name={selectedItem?.id} value={selectedItem?.Size} onChange={handleSizeChange}>
@@ -193,8 +193,8 @@ const MobileCartDetails = ({
                     {!ispriceloding ? (
                       <span>
                         {loginInfo?.CurrencyCode ??
-                            storeInitData?.CurrencyCode}{" "}
-                          &nbsp; {formatter(selectedItem?.FinalCost)}
+                          storeInitData?.CurrencyCode}{" "}
+                        &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
                       <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -255,7 +255,7 @@ const MobileCartDetails = ({
                     <div className="smrMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                        {loginInfo?.CurrencyCode ??
+                          {loginInfo?.CurrencyCode ??
                             storeInitData?.CurrencyCode}{" "}
                           &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
