@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import WishlistItems from './WishlistItems';
-import { useNavigate } from 'react-router-dom';
 
 
 const WishlistData = ({
@@ -16,7 +15,8 @@ const WishlistData = ({
   handleWishlistToCart,
   WishCardImageFunc,
   handleMoveToDetail,
-  handelMenu
+  handelMenu,
+  imageSrc
 }) => {
 
   const handleRedirect = () => {
@@ -31,6 +31,7 @@ const WishlistData = ({
         <Grid container spacing={2}>
           {items.map(item => (
             <WishlistItems
+            imageSrc={imageSrc}
               key={item.id}
               item={item}
               updateCount={updateCount}

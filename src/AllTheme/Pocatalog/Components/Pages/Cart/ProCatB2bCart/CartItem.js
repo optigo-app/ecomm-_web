@@ -39,6 +39,7 @@ const CartItem = ({
   handleCancel,
   openHandleUpdateCartModal
 }) => {
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -59,6 +60,16 @@ const CartItem = ({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
 
   const handleRemarkChangeInternal = (e) => {
     setRemark(e.target.value);
@@ -144,7 +155,7 @@ const CartItem = ({
         <Box className="proCat_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
-            image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
+            image={imageSrc}
             alt={item?.TitleLine}
             className='proCat_cartListImage'
             onClick={() => onSelect(item)}

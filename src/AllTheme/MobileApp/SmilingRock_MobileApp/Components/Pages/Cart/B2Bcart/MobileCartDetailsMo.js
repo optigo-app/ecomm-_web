@@ -5,6 +5,7 @@ import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState } from 'recoil';
 import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
+import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -35,7 +36,7 @@ const MobileCartDetails = ({
   open,
   handleClose
 }) => {
-
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -66,12 +67,22 @@ const MobileCartDetails = ({
     }
   }
 
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
+
   return (
     <Modal open={open} onClose={handleClose} className="smrmo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrmo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrmo_Cart-imageDiv">
           <img
-            src={CartCardImageFunc(selectedItem)}
+            src={imageSrc}
             alt="Cluster Diamond"
             className='smrmo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
