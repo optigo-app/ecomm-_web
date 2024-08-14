@@ -11,10 +11,7 @@ import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Helmet } from "react-helmet";
-import {
-  companyLogo,
-  loginState,
-} from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
@@ -125,7 +122,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(4);
+      setThemeNo(2);
     }
     // .finally(() => setLoading(false));
   }, []);
