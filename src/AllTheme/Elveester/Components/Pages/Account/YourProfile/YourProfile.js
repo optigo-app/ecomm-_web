@@ -58,7 +58,6 @@ export default function YourProfile() {
 
         if (isValid) {
             // No errors, proceed with the submission
-            setEditMode(false);
             try {
                 setIsLoading(true);
                 const storedData = sessionStorage.getItem('loginUserDetail');
@@ -70,6 +69,12 @@ export default function YourProfile() {
                     toast.success('Edit success');
                     setUserData(editedUserData);
                     sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                    setEditMode(false);
+                } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        mobileno: 'MobileNo Already Exists',
+                    }));
                 } else {
                     toast.error('Error in saving profile.');
                 }
@@ -99,7 +104,7 @@ export default function YourProfile() {
             <ToastContainer />
 
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" style={{zIndex:10000}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
@@ -115,10 +120,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px', color: 'black' }}
-                                    // value={userData.defaddress_shippingfirstname !== undefined ? userData.defaddress_shippingfirstname : userData.firstname}
-                                    // value={userData?.defaddress_shippingfirstname || ''}
                                     value={userData?.firstname || ''}
-                                    // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -128,10 +130,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.defaddress_shippinglastname !== undefined ? userData.defaddress_shippinglastname : userData.lastname}
-                                    // value={userData?.defaddress_shippinglastname || ''}
                                     value={userData?.lastname || ''}
-                                    // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -143,9 +142,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.userid !== "undefined" ? userData.userid : ""}
                                     value={userData?.userid || ''}
-                                    // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -155,10 +152,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={(userData.defaddress_shippingmobile || userData.mobile) !== "undefined" ? (userData.defaddress_shippingmobile || userData.mobile) : ""}
-                                    // value={userData?.defaddress_shippingmobile || ''}
                                     value={userData?.mobileno || ''}
-                                    // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -170,10 +164,7 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    // value={userData.defaddress_street !== "undefined" ? userData.defaddress_street : ""}
-                                    // value={userData?.defaddress_street || ''}
                                     value={userData?.street || ''}
-                                    // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -191,36 +182,27 @@ export default function YourProfile() {
                 onClose={handleClose}
             >
                 <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
-                    {/* <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}> */}
                     <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
                             <>
                                 <TextField
-                                    // id="defaddress_shippingfirstname"
                                     id="firstname"
                                     label="First Name"
                                     variant="outlined"
                                     style={{ margin: '15px' }}
-                                    // value={editedUserData.defaddress_shippingfirstname !== "undefined" ? editedUserData.defaddress_shippingfirstname : ""}
                                     value={editedUserData.firstname !== "undefined" ? editedUserData.firstname : ""}
                                     onChange={handleInputChange}
-                                    // error={!!errors.defaddress_shippingfirstname}
-                                    // helperText={errors.defaddress_shippingfirstname}
                                     error={!!errors.firstname}
                                     helperText={errors.firstname}
                                 />
                                 <TextField
-                                    // id="defaddress_shippinglastname"
                                     id="lastname"
                                     label="Last Name"
                                     variant="outlined"
                                     style={{ margin: '15px' }}
-                                    // value={editedUserData.defaddress_shippinglastname !== "undefined" ? editedUserData.defaddress_shippinglastname : ""}
                                     value={editedUserData.lastname !== "undefined" ? editedUserData.lastname : ""}
                                     onChange={handleInputChange}
-                                    // error={!!errors.defaddress_shippinglastname}
-                                    // helperText={errors.defaddress_shippinglastname}
                                     error={!!errors.lastname}
                                     helperText={errors.lastname}
                                 />
@@ -236,37 +218,28 @@ export default function YourProfile() {
                                     disabled
                                 />
                                 <TextField
-                                    // id="defaddress_shippingmobile"
                                     id="mobileno"
                                     label="Mobile No."
                                     variant="outlined"
                                     style={{ margin: '15px' }}
-                                    // value={editedUserData.defaddress_shippingmobile !== "undefined" ? editedUserData.defaddress_shippingmobile : ""}
                                     value={editedUserData.mobileno !== "undefined" ? editedUserData.mobileno : ""}
                                     onChange={handleInputChange}
-                                    // error={!!errors.defaddress_shippingmobile}
-                                    // helperText={errors.defaddress_shippingmobile}
                                     error={!!errors.mobileno}
                                     helperText={errors.mobileno}
                                 />
                                 <TextField
-                                    // id="defaddress_street"
                                     id="street"
                                     label="Address"
                                     variant="outlined"
                                     style={{ margin: '15px' }}
-                                    // value={editedUserData.defaddress_street !== "undefined" ? editedUserData.defaddress_street : ""}
                                     value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
                                     onChange={handleInputChange}
-                                    // error={!!errors.defaddress_street}
-                                    // helperText={errors.defaddress_street}
                                     error={!!errors.street}
                                     helperText={errors.street}
                                 />
                             </>
                         )}
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        {/* <button onClick={handleSave} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button> */}
                         <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
                         <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                     </div>
