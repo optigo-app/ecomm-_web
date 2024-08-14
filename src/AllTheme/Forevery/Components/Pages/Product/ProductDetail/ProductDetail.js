@@ -18,7 +18,7 @@ import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Comb
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
 import { Checkbox, FormControl, Skeleton } from '@mui/material';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Services from '../../ReusableComponent/OurServives/OurServices';
 import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItemApi';
 import RelatedProduct from './RelatedProduct/RelatedProduct';
@@ -28,12 +28,15 @@ import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { useSetRecoilState } from 'recoil';
 import { for_CartCount, for_WishCount } from '../../../Recoil/atom';
+import Faq from '../../ReusableComponent/Faq/Faq';
+import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const sliderRef = useRef(null);
+  const videoRef = useRef(null);
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
@@ -41,6 +44,7 @@ const ProductDetail = () => {
   const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
   const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
 
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
@@ -62,12 +66,9 @@ const ProductDetail = () => {
   const [sizeData, setSizeData] = useState();
   const [thumbImgIndex, setThumbImgIndex] = useState()
   const [pdThumbImg, setPdThumbImg] = useState([]);
-  console.log('pdThumbImg: ', pdThumbImg);
   const [pdVideoArr, setPdVideoArr] = useState([]);
-  console.log('pdVideoArr: ', pdVideoArr);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState({});
-  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState({});
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
@@ -82,6 +83,7 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(for_WishCount)
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
+  const [PdImageArr, setPdImageArr] = useState([]);
 
   const services = [
     {
@@ -121,32 +123,79 @@ const ProductDetail = () => {
     }
   ];
 
+  const handleThumbnailClick = (index) => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(index);
+    }
+  };
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoElement.play();
+          } else {
+            videoElement.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(videoElement);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
 
   const baseUrl = `https://www.forevery.one/storage/jewelry_media/`;
-  const settings = {
-    customPaging: function (i) {
-      return (
-        <>
-          <a className="for_ProductDet_thumb_image_div" onClick={(e) => {
-            e.preventDefault();
-            if (sliderRef.current) {
-              sliderRef.current.slickGoTo(i); // Go to the slide associated with the clicked thumbnail
-            }
-          }}>
-            <img className="for_ProductDet_image_thumb" src={`${baseUrl}614/${i + 1538}.jpg`} />
-          </a>
-        </>
-      );
-    },
+  // const settings = {
+  //   customPaging: function (i) {
+  //     return (
+  //       <>
+  //         <a className="for_ProductDet_thumb_image_div" onClick={(e) => {
+  //           e.preventDefault();
+  //           if (sliderRef.current) {
+  //             sliderRef.current.slickGoTo(i); // Go to the slide associated with the clicked thumbnail
+  //           }
+  //         }}>
+  //           <img className="for_ProductDet_image_thumb" src={`${baseUrl}614/${i + 1538}.jpg`} />
+  //         </a>
+  //       </>
+  //     );
+  //   },
 
-    dots: true,
+  //   dots: true,
+  //   arrows: false,
+  //   dotsClass: "for_slick_thumb",
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1
+  // }
+
+
+  const settings = {
+    dots: false,
     arrows: false,
-    dotsClass: "for_slick_thumb",
-    infinite: true,
+    infinite: false,
+    loop: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
-  }
+    slidesToScroll: 1,
+    autoplay: false,
+    // initialSlide: 2,
+    autoplaySpeed: 2000,
+    beforeChange: (current, next) => setCurrentSlide(next),
+    afterChange: (current) => setCurrentSlide(current),
+    responsive: responsiveConfig,
+  };
+
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
@@ -206,10 +255,63 @@ const ProductDetail = () => {
     }
   }
 
-
   useEffect(() => {
     callAllApi();
   }, [storeInit])
+
+
+  useEffect(() => {
+    let navVal = location?.search.split("?p=")[1];
+    let decodeobj = decodeAndDecompress(navVal);
+
+    let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
+
+    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
+
+    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+
+
+    setTimeout(() => {
+      if (decodeUrl) {
+        let metalArr
+        let diaArr
+        let csArr
+
+
+        if (mtTypeLocal?.length) {
+          metalArr =
+            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
+            mtTypeLocal[0];
+        }
+
+        if (diaQcLocal?.length) {
+          diaArr =
+            diaQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.d?.split(",")[1]
+            )[0] ?? diaQcLocal[0];
+        }
+
+        if (csQcLocal?.length) {
+          csArr =
+            csQcLocal?.filter(
+              (ele) =>
+                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
+                ele?.ColorId == decodeobj?.c?.split(",")[1]
+            )[0] ?? csQcLocal[0];
+        }
+
+        setMetaltype(metalArr?.metaltype);
+
+        setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
+
+        setSelectCsQC(`${csArr?.Quality},${csArr?.color}`);
+      }
+    }, 500)
+  }, [singleProd])
+
+
 
   const handleCustomChange = async (e, type) => {
     let metalArr;
@@ -674,6 +776,10 @@ const ProductDetail = () => {
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0)
+      const imageMap = FinalPdImgList?.map((val, i) => {
+        return { src: val, type: "img" };
+      });
+      setPdImageArr(imageMap);
     }
 
     if (pdvideoList?.length > 0) {
@@ -681,6 +787,10 @@ const ProductDetail = () => {
       if (FinalPdImgList.length < 1) {
         setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
       }
+      const VideoMap = pdvideoList?.map((val, i) => {
+        return { src: val, type: "video" };
+      });
+      setPdImageArr((prev) => [...prev, ...VideoMap]);
     }
 
     return finalprodListimg;
@@ -691,6 +801,38 @@ const ProductDetail = () => {
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
+
+  useEffect(() => {
+    if (metalTypeCombo.length) {
+      const mtType = metalTypeCombo.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
+      setMetaltype(mtType);
+    }
+    if (metalColorCombo.length) {
+      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.metalcolorname;
+      setMetalColor(getCurrentMetalColor);
+    }
+  }, [singleProd])
+
+
+  useEffect(() => {
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
+        )[0]
+    }
+
+    setMetalColor(mcArr?.metalcolorname);
+
+  }, [singleProd])
+
+  useEffect(() => {
+    const isInCart = singleProd?.IsInCart === 0 ? false : true;
+    setAddToCartFlag(isInCart);
+  }, [singleProd])
 
   const handleCart = async (cartFlag) => {
     console.log('cartFlag: ', cartFlag);
@@ -961,6 +1103,12 @@ const ProductDetail = () => {
 
   }
 
+  const decodeEntities = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
   return (
     <div className="for_ProductDet_mainDiv">
       <div className="for_ProductDet_div">
@@ -968,17 +1116,190 @@ const ProductDetail = () => {
           <div className="for_ProductDet_container_div">
             <div className="for_ProductDet_left_prodImages">
               <div className="for_slider_container">
-                <Slider className="for_slick_slider" {...settings} ref={sliderRef}>
-                  <div className="for_ProductDet_image_div">
-                    <img className="for_ProductDet_image" src={`${baseUrl}614/1538.jpg`} />
-                  </div>
-                  <div className="for_ProductDet_image_div">
-                    <img className="for_ProductDet_image" src={`${baseUrl}614/1539.jpg`} />
-                  </div>
-                  <div className="for_ProductDet_image_div">
-                    <img className="for_ProductDet_image" src={`${baseUrl}614/1540.jpg`} />
-                  </div>
-                </Slider>
+                <div className="for_images_slider">
+                  {loadingdata ? (
+                    <>
+                      <div className="for_slider">
+                        {Array.from({ length: 3 })?.map((val, i) => {
+                          return (
+                            <div
+                              key={i}
+                              onClick={() => handleThumbnailClick(i)}
+                              style={{
+                                backgroundColor: "transparent",
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Skeleton
+                                sx={{
+                                  backgroundColor: "#f0ededb4 !important;",
+                                  width: '65px',
+                                  height: '65px',
+                                }}
+                              />
+                            </div>
+                          );
+                        })}
+                        <div
+                          // className="for_main_image"
+                          style={{
+                            height: "80%",
+                            width: "100%",
+                            marginLeft: "1rem",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          <Skeleton
+                            sx={{
+                              padding: "0",
+                              width: '100%',
+                              marginTop: "-16rem",
+                              height: "100%",
+                              backgroundColor: "#f0ededb4 !important;",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="for_slider">
+                        {PdImageArr?.map((val, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className={`for_box ${i === currentSlide ? "active" : ""}`}
+                              onClick={() => handleThumbnailClick(i)}
+                            >
+                              {val?.type === "img" ? (
+                                <img
+                                  src={val?.src}
+                                  alt=""
+                                  onClick={() => {
+                                    setSelectedThumbImg({
+                                      link: val?.src,
+                                      type: "img",
+                                    });
+                                    setThumbImgIndex(i);
+                                  }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src =
+                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                  }}
+                                />
+                              ) : (
+                                <div
+                                  className="for_video_box"
+                                  style={{ position: "relative" }}
+                                >
+                                  <video
+                                    src={val?.src}
+                                    autoPlay
+                                    muted
+                                    loop
+                                  />
+                                  <IoIosPlayCircle className="for_play_io_icon" />
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="for_main_image">
+                        {PdImageArr?.length > 1 ? (
+                          <>
+                            {" "}
+                            <Slider
+                              {...settings}
+                              ref={sliderRef}
+                              lazyLoad="progressive"
+                            >
+                              {PdImageArr?.length > 0 ? (
+                                PdImageArr?.map((val, i) => {
+                                  return (
+                                    <div key={i} className="for_slider_card">
+                                      <div className="for_image">
+                                        {val?.type == "img" ? (
+                                          <img
+                                            loading="lazy"
+                                            src={
+                                              val?.src ||
+                                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                            }
+                                            alt={""}
+                                            onLoad={() => setIsImageLoad(false)}
+                                            onError={(e) => {
+                                              e.target.onerror = null;
+                                              e.target.src =
+                                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                            }}
+                                          />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              height: "80%",
+                                            }}
+                                          >
+                                            <video
+                                              src={val?.src}
+                                              ref={videoRef}
+                                              loop={true}
+                                              autoPlay={true}
+                                              muted
+                                              style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "scale-down",
+                                              }}
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })
+                              ) : (
+                                <div className="for_main_image">
+                                  <img
+                                    src={
+                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                    }
+                                    alt={""}
+                                    style={{
+                                      width: "100%",
+                                      height: "90%",
+                                      objectFit: "contain",
+                                      border: "1px solid #312f2f21",
+                                      marginTop: "45px",
+                                    }}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src =
+                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Slider>
+                          </>
+                        ) : (
+                          <>
+                            <div className="for_slider_card">
+                              <div className="for_image">
+                                <img src={PdImageArr[0]?.src} alt="ddwd" />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
             <div className="for_ProductDet_right_prodDetails">
@@ -1069,16 +1390,16 @@ const ProductDetail = () => {
                       onChange={(e) => handleWishList(e, singleProd)} /> */}
                     <Checkbox
                       icon={
-                        <GoHeartFill size={26} color='black' />
-                      }
-                      checkedIcon={
                         <GoHeart size={26} color='black' />
                       }
-                      
+                      checkedIcon={
+                        <GoHeartFill size={26} color='black' />
+                      }
+
                       className='for_wishlist_icon'
                       disableRipple={true}
                       checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                      onChange={(e) => handleWishList(e, singleProd, 'Wish')}
+                      onChange={(e) => handleWishList(e, singleProd)}
                     />
                   </div>
                 </div>
@@ -1207,7 +1528,12 @@ const ProductDetail = () => {
                     )}
                 </div>
                 <div className="for_productDet_price_div">
-                  <span>INR <span>{Number(50000).toLocaleString('en-IN')}</span></span>
+                  <span>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                      }}
+                    /> <span>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span></span>
                 </div>
                 <div className="for_productDet_ATC_div">
                   <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_productDet_ATC ${btnstyle?.btn_15}`}>
@@ -1293,12 +1619,15 @@ const ProductDetail = () => {
           <div className='for_trend_coll_image_div'>
             <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DetailsBanner/fine-jewelery-banner.webp`} alt="" />
           </div>
+          <div className="for_productDet_faq">
+            <Faq />
+          </div>
           <div className="for_ProductDet_NewsLetter">
             <NewsletterSignup />
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

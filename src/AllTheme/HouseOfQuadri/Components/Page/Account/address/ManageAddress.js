@@ -8,6 +8,7 @@ import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handle
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
 import { Hoq_defaultAddressState } from '../../../Recoil/atom';
+import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 
 const ManageAddress = () => {
@@ -39,14 +40,6 @@ const ManageAddress = () => {
         setDefaultAdd(event.target.value);
     };
 
-    const handleDefaultSet = (arr) => {
-        let findDefault = arr?.find(item => item.isdefault === 1);
-        if (findDefault === undefined) {
-            arr[0].isdefault = 1
-        }
-        return arr
-    }
-
     const handleDeleteAddressBtn = async () => {
         try {
             setOpenDelete(false);
@@ -74,45 +67,8 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
-    // const handleOpen = (item, addressIndex = null) => {
-    //     setIsEditMode(addressIndex !== null);
-    //     if (addressIndex !== null && addressData.length > addressIndex) {
-    //         setEditId(item.id)
-    //         const address = addressData[addressIndex];
-    //         if (address) {
-    //             setFormData({
-    //                 firstName: address.shippingfirstname || '',
-    //                 lastName: address.shippinglastname || '',
-    //                 address: address.street || '',
-    //                 country: address.country || '',
-    //                 state: address.state || '',
-    //                 city: address.city || '',
-    //                 zipCode: address.zip || '',
-    //                 mobileNo: address.shippingmobile || ''
-    //             });
-    //             setEditAddressIndex(addressIndex);
-    //         } else {
-    //             console.error('Invalid address data:', address);
-    //         }
-    //     } else {
-    //         // Reset form data when adding a new address
-    //         setFormData({
-    //             firstName: '',
-    //             lastName: '',
-    //             address: '',
-    //             country: '',
-    //             state: '',
-    //             city: '',
-    //             zipCode: '',
-    //             mobileNo: ''
-    //         });
-    //         setEditAddressIndex(null);
-    //     }
-    //     setErrors({});
-    //     setOpen(true);
-    // };
+    
     const handleOpen = (item, addressIndex = null, args) => {
-        // setIsEditMode(addressIndex !== null);
                 console.log(item, addressIndex, args);
 
             if(args === 'edit'){
@@ -157,291 +113,16 @@ const ManageAddress = () => {
         setErrors({});
         setOpen(true);
     };
+
     const handleOpenDelete = (item) => {
         setDeleteId(item);
         setOpenDelete(true);
     }
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault(); // Prevent default form submission
-    
-    //     const errorsCopy = {}; // Initialize errors object
-    
-    //     // Validate each required field
-    //     // if (!formData.firstName.trim()) {
-    //     //     errors.firstName = 'First Name is required';
-    //     // } else if(formData.firstName?.length < 2){
-    //     //     errors.firstName = 'First Name too short';
-    //     // } else if(formData.firstName?.length > 25){
-    //     //     errors.firstName = 'First Name too long';
-    //     // // } else if (!/^[a-zA-Z]+$/.test(formData.firstName.trim())) {
-    //     // } else if (!/^[a-zA-Z\s.]+$/.test(formData.firstName.trim())) {
-    //     //     errors.firstName = 'First Name must contain only letters';
-    //     // }
-    //     if (!formData.firstName.trim()) {
-    //         errorsCopy.firstName = 'First Name is required';
-    //     } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
-    //         errorsCopy.firstName = 'First Name must contain only letters';
-    //     } else if (formData.firstName?.trim()?.length < 2) {
-    //         errorsCopy.firstName = 'Enter minimum 2 characters';
-    //     } else if (formData.firstName?.trim()?.length > 45) {
-    //         errorsCopy.firstName = 'Enter maximum 45 characters';
-    //     } else {
-    //         errorsCopy.firstName = '';
-    //     }
-
-    //     // if (!formData.lastName.trim()) {
-    //     //     errors.lastName = 'Last Name is required';
-    //     // } else if(formData.lastName?.length < 2){
-    //     //     errors.lastName = 'Last Name is too short';
-    //     // } else if(formData.lastName?.length > 25){
-    //     //     errors.lastName = 'Last Name is too long';
-    //     // // } else if (!/^[a-zA-Z]+$/.test(formData.lastName.trim())) {
-    //     // } else if (!/^[a-zA-Z\s.]+$/.test(formData.lastName.trim())) {
-    //     //     errors.lastName = 'Last Name must contain only letters';
-    //     // }
-    //     if (!formData.lastName.trim()) {
-    //         errorsCopy.lastName = 'Last Name is required';
-    //     } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
-    //         errorsCopy.lastName = 'Last Name must contain only letters';
-    //     } else if (formData.lastName?.trim()?.length < 2) {
-    //         errorsCopy.lastName = 'Enter minimum 2 characters';
-    //     } else if (formData.lastName?.trim()?.length > 45) {
-    //         errorsCopy.lastName = 'Enter maximum 45 characters';
-    //     } else {
-    //         errorsCopy.lastName = '';
-    //     }
-    
-    //     // if (!formData.lastName.trim()) {
-    //     //     errors.lastName = 'Last Name is required';
-    //     // }
-    
-    //     // if (!formData.mobileNo.trim()) {
-    //     //     errors.mobileNo = 'Mobile No. is required';
-    //     // }
-
-    //     if (!formData.mobileNo.trim()) {
-    //         errorsCopy.mobileNo = 'Mobile No. is required';
-    //     } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
-    //         errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
-    //     }
-    
-    //     if (!formData.address.trim()) {
-    //         errorsCopy.address = 'Address is required';
-    //     }
-
-    //     // if (!formData.country.trim()) {
-    //     //     errors.country = 'Country Name is required';
-    //     // } else if (!/^[a-zA-Z]+$/.test(formData.country.trim())) {
-    //     //     errors.country = 'Country Name must contain only letters';
-    //     // }
-    //     if (!formData.country.trim()) {
-    //         errorsCopy.country = 'Country is required';
-    //     } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
-    //         errorsCopy.country = 'Country name must contain only letters';
-    //     } else {
-    //         errorsCopy.country = '';
-    //     }
-    
-    //     // if (!formData.state.trim()) {
-    //     //     errors.state = 'State Name is required';
-    //     // } else if (!/^[a-zA-Z]+$/.test(formData.state.trim())) {
-    //     //     errors.state = 'State Name must contain only letters';
-    //     // }
-    //     if (!formData.state.trim()) {
-    //         errorsCopy.state = 'State is required';
-    //     } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
-    //         errorsCopy.state = 'State name must contain only letters';
-    //     } else {
-    //         errorsCopy.state = '';
-    //     }
-    
-    //     // if (!formData.city.trim()) {
-    //     //     errors.city = 'City Name is required';
-    //     // } else if (!/^[a-zA-Z]+$/.test(formData.city.trim())) {
-    //     //     errors.city = 'City Name must contain only letters';
-    //     // }
-    //     if (!formData.city.trim()) {
-    //         errorsCopy.city = 'City is required';
-    //     } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
-    //         errorsCopy.city = 'City name must contain only letters';
-    //     } else {
-    //         errorsCopy.city = '';
-    //     }
-    
-    //     // if (!formData.zipCode.trim()) {
-    //     //     errors.zipCode = 'ZIP Code is required';
-    //     // } else if (!/^\d{6}$/.test(formData.zipCode.trim())) {
-    //     //     errors.zipCode = 'ZIP Code must contain exactly 6 numbers';
-    //     // }
-    //     if (!formData.zipCode.trim()) {
-    //         errorsCopy.zipCode = 'ZIP Code is required';
-    //     } else if (!/^\d+$/.test(formData.zipCode.trim())) {
-    //         errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-    //     } else if (formData.zipCode?.trim()?.length !== 6) {
-    //         errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-    //     } else {
-    //         errorsCopy.zipCode = '';
-    //     }
-
-
-    //     // If there are any errors, update state and return
-    //     if (Object.keys(errorsCopy).length > 0) {
-    //         setErrors(errorsCopy);
-    //         return;
-    //     }
-    
-    //     try {
-    //         setIsLoading(true); // Set loading state
-    
-    //         const storedData = sessionStorage.getItem('loginUserDetail');
-    //         const data = JSON.parse(storedData);
-    //         const customerid = data.id;
-    //         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    //         const { FrontEnd_RegNo } = storeInit;
-    
-    //         let response;
-    
-    //         if (isEditMode) {
-    //             // Handle edit mode
-    //             setOpen(false); // Close modal or dialog
-    
-    //             response = await handleEditAddress(
-    //                 editId,
-    //                 formData,
-    //                 FrontEnd_RegNo,
-    //                 customerid,
-    //                 storeInit,
-    //                 data
-    //             );
-    
-    //             if (response?.Data?.rd[0]?.stat === 1) {
-    //                 // Handle successful edit
-    //                 toast.success('Edit success');
-    
-    //                 const editedAddress = {
-    //                     ...addressData[editAddressIndex],
-    //                     shippingfirstname: formData.firstName,
-    //                     shippinglastname: formData.lastName,
-    //                     street: formData.address,
-    //                     country: formData.country,
-    //                     state: formData.state,
-    //                     city: formData.city,
-    //                     zip: formData.zipCode,
-    //                     shippingmobile: formData.mobileNo
-    //                 };
-    
-    //                 const updatedAddressData = [...addressData];
-    //                 updatedAddressData[editAddressIndex] = editedAddress;
-    //                 setAddressData(updatedAddressData);
-    //                 if(editedAddress?.isdefault === 1){
-    //                     setDefaultAddress(editedAddress)
-    //                 }
-    //             } else {
-    //                 toast.error('Error editing');
-    //             }
-    //         } else {
-    //             // Handle add mode
-    //             setOpen(false); // Close modal or dialog
-    
-    //             response = await handleAddAddress(
-    //                 formData,
-    //                 FrontEnd_RegNo,
-    //                 customerid,
-    //                 storeInit,
-    //                 data
-    //             );
-    
-    //             if (response?.Data?.rd[0]?.stat === 1) {
-    //                 // Handle successful addition
-    //                 toast.success('Add success');
-    
-    //                 const newAddress = {
-    //                     shippingfirstname: formData.firstName,
-    //                     shippinglastname: formData.lastName,
-    //                     street: formData.address,
-    //                     country: formData.country,
-    //                     state: formData.state,
-    //                     city: formData.city,
-    //                     zip: formData.zipCode,
-    //                     shippingmobile: formData.mobileNo
-    //                 };
-    
-    //                 const updatedAddressData = [...addressData, newAddress];
-    //                 setAddressData(updatedAddressData);
-                    
-    //                 fetchData(); // Assuming fetchData updates necessary data after addition
-    //             } else {
-    //                 toast.error('Error adding');
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //         toast.error('An unexpected error occurred');
-    //     } finally {
-    //         setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
-    //     }
-    // };
-    
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
-        const errorsCopy = {}; // Initialize errors object
-    
-        if (!formData.firstName.trim()) {
-            errorsCopy.firstName = 'First Name is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
-            errorsCopy.firstName = 'First Name must contain only letters';
-        } else if (formData.firstName.trim().length < 2) {
-            errorsCopy.firstName = 'Enter minimum 2 characters';
-        } else if (formData.firstName.trim().length > 45) {
-            errorsCopy.firstName = 'Enter maximum 45 characters';
-        }
-    
-        if (!formData.lastName.trim()) {
-            errorsCopy.lastName = 'Last Name is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
-            errorsCopy.lastName = 'Last Name must contain only letters';
-        } else if (formData.lastName.trim().length < 2) {
-            errorsCopy.lastName = 'Enter minimum 2 characters';
-        } else if (formData.lastName.trim().length > 45) {
-            errorsCopy.lastName = 'Enter maximum 45 characters';
-        }
-    
-        if (!formData.mobileNo.trim()) {
-            errorsCopy.mobileNo = 'Mobile No. is required';
-        } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
-            errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
-        }
-    
-        if (!formData.address.trim()) {
-            errorsCopy.address = 'Address is required';
-        }
-    
-        if (!formData.country.trim()) {
-            errorsCopy.country = 'Country is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
-            errorsCopy.country = 'Country name must contain only letters';
-        }
-    
-        if (!formData.state.trim()) {
-            errorsCopy.state = 'State is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
-            errorsCopy.state = 'State name must contain only letters';
-        }
-    
-        if (!formData.city.trim()) {
-            errorsCopy.city = 'City is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
-            errorsCopy.city = 'City name must contain only letters';
-        }
-    
-        if (!formData.zipCode.trim()) {
-            errorsCopy.zipCode = 'ZIP Code is required';
-        } else if (!/^\d+$/.test(formData.zipCode.trim())) {
-            errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-        } else if (formData.zipCode.trim().length !== 6) {
-            errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-        }
+
+         const errorsCopy = validateAddressFormAccount(formData);
     
         // Update errors state and prevent submission if there are errors
         setErrors(errorsCopy);
@@ -540,6 +221,21 @@ const ManageAddress = () => {
         }
     };
 
+    const handleInputChange = (e, fieldName) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [fieldName]: value
+        }));
+
+        const error = validateAddressFieldAccount(fieldName, value);
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [fieldName]: error
+        }));
+    };
+    
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -557,109 +253,11 @@ const ManageAddress = () => {
         setOpen(false);
     };
 
-    const handleInputChange = (e, fieldName) => {
-        const { value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [fieldName]: value
-        }));
-
-        // Validate the field
-        const errorsCopy = { ...errors };
-
-        switch (fieldName) {
-            case 'firstName':
-                if (!value.trim()) {
-                    errorsCopy.firstName = 'First Name is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.firstName = 'First Name must contain only letters';
-                } else if (value?.trim()?.length < 2) {
-                    errorsCopy.firstName = 'Enter minimum 2 characters';
-                } else if (value?.trim()?.length > 45) {
-                    errorsCopy.firstName = 'Enter maximum 45 characters';
-                } else {
-                    errorsCopy.firstName = '';
-                }
-                break;
-            case 'lastName':
-                if (!value.trim()) {
-                    errorsCopy.lastName = 'Last Name is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.lastName = 'Last Name must contain only letters';
-                } else if(value?.trim()?.length < 2){
-                    errorsCopy.lastName = 'Enter minimum 2 characters';
-                } else if(value?.trim()?.length > 45){
-                    errorsCopy.lastName = 'Enter maximum 45 characters';
-                } else {
-                    errorsCopy.lastName = '';
-                }
-                break;
-            case 'address':
-                errorsCopy.address = value.trim() ? '' : 'Address is required';
-                break;
-            case 'country':
-                if (!value.trim()) {
-                    errorsCopy.country = 'Country is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.country = 'Country name must contain only letters';
-                } else {
-                    errorsCopy.country = '';
-                }
-                break;
-            case 'state':
-                if (!value.trim()) {
-                    errorsCopy.state = 'State is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.state = 'State name must contain only letters';
-                } else {
-                    errorsCopy.state = '';
-                }
-                break;
-            case 'city':
-                if (!value.trim()) {
-                    errorsCopy.city = 'City is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.city = 'City name must contain only letters';
-                } else {
-                    errorsCopy.city = '';
-                }
-                break;
-            case 'zipCode':
-                if (!value.trim()) {
-                    errorsCopy.zipCode = 'ZIP Code is required';
-                } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-                } else if (value?.trim()?.length !== 6) {
-                    errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-                } else {
-                    errorsCopy.zipCode = '';
-                }
-                break;
-            case 'mobileNo':
-                if (!value.trim()) {
-                    errorsCopy.mobileNo = 'Mobile Number is required';
-                } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.mobileNo = 'Mobile Number must contain only numeric values';
-                } else if (value?.trim()?.length !== 10) {
-                    errorsCopy.mobileNo = 'Mobile Number must be exactly 10 digits';
-                } else {
-                    errorsCopy.mobileNo = '';
-                }
-                break;
-            default:
-                break;   
-        }
-
-        setErrors(errorsCopy);
-    };
-
     const loginDetail = () => {
         const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
-
- 
 
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
@@ -701,7 +299,6 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-console.log("res",response)
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -767,7 +364,6 @@ console.log("res",response)
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
                     <Button className='hoq_muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
-                {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -837,35 +433,7 @@ console.log("res",response)
                     }
 
                 </RadioGroup>
-                {/* <Dialog
-                    open={openDelete}
-                >
-                <div className='smilingDeliverDelerePopu p-2'>
-                        <p className='addresDetailsTg'  style={{ fontSize: '20px', fontWeight: 400 }}>ARE YOU SURE TO DELETE ?</p>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '40px' }}>
-                            <button onClick={handleDeleteAddressBtn} style={{
-                                height: '35px',
-                                width: '100px',
-                                backgroundColor: '#f6efe6',
-                                color:'rgba(31, 25, 25, 0.7)',
-                                fontWeight: 500,
-                                border: 'none',
-                                outline: 'none',
-                                marginInline: '5px'
-                            }}>YES</button>
-                            <button onClick={() => setOpenDelete(false)} style={{
-                                height: '35px',
-                                width: '100px',
-                                backgroundColor: '#f6efe6',
-                                color:'rgba(31, 25, 25, 0.7)',
-                                fontWeight: 500,
-                                border: 'none',
-                                outline: 'none',
-                                marginInline: '5px'
-                            }}>No</button>
-                        </div>
-                    </div>
-                </Dialog> */}
+      
                 <ConfirmationDialog
                     open={openDelete}
                     onClose={handleCloseDialog}
