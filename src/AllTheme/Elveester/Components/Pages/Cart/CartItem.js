@@ -51,6 +51,7 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const [open1, setOpen1] = useState(false);
   const visiterId = Cookies.get('visiterId');
+  const [imageSrc, setImageSrc] = useState(noImageFound);
 
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
@@ -58,6 +59,16 @@ const CartItem = ({
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -157,7 +168,7 @@ const CartItem = ({
       >
 
         <div className='elv_cardImage_div' >
-          <img className='elv_cardImage_img' src={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound} alt=""
+          <img className='elv_cardImage_img' src={imageSrc} alt=""
             onClick={() => handleIsSelected()}
           />
         </div>

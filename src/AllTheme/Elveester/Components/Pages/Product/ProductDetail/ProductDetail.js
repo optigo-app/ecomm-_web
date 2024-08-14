@@ -675,10 +675,9 @@ const ProductDetail = () => {
     let mcArr;
 
     if (mtColorLocal?.length) {
-      mcArr =
-        mtColorLocal?.filter(
-          (ele) => ele?.colorcode == e.target.value
-        )[0]
+      mcArr = mtColorLocal?.filter(
+        (ele) => ele?.metalcolorname == e.target.value
+      )[0];
     }
 
     setMetalColor(e.target.value)

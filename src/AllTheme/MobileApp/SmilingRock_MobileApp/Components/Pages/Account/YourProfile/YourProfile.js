@@ -62,28 +62,35 @@ export default function YourProfile() {
         const { errors, isValid } = validateUserDataYPAccount(editedUserData);
 
         if (isValid) {
-            // No errors, proceed with the submission
-            setEditMode(false);
-            try {
-                setIsLoading(true);
-                const storedData = sessionStorage.getItem('loginUserDetail');
-                const data = JSON.parse(storedData);
-                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-                const { FrontEnd_RegNo } = storeInit;
-                const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-                if (response?.Data?.rd[0]?.stat === 1) {
-                    toast.success('Edit success');
-                    setUserData(editedUserData);
-                    sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
-                } else {
-                    toast.error('Error in saving profile.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                toast.error('An error occurred. Please try again.');
-            } finally {
-                setIsLoading(false);
+            
+           
+           try {
+            setIsLoading(true);
+            const storedData = sessionStorage.getItem('loginUserDetail');
+            const data = JSON.parse(storedData);
+            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+            const { FrontEnd_RegNo } = storeInit;
+            const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+            if (response?.Data?.rd[0]?.stat === 1) {
+                toast.success('Edit success');
+                setUserData(editedUserData);
+                sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                setEditMode(false);
+            } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    mobileno: 'MobileNo Already Exists',
+                }));
+            } else {
+                toast.error('Error in saving profile.');
             }
+
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('An error occurred. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
         } else {
             // Set errors to display validation messages
             setErrors(errors);
@@ -104,7 +111,7 @@ export default function YourProfile() {
             <ToastContainer />
 
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" style={{zIndex:10000}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}

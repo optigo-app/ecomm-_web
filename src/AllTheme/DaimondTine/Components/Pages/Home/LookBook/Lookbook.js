@@ -353,7 +353,8 @@ const Lookbook = () => {
 
   const handleByCombo = (data) => {
     let loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
-    let prodObjs = data.map((detail) => createProdObj(detail, loginInfo));
+    let storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+    let prodObjs = islogin == true ? data.map((detail) => createProdObj(detail, loginInfo)) : data.map((detail) => createProdObj(detail, storeInit))
     setCartItems((prevItems) => [
       ...prevItems,
       ...data.map((detail) => detail.autocode),
