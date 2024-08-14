@@ -47,6 +47,7 @@ const ProductList = () => {
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [storeInit, setStoreInit] = useState({});
@@ -55,7 +56,6 @@ const ProductList = () => {
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
   const [productListData, setProductListData] = useState([]);
-  console.log('productListData: ', productListData);
   const [prodListType, setprodListType] = useState();
   const [isProdLoading, setIsProdLoading] = useState(false);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
@@ -266,8 +266,6 @@ const ProductList = () => {
 
 
   }
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -785,6 +783,8 @@ const ProductList = () => {
                     ref={el => dropdownRefs.current[index] = el}
                     setSelectedMetalId={setSelectedMetalId}
                     setSelectedDiaId={setSelectedDiaId}
+                    selectedMetalId={selectedMetalId}
+                    selectedDiaId={selectedDiaId}
                   />
                 ))}
 
@@ -981,6 +981,8 @@ const CollectionDropdown = forwardRef(({
   title,
   index,
   data,
+  selectedMetalId,
+  selectedDiaId,
 }, ref) => {
   return (
     <div className="for_collection_filter_dropdown" onClick={() => handleOpen(index)} ref={ref}>
@@ -990,64 +992,40 @@ const CollectionDropdown = forwardRef(({
       </div>
       <div className={open ? "for_collection_filter_option_div" : 'for_collection_filter_option_div_hide'}>
         {data?.map((i) => {
-          {
-            return (
-              type === 'high' ? (
-                <div
-                  className={`for_collction_filter_options ${check1 === i ? 'selected' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent event from bubbling up to the parent
-                    handleButton(i);
-                  }}
-                  key={i}
-                >
-                  <input
-                    type="radio"
-                    checked={check1 === i}
-                  />
-                  <span>{i}</span>
-                </div>
-              ) : (
-                type === 'metal' ? (
-                  <>
-                    <div
-                      className={`for_collction_filter_options ${check1 === i?.metaltype ? 'selected' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent event from bubbling up to the parent
-                        handleButton(i?.metaltype);
-                        setSelectedMetalId(i?.Metalid)
-                      }}
-                      key={i.Metalid}
-                    >
-                      <input
-                        type="radio"
-                        checked={check1 === i?.metaltype}
-                      />
-                      <span>{i?.metaltype}</span>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div
-                      className={`for_collction_filter_options ${check1 === `${i.Quality}#${i?.color}` ? 'selected' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent event from bubbling up to the parent
-                        handleButton(`${i.Quality}#${i?.color}`);
-                        setSelectedDiaId(`${i?.QualityId},${i?.ColorId}`)
-                      }}
-                      key={i?.QualityId}
-                    >
-                      <input
-                        type="radio"
-                        checked={check1 === `${i.Quality}#${i?.color}`}
-                      />
-                      <span>{`${i.Quality}#${i?.color}`}</span>
-                    </div>
-                  </>
-                )
-              )
-            )
+          let isChecked = false;
+
+          if (type === 'high') {
+            isChecked = check1 === i;
+          } else if (type === 'metal') {
+            isChecked = selectedMetalId === i?.Metalid;
+          } else if (type === 'diamond') {
+            isChecked = selectedDiaId === `${i?.QualityId},${i?.ColorId}`;
           }
+
+          return (
+            <div
+              className={`for_collction_filter_options ${isChecked ? 'selected' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event from bubbling up to the parent
+                if (type === 'metal') {
+                  handleButton(i?.metaltype);
+                  setSelectedMetalId(i?.Metalid);
+                } else if (type === 'diamond') {
+                  handleButton(`${i.Quality}#${i?.color}`);
+                  setSelectedDiaId(`${i?.QualityId},${i?.ColorId}`);
+                } else {
+                  handleButton(i);
+                }
+              }}
+              key={type === 'metal' ? i.Metalid : type === 'diamond' ? `${i?.QualityId},${i?.ColorId}` : i}
+            >
+              <input
+                type="radio"
+                checked={isChecked}
+              />
+              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : i?.metaltype || i}</span>
+            </div>
+          );
         })}
       </div>
     </div>
