@@ -112,74 +112,74 @@
                 font-size: 16px;
             }
         }
-
         .swiper-button-disabled {
             opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
+            cursor: pointer;
+            pointer-events: auto;
             background-color: #ababab;
+            margin-top: -30px!important;
         }
     }
 
     @media (max-width: 1200px) {
-        .swiper-slide-custom {
-            min-width: 260px !important;
-        }
-
-        .design-slide {
-            padding: 30px !important;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .swiper-slide-custom {
-            min-width: 220px !important;
-        }
+        // .swiper-slide-custom {
+        //     min-width: 260px !important;
+        // }
 
         .design-slide {
             padding: 20px !important;
         }
     }
 
+    // @media (max-width: 992px) {
+    //     .swiper-slide-custom {
+    //         min-width: 220px !important;
+    //     }
+
+    //     .design-slide {
+    //         padding: 20px !important;
+    //     }
+    // }
+
     @media (max-width: 768px) {
-        .swiper-slide-custom {
-            min-width: 180px !important;
-        }
+        // .swiper-slide-custom {
+        //     min-width: 180px !important;
+        // }
 
-        .smr_Albumtab {
-            min-height: 35px !important;
-        }
-
-        .design-slide {
-            padding: 15px !important;
-        }
-
-        .design-info {
-            .smr_album1price {
-                font-size: $fontSize1 !important;
-            }
-        }
-    }
-
-    @media (max-width: 576px) {
-        .swiper-slide-custom {
-            min-width: 140px !important;
-        }
-
-        .album-container .tabs button.active {
-            background-color: #f5f5f5;
-            color: #7d7f85;
-            min-height: 35px !important;
-        }
+        // .smr_Albumtab {
+        //     min-height: 35px !important;
+        // }
 
         .design-slide {
             padding: 10px !important;
         }
 
-        .design-info {
-            .smr_album1price {
-                font-size: $fontSize2 !important;
-            }
-        }
+        // .design-info {
+        //     .smr_album1price {
+        //         font-size: $fontSize1 !important;
+        //     }
+        // }
+    }
+
+    @media (max-width: 576px) {
+        // .swiper-slide-custom {
+        //     min-width: 140px !important;
+        // }
+
+        // .album-container .tabs button.active {
+        //     background-color: #f5f5f5;
+        //     color: #7d7f85;
+        //     min-height: 35px !important;
+        // }
+
+        // .design-slide {
+        //     padding: 10px !important;
+        // }
+
+        // .design-info {
+        //     .smr_album1price {
+        //         font-size: $fontSize2 !important;
+        //     }
+        // }
     }
 }

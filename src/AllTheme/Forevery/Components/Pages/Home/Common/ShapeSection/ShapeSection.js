@@ -1,4 +1,4 @@
-import { shapes } from "../../../../data/NavbarMenu";
+import { DiamondLists, shapes } from "../../../../data/NavbarMenu";
 import "./ShapeSection.scss";
 
 const ShapeSection = () => {
@@ -8,7 +8,7 @@ const ShapeSection = () => {
         <div className="head">
           <span>Explore With Diamond shapes </span>
         </div>
-        {shapes?.map((val, i) => {
+        {DiamondLists?.slice(0, DiamondLists.length - 3)?.map((val, i) => {
           return (
             <div className="shape_card_for">
               <img src={val?.img} alt="" />

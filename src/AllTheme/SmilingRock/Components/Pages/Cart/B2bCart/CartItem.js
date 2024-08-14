@@ -40,6 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -118,6 +119,16 @@ const CartItem = ({
     return text.substring(0, maxLength) + '...';
   }
 
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
+
   return (
     <Grid
       item
@@ -144,14 +155,10 @@ const CartItem = ({
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
-            image={item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound}
+            image={imageSrc}
             alt={item?.TitleLine}
             className='smr_cartListImage'
             onClick={() => onSelect(item)}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = `${storeInitData?.DesignImageFol}${item?.designno}_1.${item?.ImageExtension}`;
-          }}
           />
           <div className='smr_rightContentDataDiv'>
             <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>

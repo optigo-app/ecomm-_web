@@ -44,7 +44,7 @@ const CartItem = ({
   openHandleUpdateCartModal,
 }) => {
   const visiterId = Cookies.get("visiterId");
-
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item.Remarks || "");
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -60,6 +60,16 @@ const CartItem = ({
   const isMobileScreen = useMediaQuery(
     "(min-width: 320px) and (max-width: 1037px)"
   );
+
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      CartCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -180,9 +190,7 @@ const CartItem = ({
         >
           <CardMedia
             component="img"
-            image={
-              item?.ImageCount != 0 ? CartCardImageFunc(item) : noImageFound
-            }
+            image={imageSrc}
             alt={item?.TitleLine}
             className="hoq_cartListImage"
             onClick={() => onSelect(item)}

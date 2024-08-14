@@ -18,6 +18,7 @@ const ExampleComponent = ({
     onRemove
 
 }) => {
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const setCartCountVal = useSetRecoilState(CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');
@@ -31,6 +32,16 @@ const ExampleComponent = ({
         const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInitData(storeinitData)
     }, [])
+
+    useEffect(() => {
+        if (cartData?.ImageCount > 0) {
+          CartCardImageFunc(cartData).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
@@ -60,12 +71,8 @@ const ExampleComponent = ({
                     <td className='smr_b2cCartImagetd'>
                         <img
                             className='smr_b2ccartImage'
-                            src={cartData?.ImageCount !== 0 ? CartCardImageFunc(cartData) : noImageFound}
+                            src={imageSrc}
                             alt={`cartData images`}
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = `${storeInitData?.DesignImageFol}${cartData?.designno}_1.${cartData?.ImageExtension}`;
-                            }}
                         />
                     </td>
                     <td className='smr_b2ccartContentTd'>

@@ -175,15 +175,39 @@ const Usewishlist = () => {
   //   return finalprodListimg;
   // }
 
+  // const WishCardImageFunc = (pd) => {
+  //   let finalprodListimg;
+  //   if (pd?.ImageCount > 0) {
+  //     finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
+  //   } else {
+  //     finalprodListimg = imageNotFound;
+  //   }
+  //   return finalprodListimg;
+  // }
+
   const WishCardImageFunc = (pd) => {
-    let finalprodListimg;
-    if (pd?.ImageCount > 0) {
-      finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
-    } else {
-      finalprodListimg = imageNotFound;
-    }
-    return finalprodListimg;
-  }
+    return new Promise((resolve) => {
+      let finalprodListimg;
+  
+      if (pd?.ImageCount > 0) {
+        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
+        const img = new Image();
+        img.src = finalprodListimg;
+  
+        img.onload = () => {
+          resolve(finalprodListimg);
+        };
+        img.onerror = () => {
+          finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
+          resolve(finalprodListimg);
+        };
+      } else {
+        finalprodListimg = imageNotFound;
+        resolve(finalprodListimg);
+      }
+    });
+  };
+  
 
   const compressAndEncode = (inputString) => {
     try {

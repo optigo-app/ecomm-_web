@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './smr_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
@@ -30,6 +30,18 @@ const CartDetails = ({
   handleMoveToDetail
 }) => {
 
+  const [storeInitData, setStoreInitData] = useState();
+  const [imageSrc, setImageSrc] = useState(noImageFound);
+
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
 
   console.log('selectediTem', selectedItem);
   return (
@@ -37,7 +49,7 @@ const CartDetails = ({
       <div className="smr_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
         <img 
-        src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
+        src={imageSrc} 
         alt="image" 
         className='smr_cartDetailImage'  
         onClick={() => handleMoveToDetail(selectedItem)}

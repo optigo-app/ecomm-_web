@@ -1,7 +1,7 @@
 @import "../../../scss/variable";
 
 .dt_album_container {
- 
+
 
     .smr_ablbumtitleDiv {
         text-align: center;
@@ -36,7 +36,7 @@
         }
     }
 
-    .swiper-container {
+    .Dt_swiper_container {
         margin-top: 20px;
         display: flex;
         justify-content: center;
@@ -51,9 +51,9 @@
             }
         }
 
-        .swiper-slide-custom {
-            min-width: 320px;
-        }
+        // .swiper-slide-custom {
+        //     min-width: 320px;
+        // }
 
         .design-slide {
             display: flex;
@@ -109,6 +109,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-top: -30px!important;
 
             &:after {
                 font-size: 16px;
@@ -120,67 +121,43 @@
             cursor: pointer;
             pointer-events: auto;
             background-color: #ababab;
+            margin-top: -30px!important;
         }
     }
 
     @media (max-width: 1200px) {
-        .swiper-slide-custom {
-            min-width: 260px !important;
-        }
-
-        .design-slide {
-            padding: 30px !important;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .swiper-slide-custom {
-            min-width: 220px !important;
-        }
+        // .swiper-slide-custom {
+        //     min-width: 260px !important;
+        // }
 
         .design-slide {
             padding: 20px !important;
         }
     }
 
+    // @media (max-width: 992px) {
+    //     .swiper-slide-custom {
+    //         min-width: 220px !important;
+    //     }
+
+    //     .design-slide {
+    //         padding: 20px !important;
+    //     }
+    // }
+
     @media (max-width: 768px) {
-        .swiper-slide-custom {
-            min-width: 180px !important;
-        }
-
-        .design-slide {
-            padding: 15px !important;
-        }
-
-        .design-info {
-            .smr_album1price {
-                font-size: $fontSize1 !important;
-            }
-        }
-    }
-
-    @media (max-width: 576px) {
-        .swiper-slide-custom {
-            min-width: 140px !important;
-        }
-
-        .tabs {
-            button {
-                padding: 4px 10px;
-                font-size: $fontSize0;
-                min-width: 60px;
-                min-height: 35px;
-            }
-        }
+    //     .swiper-slide-custom {
+    //         min-width: 180px !important;
+    //     }
 
         .design-slide {
             padding: 10px !important;
         }
 
-        .design-info {
-            .smr_album1price {
-                font-size: $fontSize2 !important;
-            }
-        }
+    //     .design-info {
+    //         .smr_album1price {
+    //             font-size: $fontSize1 !important;
+    //         }
+    //     }
     }
 }
