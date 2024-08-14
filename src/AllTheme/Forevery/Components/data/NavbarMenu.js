@@ -126,17 +126,17 @@ const CollectionData = [
   {
     name: "IKIGAI",
     img: `${storImagePath()}/Forevery/collections/ikigai-banner.webp`,
-    link : `/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u`
+    link: `/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u`,
   },
   {
     name: "heritage",
     img: `${storImagePath()}/Forevery/collections/heritage-banner.webp`,
-    link : `/p/Width/B/?M=Qi9jb2xsZWN0aW9u`
+    link: `/p/Width/B/?M=Qi9jb2xsZWN0aW9u`,
   },
   {
     name: "Icon",
     img: `${storImagePath()}/Forevery/collections/icon-banner.webp`,
-    link : `/p/M_CS/Artifact/?M=QXJ0aWZhY3QvY29sbGVjdGlvbg==`
+    link: `/p/M_CS/Artifact/?M=QXJ0aWZhY3QvY29sbGVjdGlvbg==`,
   },
 ];
 
@@ -186,11 +186,53 @@ const shapes = [
   { name: "Heart", img: `${storImagePath()}/Forevery/home/shape/heart.png` },
 ];
 
+const DiamondLists = [
+  { img: `${storImagePath()}/Forevery/home/shape-ew/r.png`, name: "Round" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/p.png`, name: "Princess" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/c.png`, name: "Cushion" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/e.png`, name: "Emerald" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/o.png`, name: "Oval" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/rad.png`, name: "Radiant" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/as.png`, name: "Asscher" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/m.png`, name: "Marquise" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/hea.png`, name: "Heart" },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/pear.png`, name: "Pear" },
+  {
+    img: `${storImagePath()}/Forevery/home/shape-ew/bag.png`,
+    name: "Baguette",
+  },
+  { img: `${storImagePath()}/Forevery/home/shape-ew/kite.png`, name: "Kite" },
+  {
+    img: `${storImagePath()}/Forevery/home/shape-ew/shield.png`,
+    name: "Shield",
+  },
+];
+
+const StepImages = [
+  {
+    img: `${storImagePath()}/Forevery/diamondFilter/mount-diamond-icon.svg`,
+    name: "Diamond",
+    link: "diamond",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamondFilter/mount-icon.svg`,
+    name: "Settings",
+    link: "settings",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamondFilter/complete-ring-icon.svg`,
+    name: "Rings",
+    link: "ring",
+  },
+];
+
 export {
   SideItems,
   diamondShapes,
   NavbarMenu,
   CollectionData,
   CollectionArray,
-  shapes
+  shapes,
+  DiamondLists,
+  StepImages
 };
