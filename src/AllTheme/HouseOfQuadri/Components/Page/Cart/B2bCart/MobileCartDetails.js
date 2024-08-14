@@ -276,6 +276,7 @@ import "./mob.scss";
 import QuantitySelector from "./QuantitySelector";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import noImageFound from "../../../Assets/noImageFound.jpg";
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -311,6 +312,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [imageSrc, setImageSrc] = useState(noImageFound);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -342,6 +344,16 @@ const MobileCartDetails = ({
     return SizeSorted;
   };
 
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
+
 
   return (
     <Modal
@@ -356,7 +368,7 @@ const MobileCartDetails = ({
       >
         <div className="hoq_Cart-imageDiv">
           <img
-            src={CartCardImageFunc(selectedItem)}
+            src={imageSrc}
             alt="Cluster Diamond"
             className="hoq_cartImage"
             onClick={() => handleMoveToDetail(selectedItem)}
@@ -364,7 +376,7 @@ const MobileCartDetails = ({
           />
         </div>
         <>
-          {selectedItem?.StockId == 0 ? (
+        {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
             <div className="hoq_Cart_R-details">
               <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
               <Divider />

@@ -31,6 +31,7 @@ const WishlistItems = ({
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const visiterId = Cookies.get("visiterId");
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [imageSrc, setImageSrc] = useState(noImageFound);
 
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
@@ -51,6 +52,15 @@ const WishlistItems = ({
     }
   };
 
+  useEffect(() => {
+    if (item?.ImageCount > 0) {
+      WishCardImageFunc(item).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [item]);
 
   console.log(item);
   return (
@@ -68,10 +78,7 @@ const WishlistItems = ({
         <div className="cardContent">
           <CardMedia
             component="img"
-           
-            image={
-              item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound
-            }
+            image={imageSrc}
             alt={item?.TitleLine}
             className="hoq_WlListImage"
             onClick={() => handleMoveToDetail(item)}
