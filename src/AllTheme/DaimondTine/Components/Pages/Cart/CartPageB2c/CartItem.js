@@ -21,7 +21,7 @@ const CartItem = ({
     onRemoveItem,
     handleMoveToDetail
 }) => {
-
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const [storeInitData, setStoreInitData] = useState();
     const setCartCountVal = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
@@ -41,16 +41,22 @@ const CartItem = ({
         }
     };
 
+    useEffect(() => {
+        if (cartData?.ImageCount > 0) {
+          CartCardImageFunc(cartData).then((src) => {
+            setImageSrc(src);
+          });
+        } else {
+          setImageSrc(noImageFound);
+        }
+      }, [cartData]);
+
     return (
         <tr>
             <td className="product">
                 <img
-                    src={cartData?.ImageCount !== 0 ? CartCardImageFunc(cartData) : noImageFound}
+                    src={imageSrc}
                     alt={cartData?.name}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `${storeInitData?.DesignImageFol}${cartData?.designno}_1.${cartData?.ImageExtension}`;
-                    }}
                     onClick={() => handleMoveToDetail(cartData)}
                 />
                 <div className="product-details">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './for_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
@@ -29,7 +29,16 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail
 }) => {
-
+  const [imageSrc, setImageSrc] = useState(noImageFound);
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
 
   console.log('selectediTem', selectedItem);
   return (
@@ -37,7 +46,7 @@ const CartDetails = ({
       <div className="for_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='for_cartImage' /> */}
         <img 
-        src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
+        src={imageSrc} 
         alt="image" 
         className='for_cartDetailImage'  
         onClick={() => handleMoveToDetail(selectedItem)}
