@@ -317,34 +317,33 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
 
-
-
-        setSelectMtType(metalArr?.metaltype);
+        setSelectMtType(metalArr?.metaltype)
 
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
@@ -568,6 +567,7 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
 
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let decodeobj = decodeAndDecompress(navVal);
 
@@ -589,7 +589,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid ?? decodeobj?.m;
+        )[0]?.Metalid
     }
 
     if (diaQcLocal) {
@@ -598,7 +598,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? `${decodeobj?.d?.split(",")[0]},${decodeobj?.d?.split(",")[1]}`;
+        )[0];
     }
 
     if (csQcLocal) {
@@ -607,16 +607,18 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
+        )[0]
     }
+
+    // console.log("decodeobj",(diaArr))
 
 
     const FetchProductData = async () => {
 
       let obj = {
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
 
       // console.log("objjj",obj)
@@ -1214,9 +1216,9 @@ const ProductDetail = () => {
     }
 
     let obj = {
-      mt: metalArr,
-      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+      mt: metalArr ?? 0,
+      diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+      csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
     }
 
     let prod = {
@@ -1257,6 +1259,8 @@ const ProductDetail = () => {
 
   }
 
+  console.log("ColorStone_Cost",singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
+
   return (
     <>
       <Helmet>
@@ -1291,6 +1295,7 @@ const ProductDetail = () => {
                             margin: "20px 0 0 0"
                           }}
                           variant="rounded"
+                          className="pSkelton"
                         />
                       )}
 
@@ -1380,32 +1385,43 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="smr_prod_shortInfo">
-                      <div className="smr_prod_shortInfo_inner">
+                     { prodLoading ? 
+                     <Skeleton 
+                        variant="rounded"
+                        width={"100%"}
+                        height={"97%"}
+                        sx={{marginInline:"16%",marginTop:"3%"}}
+                        className="pSkelton"
+                      />
+                     :<div className="smr_prod_shortInfo_inner">
                         <p className="smr_prod_titleLine">
                           {singleProd?.TitleLine}
                         </p>
+
                         <div className="smr_prod_summury_info">
                           <div className="smr_prod_summury_info_inner">
                             <span className="smr_single_prod_designno">
                               {singleProd?.designno}
                             </span>
-                            <span className="smr_prod_short_key">
+                            { (singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
                               Metal Purity :{" "}
                               <span className="smr_prod_short_val">
-                                {selectMtType}
+                                {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
                               </span>
-                            </span>
+                            </span> : null}
                             <span className="smr_prod_short_key">
                               Metal Color :{" "}
                               <span className="smr_prod_short_val">
-                                {selectMtColor}
+                                {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                                    (ele) => ele?.colorcode == selectMtColor
+                                          )[0]?.metalcolorname}
                               </span>
                             </span>
                             {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length) ? <span className="smr_prod_short_key">
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
                               Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
-                                {`${selectDiaQc}`}
+                                {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
                               </span>
                             </span> : null}
                             <span className="smr_prod_short_key">
@@ -1416,22 +1432,25 @@ const ProductDetail = () => {
                             </span>
                           </div>
                         </div>
+
                         {storeInit?.IsProductWebCustomization == 1 &&
-                          metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                        (
                             <div className="smr_single_prod_customize">
-                              <div className="smr_single_prod_customize_metal">
+                              { metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 
+                              && (<div className="smr_single_prod_customize_metal">
                                 <label className="menuItemTimeEleveDeatil">
                                   METAL TYPE:
                                 </label>
                                 {singleProd?.IsMrpBase == 1 ? (
                                   <span className="menuitemSelectoreMain">
-                                    {
+                                    {/* {
                                       metalTypeCombo?.filter(
                                         (ele) =>
                                           ele?.Metalid ==
                                           singleProd?.MetalPurityid
                                       )[0]?.metaltype
-                                    }
+                                    } */}
+                                    {singleProd?.MetalTypePurity}
                                   </span>
                                 ) : (
                                   <select
@@ -1452,7 +1471,7 @@ const ProductDetail = () => {
                                     ))}
                                   </select>
                                 )}
-                              </div>
+                              </div>)}
                               {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
@@ -1488,12 +1507,19 @@ const ProductDetail = () => {
                                 </div>
                               )}
                               {(storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && diaList?.length) ? (
+                                diaQcCombo?.length > 0 && diaList?.length ) ? (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
                                   </label>
                                   {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.DiaQuaCol}
+                                      </span>
+                                    ) 
+                                    :
+                                    (
                                     <select
                                       className="menuitemSelectoreMain"
                                       value={selectDiaQc}
@@ -1509,7 +1535,7 @@ const ProductDetail = () => {
                                         >{`${ele?.Quality},${ele?.color}`}</option>
                                       ))}
                                     </select>
-                                  }
+                                  )}
                                 </div>
                               ) : null}
                               {(storeInit?.IsCsCustomization === 1 &&
@@ -1518,21 +1544,30 @@ const ProductDetail = () => {
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
                                   </label>
-                                  <select
-                                    className="menuitemSelectoreMain"
-                                    value={selectCsQc}
-                                    // onChange={(e) => setSelectCsQc(e.target.value)}
-                                    onChange={(e) =>
-                                      handleCustomChange(e, "cs")
-                                    }
-                                  >
-                                    {csQcCombo.map((ele) => (
-                                      <option
-                                        key={ele?.QualityId}
-                                        value={`${ele?.Quality},${ele?.color}`}
-                                      >{`${ele?.Quality},${ele?.color}`}</option>
-                                    ))}
-                                  </select>
+                                  {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.CsQuaCol}
+                                      </span>
+                                    ):(
+                                      <select
+                                        className="menuitemSelectoreMain"
+                                        value={selectCsQc}
+                                        // onChange={(e) => setSelectCsQc(e.target.value)}
+                                        onChange={(e) =>
+                                          handleCustomChange(e, "cs")
+                                        }
+                                      >
+                                        {csQcCombo.map((ele) => (
+                                          <option
+                                            key={ele?.QualityId}
+                                            value={`${ele?.Quality},${ele?.color}`}
+                                          >{`${ele?.Quality},${ele?.color}`}</option>
+                                        ))}
+                                      </select>
+                                    )
+                                  }
+                                  
                                 </div>
                               )
                                 :
@@ -1577,7 +1612,8 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                        {storeInit?.IsPriceBreakUp == 1  && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                        (
                           <Accordion
                             elevation={0}
                             sx={{
@@ -1641,6 +1677,7 @@ const ProductDetail = () => {
                                   <td><Typography>Stone Amount</Typography></td>
                                 </tr>
                               </table> */}
+
 
                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
@@ -1777,6 +1814,7 @@ const ProductDetail = () => {
                                 variant="rounded"
                                 width={140}
                                 height={30}
+                                className="pSkelton"
                               />
                             ) :
                               formatter.format
@@ -1838,7 +1876,7 @@ const ProductDetail = () => {
                             {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                           </div>
                         }
-                      </div>
+                      </div>}
                     </div>
                   </div>
                 </div>
