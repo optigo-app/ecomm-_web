@@ -9,6 +9,7 @@ import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handle
 import { useSetRecoilState } from 'recoil';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { defaultAddressStateDT } from './../../../Recoil/atom';
+import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 
 const ManageAddress = () => {
@@ -40,14 +41,6 @@ const ManageAddress = () => {
         setDefaultAdd(event.target.value);
     };
 
-    const handleDefaultSet = (arr) => {
-        let findDefault = arr?.find(item => item.isdefault === 1);
-        if (findDefault === undefined) {
-            arr[0].isdefault = 1
-        }
-        return arr
-    }
-
     const handleDeleteAddressBtn = async () => {
         try {
             setOpenDelete(false);
@@ -75,8 +68,8 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
+
     const handleOpen = (item, addressIndex = null, args) => {
-        // setIsEditMode(addressIndex !== null);
 
             if(args === 'edit'){
                 setIsEditMode(true);
@@ -125,65 +118,11 @@ const ManageAddress = () => {
         setDeleteId(item);
         setOpenDelete(true);
     }
+
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
-        const errorsCopy = {}; // Initialize errors object
-    
-        if (!formData.firstName.trim()) {
-            errorsCopy.firstName = 'First Name is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName.trim())) {
-            errorsCopy.firstName = 'First Name must contain only letters';
-        } else if (formData.firstName.trim().length < 2) {
-            errorsCopy.firstName = 'Enter minimum 2 characters';
-        } else if (formData.firstName.trim().length > 45) {
-            errorsCopy.firstName = 'Enter maximum 45 characters';
-        }
-    
-        if (!formData.lastName.trim()) {
-            errorsCopy.lastName = 'Last Name is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName.trim())) {
-            errorsCopy.lastName = 'Last Name must contain only letters';
-        } else if (formData.lastName.trim().length < 2) {
-            errorsCopy.lastName = 'Enter minimum 2 characters';
-        } else if (formData.lastName.trim().length > 45) {
-            errorsCopy.lastName = 'Enter maximum 45 characters';
-        }
-    
-        if (!formData.mobileNo.trim()) {
-            errorsCopy.mobileNo = 'Mobile No. is required';
-        } else if (!/^\d{10}$/.test(formData.mobileNo.trim())) {
-            errorsCopy.mobileNo = 'Mobile No. must contain exactly 10 numbers';
-        }
-    
-        if (!formData.address.trim()) {
-            errorsCopy.address = 'Address is required';
-        }
-    
-        if (!formData.country.trim()) {
-            errorsCopy.country = 'Country is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.country.trim())) {
-            errorsCopy.country = 'Country name must contain only letters';
-        }
-    
-        if (!formData.state.trim()) {
-            errorsCopy.state = 'State is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.state.trim())) {
-            errorsCopy.state = 'State name must contain only letters';
-        }
-    
-        if (!formData.city.trim()) {
-            errorsCopy.city = 'City is required';
-        } else if (!/^[a-zA-Z\s]+$/.test(formData.city.trim())) {
-            errorsCopy.city = 'City name must contain only letters';
-        }
-    
-        if (!formData.zipCode.trim()) {
-            errorsCopy.zipCode = 'ZIP Code is required';
-        } else if (!/^\d+$/.test(formData.zipCode.trim())) {
-            errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-        } else if (formData.zipCode.trim().length !== 6) {
-            errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-        }
+
+         const errorsCopy = validateAddressFormAccount(formData);
     
         // Update errors state and prevent submission if there are errors
         setErrors(errorsCopy);
@@ -281,8 +220,22 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
-        
-    
+
+    const handleInputChange = (e, fieldName) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [fieldName]: value
+        }));
+
+        const error = validateAddressFieldAccount(fieldName, value);
+
+        // setErrors(errorsCopy);
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [fieldName]: error
+        }));
+    };
 
     const handleClose = () => {
         setFormData({
@@ -301,109 +254,11 @@ const ManageAddress = () => {
         setOpen(false);
     };
 
-    const handleInputChange = (e, fieldName) => {
-        const { value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [fieldName]: value
-        }));
-
-        // Validate the field
-        const errorsCopy = { ...errors };
-
-        switch (fieldName) {
-            case 'firstName':
-                if (!value.trim()) {
-                    errorsCopy.firstName = 'First Name is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.firstName = 'First Name must contain only letters';
-                } else if (value?.trim()?.length < 2) {
-                    errorsCopy.firstName = 'Enter minimum 2 characters';
-                } else if (value?.trim()?.length > 45) {
-                    errorsCopy.firstName = 'Enter maximum 45 characters';
-                } else {
-                    errorsCopy.firstName = '';
-                }
-                break;
-            case 'lastName':
-                if (!value.trim()) {
-                    errorsCopy.lastName = 'Last Name is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.lastName = 'Last Name must contain only letters';
-                } else if(value?.trim()?.length < 2){
-                    errorsCopy.lastName = 'Enter minimum 2 characters';
-                } else if(value?.trim()?.length > 45){
-                    errorsCopy.lastName = 'Enter maximum 45 characters';
-                } else {
-                    errorsCopy.lastName = '';
-                }
-                break;
-            case 'address':
-                errorsCopy.address = value.trim() ? '' : 'Address is required';
-                break;
-            case 'country':
-                if (!value.trim()) {
-                    errorsCopy.country = 'Country is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.country = 'Country name must contain only letters';
-                } else {
-                    errorsCopy.country = '';
-                }
-                break;
-            case 'state':
-                if (!value.trim()) {
-                    errorsCopy.state = 'State is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.state = 'State name must contain only letters';
-                } else {
-                    errorsCopy.state = '';
-                }
-                break;
-            case 'city':
-                if (!value.trim()) {
-                    errorsCopy.city = 'City is required';
-                } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
-                    errorsCopy.city = 'City name must contain only letters';
-                } else {
-                    errorsCopy.city = '';
-                }
-                break;
-            case 'zipCode':
-                if (!value.trim()) {
-                    errorsCopy.zipCode = 'ZIP Code is required';
-                } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.zipCode = 'ZIP Code must contain only numeric values';
-                } else if (value?.trim()?.length !== 6) {
-                    errorsCopy.zipCode = 'ZIP Code must be exactly 6 digits';
-                } else {
-                    errorsCopy.zipCode = '';
-                }
-                break;
-            case 'mobileNo':
-                if (!value.trim()) {
-                    errorsCopy.mobileNo = 'Mobile Number is required';
-                } else if (!/^\d+$/.test(value.trim())) {
-                    errorsCopy.mobileNo = 'Mobile Number must contain only numeric values';
-                } else if (value?.trim()?.length !== 10) {
-                    errorsCopy.mobileNo = 'Mobile Number must be exactly 10 digits';
-                } else {
-                    errorsCopy.mobileNo = '';
-                }
-                break;
-            default:
-                break;   
-        }
-
-        setErrors(errorsCopy);
-    };
-
     const loginDetail = () => {
         const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
-
- 
 
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
