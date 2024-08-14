@@ -1205,8 +1205,10 @@ const Lookbook = () => {
                   onClick={handleOpen}
                   className="smr_lookBookSelectViewBtn"
                   style={{
-                    background: selectedCategories.length !== 0 ? "rgb(168, 128, 124)" : "#ffff",
-                    color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85"
+                    // background: selectedCategories.length !== 0 ? "rgb(168, 128, 124)" : "#ffff",
+                    // color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85"
+                    background: "rgb(168, 128, 124)",
+                    color: "#fff"
                   }}
                 >
                   Set View
@@ -2108,7 +2110,7 @@ const Lookbook = () => {
           </div>
         </div>
       )}
-     <Footer />
+      <Footer />
     </div>
   );
 };

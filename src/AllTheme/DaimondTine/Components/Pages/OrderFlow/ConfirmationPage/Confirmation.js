@@ -4,6 +4,7 @@ import Footer from '../../Home/Footer/Footer';
 import ThankYouImage from "../../../Assets/thankyou.svg"
 import { useNavigate } from 'react-router-dom';
 import { FaPrint } from 'react-icons/fa';
+import { handelOpenMenu } from "../../../../../../utils/Glob_Functions/Cart_Wishlist/handleOpenMenu"
 
 const Confirmation = () => {
     const navigate = useNavigate();
@@ -14,26 +15,33 @@ const Confirmation = () => {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
-    
+    };
+
 
     useEffect(() => {
 
         setCSSVariable();
-        
+
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeInit);
         let orderNo = sessionStorage.getItem('orderNumber')
         setOrderNo(orderNo)
     }, [])
 
-    const handleNavigate = () => {
-        navigate('/')
+    const handleNavigate = async () => {
+        const url = await handelOpenMenu()
+        if (url) {
+            navigate(url)
+        } else {
+            navigate('/')
+        }
         sessionStorage.removeItem("TotalPriceData");
     }
+
+
     // const handleNavigate = () => {
     //     if (location?.pathname == "/Confirmation") {
     //         const handlePopState = () => {
@@ -45,6 +53,8 @@ const Confirmation = () => {
     //         };
     //     }
     // }
+
+
     function scrollToTop() {
         window.scrollTo({
             top: 0,
@@ -76,7 +86,7 @@ const Confirmation = () => {
                     </div>
                 </div>
             </div>
-                <Footer />
+            <Footer />
             <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p style={{ margin: '0px', fontWeight: 500, color: 'rgb(168, 128, 124)', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>

@@ -18,7 +18,8 @@ const CartItem = ({
     decodeEntities,
     handleDecrement,
     handleIncrement,
-    onRemoveItem
+    onRemoveItem,
+    handleMoveToDetail
 }) => {
 
     const [storeInitData, setStoreInitData] = useState();
@@ -50,6 +51,7 @@ const CartItem = ({
                         e.target.onerror = null;
                         e.target.src = `${storeInitData?.DesignImageFol}${cartData?.designno}_1.${cartData?.ImageExtension}`;
                     }}
+                    onClick={() => handleMoveToDetail(cartData)}
                 />
                 <div className="product-details">
                     <p>{cartData?.TitleLine}</p>

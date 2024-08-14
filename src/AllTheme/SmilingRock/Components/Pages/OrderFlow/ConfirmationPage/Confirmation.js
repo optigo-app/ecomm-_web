@@ -4,6 +4,7 @@ import Footer from '../../Home/Footer/Footer';
 import ThankYouImage from "../../../Assets/thankyou.svg"
 import { useNavigate } from 'react-router-dom';
 import { FaPrint } from 'react-icons/fa';
+import { handelOpenMenu } from '../../../../../../utils/Glob_Functions/Cart_Wishlist/handleOpenMenu';
 
 const Confirmation = () => {
     const navigate = useNavigate();
@@ -30,10 +31,16 @@ const Confirmation = () => {
         setOrderNo(orderNo)
     }, [])
 
-    const handleNavigate = () => {
-        navigate('/')
+    const handleNavigate = async () => {
+        const url = await handelOpenMenu()
+        if (url) {
+            navigate(url)
+        } else {
+            navigate('/')
+        }
+        sessionStorage.removeItem("TotalPriceData");
     }
-
+    
     function scrollToTop() {
         window.scrollTo({
             top: 0,

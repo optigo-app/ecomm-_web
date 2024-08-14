@@ -59,9 +59,9 @@ const Header = () => {
             companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
             const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
             if (parsedSocilaMediaUrlData) {
-              setSocialMediaData(parsedSocilaMediaUrlData)
+                setSocialMediaData(parsedSocilaMediaUrlData)
             }
-          }
+        }
 
         GetCountAPI(visiterID)
             .then((res) => {
@@ -310,7 +310,7 @@ const Header = () => {
 
         let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-        const url = `/p/${queryParameters1}/?M=${btoa(
+        const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
             menuEncoded
         )}`;
 
@@ -389,7 +389,7 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px",cursor:'pointer', color: '#acabab', textDecoration: 'none' }}>
+                    <a onClick={() => window.open('https://web.whatsapp.com/')} className="FontFamilySet" style={{ fontSize: "12px", cursor: 'pointer', color: '#acabab', textDecoration: 'none' }}>
                         Call: +91-98997 78849
                     </a>
                 </div>
@@ -397,11 +397,11 @@ const Header = () => {
                     {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
 
                     {socialMediaData?.map((social, index) => (
-                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                        <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
-                          onError={(e) => { e.target.style.display = 'none'; }} />
-                      </a>
-                  ))}
+                        <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                            <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
+                                onError={(e) => { e.target.style.display = 'none'; }} />
+                        </a>
+                    ))}
 
                     {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
@@ -603,7 +603,7 @@ const Header = () => {
                         ))}
                         <li
                             className="dt_menu_li"
-                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer" }}
                             onClick={() => navigation('/faq')}
                         >
                             <span className="nav-li-sminingSpan">

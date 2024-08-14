@@ -1,0 +1,56 @@
+@import "../../../scss/variable.scss";
+
+.for_faq {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $primaryFontFamily;
+  flex-direction: column;
+ .heading{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 35px 0;
+ }
+
+  .faq_section {
+    width: 55%;
+    background-color: greenyellow;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: none;
+
+    .MuiAccordion-root {
+      margin: 0; // Remove default margin
+      box-shadow: none; // Remove default box shadow
+      border: none; // Remove default border
+    }
+
+    .MuiAccordionSummary-root {
+      padding: 2px 0; // Remove default padding
+      span {
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0; // Remove default padding
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .MuiAccordionActions-root {
+      padding: 10px 0; // Remove default padding
+      border-top: none; // Remove default border
+    }
+
+    .MuiButton-root {
+      margin: 0; // Remove default margin from buttons
+      padding: 0; // Remove default padding from buttons
+    }
+  }
+}

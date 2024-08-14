@@ -26,6 +26,14 @@ import LabgrownDiamondInfo from "./Common/LabgrownDiamondInfo/LabgrownDiamondInf
 import ShapeSection from "./Common/ShapeSection/ShapeSection";
 import DiamondLifeTime from "./Common/DiamondLifeTime/DiamondLifeTime";
 import ProductCarousel from "./Common/ProductCarousel/ProductCarousel";
+import Bestseller from "./Common/Bestseller/Bestseller";
+import Banner from "./Common/Banner/Banner";
+import OurServices from "./Common/OurServices/OurServices";
+import HistoryPage from "./Common/HistoryPage/HistoryPage";
+import NewsletterSignup from "../../Pages/ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import GetInTouch from "./Common/GetInTouch/GetInTouch";
+import InstagramSection from "./Common/InstagramSection/InstagramSection";
+import Faq from "../ReusableComponent/Faq/Faq";
 
 function Home() {
   // const [localData, setLocalData] = useState();
@@ -52,37 +60,22 @@ function Home() {
   return (
     <>
       <div className="for_home_index_main">
-        <div style={{ backgroundColor: 'white' }}>
-            <div className="for_home_index_Submain">
-              <TopVideoSection/>
-              <ShoptheCollections/>
-              <LabgrownDiamondInfo/>
-              <ShapeSection/>
-              <DiamondLifeTime/>
-              <ProductCarousel/>
-
-
-
-
-
-
-
-
-              {/* <TopSection />
-              <TheDifference />
-              <PromotionBaner2 /> */}
-              {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
-              {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */}
-              {/* <DaimondEveyone /> */}
-              {/* <ShopByCategory /> */}
-              {/* {localData?.IsHomeNewArrival === 1 && <NewArrival1 />} */}
-              {/* {localData?.IsHomeTrending === 1 && <TrendingView1 />} */}
-              {/* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}
-              {/* <SustainAbility /> */}
-              {/* <BestSaller /> */}
-              {/* <BottomBanner /> */}
-              {/* <BrandsComponent /> */}
-            </div>
+        <div style={{ backgroundColor: "white" }}>
+          <div className="for_home_index_Submain">
+            <TopVideoSection />
+            <ShoptheCollections />
+            <LabgrownDiamondInfo />
+            <ShapeSection />
+            <DiamondLifeTime />
+            <ProductCarousel />
+            <Bestseller />
+            <Banner />
+            <OurServices />
+            <HistoryPage />
+            <InstagramSection />
+            <GetInTouch />
+            <NewsletterSignup />
+          </div>
         </div>
       </div>
     </>
@@ -90,3 +83,42 @@ function Home() {
 }
 
 export default Home;
+
+{
+  /* <TopSection />
+              <TheDifference />
+              <PromotionBaner2 /> */
+}
+{
+  /* {localData?.IsHomeAlbum === 1 && <Album1 />} */
+}
+{
+  /* {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />} */
+}
+{
+  /* <DaimondEveyone /> */
+}
+{
+  /* <ShopByCategory /> */
+}
+{
+  /* {localData?.IsHomeNewArrival === 1 && <NewArrival1 />} */
+}
+{
+  /* {localData?.IsHomeTrending === 1 && <TrendingView1 />} */
+}
+{
+  /* {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */
+}
+{
+  /* <SustainAbility /> */
+}
+{
+  /* <BestSaller /> */
+}
+{
+  /* <BottomBanner /> */
+}
+{
+  /* <BrandsComponent /> */
+}

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './App.css'; // Ensure you create this CSS file for styling
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"; // Import useLocation from react-router-dom
+import "./App.css"; // Ensure you create this CSS file for styling
 
 const Preloader = () => {
   const [loaded, setLoaded] = useState(false);
   const [width, setWidth] = useState(0);
   const [percentage, setPercentage] = useState(0);
+  const location = useLocation(); // Get current location
 
   useEffect(() => {
     // Simulate load event timing
@@ -14,7 +16,7 @@ const Preloader = () => {
 
     const animateLoadbar = () => {
       const interval = setInterval(() => {
-        setWidth(prevWidth => {
+        setWidth((prevWidth) => {
           if (prevWidth >= 100) {
             clearInterval(interval);
             return 100;
@@ -29,7 +31,7 @@ const Preloader = () => {
       const stepTime = Math.abs(Math.floor(time / range));
       let current = 0;
       const interval = setInterval(() => {
-        setPercentage(prevPercentage => {
+        setPercentage((prevPercentage) => {
           if (prevPercentage >= 100) {
             clearInterval(interval);
             return 100;
@@ -51,16 +53,22 @@ const Preloader = () => {
     setTimeout(() => {
       setLoaded(true);
     }, time);
-  }, []);
+
+    // Cleanup and reset preloader state on location change
+    return () => {
+      setLoaded(false);
+      setWidth(0);
+      setPercentage(0);
+    };
+  }, [location]);
 
   return (
-    <div className={`preloader-wrap ${loaded ? 'fade-out' : ''}`}>
-      <div className="loader">
-        <div className="trackbar">
-          <div className="loadbar" style={{ width: `${width}%` }}></div>
+    <div className={`for_preloader-wrap ${!loaded ? "fade-in" : "fade-out"}`}>
+      <div className="for_loader">
+        <div className="for_trackbar">
+          <div className="for_loadbar" style={{ width: `${width}%` }}></div>
         </div>
       </div>
-      <div className="percentage">{percentage}%</div>
     </div>
   );
 };

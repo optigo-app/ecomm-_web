@@ -1,4 +1,11 @@
 @import "../../../../scss/variable.scss";
+@mixin Truncate($lines) {
+  display: -webkit-box;
+  text-align: center;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .for_ProductCarousel {
   width: 100%;
@@ -48,10 +55,12 @@
       .image_box {
         width: 100%;
         position: relative;
+        background-color: rgba(197, 197, 197, 0.219);
         img {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          mix-blend-mode: multiply;
         }
         .addtocart_overlay {
           position: absolute;
@@ -92,11 +101,29 @@
           font-size: 16px;
           padding: 4px 0;
           font-weight: 700;
+          @include Truncate(1);
+        }
+        .diamond_Details{
+          display: flex !important;
+          gap: 5px;
+          .separator_for{
+            display: flex !important;
+            align-items: center;
+            font-weight: 500 !important;
+            span{
+              display: flex !important;
+              align-items: center;
+              font-size: 13px !important;
+              font-weight: 500 !important;
+            }
+          }
         }
         p {
           font-size: 14px;
           font-weight: 450;
           padding: 0 20px;
+          margin-top: 0;
+          margin-bottom: 10px;
         }
         h4 {
             font-size: 17px;
