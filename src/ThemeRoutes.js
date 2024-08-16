@@ -24,7 +24,7 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(2);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -122,8 +122,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(2);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);
