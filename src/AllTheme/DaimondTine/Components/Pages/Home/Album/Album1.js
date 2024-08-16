@@ -18,6 +18,7 @@ const Album1 = () => {
     const [selectedAlbum, setSelectedAlbum] = useState();
     const [albumData, setAlbumData] = useState();
     const [imageUrl, setImageUrl] = useState();
+    const [imageStatus, setImageStatus] = useState({});
     const navigation = useNavigate();
     const islogin = useRecoilValue(dt_loginState);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -66,8 +67,6 @@ const Album1 = () => {
     }
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-
-        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,
@@ -92,15 +91,35 @@ const Album1 = () => {
         return txt.value;
     }
 
-    console.log('albumDataalbumData', albumData);
+    const checkImageAvailability = (imageUrl) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = imageUrl;
+        });
+    };
+
+    useEffect(() => {
+        if (albumData) {
+            albumData.forEach(album => {
+                const designs = JSON.parse(album?.Designdetail) || [];
+                designs.forEach(async (design) => {
+                    const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                    const available = await checkImageAvailability(imageSrc);
+                    setImageStatus(prevStatus => ({
+                        ...prevStatus,
+                        [imageSrc]: available
+                    }));
+                });
+            });
+        }
+    }, [albumData]);
 
     return (
         <div className="dt_album_container">
             {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
                 <span className='smr_albumtitle'>Album</span>
-                {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
-                    View more
-                </Link> */}
             </div>}
             <Box className="tabs"
                 sx={{
@@ -134,51 +153,39 @@ const Album1 = () => {
                             key={album?.Albumid}
                             spaceBetween={10}
                             slidesPerView={4}
-                            // breakpoints={{
-                            //     1200: {
-                            //         slidesPerView: 4,
-                            //     },
-                            //     992: {
-                            //         slidesPerView: 3,
-                            //     },
-                            //     768: {
-                            //         slidesPerView: 2,
-                            //     },
-                            // }}
                             lazy={true}
                             navigation={true}
-                            // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
                             pagination={false}
                         >
-                            {JSON?.parse(album?.Designdetail)?.map((design) => (
-                                <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                    <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
-                                        <img
-                                            src={
-                                                design?.ImageCount > 0
-                                                    ? `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`
-                                                    : imageNotFound
-                                            }
-                                            alt={design?.TitleLine}
-                                            loading="lazy"
-                                        />
-                                    </div>
-                                    <div className="design-info">
-                                        <p className='smr_album1price'>
-                                            <span
-                                                className="smr_currencyFont"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: decodeEntities(
-                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                    ),
-                                                }}
-                                            /> {formatter(design?.UnitCostWithMarkUp)}
-                                        </p>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
+                            {JSON?.parse(album?.Designdetail)?.map((design) => {
+                                const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                const isImageAvailable = imageStatus[imageSrc] !== false;
+                                return (
+                                    <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
+                                        <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                            <img
+                                                src={isImageAvailable ? imageSrc : imageNotFound}
+                                                alt={design?.TitleLine}
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <div className="design-info">
+                                            <p className='smr_album1price'>
+                                                <span
+                                                    className="smr_currencyFont"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: decodeEntities(
+                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                        ),
+                                                    }}
+                                                /> {formatter(design?.UnitCostWithMarkUp)}
+                                            </p>
+                                        </div>
+                                    </SwiperSlide>
+                                );
+                            })}
                         </Swiper>
                     ) : null
                 )}

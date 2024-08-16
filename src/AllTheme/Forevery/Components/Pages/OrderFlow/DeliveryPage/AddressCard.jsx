@@ -34,31 +34,31 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
             <Card
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={isdefault == 1 ? 'smr_ActiveAddrCard' : 'smr_AddrCard'}
+                className={isdefault == 1 ? 'for_ActiveAddrCard' : 'for_AddrCard'}
                 style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <CardContent onClick={() => handleDefaultSelection(address)} style={{ flex: '1 0 auto' }}>
-                    <Typography className='smr_addrTypoTitle' variant="h5" component="h2">
+                    <Typography className='for_addrTypoTitle' variant="h5" component="h2">
                         {shippingfirstname} {shippinglastname}
                     </Typography>
-                    <Typography className='smr_addrTypo'>{street}</Typography>
-                    <Typography className='smr_addrTypo'>{city}-{zip}</Typography>
-                    <Typography className='smr_addrTypo'>{state}</Typography>
-                    <Typography className='smr_addrTypo'>{country}</Typography>
-                    <Typography className='smr_addrTypo'>
+                    <Typography className='for_addrTypo'>{street}</Typography>
+                    <Typography className='for_addrTypo'>{city}-{zip}</Typography>
+                    <Typography className='for_addrTypo'>{state}</Typography>
+                    <Typography className='for_addrTypo'>{country}</Typography>
+                    <Typography className='for_addrTypo'>
                         Mobile No: {shippingmobile}
                     </Typography>
-                    <button type='button' className={isdefault == 1 ? 'smr_defualt_addrSelected' : 'smr_defualt_addrSelectedHide'}>Selected</button>
+                    <button type='button' className={isdefault == 1 ? 'for_defualt_addrSelected' : 'for_defualt_addrSelectedHide'}>Selected</button>
                 </CardContent>
 
                 {/* {showButtons && ( */}
-                <div className='smr_editDeleteBtngroup' >
+                <div className='for_editDeleteBtngroup' >
                     <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
-                        <MdModeEditOutline className='smr_editIcon' />
+                        <MdModeEditOutline className='for_editIcon' />
                     </Button>
                     {isdefault != 1 &&
                         <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
-                            <MdDelete className='smr_DeleteIcon' />
+                            <MdDelete className='for_DeleteIcon' />
                         </Button>
                     }
                 </div>

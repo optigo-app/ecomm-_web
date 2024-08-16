@@ -109,7 +109,7 @@ const useCart = () => {
     try {
       const response = await fetchCartDetails(visiterId);
 
-      if (response?.Data) {
+      if (response?.Data?.rd[0]?.stat != 0) {
         setCartData(response?.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
@@ -292,6 +292,7 @@ const useCart = () => {
     setMultiSelect(false);
     setOpenModal(false);
     try {
+      debugger
       const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
       let resStatus = response?.Data.rd[0]
       if (resStatus?.msg == "success") {
@@ -302,14 +303,14 @@ const useCart = () => {
         const Price = finalPrice?.UnitCostWithMarkUp * qtyCount;
         const updatedCartData = cartData.map(cart =>
           cart?.id === updatedItems?.id ? { ...cart,
-            metaltypename:mtType,
-            metalcolorname:mtColor,
-            diamondquality:diaQua,
-            diamondcolor:diaColor,
-            colorstonecolor:csColor,
-            colorstonequality:csQua,
-            FinalCost: Price,
-            UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp,
+            metaltypename:mtType ?? updatedItems?.metaltypename,
+            metalcolorname:mtColor  ?? updatedItems?.metalcolorname,
+            diamondquality:diaQua  ?? updatedItems?.diamondquality,
+            diamondcolor:diaColor  ?? updatedItems?.diamondcolor,
+            colorstonecolor:csColor  ?? updatedItems?.colorstonecolor,
+            colorstonequality:csQua  ?? updatedItems?.colorstonequality,
+            FinalCost: Price ?? updatedItems?.FinalCost,
+            UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp ?? updatedItems?.UnitCostWithMarkUp,
             Quantity: qtyCount,
             Size: sizeId
           } : cart

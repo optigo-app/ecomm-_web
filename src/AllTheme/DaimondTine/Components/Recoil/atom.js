@@ -24,3 +24,8 @@ export const defaultAddressStateDT = atom({
   key: 'defaultAddressStateDT',
   default: null,
 });
+
+export const lookBookDrawer = atom({
+  key: 'lookBookDrawer',
+  default: false,
+});

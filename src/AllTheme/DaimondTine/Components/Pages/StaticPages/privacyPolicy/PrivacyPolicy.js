@@ -26,7 +26,7 @@ function PrivacyPolicy() {
   return (
     <div className='dt_privacy_mainDiv'>
       <div className='dt_priVacySub_div'>
-        <div style={{ marginInline: '10%', paddingBottom: '80px' }}>
+        <div className='dt_privacySubMobile' style={{ marginInline: '10%', paddingBottom: '80px' }}>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
       </div>
