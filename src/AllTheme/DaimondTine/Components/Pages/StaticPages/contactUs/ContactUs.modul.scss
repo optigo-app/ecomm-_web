@@ -1,0 +1,150 @@
+.dt_contacus_main {
+
+    background-color: '#fffff';
+
+    .dt_Sub_contactMain {
+        background-color: white;
+        margin-inline: 15%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dt_contactBoxMain {
+        display: flex;
+        margin-bottom: 50px;
+    }
+
+    .dt_Fo_contactBox1 {
+        width: 50%;
+        padding-left: 90px;
+        margin-top: 90px;
+        margin-bottom: 120px;
+        border-right: 1px solid #e1e1e1;
+    }
+
+    .Fo-contactBox1Title {
+        margin: 0px 0px 10px;
+        letter-spacing: 1px;
+        color: #7d7f85;
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    .Fo-contactBox1InputBox {
+        height: 60px;
+        width: 300px;
+        border: 1px solid #e1e1e1;
+    }
+
+    .Fo-contactBox2 {
+        width: 25%;
+        margin: 90px 0px 0px 90px;
+    }
+
+    .Fo-contactBox2Title {
+        font-family: "Poppins", sans-serif;
+        font-size: 23px;
+        font-weight: 500;
+        color: #7d7f85;
+        margin: 0;
+    }
+
+    .dt_contactBox1BtnSub {
+        height: 60px;
+        width: 250px;
+        margin-top: 30px;
+        border: 0;
+        background-color: #f0e0e0;
+        color: black;
+        font-weight: 500;
+        transition: all 0.4s ease;
+    }
+
+    .dt_contactBox1BtnSub:hover {
+        background-color: white;
+        border: 1px solid #7d7f85;
+        color: #7d7f85;
+    }
+
+    .Fo-contactBox2Desc {
+        color: #7d7f85;
+        font-size: 14px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .dt_contactus_map {
+        height: 600px;
+        width: 600px;
+    }
+
+    @media screen and (min-width:1441px) {
+        .mobileHeaderSmining {
+            /* display: none; */
+        }
+    }
+
+    @media screen and (max-width: 1800px) {
+        .dt_Fo_contactBox1 {
+            padding-left: 0px !important;
+        }
+    }
+
+    @media screen and (max-width:1440px) {
+
+
+        .Fo-contactBox2 {
+            width: 40%;
+            margin: 0px;
+            margin-top: 15%;
+            margin-left: 100px;
+        }
+    }
+
+    @media screen and (max-width:1000px) {
+
+        .dt_contactBoxMain {
+            display: flex;
+            flex-direction: column;
+            padding-inline: 5% !important;
+        }
+
+        .dt_MainTitle_contactUs {
+            margin: 0px !important;
+            padding-top: 80px !important;
+        }
+
+        .dt_Sub_contactMain {
+            margin-inline: 5% !important;
+        }
+
+        .dt_Fo_contactBox1 {
+            width: 100%;
+            padding-left: 0px;
+            margin-top: 30px;
+            margin-bottom: 50px !important;
+            border-right: 0;
+        }
+
+        .Fo-contactBox1InputBox {
+            height: 60px;
+            width: 100%;
+            border: 1px solid #e1e1e1;
+        }
+
+        .Fo-contactBox2 {
+            width: 100%;
+            margin: 0px;
+            margin-top: 30px;
+
+        }
+    }
+
+    @media screen and (max-width:1000px) {
+        .dt_contactus_map {
+            height: 350px !important;
+            width: 90% !important;
+        }
+    }
+}
