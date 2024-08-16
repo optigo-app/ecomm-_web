@@ -42,6 +42,7 @@ import DiamondFilter from "./Components/Pages/Diamond/DiamondFilter/DiamondFilte
 import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
 import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
+import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -214,7 +215,8 @@ const ForEveryRoutes = () => {
           <Route path="diamond/:id" element={<DiamondFilter />} />
           <Route path="ring/*" element={<RingPage />} />
         </Route>
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+
+        <Route path="/diamond" element={<Diamond />} />
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
