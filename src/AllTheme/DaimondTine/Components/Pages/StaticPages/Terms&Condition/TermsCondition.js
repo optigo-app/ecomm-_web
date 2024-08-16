@@ -26,7 +26,7 @@ function TermsAndConditions() {
   return (
     <div className='dt_terms_condtionMain'>
       <div className='dt_Terms_sub_div'>
-        <div style={{ marginInline: '10%', paddingBottom: '80px' }}>
+        <div className='dt_Term_Sub_Set' style={{ marginInline: '10%', paddingBottom: '80px' }}>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
       </div>
