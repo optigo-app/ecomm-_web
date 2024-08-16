@@ -82,14 +82,13 @@ const CartPage = () => {
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
   const handlePlaceOrder = () => {
-    // if (storeInit?.IsPLW == 0) {
-    //   let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-    //   sessionStorage.setItem('TotalPriceData', priceData)
-    //   navigate("/Delivery")
-    // } else {
-    //   handlePay();
-    // }
-    alert("Added soon...")
+    if (storeInit?.IsPLW == 0) {
+      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
+      sessionStorage.setItem('TotalPriceData', priceData)
+      navigate("/Delivery")
+    } else {
+      handlePay();
+    }
     window.scrollTo(0, 0);
   }
 

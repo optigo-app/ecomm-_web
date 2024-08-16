@@ -202,32 +202,25 @@ const ForEveryRoutes = () => {
           />
         </>
         <Route path="/appointment" element={<AppointmentPage />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/d/*" element={<ProductDetail />} />
-        <Route path="/p/*" element={<ProductList />} />
-        <Route
-          path="/certified-loose-lab-grown-diamonds/*"
-          element={<DiamondPage />}
-        >
-          <Route path="settings/*" element={<SettingPage />} />
-          <Route path="diamond/:id" element={<DiamondFilter />} />
-          <Route path="ring/*" element={<RingPage />} />
-        </Route>
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
-        {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
-        {/* <Route path="/FunFact" element={<FunFact />} /> */}
-        {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
-        {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
-          
-          
+        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+          <Route
+            path="/certified-loose-lab-grown-diamonds/*"
+            element={<DiamondPage />}
+          >
+            <Route path="settings/*" element={<SettingPage />} />
+            <Route path="diamond/:id" element={<DiamondFilter />} />
+            <Route path="ring/*" element={<RingPage />} />
+          </Route>
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/d/*" element={<ProductDetail />} />
+          <Route path="/p/*" element={<ProductList />} />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-          </Route>
-          <Route path="/Lookbook" element={<Lookbook />} /> */}
-
+          {/* <Route path="/account" element={<Account />} /> */}
+          <Route path="/Lookbook" element={<Lookbook />} />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

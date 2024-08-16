@@ -109,7 +109,7 @@ const useCart = () => {
     try {
       const response = await fetchCartDetails(visiterId);
 
-      if (response?.Data) {
+      if (response?.Data?.rd[0]?.stat != 0) {
         setCartData(response?.Data?.rd);
         if (response?.Data?.rd?.length > 0) {
           setSelectedItem(response?.Data?.rd[0]);
