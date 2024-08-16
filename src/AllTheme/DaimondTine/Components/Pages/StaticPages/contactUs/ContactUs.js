@@ -210,14 +210,19 @@ export default function ContactUs() {
 
                             <p style={{
                                 fontSize: '15px',
-                                fontWeight: 600
+                                fontWeight: 600,
+                                color: '#7d7f85',
+                                margin: '0px',
                             }}>General inquiries<span style={{
                                 fontWeight: 400,
+                                margin: '0px',
                                 fontSize: '13px'
                             }}></span></p>
 
                             <p style={{
                                 fontSize: '15px',
+                                color: '#7d7f85',
+                                margin: '0px',
                                 fontWeight: 600
                             }}>Customer inquiries<span tyle={{
                                 fontWeight: 400,
@@ -225,6 +230,7 @@ export default function ContactUs() {
                             }}></span></p>
 
                             <p style={{
+                                color: '#7d7f85',
                                 fontSize: '15px',
                                 fontWeight: 600
                             }}>Orders & Returns<spna tyle={{
