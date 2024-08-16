@@ -66,6 +66,14 @@
     }
 
 
+    @media screen and (max-width: 1000px) {
+        padding-top: 80px !important;
+
+        
+        .dt_privacySubMobile {
+            margin-inline: 1% !important;
+        }
+    }
     @media screen and (max-width: 778px) {
         .tnclogo {
             width: 35%;

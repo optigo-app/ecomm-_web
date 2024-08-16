@@ -1,76 +1,79 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DiamondFilter.scss";
-import { DiamondLists } from "../../../data/NavbarMenu";
+import { DiamondLists, DiamondProductList } from "../../../data/NavbarMenu";
 import { FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
+import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import Faq from "../../ReusableComponent/Faq/Faq";
+import { faqList } from "../../../data/dummydata";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DiamondFilter = () => {
+  const { id } = useParams();
+  const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
   const [showMorefilter, setshowMorefilter] = useState(false);
   const [show, setshow] = useState(false);
-  const [ShowMedia, setShowMedia] = useState("vid");
-  const VideoRef = useRef(null);
+  const [ShowMedia, setShowMedia] = useState({});
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const videoRefs = useRef([]);
+
+  useEffect(() => {
+    console.log(id);
+    if (id) {
+      setCheckedItem(id);
+    }
+  }, [id]);
+
   const handleCheckboxChange = (name) => {
     setCheckedItem((prevCheckedItem) =>
       prevCheckedItem === name ? null : name
     );
   };
-  const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-  const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
-  const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
+  const HandleMedia = (type, index) => {
+    setShowMedia((prev) => ({ ...prev, [index]: type }));
+  };
+  const handleMouseMove = async (e, i) => {
+    const videoElement = e.target;
+    setHoveredCard(i);
+    try {
+      await videoElement.play();
+      videoElement?.Muted();
+    } catch (error) {
+      console.error("Error playing video:", error);
+    }
+  };
+  const handleMouseLeave = async (e, i) => {
+    const videoElement = e.target;
+    setHoveredCard(null);
+    try {
+      videoElement.pause();
+    } catch (error) {
+      console.error("Error pausing video:", error);
+    }
+  };
 
-  const HandleMedia = (q) => {
-    setShowMedia(q);
+  const HandleDiamondRoute = () => {
+    Navigate(`/d/labgrowndiamond`);
   };
   return (
-    <div className="for_DiamondFilter">
-      <div className="heading">
-        <h2>select the diamond shape</h2>
-        <div className="shape_list">
-          {DiamondLists?.slice(0, 10)?.map((val) => (
-            <label
-              htmlFor={val?.name}
-              key={val?.name}
-              onClick={() => setshow(false)}
-            >
-              <input
-                hidden
-                type="checkbox"
-                name="shape"
-                className="input-checked-box"
-                id={val?.name}
-                checked={checkedItem === val?.name}
-                onChange={() => handleCheckboxChange(val?.name)}
-              />
-              <div
-                className={`shape_card ${
-                  checkedItem === val?.name ? "active-checked" : ""
-                }`}
-                id={val?.name}
-              >
-                <img src={val?.img} alt={val?.name} />
-                <span>{val?.name}</span>
-              </div>
-            </label>
-          ))}
-          <div
-            className="extra_shape_menu"
-            style={{
-              height: show && "180px",
-            }}
-          >
-            {DiamondLists?.slice(10, 13)?.map((val) => (
+    <>
+      <ScrollTop />
+      <div className="for_DiamondFilter">
+        <div className="heading">
+          <h2>select the diamond shape</h2>
+          <div className="shape_list">
+            {DiamondLists?.slice(0, 10)?.map((val) => (
               <label
                 htmlFor={val?.name}
-                className="extra_shape"
                 key={val?.name}
+                onClick={() => setshow(false)}
               >
-                <div id={val?.name} className="shape">
-                  <img src={val?.img} alt={val?.name} />
-                  <span>{val?.name}</span>
-                </div>
                 <input
+                  hidden
                   type="checkbox"
                   name="shape"
                   className="input-checked-box"
@@ -78,123 +81,202 @@ const DiamondFilter = () => {
                   checked={checkedItem === val?.name}
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
+                <div
+                  className={`shape_card ${
+                    checkedItem === val?.name ? "active-checked" : ""
+                  }`}
+                  id={val?.name}
+                >
+                  <img src={val?.img} alt={val?.name} />
+                  <span>{val?.name}</span>
+                </div>
               </label>
             ))}
-          </div>
-          <div className="more" onClick={() => setshow(!show)}>
-            <button>
-              More <FaChevronDown />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="filter_Head">
-        <div className="for_price">
-          <span>
-            price <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Color">
-          <span>
-            Color <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Carat">
-          <span>
-            Carat <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Clarity">
-          <span>
-            Clarity <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Cut">
-          <span>
-            Cut <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-      </div>
-      <div
-        className="for_filter_more"
-        onClick={() => setshowMorefilter(!showMorefilter)}
-        style={{
-          height: showMorefilter ? "50vh" : "50px",
-          background: showMorefilter ? " #fcf4f4" : "#fff",
-        }}
-      >
-        <div className="head_filter">
-          <span>
-            {showMorefilter ? "Less" : "More"} filters
-            {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
-          </span>
-        </div>
-      </div>
-      <div className="filter_results">
-        <hr />
-        <h3>Showing 733 lab grown diamonds</h3>
-        <div className="col_details">
-          <div className="desc">
-            <p>
-              Design your own personal Diamond Engagement Ring. Please select
-              ring setting of your style and then choose diamond of your
-              choice.We present every diamond in high definition so you can know
-              exactly what you are getting.
-            </p>
-          </div>
-          <div className="sorting_options">
-            <span>Sort By | Price: Low to High</span>
-          </div>
-        </div>
-        <hr />
-      </div>
-      <div className="diamond_listing">
-        {Array.from({ length: 8 }).map((val, i) => {
-          return (
-            <div className="diamond_card">
-              <div className="media_frame">
-                {ShowMedia === "img" ? (
-                  <img
-                    src={IMG}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "300px",
-                    }}
+            <div
+              className="extra_shape_menu"
+              style={{
+                height: show && "180px",
+                backgroundColor: "white",
+              }}
+            >
+              {DiamondLists?.slice(10, 13)?.map((val) => (
+                <label
+                  htmlFor={val?.name}
+                  className="extra_shape"
+                  key={val?.name}
+                >
+                  <div id={val?.name} className="shape">
+                    <img src={val?.img} alt={val?.name} />
+                    <span>{val?.name}</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="shape"
+                    className="input-checked-box"
+                    id={val?.name}
+                    checked={checkedItem === val?.name}
+                    onChange={() => handleCheckboxChange(val?.name)}
                   />
-                ) : (
-                  <video
-                    src={Video}
-                    loop
-                    muted
-                    ref={VideoRef}
-                    onMouseLeave={() => VideoRef.current?.pause()}
-                    onMouseMove={() => VideoRef.current?.play()}
-                  />
+                </label>
+              ))}
+            </div>
+            <div className="more" onClick={() => setshow(!show)}>
+              <button>
+                More <FaChevronDown />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="filter_Head">
+          <div className="for_price">
+            <span>
+              price <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+          <div className="for_Color">
+            <span>
+              Color <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+          <div className="for_Carat">
+            <span>
+              Carat <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+          <div className="for_Clarity">
+            <span>
+              Clarity <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+          <div className="for_Cut">
+            <span>
+              Cut <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+        </div>
+        <div
+          className="for_filter_more"
+          onClick={() => setshowMorefilter(!showMorefilter)}
+          style={{
+            height: showMorefilter ? "50vh" : "50px",
+            background: showMorefilter ? " #fcf4f4" : "#fff",
+          }}
+        >
+          <div className="head_filter">
+            <span>
+              {showMorefilter ? "Less" : "More"} filters
+              {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
+            </span>
+          </div>
+        </div>
+        <div className="filter_results">
+          <hr />
+          <h3>Showing 733 lab grown diamonds</h3>
+          <div className="col_details">
+            <div className="desc">
+              <p>
+                Design your own personal Diamond Engagement Ring. Please select
+                ring setting of your style and then choose diamond of your
+                choice.We present every diamond in high definition so you can
+                know exactly what you are getting.
+              </p>
+            </div>
+            <div className="sorting_options">
+              <span>Sort By | Price: Low to High</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div className="diamond_listing">
+          {DiamondProductList?.map((val, i) => {
+            const currentMediaType = ShowMedia[i] || "vid";
+            return (
+              <div key={i} className="diamond_card">
+                <div className="media_frame">
+                  {val?.Banner ? (
+                    <img src={val?.Banner} alt="" width={"100%"} />
+                  ) : (
+                    <>
+                      {currentMediaType === "vid" ? (
+                        <video
+                          src={val?.vid}
+                          width="100%"
+                          ref={(el) => (videoRefs.current[i] = el)}
+                          autoPlay={hoveredCard === i}
+                          controls={false}
+                          muted
+                          onMouseOver={(e) => handleMouseMove(e, i)}
+                          onMouseLeave={(e) => handleMouseLeave(e, i)}
+                        />
+                      ) : (
+                        <img
+                          className="dimond-info-img"
+                          src={val?.img}
+                          alt=""
+                        />
+                      )}
+                    </>
+                  )}
+                  {!val?.Banner && (
+                    <>
+                      <div
+                        className="select_this_diamond_banner"
+                        onClick={() => HandleDiamondRoute()}
+                      >
+                        <span>Select This Diamond</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+                {val?.HaveCustomization && (
+                  <>
+                    <div className="toggle_btn">
+                      <span onClick={() => HandleMedia("img", i)}>
+                        <img
+                          src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                          alt=""
+                        />
+                      </span>
+                      <span onClick={() => HandleMedia("vid", i)}>
+                        <SvgImg />
+                      </span>
+                    </div>
+                    <div className="price_details">
+                      <div className="title">
+                        <span>
+                          ROUND <strong>0.53</strong> CARAT D VVS1 GOOD
+                        </span>
+                      </div>
+                      <div className="pric">
+                        <span>€ 312.00</span>
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
-              <div className="toggle_btn">
-                <span onClick={() => HandleMedia("img")}>
-                  <img
-                    src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
-                    alt=""
-                  />
-                </span>
-                <span onClick={() => HandleMedia("vid")}>
-                  <SvgImg />
-                </span>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        <div className="faq_accordian_Design">
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<CgArrowDownO />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              Accordion 1
+            </AccordionSummary>
+            <AccordionDetails>
+              <Faq data={faqList} />
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <NewsletterSignup />
       </div>
-    </div>
+    </>
   );
 };
 
-{
-  /* <SvgImg/> */
-}
 export default DiamondFilter;
 
 const SvgImg = () => (
