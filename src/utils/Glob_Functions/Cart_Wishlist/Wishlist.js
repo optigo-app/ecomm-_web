@@ -55,7 +55,7 @@ const Usewishlist = () => {
     setIsWlLoading(true);
     try {
       const response = await fetchWishlistDetails(visiterId);
-      if (response?.Data) {
+      if (response?.Data?.rd[0]?.stat != 0) {
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
         setIsWlLoading(false);

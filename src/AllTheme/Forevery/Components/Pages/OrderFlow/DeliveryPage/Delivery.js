@@ -8,6 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
+import btnStyle from "../../../scss/Button.module.scss"
 
 const AddressManagement = () => {
     const {
@@ -40,18 +41,18 @@ const AddressManagement = () => {
     }
 
     return (
-        <div className='smr_DeliverMainDiv'>
-            <div className='smr_secondMaindivAdd'>
-                <div className='smr_addMainDiv'>
-                    <div className='smr_TitleDetailMainDiv'>
+        <div className='for_DeliverMainDiv'>
+            <div className='for_secondMaindivAdd'>
+                <div className='for_addMainDiv'>
+                    <div className='for_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='smr_deliveryTitle'>Delivery</h1>
-                        <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                        <h1 className='for_deliveryTitle'>Delivery</h1>
+                        <p className='for_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
-                        <div className='smr_getAddrMainDiv'>
+                        <div className='for_getAddrMainDiv'>
                             <Grid container spacing={2}>
                                 {addressData?.map((data, index) => (
                                     <React.Fragment key={data.id} >
@@ -85,14 +86,10 @@ const AddressManagement = () => {
                         handleDeleteClose={handleDeleteClose}
                         handleDelete={() => handleDelete()}
                     />
-                    <div className='smr_AddressBtnGroup'>
-                        <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                    <div className='for_AddressBtnGroup'>
+                        <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
-                <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );

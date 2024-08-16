@@ -13,11 +13,11 @@ const Album = () => {
   const islogin = useRecoilValue(loginState);
 
   useEffect(() => {
-    let data = JSON.parse(sessionStorage.getItem("storeInit"));
+    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
-    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+    const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
+    const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get('visiterId');
     let finalID;

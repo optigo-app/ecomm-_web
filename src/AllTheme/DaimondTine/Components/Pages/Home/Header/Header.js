@@ -624,10 +624,10 @@ const Header = () => {
                                     {storeinit?.IsDesignSetInMenu == 1 &&
                                         <li
                                             className="dt_menu_li"
-                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' , position: 'relative'}}
                                             onClick={() => navigation('/Lookbook')}
                                         >
-                                            <span>New</span>
+                                            <span className='dt_lookBookNew_header'>New</span>
                                             <span className="nav-li-sminingSpan">
                                                 {storeinit?.DesignSetInMenu}
                                             </span>

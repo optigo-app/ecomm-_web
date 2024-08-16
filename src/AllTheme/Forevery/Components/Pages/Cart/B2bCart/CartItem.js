@@ -113,7 +113,9 @@ const CartItem = ({
     <>
       <div className="for_cart-item"
         style={{
-          boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+          // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+          boxShadow: "none",
+          border: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '1px solid rgba(223, 100, 126, 1)'
         }}
         onClick={() => onSelect(item)}
       >

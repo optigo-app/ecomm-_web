@@ -107,9 +107,9 @@ const WishlistItems = ({
                                         <span className="smr_wishDT">
                                             {(item?.Nwt || 0).toFixed(3)}
                                         </span>
-                                        <span className="smr_pipes"> | </span>
                                         {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                             <>
+                                            <span className="smr_pipes"> | </span>
                                                 <span className="smr_wishDT">DWT: </span>
                                                 <span>
                                                     {(item?.Dwt || 0).toFixed(3)} /
@@ -117,9 +117,9 @@ const WishlistItems = ({
                                                 </span>
                                             </>
                                         }
-                                        <span className="smr_pipes"> | </span>
                                         {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                             <>
+                                            <span className="smr_pipes"> | </span>
                                                 <span className="smr_wishDT">CWT: </span>
                                                 <span>
                                                     {(item?.CSwt || 0).toFixed(3)} /

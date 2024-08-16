@@ -1,48 +1,37 @@
 @import '../../../scss/variable.scss';
 
-.smr_DeliverMainDiv {
-  background-color: #c0bbb1;
+.for_DeliverMainDiv {
+  font-family: $primaryFontFamily;
+    margin-top: 157px;
+    min-height: 475px;
 }
 
-.smr_secondMaindivAdd {
-  margin-inline: 6%;
+.for_secondMaindivAdd {
+  margin-inline: 280px;
   background-color: #fff;
 }
-
-.smr_addMainDiv {
-  margin-inline: 10%;
-  padding-top: 8%;
+.for_addMainDiv{
+  margin-bottom: 20px;
 }
 
-.smr_getAddrMainDiv {
-  margin-bottom: 40px;
+.for_getAddrMainDiv {
+  margin-bottom: 20px;
 }
 
-.smr_TitleDetailMainDiv{
+.for_TitleDetailMainDiv{
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .smr_ContinueOrderbtn {
+  button {
     height: 40px;
     width: 150px;
     font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
   }
 }
 
-.smr_addressTextFields {
+.for_addressTextFields {
   margin-bottom: 18px !important;
   font-family: $primaryFontFamily !important;
   color: $titleColor !important;
@@ -52,90 +41,78 @@
   }
 }
 
-.smr_deliveryTitle {
+.for_deliveryTitle {
   color: $titleColor;
   font-family: $primaryFontFamily;
 }
 
-.smr_deliverydesc {
+.for_deliverydesc {
   color: $titleColor;
   font-family: $primaryFontFamily;
 }
 
-.smr_AddrCard {
+.for_AddrCard {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   padding: 20px 20px 0px 20px !important;
   border-radius: 0px !important;
 }
 
-.smr_ActiveAddrCard {
+.for_ActiveAddrCard {
   padding: 20px 20px 0px 20px !important;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
-  background: #f5f4f4 !important;
+  background: #fdf6f6 !important;
   border-radius: 0px !important;
   position: relative;
 }
 
 
-.smr_defualt_addrSelected {
+.for_defualt_addrSelected {
   padding: 3px 10px;
   font-family: $primaryFontFamily !important;
   font-size: $fontSize3;
   color: #fff;
-  background: blue;
+  background: #df647e;
   border-radius: 0px !important;
   border: none;
   cursor: pointer;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0px;
+  right: 0px;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.smr_defualt_addrSelectedHide{
+.for_defualt_addrSelectedHide{
   display: none !important;
 }
 
-.smr_addrTypoTitle {
+.for_addrTypoTitle {
   color: $titleColor;
   font-family: $primaryFontFamily !important;
   text-transform: capitalize;
 }
 
-.smr_addrTypo {
+.for_addrTypo {
   color: $titleColor;
   font-family: $primaryFontFamily !important;
   text-transform: capitalize;
 }
 
-.smr_AddressBtnGroup {
-  .smr_AddNewAddrbtn {
-    margin-right: 20px;
+.for_AddressBtnGroup {
+  button {
     height: 40px;
     width: 150px;
     font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1FontColor;
-    background-color: $btn1bgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
   }
 }
 
-.smr_dialogTitle{
+.for_dialogTitle{
   color: $titleColor;
   font-weight: 500 !important;
   text-align: center;
 }
 
-.smr_AddNewAddrModalbtn{
+.for_AddNewAddrModalbtn{
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -153,7 +130,7 @@
       background-color: $btn1ActivebgColor;
     }
 }
-.smr_Cancelbtn{
+.for_Cancelbtn{
   margin-right: 20px;
   height: 40px;
   width: 150px;
@@ -172,16 +149,16 @@
   }
 }
 
-.smr_editDeleteBtngroup{
+.for_editDeleteBtngroup{
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  .smr_editIcon{
+  .for_editIcon{
     font-size: 20px;
     color: $titleColor;
   }
-  .smr_DeleteIcon{
+  .for_DeleteIcon{
     font-size: 20px;
     color: $titleColor
   }
