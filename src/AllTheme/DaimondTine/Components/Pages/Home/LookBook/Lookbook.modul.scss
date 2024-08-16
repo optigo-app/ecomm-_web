@@ -26,12 +26,12 @@
     width: 20%;
   }
 
-  .dt_lookBookShowMain{
+  .dt_lookBookShowMain {
     max-height: 80vh;
     padding-right: 10px;
     overflow: scroll;
   }
-  
+
   ::-webkit-scrollbar {
     width: 2px !important;
   }
@@ -154,7 +154,7 @@
     background: none;
   }
 
-  .smr_lookBookFilterSubDiv {
+  .dt_lookBookFilterSubDiv {
     margin: 70px 10px 0px 10px;
   }
 
@@ -364,6 +364,8 @@
     .dt_lb3designList_title {
       margin: 5px 0px 5px 0px !important;
     }
+
+
   }
 
   @media screen and (max-width:900px) {
@@ -405,6 +407,13 @@
     width: 90% !important;
   }
 }
+
+@media(max-width: 1000px) {
+  .smr_filter_text {
+    padding-top: 30px !important;
+  }
+}
+
 
 .smr_lookbook3MainDiv {
 
@@ -599,6 +608,8 @@
       width: 400px !important;
     }
   }
+
+
 
   @media(max-width: 800px) {
     .smr_lookbook3MainDiv {

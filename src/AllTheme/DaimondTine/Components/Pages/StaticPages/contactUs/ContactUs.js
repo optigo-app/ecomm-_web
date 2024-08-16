@@ -110,37 +110,37 @@ export default function ContactUs() {
                         {/* <div className='Fo-contactBox1'>
                             <div>
                                 <p className='Fo-contactBox1Title'>FULL NAME</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <div style={{ marginTop: '25px' }}>
                                 <p className='Fo-contactBox1Title'>COMPANY NAME</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <div style={{ marginTop: '25px' }}>
                                 <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <div style={{ marginTop: '25px' }}>
                                 <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <div style={{ marginTop: '25px' }}>
                                 <p className='Fo-contactBox1Title'>SUBJECT</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <div style={{ marginTop: '25px' }}>
                                 <p className='Fo-contactBox1Title'>MESSAGE</p>
-                                <input type='text' className='Fo-contactBox1InputBox' />
+                                <input type='text' className='dt_contactBox1InputBox' />
                             </div>
                             <button className='Fo-contactBox1BtnSub'>SUBMIT</button>
                         </div> */}
                         <div className='dt_Fo_contactBox1'>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                                 <div>
                                     <p className='Fo-contactBox1Title'>FULL NAME</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='fullName'
                                         value={formData.fullName}
                                         onChange={handleChange}
@@ -151,7 +151,7 @@ export default function ContactUs() {
                                     <p className='Fo-contactBox1Title'>COMPANY NAME</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='companyName'
                                         value={formData.companyName}
                                         onChange={handleChange}
@@ -162,7 +162,7 @@ export default function ContactUs() {
                                     <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='emailAddress'
                                         value={formData.emailAddress}
                                         onChange={handleChange}
@@ -173,7 +173,7 @@ export default function ContactUs() {
                                     <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='phoneNumber'
                                         value={formData.phoneNumber}
                                         onChange={handleChange}
@@ -184,7 +184,7 @@ export default function ContactUs() {
                                     <p className='Fo-contactBox1Title'>SUBJECT</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='subject'
                                         value={formData.subject}
                                         onChange={handleChange}
@@ -195,7 +195,7 @@ export default function ContactUs() {
                                     <p className='Fo-contactBox1Title'>MESSAGE</p>
                                     <input
                                         type='text'
-                                        className='Fo-contactBox1InputBox'
+                                        className='dt_contactBox1InputBox'
                                         name='message'
                                         value={formData.message}
                                         onChange={handleChange}
@@ -206,7 +206,7 @@ export default function ContactUs() {
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>
-                            <p className='Fo-contactBox2Title'>Have questions?</p>
+                            <p className='dt_contactBox2Title'>Have questions?</p>
 
                             <p style={{
                                 fontSize: '15px',
@@ -232,21 +232,22 @@ export default function ContactUs() {
                                 fontSize: '13px'
                             }}></spna></p>
 
-                            <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            <p className='Fo-contactBox2Title'>Orders & Returns</p>
-                            <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Desc'>Call us at 98108 76359</p>
-                            <p className='Fo-contactBox2Desc'>Email: contact@diamondtine.com</p>
-                            <p className='Fo-contactBox2Title'>Studio Address
-                                <p className='Fo-contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
+                            <p className='dt_contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
+                            
+                            <p className='dt_contactBox2Title'>Orders & Returns</p>
+                            <p className='dt_contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
+                            <p className='dt_contactBox2Desc'>Call us at 98108 76359</p>
+                            <p className='dt_contactBox2Desc'>Email: contact@diamondtine.com</p>
+                            <p className='dt_contactBox2Title'>Studio Address
+                                <p className='dt_contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
 
-                                <p className='Fo-contactBox2Title'>Opening Hours
-                                    <p className='Fo-contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
+                                <p className='dt_contactBox2Title'>Opening Hours
+                                    <p className='dt_contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
                                 </p>
                             </p>
 
-                            {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
-                            <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
+                            {/* <p className='dt_contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
+                            <p className='dt_contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
                             <div className='mt-4'>
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.057115060303!2d77.21861737616264!3d28.568047587004962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce25b4d73ffff%3A0x5244a585d7ba2ce3!2sDiamondtine!5e0!3m2!1sen!2sin!4v1717044522982!5m2!1sen!2sin"
