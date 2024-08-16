@@ -226,6 +226,181 @@ const StepImages = [
   },
 ];
 
+const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
+
+const DiamondProductList = [
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+];
+
 export {
   SideItems,
   diamondShapes,
@@ -234,5 +409,6 @@ export {
   CollectionArray,
   shapes,
   DiamondLists,
-  StepImages
+  StepImages,
+  DiamondProductList,
 };
