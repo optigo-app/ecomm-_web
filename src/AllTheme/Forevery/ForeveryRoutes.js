@@ -205,7 +205,7 @@ const ForEveryRoutes = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/d/*" element={<ProductDetail />} />
-        <Route path="/p/*" element={<DiamondPage />} />
+        <Route path="/p/*" element={<ProductList />} />
         <Route
           path="/certified-loose-lab-grown-diamonds/*"
           element={<DiamondPage />}
