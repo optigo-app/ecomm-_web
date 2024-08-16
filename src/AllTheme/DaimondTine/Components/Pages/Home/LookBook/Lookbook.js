@@ -539,7 +539,6 @@ const Lookbook = () => {
       >
         {filterData?.length > 0 && (
           <div className="dt_lookBookFilterSubDiv" style={{ padding: "20px" }}>
-          <div className="dt_lookBookFilterSubDiv" style={{ padding: "20px" }}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <IoClose
                 style={{

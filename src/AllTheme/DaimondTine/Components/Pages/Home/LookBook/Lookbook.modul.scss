@@ -155,7 +155,6 @@
   }
 
   .dt_lookBookFilterSubDiv {
-  .dt_lookBookFilterSubDiv {
     margin: 70px 10px 0px 10px;
   }
 
@@ -363,8 +362,7 @@
     padding-top: 75px !important;
 
     .dt_lb3designList_title {
-      margin: 10px 0px 10px 0px !important;
-      font-size: $fontSize5;
+      margin: 5px 0px 5px 0px !important;
     }
 
 
@@ -411,14 +409,7 @@
 }
 
 @media(max-width: 1000px) {
-  .smr_filter_text {
-    padding-top: 30px !important;
-  }
-}
-
-
-@media(max-width: 1000px) {
-  .smr_filter_text {
+  .dt_filter_text {
     padding-top: 30px !important;
   }
 }
@@ -690,7 +681,19 @@
     }
   }
 
+
+
+
+
   @media(max-width: 415px) {
+    .dt_lb3designList_title {
+      font-size: $fontSize4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0px;
+    }
+
     .dt_lookbookMainDivdata {
       flex-direction: column !important;
     }
@@ -715,6 +718,7 @@
     //   gap: 10px;
     //   margin-bottom: 20px;
     // }
+
     .dt_lb3_prodtDiv2 {
       display: flex;
       width: 100%;
@@ -812,13 +816,6 @@
 }
 
 @media screen and (max-width: 550px) {
-  .smr_lb3designList_title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 !important;
-  }
-
   .dt_lookBookThirdViewWeb {
     display: none;
   }
