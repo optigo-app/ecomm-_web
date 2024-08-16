@@ -130,6 +130,45 @@
         }
       }
     }
+    .for_price {
+      position: relative;
+      .for_ma_collection_filter_dropdown {
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 5;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-top: 5px;
+        z-index: 1;
+        &::before{
+          content: "";
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          background-color: white;
+          z-index: 0;
+          transform: rotate(48deg);
+          top: 0;
+        }
+        .for_ma_collection_slider_input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          gap: 8rem;
+          margin-top: 1rem;
+          input{
+            width: 5rem !important;
+            font-size: 10px !important;
+            padding: 3px 0 !important;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
   }
   .for_filter_more {
     width: 68%;
@@ -209,8 +248,8 @@
       flex-direction: column;
       &:hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-        .media_frame{
-          .select_this_diamond_banner{
+        .media_frame {
+          .select_this_diamond_banner {
             display: block;
           }
         }
@@ -292,20 +331,49 @@
       }
     }
   }
-  .faq_accordian_Design{
+  .filter_clear {
+    width: 68%;
+    margin: 0 auto;
+    padding-block: 25px;
+    p {
+      font-size: 22px;
+      width: 90%;
+      font-weight: 500;
+      u {
+        font-weight: 600;
+        cursor: pointer;
+        color: #ee8b9f;
+      }
+    }
+  }
+  .faq_accordian_Design {
     width: 55%;
     margin: 0 auto;
+    .show_more_btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 0;
+      .btn-sm {
+        padding: 7px 16px;
+      }
+    }
     .MuiAccordion-root {
       margin: 0; // Remove default margin
       box-shadow: none; // Remove default box shadow
-      border-bottom: none;
+      border-bottom: 1px solid black;
+      border-radius: 0;
     }
 
     .MuiAccordionSummary-root {
+      border-radius: 0;
       padding: 2px 0; // Remove default padding
-      span {
-        font-size: 18px;
-        font-weight: 700;
+      .m-faq {
+        font-size: 22px;
+        font-weight: 800;
+        padding: 5px 0;
       }
     }
 
