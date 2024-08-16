@@ -42,6 +42,7 @@ import DiamondFilter from "./Components/Pages/Diamond/DiamondFilter/DiamondFilte
 import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
 import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
+import DetailsRoute from "./Components/Pages/Product";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -204,7 +205,7 @@ const ForEveryRoutes = () => {
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/d/*" element={<DetailsRoute />} />
         <Route path="/p/*" element={<ProductList />} />
         <Route
           path="/certified-loose-lab-grown-diamonds/*"
