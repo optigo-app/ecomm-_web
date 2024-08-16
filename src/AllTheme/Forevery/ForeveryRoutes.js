@@ -211,7 +211,7 @@ const ForEveryRoutes = () => {
           element={<DiamondPage />}
         >
           <Route path="settings/*" element={<SettingPage />} />
-          <Route path="diamond/*" element={<DiamondFilter />} />
+          <Route path="diamond/:id" element={<DiamondFilter />} />
           <Route path="ring/*" element={<RingPage />} />
         </Route>
         {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}

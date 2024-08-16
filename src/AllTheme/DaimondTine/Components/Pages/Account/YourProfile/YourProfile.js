@@ -58,7 +58,6 @@ export default function YourProfile() {
 
         if (isValid) {
             // No errors, proceed with the submission
-            setEditMode(false);
             try {
                 setIsLoading(true);
                 const storedData = sessionStorage.getItem('loginUserDetail');
@@ -70,6 +69,12 @@ export default function YourProfile() {
                     toast.success('Edit success');
                     setUserData(editedUserData);
                     sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                    setEditMode(false);
+                } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        mobileno: 'MobileNo Already Exists',
+                    }));
                 } else {
                     toast.error('Error in saving profile.');
                 }
@@ -100,7 +105,7 @@ export default function YourProfile() {
             <ToastContainer />
 
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" style={{zIndex:10000}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}

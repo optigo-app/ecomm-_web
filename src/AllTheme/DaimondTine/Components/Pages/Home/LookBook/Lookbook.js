@@ -24,7 +24,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -50,7 +50,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import { dt_CartCount, dt_loginState } from "../../../Recoil/atom";
+import { dt_CartCount, dt_loginState, lookBookDrawer } from "../../../Recoil/atom";
 import Footer from "../Footer/Footer";
 
 const Lookbook = () => {
@@ -84,6 +84,7 @@ const Lookbook = () => {
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [swiper, setSwiper] = useState(null);
+  const [draweopen, setDrawerOpen] = useRecoilState(lookBookDrawer)
 
 
   const handlePrevious = () => {
@@ -532,11 +533,12 @@ const Lookbook = () => {
         open={isDrawerOpen}
         onClose={() => {
           setIsDrawerOpen(false);
+          setDrawerOpen(false);
         }}
         className="smr_filterDrawer"
       >
         {filterData?.length > 0 && (
-          <div className="smr_lookBookFilterSubDiv" style={{ padding: "20px" }}>
+          <div className="dt_lookBookFilterSubDiv" style={{ padding: "20px" }}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <IoClose
                 style={{
@@ -544,7 +546,11 @@ const Lookbook = () => {
                   height: "30px",
                   color: "rgba(143, 140, 139, 0.9019607843)",
                 }}
-                onClick={() => setIsDrawerOpen(false)}
+                onClick={() => {
+                  setIsDrawerOpen(false);
+                  setDrawerOpen(false);
+                }
+                }
               />
             </div>
             <span className="smr_filter_text">
@@ -1197,7 +1203,11 @@ const Lookbook = () => {
                 fontSize="large"
                 style={{ color: "#c0bbb1" }}
                 className="smr_lookBookMobileFilter"
-                onClick={() => setIsDrawerOpen(true)}
+                onClick={() => {
+                  setIsDrawerOpen(true);
+                  setDrawerOpen(true);
+                }
+                }
               />
               <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
