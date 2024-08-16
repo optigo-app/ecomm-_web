@@ -1850,7 +1850,7 @@ const Lookbook = () => {
                                 }
                               >
                                 <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
-                                <div className="smr_lb3_prodtDiv2">
+                                <div className="smr_lb3_prodtDivs2">
                                   {sortDesignDetailsBySrNo(
                                     parseDesignDetails(slide?.Designdetail)
                                   )?.map((ele, subIndex) => (
@@ -2002,7 +2002,7 @@ const Lookbook = () => {
                                   ))}
                                 </div>
                                 <div
-                                  className="smr_lb3TotalBtnGroup"
+                                  className="smr_lb3TotalBtnGroups"
                                 >
                                   <div className="smr_lb3TotalPrice">
                                     <span>
