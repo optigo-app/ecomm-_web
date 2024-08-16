@@ -115,7 +115,7 @@ const DiamondFilter = () => {
   };
 
   const HandleDiamondRoute = () => {
-    Navigate(`/d/labgrowndiamond`);
+    Navigate(`/d/labgrowndiamond?stock=101`);
   };
   return (
     <>
@@ -140,9 +140,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
