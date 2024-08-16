@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './ContactUs.css'
+import './ContactUs.modul.scss'
 import { toast } from 'react-toastify'
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
 import Footer from '../../Home/Footer/Footer';
@@ -95,19 +95,18 @@ export default function ContactUs() {
 
     return (
         <div style={{
-            backgroundColor: '#fffff',
             // paddingTop: '110px'
-        }}>
+        }} className='dt_contacus_main'>
             <div>
-                <div style={{ marginBlock: '20px' }}>
+                <div className='dt_MainTitle_contactUs' style={{ marginBlock: '20px' }}>
                     <p style={{ fontSize: '40px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or queestion? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>
                 </div>
 
-                <div className='Fo-contactMain'>
-                    <div className='Fo-contactBoxMain'>
+                <div className='dt_Sub_contactMain'>
+                    <div className='dt_contactBoxMain'>
                         {/* <div className='Fo-contactBox1'>
                             <div>
                                 <p className='Fo-contactBox1Title'>FULL NAME</p>
@@ -203,7 +202,7 @@ export default function ContactUs() {
                                     />
                                     {errors.message && <p className='error'>{errors.message}</p>}
                                 </div>
-                                <button type="submit" className='Fo-contactBox1BtnSub'>SUBMIT</button>
+                                <button type="submit" className='dt_contactBox1BtnSub'>SUBMIT</button>
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>
@@ -251,12 +250,11 @@ export default function ContactUs() {
                             <div className='mt-4'>
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.057115060303!2d77.21861737616264!3d28.568047587004962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce25b4d73ffff%3A0x5244a585d7ba2ce3!2sDiamondtine!5e0!3m2!1sen!2sin!4v1717044522982!5m2!1sen!2sin"
-                                    width={600}
-                                    height={600}
-                                    style={{ border: "1px solid #f2f2f2", filter: "grayscale(100%)" }}
+                                    style={{ border: "1px solid #f2f2f2"}}
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
+                                    className='dt_contactus_map'
                                 />
 
                             </div>

@@ -36,6 +36,18 @@
     }
 
 
+    @media screen and (max-width: 1000px) {
+        padding-top: 80px !important;
+
+        .dt_Faq_Sub_Set {
+            margin-inline: 1% !important;
+        }
+
+        .dt_Faq_container {
+            padding: 30px 20px 20px 20px !important;
+        }
+    }
+
     @media screen and (max-width:1200px) {
         .smiling-FaqMain {
             margin-inline: 2%;

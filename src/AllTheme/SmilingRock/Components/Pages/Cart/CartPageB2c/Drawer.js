@@ -56,10 +56,12 @@ const Cart = ({
     }, 300);
   },[items])
 
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
-      navigate('/LoginOption')
+      // navigate('/LoginOption')
+      navigate(redirectUrl);
       closeDrawer();
     } else {
       navigate("/Delivery")

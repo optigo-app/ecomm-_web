@@ -24,7 +24,9 @@ const Usewishlist = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [countDataUpdted, setCountDataUpdated] = useState();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [metalColorCombo, setMetalColorCombo] = useState([]);
 
+  
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -34,6 +36,17 @@ const Usewishlist = () => {
     } else {
       setCurrencyData(storeInit?.Currencysymbol)
     }
+  }, [])
+
+  useEffect(() => {
+    // const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const metalColorData = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    // const diamondQtyColorData = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    // const CSQtyColorData = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
+    // setMetalTypeCombo(metalTypeData);
+    setMetalColorCombo(metalColorData);
+    // setDiamondQualityColorCombo(diamondQtyColorData);
+    // setColorStoneCombo(CSQtyColorData);
   }, [])
 
 
@@ -188,9 +201,9 @@ const Usewishlist = () => {
   const WishCardImageFunc = (pd) => {
     return new Promise((resolve) => {
       let finalprodListimg;
-  
+      const mtcCode = metalColorCombo.find(option => option.metalcolorname === pd?.metalcolorname);
       if (pd?.ImageCount > 0) {
-        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${pd?.metalcolorname}.${pd?.ImageExtension}`;
+        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         const img = new Image();
         img.src = finalprodListimg;
   

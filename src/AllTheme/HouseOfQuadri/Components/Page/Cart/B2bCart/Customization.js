@@ -55,7 +55,7 @@ const Customization = ({
 
   return (
     <>
-      {selectedItem?.StockId == 0 ? (
+      {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
         <div className="hoq_CartCusto_R-details">
           <p className="hoq_cart-Titleline">{selectedItem?.TitleLine}</p>
           <Divider />

@@ -68,6 +68,12 @@ export default function YourProfile() {
                     toast.success('Edit success');
                     setUserData(editedUserData);
                     sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                    setEditMode(false);
+                } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        mobileno: 'MobileNo Already Exists',
+                    }));
                 } else {
                     toast.error('Error in saving profile.');
                 }
@@ -94,7 +100,7 @@ export default function YourProfile() {
 
 
     return (
-        <div className='smr_yourProfile'>
+        <div className='smr_yourProfile' style={{zIndex:100000}}>
             <ToastContainer />
 
             {isLoading && (

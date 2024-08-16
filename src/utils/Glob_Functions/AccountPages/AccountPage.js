@@ -1,4 +1,3 @@
-import { handleDefaultSelectionAddress } from "../../API/AccountTabs/manageAddress";
 
 export const accountDetailPages = () => {
     let arr = [

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./hoq_cartPage.scss";
 import Customization from "./Customization";
 import noImageFound from "../../../Assets/noImageFound.jpg";
@@ -30,16 +30,24 @@ const CartDetails = ({
   handleMoveToDetail,
 }) => {
   console.log("selectediTem", selectedItem);
+
+  const [imageSrc, setImageSrc] = useState(noImageFound);
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
+
   return (
     <div className="hoq_cart-container">
       <div className="hoq_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='hoq_cartImage' /> */}
         <img
-          src={
-            selectedItem?.ImageCount != 0
-              ? CartCardImageFunc(selectedItem)
-              : noImageFound
-          }
+          src={imageSrc}
           alt="image"
           className="hoq_cartDetailImage"
           onClick={() => handleMoveToDetail(selectedItem)}

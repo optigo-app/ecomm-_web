@@ -48,7 +48,6 @@
 
                     .for_slider_container {
                         max-width: 42rem;
-                        border: 1px solid red;
 
                         .for_slick_slider {
 
@@ -266,6 +265,11 @@
                         font-size: 30px;
                         color: #030303D6;
                         font-weight: 700;
+
+                        .for_productDet_price{
+                            display: flex;
+                            align-items: center;
+                        }
                     }
 
                     .for_productDet_ATC_div {
