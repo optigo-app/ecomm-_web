@@ -125,6 +125,27 @@
               }
             }
 
+            .for_category_filter_image_div_selected {
+              border: 1px solid #707070;
+              background-color: #2B2B2B;
+              border-radius: 50%;
+              height: 90px;
+              margin: 0 auto;
+              width: 90px;
+              position: relative;
+
+              .for_category_filter_image_selected {
+                height: 4rem;
+                filter: invert(100%);
+                width: 3rem;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) scale(1.2);
+                object-fit: contain;
+              }
+            }
+
             .for_category_filter_title_div {
               background: 0 0;
               border-radius: 0;
@@ -138,6 +159,12 @@
               .for_category_filter_title_span {
                 color: #000;
                 font-size: 13px;
+                transition: transform 0.3s ease, color 0.3s ease;
+              }
+
+              .for_category_filter_title_span_selected {
+                color: #000;
+                font-size: 15px;
               }
             }
           }
@@ -187,22 +214,24 @@
               font-family: $primaryFontFamily;
               z-index: 1000;
               padding: 1rem;
+              max-height: 0;
+              transition: max-height 0.5s ease-in-out;
 
-              // Positioning the arrow
+              &.open {
+                max-height: 180px;
+              }
+
               &::after {
                 content: '';
                 position: absolute;
-                bottom: 100%; // Position above the tooltip
-                left: 50%; // Adjust the left position to center the arrow horizontally
-                margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+                bottom: 100%;
+                left: 50%;
+                margin-left: -0.5rem;
 
-                // Triangle arrow
                 border-width: 0.7rem;
                 border-style: solid;
-                border-color: transparent transparent white transparent; // Arrow pointing upwards
-
-                // Adjust the position of the arrow
-                border-bottom-color: white; // Color of the tooltip background
+                border-color: transparent transparent white transparent;
+                border-bottom-color: white;
               }
 
               .for_collction_filter_options {
@@ -223,7 +252,6 @@
                   margin-left: 10px;
                   text-transform: uppercase;
                 }
-
               }
             }
 
