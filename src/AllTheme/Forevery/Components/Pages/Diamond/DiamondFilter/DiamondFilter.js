@@ -1,17 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, forwardRef } from "react";
 import "./DiamondFilter.scss";
 import { DiamondLists, DiamondProductList } from "../../../data/NavbarMenu";
-import { FaChevronDown } from "react-icons/fa";
+import { FaAngleDown, FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import {
+  formatter,
+  storImagePath,
+} from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import Faq from "../../ReusableComponent/Faq/Faq";
 import { faqList } from "../../../data/dummydata";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Slider,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import btnstyle from "../../../scss/Button.module.scss";
 
 const DiamondFilter = () => {
+  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
+  const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
   const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
@@ -20,6 +32,13 @@ const DiamondFilter = () => {
   const [ShowMedia, setShowMedia] = useState({});
   const [hoveredCard, setHoveredCard] = useState(null);
   const videoRefs = useRef([]);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [open, setOpen] = useState(null);
+
+  const rangeData = [
+    { index: 4, title: "price", data: priceRangeValue, type: "price" },
+    { index: 5, title: "carat", data: caratRangeValue, type: "carat" },
+  ];
 
   useEffect(() => {
     console.log(id);
@@ -27,6 +46,10 @@ const DiamondFilter = () => {
       setCheckedItem(id);
     }
   }, [id]);
+
+  const handleOpen = (index) => {
+    setOpen(open === index ? null : index);
+  };
 
   const handleCheckboxChange = (name) => {
     setCheckedItem((prevCheckedItem) =>
@@ -54,6 +77,41 @@ const DiamondFilter = () => {
     } catch (error) {
       console.error("Error pausing video:", error);
     }
+  };
+  const handlePriceSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setPriceRangeValue(roundedValue);
+    handleButton(4, roundedValue); // Assuming 4 is the index for price range
+  };
+
+  const handleCaratSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
+    setCaratRangeValue(roundedValue);
+    handleButton(5, roundedValue); // Assuming 5 is the index for carat range
+  };
+
+  const handleButton = (dropdownIndex, value) => {
+    setSelectedValues((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) => item.dropdownIndex === dropdownIndex
+      );
+      const newValue = { dropdownIndex, value };
+
+      if (existingIndex >= 0) {
+        if (
+          JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)
+        ) {
+          return prev.filter((_, i) => i !== existingIndex); // Remove if the same value is selected again
+        }
+        // Update existing value
+        const updatedValues = [...prev];
+        updatedValues[existingIndex] = newValue;
+        return updatedValues;
+      } else {
+        // Add new value
+        return [...prev, newValue];
+      }
+    });
   };
 
   const HandleDiamondRoute = () => {
@@ -132,6 +190,13 @@ const DiamondFilter = () => {
             <span>
               price <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionPriceRange
+              handleOpen={handleOpen}
+              open={open === rangeData[0].index}
+              index={rangeData[0].index}
+              handleSliderChange={handlePriceSliderChange}
+              data={rangeData[0]?.data}
+            />
           </div>
           <div className="for_Color">
             <span>
@@ -257,19 +322,39 @@ const DiamondFilter = () => {
             );
           })}
         </div>
+        <div className="filter_clear">
+          <p>
+            It appears that there are no diamonds matching your search criteria.
+            Please adjust your search settings or <u>reset your filters</u> for
+            better results.
+          </p>
+        </div>
         <div className="faq_accordian_Design">
           <Accordion>
             <AccordionSummary
-              expandIcon={<CgArrowDownO />}
+              expandIcon={<AddCircleOutlineIcon />}
               aria-controls="panel1-content"
               id="panel1-header"
             >
-              Accordion 1
+              <span className="m-faq">Frequently Asked Questions</span>
             </AccordionSummary>
             <AccordionDetails>
               <Faq data={faqList} />
             </AccordionDetails>
           </Accordion>
+          <div className="show_more_btn">
+            <button
+              onClick={() => Navigate(`/faq`)}
+              className={`${btnstyle?.btn_for_new} btn-sm ${btnstyle?.btn_15}`}
+            >
+              SHOW MORE
+              <FaChevronDown
+                style={{
+                  marginTop: "-3px",
+                }}
+              />
+            </button>
+          </div>
         </div>
         <NewsletterSignup />
       </div>
@@ -363,4 +448,110 @@ const SvgImg = () => (
       </g>
     </g>
   </svg>
+);
+
+const CollectionPriceRange = forwardRef(
+  ({ title, index, handleSliderChange, data }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+
+    return (
+      <div className="for_ma_collection_filter_dropdown" ref={ref}>
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            value={data}
+            onChange={handleSliderChange}
+            onMouseDown={handleSliderMouseDown}
+            min={5000}
+            max={250000}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            size="small"
+            step={1}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 20,
+                height: 20,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 8, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 8, // Adjust height of the track
+              },
+            }}
+          />
+          <div className="for_ma_collection_slider_input">
+            <div className="for_right-menu">
+              <input type="text" value={`INR ${formatter(data[0])}`} />
+            </div>
+            <div className="for_left-menu">
+              <input type="text" value={`INR ${formatter(data[1])}`} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionCaratRange = forwardRef(
+  ({ handleOpen, open, index, handleSliderChange, data }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation();
+    };
+
+    return (
+      <div
+        className="for_collection_filter_dropdown"
+        onClick={() => handleOpen(index)}
+        ref={ref} // Attach ref to a DOM element
+      >
+        <div
+          className={
+            open
+              ? "for_collection_filter_option_div_slide"
+              : "for_collection_filter_option_div_slide_hide"
+          }
+        >
+          <div className="for_collection_slider_div">
+            <Slider
+              value={data}
+              onChange={handleSliderChange}
+              onMouseDown={handleSliderMouseDown} // Prevent propagation
+              min={0.96}
+              max={41.81}
+              aria-labelledby="range-slider"
+              style={{ color: "black" }}
+              size="small"
+              step={0.01}
+              sx={{
+                "& .MuiSlider-thumb": {
+                  width: 15,
+                  height: 15,
+                  backgroundColor: "#fff",
+                  border: "1px solid #000",
+                },
+              }}
+            />
+            <div className="for_collection_slider_input">
+              <input
+                type="text"
+                value={`${data[0]}Ct`}
+                className="for_collection_weights"
+              />
+              <input
+                type="text"
+                value={`${data[1]}Ct`}
+                className="for_collection_weights"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 );

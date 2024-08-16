@@ -1,0 +1,213 @@
+@import "../../../scss/variable.scss";
+
+.For_main_diamond {
+  width: 100%;
+  height: auto;
+  margin-top: 110px;
+  font-family: $primaryFontFamily;
+  .hero-banner {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 400px;
+    .wrap {
+      padding: 120px 300px;
+      .head_for {
+        font-size: 40px;
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-bottom: 26px;
+      }
+      .sub_head_for {
+        font-size: 18px;
+        font-weight: 400;
+      }
+      .btn-12 {
+        padding: 11px 40px;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 600;
+        border: 1px solid gray;
+        background: transparent;
+      }
+    }
+  }
+  .loose_diamond_carousel {
+    width: 68%;
+    margin: 0 auto;
+    height: auto;
+    margin-bottom: 25px;
+    .heading {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 65px;
+      padding-bottom: 25px;
+      flex-direction: column;
+      span {
+        font-size: 32px;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      small {
+        width: 25%;
+        height: 1px;
+        margin-top: 15px;
+        background-color: black;
+      }
+    }
+    .for_carousel {
+      width: 100%;
+      height: auto;
+      /* Custom styles for Swiper navigation buttons */
+      .fo_mySwiper .swiper-button-next,
+      .fo_mySwiper .swiper-button-prev {
+        width: 30px; /* Adjust width */
+        height: 30px; /* Adjust height */
+        color: black; /* Icon color */
+        border-radius: 50%; /* Make buttons round */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10; /* Ensure buttons are above other content */
+      }
+
+      .fo_mySwiper .swiper-button-next::after,
+      .fo_mySwiper .swiper-button-prev::after {
+        font-size: 22px; /* Adjust icon size */
+        color: black; /* Icon color */
+        font-weight: 800;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        width: auto;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .shape_card_ca {
+        width: 200px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 130px;
+          height: 130px;
+          object-fit: cover;
+          overflow: hidden;
+        }
+      }
+    }
+    .p {
+      width: 30%;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 35px;
+      margin-bottom: 65px;
+    }
+    .diamond-attributes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .attribute {
+      padding: 15px;
+      h2 {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        gap: 5px;
+        .block-no-grid {
+          width: 50px;
+          background-color: #96061c;
+          height: 25px;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .attribute h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .attribute p {
+      font-size: 1em;
+      line-height: 1.6;
+    }
+  }
+  .lab_created_diamond {
+    width: 68%;
+    margin: 0 auto;
+    height: auto;
+    display: flex;
+    background-color: #f4f4f2;
+    .image {
+      background-position: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 70%;
+    }
+    .details {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      padding: 45px;
+      align-items: start;
+      img {
+        width: 60px;
+        object-fit: cover;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 10px 0;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 28px;
+      }
+      button {
+        font-size: 14px;
+        background-color: #0d8427;
+        outline: none;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-transform: uppercase;
+        border-radius: 4px;
+      }
+    }
+  }
+  .diamond_initial {
+    width: 68%;
+    height: 50vh;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 45px auto;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .content {
+      width: 50%;
+      text-align: center;
+    }
+  }
+}
