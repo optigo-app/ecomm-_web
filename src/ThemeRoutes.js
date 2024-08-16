@@ -59,7 +59,7 @@ export default function ThemeRoutes() {
           if (response.status === 200) {
             setLoading(false);
 
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
 
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem(
@@ -122,8 +122,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-      // setThemeNo(1);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(1);
     }
     // .finally(() => setLoading(false));
   }, []);
