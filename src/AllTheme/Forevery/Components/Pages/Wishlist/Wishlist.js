@@ -103,7 +103,8 @@ const Wishlist = () => {
           </div>
         </div>
         <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
-          <button>Remove All</button>
+          <button onClick={handleConfirmRemoveAll}>Remove All</button>
+          <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
         </div>
         {!isWLLoading && (
           <>
@@ -139,7 +140,7 @@ const Wishlist = () => {
         }
          <ConfirmationDialog
           open={dialogOpen}
-          onClose={handleCloseDialog}
+          onClose={handleRemoveAllDialog}
           onConfirm={handleConfirmRemoveAll}
           title="Confirm"
           content="Are you sure you want to remove all Items?"

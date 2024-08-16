@@ -180,7 +180,7 @@ const Customization = ({
             }
           </div>
           <div className='for_UpdateCartBtn'>
-            <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={() => handleUpdateCart(selectedItem)}>Save</button>
+            <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :

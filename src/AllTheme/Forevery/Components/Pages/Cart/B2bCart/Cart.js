@@ -178,7 +178,7 @@ const CartPage = () => {
           }
           {!isloding && cartData.length != 0 &&
             <div className='for_placeOrderMainbtnDivs'>
-              <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={handlePlaceOrder}>Place Order</button>
+              <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePlaceOrder}>Place Order</button>
             </div>
           }
         </div>

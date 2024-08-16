@@ -8,6 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
+import btnStyle from "../../../scss/Button.module.scss"
 
 const AddressManagement = () => {
     const {
@@ -48,7 +49,7 @@ const AddressManagement = () => {
                         <h1 className='for_deliveryTitle'>Delivery</h1>
                         <p className='for_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='for_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
                         <div className='for_getAddrMainDiv'>
@@ -86,7 +87,7 @@ const AddressManagement = () => {
                         handleDelete={() => handleDelete()}
                     />
                     <div className='for_AddressBtnGroup'>
-                        <button className='for_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                        <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
             </div>
