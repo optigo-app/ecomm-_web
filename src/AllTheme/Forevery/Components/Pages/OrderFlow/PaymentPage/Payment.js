@@ -144,7 +144,7 @@ const Payment = () => {
     }
 
     return (
-        <div className='smr_paymentMainDiv'>
+        <div className='For_paymentMainDiv'>
             <div className='smr_paymentSecondMainDiv'>
                 <div className='smr_PaymentContainer'>
                     <div className='smr_paymentBackbtnDiv'>

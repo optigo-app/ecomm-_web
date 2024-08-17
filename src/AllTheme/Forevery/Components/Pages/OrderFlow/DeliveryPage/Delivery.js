@@ -40,7 +40,7 @@ const AddressManagement = () => {
     }
 
     return (
-        <div className='smr_DeliverMainDiv'>
+        <div className='for_DeliverMainDiv'>
             <div className='smr_secondMaindivAdd'>
                 <div className='smr_addMainDiv'>
                     <div className='smr_TitleDetailMainDiv'>
