@@ -405,6 +405,7 @@ const NavbarLeft = ({
   setHoveredIndex,
   hoveredIndex,
 }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="left">
@@ -418,6 +419,7 @@ const NavbarLeft = ({
                 setHoveredIndex(i);
               }}
               onMouseOut={() => setHoveredIndex(null)}
+              onClick={()=>Navigate(val?.link)}
             >
               <span className="for_nav_menu">
                 {val?.category}

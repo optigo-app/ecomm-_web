@@ -42,6 +42,7 @@ import DiamondFilter from "./Components/Pages/Diamond/DiamondFilter/DiamondFilte
 import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
 import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
+import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -204,7 +205,7 @@ const ForEveryRoutes = () => {
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/d/*" element={<DetailsRoute />} />
         <Route path="/p/*" element={<ProductList />} />
         <Route
           path="/certified-loose-lab-grown-diamonds/*"
@@ -214,7 +215,8 @@ const ForEveryRoutes = () => {
           <Route path="diamond/:id" element={<DiamondFilter />} />
           <Route path="ring/*" element={<RingPage />} />
         </Route>
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+
+        <Route path="/diamond" element={<Diamond />} />
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
@@ -224,10 +226,9 @@ const ForEveryRoutes = () => {
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-          </Route>
-          <Route path="/Lookbook" element={<Lookbook />} /> */}
-
+          {/* <Route path="/account" element={<Account />} /> */}
+          <Route path="/Lookbook" element={<Lookbook />} />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

@@ -56,7 +56,6 @@ const ProductDetail = () => {
   const [csQcCombo, setCsQcCombo] = useState([])
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [metalColor, setMetalColor] = useState();
-  console.log('metalColor: ', metalColor);
   const [isImageload, setIsImageLoad] = useState(true);
   const [netWTData, setnetWTData] = useState([])
   const [metalColorCombo, setMetalColorCombo] = useState([]);

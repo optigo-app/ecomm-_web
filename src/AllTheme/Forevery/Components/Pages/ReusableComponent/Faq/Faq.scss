@@ -25,6 +25,9 @@
       margin: 0; // Remove default margin
       box-shadow: none; // Remove default box shadow
       border-bottom: 1px solid black;
+      &:last-child{
+        border-bottom: none;
+      }
     }
 
     .MuiAccordionSummary-root {
