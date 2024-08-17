@@ -1575,14 +1575,17 @@ const ProductDetail = () => {
           <div className="for_ProductDet_services_div">
             <Services title={"Our Exclusive services"} services={services} />
           </div>
-          <div className="for_ProductDet_Similiar_products_div">
-            <RelatedProduct
-              SimilarBrandArr={SimilarBrandArr}
-              handleMoveToDetail={handleMoveToDetail}
-              storeInit={storeInit}
-              loginInfo={loginUserDetail}
-            />
-          </div>
+          {storeInit?.IsProductDetailSimilarDesign == 1 &&
+            SimilarBrandArr?.length > 0 && (
+              <div className="for_ProductDet_Similiar_products_div">
+                <RelatedProduct
+                  SimilarBrandArr={SimilarBrandArr}
+                  handleMoveToDetail={handleMoveToDetail}
+                  storeInit={storeInit}
+                  loginInfo={loginUserDetail}
+                />
+              </div>
+            )}
         </div>
         <div className="for_ProductDet_trend_coll_banner_div">
           <div className="for_trend_coll_details_div">
