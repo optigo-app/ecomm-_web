@@ -20,8 +20,11 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import btnstyle from "../../../scss/Button.module.scss";
+import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
+import Pako from "pako";
 
 const DiamondFilter = () => {
+  const [diamondData, setDiamondData] = useState();
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
   const { id } = useParams();
@@ -34,6 +37,11 @@ const DiamondFilter = () => {
   const videoRefs = useRef([]);
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
+
+  
+const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
   const rangeData = [
     { index: 4, title: "price", data: priceRangeValue, type: "price" },
@@ -114,9 +122,56 @@ const DiamondFilter = () => {
     });
   };
 
-  const HandleDiamondRoute = () => {
-    Navigate(`/d/labgrowndiamond?stock=101`);
+  const getDiamondData = async () => {
+    try {
+      const response = await DiamondListData();
+      if (response && response.Data) {
+        let resData = response.Data?.rd
+        console.log("diamondlistResponse", response.Data);
+        const Newmap = resData?.map((val,i)=>{
+          return {img:IMG,
+            vid : Video ,
+            HaveCustomization : true ,
+            ...val
+          }
+        })
+        console.log(Newmap , "swdwkhdwkdbwkbd")
+        setDiamondData(Newmap)
+      } else {
+        console.warn("No data found in the response");
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+    }
   };
+  
+  useEffect(() => {
+    getDiamondData();
+  }, []);
+  
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const HandleDiamondRoute = (val) => {
+
+    console.log('hsahdjash', val);
+    let encodeObj = compressAndEncode(JSON.stringify(val?.stockno));
+
+    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`
+    Navigate(navigateUrl);
+  };
+
   return (
     <>
       <ScrollTop />
@@ -252,10 +307,10 @@ const DiamondFilter = () => {
           <hr />
         </div>
         <div className="diamond_listing">
-          {DiamondProductList?.map((val, i) => {
+          {diamondData?.map((val, i) => {
             const currentMediaType = ShowMedia[i] || "vid";
             return (
-              <div key={i} className="diamond_card">
+              <div key={i} className="diamond_card" onClick={() => HandleDiamondRoute(val)}>
                 <div className="media_frame">
                   {val?.Banner ? (
                     <img src={val?.Banner} alt="" width={"100%"} />
@@ -285,7 +340,6 @@ const DiamondFilter = () => {
                     <>
                       <div
                         className="select_this_diamond_banner"
-                        onClick={() => HandleDiamondRoute()}
                       >
                         <span>Select This Diamond</span>
                       </div>
