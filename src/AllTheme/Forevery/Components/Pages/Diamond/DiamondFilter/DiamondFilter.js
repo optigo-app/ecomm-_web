@@ -37,6 +37,8 @@ const DiamondFilter = () => {
   const videoRefs = useRef([]);
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
+  const [ColorRangeValue, setColorRangeValue] = useState([20, 40]);
+  const [ClarityRangeValue, setClarityRangeValue] = useState([]);
 
   
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
@@ -49,14 +51,13 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
   ];
 
   useEffect(() => {
-    console.log(id);
     if (id) {
       setCheckedItem(id);
     }
   }, [id]);
 
-  const handleOpen = (index) => {
-    setOpen(open === index ? null : index);
+  const handleOpen = (title) => {
+    setOpen((prevOpen) => (prevOpen === title ? null : title));
   };
 
   const handleCheckboxChange = (name) => {
@@ -91,7 +92,16 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
     setPriceRangeValue(roundedValue);
     handleButton(4, roundedValue); // Assuming 4 is the index for price range
   };
-
+  const handleColorSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setColorRangeValue(roundedValue);
+    handleButton(4, roundedValue); // Assuming 4 is the index for price range
+  };
+  const handleClaritySliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setClarityRangeValue(roundedValue);
+    handleButton(4, roundedValue);
+  };
   const handleCaratSliderChange = (event, newValue) => {
     const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
     setCaratRangeValue(roundedValue);
@@ -241,31 +251,47 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
         </div>
         <div className="filter_Head">
           <div className="for_price">
-            <span>
+            <span onClick={() => handleOpen("price")}>
               price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
-              handleOpen={handleOpen}
-              open={open === rangeData[0].index}
+              open={open === "price"}
               index={rangeData[0].index}
               handleSliderChange={handlePriceSliderChange}
               data={rangeData[0]?.data}
             />
           </div>
           <div className="for_Color">
-            <span>
+            <span onClick={() => handleOpen("Color")}>
               Color <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionColor
+              handleColorSliderChange={handleColorSliderChange}
+              data={ColorRangeValue}
+              open={open === "Color"}
+            />
           </div>
           <div className="for_Carat">
-            <span>
+            <span onClick={() => handleOpen("Carat")}>
               Carat <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionCaratRange
+              open={open === "Carat"}
+              index={rangeData[1].index}
+              handleSliderChange={handleCaratSliderChange}
+              data={rangeData[1]?.data}
+            />
           </div>
           <div className="for_Clarity">
-            <span>
+            <span onClick={() => handleOpen("Clarity")}>
               Clarity <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionClarity
+              open={open === "Clarity"}
+              index={rangeData[1].index}
+              handleSliderChange={handleClaritySliderChange}
+              data={rangeData[1]?.data}
+            />
           </div>
           <div className="for_Cut">
             <span>
@@ -504,13 +530,18 @@ const SvgImg = () => (
 );
 
 const CollectionPriceRange = forwardRef(
-  ({ title, index, handleSliderChange, data }, ref) => {
+  ({ handleSliderChange, data, open }, ref) => {
     const handleSliderMouseDown = (event) => {
       event.stopPropagation(); // Prevent click from propagating to parent div
     };
-
     return (
-      <div className="for_ma_collection_filter_dropdown" ref={ref}>
+      <div
+        className="for_ma_collection_filter_dropdown"
+        ref={ref}
+        style={{
+          height: open ? "90px" : "0px",
+        }}
+      >
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
@@ -552,57 +583,178 @@ const CollectionPriceRange = forwardRef(
 );
 
 const CollectionCaratRange = forwardRef(
-  ({ handleOpen, open, index, handleSliderChange, data }, ref) => {
+  ({ open, handleSliderChange, data }, ref) => {
     const handleSliderMouseDown = (event) => {
       event.stopPropagation();
     };
 
     return (
       <div
-        className="for_collection_filter_dropdown"
-        onClick={() => handleOpen(index)}
-        ref={ref} // Attach ref to a DOM element
+        className="for_ma_collection_filter_dropdown"
+        ref={ref}
+        style={{
+          height: open ? "90px" : "0px",
+        }}
       >
-        <div
-          className={
-            open
-              ? "for_collection_filter_option_div_slide"
-              : "for_collection_filter_option_div_slide_hide"
-          }
-        >
-          <div className="for_collection_slider_div">
-            <Slider
-              value={data}
-              onChange={handleSliderChange}
-              onMouseDown={handleSliderMouseDown} // Prevent propagation
-              min={0.96}
-              max={41.81}
-              aria-labelledby="range-slider"
-              style={{ color: "black" }}
-              size="small"
-              step={0.01}
-              sx={{
-                "& .MuiSlider-thumb": {
-                  width: 15,
-                  height: 15,
-                  backgroundColor: "#fff",
-                  border: "1px solid #000",
-                },
-              }}
-            />
-            <div className="for_collection_slider_input">
-              <input
-                type="text"
-                value={`${data[0]}Ct`}
-                className="for_collection_weights"
-              />
-              <input
-                type="text"
-                value={`${data[1]}Ct`}
-                className="for_collection_weights"
-              />
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            value={data}
+            onChange={handleSliderChange}
+            onMouseDown={handleSliderMouseDown}
+            min={0.96}
+            max={41.81}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            size="small"
+            defaultValue={[0.96, 41.81]}
+            step={0.1}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 20,
+                height: 20,
+                backgroundColor: "black",
+                border: "1px solid #fff",
+              },
+              "& .MuiSlider-rail": {
+                height: 8, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 8, // Adjust height of the track
+              },
+            }}
+          />
+          <div className="for_ma_collection_slider_input">
+            <div className="for_right-menu">
+              <input type="text" value={data[0]} />
+            </div>
+            <div className="for_left-menu">
+              <input type="text" value={data[1]} />
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionColor = forwardRef(
+  ({ handleSliderChange, data, open }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+    const marks = [
+      { label: "M", value: 10 },
+      { label: "L", value: 20 },
+      { label: "K", value: 30 },
+      { label: "J", value: 40 },
+      { label: "I", value: 50 },
+      { label: "H", value: 60 },
+      { label: "G", value: 70 },
+      { label: "F", value: 80 },
+      { label: "E", value: 90 },
+      { label: "D", value: 100 },
+    ];
+    console.log(data);
+    return (
+      <div
+        className="for_ma_color"
+        style={{
+          height: open ? "90px" : "0px",
+          width: "360px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            defaultValue={[20, 60]}
+            aria-label="Restricted values"
+            marks={marks}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            onChange={handleSliderChange}
+            size="small"
+            min={10}
+            max={100}
+            step={10}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 16,
+                height: 16,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 6, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 6, // Adjust height of the track
+                padding: "0 5px",
+              },
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionClarity = forwardRef(
+  ({ handleSliderChange, data, open }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+    const marks = [
+      { label: "SI2", value: 12.5 },
+      { label: "SI1", value: 25 },
+      { label: "VS2", value: 37.5 },
+      { label: "VS1", value: 50 },
+      { label: "VVS2", value: 62.5 },
+      { label: "VVS1", value: 75 },
+      { label: "IF", value: 87.5 },
+      { label: "FL", value: 100 },
+    ];
+
+    return (
+      <div
+        className="for_ma_color"
+        style={{
+          height: open ? "90px" : "0px",
+          width: "380px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            defaultValue={[25, 62.5]}
+            aria-label="Restricted values"
+            marks={marks}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            onChange={handleSliderChange}
+            size="small"
+            min={12.5}
+            max={100}
+            step={12.5}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 16,
+                height: 16,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 6, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 6, // Adjust height of the track
+                padding: "0 5px",
+              },
+              '& .MuiSlider-markLabel': {
+                fontSize: '10px', // Adjust the font size of the marks
+              },
+              "& .MuiSlider-mark" :{
+                fontSize :"10px"
+              } ,
+            }}
+          />
         </div>
       </div>
     );
