@@ -148,7 +148,7 @@ const Diamond = () => {
           </div>
         </div>
       </div>
-      <div className="loose_diamond_carousel">
+      <div className="info_grid_for">
         <div className="heading">
           <span>Specification of The Hearts and Arrows</span>
           <small></small>
@@ -229,6 +229,9 @@ const Diamond = () => {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="shop_h_l">
+            <button>Shop Hearts and Love collection</button>
           </div>
         </div>
       </div>

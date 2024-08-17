@@ -126,6 +126,7 @@ const ForEveryRoutes = () => {
       return navigation("/");
     }
   }
+  
 
   return (
     <>
