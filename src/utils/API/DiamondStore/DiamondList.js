@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const DiamondListData = async () => {
+export const DiamondListData = async (shape) => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = sessionStorage.getItem("loginUserDetail");
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -11,15 +11,15 @@ export const DiamondListData = async () => {
 
     let packageId = data?.PackageId ?? 0
 
-    try {
+    try {          
         const combinedValue = JSON.stringify({
             PageNo: "1",
-            PageSize: "20",
+            PageSize: "1000",
             OrderBy: "order by carat asc",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
             Customerid: `${customerId ?? 0}`,
             PackageId: packageId,
-            Shape: "",
+            Shape: `${shape ?? ''}`,
             Polish: "",
             Lab: "",
             Symmetry: "",
