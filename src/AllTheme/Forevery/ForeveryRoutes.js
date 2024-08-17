@@ -43,6 +43,7 @@ import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
 import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
 import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
+import DetailsRoute from "./Components/Pages/Product";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -227,8 +228,7 @@ const ForEveryRoutes = () => {
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
           {/* <Route path="/account" element={<Account />} /> */}
-          <Route path="/Lookbook" element={<Lookbook />} />
-        </Route>
+        <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
