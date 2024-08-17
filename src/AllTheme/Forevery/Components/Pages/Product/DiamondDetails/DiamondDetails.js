@@ -1669,10 +1669,11 @@ const Modal = ({
                         minWidth: 260,
                         padding: '0px',
                         position: 'relative',
+                        overflow: 'hidden',
                     }}
                 >
-                    <div className="for_modal_cancel_btn">
-                        <RxCross1 size={'10px'} />
+                    <div className="for_modal_cancel_btn_div" onClick={handleClose}>
+                        <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
                     </div>
                     <div className="for_modal_inner_div">
                         <span className='for_modal_title'>

@@ -646,7 +646,7 @@ const ProductList = () => {
 
     navigate(
       `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
+      }${productData?.designno}/p=${encodeObj}`
     );
   };
 
