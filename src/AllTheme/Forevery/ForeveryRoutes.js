@@ -228,7 +228,7 @@ const ForEveryRoutes = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
           {/* <Route path="/account" element={<Account />} /> */}
           <Route path="/Lookbook" element={<Lookbook />} />
-        </Route>
+        {/* </Route> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />
