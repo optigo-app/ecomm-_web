@@ -405,6 +405,7 @@ const DiamondProductList = [
     HaveCustomization: false,
   },
 ];
+
 const LooseDiamond = [
   {
     img: `${storImagePath()}/Forevery/diamond/new/asscher-diamond.png`,

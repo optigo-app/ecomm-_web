@@ -3,6 +3,7 @@
 .for_DeliverMainDiv {
   font-family: $primaryFontFamily;
     margin-top: 157px;
+    background-color: #c0bbb1;
     min-height: 475px;
 }
 
@@ -10,9 +11,12 @@
   margin-inline: 280px;
   background-color: #fff;
 }
+.for_addMainDiv{
+  margin-bottom: 20px;
+}
 
 .for_getAddrMainDiv {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .for_TitleDetailMainDiv{
@@ -20,22 +24,11 @@
   justify-content: space-between;
   align-items: center;
 
-  .for_ContinueOrderbtn {
+  button {
     height: 40px;
     width: 150px;
     font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
   }
 }
 
@@ -68,7 +61,7 @@
 .for_ActiveAddrCard {
   padding: 20px 20px 0px 20px !important;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
-  background: #f5f4f4 !important;
+  background: #fdf6f6 !important;
   border-radius: 0px !important;
   position: relative;
 }
@@ -79,13 +72,13 @@
   font-family: $primaryFontFamily !important;
   font-size: $fontSize3;
   color: #fff;
-  background: blue;
+  background: #df647e;
   border-radius: 0px !important;
   border: none;
   cursor: pointer;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0px;
+  right: 0px;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -106,23 +99,11 @@
 }
 
 .for_AddressBtnGroup {
-  .for_AddNewAddrbtn {
-    margin-right: 20px;
+  button {
     height: 40px;
     width: 150px;
     font-family: $primaryFontFamily !important;
     font-size: $fontSize3;
-    color: $btn1FontColor;
-    background-color: $btn1bgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
   }
 }
 
