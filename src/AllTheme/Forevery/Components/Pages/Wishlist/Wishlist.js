@@ -48,12 +48,12 @@ const Wishlist = () => {
 
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    const returnValue = await handleRemoveAll();
-    if (returnValue?.msg == "success") {
-      GetCountAPI(visiterId).then((res) => {
-        setWishCountVal(res?.wishcount);
-      });
-    }
+    // const returnValue = await handleRemoveAll();
+    // if (returnValue?.msg == "success") {
+    //   GetCountAPI(visiterId).then((res) => {
+    //     setWishCountVal(res?.wishcount);
+    //   });                               
+    // }
   };
 
   const handleCloseDialog = () => {
@@ -103,7 +103,7 @@ const Wishlist = () => {
           </div>
         </div>
         <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
-          <button onClick={handleConfirmRemoveAll}>Remove All</button>
+          <button onClick={handleRemoveAllDialog}>Remove All</button>
           <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
         </div>
         {!isWLLoading && (
@@ -140,7 +140,7 @@ const Wishlist = () => {
         }
          <ConfirmationDialog
           open={dialogOpen}
-          onClose={handleRemoveAllDialog}
+          onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
           title="Confirm"
           content="Are you sure you want to remove all Items?"
