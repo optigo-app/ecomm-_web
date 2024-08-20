@@ -355,7 +355,6 @@ export const validateUserDataYPAccount = (editedUserData) => {
 
     return { errors: tempErrors, isValid: isValid };
 };
-// validation.js
 
 export const validateChangeYPAccount = (id, value) => {
     let error = '';
@@ -406,5 +405,29 @@ export const validateChangeYPAccount = (id, value) => {
     }
 
     return error;
+};
+
+// validation on change password
+export const validateChangePassword = ({ oldPassword, password, confirmPassword }) => {
+    const errors = {};
+
+    if (!oldPassword.trim()) {
+        errors.oldPassword = 'Old Password is required';
+    }
+
+    if (!password.trim()) {
+        errors.password = 'Password is required';
+    }
+
+    if (!confirmPassword.trim()) {
+        errors.confirmPassword = 'Confirm Password is required';
+    } else if (confirmPassword !== password) {
+        errors.confirmPassword = 'Passwords do not match';
+    }
+
+    return {
+        errors,
+        isValid: Object.keys(errors).length === 0,
+    };
 };
 
