@@ -357,33 +357,37 @@ const Header = () => {
 
     const searchDataFucn = (e) => {
         if (e.key === "Enter") {
-            if (searchText) {
-                // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
-                // const handleMoveToDetail = () => {
+            setDrawerOpen(false);
 
-                let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-                let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+            // if (searchText) {
+            //     // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
-                let obj = {
-                    a: "",
-                    b: searchText,
-                    m: loginInfo?.MetalId ?? storeInit?.MetalId,
-                    d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
-                    c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
-                    f: {},
-                };
+            //     // const handleMoveToDetail = () => {
 
-                let encodeObj = compressAndEncode(JSON.stringify(obj));
+            //     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+            //     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
-                navigate(`/d/${searchText}?p=${encodeObj}`);
-                setSearchText("")
-                // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+            //     let obj = {
+            //         a: "",
+            //         b: searchText,
+            //         m: loginInfo?.MetalId ?? storeInit?.MetalId,
+            //         d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+            //         c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+            //         f: {},
+            //     };
 
-                // }
-            }
+            //     let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            //     navigate(`/d/${searchText}?p=${encodeObj}`);
+            //     setSearchText("")
+            //     // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+
+            //     // }
+            // }
         }
     };
+    console.log('Drawer state:', drawerOpen);
 
     return (
         <div className='dai_headerMain'>
@@ -856,9 +860,15 @@ const Header = () => {
                                     <FaPowerOff fontSize='30px' color="#7D7F85" />
                                 </li>
                             ) :
-                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => { navigation('/LoginOption'); setDrawerOpen(false); }}>
-                                    <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                <li
+                                    className='dt_mobile_div3_li3'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/LoginOption")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
+
+                                // <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => { navigation('/LoginOption'); setDrawerOpen(false); }}>
+                                //     <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                // </li>
                             )
                         }
                     </ul>
@@ -945,6 +955,25 @@ const Header = () => {
                                 </li>
                             </ul>
                         </div>
+
+                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                            <div className="dt_headermainDiv1">
+                                <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={searchText}
+                                    onChange={(e) => {
+                                        setSearchText(e.target.value)
+
+                                    }}
+                                    style={{ border: '0px', outline: '0px' }}
+                                    className="serachinputBoxOverly"
+                                    onKeyDown={searchDataFucn}
+                                />
+                            </div>
+                        </div>
+
                         <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
 
                             {IsB2BWebsiteChek == 1 ? (

@@ -158,6 +158,7 @@ const Album1 = () => {
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
                             pagination={false}
+                            className='dt_album_swiper_SubDiv'
                         >
                             {JSON?.parse(album?.Designdetail)?.map((design) => {
                                 const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
