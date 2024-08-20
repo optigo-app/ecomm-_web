@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
+import { validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 export default function ChangePassword() {
 
@@ -33,7 +34,6 @@ export default function ChangePassword() {
     }, []); // 
 
 
-
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
         setter(value);
@@ -47,7 +47,7 @@ export default function ChangePassword() {
             }
         } else if (fieldName === 'oldPassword') {
             if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'oldPassword is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'old Password is required' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
             }
@@ -96,24 +96,10 @@ export default function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = {};
+        
+        const { errors, isValid } = validateChangePassword({ oldPassword, password, confirmPassword });
 
-        if (!oldPassword.trim()) {
-            errors.oldPassword = 'oldPassword is required';
-        }
-
-        if (!password.trim()) {
-            setPasswordError('Password is required');
-            errors.password = 'Password is required';
-        }
-
-        if (!confirmPassword.trim()) {
-            errors.confirmPassword = 'Confirm Password is required';
-        } else if (confirmPassword !== password) {
-            errors.confirmPassword = 'Passwords do not match';
-        }
-
-        if (Object.keys(errors).length === 0) {
+        if (isValid) {
 
             const hashedOldPassword = hashPasswordSHA1(oldPassword);
             const hashedPassword = hashPasswordSHA1(password);
@@ -140,6 +126,7 @@ export default function ChangePassword() {
 
                 // console.log(body);
                 // const response = await CommonAPI(body);
+
                 if(passwordError === ''){
 
                     const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
@@ -264,14 +251,3 @@ export default function ChangePassword() {
         </>
     )
 }
-
-// import React from 'react'
-// import "./changepassword.scss"
-
-// const ChangePassword = () => {
-//   return (
-//     <div>ChangePassword</div>
-//   )
-// }
-
-// export default ChangePassword
