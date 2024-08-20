@@ -30,6 +30,7 @@ import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 import Pako from "pako";
 import WebLoder from "../../WebLoder/WebLoder";
+import { DiamondFilterData } from "../../../../../../utils/API/DiamondStore/DiamondFilter";
 
 const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
@@ -40,6 +41,7 @@ const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
+  const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const dropdownRefs = useRef({});
   const { id } = useParams();
@@ -214,6 +216,20 @@ const DiamondFilter = () => {
     }
   };
 
+  const getDiamondFilterData = async () => {
+    setIsloding(true);
+    try {
+      const response = await DiamondFilterData();
+      if (response && response.Data) {
+        let resData = response.Data?.rd;
+        setDiamondFilterData(resData)
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsloding(false);
+    }
+  };
+
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
     setIsloding(true);
@@ -227,6 +243,10 @@ const DiamondFilter = () => {
     }
   };
 
+  useEffect(() => {
+    getDiamondFilterData();
+  }, [])
+  
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape);
@@ -264,13 +284,30 @@ const DiamondFilter = () => {
       : null;
   };
 
+  // const handleSliderChange = (sliderType, newValue) => {
+  //   setSliderState((prevState) => ({
+  //     ...prevState,
+  //     [sliderType]: newValue,  
+  //   }));
+  //   console.log(sliderState);
+  // };
+
   const handleSliderChange = (sliderType, newValue) => {
     setSliderState((prevState) => ({
       ...prevState,
       [sliderType]: newValue,
     }));
+    const pathname = location?.pathname.split("/");
+    const sliderParams = Object?.entries(sliderState)?.map(([key, value]) => {
+      return `${key}/${value[0]},${value[1]}`;
+    }).join('/');
+    const newPath = `${pathname?.slice(0, 4)?.join('/')}/${sliderParams}`;
+    Navigate(newPath);
+  
     console.log(sliderState);
   };
+  console.log("jksdajkhdhkashd", location);
+  
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
@@ -592,7 +629,6 @@ const DiamondFilter = () => {
                       <div
                         key={i}
                         className="diamond_card"
-                        onClick={() => HandleDiamondRoute(val)}
                       >
                         <div className="media_frame">
                           {bannerImage ? (
@@ -613,12 +649,14 @@ const DiamondFilter = () => {
                                   muted
                                   onMouseOver={(e) => handleMouseMove(e, i)}
                                   onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               ) : (
                                 <img
                                   className="dimond-info-img"
                                   src={val?.img}
                                   alt=""
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               )}
                             </>
@@ -828,7 +866,7 @@ const SvgImg = () => (
 const CollectionPriceRange = forwardRef(
   ({ handleSliderChange, data, open }, ref) => {
     const handleSliderMouseDown = (event) => {
-      event.stopPropagation(); // Prevent click from propagating to parent div
+      event.stopPropagation();
     };
     return (
       <div
