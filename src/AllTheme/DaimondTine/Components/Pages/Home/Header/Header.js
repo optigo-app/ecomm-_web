@@ -357,6 +357,9 @@ const Header = () => {
 
     const searchDataFucn = (e) => {
         if (e.key === "Enter") {
+
+            setDrawerOpen(false);
+
             if (searchText) {
                 // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
@@ -384,6 +387,7 @@ const Header = () => {
             }
         }
     };
+    console.log('Drawer state:', drawerOpen);
 
     return (
         <div className='dai_headerMain'>
@@ -856,9 +860,15 @@ const Header = () => {
                                     <FaPowerOff fontSize='30px' color="#7D7F85" />
                                 </li>
                             ) :
-                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => { navigation('/LoginOption'); setDrawerOpen(false); }}>
-                                    <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                <li
+                                    className='dt_mobile_div3_li3'
+                                    style={{ marginInline: '10px' }} onClick={() => navigation("/LoginOption")}>
+                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
+
+                                // <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => { navigation('/LoginOption'); setDrawerOpen(false); }}>
+                                //     <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                                // </li>
                             )
                         }
                     </ul>
@@ -877,7 +887,7 @@ const Header = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '33.33%', display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={() => setDrawerOpen(false)}>
+                                <IconButton onClick={() => { setSearchText(''); setDrawerOpen(false); }}>
                                     <CloseIcon />
                                 </IconButton>
                             </div>
@@ -887,7 +897,6 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
-
 
                                 {islogin == true &&
                                     <Badge
@@ -945,6 +954,25 @@ const Header = () => {
                                 </li>
                             </ul>
                         </div>
+
+                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                            <div className="dt_headermainDiv1">
+                                <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={searchText}
+                                    onChange={(e) => {
+                                        setSearchText(e.target.value)
+
+                                    }}
+                                    style={{ border: '0px', outline: '0px' }}
+                                    className="serachinputBoxOverly"
+                                    onKeyDown={searchDataFucn}
+                                />
+                            </div>
+                        </div>
+
                         <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
 
                             {IsB2BWebsiteChek == 1 ? (
