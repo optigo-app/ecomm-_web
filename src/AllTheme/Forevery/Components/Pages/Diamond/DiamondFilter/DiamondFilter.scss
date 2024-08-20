@@ -445,8 +445,67 @@
       }
       .sorting_options {
         flex: 0.2;
+        position: relative;
         @include FleBox();
         justify-content: flex-end;
+        z-index: 1;
+        .title_for_sort {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          div {
+            border-bottom: 1px solid #9c9c9cb2;
+            font-weight: 650;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+        .drop-list--1CjuW {
+          position: absolute;
+          background-color: #fff;
+          z-index: 3;
+          top: 30px;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          transition: 0.3s ease-in-out;
+          justify-content: start;
+          li {
+            display: flex;
+            align-items: center;
+            border: 1px solid #5e5e5e1e;
+            padding: 0px 8px;
+            gap: 20px;
+            overflow: hidden;
+            &:first-child {
+              padding: 2px;
+              &:hover {
+                background-color: black;
+                color: white;
+              }
+            }
+            .drop-category--35Pnq {
+              font-size: 15px;
+              flex: 1;
+              font-weight: 600;
+              padding: 5px 20px;
+            }
+            .drop-sort-options {
+              padding: 2px;
+              .drop-item-container-grouped--3uDXx {
+                flex: 1;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 5px 19px;
+                &:hover {
+                  background-color: black;
+                  color: white;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -457,7 +516,6 @@
     justify-content: center;
     align-items: center;
   }
-
   .for_NoDataDiv {
     width: 100%;
     margin: auto;
