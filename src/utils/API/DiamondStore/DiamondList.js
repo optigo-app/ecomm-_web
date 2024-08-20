@@ -1,13 +1,13 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const DiamondListData = async () => {
+export const DiamondListData = async (stockno) => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = sessionStorage.getItem("loginUserDetail");
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     const data = JSON.parse(storedData);
     const customerId = data?.id ?? 0;
     const customerEmail = data?.userid ?? "";
-    const {FrontEnd_RegNo} = storeInit;
+    const { FrontEnd_RegNo } = storeInit;
 
     let packageId = data?.PackageId ?? 0
 
@@ -38,13 +38,13 @@ export const DiamondListData = async () => {
             ToTable: "",
             FromDepth: "",
             ToDepth: "",
-            stockno:""
+            stockno: `${stockno ?? ""}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
 
         console.log("diamondListApi", combinedValue);
-        
+
         const body = {
             con: `{\"id\":\"\",\"mode\":\"GETDIAMONDLIST\",\"appuserid\":\"${customerEmail}\"}`,
             f: "Header (getCartData)",

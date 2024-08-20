@@ -1,6 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "") => {
+export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stockno) => {
+    console.log('stockno in api: ', stockno);
 
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
     const UserEmail = sessionStorage.getItem("registerEmail");
@@ -16,7 +17,8 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "") => {
         "userid": `${customerEmail}`,
         "Customerid": `${customerId ?? 0}`,
         "IsPLW": `${storeInit?.IsPLW}`,
-        "AddCartDetail": type2 ? obj : [obj]
+        "AddCartDetail": type2 ? obj : [obj],
+        "stockno": `${stockno ?? 0}`,
     }
 
     let body = {
