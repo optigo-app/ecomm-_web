@@ -251,7 +251,7 @@ const NewOrderHistoryDT = () => {
   };
   return (
     <>
-      <div className="orderHistory_acc">
+      <div className="orderHistory_acc ">
         {loaderOH ? (
           <Box
             sx={{
@@ -263,7 +263,7 @@ const NewOrderHistoryDT = () => {
             <CircularProgress className="loadingBarManage" />
           </Box>
         ) : (
-          <div>
+          <div className="outerCardDT">
             <div style={{ width: "100%" }}>
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
