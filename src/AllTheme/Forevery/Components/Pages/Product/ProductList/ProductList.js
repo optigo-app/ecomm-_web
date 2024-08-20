@@ -27,6 +27,9 @@ import { for_CartCount, for_WishCount } from "../../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import { CheckBox } from "@mui/icons-material";
 import Pako from "pako";
+import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
+import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
+import ShippingDrp from "../../ReusableComponent/ShippingDrp/ShippingDrp";
 
 
 const ProductList = () => {
@@ -35,6 +38,8 @@ const ProductList = () => {
   const dropdownRefs = useRef({})
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+  const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   let cookie = Cookies.get("visiterId");
   const videoRef = useRef(null);
 
@@ -73,6 +78,29 @@ const ProductList = () => {
       id: 7,
       title: 'Signet Rings',
       image: `${storImagePath()}/images/ProductListing/CategoryImages/signetring.svg`
+    },
+  ]
+
+  const shippData = [
+    {
+      title: "Any Date",
+      value: 'ANY DATE',
+    },
+    {
+      title: "Thursday,Aug 8",
+      value: 'THURSDAY,AUG 8',
+    },
+    {
+      title: "Friday,Aug 9",
+      value: 'FRIDAY,AUG 9',
+    },
+    {
+      title: "Saturday,Aug 10",
+      value: 'SATURDAY,AUG 10',
+    },
+    {
+      title: "Sunday,Aug 11",
+      value: 'SUNDAY,AUG 11',
     },
   ]
 
@@ -151,6 +179,40 @@ const ProductList = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const callAllApi = async () => {
+    if (!mTypeLocal || mTypeLocal?.length === 0) {
+      const res = await MetalTypeComboAPI(cookie);
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
+        setMetaltype(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setMetaltype(mTypeLocal);
+    }
+
+    if (!diaQcLocal || diaQcLocal?.length === 0) {
+      const res = await DiamondQualityColorComboAPI();
+      if (res) {
+        let data = res?.Data?.rd;
+        sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+        setDiamondType(data);
+      }
+      else {
+        console.log("error")
+      }
+    } else {
+      setDiamondType(diaQcLocal)
+    }
+  }
+
+  useEffect(() => {
+    callAllApi();
+  }, [storeInit])
 
   useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -298,8 +360,6 @@ const ProductList = () => {
       }).catch((err) => console.log("removecartwishErr", err))
 
     }
-
-
   }
 
   useEffect(() => {
@@ -889,21 +949,7 @@ const ProductList = () => {
                     <label>shipping date </label>
                   </div>
                   <div className="for_collection_filter_option_div_ship">
-                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={shippingDrp}
-                        onChange={handleChange1}
-                        className="for_collection_filter_sort_select_ship"
-                      >
-                        <MenuItem value={"ANY DATE"}>Any Date</MenuItem>
-                        <MenuItem value={"THURSDAY,AUG 8"}>Thursday,Aug 8</MenuItem>
-                        <MenuItem value={"FRIDAY,AUG 9"}>Friday,Aug 9</MenuItem>
-                        <MenuItem value={"SATURDAY,AUG 10"}>Saturday,Aug 10</MenuItem>
-                        <MenuItem value={"SUNDAY,AUG 11"}>Sunday,Aug 11</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_collection_filter_sort_select_ship"} />
                   </div>
                 </div>
               </div>

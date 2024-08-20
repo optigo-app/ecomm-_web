@@ -41,14 +41,23 @@ const DiamondPage = () => {
 export default DiamondPage;
 
 const BannerForSettings = ({ breadCrumb }) => {
+  const location = useLocation();
+  const getSettingName = location?.pathname.split('/')[3];
   return (
     <>
       {breadCrumb === "settings" && (
         <div className="setting_bg">
-          <img
-            src={`${storImagePath()}/Forevery/diamondFilter/178.webp`}
-            alt=""
-          />
+          {getSettingName.includes('Ring') ? (
+            <img
+              src={`${storImagePath()}/images/ProductListing/SettingBanner/Ring/ring.webp`}
+              alt=""
+            />
+          ) : (
+            <img
+              src={`${storImagePath()}/images/ProductListing/SettingBanner/Pendant/pendant.webp`}
+              alt=""
+            />
+          )}
         </div>
       )}
     </>
