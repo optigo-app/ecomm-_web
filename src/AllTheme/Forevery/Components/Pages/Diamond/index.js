@@ -15,6 +15,12 @@ const DiamondPage = () => {
     fontWeight: breadCrumb === "settings" && "700",
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  }, []);
   return (
     <>
       <div className="for_DiamondPage">
@@ -27,7 +33,6 @@ const DiamondPage = () => {
             setswap={setswap}
           />
         </div>
-        <Outlet />
       </div>
     </>
   );
@@ -36,14 +41,23 @@ const DiamondPage = () => {
 export default DiamondPage;
 
 const BannerForSettings = ({ breadCrumb }) => {
+  const location = useLocation();
+  const getSettingName = location?.pathname.split('/')[3];
   return (
     <>
       {breadCrumb === "settings" && (
         <div className="setting_bg">
-          <img
-            src={`${storImagePath()}/Forevery/diamondFilter/178.webp`}
-            alt=""
-          />
+          {getSettingName.includes('Ring') ? (
+            <img
+              src={`${storImagePath()}/images/ProductListing/SettingBanner/Ring/ring.webp`}
+              alt=""
+            />
+          ) : (
+            <img
+              src={`${storImagePath()}/images/ProductListing/SettingBanner/Pendant/pendant.webp`}
+              alt=""
+            />
+          )}
         </div>
       )}
     </>
@@ -74,7 +88,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-1"
           onClick={() => {
-            Navigation(`diamond`);
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
             setswap("diamond");
           }}
         >
@@ -86,7 +100,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-2"
           onClick={() => {
-            Navigation(`settings`);
+            Navigation(`/certified-loose-lab-grown-diamonds/settings`);
             setswap("settings");
           }}
         >
@@ -99,7 +113,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-1"
           onClick={() => {
-            Navigation(`diamond`);
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
             setswap("diamond");
           }}
         >
@@ -111,7 +125,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-2"
           onClick={() => {
-            Navigation(`settings`);
+            Navigation(`/certified-loose-lab-grown-diamonds/settings`);
             setswap("settings");
           }}
         >
@@ -121,7 +135,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         </div>
       )}
       <div className="step d-3">
-        <span style={StyleCondition} onClick={() => Navigation(`ring`)}>
+        <span style={StyleCondition} onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/ring`)}>
           <img src={StepImages[2]?.img} alt="" /> Rings
         </span>
       </div>

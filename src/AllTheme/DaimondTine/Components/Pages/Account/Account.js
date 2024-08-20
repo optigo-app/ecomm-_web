@@ -136,7 +136,7 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start' }} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
-                                        <Tab label="PLM" {...a11yProps(5)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
+                                        {/* <Tab label="PLM" {...a11yProps(5)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />}
                                         <Tab label="Log Out" onClick={handleLogout} sx={{padding:'0px', minHeight:'auto', display:'flex', alignItems:'flex-start'}} />
                                     </Tabs>

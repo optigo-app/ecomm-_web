@@ -1,8 +1,318 @@
 @import '../../../scss/variable.scss';
 
 
-.for_setting_page{
-    width: 100%;
-    height: 100vh;
-    background-color: orange;
+.for_settingList_MainDiv {
+  .for_settingList_div {
+    border: 1px solid blue;
+    width: 68%;
+    margin-inline: auto;
+
+    .for_settingList_desc_div {
+      font-family: $primaryFontFamily;
+
+      .for_settingList_desc_title {
+        font-size: 32px;
+        font-weight: 600;
+        color: $btn1FontColor;
+        text-align: center;
+      }
+
+      .for_settingList_desc_para {
+        margin-top: 1rem;
+        width: 73%;
+        margin-inline: auto;
+        border: 1px solid green;
+        text-align: center;
+      }
+    }
+
+    .for_settingLists_category_lists_div {
+      margin-top: 1.5rem;
+      width: 73%;
+      margin-inline: auto;
+      border: 1px solid indianred;
+      display: flex;
+      justify-content: space-between;
+      font-family: $primaryFontFamily;
+
+      .for_settingLists_category_lists {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .for_settingList_categ_title {
+          padding-top: 0.2rem;
+          text-transform: uppercase;
+          font-size: 11px;
+          color: $btn1FontColor;
+        }
+      }
+
+
+    }
+
+    .for_productList_setting_filter_mainDiv {
+      padding-block: 0.75rem;
+      background-color: $filterbackground;
+
+      .for_setting_filter_lists {
+        width: 90%;
+        margin-inline: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .for_setting_filter_dropdown {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          position: relative;
+
+          .for_setting_filter_label {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: $fontSize3;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_setting_filter_option_div {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            width: 12rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            font-family: $primaryFontFamily;
+            z-index: 1000;
+            transition: 0.3s ease-in-out;
+            height: 0;
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 100%;
+              left: 50%;
+              margin-left: -0.5rem;
+              transition: 0.3s ease-in-out;
+              border-width: 0.7rem;
+              border-style: solid;
+              border-color: transparent transparent white transparent;
+              border-bottom-color: white;
+            }
+
+            .for_setting_filter_options {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              padding: 0 1rem;
+
+              input {
+                margin-left: 10px;
+                accent-color: black;
+              }
+
+              span {
+                color: #1b1b1b;
+                font-size: 12px;
+                font-weight: 700;
+                padding-block: 5px;
+                margin-left: 10px;
+                text-transform: uppercase;
+              }
+            }
+          }
+
+          .for_setting_filter_option_div_slide {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            width: 25rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+            transition: 0.3s ease-in;
+            height: 0;
+
+            z-index: 1000;
+
+            // Positioning the arrow
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 100%; // Position above the tooltip
+              left: 50%; // Adjust the left position to center the arrow horizontally
+              margin-left: -0.5rem; // Half of the width of the arrow to center it properly
+              transition: 0.3s ease-in-out;
+
+              // Triangle arrow
+              border-width: 0.7rem;
+              border-style: solid;
+              border-color: transparent transparent white transparent; // Arrow pointing upwards
+
+              // Adjust the position of the arrow
+              border-bottom-color: white; // Color of the tooltip background
+            }
+
+            .for_setting_filter_options {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+
+              input {
+                margin-left: 10px;
+
+                &:checked {
+                  background-color: #000;
+                }
+              }
+
+              span {
+                color: #1b1b1b;
+                font-size: 12px;
+                font-weight: 700;
+                padding-block: 5px;
+                margin-left: 10px;
+                text-transform: uppercase;
+              }
+
+            }
+
+            .for_setting_slider_div {
+              margin-top: 2px;
+              padding: 5px;
+              width: 90%;
+              margin-inline: auto;
+
+              .for_setting_slider_input {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .for_setting_price {
+                  width: 30%;
+                  display: flex;
+                  align-items: center;
+                  font-size: 13px;
+                  height: 24px;
+                  padding: 5px 4px 3px;
+                  text-align: center;
+                }
+
+                .for_setting_weights {
+                  width: 20%;
+                  display: flex;
+                  align-items: center;
+                  font-size: 13px;
+                  height: 24px;
+                  padding: 5px 4px 3px;
+                  text-align: center;
+                }
+              }
+            }
+          }
+
+          .for_setting_filter_option_div_hide {
+            position: absolute;
+            top: 1.7rem;
+            display: none;
+            background: white;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+          }
+
+          .for_setting_filter_option_div_slide_hide {
+            position: absolute;
+            top: 2.6rem;
+            background: white;
+            display: none;
+            width: 25rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            font-family: $primaryFontFamily;
+
+            z-index: 1000;
+            padding: 1rem;
+          }
+
+        }
+
+        .for_setting_filter_dropdown_sort {
+          display: flex;
+          align-items: center;
+
+          .for_setting_filter_label {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: $fontSize3;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_setting_filter_sort_select {
+            margin-left: 5px;
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            font-family: $primaryFontFamily;
+            color: #656565;
+            outline: none;
+          }
+        }
+
+        .for_setting_filter_dropdown_sort_ship {
+          display: flex;
+          align-items: center;
+
+          .for_setting_filter_label_ship {
+            font-family: $primaryFontFamily;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            label {
+              text-transform: uppercase;
+              font-size: 13px;
+              color: $primaryfontcolor2;
+              font-weight: 700;
+              cursor: pointer;
+            }
+          }
+
+          .for_setting_filter_sort_select_ship {
+            margin-left: 5px;
+            background: transparent;
+            border: none;
+            font-size: 12px;
+            font-family: $primaryFontFamily;
+            color: #656565;
+            outline: none;
+          }
+        }
+
+      }
+    }
+
+
+  }
 }

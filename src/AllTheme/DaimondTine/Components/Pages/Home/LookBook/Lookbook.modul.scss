@@ -515,6 +515,10 @@
 
   .dt_lb3srthelook_prodinfo_inner {
     font-family: $primaryFontFamilyMedium;
+    .dt_titlline{
+      text-align: center;
+      width: 100%;
+    }
   }
 
   .dt_lb3ctlImg_containe {
@@ -785,11 +789,13 @@
     .dt_lb3compeletethelook_prodt {
       margin-left: 0px !important;
       width: 100%;
+      padding: 20px 0 !important;
     }
 
     .dt_lb3compeletethelook_prodt_for_3 {
       margin-left: 0px !important;
       width: 100%;
+      padding: 20px 0 !important;
     }
   }
 }
