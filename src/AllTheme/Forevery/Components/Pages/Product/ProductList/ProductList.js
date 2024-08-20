@@ -1228,7 +1228,7 @@ const Product_Card = ({
                 key={item?.id}
                 onClick={() => handleClick(item?.id)}
               >
-                {getGoldType}
+                {getGoldType ?? 18}
               </div>
             ))}
           </div>

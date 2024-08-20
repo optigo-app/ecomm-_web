@@ -16,7 +16,9 @@ import {
   AccordionDetails,
   AccordionSummary,
   Checkbox,
+  Pagination,
   Slider,
+  useMediaQuery,
 } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -34,6 +36,7 @@ const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
+  const [diaCount, setDiaCount] = useState(0);
   const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
@@ -61,6 +64,8 @@ const DiamondFilter = () => {
     table: [0.0, 76.0],
     fluorescence: [],
   });
+  const maxwidth464px = useMediaQuery('(max-width:464px)')
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
@@ -111,29 +116,77 @@ const DiamondFilter = () => {
     }
   };
 
+
+  // const getDiamondData = async (shape) => {
+  //   setIsloding(true);
+  //   try {
+  //     const response = await DiamondListData(1, shape);
+  //     if (response && response.Data) {
+  //       let resData = response.Data?.rd;
+  //       console.log("diamondlistResponse", response.Data);
+  //       const Newmap = resData?.map((val, i) => {
+  //         return {
+  //           img: IMG,
+  //           vid: Video,
+  //           HaveCustomization: true,
+  //           ...val,
+  //         };
+  //       });
+  //       console.log(Newmap, "swdwkhdwkdbwkbd");
+  //       setDiamondData(Newmap);
+  //       let count = resData[0]?.icount
+  //       setDiaCount(count)
+  //       setIsloding(false);
+  //     } else {
+  //       console.warn("No data found in the response");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching diamond data:", error);
+  //   }
+  // };
+
+  const processDiamondData = (response) => {
+    if (response && response.Data) {
+      let resData = response.Data?.rd;
+      console.log("diamondlistResponse", response.Data);
+      const Newmap = resData?.map((val) => ({
+        img: IMG,
+        vid: Video,
+        HaveCustomization: true,
+        ...val,
+      }));
+      console.log(Newmap, "swdwkhdwkdbwkbd");
+      setDiamondData(Newmap);
+      let count = resData[0]?.icount;
+      setDiaCount(count);
+      setIsloding(false);
+    } else {
+      console.warn("No data found in the response");
+      setIsloding(false);
+    }
+  };
+
   const getDiamondData = async (shape) => {
     setIsloding(true);
     try {
-      const response = await DiamondListData(shape);
-      if (response && response.Data) {
-        let resData = response.Data?.rd;
-        console.log("diamondlistResponse", response.Data);
-        const Newmap = resData?.map((val, i) => {
-          return {
-            img: IMG,
-            vid: Video,
-            HaveCustomization: true,
-            ...val,
-          };
-        });
-        console.log(Newmap, "swdwkhdwkdbwkbd");
-        setDiamondData(Newmap);
-        setIsloding(false);
-      } else {
-        console.warn("No data found in the response");
-      }
+      const response = await DiamondListData(1, shape);
+      processDiamondData(response);
     } catch (error) {
       console.error("Error fetching diamond data:", error);
+      setIsloding(false);
+    }
+  };
+
+  const handlePageChange = async (event, newPage) => {
+    setCurrentPage(newPage);
+    setIsloding(true);
+    try {
+      const response = await DiamondListData(newPage, checkedItem);
+      processDiamondData(response);
+      window.scrollTo({ top: 320, behavior: 'smooth' });
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsloding(false);
     }
   };
 
@@ -157,7 +210,12 @@ const DiamondFilter = () => {
 
   const HandleDiamondRoute = (val) => {
     console.log("hsahdjash", val);
-    let encodeObj = compressAndEncode(JSON.stringify(val?.stockno));
+    const obj = {
+      a: val?.stockno,
+      b: val?.shapename,
+    }
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
     Navigate(navigateUrl);
@@ -220,9 +278,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -469,88 +526,109 @@ const DiamondFilter = () => {
         ) : (
           <>
             {diamondData?.length != 0 ? (
-              <div className="diamond_listing">
-                {diamondData?.map((val, i) => {
-                  const currentMediaType = ShowMedia[i] || "vid";
-                  const bannerImage = getBannerImage(i);
-                  return (
-                    <div key={i} className="diamond_card">
-                      <div className="media_frame">
-                        {bannerImage ? (
-                          <img
-                            src={bannerImage}
-                            alt="bannerImage"
-                            width={"100%"}
-                          />
-                        ) : (
+              <>
+                <div className="diamond_listing">
+                  {diamondData?.map((val, i) => {
+                    const currentMediaType = ShowMedia[i] || "vid";
+                    const bannerImage = getBannerImage(i);
+                    return (
+                      <div
+                        key={i}
+                        className="diamond_card"
+                        onClick={() => HandleDiamondRoute(val)}
+                      >
+                        <div className="media_frame">
+                          {bannerImage ? (
+                            <img src={bannerImage} alt="bannerImage" width={"100%"} />
+                          ) : (
+                            <>
+                              {currentMediaType === "vid" ? (
+                                <video
+                                  src={val?.vid}
+                                  width="100%"
+                                  ref={(el) => (videoRefs.current[i] = el)}
+                                  autoPlay={hoveredCard === i}
+                                  controls={false}
+                                  muted
+                                  onMouseOver={(e) => handleMouseMove(e, i)}
+                                  onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                />
+                              ) : (
+                                <img
+                                  className="dimond-info-img"
+                                  src={val?.img}
+                                  alt=""
+                                />
+                              )}
+                            </>
+                          )}
+                          {!bannerImage && (
+                            <>
+                              <div className="select_this_diamond_banner">
+                                <span>Select This Diamond</span>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                        {!bannerImage && (
                           <>
-                            {currentMediaType === "vid" ? (
-                              <video
-                                src={val?.vid}
-                                width="100%"
-                                ref={(el) => (videoRefs.current[i] = el)}
-                                autoPlay={hoveredCard === i}
-                                controls={false}
-                                muted
-                                onClick={() => HandleDiamondRoute(val)}
-                                onMouseOver={(e) => handleMouseMove(e, i)}
-                                onMouseLeave={(e) => handleMouseLeave(e, i)}
-                              />
-                            ) : (
-                              <img
-                                className="dimond-info-img"
-                                src={val?.img}
-                                alt=""
-                                onClick={() => HandleDiamondRoute(val)}
-                              />
-                            )}
-                          </>
-                        )}
-                        {!val?.Banner && (
-                          <>
-                            <div className="select_this_diamond_banner">
-                              <span onClick={() => HandleDiamondRoute(val)}>
-                                Select This Diamond
+                            <div className="toggle_btn">
+                              <span onClick={() => HandleMedia("img", i)}>
+                                <img
+                                  src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                                  alt=""
+                                />
                               </span>
+                              <span onClick={() => HandleMedia("vid", i)}>
+                                <SvgImg />
+                              </span>
+                            </div>
+                            <div className="price_details">
+                              <div className="title">
+                                <span>
+                                  {val?.shapename} <strong>{val?.carat}</strong>{" "}
+                                  CARAT {val?.colorname} {val?.clarityname}{" "}
+                                  {val?.cutname}
+                                </span>
+                              </div>
+                              <div className="pric">
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ??
+                                    storeInitData?.CurrencyCode}
+                                </span>
+                                <span> {val?.price}</span>
+                              </div>
                             </div>
                           </>
                         )}
                       </div>
-                      {val?.HaveCustomization && (
-                        <>
-                          <div className="toggle_btn">
-                            <span onClick={() => HandleMedia("img", i)}>
-                              <img
-                                src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
-                                alt=""
-                              />
-                            </span>
-                            <span onClick={() => HandleMedia("vid", i)}>
-                              <SvgImg />
-                            </span>
-                          </div>
-                          <div className="price_details">
-                            <div className="title">
-                              <span>
-                                {val?.shapename} <strong>{val?.carat}</strong>{" "}
-                                CARAT {val?.colorname} {val?.clarityname}{" "}
-                                {val?.cutname}
-                              </span>
-                            </div>
-                            <div className="pric">
-                              <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ??
-                                  storeInitData?.CurrencyCode}
-                              </span>
-                              <span> {val?.price}</span>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+                <div>
+                  {storeInitData?.IsProductListPagination == 1 &&
+                    Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBlock: "3%",
+                          width: '100%'
+                        }}
+                      >
+                        <Pagination
+                          count={Math.ceil(diaCount / storeInitData.PageSize)}
+                          size={maxwidth464px ? "small" : "large"}
+                          shape="circular"
+                          onChange={handlePageChange}
+                          page={currentPage}
+                          showFirstButton
+                          showLastButton
+                        />
+                      </div>
+                    )}
+                </div>
+              </>
             ) : (
               <div className="for_NoDataDiv">
                 No diamond found in this filter!

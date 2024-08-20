@@ -1,6 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const DiamondListData = async (
+    page,
     shape,
     stockno
 ) => {
@@ -14,10 +15,10 @@ export const DiamondListData = async (
 
     let packageId = data?.PackageId ?? 0
 
-    try {          
+    try {
         const combinedValue = JSON.stringify({
-            PageNo: "1",
-            PageSize: "1000",
+            PageNo: `${page ?? 1}`,
+            PageSize: `${storeInit?.PageSize ?? 50}`,
             OrderBy: "order by carat asc",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
             Customerid: `${customerId ?? 0}`,
