@@ -207,6 +207,12 @@ const DiamondFilter = () => {
     Navigate(navigateUrl);
   };
 
+  const getBannerImage = (index) => {
+    const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+    return index < 0 || (index >= 2 && (index - 2) % 16 === 0) ? bannerImage : null;
+  };
+  
+
   return (
     <>
       <ScrollTop />
@@ -367,6 +373,7 @@ const DiamondFilter = () => {
               <div className="diamond_listing">
                 {diamondData?.map((val, i) => {
                   const currentMediaType = ShowMedia[i] || "vid";
+                  const bannerImage = getBannerImage(i); 
                   return (
                     <div
                       key={i}
@@ -374,8 +381,8 @@ const DiamondFilter = () => {
                       onClick={() => HandleDiamondRoute(val)}
                     >
                       <div className="media_frame">
-                        {val?.Banner ? (
-                          <img src={val?.Banner} alt="" width={"100%"} />
+                        {bannerImage ? (
+                          <img src={bannerImage} alt="bannerImage" width={"100%"} />
                         ) : (
                           <>
                             {currentMediaType === "vid" ? (
