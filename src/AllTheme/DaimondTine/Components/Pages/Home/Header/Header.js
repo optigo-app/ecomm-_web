@@ -360,31 +360,31 @@ const Header = () => {
 
             setDrawerOpen(false);
 
-            // if (searchText) {
-            //     // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
+            if (searchText) {
+                // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
 
-            //     // const handleMoveToDetail = () => {
+                // const handleMoveToDetail = () => {
 
-            //     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-            //     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+                let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+                let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
-            //     let obj = {
-            //         a: "",
-            //         b: searchText,
-            //         m: loginInfo?.MetalId ?? storeInit?.MetalId,
-            //         d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
-            //         c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
-            //         f: {},
-            //     };
+                let obj = {
+                    a: "",
+                    b: searchText,
+                    m: loginInfo?.MetalId ?? storeInit?.MetalId,
+                    d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+                    c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+                    f: {},
+                };
 
-            //     let encodeObj = compressAndEncode(JSON.stringify(obj));
+                let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-            //     navigate(`/d/${searchText}?p=${encodeObj}`);
-            //     setSearchText("")
-            //     // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
+                navigate(`/d/${searchText}?p=${encodeObj}`);
+                setSearchText("")
+                // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
-            //     // }
-            // }
+                // }
+            }
         }
     };
     console.log('Drawer state:', drawerOpen);
@@ -887,7 +887,7 @@ const Header = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '33.33%', display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={() => setDrawerOpen(false)}>
+                                <IconButton onClick={() => { setSearchText(''); setDrawerOpen(false); }}>
                                     <CloseIcon />
                                 </IconButton>
                             </div>
@@ -897,7 +897,6 @@ const Header = () => {
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
-
 
                                 {islogin == true &&
                                     <Badge
