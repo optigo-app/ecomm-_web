@@ -26,6 +26,7 @@ import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 import Pako from "pako";
 import WebLoder from "../../WebLoder/WebLoder";
+import { DiamondFilterData } from "../../../../../../utils/API/DiamondStore/DiamondFilter";
 
 const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
@@ -36,6 +37,7 @@ const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
+  const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const { id } = useParams();
   const Navigate = useNavigate();
@@ -177,6 +179,20 @@ const DiamondFilter = () => {
     }
   };
 
+  const getDiamondFilterData = async () => {
+    setIsloding(true);
+    try {
+      const response = await DiamondFilterData();
+      if (response && response.Data) {
+        let resData = response.Data?.rd;
+        setDiamondFilterData(resData)
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsloding(false);
+    }
+  };
+
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
     setIsloding(true);
@@ -190,6 +206,9 @@ const DiamondFilter = () => {
     }
   };
 
+  useEffect(() => {
+    getDiamondFilterData();
+  }, [])
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape);
@@ -767,7 +786,7 @@ const SvgImg = () => (
 const CollectionPriceRange = forwardRef(
   ({ handleSliderChange, data, open }, ref) => {
     const handleSliderMouseDown = (event) => {
-      event.stopPropagation(); // Prevent click from propagating to parent div
+      event.stopPropagation();
     };
     return (
       <div
