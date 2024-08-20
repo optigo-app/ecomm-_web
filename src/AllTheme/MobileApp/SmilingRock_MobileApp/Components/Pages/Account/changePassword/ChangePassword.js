@@ -8,6 +8,7 @@ import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
 import MobViewHeader from "../MobViewHeader/MobViewHeader";
+import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 export default function ChangePassword() {
 
     const [password, setPassword] = useState('');
@@ -32,28 +33,6 @@ export default function ChangePassword() {
         setCustomerID(data?.id);
 
     }, []); // 
-
-
-
-    const handleInputChange = (e, setter, fieldName) => {
-        const { value } = e.target;
-        setter(value);
-        if (fieldName === 'confirmPassword') { // Handle confirm password validation
-            if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
-            } else if (value !== password) {
-                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
-            } else {
-                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
-            }
-        } else if (fieldName === 'oldPassword') {
-            if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
-            } else {
-                setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
-            }
-        }
-    };
 
     const validatePassword = (value) => {
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[^\w\d\s]).{8,}$/;
@@ -97,24 +76,9 @@ export default function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = {};
+        const { errors, isValid } = validateChangePassword({ oldPassword, password, confirmPassword });
 
-        if (!oldPassword.trim()) {
-            errors.oldPassword = 'Old Password is required';
-        }
-
-        if (!password.trim()) {
-            setPasswordError('Password is required');
-            errors.password = 'Password is required';
-        }
-
-        if (!confirmPassword.trim()) {
-            errors.confirmPassword = 'Confirm Password is required';
-        } else if (confirmPassword !== password) {
-            errors.confirmPassword = 'Passwords do not match';
-        }
-
-        if (Object.keys(errors).length === 0) {
+        if (isValid) {
 
             const hashedOldPassword = hashPasswordSHA1(oldPassword);
             const hashedPassword = hashPasswordSHA1(password);
@@ -190,7 +154,7 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={oldPassword}
-                    onChange={(e) => handleInputChange(e, setOldPassword, 'oldPassword')}
+                    onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
                     error={!!errors.oldPassword}
                     helperText={errors.oldPassword}
                     InputProps={{
@@ -244,7 +208,7 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={confirmPassword}
-                    onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
+                    onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
                     InputProps={{ // Set InputProps for icon
@@ -271,13 +235,3 @@ export default function ChangePassword() {
     )
 }
 
-// import React from 'react'
-// import "./changepassword.scss"
-
-// const ChangePassword = () => {
-//   return (
-//     <div>ChangePassword</div>
-//   )
-// }
-
-// export default ChangePassword
