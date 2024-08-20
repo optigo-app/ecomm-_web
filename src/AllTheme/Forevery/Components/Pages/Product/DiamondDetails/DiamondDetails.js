@@ -58,6 +58,7 @@ const DiamondDetails = () => {
 
     const [singleDiaData, setSingleDiaData] = useState([]);
     console.log('singleDiaData: ', singleDiaData);
+    const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
     const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
     const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
@@ -213,9 +214,9 @@ const DiamondDetails = () => {
     }
 
 
-    const getDiamondData = async (stockno) => {
+    const getDiamondData = async (stockno, shape) => {
         try {
-            const response = await DiamondListData(stockno);
+            const response = await DiamondListData(shape, stockno);
             if (response && response.Data) {
                 let resData = response.Data?.rd
                 setSingleDiaData(resData)
@@ -232,7 +233,8 @@ const DiamondDetails = () => {
         console.log("ee", navVal.split('=')[1])
         let decodeobj = decodeAndDecompress(navVal.split('=')[1]);
         console.log('decodeobj: ', decodeobj);
-        getDiamondData(decodeobj);
+        getDiamondData(decodeobj?.a, decodeobj?.b);
+        setShape(decodeobj?.b)
     }, [location?.pathname]);
 
     const handleButtonChange = async (value, stockno) => {
@@ -254,31 +256,6 @@ const DiamondDetails = () => {
         }
     }
 
-
-    // const BreadCumsObj = () => {
-    //     let BreadCum = location?.search.split("?p=")[1];
-    //     let decodeobj = decodeAndDecompress(BreadCum);
-
-    //     const values = BreadCum[0].split(',');
-    //     const labels = BreadCum[1].split(',');
-
-    //     const updatedBreadCum = labels.reduce((acc, label, index) => {
-    //         acc[label] = values[index] || '';
-    //         return acc;
-    //     }, {});
-
-    //     const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-    //         acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
-    //         acc[`FilterVal${index === 0 ? '' : index}`] = value;
-    //         return acc;
-    //     }, {});
-
-    //     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-
-    //     result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
-
-    //     return result
-    // }
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -350,60 +327,6 @@ const DiamondDetails = () => {
                 }
             }
         }
-    }
-
-
-    const handleBreadcums = (mparams) => {
-
-        let key = Object?.keys(mparams)
-        let val = Object?.values(mparams)
-
-        let KeyObj = {};
-        let ValObj = {};
-
-        key.forEach((value, index) => {
-            let keyName = `FilterKey${index === 0 ? '' : index}`;
-            KeyObj[keyName] = value;
-        });
-
-        val.forEach((value, index) => {
-            let keyName = `FilterVal${index === 0 ? '' : index}`;
-            ValObj[keyName] = value;
-        });
-
-        let finalData = { ...KeyObj, ...ValObj }
-
-        const queryParameters1 = [
-            finalData?.FilterKey && `${finalData.FilterVal}`,
-            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        ].filter(Boolean).join('/');
-
-        const queryParameters = [
-            finalData?.FilterKey && `${finalData.FilterVal}`,
-            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        ].filter(Boolean).join(',');
-
-        const otherparamUrl = Object.entries({
-            b: finalData?.FilterKey,
-            g: finalData?.FilterKey1,
-            c: finalData?.FilterKey2,
-        })
-            .filter(([key, value]) => value !== undefined)
-            .map(([key, value]) => value)
-            .filter(Boolean)
-            .join(',');
-
-        let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-
-        // const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-        // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
-
-        // navigate(url);
-
-        // console.log("mparams", KeyObj, ValObj)
-
     }
 
     useEffect(() => {
@@ -714,7 +637,6 @@ const DiamondDetails = () => {
                         <div className="for_DiamondDet_right_prodDetails">
                             <div className="for_DiamondDet_breadcrumbs">
                                 <div className="for_DiamondDet_breadcrumbs">
-                                    {/* {IsBreadCumShow && ( */}
                                     <div
                                         className="for_breadcrumbs"
                                         style={{ marginLeft: "3px", cursor: 'pointer' }}
@@ -726,69 +648,19 @@ const DiamondDetails = () => {
                                         >
                                             {"Home / "}{" "}
                                         </span>
-                                        {/* {path?.menuname && ( */}
                                         <span
-                                            // onClick={() =>
-                                            //     handleBreadcums({
-                                            //         [path?.FilterKey]:
-                                            //             path?.FilterVal,
-                                            //     })
-                                            // }
                                             onClick={() => {
-                                                navigate("/certified-loose-lab-grown-diamonds/diamond");
+                                                navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
                                             }}
                                         >
-                                            {/* {path?.menuname} */}
                                             {`Certified diamond`}
                                         </span>
-                                        {/* )} */}
-
-                                        {/* {path?.FilterVal1 && ( */}
                                         <span
-                                            onClick={() =>
-                                                handleBreadcums({
-                                                    [path?.FilterKey]:
-                                                        path?.FilterVal,
-                                                    [path?.FilterKey1]:
-                                                        path?.FilterVal1,
-                                                })
-                                            }
                                         >
-                                            {/* {` / ${ path?.FilterVal1 } `} */}
                                             {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
                                         </span>
-                                        {/* )} */}
 
-                                        {path?.FilterVal2 && (
-                                            <span
-                                                onClick={() =>
-                                                    handleBreadcums({
-                                                        [path?.FilterKey]:
-                                                            path?.FilterVal,
-                                                        [path?.FilterKey1]:
-                                                            path?.FilterVal1,
-                                                        [path?.FilterKey2]:
-                                                            path?.FilterVal2,
-                                                    })
-                                                }
-                                            >
-                                                {` / ${path?.FilterVal2} `}
-                                            </span>
-                                        )}
-                                        {/* {BreadCumsObj()?.menuname && (
-                                                <span
-                                                    onClick={() =>
-                                                        handleBreadcums({
-                                                            [BreadCumsObj()?.FilterKey]:
-                                                                BreadCumsObj()?.FilterVal,
-                                                        })
-                                                    }
-                                                >
-                                                    {` / ${ BreadCumsObj()?.menuname } `}
-                                                </span>
-                                            )} */}
                                     </div>
-                                    {/* )} */}
                                 </div>
                                 <div className="for_DiamondDet_title_main_div">
                                     <div className="for_DiamondDet_title_div">

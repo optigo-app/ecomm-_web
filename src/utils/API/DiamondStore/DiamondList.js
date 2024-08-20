@@ -14,7 +14,7 @@ export const DiamondListData = async (
 
     let packageId = data?.PackageId ?? 0
 
-    try {          
+    try {
         const combinedValue = JSON.stringify({
             PageNo: "1",
             PageSize: "1000",

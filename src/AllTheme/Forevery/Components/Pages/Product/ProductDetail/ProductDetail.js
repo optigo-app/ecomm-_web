@@ -234,7 +234,7 @@ const ProductDetail = () => {
 
 
   useEffect(() => {
-    let navVal = location?.search.split("?p=")[1];
+    let navVal = location?.pathname.split('/')[3].split('=')[1];
     let decodeobj = decodeAndDecompress(navVal);
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -381,7 +381,8 @@ const ProductDetail = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = location?.search.split("?p=")[1];
+    let BreadCum = location?.pathname.split('/')[3].split('=')[1];
+    console.log('BreadCum: ', BreadCum);
     let decodeobj = decodeAndDecompress(BreadCum);
 
     const values = BreadCum[0].split(',');
@@ -406,7 +407,7 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    let navVal = location?.search.split("?p=")[1];
+    let navVal = location?.pathname.split('/')[3].split('=')[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
     console.log('decodeobj: ', decodeobj);
@@ -541,7 +542,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location?.key]);
+  }, [location?.pathname]);
 
   const decodeAndDecompress = (encodedString) => {
     try {
