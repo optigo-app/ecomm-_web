@@ -1,7 +1,7 @@
 .orderHistory_acc{
     // border: 1px solid black;
     padding: 10px;
- 
+    
     
     .orderImgAcc{
         height: 100%;
@@ -99,8 +99,11 @@
     .muiRootCartDT{
         padding: 15px !important;
     }
-
+    .outerCardDT{
+        margin-top: 1% ;
+    }
  @media (max-width:788px), (max-width:790px), (max-width:805px){
+    
     .wdate_smr_acc_noh{
         width: 30% !important;
     }
@@ -136,9 +139,13 @@
     .fs_head_acc_tax{
         font-size: 10px !important;
     }
+    .outerCardDT{
+        margin-top: 2% ;
+    }
  }
 
  @media (max-width:756px){
+    
     .wdate_smr_acc_noh{
         width: 26% !important;
     }
@@ -148,8 +155,12 @@
     .wprice_smr_acc_noh{
         width: 37% !important;
     }
+    .outerCardDT{
+        margin-top: 3% ;
+    }
  }
  @media (max-width:720px){
+    
     .wdate_smr_acc_noh{
         width: 22% !important;
     }
@@ -173,6 +184,9 @@
     .fs_head_acc_tax{
         font-size: 10px !important;
     }
+    .outerCardDT{
+        margin-top: 4% ;
+    }
  }
 
 
@@ -192,6 +206,9 @@
     .fs_head_acc_tax{
         font-size: 9px !important;
     }
+    .outerCardDT{
+        margin-top: 5% ;
+    }
  }
  @media (max-width:562px){
     .wdate_smr_acc_noh{
@@ -209,6 +226,9 @@
     .fs_head_acc_tax{
         font-size: 8px !important;
     }
+    .outerCardDT{
+        margin-top: 5% ;
+    }
  }
  @media(max-width:556px){
     .fs_head_acc{
@@ -216,6 +236,9 @@
     }
     .fs_head_acc_tax{
         font-size: 8px !important;
+    }
+    .outerCardDT{
+        margin-top: 5% ;
     }
  }
  @media (max-width:548px){
@@ -254,6 +277,9 @@
     .fs_head_acc_tax{
         font-size: 8px !important;
     }
+    .outerCardDT{
+        margin-top: 15% ;
+    }
  }
 
  @media (max-width:484px){
@@ -266,6 +292,9 @@
     }
     .fs_head_acc_tax{
         font-size: 7px !important;
+    }
+    .outerCardDT{
+        margin-top: 15% ;
     }
  }
  @media (max-width:480px){
@@ -340,6 +369,9 @@
     .fs_head_acc_tax{
         font-size: 7px !important;
     }
+    .outerCardDT{
+        margin-top: 15% ;
+    }
  }
  @media (max-width:400px){
     .minH_box_acc{
@@ -350,6 +382,9 @@
     }
     .fs_head_acc_tax{
         font-size: 7px !important;
+    }
+    .outerCardDT{
+        margin-top: 15% ;
     }
  }
 
@@ -392,6 +427,11 @@
     .fs_head_acc_tax{
         font-size: 7px !important;
     }
+    .outerCardDT{
+        margin-top: 15% ;
+    }
+
+  
  }
  @media (max-width:320px),(max-width:360px),(max-width:365px){
     .wdate_smr_acc_noh{
@@ -458,6 +498,11 @@
     .fs_head_acc_tax{
         font-size: 7px !important;
     }
+    .outerCardDT{
+        margin-top: 15% ;
+    }
+
+
  }
 
 
