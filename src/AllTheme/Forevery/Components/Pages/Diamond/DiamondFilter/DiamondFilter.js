@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, forwardRef } from "react";
 import "./DiamondFilter.scss";
-import { DiamondLists, DiamondProductList } from "../../../data/NavbarMenu";
-import { FaAngleDown, FaChevronDown } from "react-icons/fa";
+import { DiamondLists } from "../../../data/NavbarMenu";
+import { FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
 import {
   formatter,
@@ -10,7 +10,11 @@ import {
 import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import Faq from "../../ReusableComponent/Faq/Faq";
-import { AdvancesfiltersOption, faqList } from "../../../data/dummydata";
+import {
+  AdvancesfiltersOption,
+  sortingOptions,
+  faqList,
+} from "../../../data/dummydata";
 import {
   Accordion,
   AccordionDetails,
@@ -39,6 +43,7 @@ const DiamondFilter = () => {
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
+  const dropdownRefs = useRef({});
   const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
@@ -50,6 +55,10 @@ const DiamondFilter = () => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
   const [storeInitData, setStoreInitData] = useState();
+  const [selectedsort, setselectedsort] = useState({
+    title: "Price",
+    sort: "Low to High",
+  });
   const [sliderState, setSliderState] = useState({
     price: [5000, 250000],
     Carat: [0.96, 41.81],
@@ -66,13 +75,29 @@ const DiamondFilter = () => {
     table: [0.0, 76.0],
     fluorescence: [],
   });
-  const maxwidth464px = useMediaQuery('(max-width:464px)')
+  const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
+  }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        Object.values(dropdownRefs.current).every(
+          (ref) => ref && !ref.contains(event.target)
+        )
+      ) {
+        setOpen(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   useEffect(() => {
@@ -84,6 +109,7 @@ const DiamondFilter = () => {
   const handleOpen = (title) => {
     setOpen((prevOpen) => (prevOpen === title ? null : title));
   };
+
   const handleCheckboxChange = (name) => {
     const shape = location?.pathname?.split("/")[3];
     if (name) {
@@ -118,6 +144,17 @@ const DiamondFilter = () => {
     }
   };
 
+  const [sortValue, setSortValue] = useState("");
+
+  const handleSortChange = (value, label, categories) => {
+    setSortValue(value);
+    console.log("Selected Sort Value:", value);
+    console.log(label, "eikedekdb", categories);
+    setselectedsort({
+      title: categories,
+      sort: label,
+    });
+  };
 
   // const getDiamondData = async (shape) => {
   //   setIsloding(true);
@@ -199,7 +236,7 @@ const DiamondFilter = () => {
     try {
       const response = await DiamondListData(newPage, checkedItem);
       processDiamondData(response);
-      window.scrollTo({ top: 320, behavior: 'smooth' });
+      window.scrollTo({ top: 320, behavior: "smooth" });
     } catch (error) {
       console.error("Error fetching diamond data:", error);
       setIsloding(false);
@@ -209,6 +246,7 @@ const DiamondFilter = () => {
   useEffect(() => {
     getDiamondFilterData();
   }, [])
+  
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape);
@@ -232,7 +270,7 @@ const DiamondFilter = () => {
     const obj = {
       a: val?.stockno,
       b: val?.shapename,
-    }
+    };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
@@ -246,13 +284,30 @@ const DiamondFilter = () => {
       : null;
   };
 
+  // const handleSliderChange = (sliderType, newValue) => {
+  //   setSliderState((prevState) => ({
+  //     ...prevState,
+  //     [sliderType]: newValue,  
+  //   }));
+  //   console.log(sliderState);
+  // };
+
   const handleSliderChange = (sliderType, newValue) => {
     setSliderState((prevState) => ({
       ...prevState,
       [sliderType]: newValue,
     }));
+    const pathname = location?.pathname.split("/");
+    const sliderParams = Object?.entries(sliderState)?.map(([key, value]) => {
+      return `${key}/${value[0]},${value[1]}`;
+    }).join('/');
+    const newPath = `${pathname?.slice(0, 4)?.join('/')}/${sliderParams}`;
+    Navigate(newPath);
+  
     console.log(sliderState);
   };
+  console.log("jksdajkhdhkashd", location);
+  
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
@@ -297,8 +352,9 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
-                    }`}
+                  className={`shape_card ${
+                    checkedItem === val?.name ? "active-checked" : ""
+                  }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -348,6 +404,7 @@ const DiamondFilter = () => {
             </span>
             <CollectionPriceRange
               data={sliderState.price}
+              ref={(el) => (dropdownRefs.current["price"] = el)}
               handleSliderChange={(newValue) =>
                 handleSliderChange("price", newValue)
               }
@@ -363,6 +420,7 @@ const DiamondFilter = () => {
                 handleSliderChange("Color", newValue)
               }
               data={sliderState?.Color}
+              ref={(el) => (dropdownRefs.current["Color"] = el)}
               open={open === "Color"}
             />
           </div>
@@ -376,6 +434,7 @@ const DiamondFilter = () => {
                 handleSliderChange("Carat", newValue)
               }
               data={sliderState?.Carat}
+              ref={(el) => (dropdownRefs.current["Carat"] = el)}
             />
           </div>
           <div className="for_Clarity">
@@ -387,6 +446,7 @@ const DiamondFilter = () => {
               handleSliderChange={(newValue) =>
                 handleSliderChange("Clarity", newValue)
               }
+              ref={(el) => (dropdownRefs.current["Clarity"] = el)}
               data={sliderState?.Clarity}
             />
           </div>
@@ -400,6 +460,7 @@ const DiamondFilter = () => {
               handleSliderChange={(newValue) =>
                 handleSliderChange("Cut", newValue)
               }
+              ref={(el) => (dropdownRefs.current["Cut"] = el)}
             />
           </div>
         </div>
@@ -533,7 +594,21 @@ const DiamondFilter = () => {
               </p>
             </div>
             <div className="sorting_options">
-              <span>Sort By | Price: Low to High</span>
+              <span
+                onClick={() => handleOpen("Sort")}
+                className="title_for_sort"
+              >
+                Sort By |
+                <div>
+                  <span> {selectedsort?.title} </span> {selectedsort?.sort}
+                </div>
+              </span>
+              <SortingOption
+                ref={dropdownRefs.current}
+                open={open === "Sort"}
+                selectedValues={" Price: Low to High"}
+                onSortChange={handleSortChange}
+              />
             </div>
           </div>
           <hr />
@@ -554,11 +629,14 @@ const DiamondFilter = () => {
                       <div
                         key={i}
                         className="diamond_card"
-                        onClick={() => HandleDiamondRoute(val)}
                       >
                         <div className="media_frame">
                           {bannerImage ? (
-                            <img src={bannerImage} alt="bannerImage" width={"100%"} />
+                            <img
+                              src={bannerImage}
+                              alt="bannerImage"
+                              width={"100%"}
+                            />
                           ) : (
                             <>
                               {currentMediaType === "vid" ? (
@@ -571,12 +649,14 @@ const DiamondFilter = () => {
                                   muted
                                   onMouseOver={(e) => handleMouseMove(e, i)}
                                   onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               ) : (
                                 <img
                                   className="dimond-info-img"
                                   src={val?.img}
                                   alt=""
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               )}
                             </>
@@ -632,7 +712,7 @@ const DiamondFilter = () => {
                           display: "flex",
                           justifyContent: "center",
                           marginBlock: "3%",
-                          width: '100%'
+                          width: "100%",
                         }}
                       >
                         <Pagination
@@ -1064,6 +1144,52 @@ const CollectionCut = forwardRef(({ handleSliderChange, data, open }, ref) => {
           }}
         />
       </div>
+    </div>
+  );
+});
+
+const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="drop-list--1CjuW"
+      style={{
+        height: open ? "300px" : "0px",
+        overflow: "hidden",
+      }}
+    >
+      {sortingOptions.map((item, index) => (
+        <li key={index} className="main_sort_li">
+          <div className="drop-category--35Pnq">{item.category}</div>
+          <div className="drop-sort-options">
+            {item.options ? (
+              item.options.map((option, idx) => (
+                <div
+                  key={idx}
+                  data-sort={option.value}
+                  className="drop-item-container-grouped--3uDXx"
+                  onClick={() =>
+                    onSortChange(option?.value, option?.label, item?.category)
+                  }
+                >
+                  <div className="drop-item-grouped--2w1qo">{option.label}</div>
+                </div>
+              ))
+            ) : (
+              <div
+                data-sort={item.value}
+                className="drop-item-container-grouped--3uDXx"
+                onClick={() =>
+                  onSortChange(item?.value, item?.options, item?.category)
+                }
+                hidden
+              >
+                <div className="drop-item-grouped--2w1qo">{item.category}</div>
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
     </div>
   );
 });
