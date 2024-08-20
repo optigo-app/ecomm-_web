@@ -23,6 +23,7 @@ const WishItem = ({
     handleWishlistToCart,
     handleMoveToDetail
 }) => {
+    const [loding, setloding] = useState(false);
     const [imageSrc, setImageSrc] = useState(noImageFound);
     const [storeInitData, setStoreInitData] = useState();
     const setWishlistCount = useSetRecoilState(dt_WishCount);
@@ -36,11 +37,13 @@ const WishItem = ({
     }, [])
 
     const handleWishlistToCartFun = async (item) => {
+        setloding(true);
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
             toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCount(res?.cartcount);
+                setloding(false);
             });
         }
     };
@@ -89,7 +92,7 @@ const WishItem = ({
             </td>
             <td className="total">
                 <div className='dt_Wl-CartbtnDiv'>
-                    <button className='dt_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
+                    <button disabled={loding == true} className='dt_Wl-Cartbtn' onClick={() => handleWishlistToCartFun(item)}>
                         {(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}
                     </button>
 

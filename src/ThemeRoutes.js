@@ -114,7 +114,7 @@ export default function ThemeRoutes() {
               setFavIcon(favIcon);
               window.scrollTo({
                 top: 0,
-                left: 0,
+                left: 0,  
                 behavior: "smooth",
               });
             }

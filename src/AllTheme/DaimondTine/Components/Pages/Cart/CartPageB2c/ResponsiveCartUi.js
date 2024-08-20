@@ -61,7 +61,6 @@ const ResponsiveCartUi = (
     };
 
     useEffect(() => {
-        debugger
         if (cartData?.ImageCount > 0) {
             CartCardImageFunc(cartData).then((src) => {
                 setImageSrc(src);
