@@ -472,7 +472,7 @@ const Sales = () => {
             </Box>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer className='salesPartTable'>
+                    <TableContainer className='salesPartTable salesPartTable_DT'>
                         <Table
                             sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
                             aria-labelledby="tableTitle"
@@ -506,13 +506,14 @@ const Sales = () => {
                                                 scope="row"
                                                 padding="none"
                                                 align="center"
+                                                className='tbCellDT'
                                             >
                                                 {page * rowsPerPage + index + 1}
                                             </TableCell>
-                                            <TableCell align="center">{row.Date}</TableCell>
-                                            <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                            <TableCell align="center" className='tbCellDT'>{row.Date}</TableCell>
+                                            <TableCell align="center" className='tbCellDT'>{row.StockDocumentNo}</TableCell>
+                                            <TableCell align="right" className='tbCellDT'>{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="center" className='tbCellDT'> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon   />
                                                         </div></TableCell>
                                         </TableRow>

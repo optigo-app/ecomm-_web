@@ -15,6 +15,12 @@ const DiamondPage = () => {
     fontWeight: breadCrumb === "settings" && "700",
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  }, []);
   return (
     <>
       <div className="for_DiamondPage">
@@ -27,7 +33,6 @@ const DiamondPage = () => {
             setswap={setswap}
           />
         </div>
-        <Outlet />
       </div>
     </>
   );
@@ -74,7 +79,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-1"
           onClick={() => {
-            Navigation(`diamond`);
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
             setswap("diamond");
           }}
         >
@@ -86,7 +91,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-2"
           onClick={() => {
-            Navigation(`settings`);
+            Navigation(`/certified-loose-lab-grown-diamonds/settings`);
             setswap("settings");
           }}
         >
@@ -99,7 +104,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-1"
           onClick={() => {
-            Navigation(`diamond`);
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
             setswap("diamond");
           }}
         >
@@ -111,7 +116,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         <div
           className="step d-2"
           onClick={() => {
-            Navigation(`settings`);
+            Navigation(`/certified-loose-lab-grown-diamonds/settings`);
             setswap("settings");
           }}
         >
@@ -121,7 +126,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         </div>
       )}
       <div className="step d-3">
-        <span style={StyleCondition} onClick={() => Navigation(`ring`)}>
+        <span style={StyleCondition} onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/ring`)}>
           <img src={StepImages[2]?.img} alt="" /> Rings
         </span>
       </div>

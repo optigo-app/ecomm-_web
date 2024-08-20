@@ -136,7 +136,7 @@ export default function ContactUs() {
                         </div> */}
                         <div className='dt_Fo_contactBox1'>
                             <form onSubmit={handleSubmit} style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                                <div>
+                                <div className='dt_ContactMobile_ShowDiv'>
                                     <p className='Fo-contactBox1Title'>FULL NAME</p>
                                     <input
                                         type='text'
@@ -147,7 +147,7 @@ export default function ContactUs() {
                                     />
                                     {errors.fullName && <p className='error'>{errors.fullName}</p>}
                                 </div>
-                                <div style={{ marginTop: '25px' }}>
+                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>COMPANY NAME</p>
                                     <input
                                         type='text'
@@ -158,7 +158,7 @@ export default function ContactUs() {
                                     />
                                     {errors.companyName && <p className='error'>{errors.companyName}</p>}
                                 </div>
-                                <div style={{ marginTop: '25px' }}>
+                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
                                     <input
                                         type='text'
@@ -169,7 +169,7 @@ export default function ContactUs() {
                                     />
                                     {errors.emailAddress && <p className='error'>{errors.emailAddress}</p>}
                                 </div>
-                                <div style={{ marginTop: '25px' }}>
+                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
                                     <input
                                         type='text'
@@ -180,7 +180,7 @@ export default function ContactUs() {
                                     />
                                     {errors.phoneNumber && <p className='error'>{errors.phoneNumber}</p>}
                                 </div>
-                                <div style={{ marginTop: '25px' }}>
+                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>SUBJECT</p>
                                     <input
                                         type='text'
@@ -191,7 +191,7 @@ export default function ContactUs() {
                                     />
                                     {errors.subject && <p className='error'>{errors.subject}</p>}
                                 </div>
-                                <div style={{ marginTop: '25px' }}>
+                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>MESSAGE</p>
                                     <input
                                         type='text'
@@ -206,7 +206,7 @@ export default function ContactUs() {
                             </form>
                         </div>
                         <div className='Fo-contactBox2'>
-                            <p className='dt_contactBox2Title'>Have questions?</p>
+                            <p className='dt_contactBox2TitleHave'>Have questions?</p>
 
                             <p style={{
                                 fontSize: '15px',
