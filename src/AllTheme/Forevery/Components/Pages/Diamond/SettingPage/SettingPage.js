@@ -1,10 +1,14 @@
-import React from 'react'
-import './SettingPage.scss'
+import React from "react";
+import "./SettingPage.scss";
+import DiamondPage from "..";
 
 const SettingPage = () => {
   return (
-    <div className='for_setting_page'>SettingPage</div>
-  )
-}
+    <>
+      <DiamondPage />
+      <div className="for_setting_page">SettingPage</div>
+    </>
+  );
+};
 
-export default SettingPage
+export default SettingPage;
