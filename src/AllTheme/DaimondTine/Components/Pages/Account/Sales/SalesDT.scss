@@ -62,7 +62,7 @@
     .salesPartTable {
         display: grid;
         flex-direction: column;
-        min-width: max-content;
+        min-width: 100% !important;
         width: 100%;
     }
 
@@ -140,4 +140,10 @@
     .w_60_sale{
         width: 60%;
     }
+    .salesPartTable_DT .MuiTableContainer-root{
+        min-width: 100% !important;
+    }
+    // .tbCellDT .MuiTableCell-root{
+    //     min-width: max-content !important;
+    // }
 }

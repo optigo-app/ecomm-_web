@@ -121,15 +121,16 @@
 
         .FooterLinkMain {
             margin-inline: 0px !important;
+            padding-inline: 5%!important;
         }
 
-        .FoooterText {
-            width: 100% !important;
-        }
+        // .FoooterText {
+        //     width: 100% !important;
+        // }
 
     }
 
-    @media screen and (max-width: 650px) {
+    @media screen and (max-width: 850px) {
 
         .FooterLinkMain {
             display: flex !important;

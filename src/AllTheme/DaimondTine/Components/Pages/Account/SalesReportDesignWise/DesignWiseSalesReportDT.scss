@@ -110,3 +110,9 @@
 /* .designWiseSalesReportProduct *{
     font-size: 14px !important;
 } */
+
+@media screen and (max-width:320px), (max-width:360px),(max-width:400px), (max-width:430px), (max-width:576px), (max-width:620px){
+    .desWSR_DT_mt{
+        margin-top: 5% !important;
+    }
+}

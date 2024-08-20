@@ -548,7 +548,7 @@ const handleBlurGrossWt = (index) => (event) => {
 
     return (
         <Box className="designWiseSalesReport">
-            <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }} className="desWSR_DT_mt">
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                     <Button variant="contained" sx={{ background: "#f0e0e0" }} className='muiSmilingRocksBtnDT' onClick={eve => resetAllFilters(eve)}>All</Button>
                 </Box>
