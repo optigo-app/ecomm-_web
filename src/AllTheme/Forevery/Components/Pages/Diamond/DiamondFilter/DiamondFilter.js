@@ -336,7 +336,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
           {diamondData?.map((val, i) => {
             const currentMediaType = ShowMedia[i] || "vid";
             return (
-              <div key={i} className="diamond_card" onClick={() => HandleDiamondRoute(val)}>
+              <div key={i} className="diamond_card" >
                 <div className="media_frame">
                   {val?.Banner ? (
                     <img src={val?.Banner} alt="" width={"100%"} />
@@ -358,6 +358,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
                           className="dimond-info-img"
                           src={val?.img}
                           alt=""
+                          onClick={() => HandleDiamondRoute(val)}
                         />
                       )}
                     </>
