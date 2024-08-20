@@ -377,6 +377,12 @@
     .smr_lb3designList_title {
       margin-left: 0px !important;
     }
+
+    .smr1_lookBookImgDeatilSub {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 
   @media screen and (max-width: 450px) {
@@ -390,14 +396,11 @@
 
     .smrMA_lookbookDeatilShow {
       font-size: 11px !important;
-      text-align: center !important;
+      // text-align: center !important;
       width: 100% !important;
     }
 
-    .smr_lookBookImgDeatilSub {
-      display: flex;
-      justify-content: space-between;
-    }
+  
 
     .smr_lookBookCategoryPoupuBox {
       width: 90% !important;

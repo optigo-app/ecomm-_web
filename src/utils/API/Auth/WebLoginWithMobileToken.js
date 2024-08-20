@@ -7,7 +7,6 @@ export const WebLoginWithMobileToken = async (ismobiletoke) => {
         const combinedValue = JSON.stringify({
             userid: '', mobileno: '', pass: '', mobiletoken: `${ismobiletoke}`, FrontEnd_RegNo: ''
         });
-        console.log('mobilereeeeeeee combinedValue', combinedValue)
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBLOGINMOBILETOKEN\"}",
