@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Lookbook.modul.scss";
 import gradientColors from "./color.json"
 import {
@@ -81,6 +81,7 @@ const Lookbook = () => {
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSelectAll, setShowSelectAll] = useState(false);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -484,13 +485,58 @@ const Lookbook = () => {
 
   const [dataKey, seyDataKey] = useState(null);
 
+  const imageRefs = useRef([]);
+  
+  const scrollIntoView = (index) => {
+    if (imageRefs.current[index]) {
+      const image = imageRefs.current[index];
+      const imageRect = image.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate the scroll position to make the image fully visible
+      const scrollPosition = window.scrollY + imageRect.top - (viewportHeight - imageRect.height) / 2;
+      
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+
   const handleHoverImages = (data) => {
+
+    if (imageRefs.current[data]) {
+      const image = imageRefs.current[data];
+      const imageRect = image.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Check if the image is partially visible
+      if (imageRect.bottom > 0 && imageRect.top < viewportHeight) {
+        if (imageRect.height > viewportHeight) {
+          // Image is taller than the viewport
+          scrollIntoView(data);
+        } else if (imageRect.top < 0 || imageRect.bottom > viewportHeight) {
+          // Image is partially visible
+          scrollIntoView(data);
+        }
+      }
+    }
+
+
     if (dataKey == data) {
       seyDataKey(null);
     } else {
       seyDataKey(data);
     }
   };
+
+  const addImageRef = (el) => {
+    if (el && !imageRefs.current.includes(el)) {
+      imageRefs.current.push(el);
+    }
+  };
+
 
   const [selectedValue, setSelectedValue] = useState(1);
   // const handleChange = (event) => {
@@ -841,7 +887,7 @@ const Lookbook = () => {
                 style={{ height: "25px", width: "25px", color: "#000000ab" }}
               />
             </div>
-            <div style={{display: 'flex', justifyContent: 'flex-end', width:'100%'}}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
               {showSelectAll && (
                 <button
                   variant="contained"
@@ -1258,7 +1304,8 @@ const Lookbook = () => {
                           style={{
                             // display: "flex",
                             position: 'relative',
-                            height: dataKey == index ? '250px' : '100%'
+                            // height: dataKey == index ? '250px' : '100%'
+                            height: '100%'
                           }}
                         >
                           {ProdCardImageFunc(slide) ? (
@@ -1267,16 +1314,18 @@ const Lookbook = () => {
                               loading="lazy"
                               src={ProdCardImageFunc(slide)}
                               alt={`Slide ${index}`}
+                              ref={addImageRef}
                               onClick={() => handleHoverImages(index)}
                               style={{
-                                height: dataKey == index ? "250px" : "100%",
+                                height: "100%",
+                                // height: dataKey == index ? "250px" : "100%",
                                 cursor: "pointer",
                               }}
                             />
                           ) : (
                             <div
                               style={{
-                                height: dataKey == index ? "100%" : "250px",
+                                height:"100%" ,
                                 width: "100%",
                                 ...getRandomBgColor(index),
                                 display: "flex",
@@ -1292,7 +1341,7 @@ const Lookbook = () => {
                             {slide?.designsetno}
                           </p>
                           {dataKey == index &&
-                            <>
+                            <div style={{position: 'absolute', bottom: '0px', backgroundColor: 'white', width: '100%'}}>
                               <div
                                 className="smr_lookBookImgDeatil"
                                 style={{
@@ -1301,7 +1350,7 @@ const Lookbook = () => {
                                   margin: "5px",
                                 }}
                               >
-                                <p className="smrMA_lookbookDeatilShow" style={{ fontSize: "13px", margin: "2px" }}>
+                                <p className="smrMA_lookbookDeatilShow" style={{ fontSize: "13px", margin: "0px" }}>
                                   DWT:{" "}
                                   {calculateTotalUnitCostWithMarkUpDwt(
                                     JSON.parse(slide.Designdetail)
@@ -1316,7 +1365,7 @@ const Lookbook = () => {
                                   ).toFixed(3)}{" "}
                                 </p>
                                 <div
-                                  className="smr_lookBookImgDeatilSub"
+                                  className="smr1_lookBookImgDeatilSub"
                                   style={{ display: "flex", alignItems: "center" }}
                                 >
                                   <p
@@ -1414,7 +1463,7 @@ const Lookbook = () => {
                                   ))}
                                 </Swiper>
                               </div>
-                            </>
+                            </div>
                           }
                         </div>
                       </div>

@@ -48,6 +48,14 @@
         margin: 15px 0px 0px 0px;
     }
 
+    .dt_contactBox2TitleHave {
+        font-family: "Poppins", sans-serif;
+        font-size: 23px;
+        font-weight: 500;
+        color: #7d7f85;
+        margin: 0px;
+    }
+
     .dt_contactBox1BtnSub {
         height: 45px;
         width: 250px;
@@ -86,29 +94,40 @@
         }
     }
 
+    @media screen and (max-width: 1850px) {
+        .dt_contactus_map {
+            width: 350px;
+            height: 400px;
+        }
+    }
+
     @media screen and (max-width: 1800px) {
         .dt_Fo_contactBox1 {
             padding-left: 0px !important;
         }
+
+
     }
 
-    @media screen and (max-width:1440px) {
 
-
-        .Fo-contactBox2 {
-            width: 40%;
-            margin: 0px;
-            margin-top: 15%;
-            margin-left: 100px;
+    @media screen and (max-width:1250px) {
+        .dt_Sub_contactMain {
+            margin-inline: 5% !important;
         }
+
     }
 
     @media screen and (max-width:1000px) {
+
+        .dt_ContactMobile_ShowDiv {
+            width: 100% !important;
+        }
 
         .dt_contactBoxMain {
             display: flex;
             flex-direction: column;
             padding-inline: 5% !important;
+            padding-bottom: 5%!important;
         }
 
         .dt_MainTitle_contactUs {
@@ -145,7 +164,7 @@
     @media screen and (max-width:1000px) {
         .dt_contactus_map {
             height: 350px !important;
-            width: 90% !important;
+            width: 100% !important;
         }
     }
 }

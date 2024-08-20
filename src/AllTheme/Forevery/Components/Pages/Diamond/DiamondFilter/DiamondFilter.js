@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, forwardRef } from "react";
 import "./DiamondFilter.scss";
-import { DiamondLists, DiamondProductList } from "../../../data/NavbarMenu";
-import { FaAngleDown, FaChevronDown } from "react-icons/fa";
+import { DiamondLists } from "../../../data/NavbarMenu";
+import { FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
 import {
   formatter,
@@ -10,12 +10,19 @@ import {
 import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import Faq from "../../ReusableComponent/Faq/Faq";
-import { faqList } from "../../../data/dummydata";
+import {
+  AdvancesfiltersOption,
+  sortingOptions,
+  faqList,
+} from "../../../data/dummydata";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Checkbox,
+  Pagination,
   Slider,
+  useMediaQuery,
 } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -23,13 +30,20 @@ import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 import Pako from "pako";
 import WebLoder from "../../WebLoder/WebLoder";
+import { DiamondFilterData } from "../../../../../../utils/API/DiamondStore/DiamondFilter";
+
+const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
+const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
-  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
-  const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
+  const [diamondFilterData, setDiamondFilterData] = useState();
+  const [diaCount, setDiaCount] = useState(0);
+  const dropdownRefs = useRef({});
   const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
@@ -41,24 +55,50 @@ const DiamondFilter = () => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
   const [storeInitData, setStoreInitData] = useState();
+  const [selectedsort, setselectedsort] = useState({
+    title: "Price",
+    sort: "Low to High",
+  });
+  const [sliderState, setSliderState] = useState({
+    price: [5000, 250000],
+    Carat: [0.96, 41.81],
+    Color: [20, 60],
+    Clarity: [25, 62.5],
+    Cut: [20, 100],
+  });
+  const [filters, setFilters] = useState(AdvancesfiltersOption);
+  const [filtersData, setFiltersData] = useState({
+    polish: [],
+    symmetry: [],
+    lab: [],
+    depth: [0.0, 8.51],
+    table: [0.0, 76.0],
+    fluorescence: [],
+  });
+  const maxwidth464px = useMediaQuery("(max-width:464px)");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [ColorRangeValue, setColorRangeValue] = useState([20, 40]);
-  const [ClarityRangeValue, setClarityRangeValue] = useState([]);
-
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        Object.values(dropdownRefs.current).every(
+          (ref) => ref && !ref.contains(event.target)
+        )
+      ) {
+        setOpen(null);
+      }
+    };
 
-  const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-  const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
-  const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
-
-  const rangeData = [
-    { index: 4, title: "price", data: priceRangeValue, type: "price" },
-    { index: 5, title: "carat", data: caratRangeValue, type: "carat" },
-  ];
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -81,7 +121,6 @@ const DiamondFilter = () => {
       prevCheckedItem === name ? null : name
     );
   };
-
   const HandleMedia = (type, index) => {
     setShowMedia((prev) => ({ ...prev, [index]: type }));
   };
@@ -105,77 +144,109 @@ const DiamondFilter = () => {
     }
   };
 
-  const handlePriceSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setPriceRangeValue(roundedValue);
-    handleButton(4, roundedValue);
-  };
-  const handleColorSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setColorRangeValue(roundedValue);
-    handleButton(4, roundedValue); // Assuming 4 is the index for price range
-  };
-  const handleClaritySliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setClarityRangeValue(roundedValue);
-    handleButton(4, roundedValue);
-  };
-  const handleCaratSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
-    setCaratRangeValue(roundedValue);
-    handleButton(5, roundedValue);
-  };
+  const [sortValue, setSortValue] = useState("");
 
-  const handleButton = (dropdownIndex, value) => {
-    setSelectedValues((prev) => {
-      const existingIndex = prev.findIndex(
-        (item) => item.dropdownIndex === dropdownIndex
-      );
-      const newValue = { dropdownIndex, value };
-
-      if (existingIndex >= 0) {
-        if (
-          JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)
-        ) {
-          return prev.filter((_, i) => i !== existingIndex); // Remove if the same value is selected again
-        }
-        // Update existing value
-        const updatedValues = [...prev];
-        updatedValues[existingIndex] = newValue;
-        return updatedValues;
-      } else {
-        // Add new value
-        return [...prev, newValue];
-      }
+  const handleSortChange = (value, label, categories) => {
+    setSortValue(value);
+    console.log("Selected Sort Value:", value);
+    console.log(label, "eikedekdb", categories);
+    setselectedsort({
+      title: categories,
+      sort: label,
     });
+  };
+
+  // const getDiamondData = async (shape) => {
+  //   setIsloding(true);
+  //   try {
+  //     const response = await DiamondListData(1, shape);
+  //     if (response && response.Data) {
+  //       let resData = response.Data?.rd;
+  //       console.log("diamondlistResponse", response.Data);
+  //       const Newmap = resData?.map((val, i) => {
+  //         return {
+  //           img: IMG,
+  //           vid: Video,
+  //           HaveCustomization: true,
+  //           ...val,
+  //         };
+  //       });
+  //       console.log(Newmap, "swdwkhdwkdbwkbd");
+  //       setDiamondData(Newmap);
+  //       let count = resData[0]?.icount
+  //       setDiaCount(count)
+  //       setIsloding(false);
+  //     } else {
+  //       console.warn("No data found in the response");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching diamond data:", error);
+  //   }
+  // };
+
+  const processDiamondData = (response) => {
+    if (response && response.Data) {
+      let resData = response.Data?.rd;
+      console.log("diamondlistResponse", response.Data);
+      const Newmap = resData?.map((val) => ({
+        img: IMG,
+        vid: Video,
+        HaveCustomization: true,
+        ...val,
+      }));
+      console.log(Newmap, "swdwkhdwkdbwkbd");
+      setDiamondData(Newmap);
+      let count = resData[0]?.icount;
+      setDiaCount(count);
+      setIsloding(false);
+    } else {
+      console.warn("No data found in the response");
+      setIsloding(false);
+    }
   };
 
   const getDiamondData = async (shape) => {
     setIsloding(true);
     try {
-      const response = await DiamondListData(shape);
-      if (response && response.Data) {
-        let resData = response.Data?.rd;
-        console.log("diamondlistResponse", response.Data);
-        const Newmap = resData?.map((val, i) => {
-          return {
-            img: IMG,
-            vid: Video,
-            HaveCustomization: true,
-            ...val,
-          };
-        });
-        console.log(Newmap, "swdwkhdwkdbwkbd");
-        setDiamondData(Newmap);
-        setIsloding(false);
-      } else {
-        console.warn("No data found in the response");
-      }
+      const response = await DiamondListData(1, shape);
+      processDiamondData(response);
     } catch (error) {
       console.error("Error fetching diamond data:", error);
+      setIsloding(false);
     }
   };
 
+  const getDiamondFilterData = async () => {
+    setIsloding(true);
+    try {
+      const response = await DiamondFilterData();
+      if (response && response.Data) {
+        let resData = response.Data?.rd;
+        setDiamondFilterData(resData)
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsloding(false);
+    }
+  };
+
+  const handlePageChange = async (event, newPage) => {
+    setCurrentPage(newPage);
+    setIsloding(true);
+    try {
+      const response = await DiamondListData(newPage, checkedItem);
+      processDiamondData(response);
+      window.scrollTo({ top: 320, behavior: "smooth" });
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsloding(false);
+    }
+  };
+
+  useEffect(() => {
+    getDiamondFilterData();
+  }, [])
+  
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape);
@@ -199,19 +270,64 @@ const DiamondFilter = () => {
     const obj = {
       a: val?.stockno,
       b: val?.shapename,
-    }
+    };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
     Navigate(navigateUrl);
   };
-
   const getBannerImage = (index) => {
     const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-    return index < 0 || (index >= 2 && (index - 2) % 16 === 0) ? bannerImage : null;
+    return index < 0 || (index >= 2 && (index - 2) % 16 === 0)
+      ? bannerImage
+      : null;
   };
+
+  // const handleSliderChange = (sliderType, newValue) => {
+  //   setSliderState((prevState) => ({
+  //     ...prevState,
+  //     [sliderType]: newValue,  
+  //   }));
+  //   console.log(sliderState);
+  // };
+
+  const handleSliderChange = (sliderType, newValue) => {
+    setSliderState((prevState) => ({
+      ...prevState,
+      [sliderType]: newValue,
+    }));
+    const pathname = location?.pathname.split("/");
+    const sliderParams = Object?.entries(sliderState)?.map(([key, value]) => {
+      return `${key}/${value[0]},${value[1]}`;
+    }).join('/');
+    const newPath = `${pathname?.slice(0, 4)?.join('/')}/${sliderParams}`;
+    Navigate(newPath);
   
+    console.log(sliderState);
+  };
+  console.log("jksdajkhdhkashd", location);
+  
+
+  const handleFilterChange = (filterType, value) => {
+    setFiltersData((prevData) => {
+      const newFiltersData = { ...prevData };
+
+      if (filters[filterType].type === "multi-select") {
+        const currentValues = newFiltersData[filterType] || [];
+
+        if (currentValues.includes(value)) {
+          newFiltersData[filterType] = currentValues.filter((v) => v !== value);
+        } else {
+          newFiltersData[filterType] = [...currentValues, value];
+        }
+      } else if (filters[filterType].type === "range") {
+        newFiltersData[filterType] = value;
+      }
+      console.log(newFiltersData);
+      return newFiltersData;
+    });
+  };
 
   return (
     <>
@@ -236,8 +352,9 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
-                    }`}
+                  className={`shape_card ${
+                    checkedItem === val?.name ? "active-checked" : ""
+                  }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -286,10 +403,12 @@ const DiamondFilter = () => {
               price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
+              data={sliderState.price}
+              ref={(el) => (dropdownRefs.current["price"] = el)}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("price", newValue)
+              }
               open={open === "price"}
-              index={rangeData[0].index}
-              handleSliderChange={handlePriceSliderChange}
-              data={rangeData[0]?.data}
             />
           </div>
           <div className="for_Color">
@@ -297,8 +416,11 @@ const DiamondFilter = () => {
               Color <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionColor
-              handleColorSliderChange={handleColorSliderChange}
-              data={ColorRangeValue}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Color", newValue)
+              }
+              data={sliderState?.Color}
+              ref={(el) => (dropdownRefs.current["Color"] = el)}
               open={open === "Color"}
             />
           </div>
@@ -308,9 +430,11 @@ const DiamondFilter = () => {
             </span>
             <CollectionCaratRange
               open={open === "Carat"}
-              index={rangeData[1].index}
-              handleSliderChange={handleCaratSliderChange}
-              data={rangeData[1]?.data}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Carat", newValue)
+              }
+              data={sliderState?.Carat}
+              ref={(el) => (dropdownRefs.current["Carat"] = el)}
             />
           </div>
           <div className="for_Clarity">
@@ -319,30 +443,142 @@ const DiamondFilter = () => {
             </span>
             <CollectionClarity
               open={open === "Clarity"}
-              index={rangeData[1].index}
-              handleSliderChange={handleClaritySliderChange}
-              data={rangeData[1]?.data}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Clarity", newValue)
+              }
+              ref={(el) => (dropdownRefs.current["Clarity"] = el)}
+              data={sliderState?.Clarity}
             />
           </div>
           <div className="for_Cut">
-            <span>
+            <span onClick={() => handleOpen("Cut")}>
               Cut <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionCut
+              open={open === "Cut"}
+              data={sliderState?.Cut}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Cut", newValue)
+              }
+              ref={(el) => (dropdownRefs.current["Cut"] = el)}
+            />
           </div>
         </div>
         <div
           className="for_filter_more"
-          onClick={() => setshowMorefilter(!showMorefilter)}
           style={{
-            height: showMorefilter ? "50vh" : "50px",
+            height: showMorefilter ? "52vh" : "50px",
             background: showMorefilter ? " #fcf4f4" : "#fff",
           }}
         >
-          <div className="head_filter">
+          <div
+            className="head_filter"
+            onClick={() => {
+              setshowMorefilter(!showMorefilter);
+              setOpen(null);
+            }}
+          >
             <span>
               {showMorefilter ? "Less" : "More"} filters
               {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
             </span>
+          </div>
+          <div className="more_filter_data">
+            {Object.keys(filters).map((filterType) => {
+              const filter = filters[filterType];
+              const filterData = filtersData[filterType];
+
+              if (filter.type === "multi-select") {
+                return (
+                  <div key={filterType} className="filter_card">
+                    <h4 className="advance_filter_title">
+                      <img src={RoundImage} alt="" /> {filter.label}
+                    </h4>
+                    <div className="advance_filter_checkboxes">
+                      {filter.options.map((option) => (
+                        <label key={option.value}>
+                          <Checkbox
+                            checked={filterData.includes(option.value)}
+                            onChange={() =>
+                              handleFilterChange(filterType, option.value)
+                            }
+                          />
+                          {option.label}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              if (filter.type === "range") {
+                return (
+                  <div key={filterType} className="filter_card">
+                    <h4 className="advance_filter_title">
+                      <img src={RoundImage} alt="" /> {filter.label}
+                    </h4>
+                    <Slider
+                      value={filterData}
+                      min={filter.min}
+                      max={filter.max}
+                      sx={{
+                        width: "400px",
+                        marginLeft: "25px",
+                        "& .MuiSlider-thumb": {
+                          width: 17,
+                          height: 17,
+                          backgroundColor: "black",
+                          border: "1px solid #000",
+                        },
+                        "& .MuiSlider-rail": {
+                          height: 5, // Adjust height of the rail
+                          bgcolor: "black",
+                          border: " none",
+                        },
+                        "& .MuiSlider-track": {
+                          height: 5, // Adjust height of the track
+                          padding: "0 5px",
+                          bgcolor: "black",
+                          border: " none",
+                        },
+                        "& .MuiSlider-markLabel": {
+                          fontSize: "12px !important",
+                        },
+                      }}
+                      onChange={(e, newValue) =>
+                        handleFilterChange(filterType, newValue)
+                      }
+                      valueLabelDisplay="off"
+                      aria-labelledby={`${filterType}-slider`}
+                    />
+                    <div className="advance_filter_input_box">
+                      <input
+                        type="number"
+                        value={filterData[0]}
+                        onChange={(e) =>
+                          handleFilterChange(filterType, [
+                            parseFloat(e.target.value),
+                            filterData[1],
+                          ])
+                        }
+                      />
+                      <input
+                        type="number"
+                        value={filterData[1]}
+                        onChange={(e) =>
+                          handleFilterChange(filterType, [
+                            filterData[0],
+                            parseFloat(e.target.value),
+                          ])
+                        }
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
+              return null;
+            })}
           </div>
         </div>
         <div className="filter_results">
@@ -358,7 +594,21 @@ const DiamondFilter = () => {
               </p>
             </div>
             <div className="sorting_options">
-              <span>Sort By | Price: Low to High</span>
+              <span
+                onClick={() => handleOpen("Sort")}
+                className="title_for_sort"
+              >
+                Sort By |
+                <div>
+                  <span> {selectedsort?.title} </span> {selectedsort?.sort}
+                </div>
+              </span>
+              <SortingOption
+                ref={dropdownRefs.current}
+                open={open === "Sort"}
+                selectedValues={" Price: Low to High"}
+                onSortChange={handleSortChange}
+              />
             </div>
           </div>
           <hr />
@@ -370,84 +620,114 @@ const DiamondFilter = () => {
         ) : (
           <>
             {diamondData?.length != 0 ? (
-              <div className="diamond_listing">
-                {diamondData?.map((val, i) => {
-                  const currentMediaType = ShowMedia[i] || "vid";
-                  const bannerImage = getBannerImage(i); 
-                  return (
-                    <div
-                      key={i}
-                      className="diamond_card"
-                      onClick={() => HandleDiamondRoute(val)}
-                    >
-                      <div className="media_frame">
-                        {bannerImage ? (
-                          <img src={bannerImage} alt="bannerImage" width={"100%"} />
-                        ) : (
-                          <>
-                            {currentMediaType === "vid" ? (
-                              <video
-                                src={val?.vid}
-                                width="100%"
-                                ref={(el) => (videoRefs.current[i] = el)}
-                                autoPlay={hoveredCard === i}
-                                controls={false}
-                                muted
-                                onMouseOver={(e) => handleMouseMove(e, i)}
-                                onMouseLeave={(e) => handleMouseLeave(e, i)}
-                              />
-                            ) : (
-                              <img
-                                className="dimond-info-img"
-                                src={val?.img}
-                                alt=""
-                              />
-                            )}
-                          </>
-                        )}
+              <>
+                <div className="diamond_listing">
+                  {diamondData?.map((val, i) => {
+                    const currentMediaType = ShowMedia[i] || "vid";
+                    const bannerImage = getBannerImage(i);
+                    return (
+                      <div
+                        key={i}
+                        className="diamond_card"
+                      >
+                        <div className="media_frame">
+                          {bannerImage ? (
+                            <img
+                              src={bannerImage}
+                              alt="bannerImage"
+                              width={"100%"}
+                            />
+                          ) : (
+                            <>
+                              {currentMediaType === "vid" ? (
+                                <video
+                                  src={val?.vid}
+                                  width="100%"
+                                  ref={(el) => (videoRefs.current[i] = el)}
+                                  autoPlay={hoveredCard === i}
+                                  controls={false}
+                                  muted
+                                  onMouseOver={(e) => handleMouseMove(e, i)}
+                                  onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                  onClick={() => HandleDiamondRoute(val)}
+                                />
+                              ) : (
+                                <img
+                                  className="dimond-info-img"
+                                  src={val?.img}
+                                  alt=""
+                                  onClick={() => HandleDiamondRoute(val)}
+                                />
+                              )}
+                            </>
+                          )}
+                          {!bannerImage && (
+                            <>
+                              <div className="select_this_diamond_banner">
+                                <span>Select This Diamond</span>
+                              </div>
+                            </>
+                          )}
+                        </div>
                         {!bannerImage && (
                           <>
-                            <div className="select_this_diamond_banner">
-                              <span>Select This Diamond</span>
+                            <div className="toggle_btn">
+                              <span onClick={() => HandleMedia("img", i)}>
+                                <img
+                                  src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                                  alt=""
+                                />
+                              </span>
+                              <span onClick={() => HandleMedia("vid", i)}>
+                                <SvgImg />
+                              </span>
+                            </div>
+                            <div className="price_details">
+                              <div className="title">
+                                <span>
+                                  {val?.shapename} <strong>{val?.carat}</strong>{" "}
+                                  CARAT {val?.colorname} {val?.clarityname}{" "}
+                                  {val?.cutname}
+                                </span>
+                              </div>
+                              <div className="pric">
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ??
+                                    storeInitData?.CurrencyCode}
+                                </span>
+                                <span> {val?.price}</span>
+                              </div>
                             </div>
                           </>
                         )}
                       </div>
-                      {!bannerImage && (
-                        <>
-                          <div className="toggle_btn">
-                            <span onClick={() => HandleMedia("img", i)}>
-                              <img
-                                src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
-                                alt=""
-                              />
-                            </span>
-                            <span onClick={() => HandleMedia("vid", i)}>
-                              <SvgImg />
-                            </span>
-                          </div>
-                          <div className="price_details">
-                            <div className="title">
-                              <span>
-                                {val?.shapename} <strong>{val?.carat}</strong>{" "}
-                                CARAT {val?.colorname} {val?.clarityname}{" "}
-                                {val?.cutname}
-                              </span>
-                            </div>
-                            <div className="pric">
-                              <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ??
-                                  storeInitData?.CurrencyCode}
-                              </span>
-                              <span> {val?.price}</span>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+                <div>
+                  {storeInitData?.IsProductListPagination == 1 &&
+                    Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBlock: "3%",
+                          width: "100%",
+                        }}
+                      >
+                        <Pagination
+                          count={Math.ceil(diaCount / storeInitData.PageSize)}
+                          size={maxwidth464px ? "small" : "large"}
+                          shape="circular"
+                          onChange={handlePageChange}
+                          page={currentPage}
+                          showFirstButton
+                          showLastButton
+                        />
+                      </div>
+                    )}
+                </div>
+              </>
             ) : (
               <div className="for_NoDataDiv">
                 No diamond found in this filter!
@@ -586,7 +866,7 @@ const SvgImg = () => (
 const CollectionPriceRange = forwardRef(
   ({ handleSliderChange, data, open }, ref) => {
     const handleSliderMouseDown = (event) => {
-      event.stopPropagation(); // Prevent click from propagating to parent div
+      event.stopPropagation();
     };
     return (
       <div
@@ -599,7 +879,7 @@ const CollectionPriceRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={5000}
             max={250000}
@@ -653,7 +933,7 @@ const CollectionCaratRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={0.96}
             max={41.81}
@@ -714,7 +994,6 @@ const CollectionColor = forwardRef(
         className="for_ma_color"
         style={{
           height: open ? "90px" : "0px",
-          width: "360px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -724,12 +1003,14 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={10}
+            value={data}
             max={100}
             step={10}
             sx={{
+              width: "400px",
               "& .MuiSlider-thumb": {
                 width: 16,
                 height: 16,
@@ -743,6 +1024,7 @@ const CollectionColor = forwardRef(
                 height: 6, // Adjust height of the track
                 padding: "0 5px",
               },
+              "& .MuiSlider-markLabel": { fontSize: "12px !important" },
             }}
           />
         </div>
@@ -772,7 +1054,6 @@ const CollectionClarity = forwardRef(
         className="for_ma_color"
         style={{
           height: open ? "90px" : "0px",
-          width: "380px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -780,14 +1061,16 @@ const CollectionClarity = forwardRef(
             defaultValue={[25, 62.5]}
             aria-label="Restricted values"
             marks={marks}
+            value={data}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={12.5}
             max={100}
             step={12.5}
             sx={{
+              width: "400px",
               "& .MuiSlider-thumb": {
                 width: 16,
                 height: 16,
@@ -801,12 +1084,7 @@ const CollectionClarity = forwardRef(
                 height: 6, // Adjust height of the track
                 padding: "0 5px",
               },
-              '& .MuiSlider-markLabel': {
-                fontSize: '10px', // Adjust the font size of the marks
-              },
-              "& .MuiSlider-mark": {
-                fontSize: "10px"
-              },
+              "& .MuiSlider-markLabel": { fontSize: "12px !important" },
             }}
           />
         </div>
@@ -814,3 +1092,104 @@ const CollectionClarity = forwardRef(
     );
   }
 );
+
+const CollectionCut = forwardRef(({ handleSliderChange, data, open }, ref) => {
+  const handleSliderMouseDown = (event) => {
+    event.stopPropagation(); // Prevent click from propagating to parent div
+  };
+  const marks = [
+    { label: "None", value: 20 },
+    { label: "Good", value: 40 },
+    { label: "Very Good", value: 60 },
+    { label: "Excellent", value: 80 },
+    { label: "Heart And Arrow", value: 100 },
+  ];
+
+  return (
+    <div
+      className="for_ma_color"
+      style={{
+        height: open ? "90px" : "0px",
+      }}
+    >
+      <div className="for_ma_collection_slider_div">
+        <Slider
+          defaultValue={[20, 100]}
+          value={data}
+          aria-label="Restricted values"
+          marks={marks}
+          aria-labelledby="range-slider"
+          style={{ color: "black" }}
+          onChange={(e, newValue) => handleSliderChange(newValue)}
+          size="small"
+          min={20}
+          max={100}
+          step={20}
+          sx={{
+            width: "450px",
+            "& .MuiSlider-thumb": {
+              width: 16,
+              height: 16,
+              backgroundColor: "black",
+              border: "1px solid #000",
+            },
+            "& .MuiSlider-rail": {
+              height: 6, // Adjust height of the rail
+            },
+            "& .MuiSlider-track": {
+              height: 6, // Adjust height of the track
+              padding: "0 15px",
+            },
+            "& .MuiSlider-markLabel": { fontSize: "12px !important" },
+          }}
+        />
+      </div>
+    </div>
+  );
+});
+
+const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="drop-list--1CjuW"
+      style={{
+        height: open ? "300px" : "0px",
+        overflow: "hidden",
+      }}
+    >
+      {sortingOptions.map((item, index) => (
+        <li key={index} className="main_sort_li">
+          <div className="drop-category--35Pnq">{item.category}</div>
+          <div className="drop-sort-options">
+            {item.options ? (
+              item.options.map((option, idx) => (
+                <div
+                  key={idx}
+                  data-sort={option.value}
+                  className="drop-item-container-grouped--3uDXx"
+                  onClick={() =>
+                    onSortChange(option?.value, option?.label, item?.category)
+                  }
+                >
+                  <div className="drop-item-grouped--2w1qo">{option.label}</div>
+                </div>
+              ))
+            ) : (
+              <div
+                data-sort={item.value}
+                className="drop-item-container-grouped--3uDXx"
+                onClick={() =>
+                  onSortChange(item?.value, item?.options, item?.category)
+                }
+                hidden
+              >
+                <div className="drop-item-grouped--2w1qo">{item.category}</div>
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </div>
+  );
+});

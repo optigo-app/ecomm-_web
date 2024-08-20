@@ -67,3 +67,102 @@ export const faqList = [
       "Popular wedding sets feature classic metals and aesthetics. Many couples opt for gold wedding ring sets for a classic appeal, but other metals such as tungsten and platinum can provide outstanding style. With so many different wedding ring designs to pick from, the most popular types nowadays are those that best complement the wearer's personality.",
   },
 ];
+
+export const AdvancesfiltersOption = {
+  polish: {
+    label: "Polish",
+    type: "multi-select",
+    options: [
+      { value: "EXCELLENT", label: "Excellent" },
+      { value: "VERY_GOOD", label: "Very Good" },
+      { value: "GOOD", label: "Good" },
+      { value: "NONE", label: "None" },
+    ],
+  },
+  symmetry: {
+    label: "Symmetry",
+    type: "multi-select",
+    options: [
+      { value: "EXCELLENT", label: "Excellent" },
+      { value: "VERY_GOOD", label: "Very Good" },
+      { value: "GOOD", label: "Good" },
+      { value: "FAIR", label: "Fair" },
+      { value: "NONE", label: "None" },
+    ],
+  },
+  lab: {
+    label: "Lab",
+    type: "multi-select",
+    options: [
+      { value: "GIA", label: "GIA" },
+      { value: "HRD", label: "HRD" },
+      { value: "IGI", label: "IGI" },
+    ],
+  },
+  depth: {
+    label: "Depth",
+    type: "range",
+    min: 0.0,
+    max: 8.51,
+    default: [0.0, 8.51],
+  },
+  table: {
+    label: "Table",
+    type: "range",
+    min: 0.0,
+    max: 76.0,
+    default: [0.0, 76.0],
+  },
+  fluorescence: {
+    label: "Fluorescence",
+    type: "multi-select",
+    options: [
+      { value: "NONE", label: "None" },
+      { value: "VERY_SLIGHT", label: "Very Slight" },
+      { value: "SLIGHT", label: "Slight" },
+      { value: "FAINT", label: "Faint" },
+      { value: "MEDIUM", label: "Medium" },
+      { value: "STRONG", label: "Strong" },
+      { value: "VERY_STRONG", label: "Very Strong" },
+    ],
+  },
+};
+
+export const sortingOptions = [
+  { category: "Best Match", value: "default-asc" },
+  {
+    category: "Carat",
+    options: [
+      { label: "Low to High", value: "Carat-asc" },
+      { label: "High to Low", value: "Carat-desc" },
+    ],
+  },
+  {
+    category: "Color",
+    options: [
+      { label: "Low to High", value: "Color-asc" },
+      { label: "High to Low", value: "Color-desc" },
+    ],
+  },
+  {
+    category: "Clarity",
+    options: [
+      { label: "Low to High", value: "Clarity-asc" },
+      { label: "High to Low", value: "Clarity-desc" },
+    ],
+  },
+  {
+    category: "Cut",
+    options: [
+      { label: "Low to High", value: "Cut-asc" },
+      { label: "High to Low", value: "Cut-desc" },
+    ],
+  },
+  {
+    category: "Price",
+    options: [
+      { label: "Low to High", value: "Price-asc" },
+      { label: "High to Low", value: "Price-desc" },
+    ],
+  },
+];
