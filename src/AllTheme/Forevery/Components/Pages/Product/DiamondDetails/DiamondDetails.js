@@ -30,6 +30,8 @@ import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
 import { StepImages } from '../../../data/NavbarMenu';
+import { DiamondListData } from '../../../../../../utils/API/DiamondStore/DiamondList';
+import { toast } from 'react-toastify';
 
 
 const DiamondDetails = () => {
@@ -54,6 +56,9 @@ const DiamondDetails = () => {
         setShowModal(false);
     };
 
+    const [singleDiaData, setSingleDiaData] = useState([]);
+    console.log('singleDiaData: ', singleDiaData);
+    const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
     const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
     const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
@@ -188,374 +193,6 @@ const DiamondDetails = () => {
         responsive: responsiveConfig,
     };
 
-
-    const callAllApi = async () => {
-        if (!mTypeLocal || mTypeLocal?.length === 0) {
-            const res = await MetalTypeComboAPI(cookie);
-            if (res) {
-                let data = res?.Data?.rd;
-                sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
-                setMetalTypeCombo(data);
-            }
-            else {
-                console.log("error")
-            }
-        } else {
-            setMetalTypeCombo(mTypeLocal);
-        }
-
-        if (!diaQcLocal || diaQcLocal?.length === 0) {
-            const res = await DiamondQualityColorComboAPI();
-            if (res) {
-                let data = res?.Data?.rd;
-                sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
-                setDiaQcCombo(data);
-            }
-            else {
-                console.log("error")
-            }
-        } else {
-            setDiaQcCombo(diaQcLocal)
-        }
-
-        if (!csQcLocal || csQcLocal?.length === 0) {
-            const res = await ColorStoneQualityColorComboAPI();
-            if (res) {
-                let data = res?.Data?.rd;
-                sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
-                setCsQcCombo(data);
-            }
-            else {
-                console.log("error")
-            }
-        } else {
-            setCsQcCombo(csQcLocal)
-        }
-
-        if (!mtColorLocal || mtColorLocal?.length === 0) {
-            const res = await MetalColorCombo(cookie);
-            if (res) {
-                let data = res?.Data?.rd;
-                sessionStorage.setItem("MetalColorCombo", JSON.stringify(data));
-                setMetalColorCombo(data);
-            }
-            else {
-                console.log("error")
-            }
-        } else {
-            setMetalColorCombo(mtColorLocal)
-        }
-    }
-
-    useEffect(() => {
-        callAllApi();
-    }, [storeInit])
-
-
-    useEffect(() => {
-        let navVal = location?.search.split("?p=")[1];
-        let decodeobj = decodeAndDecompress(navVal);
-
-        let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-
-        let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
-
-        let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
-
-
-        setTimeout(() => {
-            if (decodeUrl) {
-                let metalArr
-                let diaArr
-                let csArr
-
-
-                if (mtTypeLocal?.length) {
-                    metalArr =
-                        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-                        mtTypeLocal[0];
-                }
-
-                if (diaQcLocal?.length) {
-                    diaArr =
-                        diaQcLocal?.filter(
-                            (ele) =>
-                                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                                ele?.ColorId == decodeobj?.d?.split(",")[1]
-                        )[0] ?? diaQcLocal[0];
-                }
-
-                if (csQcLocal?.length) {
-                    csArr =
-                        csQcLocal?.filter(
-                            (ele) =>
-                                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                                ele?.ColorId == decodeobj?.c?.split(",")[1]
-                        )[0] ?? csQcLocal[0];
-                }
-
-                setMetaltype(metalArr?.metaltype);
-
-                setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
-
-                setSelectCsQC(`${csArr?.Quality},${csArr?.color}`);
-            }
-        }, 500)
-    }, [singleProd])
-
-
-
-    const handleCustomChange = async (e, type) => {
-        let metalArr;
-        let diaArr;
-        let csArr;
-        let size;
-
-        if (type === 'mt') {
-            metalArr = mTypeLocal?.find((ele) => {
-                return ele?.metaltype === e.target.value
-            })?.Metalid;
-            setMetaltype(e.target.value)
-        }
-        if (type === 'mc') {
-            setMetalColor(e.target.value)
-        }
-        if (type === 'dt') {
-            diaArr = diaQcLocal?.find((ele) => {
-                return ele?.Quality === e.target.value?.split(',')[0] &&
-                    ele?.color === e.target.value?.split(",")[1]
-            })
-            setSelectDiaQc(e.target.value)
-        }
-        if (type === 'cs') {
-            csArr = csQcLocal.find((ele) => {
-                return ele?.Quality === e.target.value?.split(',')[0] &&
-                    ele?.color === e.target.value?.split(",")[1]
-            })
-            setSelectCsQC(e.target.value)
-        }
-        if (type === "size") {
-            setSizeData(e.target.value)
-            size = e.target.value
-        }
-
-        if (metalArr == undefined) {
-            metalArr =
-                mTypeLocal?.filter(
-                    (ele) => ele?.metaltype == metalType
-                )[0]?.Metalid
-        }
-
-        if (diaArr == undefined) {
-            diaArr =
-                diaQcLocal?.filter(
-                    (ele) =>
-                        ele?.Quality == selectDiaQc?.split(",")[0] &&
-                        ele?.color == selectDiaQc?.split(",")[1]
-                )[0]
-        }
-
-        if (csArr == undefined) {
-            csArr =
-                csQcLocal?.filter(
-                    (ele) =>
-                        ele?.Quality == selectCsQC?.split(",")[0] &&
-                        ele?.color == selectCsQC?.split(",")[1]
-                )[0]
-        }
-
-        let obj = {
-            mt: metalArr,
-            diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-            csQc: `${csArr?.QualityId},${csArr?.ColorId}`
-        }
-
-
-        let prod = {
-            a: singleProd?.autocode,
-            b: singleProd?.designno
-        }
-
-        setisPriceLoading(true)
-        const res = await SingleProdListAPI(prod, (size ?? sizeData), obj, cookie)
-        if (res) {
-            setSingleProd1(res?.pdList[0])
-        }
-
-        if (res?.pdList?.length > 0) {
-            setisPriceLoading(false)
-        }
-        setnetWTData(res?.pdList[0])
-        setDiaList(res?.pdResp?.rd3)
-        setCsList(res?.pdResp?.rd4)
-    }
-
-    function checkImageAvailability(imageUrl) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = imageUrl;
-        });
-    }
-
-    // const BreadCumsObj = () => {
-    //     let BreadCum = location?.search.split("?p=")[1];
-    //     let decodeobj = decodeAndDecompress(BreadCum);
-
-    //     const values = BreadCum[0].split(',');
-    //     const labels = BreadCum[1].split(',');
-
-    //     const updatedBreadCum = labels.reduce((acc, label, index) => {
-    //         acc[label] = values[index] || '';
-    //         return acc;
-    //     }, {});
-
-    //     const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-    //         acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
-    //         acc[`FilterVal${index === 0 ? '' : index}`] = value;
-    //         return acc;
-    //     }, {});
-
-    //     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-
-    //     result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
-
-    //     return result
-    // }
-
-    useEffect(() => {
-        let navVal = location?.search.split("?p=")[1];
-        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
-        let decodeobj = decodeAndDecompress(navVal);
-        console.log('decodeobj: ', decodeobj);
-        if (decodeobj) {
-            setDecodeUrl(decodeobj);
-            setpath(decodeobj?.p)
-        }
-
-        let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-
-        let diaQcLocal = JSON.parse(
-            sessionStorage.getItem("diamondQualityColorCombo")
-        );
-
-        let csQcLocal = JSON.parse(
-            sessionStorage.getItem("ColorStoneQualityColorCombo")
-        );
-
-        let metalArr;
-        let diaArr;
-        let csArr;
-
-        if (mtTypeLocal?.length) {
-            metalArr =
-                mtTypeLocal?.filter(
-                    (ele) => ele?.Metalid == decodeobj?.m
-                )[0]?.Metalid ?? decodeobj?.m;
-        }
-
-        if (diaQcLocal) {
-            diaArr =
-                diaQcLocal?.filter(
-                    (ele) =>
-                        ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                        ele?.ColorId == decodeobj?.d?.split(",")[1]
-                )[0] ?? `${decodeobj?.d?.split(",")[0]},${decodeobj?.d?.split(",")[1]}`;
-        }
-
-        if (csQcLocal) {
-            csArr =
-                csQcLocal?.filter(
-                    (ele) =>
-                        ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                        ele?.ColorId == decodeobj?.c?.split(",")[1]
-                )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
-        }
-
-        setloadingdata(true);
-        setIsBreadcumShow(true);
-        const FetchProductData = async () => {
-            let obj = {
-                mt: metalArr,
-                diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-                csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
-            };
-
-            setisPriceLoading(true);
-
-            await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
-                .then(async (res) => {
-                    if (res) {
-                        setSingleProd(res?.pdList[0]);
-
-                        if (res?.pdList?.length > 0) {
-                            setisPriceLoading(false);
-                            setloadingdata(false);
-                        }
-
-                        if (!res?.pdList[0]) {
-                            setisPriceLoading(false);
-                            setIsDataFound(true);
-                        }
-
-                        setDiaList(res?.pdResp?.rd3);
-                        setCsList(res?.pdResp?.rd4);
-
-                        let prod = res?.pdList[0];
-
-                        let initialsize =
-                            prod && prod.DefaultSize !== ""
-                                ? prod?.DefaultSize
-                                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                                    ?.sizename === undefined
-                                    ? SizeCombo?.rd[0]?.sizename
-                                    : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                                        ?.sizename;
-
-                        setSizeData(initialsize);
-
-                        // await SingleFullProdPriceAPI(decodeobj).then((res) => {
-                        //   setSingleProdPrice(res);
-                        //   console.log("singlePrice", res);
-                        // });
-                    }
-                    return res;
-                })
-                .then(async (resp) => {
-                    if (resp) {
-                        await getSizeData(resp?.pdList[0], cookie)
-                            .then((res) => {
-                                console.log("Sizeres", res);
-                                setSizeCombo(res?.Data);
-                            })
-                            .catch((err) => console.log("SizeErr", err));
-
-                        //     if (storeinitInside?.IsStockWebsite === 1) {
-                        //       await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
-                        //         setStockItemArr(res?.Data?.rd)
-                        //       }).catch((err) => console.log("stockItemErr", err))
-                        //     }
-
-                        //     if (storeinitInside?.IsProductDetailDesignSet === 1) {
-                        //       await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-                        //         // console.log("designsetList",res?.Data?.rd[0])
-                        //         setDesignSetList(res?.Data?.rd)
-                        //       }).catch((err) => console.log("designsetErr", err))
-                        //     }
-                    }
-                })
-                .catch((err) => console.log("err", err));
-        };
-
-        FetchProductData();
-
-        window.scroll({
-            top: 0,
-            behavior: "smooth",
-        });
-    }, [location?.key]);
-
     const decodeAndDecompress = (encodedString) => {
         try {
             const binaryString = atob(encodedString);
@@ -576,314 +213,54 @@ const DiamondDetails = () => {
         }
     }
 
-    const ProdCardImageFunc = async () => {
-        let colImg;
-        let finalprodListimg;
-        let pdImgList = [];
-        let pdvideoList = [];
 
-        let pd = singleProd;
-
-        let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-        let mcArr;
-
-        if (mtColorLocal?.length) {
-            mcArr = mtColorLocal?.filter(
-                (ele) => ele?.id == singleProd?.MetalColorid
-            )[0];
-        }
-
-        if (singleProd?.ColorImageCount > 0) {
-            for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-                let imgString =
-                    storeInit?.DesignImageFol +
-                    singleProd?.designno +
-                    "_" +
-                    i +
-                    "_" +
-                    mcArr?.colorcode +
-                    "." +
-                    singleProd?.ImageExtension;
-
-                let IsImg = checkImageAvailability(imgString);
-                if (IsImg) {
-                    pdImgList.push(imgString);
-                }
+    const getDiamondData = async (stockno, shape) => {
+        try {
+            const response = await DiamondListData(shape, stockno);
+            if (response && response.Data) {
+                let resData = response.Data?.rd
+                setSingleDiaData(resData)
+            } else {
+                console.warn("No data found in the response");
             }
-
-            if (pdImgList?.length > 0) {
-                colImg = pdImgList[0];
-            }
+        } catch (error) {
+            console.error("Error fetching diamond data:", error);
         }
-
-        let IsColImg = false;
-        if (colImg?.length > 0) {
-            IsColImg = await checkImageAvailability(colImg);
-        }
-
-        if (pd?.ImageCount > 0 && !IsColImg) {
-            for (let i = 1; i <= pd?.ImageCount; i++) {
-                let imgString =
-                    storeInit?.DesignImageFol +
-                    pd?.designno +
-                    "_" +
-                    i +
-                    "." +
-                    pd?.ImageExtension;
-
-                let IsImg = checkImageAvailability(imgString);
-                if (IsImg) {
-                    pdImgList.push(imgString);
-                }
-            }
-        } else {
-            finalprodListimg = imageNotFound;
-        }
-
-        if (pd?.VideoCount > 0) {
-            for (let i = 1; i <= pd?.VideoCount; i++) {
-                let videoString =
-                    (storeInit?.DesignImageFol).slice(0, -13) +
-                    "video/" +
-                    pd?.designno +
-                    "_" +
-                    i +
-                    "." +
-                    pd?.VideoExtension;
-                pdvideoList.push(videoString);
-            }
-        } else {
-            pdvideoList = [];
-        }
-
-        let FinalPdImgList = [];
-
-        if (pdImgList?.length > 0) {
-            for (let i = 0; i < pdImgList?.length; i++) {
-                let isImgAvl = await checkImageAvailability(pdImgList[i]);
-                if (isImgAvl) {
-                    FinalPdImgList.push(pdImgList[i]);
-                }
-            }
-        }
-
-        if (FinalPdImgList?.length > 0) {
-            finalprodListimg = FinalPdImgList[0];
-            setSelectedThumbImg({ link: FinalPdImgList[0], type: "img" });
-            setPdThumbImg(FinalPdImgList);
-            setThumbImgIndex(0);
-            const imageMap = FinalPdImgList?.map((val, i) => {
-                return { src: val, type: "img" };
-            });
-            setPdImageArr(imageMap);
-        }
-
-        if (pdvideoList?.length > 0) {
-            setPdVideoArr(pdvideoList);
-            const VideoMap = pdvideoList?.map((val, i) => {
-                return { src: val, type: "video" };
-            });
-            SETvideoArr(VideoMap);
-            setPdImageArr((prev) => [...prev, ...VideoMap]);
-        }
-        return finalprodListimg;
     };
 
     useEffect(() => {
-        ProdCardImageFunc();
-    }, [singleProd, location?.key]);
+        let navVal = location?.pathname.split('/')[3];
+        console.log("ee", navVal.split('=')[1])
+        let decodeobj = decodeAndDecompress(navVal.split('=')[1]);
+        console.log('decodeobj: ', decodeobj);
+        getDiamondData(decodeobj?.a, decodeobj?.b);
+        setShape(decodeobj?.b)
+    }, [location?.pathname]);
 
-    const handleMetalWiseColorImg = async (e) => {
-        let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-        let mcArr;
+    const handleButtonChange = async (value, stockno) => {
+        console.log('stockno: ', stockno);
+        if (value == 'cart') {
+            await CartAndWishListAPI('', {}, '', '', stockno).then((res) => {
+                console.log(res?.Data?.rd[0])
+                if (res) {
+                    if (res?.Data?.rd[0]?.msg === 'success') {
+                        toast.success("Your Diamond is added to cart")
+                        let cartC = res?.Data?.rd[0]?.Cartlistcount
+                        let wishC = res?.Data?.rd[0]?.Wishlistcount
+                        setWishCountVal(wishC)
+                        setCartCountVal(cartC);
+                    }
 
-        if (mtColorLocal?.length) {
-            mcArr = mtColorLocal?.filter(
-                (ele) => ele?.metalcolorname == e.target.value
-            )[0];
-        }
-
-        setMetalColor(e.target.value);
-
-        let imgLink =
-            storeInit?.DesignImageFol +
-            (singleProd ?? singleProd1)?.designno +
-            "_" +
-            (thumbImgIndex + 1) +
-            "_" +
-            mcArr?.colorcode +
-            "." +
-            (singleProd ?? singleProd1)?.ImageExtension;
-
-        setMetalWiseColorImg(imgLink);
-
-        let isImg = await checkImageAvailability(imgLink);
-
-        if (isImg) {
-            setMetalWiseColorImg(imgLink);
-        } else {
-            setMetalWiseColorImg();
-        }
-
-        let pd = singleProd;
-        let pdImgListCol = [];
-        let pdImgList = [];
-
-        if (singleProd?.ColorImageCount > 0) {
-            for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
-                let imgString =
-                    storeInit?.DesignImageFol +
-                    singleProd?.designno +
-                    "_" +
-                    i +
-                    "_" +
-                    mcArr?.colorcode +
-                    "." +
-                    singleProd?.ImageExtension;
-                pdImgListCol.push(imgString);
-            }
-        }
-
-        if (singleProd?.ImageCount > 0) {
-            for (let i = 1; i <= singleProd?.ImageCount; i++) {
-                let imgString =
-                    storeInit?.DesignImageFol +
-                    singleProd?.designno +
-                    "_" +
-                    i +
-                    "." +
-                    singleProd?.ImageExtension;
-                pdImgList.push(imgString);
-            }
-        }
-
-        let isImgCol;
-
-        if (pdImgListCol?.length > 0) {
-            isImgCol = await checkImageAvailability(pdImgListCol[0]);
-        }
-
-        if (pdImgListCol?.length > 0 && isImgCol == true) {
-            setSelectedThumbImg({ link: pdImgListCol[thumbImgIndex], type: "img" });
-            setPdThumbImg(pdImgListCol);
-            setThumbImgIndex(thumbImgIndex);
-            const imageMap = pdImgListCol?.map((val, i) => {
-                return { src: val, type: "img" };
-            });
-            setPdImageArr([...imageMap, ...videoArr]);
-        } else {
-            if (pdImgList?.length > 0) {
-                setSelectedThumbImg({ link: pdImgList[thumbImgIndex], type: "img" });
-                setPdThumbImg(pdImgList);
-                setThumbImgIndex(thumbImgIndex);
-                const imageMap = pdImgList?.map((val, i) => {
-                    return { src: val, type: "img" };
-                });
-                setPdImageArr([...imageMap, ...videoArr]);
-            }
-        }
-        console.log(pdImgList);
-
-    };
-
-    useEffect(() => {
-        if (metalTypeCombo.length) {
-            const mtType = metalTypeCombo.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
-            setMetaltype(mtType);
-        }
-        if (metalColorCombo.length) {
-            const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.metalcolorname;
-            setMetalColor(getCurrentMetalColor);
-        }
-    }, [singleProd])
-
-
-    useEffect(() => {
-        let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
-        let mcArr;
-
-        if (mtColorLocal?.length) {
-            mcArr =
-                mtColorLocal?.filter(
-                    (ele) => ele?.id == (singleProd?.MetalColorid ?? singleProd1?.MetalColorid)
-                )[0]
-        }
-
-        setMetalColor(mcArr?.colorname);
-
-    }, [singleProd])
-
-    useEffect(() => {
-        const isInCart = singleProd?.IsInCart === 0 ? false : true;
-        setAddToCartFlag(isInCart);
-    }, [singleProd])
-
-    const handleCart = async (cartFlag) => {
-        console.log('cartFlag: ', cartFlag);
-        const metal =
-            metalTypeCombo?.find((ele) => {
-                return ele?.metaltype == metalType
-            }) ?? metalTypeCombo;
-
-        const dia =
-            diaQcCombo?.find((ele) => {
-                return ele?.Quality == selectDiaQc?.split(",")[0] &&
-                    ele?.color == selectDiaQc?.split(",")[1]
-            }) ?? diaQcCombo;
-
-        const cs =
-            csQcCombo?.find((ele) => {
-                return ele?.Quality == selectCsQC?.split(",")[0] &&
-                    ele?.color == selectCsQC?.split(",")[1]
-            }) ?? csQcCombo;
-
-        const mcArr =
-            metalColorCombo?.find((ele) => {
-                return ele?.metalcolorname == metalColor
-            }) ?? metalColorCombo;
-
-        const prodObj = {
-            autocode: singleProd?.autocode,
-            Metalid: metal?.Metalid,
-            MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-            DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-            CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-            Size: sizeData ?? singleProd?.DefaultSize,
-            Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
-            markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-            UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
-            Remark: "",
-        }
-
-        if (cartFlag) {
-            let res = await CartAndWishListAPI("Cart", prodObj, cookie);
-            if (res) {
-                try {
-                    let cartC = res?.Data?.rd[0]?.Cartlistcount;
-                    let wishC = res?.Data?.rd[0]?.Wishlistcount;
-                    setWishCountVal(wishC);
-                    setCartCountVal(cartC);
-                } catch (error) {
-                    console.log("err", error)
                 }
-                setAddToCartFlag(cartFlag);
-            }
-        }
-        else {
-            let res1 = await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie);
-            if (res1) {
-                try {
-                    let cartC = res1?.Data?.rd[0]?.Cartlistcount;
-                    let wishC = res1?.Data?.rd[0]?.Wishlistcount;
-                    setWishCountVal(wishC);
-                    setCartCountVal(cartC);
-                } catch (error) {
-                    console.log("err", error);
-                }
-                setAddToCartFlag(cartFlag);
-            }
+            }).catch((err) => console.log("addtocartwishErr", err))
         }
     }
+
+    const decodeEntities = (html) => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
     const handleWishList = async (e, ele) => {
         console.log('e: ', e);
@@ -952,82 +329,12 @@ const DiamondDetails = () => {
         }
     }
 
-
-    const handleBreadcums = (mparams) => {
-
-        let key = Object?.keys(mparams)
-        let val = Object?.values(mparams)
-
-        let KeyObj = {};
-        let ValObj = {};
-
-        key.forEach((value, index) => {
-            let keyName = `FilterKey${index === 0 ? '' : index}`;
-            KeyObj[keyName] = value;
-        });
-
-        val.forEach((value, index) => {
-            let keyName = `FilterVal${index === 0 ? '' : index}`;
-            ValObj[keyName] = value;
-        });
-
-        let finalData = { ...KeyObj, ...ValObj }
-
-        const queryParameters1 = [
-            finalData?.FilterKey && `${finalData.FilterVal}`,
-            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        ].filter(Boolean).join('/');
-
-        const queryParameters = [
-            finalData?.FilterKey && `${finalData.FilterVal}`,
-            finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-            finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-        ].filter(Boolean).join(',');
-
-        const otherparamUrl = Object.entries({
-            b: finalData?.FilterKey,
-            g: finalData?.FilterKey1,
-            c: finalData?.FilterKey2,
-        })
-            .filter(([key, value]) => value !== undefined)
-            .map(([key, value]) => value)
-            .filter(Boolean)
-            .join(',');
-
-        let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-
-        // const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-        // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
-
-        // navigate(url);
-
-        // console.log("mparams", KeyObj, ValObj)
-
-    }
-
     useEffect(() => {
         const data = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(data);
 
         const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         setLoginCurrency(loginData)
-
-        let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
-        setSelectedMetalId(mtid);
-
-        let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
-        setSelectedDiaId(diaid);
-
-        let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
-        setSelectedCsId(csid);
-
-        let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-        setMetaltype(metalTypeDrpdown);
-
-        let diamondTypeDrpdown = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
-        setDiamondType(diamondTypeDrpdown);
-
     }, []);
 
 
@@ -1038,122 +345,78 @@ const DiamondDetails = () => {
         });
     }, [])
 
-    const compressAndEncode = (inputString) => {
-        try {
-            const uint8Array = new TextEncoder().encode(inputString);
-
-            const compressed = Pako.deflate(uint8Array, { to: "string" });
-
-            return btoa(String.fromCharCode.apply(null, compressed));
-        } catch (error) {
-            console.error("Error compressing and encoding:", error);
-            return null;
-        }
-    };
-
-    const handleMoveToDetail = (productData) => {
-        let obj = {
-            a: productData?.autocode,
-            b: productData?.designno,
-            m: selectedMetalId,
-            d: selectedDiaId,
-            c: selectedCsId,
-            // p: BreadCumsObj(),
-            f: {},
-        };
-        console.log("ksjkfjkjdkjfkjsdk--", obj);
-        // compressAndEncode(JSON.stringify(obj))
-
-        // decodeAndDecompress()
-
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-        navigate(
-            `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-            }${productData?.designno}?p=${encodeObj}`
-        );
-    };
-
-    const decodeEntities = (html) => {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    };
-
     const diaArr1 = [
         {
             title: "Shape",
-            value: 'Round'
+            value: `${singleDiaData[0]?.shapename}`
         },
         {
             title: 'carat weight',
-            value: '0.74',
+            value: `${singleDiaData[0]?.carat !== '' ? Number(singleDiaData[0]?.carat).toFixed(2) : '0.00'}`,
         },
         {
             title: 'color',
-            value: 'G',
+            value: `${singleDiaData[0]?.colorname}`,
         },
         {
             title: 'clarity',
-            value: 'VS1',
+            value: `${singleDiaData[0]?.clarityname}`,
         },
         {
             title: 'cut',
-            value: 'EXCELLENT',
+            value: `${singleDiaData[0]?.cutname}`,
         },
         {
             title: 'polish',
-            value: 'EXCELLENT',
+            value: `${singleDiaData[0]?.polishname}`,
         },
         {
             title: 'symmetry',
-            value: 'EXCELLENT',
+            value: `${singleDiaData[0]?.symmetryname}`,
         },
         {
             title: 'Fluorescence',
-            value: 'NONE',
+            value: `${singleDiaData[0]?.fluorescencename}`,
         },
         {
             title: 'l/w/d (mm)',
-            value: '5.8 X 5.79 X 3.58',
+            value: `${singleDiaData[0]?.measurements ?? `0.00 X 0.00 X 0.00`}`.replace(/X/g, ' X '),
         },
     ]
     const diaArr2 = [
         {
             title: "l/w ratio",
-            value: '1.00'
+            value: `${Number(1.00).toFixed(2) ?? 0.00}`
         },
         {
             title: 'depth %',
-            value: '3.58%',
+            value: `${singleDiaData[0]?.depth !== '' ? Number(singleDiaData[0]?.depth).toFixed(2) : '0.00'}%`,
         },
         {
             title: 'table %',
-            value: '58.0%',
+            value: `${singleDiaData[0]?.table !== '' ? Number(singleDiaData[0]?.table).toFixed(2) : '0.00'}%`,
         },
         {
             title: 'culet',
-            value: 'NONE',
+            value: `${singleDiaData[0]?.culetname}`,
         },
         {
             title: 'certificate',
-            value: 'HRD',
+            value: `${singleDiaData[0]?.certyname}`,
         },
         {
             title: 'crown ∠',
-            value: '34.100',
+            value: `${singleDiaData[0]?.CrownAngle !== '' ? Number(singleDiaData[0]?.CrownAngle).toFixed(3) : '0.000'}`,
         },
         {
             title: 'crown %',
-            value: '14.500',
+            value: `${singleDiaData[0]?.CrownHeight !== '' ? Number(singleDiaData[0]?.CrownHeight).toFixed(3) : '0.000'}`,
         },
         {
             title: 'pavilion ∠',
-            value: '41.00',
+            value: `${singleDiaData[0]?.PavillionAngle !== '' ? Number(singleDiaData[0]?.PavillionAngle).toFixed(2) : '0.00'}`,
         },
     ]
-
-
 
     return (
         <div className="for_DiamondDet_mainDiv">
@@ -1220,7 +483,7 @@ const DiamondDetails = () => {
                                                     return (
                                                         <div
                                                             key={i}
-                                                            className={`for_box ${i === currentSlide ? "active" : ""}`}
+                                                            className={`for_box ${ i === currentSlide ? "active" : ""}`}
                                                             onClick={() => handleThumbnailClick(i)}
                                                         >
                                                             {val?.type === "img" ? (
@@ -1374,85 +637,39 @@ const DiamondDetails = () => {
                         <div className="for_DiamondDet_right_prodDetails">
                             <div className="for_DiamondDet_breadcrumbs">
                                 <div className="for_DiamondDet_breadcrumbs">
-                                    {/* {IsBreadCumShow && ( */}
                                     <div
                                         className="for_breadcrumbs"
-                                        style={{ marginLeft: "3px" }}
+                                        style={{ marginLeft: "3px", cursor: 'pointer' }}
                                     >
                                         <span
                                             onClick={() => {
                                                 navigate("/");
                                             }}
                                         >
-                                            {"Home / Certified diamond / 0.74 Carat G VS1 EXCELLENT Cut ROUND Diamond"}{" "}
+                                            {"Home / "}{" "}
                                         </span>
-                                        {path?.menuname && (
-                                            <span
-                                                onClick={() =>
-                                                    handleBreadcums({
-                                                        [path?.FilterKey]:
-                                                            path?.FilterVal,
-                                                    })
-                                                }
-                                            >
-                                                {path?.menuname}
-                                            </span>
-                                        )}
+                                        <span
+                                            onClick={() => {
+                                                navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+                                            }}
+                                        >
+                                            {`Certified diamond`}
+                                        </span>
+                                        <span
+                                        >
+                                            {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
+                                        </span>
 
-                                        {path?.FilterVal1 && (
-                                            <span
-                                                onClick={() =>
-                                                    handleBreadcums({
-                                                        [path?.FilterKey]:
-                                                            path?.FilterVal,
-                                                        [path?.FilterKey1]:
-                                                            path?.FilterVal1,
-                                                    })
-                                                }
-                                            >
-                                                {` / ${path?.FilterVal1}`}
-                                            </span>
-                                        )}
-
-                                        {path?.FilterVal2 && (
-                                            <span
-                                                onClick={() =>
-                                                    handleBreadcums({
-                                                        [path?.FilterKey]:
-                                                            path?.FilterVal,
-                                                        [path?.FilterKey1]:
-                                                            path?.FilterVal1,
-                                                        [path?.FilterKey2]:
-                                                            path?.FilterVal2,
-                                                    })
-                                                }
-                                            >
-                                                {` / ${path?.FilterVal2}`}
-                                            </span>
-                                        )}
-                                        {/* {BreadCumsObj()?.menuname && (
-                                                <span
-                                                    onClick={() =>
-                                                        handleBreadcums({
-                                                            [BreadCumsObj()?.FilterKey]:
-                                                                BreadCumsObj()?.FilterVal,
-                                                        })
-                                                    }
-                                                >
-                                                    {` / ${BreadCumsObj()?.menuname}`}
-                                                </span>
-                                            )} */}
                                     </div>
-                                    {/* )} */}
                                 </div>
                                 <div className="for_DiamondDet_title_main_div">
                                     <div className="for_DiamondDet_title_div">
                                         <div className="for_DiamondDet_title">
-                                            <span>0.74 Carat G VS1 EXCELLENT Cut ROUND Diamond</span>
+                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
                                             {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
                                         </div>
                                         <div className="for_DiamondDet_title_sku">
-                                            <span>SKU: 230000165541</span>
+                                            <span>SKU: {singleDiaData[0]?.stockno}</span>
                                         </div>
                                     </div>
                                     <div className="for_DiamondDet_title_wishlist">
@@ -1484,19 +701,19 @@ const DiamondDetails = () => {
                                             isPriceloading ?
                                                 <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                 :
-                                                <span>&nbsp;{formatter(245000)}</span>
+                                                <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
                                             // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                                         }
                                     </span>
                                 </div>
                                 <div className="for_DiamondDet_details_div">
-                                    <span className='for_Diamond_details_span'>This Forevery diamond is a stunning symbol of perfection & brilliance with its flawless VVS1 clarity, F color, and expertly crafted excellent round cut.</span>
+                                    <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
                                 </div>
                                 <div className="for_DiamondDet_choose_Dia_div">
-                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15}`}>
+                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
                                         choose this diamond
                                     </button>
-                                    <Modal open={showModal} handleClose={handleClose} />
+                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} />
                                 </div>
                                 <div className="for_DiamondDet_shipping_fee_div">
                                     <div className="for_DiamondDet_shipping_icon">
@@ -1522,7 +739,7 @@ const DiamondDetails = () => {
                     <div className="for_DiamondDet_prod_desc_mainDIv">
                         <div className="for_DiamondDet_desc">
                             <span className='for_DiamondDet_desc_title'>General information</span>
-                            <p className='for_DiamondDet_desc_1_para'>This 0.74 Carat EXCELLENT Cut ROUND Shape Diamond G Color VS1 Clarity has a diamond grading report from HRD.</p>
+                            <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
                         </div>
                         <div className="for_DiamondDet_desc_1">
                             <div className="for_DiamondDet_desc_DiaInfo_1">
@@ -1562,7 +779,7 @@ const DiamondDetails = () => {
                                 <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
                             </div>
                             <div className="for_trend_coll_btn">
-                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15}`}>View all Diamonds</button>
+                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
                             </div>
                         </div>
                     </div>
@@ -1646,6 +863,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
 const Modal = ({
     open,
     handleClose,
+    handleButtonChange,
+    stockno,
 }) => {
     return (
         <>
@@ -1669,10 +888,11 @@ const Modal = ({
                         minWidth: 260,
                         padding: '0px',
                         position: 'relative',
+                        overflow: 'hidden',
                     }}
                 >
-                    <div className="for_modal_cancel_btn">
-                        <RxCross1 size={'10px'} />
+                    <div className="for_modal_cancel_btn_div" onClick={handleClose}>
+                        <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
                     </div>
                     <div className="for_modal_inner_div">
                         <span className='for_modal_title'>
@@ -1681,7 +901,10 @@ const Modal = ({
                         <div className="for_modal_buttons_div">
                             <button>Add your diamond to a ring</button>
                             <button>add your diamond to a pendant</button>
-                            <button>add your diamond to cart</button>
+                            <button onClick={() => {
+                                handleButtonChange('cart', stockno);
+                                handleClose();
+                            }}>add your diamond to cart</button>
                         </div>
                     </div>
                 </DialogContent>

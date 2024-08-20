@@ -653,25 +653,34 @@
 
 // MODAL SCSS
 
-.for_modal_cancel_btn {
+.for_modal_cancel_btn_div {
     position: absolute;
-    right: 14px;
+    right: 11px;
     z-index: 10;
-    padding: 4px;
+    padding: 16px;
     color: white;
     overflow: hidden;
+    border-bottom-left-radius: 80%;
+    cursor: pointer;
+
+    .for_modal_cancel_btn {
+        top: -16px;
+        position: relative;
+        color: white;
+        right: -9px;
+    }
 }
 
-.for_modal_cancel_btn::before {
+.for_modal_cancel_btn_div::before {
     background-color: black;
     border-radius: 50%;
     content: "";
     height: 50px;
     position: absolute;
-    width: 50px;
+    width: 48px;
     z-index: -1;
-    top: 43%;
-    left: 53%;
+    top: 8%;
+    left: 80%;
     transform: translate(-50%, -50%);
 }
 
