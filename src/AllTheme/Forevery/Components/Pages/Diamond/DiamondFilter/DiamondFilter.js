@@ -196,7 +196,12 @@ const DiamondFilter = () => {
 
   const HandleDiamondRoute = (val) => {
     console.log("hsahdjash", val);
-    let encodeObj = compressAndEncode(JSON.stringify(val?.stockno));
+    const obj = {
+      a: val?.stockno,
+      b: val?.shapename,
+    }
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
     Navigate(navigateUrl);
@@ -231,9 +236,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -361,7 +365,7 @@ const DiamondFilter = () => {
         </div>
         {isloding ? (
           <div className="for_global_spinnerDiv">
-           <WebLoder/>
+            <WebLoder />
           </div>
         ) : (
           <>
@@ -800,9 +804,9 @@ const CollectionClarity = forwardRef(
               '& .MuiSlider-markLabel': {
                 fontSize: '10px', // Adjust the font size of the marks
               },
-              "& .MuiSlider-mark" :{
-                fontSize :"10px"
-              } ,
+              "& .MuiSlider-mark": {
+                fontSize: "10px"
+              },
             }}
           />
         </div>
