@@ -28,8 +28,6 @@ const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
-  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
-  const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
   const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
@@ -41,11 +39,21 @@ const DiamondFilter = () => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
   const [storeInitData, setStoreInitData] = useState();
+  const [sliderState, setSliderState] = useState({
+    price: [5000, 250000],
+    Carat: [0.96, 41.81],
+    Color: [20, 60],
+    Clarity: [25, 62.5],
+    Cut: [20, 100],
+  });
 
+  const handleSliderChange = (sliderType, newValue) => {
+    setSliderState((prevState) => ({
+      ...prevState,
+      [sliderType]: newValue,
+    }));
+  };
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [ColorRangeValue, setColorRangeValue] = useState([20, 40]);
-  const [ClarityRangeValue, setClarityRangeValue] = useState([]);
-
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
@@ -54,11 +62,6 @@ const DiamondFilter = () => {
   const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
   const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
   const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
-
-  const rangeData = [
-    { index: 4, title: "price", data: priceRangeValue, type: "price" },
-    { index: 5, title: "carat", data: caratRangeValue, type: "carat" },
-  ];
 
   useEffect(() => {
     if (id) {
@@ -104,28 +107,6 @@ const DiamondFilter = () => {
       console.error("Error pausing video:", error);
     }
   };
-
-  const handlePriceSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setPriceRangeValue(roundedValue);
-    handleButton(4, roundedValue);
-  };
-  const handleColorSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setColorRangeValue(roundedValue);
-    handleButton(4, roundedValue); // Assuming 4 is the index for price range
-  };
-  const handleClaritySliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseInt(val));
-    setClarityRangeValue(roundedValue);
-    handleButton(4, roundedValue);
-  };
-  const handleCaratSliderChange = (event, newValue) => {
-    const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
-    setCaratRangeValue(roundedValue);
-    handleButton(5, roundedValue);
-  };
-
   const handleButton = (dropdownIndex, value) => {
     setSelectedValues((prev) => {
       const existingIndex = prev.findIndex(
@@ -276,10 +257,11 @@ const DiamondFilter = () => {
               price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
+              data={sliderState.price}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("price", newValue)
+              }
               open={open === "price"}
-              index={rangeData[0].index}
-              handleSliderChange={handlePriceSliderChange}
-              data={rangeData[0]?.data}
             />
           </div>
           <div className="for_Color">
@@ -287,8 +269,10 @@ const DiamondFilter = () => {
               Color <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionColor
-              handleColorSliderChange={handleColorSliderChange}
-              data={ColorRangeValue}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Color", newValue)
+              }
+              data={sliderState?.Color}
               open={open === "Color"}
             />
           </div>
@@ -298,9 +282,10 @@ const DiamondFilter = () => {
             </span>
             <CollectionCaratRange
               open={open === "Carat"}
-              index={rangeData[1].index}
-              handleSliderChange={handleCaratSliderChange}
-              data={rangeData[1]?.data}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Carat", newValue)
+              }
+              data={sliderState?.Carat}
             />
           </div>
           <div className="for_Clarity">
@@ -309,15 +294,23 @@ const DiamondFilter = () => {
             </span>
             <CollectionClarity
               open={open === "Clarity"}
-              index={rangeData[1].index}
-              handleSliderChange={handleClaritySliderChange}
-              data={rangeData[1]?.data}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Clarity", newValue)
+              }
+              data={sliderState?.Clarity}
             />
           </div>
           <div className="for_Cut">
-            <span>
+            <span onClick={() => handleOpen("Cut")}>
               Cut <FaChevronDown className="chveron_icon" />
             </span>
+            <CollectionCut
+              open={open === "Cut"}
+              data={sliderState?.Cut}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Cut", newValue)
+              }
+            />
           </div>
         </div>
         <div
@@ -355,7 +348,7 @@ const DiamondFilter = () => {
         </div>
         {isloding ? (
           <div className="for_global_spinnerDiv">
-           <WebLoder/>
+            <WebLoder />
           </div>
         ) : (
           <>
@@ -588,7 +581,7 @@ const CollectionPriceRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={5000}
             max={250000}
@@ -642,7 +635,7 @@ const CollectionCaratRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={0.96}
             max={41.81}
@@ -703,7 +696,6 @@ const CollectionColor = forwardRef(
         className="for_ma_color"
         style={{
           height: open ? "90px" : "0px",
-          width: "360px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -713,12 +705,14 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={10}
+            value={data}
             max={100}
             step={10}
             sx={{
+              width: "400px",
               "& .MuiSlider-thumb": {
                 width: 16,
                 height: 16,
@@ -732,6 +726,7 @@ const CollectionColor = forwardRef(
                 height: 6, // Adjust height of the track
                 padding: "0 5px",
               },
+              "& .MuiSlider-markLabel": { fontSize: "12px !important" },
             }}
           />
         </div>
@@ -761,7 +756,6 @@ const CollectionClarity = forwardRef(
         className="for_ma_color"
         style={{
           height: open ? "90px" : "0px",
-          width: "380px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -769,14 +763,16 @@ const CollectionClarity = forwardRef(
             defaultValue={[25, 62.5]}
             aria-label="Restricted values"
             marks={marks}
+            value={data}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={handleSliderChange}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={12.5}
             max={100}
             step={12.5}
             sx={{
+              width: "400px",
               "& .MuiSlider-thumb": {
                 width: 16,
                 height: 16,
@@ -790,12 +786,7 @@ const CollectionClarity = forwardRef(
                 height: 6, // Adjust height of the track
                 padding: "0 5px",
               },
-              '& .MuiSlider-markLabel': {
-                fontSize: '10px', // Adjust the font size of the marks
-              },
-              "& .MuiSlider-mark" :{
-                fontSize :"10px"
-              } ,
+              "& .MuiSlider-markLabel": { fontSize: "12px !important" },
             }}
           />
         </div>
@@ -803,3 +794,58 @@ const CollectionClarity = forwardRef(
     );
   }
 );
+
+const CollectionCut = forwardRef(({ handleSliderChange, data, open }, ref) => {
+  const handleSliderMouseDown = (event) => {
+    event.stopPropagation(); // Prevent click from propagating to parent div
+  };
+  const marks = [
+    { label: "None", value: 20 },
+    { label: "Good", value: 40 },
+    { label: "Very Good", value: 60 },
+    { label: "Excellent", value: 80 },
+    { label: "Heart And Arrow", value: 100 },
+  ];
+
+  return (
+    <div
+      className="for_ma_color"
+      style={{
+        height: open ? "90px" : "0px",
+      }}
+    >
+      <div className="for_ma_collection_slider_div">
+        <Slider
+          defaultValue={[20, 100]}
+          value={data}
+          aria-label="Restricted values"
+          marks={marks}
+          aria-labelledby="range-slider"
+          style={{ color: "black" }}
+          onChange={(e, newValue) => handleSliderChange(newValue)}
+          size="small"
+          min={20}
+          max={100}
+          step={20}
+          sx={{
+            width: "450px",
+            "& .MuiSlider-thumb": {
+              width: 16,
+              height: 16,
+              backgroundColor: "black",
+              border: "1px solid #000",
+            },
+            "& .MuiSlider-rail": {
+              height: 6, // Adjust height of the rail
+            },
+            "& .MuiSlider-track": {
+              height: 6, // Adjust height of the track
+              padding: "0 15px",
+            },
+            "& .MuiSlider-markLabel": { fontSize: "12px !important" },
+          }}
+        />
+      </div>
+    </div>
+  );
+});
