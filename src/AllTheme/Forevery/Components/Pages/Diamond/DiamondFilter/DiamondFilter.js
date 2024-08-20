@@ -401,7 +401,7 @@ const DiamondFilter = () => {
                             )}
                           </>
                         )}
-                        {!val?.Banner && (
+                        {!bannerImage && (
                           <>
                             <div className="select_this_diamond_banner">
                               <span>Select This Diamond</span>
@@ -409,7 +409,7 @@ const DiamondFilter = () => {
                           </>
                         )}
                       </div>
-                      {val?.HaveCustomization && (
+                      {!bannerImage && (
                         <>
                           <div className="toggle_btn">
                             <span onClick={() => HandleMedia("img", i)}>
