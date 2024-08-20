@@ -405,6 +405,7 @@ const NavbarLeft = ({
   setHoveredIndex,
   hoveredIndex,
 }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="left">
@@ -418,6 +419,7 @@ const NavbarLeft = ({
                 setHoveredIndex(i);
               }}
               onMouseOut={() => setHoveredIndex(null)}
+              onClick={()=>Navigate(val?.link)}
             >
               <span className="for_nav_menu">
                 {val?.category}
@@ -576,6 +578,10 @@ const FirstNavMenu = ({ data }) => {
   );
 };
 const SecondNavMenu = ({ data }) => {
+  const Navigate = useNavigate();
+  const HandleDiamondNavigation = (shape) => {
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+  };
   return (
     <div className="Second_Nav_first_Menu">
       <div className="for_first_col">
@@ -586,7 +592,7 @@ const SecondNavMenu = ({ data }) => {
             <div class="ring-types-col">
               {diamondShapes?.map((val, i) => {
                 return (
-                  <span>
+                  <span onClick={() => HandleDiamondNavigation(val?.name)}>
                     <img src={val?.img} alt="" width={15} height={15} />
                     {val?.name}
                   </span>

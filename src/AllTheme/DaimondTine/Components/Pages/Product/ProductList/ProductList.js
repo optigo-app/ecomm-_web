@@ -323,10 +323,13 @@ const ProductList = () => {
     const values = BreadCum[0]?.split(",");
     const labels = BreadCum[1]?.split(",");
 
+
     const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || "";
       return acc;
     }, {});
+
+    console.log("labels",labels);
 
     let result = {}; 
 
@@ -1169,6 +1172,8 @@ const ProductList = () => {
         return menuList?.menuname
     }
   } 
+
+  console.log("BreadCumsObj()",BreadCumsObj());
 
   return (
     <div>
@@ -2677,7 +2682,7 @@ const ProductList = () => {
                                                   ]
                                                 : productData?.images?.length >
                                                   0
-                                                ? ( checkImageAvailability(productData?.images[0]) === true ? productData?.images[0] : imageNotFound)
+                                                ? productData?.images[0] 
                                                 : imageNotFound
                                             }
                                             alt=""

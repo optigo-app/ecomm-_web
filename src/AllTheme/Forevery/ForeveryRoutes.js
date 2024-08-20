@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Cart from "./Components/Pages/Cart/CartMain";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
@@ -42,6 +42,9 @@ import DiamondFilter from "./Components/Pages/Diamond/DiamondFilter/DiamondFilte
 import RingPage from "./Components/Pages/Diamond/RingPage/RingPage";
 import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
+import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
+import DetailsRoute from "./Components/Pages/Product";
+import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -123,6 +126,7 @@ const ForEveryRoutes = () => {
       return navigation("/");
     }
   }
+  
 
   return (
     <>
@@ -204,17 +208,19 @@ const ForEveryRoutes = () => {
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/d/*" element={<ProductDetail />} />
-        <Route path="/p/*" element={<DiamondPage />} />
+        <Route path="/d/*" element={<DetailsRoute />} />
+        <Route path="/p/*" element={<ProductList />} />
         <Route
           path="/certified-loose-lab-grown-diamonds/*"
           element={<DiamondPage />}
         >
           <Route path="settings/*" element={<SettingPage />} />
-          <Route path="diamond/*" element={<DiamondFilter />} />
+          <Route path="diamond/:id" element={<DiamondFilter />} />
           <Route path="ring/*" element={<RingPage />} />
         </Route>
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+        <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
+
+        <Route path="/diamond" element={<Diamond />} />
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
@@ -224,11 +230,10 @@ const ForEveryRoutes = () => {
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-          </Route>
-          <Route path="/Lookbook" element={<Lookbook />} /> */}
-
-        <Route path="*" element={<PageNotFound />} />
+          {/* <Route path="/account" element={<Account />} /> */}
+        <Route path="/Lookbook" element={<Lookbook />} />
+        {/* </Route> */}
+        <Route path="*" element={<Navigate to={'/'} />} />
       </Routes>
       <Footer />
     </>

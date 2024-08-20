@@ -266,7 +266,7 @@ const DesignSet2 = () => {
                                   /> {formatter(detail?.UnitCostWithMarkUp)}
                                 </p>
                               </div>
-                              <div className="fs3 centerall">View Details</div>
+                              {/* <div className="fs3 centerall">View Details</div> */}
                             </SwiperSlide>
                           ))}
                         </>

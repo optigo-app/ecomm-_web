@@ -11,7 +11,7 @@ import Register from './Components/Pages/Auth/Registretion/Register'
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
-import { dt_companyLogo, dt_loginState } from './Components/Recoil/atom'
+import { dt_companyLogo, dt_loginState, lookBookDrawer } from './Components/Recoil/atom'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
@@ -41,6 +41,7 @@ const DaimondTine_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [localData, setLocalData] = useState();
+  const isDrawerLookBook = useRecoilValue(lookBookDrawer);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
@@ -109,7 +110,7 @@ const DaimondTine_App = () => {
 
   return (
     <div>
-      <Header />
+      {!isDrawerLookBook && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/LoginOption" element={<LoginOption />} />

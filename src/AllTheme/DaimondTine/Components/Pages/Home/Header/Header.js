@@ -314,6 +314,7 @@ const Header = () => {
             menuEncoded
         )}`;
 
+        setDrawerOpen(false);
         navigate(url);
 
     };
@@ -575,8 +576,8 @@ const Header = () => {
                                 Home
                             </span>
                         </li>
-                        {menuItems.map((item, index) => 
-                        
+                        {menuItems.map((item, index) =>
+
                         // console.log('itemitemitem',item)
                         (
                             <li
@@ -604,9 +605,9 @@ const Header = () => {
                                 </span>
                             </li>
                         )
-                    
-                    )
-                        
+
+                        )
+
                         }
                         <li
                             className="dt_menu_li"
@@ -623,9 +624,10 @@ const Header = () => {
                                     {storeinit?.IsDesignSetInMenu == 1 &&
                                         <li
                                             className="dt_menu_li"
-                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' , position: 'relative'}}
                                             onClick={() => navigation('/Lookbook')}
                                         >
+                                            <span className='dt_lookBookNew_header'>New</span>
                                             <span className="nav-li-sminingSpan">
                                                 {storeinit?.DesignSetInMenu}
                                             </span>
@@ -640,9 +642,10 @@ const Header = () => {
                                 {storeinit?.IsDesignSetInMenu == 1 &&
                                     <li
                                         className="dt_menu_li"
-                                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
+                                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase', position: 'relative', justifyContent: 'center' }}
                                         onClick={() => navigation('/Lookbook')}
                                     >
+                                        <span className='dt_lookBookNew_header'>New</span>
                                         <span className="nav-li-sminingSpan">
                                             {storeinit?.DesignSetInMenu}
                                         </span>
@@ -726,20 +729,7 @@ const Header = () => {
             {/* mobileHeader................. */}
             <div className="dt_mobileViewHeaderMain" style={{ backgroundColor: drawerOpen ? 'white' : '#e1e1e1 ' }}>
                 <div className="dt_mobileView_div1">
-                    {IsB2BWebsiteChek == 1 ? islogin &&
-                        (drawerOpen ?
-                            <IconButton onClick={() => setDrawerOpen(false)}>
-                                <CloseIcon />
-                            </IconButton>
-                            :
-                            <IconButton
-                                style={{ color: "#7D7F85" }}
-                                onClick={() => setDrawerOpen(true)}
-                                aria-label="open menu"
-                            >
-                                <MenuIcon style={{ fontSize: "35px" }} className="mobileViewSmilingTop4Icone" />
-                            </IconButton>)
-                        :
+                    {
                         (drawerOpen ?
                             <IconButton onClick={() => setDrawerOpen(false)}>
                                 <CloseIcon />
@@ -850,19 +840,14 @@ const Header = () => {
                             </>
                         }
                         {drawerOpen &&
-                            (IsB2BWebsiteChek == 1 ?
+                            (
                                 islogin &&
                                 <li
                                     className='dt_mobile_div3_li1'
                                     style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
                                     <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
-                                :
-                                <li
-                                    className='dt_mobile_div3_li1'
-                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
-                                    <IoPersonOutline color="#7D7F85" fontSize='30px' />
-                                </li>)
+                            )
 
                         }
                         {!drawerOpen &&
@@ -961,6 +946,102 @@ const Header = () => {
                             </ul>
                         </div>
                         <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/term&condition'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    Terms & Conditions
+                                </p>
+                            </ButtonBase>
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/PrivacyPolicy'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    Privacy Policy
+                                </p>
+                            </ButtonBase>
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/FAQ'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    Faq
+                                </p>
+                            </ButtonBase>
+
+                            {IsB2BWebsiteChek == 1 ? (
+                                islogin === true ?
+                                    (
+                                        <>
+                                            {storeinit?.IsDesignSetInMenu == 1 &&
+                                                <ButtonBase
+                                                    component="div"
+                                                    style={{ width: '100%' }}
+                                                    onClick={() => { navigation('/Lookbook'); setDrawerOpen(false); }}
+                                                >
+                                                    <p style={{ padding: '0px 0px 10px 15px', display: 'flex', position: 'relative', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                                        <span style={{
+                                                            position: 'absolute',
+                                                            left: '100px',
+                                                            top: '-11px',
+                                                            color: 'white',
+                                                            backgroundColor: 'saddlebrown',
+                                                            width: 'fitContent',
+                                                            paddingInline: '5px',
+                                                            height: '16px',
+                                                            fontSize: '10px',
+                                                            borderRadius: '5px'
+                                                        }}
+                                                        >New</span>
+                                                        <span className="nav-li-sminingSpan">
+                                                            {storeinit?.DesignSetInMenu}
+                                                        </span>
+                                                    </p>
+                                                </ButtonBase>
+                                            }
+                                        </>
+                                    )
+                                    :
+                                    '')
+                                :
+                                <>
+                                    {storeinit?.IsDesignSetInMenu == 1 &&
+                                        <ButtonBase
+                                            component="div"
+                                            style={{ width: '100%' }}
+                                            onClick={() => { navigation('/Lookbook'); setDrawerOpen(false); }}
+                                        >
+                                            <p style={{ padding: '0px 0px 10px 15px', display: 'flex', position: 'relative', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                                <span style={{
+                                                    position: 'absolute',
+                                                    left: '100px',
+                                                    top: '-11px',
+                                                    color: 'white',
+                                                    backgroundColor: 'saddlebrown',
+                                                    width: 'fitContent',
+                                                    paddingInline: '5px',
+                                                    height: '16px',
+                                                    fontSize: '10px',
+                                                    borderRadius: '5px'
+                                                }}>New</span>
+                                                <span className="nav-li-sminingSpan">
+                                                    {storeinit?.DesignSetInMenu}
+                                                </span>
+                                            </p>
+                                        </ButtonBase>
+                                    }
+                                </>
+                            }
+
+
                             {menuItems.map(menuItem => (
                                 <div key={menuItem.menuid}>
                                     <ButtonBase
@@ -980,7 +1061,12 @@ const Header = () => {
                                         <>
                                             <ButtonBase
                                                 component="div"
-                                                onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                                                onClick={() =>
+                                                    handelMenu({
+                                                        menuname: menuItem?.menuname,
+                                                        key: menuItem?.param0name,
+                                                        value: menuItem?.param0dataname,
+                                                    })}
                                                 style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                             >
                                                 <p style={{ margin: '5px 0px 0px 15px', textDecoration: 'underline', }}>View All</p>

@@ -36,18 +36,56 @@ const ProductList = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)')
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
+  const videoRef = useRef(null);
 
+  const categoryArr = [
+    {
+      id: 1,
+      title: 'All Jewelry',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/all-jewelry.svg`
+    },
+    {
+      id: 2,
+      title: 'Diamond Rings',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`
+    },
+    {
+      id: 3,
+      title: 'Diamond Earings',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`
+    },
+    {
+      id: 4,
+      title: 'Diamond Braceletes',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`
+    },
+    {
+      id: 5,
+      title: 'Diamond Necklaces',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`
+    },
+    {
+      id: 6,
+      title: 'Diamond Pendants',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`
+    },
+    {
+      id: 7,
+      title: 'Signet Rings',
+      image: `${storImagePath()}/images/ProductListing/CategoryImages/signetring.svg`
+    },
+  ]
+
+  const [selectedCategory, setSelectedCategory] = useState(categoryArr[0]?.id)
   const [trend, setTrend] = useState('Recommended');
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [storeInit, setStoreInit] = useState({});
@@ -77,6 +115,10 @@ const ProductList = () => {
 
   const handleOpen = (index) => {
     setOpen(open === index ? null : index)
+  }
+
+  const handleCategory = (id) => {
+    setSelectedCategory(selectedCategory === id ? null : id);
   }
 
   const handleMetalColor = (index) => {
@@ -134,6 +176,29 @@ const ProductList = () => {
 
   }, []);
 
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoElement.play();
+          } else {
+            videoElement.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(videoElement);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
 
 
   const links = [
@@ -148,36 +213,6 @@ const ProductList = () => {
     },
   ]
 
-  const categoryArr = [
-    {
-      title: 'All Jewelry',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/all-jewelry.svg`
-    },
-    {
-      title: 'Diamond Rings',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Rings.svg`
-    },
-    {
-      title: 'Diamond Earings',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond_Studs.svg`
-    },
-    {
-      title: 'Diamond Braceletes',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/Diamond-bracelets.svg`
-    },
-    {
-      title: 'Diamond Necklaces',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/diamond-necklaces.svg`
-    },
-    {
-      title: 'Diamond Pendants',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/pendant.png`
-    },
-    {
-      title: 'Signet Rings',
-      image: `${storImagePath()}/images/ProductListing/CategoryImages/signetring.svg`
-    },
-  ]
 
   const metalColorType = [
     {
@@ -570,51 +605,6 @@ const ProductList = () => {
       })
   }
 
-  // const handelCustomCombo = (obj) => {
-
-  //   if (location?.state?.SearchVal === undefined) {
-  //     setIsOnlyProdLoading(true);
-  //     ProductListApi({}, 1, obj, prodListType, cookie, sortBySelect)
-  //       .then((res) => {
-  //         if (res) {
-  //           setProductListData(res?.pdList);
-  //           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-  //         }
-  //         return res;
-  //       })
-  //       .catch((err) => console.log("err", err))
-  //       .finally(() => {
-  //         setTimeout(() => {
-  //           sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-  //           setIsOnlyProdLoading(false);
-  //         }, 100);
-  //       });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-  //   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
-  //   sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
-
-  //   if (
-  //     loginInfo?.MetalId !== selectedMetalId ||
-  //     loginInfo?.cmboDiaQCid !== selectedDiaId ||
-  //     loginInfo?.cmboCSQCid !== selectedCsId
-  //   ) {
-  //     if (
-  //       selectedMetalId !== "" ||
-  //       selectedDiaId !== "" ||
-  //       selectedCsId !== ""
-  //     ) {
-  //       handelCustomCombo(obj);
-  //     }
-  //   }
-  // }, [selectedMetalId, selectedDiaId, selectedCsId]);
-
-
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#000',
@@ -656,7 +646,7 @@ const ProductList = () => {
 
     navigate(
       `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
+      }${productData?.designno}/p=${encodeObj}`
     );
   };
 
@@ -755,12 +745,12 @@ const ProductList = () => {
               </div>
               <div className="for_productList_category_filter_options">
                 {categoryArr?.map((item, index) => (
-                  <div className="for_category_filter_options_card" key={index}>
-                    <div className="for_category_filter_image_div">
-                      <img src={item?.image} className="for_category_filter_image" alt="category image" />
+                  <div className="for_category_filter_options_card" key={index} onClick={() => handleCategory(item?.id)}>
+                    <div className={selectedCategory === item?.id ? 'for_category_filter_image_div_selected' : 'for_category_filter_image_div'}>
+                      <img src={item?.image} className={selectedCategory === item?.id ? "for_category_filter_image_selected" : "for_category_filter_image"} alt="category image" />
                     </div>
                     <div className="for_category_filter_title_div">
-                      <span className="for_category_filter_title_span">{item?.title}</span>
+                      <span className={selectedCategory === item?.id ? "for_category_filter_title_span_selected" : "for_category_filter_title_span"}>{item?.title}</span>
                     </div>
                   </div>
                 ))}
@@ -935,6 +925,9 @@ const ProductList = () => {
                     handleCartandWish={handleCartandWish}
                     cartArr={cartArr}
                     handleMoveToDetail={handleMoveToDetail}
+                    videoRef={videoRef}
+                    selectedMetalId={selectedMetalId}
+                    metalType={metalType}
                   />
                 ))
               )}
@@ -990,7 +983,7 @@ const CollectionDropdown = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={open ? "for_collection_filter_option_div" : 'for_collection_filter_option_div_hide'}>
+      <div className={`for_collection_filter_option_div ${open ? 'open' : 'for_collection_filter_option_div_hide'}`}>
         {data?.map((i) => {
           let isChecked = false;
 
@@ -1152,10 +1145,15 @@ const Product_Card = ({
   storeInit,
   handleCartandWish,
   cartArr,
-  handleMoveToDetail
+  handleMoveToDetail,
+  videoRef,
+  selectedMetalId,
+  metalType,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+
+  const getGoldType = metalType.filter((item) => item?.Metalid === selectedMetalId)?.[0]?.metaltype.toUpperCase()?.split(' ')[1]?.split('K')[0];
 
   const handleClick = (id) => {
     setSelectedMetalColor(selectedMetalColor === id ? null : id);
@@ -1201,7 +1199,7 @@ const Product_Card = ({
               <>
                 {videoUrl !== undefined ? (
                   <div className="for_rollup_video">
-                    <video loading={lazy} src={videoUrl} autoPlay muted loop></video>
+                    <video loading={lazy} src={videoUrl} autoPlay muted loop ref={videoRef} />
                   </div>
                 ) : null}
 
@@ -1222,7 +1220,6 @@ const Product_Card = ({
                 e.target.src = noImageFound
               }}
             />
-            {/* <img className="for_productList_listing_card_image" src="https://www.forevery.one/jewelry_media/346/image.jpg" alt="" /> */}
           </div>
           <div className="for_productList_metaltype_div">
             {metalColorType?.map((item) => (
@@ -1231,7 +1228,7 @@ const Product_Card = ({
                 key={item?.id}
                 onClick={() => handleClick(item?.id)}
               >
-                18
+                {getGoldType ?? 18}
               </div>
             ))}
           </div>
@@ -1290,7 +1287,7 @@ const Product_Card = ({
             <span>
               <span
                 dangerouslySetInnerHTML={{
-                  __html: decodeEntities(loginCurrency?.CurrencyCode),
+                  __html: decodeEntities(loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode),
                 }}
                 style={{ paddingRight: '0.4rem' }}
               />

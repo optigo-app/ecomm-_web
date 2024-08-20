@@ -130,6 +130,155 @@
         }
       }
     }
+    .for_price {
+      position: relative;
+      .for_ma_collection_filter_dropdown {
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 5;
+        border-radius: 5px;
+        margin-top: 5px;
+        z-index: 4;
+        transition: 0.5s ease-in-out;
+        height: 0;
+        overflow: hidden;
+        .for_ma_collection_slider_div {
+          margin-top: 10px;
+          padding: 0px 15px;
+          width: auto;
+        }
+        .for_ma_collection_slider_input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          gap: 8rem;
+          margin-top: 1rem;
+          padding-bottom: 10px;
+          input {
+            width: 5rem !important;
+            font-size: 10px !important;
+            padding: 3px 0 !important;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
+    .for_Color {
+      position: relative;
+      .for_ma_color {
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 5;
+        border-radius: 5px;
+        margin-top: 5px;
+        z-index: 4;
+        transition: 0.5s ease-in-out;
+        height: 0;
+        overflow: hidden;
+        .for_ma_collection_slider_div {
+          margin-top: 10px;
+          padding: 0px 15px;
+          width: auto;
+        }
+        .for_ma_collection_slider_input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          gap: 8rem;
+          margin-top: 1rem;
+          padding-bottom: 10px;
+          input {
+            width: 5rem !important;
+            font-size: 10px !important;
+            padding: 3px 0 !important;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
+    .for_Carat {
+      position: relative;
+      .for_ma_collection_filter_dropdown {
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 5;
+        border-radius: 5px;
+        margin-top: 5px;
+        z-index: 4;
+        transition: 0.5s ease-in-out;
+        height: 0;
+        overflow: hidden;
+        .for_ma_collection_slider_div {
+          margin-top: 10px;
+          padding: 0px 15px;
+          width: auto;
+        }
+        .for_ma_collection_slider_input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          gap: 8rem;
+          margin-top: 1rem;
+          padding-bottom: 10px;
+          input {
+            width: 5rem !important;
+            font-size: 10px !important;
+            padding: 3px 0 !important;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
+    .for_Clarity{
+      position: relative;
+      .for_ma_color {
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 5;
+        border-radius: 5px;
+        margin-top: 5px;
+        z-index: 4;
+        transition: 0.5s ease-in-out;
+        height: 0;
+        overflow: hidden;
+        .for_ma_collection_slider_div {
+          margin-top: 10px;
+          padding: 0px 15px;
+          width: auto;
+        }
+        .for_ma_collection_slider_input {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          gap: 8rem;
+          margin-top: 1rem;
+          padding-bottom: 10px;
+          
+          input {
+            width: 5rem !important;
+            font-size: 10px !important;
+            padding: 3px 0 !important;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
   }
   .for_filter_more {
     width: 68%;
@@ -192,8 +341,26 @@
       }
     }
   }
+  .for_global_spinnerDiv{
+    margin-block: 40px;
+    width: 100%;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  
+  .for_NoDataDiv{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $fontSize4;
+  }
+
   .diamond_listing {
-    height: 100vh;
+    height: auto;
     width: 68%;
     margin: 0 auto;
     display: grid;
@@ -202,44 +369,158 @@
     padding: 20px;
     .diamond_card {
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 5px;
       padding: 1px;
       border: 1px solid transparent;
       display: flex;
       flex-direction: column;
       &:hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        .media_frame {
+          .select_this_diamond_banner {
+            display: block;
+          }
+        }
       }
-      .media_frame{
+      .media_frame {
+        position: relative;
         width: 100%;
-        video{
+        .select_this_diamond_banner {
+          position: absolute;
+          bottom: 0;
+          background-color: #5e5e5e;
+          width: 100%;
+          left: 0;
+          right: 0;
+          padding: 5px 0;
+          text-align: center;
+          color: white;
+          cursor: pointer;
+          display: none;
+          transition: 0.3s ease-in-out;
+          span {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+          }
+        }
+        video {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
-        img{
+        .dimond-info-img {
+          width: 100%;
+          height: 300px;
+        }
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
       }
-      .toggle_btn{
+      .toggle_btn {
         padding: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 1rem;
-        span{
+        span {
           cursor: pointer;
-          img{
+          img {
             width: 35px;
             object-fit: cover;
           }
-          svg{
+          svg {
             width: 40px;
           }
         }
       }
+      .price_details {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 5px 0;
+        .title {
+          span {
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+          }
+        }
+        .price {
+          span {
+            font-size: 18px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  .filter_clear {
+    width: 68%;
+    margin: 0 auto;
+    padding-block: 25px;
+    p {
+      font-size: 22px;
+      width: 90%;
+      font-weight: 500;
+      u {
+        font-weight: 600;
+        cursor: pointer;
+        color: #ee8b9f;
+      }
+    }
+  }
+  .faq_accordian_Design {
+    width: 55%;
+    margin: 0 auto;
+    .show_more_btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 0;
+      .btn-sm {
+        padding: 7px 16px;
+      }
+    }
+    .MuiAccordion-root {
+      margin: 0; // Remove default margin
+      box-shadow: none; // Remove default box shadow
+      border-bottom: 1px solid black;
+      border-radius: 0;
+    }
+
+    .MuiAccordionSummary-root {
+      border-radius: 0;
+      padding: 2px 0; // Remove default padding
+      .m-faq {
+        font-size: 22px;
+        font-weight: 800;
+        padding: 5px 0;
+      }
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0; // Remove default padding
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .MuiAccordionActions-root {
+      padding: 10px 0; // Remove default padding
+      border-top: none; // Remove default border
+    }
+
+    .MuiButton-root {
+      margin: 0; // Remove default margin from buttons
+      padding: 0; // Remove default padding from buttons
     }
   }
 }

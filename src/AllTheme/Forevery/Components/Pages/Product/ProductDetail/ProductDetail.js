@@ -14,7 +14,7 @@ import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeCo
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
 import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
-import { Checkbox, FormControl, Skeleton } from '@mui/material';
+import { Checkbox, FormControl, Rating, Skeleton } from '@mui/material';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Services from '../../ReusableComponent/OurServives/OurServices';
@@ -56,7 +56,6 @@ const ProductDetail = () => {
   const [csQcCombo, setCsQcCombo] = useState([])
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [metalColor, setMetalColor] = useState();
-  console.log('metalColor: ', metalColor);
   const [isImageload, setIsImageLoad] = useState(true);
   const [netWTData, setnetWTData] = useState([])
   const [metalColorCombo, setMetalColorCombo] = useState([]);
@@ -85,6 +84,7 @@ const ProductDetail = () => {
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [PdImageArr, setPdImageArr] = useState([]);
+  const [ratingvalue, setratingvalue] = useState(5);
 
   const services = [
     {
@@ -234,7 +234,7 @@ const ProductDetail = () => {
 
 
   useEffect(() => {
-    let navVal = location?.search.split("?p=")[1];
+    let navVal = location?.pathname.split('/')[3].split('=')[1];
     let decodeobj = decodeAndDecompress(navVal);
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -381,7 +381,8 @@ const ProductDetail = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = location?.search.split("?p=")[1];
+    let BreadCum = location?.pathname.split('/')[3].split('=')[1];
+    console.log('BreadCum: ', BreadCum);
     let decodeobj = decodeAndDecompress(BreadCum);
 
     const values = BreadCum[0].split(',');
@@ -406,7 +407,7 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    let navVal = location?.search.split("?p=")[1];
+    let navVal = location?.pathname.split('/')[3].split('=')[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
     console.log('decodeobj: ', decodeobj);
@@ -541,7 +542,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location?.key]);
+  }, [location?.pathname]);
 
   const decodeAndDecompress = (encodedString) => {
     try {
@@ -1080,8 +1081,6 @@ const ProductDetail = () => {
     return txt.value;
   };
 
-  const videos = PdImageArr?.filter(val => val?.type === 'video');
-  const images = PdImageArr?.filter(val => val?.type === 'img');
 
   return (
     <div className="for_ProductDet_mainDiv">
@@ -1185,90 +1184,6 @@ const ProductDetail = () => {
                         })}
                       </div>
                       <div className="for_main_image">
-                        {/* {PdImageArr?.length > 1 ? (
-                          <>
-                            <Slider
-                              {...settings}
-                              ref={sliderRef}
-                              lazyLoad="progressive"
-                            >
-                              {PdImageArr?.length > 0 ? (
-                                PdImageArr?.map((val, i) => {
-                                  return (
-                                    <div key={i} className="for_slider_card">
-                                      <div className="for_image">
-                                        {val?.type == "img" ? (
-                                          <img
-                                            loading="lazy"
-                                            src={
-                                              val?.src ||
-                                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                            }
-                                            alt={""}
-                                            onLoad={() => setIsImageLoad(false)}
-                                            onError={(e) => {
-                                              e.target.onerror = null;
-                                              e.target.src =
-                                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                            }}
-                                          />
-                                        ) : (
-                                          <div
-                                            style={{
-                                              height: "80%",
-                                            }}
-                                          >
-                                            <video
-                                              src={val?.src}
-                                              ref={videoRef}
-                                              loop={true}
-                                              autoPlay={true}
-                                              muted
-                                              style={{
-                                                width: "100%",
-                                                height: "100%",
-                                                objectFit: "scale-down",
-                                              }}
-                                            />
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  );
-                                })
-                              ) : (
-                                <div className="for_main_image">
-                                  <img
-                                    src={
-                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                    }
-                                    alt={""}
-                                    style={{
-                                      width: "100%",
-                                      height: "90%",
-                                      objectFit: "contain",
-                                      border: "1px solid #312f2f21",
-                                      marginTop: "45px",
-                                    }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src =
-                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </Slider>
-                          </>
-                        ) : (
-                          <>
-                            <div className="for_slider_card">
-                              <div className="for_image">
-                                <img src={PdImageArr[0]?.src} alt="image-1" />
-                              </div>
-                            </div>
-                          </>
-                        )} */}
                         {PdImageArr?.length > 0 ? (
                           <>
                             <Slider
@@ -1421,6 +1336,18 @@ const ProductDetail = () => {
                   <div className="for_ProductDet_title_div">
                     <div className="for_ProductDet_title">
                       <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span>
+                    </div>
+                    <div className="for_ProductDet_rating_div">
+                      <div className="">
+                        <Rating
+                          name="simple-controlled"
+                          value={ratingvalue}
+                          size="small"
+                          className="for_productDet_listting_rating"
+                          readOnly
+                        />
+                      </div>
+                      <div className='for_productDet_rating_text_div'><span className='for_productDet_rating_text'>4.5</span> Out of 5</div>
                     </div>
                     <div className="for_ProductDet_title_sku">
                       <span>SKU: FE-CO-YG-0.5CT</span>
@@ -1649,14 +1576,17 @@ const ProductDetail = () => {
           <div className="for_ProductDet_services_div">
             <Services title={"Our Exclusive services"} services={services} />
           </div>
-          <div className="for_ProductDet_Similiar_products_div">
-            <RelatedProduct
-              SimilarBrandArr={SimilarBrandArr}
-              handleMoveToDetail={handleMoveToDetail}
-              storeInit={storeInit}
-              loginInfo={loginUserDetail}
-            />
-          </div>
+          {storeInit?.IsProductDetailSimilarDesign == 1 &&
+            SimilarBrandArr?.length > 0 && (
+              <div className="for_ProductDet_Similiar_products_div">
+                <RelatedProduct
+                  SimilarBrandArr={SimilarBrandArr}
+                  handleMoveToDetail={handleMoveToDetail}
+                  storeInit={storeInit}
+                  loginInfo={loginUserDetail}
+                />
+              </div>
+            )}
         </div>
         <div className="for_ProductDet_trend_coll_banner_div">
           <div className="for_trend_coll_details_div">

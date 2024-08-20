@@ -1,76 +1,233 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState, forwardRef } from "react";
 import "./DiamondFilter.scss";
-import { DiamondLists } from "../../../data/NavbarMenu";
-import { FaChevronDown } from "react-icons/fa";
+import { DiamondLists, DiamondProductList } from "../../../data/NavbarMenu";
+import { FaAngleDown, FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import {
+  formatter,
+  storImagePath,
+} from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
+import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import Faq from "../../ReusableComponent/Faq/Faq";
+import { faqList } from "../../../data/dummydata";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Slider,
+} from "@mui/material";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import btnstyle from "../../../scss/Button.module.scss";
+import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
+import Pako from "pako";
+import WebLoder from "../../WebLoder/WebLoder";
 
 const DiamondFilter = () => {
+  const location = useLocation();
+  const [isloding, setIsloding] = useState(false);
+  const [diamondData, setDiamondData] = useState();
+  const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
+  const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
+  const { id } = useParams();
+  const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
   const [showMorefilter, setshowMorefilter] = useState(false);
   const [show, setshow] = useState(false);
-  const [ShowMedia, setShowMedia] = useState("vid");
-  const VideoRef = useRef(null);
-  const handleCheckboxChange = (name) => {
-    setCheckedItem((prevCheckedItem) =>
-      prevCheckedItem === name ? null : name
-    );
-  };
+  const [ShowMedia, setShowMedia] = useState({});
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const videoRefs = useRef([]);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [open, setOpen] = useState(null);
+  const [storeInitData, setStoreInitData] = useState();
+
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [ColorRangeValue, setColorRangeValue] = useState([20, 40]);
+  const [ClarityRangeValue, setClarityRangeValue] = useState([]);
+
+  useEffect(() => {
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
+    setStoreInitData(storeinitData);
+  }, []);
+
   const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
   const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
   const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
-  const HandleMedia = (q) => {
-    setShowMedia(q);
+  const rangeData = [
+    { index: 4, title: "price", data: priceRangeValue, type: "price" },
+    { index: 5, title: "carat", data: caratRangeValue, type: "carat" },
+  ];
+
+  useEffect(() => {
+    if (id) {
+      setCheckedItem(id);
+    }
+  }, [id]);
+
+  const handleOpen = (title) => {
+    setOpen((prevOpen) => (prevOpen === title ? null : title));
   };
+
+  const handleCheckboxChange = (name) => {
+    const shape = location?.pathname?.split("/")[3];
+    if (name) {
+      const newPath = location?.pathname.replace(shape, name);
+      Navigate(newPath);
+    }
+
+    setCheckedItem((prevCheckedItem) =>
+      prevCheckedItem === name ? null : name
+    );
+  };
+
+  const HandleMedia = (type, index) => {
+    setShowMedia((prev) => ({ ...prev, [index]: type }));
+  };
+  const handleMouseMove = async (e, i) => {
+    const videoElement = e.target;
+    setHoveredCard(i);
+    try {
+      await videoElement.play();
+      videoElement?.Muted();
+    } catch (error) {
+      console.error("Error playing video:", error);
+    }
+  };
+  const handleMouseLeave = async (e, i) => {
+    const videoElement = e.target;
+    setHoveredCard(null);
+    try {
+      videoElement.pause();
+    } catch (error) {
+      console.error("Error pausing video:", error);
+    }
+  };
+
+  const handlePriceSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setPriceRangeValue(roundedValue);
+    handleButton(4, roundedValue);
+  };
+  const handleColorSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setColorRangeValue(roundedValue);
+    handleButton(4, roundedValue); // Assuming 4 is the index for price range
+  };
+  const handleClaritySliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseInt(val));
+    setClarityRangeValue(roundedValue);
+    handleButton(4, roundedValue);
+  };
+  const handleCaratSliderChange = (event, newValue) => {
+    const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
+    setCaratRangeValue(roundedValue);
+    handleButton(5, roundedValue);
+  };
+
+  const handleButton = (dropdownIndex, value) => {
+    setSelectedValues((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) => item.dropdownIndex === dropdownIndex
+      );
+      const newValue = { dropdownIndex, value };
+
+      if (existingIndex >= 0) {
+        if (
+          JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)
+        ) {
+          return prev.filter((_, i) => i !== existingIndex); // Remove if the same value is selected again
+        }
+        // Update existing value
+        const updatedValues = [...prev];
+        updatedValues[existingIndex] = newValue;
+        return updatedValues;
+      } else {
+        // Add new value
+        return [...prev, newValue];
+      }
+    });
+  };
+
+  const getDiamondData = async (shape) => {
+    setIsloding(true);
+    try {
+      const response = await DiamondListData(shape);
+      if (response && response.Data) {
+        let resData = response.Data?.rd;
+        console.log("diamondlistResponse", response.Data);
+        const Newmap = resData?.map((val, i) => {
+          return {
+            img: IMG,
+            vid: Video,
+            HaveCustomization: true,
+            ...val,
+          };
+        });
+        console.log(Newmap, "swdwkhdwkdbwkbd");
+        setDiamondData(Newmap);
+        setIsloding(false);
+      } else {
+        console.warn("No data found in the response");
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const shape = location?.pathname?.split("/")[3];
+    getDiamondData(shape);
+  }, [location?.pathname]);
+
+  const compressAndEncode = (inputString) => {
+    try {
+      const uint8Array = new TextEncoder().encode(inputString);
+
+      const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+      return btoa(String.fromCharCode.apply(null, compressed));
+    } catch (error) {
+      console.error("Error compressing and encoding:", error);
+      return null;
+    }
+  };
+
+  const HandleDiamondRoute = (val) => {
+    console.log("hsahdjash", val);
+    const obj = {
+      a: val?.stockno,
+      b: val?.shapename,
+    }
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
+    Navigate(navigateUrl);
+  };
+
+  const getBannerImage = (index) => {
+    const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+    return index < 0 || (index >= 2 && (index - 2) % 16 === 0) ? bannerImage : null;
+  };
+  
+
   return (
-    <div className="for_DiamondFilter">
-      <div className="heading">
-        <h2>select the diamond shape</h2>
-        <div className="shape_list">
-          {DiamondLists?.slice(0, 10)?.map((val) => (
-            <label
-              htmlFor={val?.name}
-              key={val?.name}
-              onClick={() => setshow(false)}
-            >
-              <input
-                hidden
-                type="checkbox"
-                name="shape"
-                className="input-checked-box"
-                id={val?.name}
-                checked={checkedItem === val?.name}
-                onChange={() => handleCheckboxChange(val?.name)}
-              />
-              <div
-                className={`shape_card ${
-                  checkedItem === val?.name ? "active-checked" : ""
-                }`}
-                id={val?.name}
-              >
-                <img src={val?.img} alt={val?.name} />
-                <span>{val?.name}</span>
-              </div>
-            </label>
-          ))}
-          <div
-            className="extra_shape_menu"
-            style={{
-              height: show && "180px",
-            }}
-          >
-            {DiamondLists?.slice(10, 13)?.map((val) => (
+    <>
+      <ScrollTop />
+      <div className="for_DiamondFilter">
+        <div className="heading">
+          <h2>select the diamond shape</h2>
+          <div className="shape_list">
+            {DiamondLists?.slice(0, 10)?.map((val) => (
               <label
                 htmlFor={val?.name}
-                className="extra_shape"
                 key={val?.name}
+                onClick={() => setshow(false)}
               >
-                <div id={val?.name} className="shape">
-                  <img src={val?.img} alt={val?.name} />
-                  <span>{val?.name}</span>
-                </div>
                 <input
+                  hidden
                   type="checkbox"
                   name="shape"
                   className="input-checked-box"
@@ -78,123 +235,266 @@ const DiamondFilter = () => {
                   checked={checkedItem === val?.name}
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
+                <div
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
+                  id={val?.name}
+                >
+                  <img src={val?.img} alt={val?.name} />
+                  <span>{val?.name}</span>
+                </div>
               </label>
             ))}
+            <div
+              className="extra_shape_menu"
+              style={{
+                height: show && "180px",
+                backgroundColor: "white",
+              }}
+            >
+              {DiamondLists?.slice(10, 13)?.map((val) => (
+                <label
+                  htmlFor={val?.name}
+                  className="extra_shape"
+                  key={val?.name}
+                >
+                  <div id={val?.name} className="shape">
+                    <img src={val?.img} alt={val?.name} />
+                    <span>{val?.name}</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="shape"
+                    className="input-checked-box"
+                    id={val?.name}
+                    checked={checkedItem === val?.name}
+                    onChange={() => handleCheckboxChange(val?.name)}
+                  />
+                </label>
+              ))}
+            </div>
+            <div className="more" onClick={() => setshow(!show)}>
+              <button>
+                More <FaChevronDown />
+              </button>
+            </div>
           </div>
-          <div className="more" onClick={() => setshow(!show)}>
-            <button>
-              More <FaChevronDown />
+        </div>
+        <div className="filter_Head">
+          <div className="for_price">
+            <span onClick={() => handleOpen("price")}>
+              price <FaChevronDown className="chveron_icon" />
+            </span>
+            <CollectionPriceRange
+              open={open === "price"}
+              index={rangeData[0].index}
+              handleSliderChange={handlePriceSliderChange}
+              data={rangeData[0]?.data}
+            />
+          </div>
+          <div className="for_Color">
+            <span onClick={() => handleOpen("Color")}>
+              Color <FaChevronDown className="chveron_icon" />
+            </span>
+            <CollectionColor
+              handleColorSliderChange={handleColorSliderChange}
+              data={ColorRangeValue}
+              open={open === "Color"}
+            />
+          </div>
+          <div className="for_Carat">
+            <span onClick={() => handleOpen("Carat")}>
+              Carat <FaChevronDown className="chveron_icon" />
+            </span>
+            <CollectionCaratRange
+              open={open === "Carat"}
+              index={rangeData[1].index}
+              handleSliderChange={handleCaratSliderChange}
+              data={rangeData[1]?.data}
+            />
+          </div>
+          <div className="for_Clarity">
+            <span onClick={() => handleOpen("Clarity")}>
+              Clarity <FaChevronDown className="chveron_icon" />
+            </span>
+            <CollectionClarity
+              open={open === "Clarity"}
+              index={rangeData[1].index}
+              handleSliderChange={handleClaritySliderChange}
+              data={rangeData[1]?.data}
+            />
+          </div>
+          <div className="for_Cut">
+            <span>
+              Cut <FaChevronDown className="chveron_icon" />
+            </span>
+          </div>
+        </div>
+        <div
+          className="for_filter_more"
+          onClick={() => setshowMorefilter(!showMorefilter)}
+          style={{
+            height: showMorefilter ? "50vh" : "50px",
+            background: showMorefilter ? " #fcf4f4" : "#fff",
+          }}
+        >
+          <div className="head_filter">
+            <span>
+              {showMorefilter ? "Less" : "More"} filters
+              {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
+            </span>
+          </div>
+        </div>
+        <div className="filter_results">
+          <hr />
+          <h3>Showing 733 lab grown diamonds</h3>
+          <div className="col_details">
+            <div className="desc">
+              <p>
+                Design your own personal Diamond Engagement Ring. Please select
+                ring setting of your style and then choose diamond of your
+                choice.We present every diamond in high definition so you can
+                know exactly what you are getting.
+              </p>
+            </div>
+            <div className="sorting_options">
+              <span>Sort By | Price: Low to High</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        {isloding ? (
+          <div className="for_global_spinnerDiv">
+            <WebLoder />
+          </div>
+        ) : (
+          <>
+            {diamondData?.length != 0 ? (
+              <div className="diamond_listing">
+                {diamondData?.map((val, i) => {
+                  const currentMediaType = ShowMedia[i] || "vid";
+                  const bannerImage = getBannerImage(i); 
+                  return (
+                    <div
+                      key={i}
+                      className="diamond_card"
+                      onClick={() => HandleDiamondRoute(val)}
+                    >
+                      <div className="media_frame">
+                        {bannerImage ? (
+                          <img src={bannerImage} alt="bannerImage" width={"100%"} />
+                        ) : (
+                          <>
+                            {currentMediaType === "vid" ? (
+                              <video
+                                src={val?.vid}
+                                width="100%"
+                                ref={(el) => (videoRefs.current[i] = el)}
+                                autoPlay={hoveredCard === i}
+                                controls={false}
+                                muted
+                                onMouseOver={(e) => handleMouseMove(e, i)}
+                                onMouseLeave={(e) => handleMouseLeave(e, i)}
+                              />
+                            ) : (
+                              <img
+                                className="dimond-info-img"
+                                src={val?.img}
+                                alt=""
+                              />
+                            )}
+                          </>
+                        )}
+                        {!bannerImage && (
+                          <>
+                            <div className="select_this_diamond_banner">
+                              <span>Select This Diamond</span>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      {!bannerImage && (
+                        <>
+                          <div className="toggle_btn">
+                            <span onClick={() => HandleMedia("img", i)}>
+                              <img
+                                src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                                alt=""
+                              />
+                            </span>
+                            <span onClick={() => HandleMedia("vid", i)}>
+                              <SvgImg />
+                            </span>
+                          </div>
+                          <div className="price_details">
+                            <div className="title">
+                              <span>
+                                {val?.shapename} <strong>{val?.carat}</strong>{" "}
+                                CARAT {val?.colorname} {val?.clarityname}{" "}
+                                {val?.cutname}
+                              </span>
+                            </div>
+                            <div className="pric">
+                              <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ??
+                                  storeInitData?.CurrencyCode}
+                              </span>
+                              <span> {val?.price}</span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="for_NoDataDiv">
+                No diamond found in this filter!
+              </div>
+            )}
+          </>
+        )}
+        <div className="filter_clear">
+          <p>
+            It appears that there are no diamonds matching your search criteria.
+            Please adjust your search settings or <u>reset your filters</u> for
+            better results.
+          </p>
+        </div>
+        <div className="faq_accordian_Design">
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<AddCircleOutlineIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <span className="m-faq">Frequently Asked Questions</span>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Faq data={faqList} />
+            </AccordionDetails>
+          </Accordion>
+          <div className="show_more_btn">
+            <button
+              onClick={() => Navigate(`/faq`)}
+              className={`${btnstyle?.btn_for_new} btn-sm ${btnstyle?.btn_15}`}
+            >
+              SHOW MORE
+              <FaChevronDown
+                style={{
+                  marginTop: "-3px",
+                }}
+              />
             </button>
           </div>
         </div>
+        <NewsletterSignup />
       </div>
-      <div className="filter_Head">
-        <div className="for_price">
-          <span>
-            price <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Color">
-          <span>
-            Color <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Carat">
-          <span>
-            Carat <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Clarity">
-          <span>
-            Clarity <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-        <div className="for_Cut">
-          <span>
-            Cut <FaChevronDown className="chveron_icon" />
-          </span>
-        </div>
-      </div>
-      <div
-        className="for_filter_more"
-        onClick={() => setshowMorefilter(!showMorefilter)}
-        style={{
-          height: showMorefilter ? "50vh" : "50px",
-          background: showMorefilter ? " #fcf4f4" : "#fff",
-        }}
-      >
-        <div className="head_filter">
-          <span>
-            {showMorefilter ? "Less" : "More"} filters
-            {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
-          </span>
-        </div>
-      </div>
-      <div className="filter_results">
-        <hr />
-        <h3>Showing 733 lab grown diamonds</h3>
-        <div className="col_details">
-          <div className="desc">
-            <p>
-              Design your own personal Diamond Engagement Ring. Please select
-              ring setting of your style and then choose diamond of your
-              choice.We present every diamond in high definition so you can know
-              exactly what you are getting.
-            </p>
-          </div>
-          <div className="sorting_options">
-            <span>Sort By | Price: Low to High</span>
-          </div>
-        </div>
-        <hr />
-      </div>
-      <div className="diamond_listing">
-        {Array.from({ length: 8 }).map((val, i) => {
-          return (
-            <div className="diamond_card">
-              <div className="media_frame">
-                {ShowMedia === "img" ? (
-                  <img
-                    src={IMG}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "300px",
-                    }}
-                  />
-                ) : (
-                  <video
-                    src={Video}
-                    loop
-                    muted
-                    ref={VideoRef}
-                    onMouseLeave={() => VideoRef.current?.pause()}
-                    onMouseMove={() => VideoRef.current?.play()}
-                  />
-                )}
-              </div>
-              <div className="toggle_btn">
-                <span onClick={() => HandleMedia("img")}>
-                  <img
-                    src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
-                    alt=""
-                  />
-                </span>
-                <span onClick={() => HandleMedia("vid")}>
-                  <SvgImg />
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 };
 
-{
-  /* <SvgImg/> */
-}
 export default DiamondFilter;
 
 const SvgImg = () => (
@@ -281,4 +581,236 @@ const SvgImg = () => (
       </g>
     </g>
   </svg>
+);
+
+const CollectionPriceRange = forwardRef(
+  ({ handleSliderChange, data, open }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+    return (
+      <div
+        className="for_ma_collection_filter_dropdown"
+        ref={ref}
+        style={{
+          height: open ? "90px" : "0px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            value={data}
+            onChange={handleSliderChange}
+            onMouseDown={handleSliderMouseDown}
+            min={5000}
+            max={250000}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            size="small"
+            step={1}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 20,
+                height: 20,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 8, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 8, // Adjust height of the track
+              },
+            }}
+          />
+          <div className="for_ma_collection_slider_input">
+            <div className="for_right-menu">
+              <input type="text" value={`INR ${formatter(data[0])}`} />
+            </div>
+            <div className="for_left-menu">
+              <input type="text" value={`INR ${formatter(data[1])}`} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionCaratRange = forwardRef(
+  ({ open, handleSliderChange, data }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation();
+    };
+
+    return (
+      <div
+        className="for_ma_collection_filter_dropdown"
+        ref={ref}
+        style={{
+          height: open ? "90px" : "0px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            value={data}
+            onChange={handleSliderChange}
+            onMouseDown={handleSliderMouseDown}
+            min={0.96}
+            max={41.81}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            size="small"
+            defaultValue={[0.96, 41.81]}
+            step={0.1}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 20,
+                height: 20,
+                backgroundColor: "black",
+                border: "1px solid #fff",
+              },
+              "& .MuiSlider-rail": {
+                height: 8, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 8, // Adjust height of the track
+              },
+            }}
+          />
+          <div className="for_ma_collection_slider_input">
+            <div className="for_right-menu">
+              <input type="text" value={data[0]} />
+            </div>
+            <div className="for_left-menu">
+              <input type="text" value={data[1]} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionColor = forwardRef(
+  ({ handleSliderChange, data, open }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+    const marks = [
+      { label: "M", value: 10 },
+      { label: "L", value: 20 },
+      { label: "K", value: 30 },
+      { label: "J", value: 40 },
+      { label: "I", value: 50 },
+      { label: "H", value: 60 },
+      { label: "G", value: 70 },
+      { label: "F", value: 80 },
+      { label: "E", value: 90 },
+      { label: "D", value: 100 },
+    ];
+    console.log(data);
+    return (
+      <div
+        className="for_ma_color"
+        style={{
+          height: open ? "90px" : "0px",
+          width: "360px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            defaultValue={[20, 60]}
+            aria-label="Restricted values"
+            marks={marks}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            onChange={handleSliderChange}
+            size="small"
+            min={10}
+            max={100}
+            step={10}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 16,
+                height: 16,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 6, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 6, // Adjust height of the track
+                padding: "0 5px",
+              },
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+const CollectionClarity = forwardRef(
+  ({ handleSliderChange, data, open }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
+    const marks = [
+      { label: "SI2", value: 12.5 },
+      { label: "SI1", value: 25 },
+      { label: "VS2", value: 37.5 },
+      { label: "VS1", value: 50 },
+      { label: "VVS2", value: 62.5 },
+      { label: "VVS1", value: 75 },
+      { label: "IF", value: 87.5 },
+      { label: "FL", value: 100 },
+    ];
+
+    return (
+      <div
+        className="for_ma_color"
+        style={{
+          height: open ? "90px" : "0px",
+          width: "380px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            defaultValue={[25, 62.5]}
+            aria-label="Restricted values"
+            marks={marks}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            onChange={handleSliderChange}
+            size="small"
+            min={12.5}
+            max={100}
+            step={12.5}
+            sx={{
+              "& .MuiSlider-thumb": {
+                width: 16,
+                height: 16,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 6, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 6, // Adjust height of the track
+                padding: "0 5px",
+              },
+              '& .MuiSlider-markLabel': {
+                fontSize: '10px', // Adjust the font size of the marks
+              },
+              "& .MuiSlider-mark": {
+                fontSize: "10px"
+              },
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 );
