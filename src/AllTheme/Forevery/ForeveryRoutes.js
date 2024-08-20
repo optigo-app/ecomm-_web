@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Cart from "./Components/Pages/Cart/CartMain";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
@@ -44,6 +44,7 @@ import SettingPage from "./Components/Pages/Diamond/SettingPage/SettingPage";
 import DiamondPage from "./Components/Pages/Diamond";
 import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
 import DetailsRoute from "./Components/Pages/Product";
+import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -217,6 +218,7 @@ const ForEveryRoutes = () => {
           <Route path="diamond/:id" element={<DiamondFilter />} />
           <Route path="ring/*" element={<RingPage />} />
         </Route>
+        <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
 
         <Route path="/diamond" element={<Diamond />} />
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
@@ -230,7 +232,8 @@ const ForEveryRoutes = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
           {/* <Route path="/account" element={<Account />} /> */}
         <Route path="/Lookbook" element={<Lookbook />} />
-        <Route path="*" element={<PageNotFound />} />
+        {/* </Route> */}
+        <Route path="*" element={<Navigate to={'/'} />} />
       </Routes>
       <Footer />
     </>

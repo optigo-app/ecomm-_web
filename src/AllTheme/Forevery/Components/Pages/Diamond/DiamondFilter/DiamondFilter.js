@@ -17,13 +17,16 @@ import {
   AccordionSummary,
   Slider,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 import Pako from "pako";
+import WebLoder from "../../WebLoder/WebLoder";
 
 const DiamondFilter = () => {
+  const location = useLocation();
+  const [isloding, setIsloding] = useState(false);
   const [diamondData, setDiamondData] = useState();
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
@@ -37,13 +40,20 @@ const DiamondFilter = () => {
   const videoRefs = useRef([]);
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
+  const [storeInitData, setStoreInitData] = useState();
+
+  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [ColorRangeValue, setColorRangeValue] = useState([20, 40]);
   const [ClarityRangeValue, setClarityRangeValue] = useState([]);
 
-  
-const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
-const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
+  useEffect(() => {
+    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
+    setStoreInitData(storeinitData);
+  }, []);
+
+  const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+  const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+  const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
   const rangeData = [
     { index: 4, title: "price", data: priceRangeValue, type: "price" },
@@ -61,10 +71,17 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
   };
 
   const handleCheckboxChange = (name) => {
+    const shape = location?.pathname?.split("/")[3];
+    if (name) {
+      const newPath = location?.pathname.replace(shape, name);
+      Navigate(newPath);
+    }
+
     setCheckedItem((prevCheckedItem) =>
       prevCheckedItem === name ? null : name
     );
   };
+
   const HandleMedia = (type, index) => {
     setShowMedia((prev) => ({ ...prev, [index]: type }));
   };
@@ -87,10 +104,11 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
       console.error("Error pausing video:", error);
     }
   };
+
   const handlePriceSliderChange = (event, newValue) => {
     const roundedValue = newValue.map((val) => parseInt(val));
     setPriceRangeValue(roundedValue);
-    handleButton(4, roundedValue); // Assuming 4 is the index for price range
+    handleButton(4, roundedValue);
   };
   const handleColorSliderChange = (event, newValue) => {
     const roundedValue = newValue.map((val) => parseInt(val));
@@ -105,7 +123,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
   const handleCaratSliderChange = (event, newValue) => {
     const roundedValue = newValue.map((val) => parseFloat(val.toFixed(3)));
     setCaratRangeValue(roundedValue);
-    handleButton(5, roundedValue); // Assuming 5 is the index for carat range
+    handleButton(5, roundedValue);
   };
 
   const handleButton = (dropdownIndex, value) => {
@@ -132,21 +150,24 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
     });
   };
 
-  const getDiamondData = async () => {
+  const getDiamondData = async (shape) => {
+    setIsloding(true);
     try {
-      const response = await DiamondListData();
+      const response = await DiamondListData(shape);
       if (response && response.Data) {
-        let resData = response.Data?.rd
+        let resData = response.Data?.rd;
         console.log("diamondlistResponse", response.Data);
-        const Newmap = resData?.map((val,i)=>{
-          return {img:IMG,
-            vid : Video ,
-            HaveCustomization : true ,
-            ...val
-          }
-        })
-        console.log(Newmap , "swdwkhdwkdbwkbd")
-        setDiamondData(Newmap)
+        const Newmap = resData?.map((val, i) => {
+          return {
+            img: IMG,
+            vid: Video,
+            HaveCustomization: true,
+            ...val,
+          };
+        });
+        console.log(Newmap, "swdwkhdwkdbwkbd");
+        setDiamondData(Newmap);
+        setIsloding(false);
       } else {
         console.warn("No data found in the response");
       }
@@ -154,11 +175,11 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
       console.error("Error fetching diamond data:", error);
     }
   };
-  
+
   useEffect(() => {
-    getDiamondData();
-  }, []);
-  
+    const shape = location?.pathname?.split("/")[3];
+    getDiamondData(shape);
+  }, [location?.pathname]);
 
   const compressAndEncode = (inputString) => {
     try {
@@ -174,11 +195,10 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
   };
 
   const HandleDiamondRoute = (val) => {
-
-    console.log('hsahdjash', val);
+    console.log("hsahdjash", val);
     let encodeObj = compressAndEncode(JSON.stringify(val?.stockno));
 
-    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`
+    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
     Navigate(navigateUrl);
   };
 
@@ -205,8 +225,9 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
-                    }`}
+                  className={`shape_card ${
+                    checkedItem === val?.name ? "active-checked" : ""
+                  }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -332,76 +353,97 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
           </div>
           <hr />
         </div>
-        <div className="diamond_listing">
-          {diamondData?.map((val, i) => {
-            const currentMediaType = ShowMedia[i] || "vid";
-            return (
-              <div key={i} className="diamond_card" >
-                <div className="media_frame">
-                  {val?.Banner ? (
-                    <img src={val?.Banner} alt="" width={"100%"} />
-                  ) : (
-                    <>
-                      {currentMediaType === "vid" ? (
-                        <video
-                          src={val?.vid}
-                          width="100%"
-                          ref={(el) => (videoRefs.current[i] = el)}
-                          autoPlay={hoveredCard === i}
-                          controls={false}
-                          muted
-                          onMouseOver={(e) => handleMouseMove(e, i)}
-                          onMouseLeave={(e) => handleMouseLeave(e, i)}
-                        />
-                      ) : (
-                        <img
-                          className="dimond-info-img"
-                          src={val?.img}
-                          alt=""
-                          onClick={() => HandleDiamondRoute(val)}
-                        />
+        {isloding ? (
+          <div className="for_global_spinnerDiv">
+           <WebLoder/>
+          </div>
+        ) : (
+          <>
+            {diamondData?.length != 0 ? (
+              <div className="diamond_listing">
+                {diamondData?.map((val, i) => {
+                  const currentMediaType = ShowMedia[i] || "vid";
+                  return (
+                    <div
+                      key={i}
+                      className="diamond_card"
+                      onClick={() => HandleDiamondRoute(val)}
+                    >
+                      <div className="media_frame">
+                        {val?.Banner ? (
+                          <img src={val?.Banner} alt="" width={"100%"} />
+                        ) : (
+                          <>
+                            {currentMediaType === "vid" ? (
+                              <video
+                                src={val?.vid}
+                                width="100%"
+                                ref={(el) => (videoRefs.current[i] = el)}
+                                autoPlay={hoveredCard === i}
+                                controls={false}
+                                muted
+                                onMouseOver={(e) => handleMouseMove(e, i)}
+                                onMouseLeave={(e) => handleMouseLeave(e, i)}
+                              />
+                            ) : (
+                              <img
+                                className="dimond-info-img"
+                                src={val?.img}
+                                alt=""
+                              />
+                            )}
+                          </>
+                        )}
+                        {!val?.Banner && (
+                          <>
+                            <div className="select_this_diamond_banner">
+                              <span>Select This Diamond</span>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      {val?.HaveCustomization && (
+                        <>
+                          <div className="toggle_btn">
+                            <span onClick={() => HandleMedia("img", i)}>
+                              <img
+                                src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
+                                alt=""
+                              />
+                            </span>
+                            <span onClick={() => HandleMedia("vid", i)}>
+                              <SvgImg />
+                            </span>
+                          </div>
+                          <div className="price_details">
+                            <div className="title">
+                              <span>
+                                {val?.shapename} <strong>{val?.carat}</strong>{" "}
+                                CARAT {val?.colorname} {val?.clarityname}{" "}
+                                {val?.cutname}
+                              </span>
+                            </div>
+                            <div className="pric">
+                              <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ??
+                                  storeInitData?.CurrencyCode}
+                              </span>
+                              <span> {val?.price}</span>
+                            </div>
+                          </div>
+                        </>
                       )}
-                    </>
-                  )}
-                  {!val?.Banner && (
-                    <>
-                      <div
-                        className="select_this_diamond_banner"
-                      >
-                        <span>Select This Diamond</span>
-                      </div>
-                    </>
-                  )}
-                </div>
-                {val?.HaveCustomization && (
-                  <>
-                    <div className="toggle_btn">
-                      <span onClick={() => HandleMedia("img", i)}>
-                        <img
-                          src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
-                          alt=""
-                        />
-                      </span>
-                      <span onClick={() => HandleMedia("vid", i)}>
-                        <SvgImg />
-                      </span>
                     </div>
-                    <div className="price_details">
-                      <div className="title">
-                        <span>
-                          ROUND <strong>0.53</strong> CARAT D VVS1 GOOD
-                        </span>
-                      </div>
-                      <div className="pric">
-                        <span>€ 312.00</span>
-                      </div>
-                    </div>
-                  </>
-                )}
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
+            ) : (
+              <div className="for_NoDataDiv">
+                No diamond found in this filter!
+              </div>
+            )}
+          </>
+        )}
         <div className="filter_clear">
           <p>
             It appears that there are no diamonds matching your search criteria.

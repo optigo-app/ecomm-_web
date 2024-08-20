@@ -5,11 +5,12 @@ import ProductDetail from './ProductDetail/ProductDetail';
 
 const DetailsRoute = () => {
   const { pathname } = useLocation();
+  console.log('pathname: ', pathname);
   const [DiamondData, setDiamondData] = useState(false);
-  const getDiamondDet = pathname.split('/')[2];
+  const getDiamondDet = pathname.split('/')[3];
 
   useEffect(() => {
-    if (getDiamondDet === 'labgrowndiamond') {
+    if (getDiamondDet?.includes("diamond")) {
       setDiamondData(true)
     }
 
