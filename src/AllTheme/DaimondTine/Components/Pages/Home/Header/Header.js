@@ -624,7 +624,7 @@ const Header = () => {
                                     {storeinit?.IsDesignSetInMenu == 1 &&
                                         <li
                                             className="dt_menu_li"
-                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' , position: 'relative'}}
+                                            style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase', position: 'relative' }}
                                             onClick={() => navigation('/Lookbook')}
                                         >
                                             <span className='dt_lookBookNew_header'>New</span>
@@ -774,7 +774,7 @@ const Header = () => {
                                         }}
                                         className='dt_mobile_div3_li1'
                                     >
-                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
                                             <GoHeart color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -792,7 +792,7 @@ const Header = () => {
                                         }}
                                         className='dt_mobile_div3_li1'
                                     >
-                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => navigation("/myWishList")}>
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
                                             <GoHeart color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -844,7 +844,7 @@ const Header = () => {
                                 islogin &&
                                 <li
                                     className='dt_mobile_div3_li1'
-                                    style={{ marginInline: '10px' }} onClick={() => navigation("/account")}>
+                                    style={{ marginInline: '10px' }} onClick={() => { navigation("/account"); setDrawerOpen(false); }}>
                                     <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
                             )
@@ -856,7 +856,7 @@ const Header = () => {
                                     <FaPowerOff fontSize='30px' color="#7D7F85" />
                                 </li>
                             ) :
-                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => navigation('/LoginOption')}>
+                                <li className='dt_mobile_login_text' style={{ marginInline: '10px' }} onClick={() => { navigation('/LoginOption'); setDrawerOpen(false); }}>
                                     <span style={{ display: 'block', width: '50px' }}>Log In</span>
                                 </li>
                             )
@@ -947,36 +947,6 @@ const Header = () => {
                         </div>
                         <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
 
-                            <ButtonBase
-                                component="div"
-                                style={{ width: '100%' }}
-                                onClick={() => { navigation('/term&condition'); setDrawerOpen(false); }}
-                            >
-                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
-                                    Terms & Conditions
-                                </p>
-                            </ButtonBase>
-
-                            <ButtonBase
-                                component="div"
-                                style={{ width: '100%' }}
-                                onClick={() => { navigation('/PrivacyPolicy'); setDrawerOpen(false); }}
-                            >
-                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
-                                    Privacy Policy
-                                </p>
-                            </ButtonBase>
-
-                            <ButtonBase
-                                component="div"
-                                style={{ width: '100%' }}
-                                onClick={() => { navigation('/FAQ'); setDrawerOpen(false); }}
-                            >
-                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
-                                    Faq
-                                </p>
-                            </ButtonBase>
-
                             {IsB2BWebsiteChek == 1 ? (
                                 islogin === true ?
                                     (
@@ -1041,7 +1011,6 @@ const Header = () => {
                                 </>
                             }
 
-
                             {menuItems.map(menuItem => (
                                 <div key={menuItem.menuid}>
                                     <ButtonBase
@@ -1103,6 +1072,36 @@ const Header = () => {
                                     )}
                                 </div>
                             ))}
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/term&condition'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    Terms & Conditions
+                                </p>
+                            </ButtonBase>
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/PrivacyPolicy'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    Privacy Policy
+                                </p>
+                            </ButtonBase>
+
+                            <ButtonBase
+                                component="div"
+                                style={{ width: '100%' }}
+                                onClick={() => { navigation('/FAQ'); setDrawerOpen(false); }}
+                            >
+                                <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                                    FAQS
+                                </p>
+                            </ButtonBase>
                         </List>
                     </Drawer>
                 </>
