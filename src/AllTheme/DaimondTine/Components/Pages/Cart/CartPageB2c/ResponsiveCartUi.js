@@ -22,27 +22,28 @@ const ResponsiveCartUi = (
         decodeEntities,
         handleDecrement,
         handleIncrement,
-        onRemoveItem
+        onRemovecartData
     }
 ) => {
     const {
         handleWishlistToCart,
-      } = Usewishlist();
+    } = Usewishlist();
 
+    const [imageSrc, setImageSrc] = useState(noImageFound);
     const [storeInitData, setStoreInitData] = useState();
     const setCartCountVal = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
-    const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginInfo = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
 
     useEffect(() => {
-        const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+        const storeinitData = JSON.parse(sessionStorage?.getItem('storeInit'));
         setStoreInitData(storeinitData)
     }, [])
 
-    const handleWishlistToCartFun = async (item) => {
-        const returnValue = await handleWishlistToCart(item);
+    const handleWishlistToCartFun = async (cartData) => {
+        const returnValue = await handleWishlistToCart(cartData);
         if (returnValue?.msg == "success") {
-            toast.success("Wishlist items added in cart")
+            toast.success("Wishlist cartDatas added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
             });
@@ -50,8 +51,8 @@ const ResponsiveCartUi = (
     };
 
 
-    const handleRemovecartData = async (item) => {
-        const returnValue = await onRemoveItem(item);
+    const handleRemovecartData = async (cartData) => {
+        const returnValue = await onRemovecartData(cartData);
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
@@ -59,15 +60,25 @@ const ResponsiveCartUi = (
         }
     };
 
+    useEffect(() => {
+        debugger
+        if (cartData?.ImageCount > 0) {
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
+        } else {
+            setImageSrc(noImageFound);
+        }
+    }, [cartData]);
+
     return (
         <div className="dt_res-card-container">
-            {cartData.map((item) => (
                 <div className="dt_res-card">
                     <img
-                        src={item?.ImageCount !== 0 ? CartCardImageFunc(item) : noImageFound}
+                        src={imageSrc}
                         alt="Product Image"
                         className="dt_res-card-image" />
-                    <h3 className="dt_res-card-title">{item?.designno}{item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
+                    <h3 className="dt_res-card-title">{cartData?.designno}{cartData?.TitleLine != "" && " - " + cartData?.TitleLine}</h3>
                     <p className="dt_res-card-price">
                         {storeInitData?.IsPriceShow == 1 &&
                             <span>
@@ -76,13 +87,13 @@ const ResponsiveCartUi = (
                                 >
                                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                                 </span>
-                                {" "}{formatter(item?.FinalCost)}
+                                {" "}{formatter(cartData?.FinalCost)}
                             </span>
                         }
                     </p>
                     {stat != "wish" ? (
                         <QuantitySelector
-                            cartData={item}
+                            cartData={cartData}
                             qtyCount={qtyCount}
                             handleIncrement={handleIncrement}
                             handleDecrement={handleDecrement}
@@ -91,20 +102,19 @@ const ResponsiveCartUi = (
                         <div className="dt_Wl-CartbtnDiv">
                             <button
                                 className="dt_Wl-Cartbtn"
-                                onClick={() => handleWishlistToCartFun(item)}
+                                onClick={() => handleWishlistToCartFun(cartData)}
                             >
-                                {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
+                                {cartData?.IsInCart != 1 ? "Add to cart +" : "in cart"}
                             </button>
                         </div>
                     }
 
                     <div className='dt_closeIconBtnDiv'>
-                        <IconButton onClick={() => handleRemovecartData(item)} className='dt_closeIconBtn'>
+                        <IconButton onClick={() => handleRemovecartData(cartData)} className='dt_closeIconBtn'>
                             <CloseIcon className='dt_closeIcon' />
                         </IconButton>
                     </div>
                 </div>
-            ))}
         </div>
     )
 }
