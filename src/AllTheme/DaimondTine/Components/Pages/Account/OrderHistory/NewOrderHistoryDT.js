@@ -268,7 +268,7 @@ const NewOrderHistoryDT = () => {
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
                     return (
-                      <Card variant="outlined" sx={{ boxShadow: "none", width: "100%", margin: "20px 0px", border: "1px solid #cacaca", }} key={i} >
+                      <Card variant="outlined" sx={{ boxShadow: "none", width: "100%", margin: "20px 0px", border: "1px solid #cacaca", }}  key={i} >
                
                         <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'3px'}}>
                           <div style={{display:'flex'}}>
@@ -426,7 +426,7 @@ const NewOrderHistoryDT = () => {
                                   </Box>
                                 ) : (
                                   <>
-                                  <Grid container spacing={4}>
+                                  <Grid container className="muiGridCDT" spacing={4}>
                                   {orderDetails?.length > 0 && orderDetails?.map((el, index) => (
                                     <Grid
                                       item
@@ -436,8 +436,9 @@ const NewOrderHistoryDT = () => {
                                       md={orderDetails?.length === 1 ? 6 : 4}
                                       lg={orderDetails?.length === 1 ? 3 : 3}
                                       xl={orderDetails?.length === 1 ? 3 : 3}
+                                      className="muiRootGDT muiRootCartDT"
                                     >
-                                      <Card sx={{display:'flex', alignItems:'center'}} >
+                                      <Card sx={{display:'flex', alignItems:'center'}}  className="muiRootGDT">
                                           <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} />
                                           <div>
                                             <div>{el?.designno}</div>
@@ -463,7 +464,7 @@ const NewOrderHistoryDT = () => {
                       </Card>
                     );
                   })
-                : <div style={{width:'100%', textAlign:'center', fontWeight:'bold', color:'brown', height:'50vh', display:'flex', justifyContent:'center', alignItems:'center'}}>Data Not Present</div>}
+                : <div style={{display:'flex', justifyContent:'center', alignItems:'center', color:'grey', fontWeight:'bold', fontSize:'25px', fontWeight:'bold', paddingTop:'1rem', paddingBottom:'1rem'}}>Data Not Present</div>}
             </div>
           </div>
         )}

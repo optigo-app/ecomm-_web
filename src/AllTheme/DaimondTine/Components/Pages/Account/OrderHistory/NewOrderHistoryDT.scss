@@ -86,7 +86,19 @@
     .minH_box_acc{
         min-height: 70px;
     }
-    
+    .muiRootGDT{
+        padding-left: 0px !important;
+    }
+    .muiGridCDT .MuiGrid-container{
+        margin-left: 0px !important;
+    }
+    .muiGridCDT {
+        margin-left: 0px !important;
+        width: 100%;
+    }
+    .muiRootCartDT{
+        padding: 15px !important;
+    }
 
  @media (max-width:788px), (max-width:790px), (max-width:805px){
     .wdate_smr_acc_noh{
