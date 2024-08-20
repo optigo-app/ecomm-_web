@@ -342,9 +342,11 @@
     background-color: #fcf4f4;
     margin: 0 auto;
     transition: 0.3s ease-in-out;
+    padding: 5px 10px;
+    overflow: hidden;
     .head_filter {
       width: 100%;
-      padding: 10px 16px;
+      padding: 10px 0;
       display: flex;
       align-items: center;
       span {
@@ -355,6 +357,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        cursor: pointer;
         &::after {
           content: "";
           position: absolute;
@@ -364,6 +367,56 @@
           height: 2.5px;
           background-color: black;
           left: 0;
+        }
+      }
+    }
+    .more_filter_data {
+      width: 100%;
+      display: grid;
+      height: auto;
+      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+      gap: 10px;
+      padding: 16px 10px;
+      .filter_card {
+        height: auto;
+        padding: 15px 0;
+        .advance_filter_title {
+          font-weight: 700;
+          position: relative;
+          font-size: 14px;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding-left: 10px;
+          img {
+            object-fit: contain;
+          }
+        }
+        .advance_filter_input_box {
+          display: flex;
+          align-items: center;
+          width: 50%;
+          justify-content: space-between;
+          padding-left: 25px;
+          input {
+            width: 25%;
+            text-align: left;
+            border: 1px solid black;
+            outline: none;
+            padding: 4.5px 4px;
+            font-size: 12px;
+            &:hover {
+              border: 1px solid gray;
+            }
+          }
+        }
+        .advance_filter_checkboxes {
+          font-size: 11px;
+          font-weight: 400;
+          text-transform: uppercase;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
         }
       }
     }

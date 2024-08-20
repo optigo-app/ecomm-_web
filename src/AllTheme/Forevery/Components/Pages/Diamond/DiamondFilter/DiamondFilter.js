@@ -10,11 +10,12 @@ import {
 import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import Faq from "../../ReusableComponent/Faq/Faq";
-import { faqList } from "../../../data/dummydata";
+import { AdvancesfiltersOption, faqList } from "../../../data/dummydata";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Checkbox,
   Slider,
 } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -23,6 +24,11 @@ import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
 import Pako from "pako";
 import WebLoder from "../../WebLoder/WebLoder";
+
+const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
+const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
@@ -46,22 +52,21 @@ const DiamondFilter = () => {
     Clarity: [25, 62.5],
     Cut: [20, 100],
   });
+  const [filters, setFilters] = useState(AdvancesfiltersOption);
+  const [filtersData, setFiltersData] = useState({
+    polish: [],
+    symmetry: [],
+    lab: [],
+    depth: [0.0, 8.51],
+    table: [0.0, 76.0],
+    fluorescence: [],
+  });
 
-  const handleSliderChange = (sliderType, newValue) => {
-    setSliderState((prevState) => ({
-      ...prevState,
-      [sliderType]: newValue,
-    }));
-  };
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
-
-  const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-  const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
-  const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
   useEffect(() => {
     if (id) {
@@ -72,7 +77,6 @@ const DiamondFilter = () => {
   const handleOpen = (title) => {
     setOpen((prevOpen) => (prevOpen === title ? null : title));
   };
-
   const handleCheckboxChange = (name) => {
     const shape = location?.pathname?.split("/")[3];
     if (name) {
@@ -84,7 +88,6 @@ const DiamondFilter = () => {
       prevCheckedItem === name ? null : name
     );
   };
-
   const HandleMedia = (type, index) => {
     setShowMedia((prev) => ({ ...prev, [index]: type }));
   };
@@ -106,29 +109,6 @@ const DiamondFilter = () => {
     } catch (error) {
       console.error("Error pausing video:", error);
     }
-  };
-  const handleButton = (dropdownIndex, value) => {
-    setSelectedValues((prev) => {
-      const existingIndex = prev.findIndex(
-        (item) => item.dropdownIndex === dropdownIndex
-      );
-      const newValue = { dropdownIndex, value };
-
-      if (existingIndex >= 0) {
-        if (
-          JSON.stringify(prev[existingIndex].value) === JSON.stringify(value)
-        ) {
-          return prev.filter((_, i) => i !== existingIndex); // Remove if the same value is selected again
-        }
-        // Update existing value
-        const updatedValues = [...prev];
-        updatedValues[existingIndex] = newValue;
-        return updatedValues;
-      } else {
-        // Add new value
-        return [...prev, newValue];
-      }
-    });
   };
 
   const getDiamondData = async (shape) => {
@@ -182,12 +162,40 @@ const DiamondFilter = () => {
     let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
     Navigate(navigateUrl);
   };
-
   const getBannerImage = (index) => {
     const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-    return index < 0 || (index >= 2 && (index - 2) % 16 === 0) ? bannerImage : null;
+    return index < 0 || (index >= 2 && (index - 2) % 16 === 0)
+      ? bannerImage
+      : null;
   };
-  
+
+  const handleSliderChange = (sliderType, newValue) => {
+    setSliderState((prevState) => ({
+      ...prevState,
+      [sliderType]: newValue,
+    }));
+    console.log(sliderState);
+  };
+
+  const handleFilterChange = (filterType, value) => {
+    setFiltersData((prevData) => {
+      const newFiltersData = { ...prevData };
+
+      if (filters[filterType].type === "multi-select") {
+        const currentValues = newFiltersData[filterType] || [];
+
+        if (currentValues.includes(value)) {
+          newFiltersData[filterType] = currentValues.filter((v) => v !== value);
+        } else {
+          newFiltersData[filterType] = [...currentValues, value];
+        }
+      } else if (filters[filterType].type === "range") {
+        newFiltersData[filterType] = value;
+      }
+      console.log(newFiltersData);
+      return newFiltersData;
+    });
+  };
 
   return (
     <>
@@ -321,17 +329,119 @@ const DiamondFilter = () => {
         </div>
         <div
           className="for_filter_more"
-          onClick={() => setshowMorefilter(!showMorefilter)}
           style={{
-            height: showMorefilter ? "50vh" : "50px",
+            height: showMorefilter ? "52vh" : "50px",
             background: showMorefilter ? " #fcf4f4" : "#fff",
           }}
         >
-          <div className="head_filter">
+          <div
+            className="head_filter"
+            onClick={() => {
+              setshowMorefilter(!showMorefilter);
+              setOpen(null);
+            }}
+          >
             <span>
               {showMorefilter ? "Less" : "More"} filters
               {showMorefilter ? <CgArrowUpO /> : <CgArrowDownO />}
             </span>
+          </div>
+          <div className="more_filter_data">
+            {Object.keys(filters).map((filterType) => {
+              const filter = filters[filterType];
+              const filterData = filtersData[filterType];
+
+              if (filter.type === "multi-select") {
+                return (
+                  <div key={filterType} className="filter_card">
+                    <h4 className="advance_filter_title">
+                      <img src={RoundImage} alt="" /> {filter.label}
+                    </h4>
+                    <div className="advance_filter_checkboxes">
+                      {filter.options.map((option) => (
+                        <label key={option.value}>
+                          <Checkbox
+                            checked={filterData.includes(option.value)}
+                            onChange={() =>
+                              handleFilterChange(filterType, option.value)
+                            }
+                          />
+                          {option.label}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              if (filter.type === "range") {
+                return (
+                  <div key={filterType} className="filter_card">
+                    <h4 className="advance_filter_title">
+                      <img src={RoundImage} alt="" /> {filter.label}
+                    </h4>
+                    <Slider
+                      value={filterData}
+                      min={filter.min}
+                      max={filter.max}
+                      sx={{
+                        width: "400px",
+                        marginLeft: "25px",
+                        "& .MuiSlider-thumb": {
+                          width: 17,
+                          height: 17,
+                          backgroundColor: "black",
+                          border: "1px solid #000",
+                        },
+                        "& .MuiSlider-rail": {
+                          height: 5, // Adjust height of the rail
+                          bgcolor: "black",
+                          border: " none",
+                        },
+                        "& .MuiSlider-track": {
+                          height: 5, // Adjust height of the track
+                          padding: "0 5px",
+                          bgcolor: "black",
+                          border: " none",
+                        },
+                        "& .MuiSlider-markLabel": {
+                          fontSize: "12px !important",
+                        },
+                      }}
+                      onChange={(e, newValue) =>
+                        handleFilterChange(filterType, newValue)
+                      }
+                      valueLabelDisplay="off"
+                      aria-labelledby={`${filterType}-slider`}
+                    />
+                    <div className="advance_filter_input_box">
+                      <input
+                        type="number"
+                        value={filterData[0]}
+                        onChange={(e) =>
+                          handleFilterChange(filterType, [
+                            parseFloat(e.target.value),
+                            filterData[1],
+                          ])
+                        }
+                      />
+                      <input
+                        type="number"
+                        value={filterData[1]}
+                        onChange={(e) =>
+                          handleFilterChange(filterType, [
+                            filterData[0],
+                            parseFloat(e.target.value),
+                          ])
+                        }
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
+              return null;
+            })}
           </div>
         </div>
         <div className="filter_results">
@@ -362,16 +472,16 @@ const DiamondFilter = () => {
               <div className="diamond_listing">
                 {diamondData?.map((val, i) => {
                   const currentMediaType = ShowMedia[i] || "vid";
-                  const bannerImage = getBannerImage(i); 
+                  const bannerImage = getBannerImage(i);
                   return (
-                    <div
-                      key={i}
-                      className="diamond_card"
-                      onClick={() => HandleDiamondRoute(val)}
-                    >
+                    <div key={i} className="diamond_card">
                       <div className="media_frame">
                         {bannerImage ? (
-                          <img src={bannerImage} alt="bannerImage" width={"100%"} />
+                          <img
+                            src={bannerImage}
+                            alt="bannerImage"
+                            width={"100%"}
+                          />
                         ) : (
                           <>
                             {currentMediaType === "vid" ? (
@@ -382,6 +492,7 @@ const DiamondFilter = () => {
                                 autoPlay={hoveredCard === i}
                                 controls={false}
                                 muted
+                                onClick={() => HandleDiamondRoute(val)}
                                 onMouseOver={(e) => handleMouseMove(e, i)}
                                 onMouseLeave={(e) => handleMouseLeave(e, i)}
                               />
@@ -390,6 +501,7 @@ const DiamondFilter = () => {
                                 className="dimond-info-img"
                                 src={val?.img}
                                 alt=""
+                                onClick={() => HandleDiamondRoute(val)}
                               />
                             )}
                           </>
@@ -397,7 +509,9 @@ const DiamondFilter = () => {
                         {!val?.Banner && (
                           <>
                             <div className="select_this_diamond_banner">
-                              <span>Select This Diamond</span>
+                              <span onClick={() => HandleDiamondRoute(val)}>
+                                Select This Diamond
+                              </span>
                             </div>
                           </>
                         )}
