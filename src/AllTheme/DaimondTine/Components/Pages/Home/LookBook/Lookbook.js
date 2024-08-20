@@ -1913,12 +1913,11 @@ const Lookbook = () => {
                                           <div
                                             style={{
                                               fontSize: "14px",
-                                              color: "#7d7f85",
                                               textTransform: "uppercase",
                                             }}
                                             className="dt_lb3srthelook_prodinfo_inner"
                                           >
-                                            <p>
+                                            <p className="dt_titlline">
                                               <span>
                                                 {ele?.designno} - {ele?.CategoryName}
                                               </span>

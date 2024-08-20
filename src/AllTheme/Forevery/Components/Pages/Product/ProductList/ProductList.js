@@ -433,18 +433,18 @@ const ProductList = () => {
 
   const BreadCumsObj = () => {
 
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search?.slice(3)))?.split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum[0]?.split(',');
+    const labels = BreadCum[1]?.split(',');
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
+    const result = Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0)?.toUpperCase() + key?.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
