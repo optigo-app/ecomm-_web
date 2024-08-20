@@ -209,6 +209,7 @@ const DiamondFilter = () => {
   useEffect(() => {
     getDiamondFilterData();
   }, [])
+  
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape);
@@ -246,13 +247,30 @@ const DiamondFilter = () => {
       : null;
   };
 
+  // const handleSliderChange = (sliderType, newValue) => {
+  //   setSliderState((prevState) => ({
+  //     ...prevState,
+  //     [sliderType]: newValue,  
+  //   }));
+  //   console.log(sliderState);
+  // };
+
   const handleSliderChange = (sliderType, newValue) => {
     setSliderState((prevState) => ({
       ...prevState,
       [sliderType]: newValue,
     }));
+    const pathname = location?.pathname.split("/");
+    const sliderParams = Object?.entries(sliderState)?.map(([key, value]) => {
+      return `${key}/${value[0]},${value[1]}`;
+    }).join('/');
+    const newPath = `${pathname?.slice(0, 4)?.join('/')}/${sliderParams}`;
+    Navigate(newPath);
+  
     console.log(sliderState);
   };
+  console.log("jksdajkhdhkashd", location);
+  
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
@@ -554,7 +572,6 @@ const DiamondFilter = () => {
                       <div
                         key={i}
                         className="diamond_card"
-                        onClick={() => HandleDiamondRoute(val)}
                       >
                         <div className="media_frame">
                           {bannerImage ? (
@@ -571,12 +588,14 @@ const DiamondFilter = () => {
                                   muted
                                   onMouseOver={(e) => handleMouseMove(e, i)}
                                   onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               ) : (
                                 <img
                                   className="dimond-info-img"
                                   src={val?.img}
                                   alt=""
+                                  onClick={() => HandleDiamondRoute(val)}
                                 />
                               )}
                             </>
