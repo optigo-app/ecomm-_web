@@ -82,14 +82,13 @@ const CartPage = () => {
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
   const handlePlaceOrder = () => {
-    // if (storeInit?.IsPLW == 0) {
-    //   let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-    //   sessionStorage.setItem('TotalPriceData', priceData)
-    //   navigate("/Delivery")
-    // } else {
-    //   handlePay();
-    // }
-    alert("Added soon...")
+    if (storeInit?.IsPLW == 0) {
+      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
+      sessionStorage.setItem('TotalPriceData', priceData)
+      navigate("/Delivery")
+    } else {
+      handlePay();
+    }
     window.scrollTo(0, 0);
   }
 
@@ -179,7 +178,7 @@ const CartPage = () => {
           }
           {!isloding && cartData.length != 0 &&
             <div className='for_placeOrderMainbtnDivs'>
-              <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={handlePlaceOrder}>Place Order</button>
+              <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePlaceOrder}>Place Order</button>
             </div>
           }
         </div>

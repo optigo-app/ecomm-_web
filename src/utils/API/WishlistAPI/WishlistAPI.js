@@ -27,6 +27,7 @@ export const fetchWishlistDetails = async (visiterId) => {
             colorstonepricelistname:colorstonepricelistname,
             SettingPriceUniqueNo:SettingPriceUniqueNo,
             IsWishList:1,
+            IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
         });
 

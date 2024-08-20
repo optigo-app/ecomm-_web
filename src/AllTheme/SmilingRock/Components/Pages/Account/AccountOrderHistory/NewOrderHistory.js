@@ -290,7 +290,7 @@ const NewOrderHistory = () => {
                           </div>
                           <div>
                             {<span className="fs_head_acc start_noh_acc  mx_4_noh_acc" style={{color:'black'}}><span className="fs_head_acc " style={{color:'black', fontWeight:'bold',paddingRight:'2px'}}>Total Amount : </span> <span className="fs_head_acc " style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span className="fs_head_acc " style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>}
-                            <div className="fs_head_acc start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'grey'}}>(<span className="fs_head_acc " style={{color:'grey', paddingRight:'2px'}}>+ Estimated Tax : </span> <span className="fs_head_acc " style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span className="fs_head_acc ">{formatAmount2(e?.totaltaxAmount)}</span>)</div>
+                            <div className="fs_head_acc_tax start_noh_acc  lh_head_acc mx_4_noh_acc" style={{color:'grey', display:'flex', justifyContent:'flex-end', alignItems:'center'}}>(<span className="fs_head_acc_tax " style={{color:'grey', paddingRight:'2px'}}>+ Estimated Tax : </span> <span className="fs_head_acc_tax" style={{paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span className="fs_head_acc_tax ">{formatAmount2(e?.totaltaxAmount)}</span>)</div>
                             {/* { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>} */}
                           </div>
                         </Box>
@@ -415,7 +415,7 @@ const NewOrderHistory = () => {
                           }
                         >
                           <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
+                            expandIcon={expandedAccordion !== e?.id ? <ExpandMoreIcon /> : null}
                             aria-controls="panel1-content"
                             id="panel1-header"
                             expanded={expandedAccordion === e?.id}
@@ -467,7 +467,7 @@ const NewOrderHistory = () => {
                               }
                               </>) : ''
                             }
-                            { orderDetails?.length > 1 && <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
+                            { <Typography Typography className="fs_head_acc" style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey'}} onClick={() => {
                               setExpandedAccordion(false)
                               handleClick(e);
                             }}><ExpandLess /></Typography>}

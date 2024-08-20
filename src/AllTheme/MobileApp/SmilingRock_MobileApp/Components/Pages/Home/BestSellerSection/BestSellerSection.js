@@ -170,7 +170,7 @@ const BestSellerSection = () => {
     };
   return (
     <div className='smrMA_bestSallerMain'>
-      {bestSellerData?.length &&
+      {bestSellerData?.length != 0 &&
           <div className='linkingLoveMain'>
             <div className='linkingLove'>
             <p className='linkingTitle'>Best Seller</p>

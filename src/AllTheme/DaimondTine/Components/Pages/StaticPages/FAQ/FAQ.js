@@ -29,7 +29,7 @@ export default function FAQ() {
     return (
         <div className='dt_faqMaindiv'>
             <div className='dt_FaqSubDivMain'>
-                <div style={{ marginInline: '10%', paddingBottom: '80px' }}>
+                <div  className='dt_Faq_Sub_Set' style={{ marginInline: '10%', paddingBottom: '80px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </div>
             </div>

@@ -20,6 +20,7 @@ import { useRecoilState } from "recoil";
 import {
   for_CartCount,
   for_WishCount,
+  for_customizationSteps,
   for_loginState,
 } from "../../../Recoil/atom";
 import Cookies from "js-cookie";
@@ -405,6 +406,7 @@ const NavbarLeft = ({
   setHoveredIndex,
   hoveredIndex,
 }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="left">
@@ -418,6 +420,7 @@ const NavbarLeft = ({
                 setHoveredIndex(i);
               }}
               onMouseOut={() => setHoveredIndex(null)}
+              onClick={() => Navigate(val?.link)}
             >
               <span className="for_nav_menu">
                 {val?.category}
@@ -455,6 +458,10 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
       return Menu?.slice(0, 4);
     }
   };
+
+  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  console.log('customizeStep: ', customizeStep);
+
   return (
     <>
       <div className="first_nav" ref={firstNavRef}>
@@ -481,7 +488,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
               <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]} />
             )}
             {SelectedMenu?.index == 1 && (
-              <SecondNavMenu data={NavbarMenu[SelectedMenu?.index]} />
+              <SecondNavMenu data={NavbarMenu[SelectedMenu?.index]} setCustomizeStep={setCustomizeStep} />
             )}
             {SelectedMenu?.index == 2 && (
               <ThirdNavMenu data={NavbarMenu[SelectedMenu?.index]} />
@@ -575,7 +582,18 @@ const FirstNavMenu = ({ data }) => {
     </>
   );
 };
-const SecondNavMenu = ({ data }) => {
+const SecondNavMenu = ({ data, setCustomizeStep }) => {
+  const Navigate = useNavigate();
+  const HandleDiamondNavigation = (shape) => {
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    setCustomizeStep({
+      step1: true,
+      step2: false,
+      step3: false,
+    })
+    const step1 = [{ "step1": true, "shape": shape }]
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  };
   return (
     <div className="Second_Nav_first_Menu">
       <div className="for_first_col">
@@ -586,7 +604,7 @@ const SecondNavMenu = ({ data }) => {
             <div class="ring-types-col">
               {diamondShapes?.map((val, i) => {
                 return (
-                  <span>
+                  <span onClick={() => HandleDiamondNavigation(val?.name)}>
                     <img src={val?.img} alt="" width={15} height={15} />
                     {val?.name}
                   </span>

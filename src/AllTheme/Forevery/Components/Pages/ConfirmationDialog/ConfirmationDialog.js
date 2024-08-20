@@ -1,5 +1,5 @@
 import React from 'react';
-import "./smr_confirmation.scss"
+import "./for_confirmation.scss"
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -24,11 +24,11 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
       </DialogContent>
       <Divider />
       <DialogActions>
-        <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
+        <Button className='for_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
           Remove
         </Button>
         <Divider orientation="vertical" flexItem />
-        <Button className='smr_DialogBtn' onClick={onClose} autoFocus fullWidth>
+        <Button className='for_DialogBtn' onClick={onClose} autoFocus fullWidth>
           Cancel
         </Button>
       </DialogActions>

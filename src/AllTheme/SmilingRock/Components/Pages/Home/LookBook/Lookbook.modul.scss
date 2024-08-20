@@ -36,20 +36,37 @@
     margin: 50px 10px 0px 10px;
   }
 
-  .smr_LookBookSubMainDiv {
+  .smr_SubDiv_LookBookSubMainDiv {
+    display: flex;
+  }
+
+  .smr1_LookBookSubMainDiv {
     margin-inline: 6%;
     background-color: white;
-  }
-
-  .smr_LookBookSubMainDiv {
-    display: flex;
     min-height: 800px;
+    padding-top: 60px;
+    position: relative;
   }
 
-  .smr_lookBookImgDiv {
-    margin-top: 55px;
-    width: 80%;
+  .smr_SubDiv_LookBookSubMainDiv {
+    display: flex;
   }
+
+  // .smr_Main_lookBookImgDiv {
+  //   margin-top: 55px;
+  // }
+
+  .smr_lookBook_FilterIconeDiv {
+    color: white;
+    background-color: #7b7b7b;
+    cursor: pointer;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+  }
+
 
   .smr_lb2designList_title {
     position: absolute;
@@ -81,7 +98,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .smr_lb3TotalBtnGroup {
+  .smr_lb3TotalBtnGroups {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -146,8 +163,8 @@
     background: none;
   }
 
-  .smr_lookBookFilterSubDiv {
-    margin: 70px 10px 0px 10px;
+  .smr1_lookBookFilterSubDiv {
+    margin: 10px 10px 0px 10px;
   }
 
   .smr_lookBookImgDivMain {
@@ -329,11 +346,19 @@
       display: none;
     }
 
-    .smr_lookBookImgDiv {
+    .smr_lookbookFilterMain {
+      display: none !important;
+    }
+
+    .smr_lookBook_FilterIconeDiv {
+      display: none !important;
+    }
+
+    .smr_Main_lookBookImgDiv {
       width: 100% !important;
     }
 
-    .smr_LookBookSubMainDiv {
+    .smr1_LookBookSubMainDiv {
       margin-inline: 1% !important;
     }
 
@@ -341,7 +366,7 @@
       width: 48.8% !important;
     }
 
-    .smr_lookBookImgDiv {
+    .smr_Main_lookBookImgDiv {
       margin-top: 0px !important;
     }
 
@@ -392,8 +417,8 @@
 
 .smr_lookbook3MainDiv {
 
-  .smr_lb3compeletethelook_cont {
-    padding: 0px 85px;
+  .smr1_lb3compeletethelook_cont {
+    padding: 0px 40px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -422,13 +447,14 @@
     align-items: center;
     padding: 15px;
 
-    .smr_lb3_prodtDiv2 {
-      height: 364px;
+    .smr_lb3_prodtDivs2 {
+      height: 100%;
+      max-height: 364px;
       overflow-y: scroll;
       overflow-x: hidden;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .smr_lb3TotalBtnGroups {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
@@ -491,8 +517,8 @@
     font-family: $primaryFontFamilyMedium;
   }
 
-  .smr_lb3ctlImg_containe {
-    width: 951px;
+  .smr1_lb3ctlImg_containe {
+    width: 1115px;
     height: 632px;
   }
 
@@ -560,7 +586,7 @@
     }
 
     .smr_lb3completethelook_outer,
-    .smr_lb3TotalBtnGroup {
+    .smr_lb3TotalBtnGroups {
       width: 420px !important;
     }
   }
@@ -579,7 +605,7 @@
     }
 
     .smr_lb3completethelook_outer,
-    .smr_lb3TotalBtnGroup {
+    .smr_lb3TotalBtnGroups {
       width: 400px !important;
     }
   }
@@ -593,12 +619,12 @@
       display: none;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .smr1_lb3compeletethelook_cont {
       display: flex;
       flex-direction: column !important;
     }
 
-    .smr_lb3ctlImg_containe {
+    .smr1_lb3ctlImg_containe {
       width: 500px !important;
       height: 300px !important;
       // height: 100% !important;
@@ -618,17 +644,17 @@
       width: 400px !important;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .smr_lb3TotalBtnGroups {
       width: 400px !important;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .smr1_lb3compeletethelook_cont {
       padding: 0 50px !important;
     }
   }
 
   @media(max-width: 500px) {
-    .smr_lb3ctlImg_containe {
+    .smr1_lb3ctlImg_containe {
       width: 400px !important;
       height: 300px !important;
       // height: 100% !important;
@@ -636,7 +662,7 @@
   }
 
   @media(max-width: 425px) {
-    .smr_lb3ctlImg_containe {
+    .smr1_lb3ctlImg_containe {
       width: 300px !important;
       height: 300px !important;
       // height: 100% !important;
@@ -662,7 +688,7 @@
       flex-direction: column !important;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .smr1_lb3compeletethelook_cont {
       padding: 0 !important;
     }
 
@@ -670,12 +696,16 @@
       position: relative;
     }
 
-    .smr_lb3_prodtDiv2 {
+    .smr_lb3_prodtDivs2 {
       display: flex;
       width: 100%;
-      height: 100% !important;
-      overflow-y: hidden;
+      height: 100%;
+      max-height: 800px !important;
+      overflow-y: scroll;
       overflow-x: hidden;
+      // height: fit-content !important;
+      // overflow-y: hidden;
+      // overflow-x: hidden;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
@@ -683,7 +713,12 @@
       margin-bottom: 20px;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .smr_lb3_prodtDivs2::-webkit-scrollbar {
+      display: none;
+    }
+
+    .smr_lb3TotalBtnGroups {
+      width: 100% !important;
       border: 1px solid #d6d6d6;
     }
 
@@ -718,7 +753,7 @@
       align-items: center;
     }
 
-    .smr_lb3ctlImg_containe {
+    .smr1_lb3ctlImg_containe {
       width: 300px !important;
       height: 300px !important;
       // height: 100% !important;
@@ -758,6 +793,13 @@
 }
 
 @media screen and (max-width: 550px) {
+  .smr_lb3designList_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+  }
+
   .smr_lookBookThirdViewWeb {
     display: none;
   }
@@ -788,6 +830,7 @@
   }
 
 }
+
 .smr_LookBookMobileThridViewMain {
   width: 200px;
   margin-bottom: 10px;

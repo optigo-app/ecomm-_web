@@ -2,7 +2,7 @@
 
 
 
-.smr_lookSubCtSaveBtn {
+.dt_lookSubCtSaveBtn {
   height: 30px;
   width: 30px;
   border: 1px solid lightgray;
@@ -20,46 +20,46 @@
 .dt_LookBookMain {
   // background-color: $homePageColor;
 
-  .smr_lookbookFilterMain {
+  .dt_lookbookFilterMain {
     position: sticky;
     top: 0;
     width: 20%;
   }
 
-  .dt_lookBookShowMain{
+  .dt_lookBookShowMain {
     max-height: 80vh;
     padding-right: 10px;
     overflow: scroll;
   }
-  
+
   ::-webkit-scrollbar {
     width: 2px !important;
   }
 
-  .smr_lookBookViveBoxSet {
+  .dt_lookBookViveBoxSet {
     height: 35px;
   }
 
-  .smr_LookBookFilterSub {
+  .dt_LookBookFilterSub {
     margin: 50px 10px 0px 10px;
   }
 
-  .smr_LookBookSubMainDiv {
+  .dt_LookBookSubMainDiv {
     padding-inline: 6%;
     background-color: white;
   }
 
-  .smr_LookBookSubMainDiv {
+  .dt_LookBookSubMainDiv {
     display: flex;
     min-height: 800px;
   }
 
-  .smr_lookBookImgDiv {
+  .dt_lookBookImgDiv {
     margin-top: 55px;
     width: 80%;
   }
 
-  .smr_lb2designList_title {
+  .dt_lb2designList_title {
     position: absolute;
     bottom: 0%;
     left: 50%;
@@ -70,7 +70,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .smr_lb1designList_title {
+  .dt_lb1designList_title {
     position: absolute;
     bottom: 0%;
     left: 50%;
@@ -89,7 +89,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .smr_lb3TotalBtnGroup {
+  .dt_lb3TotalBtnGroup {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -97,7 +97,7 @@
     width: 513px;
     border-top: none;
 
-    .smr_lb3TotalPrice {
+    .dt_lb3TotalPrice {
       width: 100%;
       color: $titleColor;
       border: 1px solid #fff;
@@ -107,7 +107,7 @@
       font-weight: 500;
     }
 
-    .smr_lb3BuyComboDiv {
+    .dt_lb3BuyComboDiv {
       width: 100%;
       color: #fff;
       border: 1px solid $titleColor;
@@ -129,13 +129,13 @@
     padding: 10px !important;
   }
 
-  .smr_designSetDiv {
+  .dt_designSetDiv {
     border: 1px solid lightgray;
     margin: 5px;
     width: 49%;
   }
 
-  .smr_designSetDiv2 {
+  .dt_designSetDiv2 {
     width: 100%;
     border: 1px solid lightgray;
     display: flex;
@@ -143,7 +143,7 @@
   }
 
 
-  .smr_lookBookSelectViewBtn {
+  .dt_lookBookSelectViewBtn {
     height: 35px;
     width: 150px;
     border: none;
@@ -154,56 +154,56 @@
     background: none;
   }
 
-  .smr_lookBookFilterSubDiv {
+  .dt_lookBookFilterSubDiv {
     margin: 70px 10px 0px 10px;
   }
 
-  .smr_lookBookImgDivMain {
+  .dt_lookBookImgDivMain {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
   }
 
-  .smr_lookBookImg {
+  .dt_lookBookImg {
     height: 250px;
     width: 100%;
     object-fit: cover;
   }
 
-  .smr_lookBookSubImgMain {
+  .dt_lookBookSubImgMain {
     display: flex;
     // overflow: auto;
   }
 
-  .smr_lookBookSubImgMain::-webkit-scrollbar {
+  .dt_lookBookSubImgMain::-webkit-scrollbar {
     height: 4px !important;
     cursor: pointer;
   }
 
-  .smr_lookBookSliderSubDiv {
+  .dt_lookBookSliderSubDiv {
     // width: 33.33% !important;
     position: relative;
   }
 
-  .smr_LookBookmySwiper {
+  .dt_LookBookmySwiper {
     width: 100% !important;
     padding-inline: 5px;
   }
 
-  .smr_lookBookSubImageDiv {
+  .dt_lookBookSubImageDiv {
     width: 33%;
     // box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
     margin: 5px;
   }
 
-  .smr_lookBookSubImage {
+  .dt_lookBookSubImage {
     width: 100%;
     object-fit: contain;
     height: 200px;
     padding: 5px;
   }
 
-  .smr_lookBookBuyBtn {
+  .dt_lookBookBuyBtn {
     height: 30px;
     width: 100px;
     font-size: 15px;
@@ -215,7 +215,7 @@
     background: #7d7f85;
   }
 
-  .smr_lookBookAddtoCartBtn {
+  .dt_lookBookAddtoCartBtn {
     height: 30px;
     width: 150px;
     border: none;
@@ -228,7 +228,7 @@
   }
 
 
-  .smr_LookBookinstock {
+  .dt_LookBookinstock {
     background-color: #00800045;
     color: black;
     position: absolute;
@@ -238,7 +238,7 @@
     padding: 0px 5px;
   }
 
-  .smr_lookBookINCartBtn {
+  .dt_lookBookINCartBtn {
     height: 30px;
     width: 150px;
     cursor: pointer;
@@ -251,12 +251,12 @@
     background: #f0e0e0;
   }
 
-  .smr_lookBookAddtoCartIconBtn {
+  .dt_lookBookAddtoCartIconBtn {
     font-size: 22px !important;
     color: rgb(201, 201, 201);
   }
 
-  .smr_lookBookINCartIconBtn {
+  .dt_lookBookINCartIconBtn {
     font-size: 22px !important;
     color: green;
   }
@@ -277,7 +277,7 @@
     font-size: 25px;
   }
 
-  .smr_noProductFoundLookBookDiv {
+  .dt_noProductFoundLookBookDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -290,18 +290,18 @@
     }
   }
 
-  .smr_lb3detailDT {
+  .dt_lb3detailDT {
     font-size: $fontSize0;
     color: $titleColor;
   }
 
 
   @media screen and (max-width:1450px) {
-    .smr_designSetDiv {
+    .dt_designSetDiv {
       width: 48% !important;
     }
 
-    .smr_lookBookBuyBtn {
+    .dt_lookBookBuyBtn {
       height: 30px;
       width: 85px;
       font-size: 15px;
@@ -314,46 +314,46 @@
       background: #f0e0e0;
     }
 
-    .smr_lookBookPriceShow {
+    .dt_lookBookPriceShow {
       margin: 0px 5px 0px 0px !important;
       font-size: 13px !important;
     }
 
-    .smr_lookBookDesc {
+    .dt_lookBookDesc {
       font-size: 11px !important;
     }
   }
 
 
   @media screen and (min-width:1201px) {
-    .smr_lookBookMobileFilter {
+    .dt_lookBookMobileFilter {
       display: none;
     }
   }
 
   @media screen and (max-width:1200px) {
 
-    .smr_lookbookFilterMain {
+    .dt_lookbookFilterMain {
       display: none;
     }
 
-    .smr_lookBookImgDiv {
+    .dt_lookBookImgDiv {
       width: 100% !important;
     }
 
-    .smr_LookBookSubMainDiv {
+    .dt_LookBookSubMainDiv {
       margin-inline: 1% !important;
     }
 
-    .smr_designSetDiv {
+    .dt_designSetDiv {
       width: 48.8% !important;
     }
 
-    .smr_lookBookImgDiv {
+    .dt_lookBookImgDiv {
       margin-top: 0px !important;
     }
 
-    .smr_lookBookMobileTopLine {
+    .dt_lookBookMobileTopLine {
       margin-top: 10px !important;
     }
   }
@@ -364,51 +364,60 @@
     .dt_lb3designList_title {
       margin: 5px 0px 5px 0px !important;
     }
+
+
   }
 
   @media screen and (max-width:900px) {
-    .smr_designSetDiv {
+    .dt_designSetDiv {
       width: 99% !important;
     }
   }
 
   @media screen and (max-width:600px) {
 
-    .smr_designSetDiv {
+    .dt_designSetDiv {
       width: 98% !important;
     }
 
-    .smr_lookBookSliderSubDiv {
+    .dt_lookBookSliderSubDiv {
       width: 50% !important;
     }
   }
 
   @media screen and (max-width: 450px) {
-    .smr_lookBookImgDeatil {
+    .dt_lookBookImgDeatil {
       display: flex;
       flex-direction: column;
     }
 
-    .smr_lookBookImgDeatilSub {
+    .dt_lookBookImgDeatilSub {
       display: flex;
       justify-content: space-between;
     }
 
-    .smr_lookBookCategoryPoupuBox {
+    .dt_lookBookCategoryPoupuBox {
       width: 90% !important;
     }
   }
 }
 
 @media screen and (max-width: 450px) {
-  .smr_lookBookCategoryPoupuBox {
+  .dt_lookBookCategoryPoupuBox {
     width: 90% !important;
   }
 }
 
-.smr_lookbook3MainDiv {
+@media(max-width: 1000px) {
+  .dt_filter_text {
+    padding-top: 30px !important;
+  }
+}
 
-  .smr_lb3compeletethelook_cont {
+
+.dt_lookbook3MainDiv {
+
+  .dt_lb3compeletethelook_cont {
     padding: 0px 85px;
     display: flex;
     flex-direction: row;
@@ -417,7 +426,7 @@
     // position: relative;
   }
 
-  .smr_lb3compeletethelook_prodt {
+  .dt_lb3compeletethelook_prodt {
     z-index: 1;
     position: relative;
     margin-left: -140px;
@@ -428,7 +437,7 @@
     padding: 15px;
   }
 
-  .smr_lb3compeletethelook_prodt_for_3 {
+  .dt_lb3compeletethelook_prodt_for_3 {
     z-index: 1;
     position: relative;
     margin-left: -140px;
@@ -438,13 +447,14 @@
     align-items: center;
     padding: 15px;
 
-    .smr_lb3_prodtDiv2 {
-      height: 364px;
+    .dt_lb3_prodtDiv2 {
+      height: 100%;
+      max-height: 364px;
       overflow-y: scroll;
       overflow-x: hidden;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .dt_lb3TotalBtnGroup {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
@@ -453,7 +463,7 @@
       width: 516px;
       border-top: none;
 
-      .smr_lb3TotalPrice {
+      .dt_lb3TotalPrice {
         width: 100%;
         color: $titleColor;
         border: 1px solid #fff;
@@ -463,7 +473,7 @@
         font-weight: 500;
       }
 
-      .smr_lb3BuyComboDiv {
+      .dt_lb3BuyComboDiv {
         width: 100%;
         color: #fff;
         border: 1px solid $titleColor;
@@ -482,20 +492,20 @@
     }
   }
 
-  .smr_lb3completethelook_outer {
+  .dt_lb3completethelook_outer {
     padding: 5px;
     // border: 1px solid #e1e1e1;
     background-color: #fff;
     width: 513px
   }
 
-  .smr_lb3srthelook_img {
+  .dt_lb3srthelook_img {
     width: 110px;
     height: 110px;
     object-fit: cover;
   }
 
-  .smr_lb3srthelook_prodinfo {
+  .dt_lb3srthelook_prodinfo {
     display: flex;
     align-items: center;
     max-width: 300px;
@@ -503,16 +513,20 @@
     word-wrap: break-word;
   }
 
-  .smr_lb3srthelook_prodinfo_inner {
+  .dt_lb3srthelook_prodinfo_inner {
     font-family: $primaryFontFamilyMedium;
+    .dt_titlline{
+      text-align: center;
+      width: 100%;
+    }
   }
 
-  .smr_lb3ctlImg_containe {
+  .dt_lb3ctlImg_containe {
     width: 951px;
     height: 632px;
   }
 
-  .smr_lb3ctl_img {
+  .dt_lb3ctl_img {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -520,7 +534,7 @@
     margin-bottom: -100px;
   }
 
-  .smr_lookbook3thumbMainDiv {
+  .dt_lookbook3thumbMainDiv {
     margin-bottom: 100px;
     padding: 0px 85px;
 
@@ -549,102 +563,104 @@
   }
 
   @media(max-width: 1440px) {
-    .smr_lookbook3MainDiv {
+    .dt_lookbook3MainDiv {
       max-width: 1200px;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       width: 470px;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       width: 470px;
     }
   }
 
   @media(max-width: 1400px) {
-    .smr_lookbook3MainDiv {
+    .dt_lookbook3MainDiv {
       max-width: 1200px;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       width: 470px;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       width: 470px;
     }
 
-    .smr_lb3completethelook_outer,
-    .smr_lb3TotalBtnGroup {
+    .dt_lb3completethelook_outer,
+    .dt_lb3TotalBtnGroup {
       width: 420px !important;
     }
   }
 
   @media(max-width: 1300px) {
-    .smr_lookbook3MainDiv {
+    .dt_lookbook3MainDiv {
       max-width: 1200px;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       width: 470px;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       width: 470px;
     }
 
-    .smr_lb3completethelook_outer,
-    .smr_lb3TotalBtnGroup {
+    .dt_lb3completethelook_outer,
+    .dt_lb3TotalBtnGroup {
       width: 400px !important;
     }
   }
 
+
+
   @media(max-width: 800px) {
-    .smr_lookbook3MainDiv {
+    .dt_lookbook3MainDiv {
       max-width: 1200px;
     }
 
-    .smr_lookbook3thumbMainDiv {
+    .dt_lookbook3thumbMainDiv {
       display: none;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .dt_lb3compeletethelook_cont {
       display: flex;
       flex-direction: column !important;
     }
 
-    .smr_lb3ctlImg_containe {
+    .dt_lb3ctlImg_containe {
       width: 500px !important;
       height: 300px !important;
       // height: 100% !important;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       margin-left: 0px !important;
       width: 360px;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       margin-left: 0px !important;
       width: 360px;
     }
 
-    .smr_lb3completethelook_outer {
+    .dt_lb3completethelook_outer {
       width: 400px !important;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .dt_lb3TotalBtnGroup {
       width: 400px !important;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .dt_lb3compeletethelook_cont {
       padding: 0 50px !important;
     }
   }
 
   @media(max-width: 500px) {
-    .smr_lb3ctlImg_containe {
+    .dt_lb3ctlImg_containe {
       width: 400px !important;
       height: 300px !important;
       // height: 100% !important;
@@ -652,18 +668,18 @@
   }
 
   @media(max-width: 425px) {
-    .smr_lb3ctlImg_containe {
+    .dt_lb3ctlImg_containe {
       width: 300px !important;
       height: 300px !important;
       // height: 100% !important;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       margin-left: 0px !important;
       width: 300px;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       margin-left: 0px !important;
       width: 300px;
     }
@@ -674,24 +690,49 @@
 
 
   @media(max-width: 415px) {
-    .smr_lookbookMainDivdata {
+    .dt_lb3designList_title {
+      font-size: $fontSize4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0px;
+    }
+
+    .dt_lookbookMainDivdata {
       flex-direction: column !important;
     }
 
-    .smr_lb3compeletethelook_cont {
+    .dt_lb3compeletethelook_cont {
       padding: 0 !important;
     }
 
-    .smr_lb3completethelook_outer {
+    .dt_lb3completethelook_outer {
       position: relative;
     }
 
-    .smr_lb3_prodtDiv2 {
+    // .dt_lb3_prodtDiv2 {
+    //   display: flex;
+    //   width: 100%;
+    //   height: 100% !important;
+    //   overflow-y: hidden;
+    //   overflow-x: hidden;
+    //   justify-content: center;
+    //   align-items: center;
+    //   flex-wrap: wrap;
+    //   gap: 10px;
+    //   margin-bottom: 20px;
+    // }
+
+    .dt_lb3_prodtDiv2 {
       display: flex;
       width: 100%;
-      height: 100% !important;
-      overflow-y: hidden;
+      height: 100%;
+      max-height: 800px !important;
+      overflow-y: scroll;
       overflow-x: hidden;
+      // height: fit-content !important;
+      // overflow-y: hidden;
+      // overflow-x: hidden;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
@@ -699,11 +740,16 @@
       margin-bottom: 20px;
     }
 
-    .smr_lb3TotalBtnGroup {
+    .dt_lb3_prodtDiv2::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dt_lb3TotalBtnGroup {
+      width: 100% !important;
       border: 1px solid #d6d6d6;
     }
 
-    .smr_lb3cartIconBtnDiv {
+    .dt_lb3cartIconBtnDiv {
       display: flex;
       justify-content: end;
       align-items: center;
@@ -713,12 +759,12 @@
       right: 0;
     }
 
-    .smr_lb3ImageDiv {
+    .dt_lb3ImageDiv {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      .smr_lb3srthelook_img {
+      .dt_lb3srthelook_img {
         max-width: 320px;
         max-height: 320px;
         width: 100%;
@@ -727,40 +773,42 @@
       }
     }
 
-    .smr_lb3srthelook_prodinfo {
+    .dt_lb3srthelook_prodinfo {
       max-width: 100%;
       width: 100%;
       justify-content: center;
       align-items: center;
     }
 
-    .smr_lb3ctlImg_containe {
+    .dt_lb3ctlImg_containe {
       width: 300px !important;
       height: 300px !important;
       // height: 100% !important;
     }
 
-    .smr_lb3compeletethelook_prodt {
+    .dt_lb3compeletethelook_prodt {
       margin-left: 0px !important;
       width: 100%;
+      padding: 20px 0 !important;
     }
 
-    .smr_lb3compeletethelook_prodt_for_3 {
+    .dt_lb3compeletethelook_prodt_for_3 {
       margin-left: 0px !important;
       width: 100%;
+      padding: 20px 0 !important;
     }
   }
 }
 
 
 @media screen and (max-width: 650px) {
-  .smr_lookBookImgDeatil {
+  .dt_lookBookImgDeatil {
     display: flex;
     flex-direction: column !important;
     align-items: start !important;
   }
 
-  .smr_lookBookImgDeatilSub {
+  .dt_lookBookImgDeatilSub {
     display: flex !important;
     justify-content: flex-end !important;
     width: 100%;
@@ -768,25 +816,25 @@
 }
 
 @media screen and (min-width: 551px) {
-  .smr_LookBookMobileThridViewMain {
+  .dt_LookBookMobileThridViewMain {
     display: none;
   }
 }
 
 @media screen and (max-width: 550px) {
-  .smr_lookBookThirdViewWeb {
+  .dt_lookBookThirdViewWeb {
     display: none;
   }
 
-  .smr_designSetDiv2_sub1 {
+  .dt_designSetDiv2_sub1 {
     width: 50% !important;
   }
 
-  .smr_designSetDiv2_sub2 {
+  .dt_designSetDiv2_sub2 {
     width: 50% !important;
   }
 
-  .smr_lookBookImgDeatilSub {
+  .dt_lookBookImgDeatilSub {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -795,21 +843,21 @@
 
 @media screen and (max-width: 500px) {
 
-  .smr_designSetDiv2_sub1 {
+  .dt_designSetDiv2_sub1 {
     width: 30% !important;
   }
 
-  .smr_designSetDiv2_sub2 {
+  .dt_designSetDiv2_sub2 {
     width: 70% !important;
   }
 
 }
 
-.smr_LookBookMobileThridViewMain {
+.dt_LookBookMobileThridViewMain {
   width: 200px;
   margin-bottom: 10px;
 }
 
-.smr_LookBookMobileThridViewMain_swiper_w {
+.dt_LookBookMobileThridViewMain_swiper_w {
   width: 100% !important;
 }

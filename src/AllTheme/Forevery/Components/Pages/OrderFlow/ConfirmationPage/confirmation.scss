@@ -1,11 +1,14 @@
 @import '../../../scss/variable.scss';
 
-.smr_confirMaindiv {
-    background-color: $backgroundColor;
+.for_confirMaindiv {
+    font-family: $primaryFontFamily;
+    margin-top: 120px;
+    min-height: 475px;
+    margin-bottom: 50px;
 }
 
-.smr_confirSecondMaindiv {
-    margin-inline: 6%;
+.for_confirSecondMaindiv {
+    margin-inline: 280px;
     background-color: #fff;
 }
 
@@ -19,6 +22,14 @@
 
 .thankYouContent {
     text-align: center;
+
+    button {
+        margin-top: 20px;
+        height: 40px;
+        width: 190px;
+        font-family: $primaryFontFamily !important;
+        font-size: $fontSize3;
+    }
 }
 
 .thankYouMessage h1 {
@@ -41,30 +52,13 @@
     color: #ff6600;
 }
 
-.continueShoppingBtn {
-    margin-top: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $primaryFontFamily !important;
-    font-size: $fontSize3;
-    color: $btn1hoverFontColor;
-    background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
 
-    &:hover {
-        color: $btn1hoverFontColor;
-        background-color: $btn1ActivebgColor;
-    }
-}
 
-.smr_orderCnfThankyouImage {
+.for_orderCnfThankyouImage {
     height: 250px;
     width: 250px
 }
-.smr_plwlPrintDiv{
+.for_plwlPrintDiv{
     // position: absolute;
     // top: 50px;
     // right: 50px;

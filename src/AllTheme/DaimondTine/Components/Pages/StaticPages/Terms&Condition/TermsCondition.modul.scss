@@ -15,7 +15,7 @@
         width: 100%;
     }
 
-    .dt_Terms_sub_div{
+    .dt_Terms_sub_div {
         margin-inline: 6%;
     }
 
@@ -73,6 +73,17 @@
         max-height: 300px;
     }
 
+    .dt_Term_Sub_Set{
+        text-align: justify;
+    }
+
+    @media screen and (max-width: 1000px) {
+        padding-top: 80px !important;
+
+        .dt_Term_Sub_Set {
+            margin-inline: 1% !important;
+        }
+    }
 
     @media screen and (max-width: 778px) {
         .tnclogo {
@@ -85,6 +96,10 @@
             min-height: 100%;
             object-fit: cover;
             width: 100%;
+        }
+
+        .dt_Terms_container {
+            padding: 30px 20px 20px 20px !important;
         }
 
     }

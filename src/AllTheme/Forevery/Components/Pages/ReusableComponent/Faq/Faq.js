@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
-const Faq = () => {
+const Faq = ({ title, data }) => {
   const [expandedAccordion, setExpandedAccordion] = useState(null);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -17,11 +17,13 @@ const Faq = () => {
   };
   return (
     <div className="for_faq">
+      {title && (
         <div className="heading">
-            <h1>FAQ ABOUT DIAMOND RINGS</h1>
+          <h1>{title}</h1>
         </div>
+      )}
       <div className="faq_section">
-        {Array.from({ length: 5 }).map((val, index) => {
+        {data?.map((val, index) => {
           return (
             <Accordion
               key={index}
@@ -39,17 +41,9 @@ const Faq = () => {
                 aria-controls={`panel-${index}-content`}
                 id={`panel-${index}-header`}
               >
-                <span>How many carats should diamond rings be?</span>
+                <span>{val?.question}</span>
               </AccordionSummary>
-              <AccordionDetails>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </AccordionDetails>
+              <AccordionDetails>{val?.answer}</AccordionDetails>
             </Accordion>
           );
         })}

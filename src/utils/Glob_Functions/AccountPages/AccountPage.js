@@ -355,7 +355,6 @@ export const validateUserDataYPAccount = (editedUserData) => {
 
     return { errors: tempErrors, isValid: isValid };
 };
-// validation.js
 
 export const validateChangeYPAccount = (id, value) => {
     let error = '';
@@ -407,4 +406,69 @@ export const validateChangeYPAccount = (id, value) => {
 
     return error;
 };
+
+// validation on submit password
+export const validateChangePassword = ({ oldPassword, password, confirmPassword }) => {
+    const errors = {};
+
+    if (!oldPassword.trim()) {
+        errors.oldPassword = 'Old Password is required';
+    }
+
+    if (!password.trim()) {
+        errors.password = 'Password is required';
+    }
+
+    if (!confirmPassword.trim()) {
+        errors.confirmPassword = 'Confirm Password is required';
+    } else if (confirmPassword !== password) {
+        errors.confirmPassword = 'Passwords do not match';
+    }
+
+    return {
+        errors,
+        isValid: Object.keys(errors).length === 0,
+    };
+};
+
+// validation on change password
+export const handlePasswordInputChangeAcc = (e, fieldName, setters, errors, setErrors) => {
+    const { value } = e.target;
+    const { setPassword, setConfirmPassword, setOldPassword } = setters;
+
+    switch (fieldName) {
+        case 'oldPassword':
+            setOldPassword(value);
+            if (!value.trim()) {
+                setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
+            } else {
+                setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
+            }
+            break;
+
+        case 'password':
+            setPassword(value);
+            if (!value.trim()) {
+                setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required' }));
+            } else {
+                setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+            }
+            break;
+
+        case 'confirmPassword':
+            setConfirmPassword(value);
+            if (!value.trim()) {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
+            } else if (value !== setters.password) {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+            } else {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
+            }
+            break;
+
+        default:
+            break;
+    }
+};
+
 

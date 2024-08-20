@@ -109,7 +109,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: -30px!important;
+            margin-top: -30px !important;
 
             &:after {
                 font-size: 16px;
@@ -121,8 +121,41 @@
             cursor: pointer;
             pointer-events: auto;
             background-color: #ababab;
-            margin-top: -30px!important;
+            margin-top: -30px !important;
         }
+
+
+        @media (max-width: 900px) {
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                background-color: #b7b7b7;
+                color: #fff;
+                padding: 10px;
+                border-radius: 50%;
+                z-index: 12;
+                width: 27px;
+                height: 27px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: -30px !important;
+
+                &:after {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 850px) {
+        // .dt_album_swiper_SubDiv {
+        //     height: 300px !important;
+        // }
+
+        // .swiper-slide-custom {
+        //     width: 50% !important;
+        // }
     }
 
     @media (max-width: 1200px) {
@@ -146,18 +179,24 @@
     // }
 
     @media (max-width: 768px) {
-    //     .swiper-slide-custom {
-    //         min-width: 180px !important;
-    //     }
+        //     .swiper-slide-custom {
+        //         min-width: 180px !important;
+        //     }
 
         .design-slide {
             padding: 10px !important;
         }
 
-    //     .design-info {
-    //         .smr_album1price {
-    //             font-size: $fontSize1 !important;
-    //         }
-    //     }
+        .smr_album1price {
+            font-size: 12px !important;
+        }
+
+
+
+        //     .design-info {
+        //         .smr_album1price {
+        //             font-size: $fontSize1 !important;
+        //         }
+        //     }
     }
 }

@@ -76,6 +76,9 @@
   }
 
 
+
+
+
   .dt_TopFixed_Header {
     align-items: center;
     background-color: #f0e0e0;
@@ -101,7 +104,7 @@
     margin-inline: 10px;
   }
 
-  .nav-li-sminingSpan_Home{
+  .nav-li-sminingSpan_Home {
     color: black !important;
     position: relative !important;
     font-weight: 600;
@@ -260,15 +263,28 @@
     //   display: none;
     // }
 
-    .dt_mobile_login_text{
+    .dt_mobile_login_text {
       display: flex;
       align-items: center;
-      margin-inline: 4px!important;
+      margin-inline: 4px !important;
       font-weight: 600;
     }
 
   }
 
+  .dt_lookBookNew_header {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    color: white;
+    background-color: saddlebrown;
+    width: fit-content;
+    padding-inline: 5px;
+    height: 16px;
+    font-size: 10px;
+    border-radius: 5px;
+  }
+  
   // @media screen and (max-width: 450px) {
   //   .dt_mobile_div3_li3 {
   //     display: none;

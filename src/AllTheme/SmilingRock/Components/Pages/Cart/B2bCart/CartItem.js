@@ -121,7 +121,7 @@ const CartItem = ({
 
   useEffect(() => {
     if (item?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
+      CartCardImageFunc(item).then((src) => {
         setImageSrc(src);
       });
     } else {

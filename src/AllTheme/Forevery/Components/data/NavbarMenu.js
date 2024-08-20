@@ -23,6 +23,7 @@ const Mens = (
 const NavbarMenu = [
   {
     category: "Engagement & Wedding Diamonds",
+    link: "lab-created-engagement-rings",
     submenu: [
       {
         title: ` Engagement Ring`,
@@ -75,15 +76,19 @@ const NavbarMenu = [
   },
   {
     category: "Diamond",
+    link: "diamond",
   },
   {
     category: "High End Jewelry",
+    link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
   },
   {
     category: "Fine Jewelry",
+    link: "lab-grown-fine-jewelry",
   },
   {
     category: "Letter Diamonds",
+    link: "letter-diamonds/all",
   },
 ];
 
@@ -226,6 +231,223 @@ const StepImages = [
   },
 ];
 
+const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
+const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
+const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
+
+const DiamondProductList = [
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    img: IMG,
+    vid: Video,
+    HaveCustomization: true,
+  },
+  {
+    Banner: Image,
+    HaveCustomization: false,
+  },
+];
+
+const LooseDiamond = [
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/asscher-diamond.png`,
+    name: "Asscher",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/cushion-diamond.png`,
+    name: "Cushion",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/emerald-diamond.png`,
+    name: "Emerald",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/oval-diamond.png`,
+    name: "Oval",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/round-diamond.png`,
+    name: "Round",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/asscher-diamond.png`,
+    name: "Asscher",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/cushion-diamond.png`,
+    name: "Cushion",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/emerald-diamond.png`,
+    name: "Emerald",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/oval-diamond.png`,
+    name: "Oval",
+  },
+  {
+    img: `${storImagePath()}/Forevery/diamond/new/round-diamond.png`,
+    name: "Round",
+  },
+];
 export {
   SideItems,
   diamondShapes,
@@ -234,5 +456,7 @@ export {
   CollectionArray,
   shapes,
   DiamondLists,
-  StepImages
+  StepImages,
+  DiamondProductList,
+  LooseDiamond,
 };
