@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Home from "./Components/Pages/Home/Index";
 import Cart from "./Components/Pages/Cart/CartMain";
 import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
@@ -126,7 +132,6 @@ const ForEveryRoutes = () => {
       return navigation("/");
     }
   }
-  
 
   return (
     <>
@@ -210,14 +215,22 @@ const ForEveryRoutes = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/d/*" element={<DetailsRoute />} />
         <Route path="/p/*" element={<ProductList />} />
-        <Route
-          path="/certified-loose-lab-grown-diamonds/*"
+        {/* <Route
+          path="/certified-loose-lab-grown-diamonds"
           element={<DiamondPage />}
-        >
-          <Route path="settings/*" element={<SettingPage />} />
-          <Route path="diamond/:id" element={<DiamondFilter />} />
-          <Route path="ring/*" element={<RingPage />} />
-        </Route>
+        /> */}
+        <Route
+          path="/certified-loose-lab-grown-diamonds/settings/*"
+          element={<SettingPage />}
+        />
+        <Route
+          path="/certified-loose-lab-grown-diamonds/diamond/*"
+          element={<DiamondFilter />}
+        />
+        <Route
+          path="/certified-loose-lab-grown-diamonds/ring/*"
+          element={<RingPage />}
+        />
         <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
 
         <Route path="/diamond" element={<Diamond />} />
@@ -233,7 +246,7 @@ const ForEveryRoutes = () => {
           {/* <Route path="/account" element={<Account />} /> */}
         <Route path="/Lookbook" element={<Lookbook />} />
         {/* </Route> */}
-        <Route path="*" element={<Navigate to={'/'} />} />
+        {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
       </Routes>
       <Footer />
     </>
