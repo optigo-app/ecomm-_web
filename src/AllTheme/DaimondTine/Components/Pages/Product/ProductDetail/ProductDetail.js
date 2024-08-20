@@ -367,8 +367,13 @@ const ProductDetail = () => {
       )[0];
     }
 
-    setSelectMtColor(mcArr?.metalcolorname);
+
+    setSelectMtColor(mcArr?.colorcode);
   }, [singleProd, singleProd1]);
+
+
+  console.log("mcArr",selectMtColor)
+
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
   // useEffect(()=>{
@@ -1333,7 +1338,7 @@ const ProductDetail = () => {
                         }}
                       >
                         <label className="dt_menuItemTimeEleveDeatil">
-                          DAIMOND :
+                          DIAMOND :
                         </label>
                         {singleProd?.IsMrpBase == 1 ? (
                           <span
@@ -1451,7 +1456,9 @@ const ProductDetail = () => {
                       >
                         <label className="dt_menuItemTimeEleveDeatil">SIZE:</label>
                         {singleProd?.IsMrpBase == 1 ? (
-                          <span className="dt_menuitemSelectoreMain">
+                           <span
+                           style={{ fontSize: "13px", color: "rgb(66, 66, 66)" ,marginBottom:'3px'}}
+                           >
                             {singleProd?.DefaultSize}
                           </span>
                         ) : (
@@ -1493,29 +1500,38 @@ const ProductDetail = () => {
                         gap: "15px",
                       }}
                     >
-                      {(singleProd?.MetalTypePurity !== "" && selectMtType) ?<span className="part1_key">
+                      {(singleProd?.MetalTypePurity !== "" && selectMtType && singleProd?.IsMrpBase !== 1) ?<span className="part1_key">
                         Metal Purity:{" "}
                         <span className="part1_value">{singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}</span>
                       </span> : null}
-                      <sapn className="part1_key">
+                      { (singleProd?.IsMrpBase !== 1) ? <sapn className="part1_key">
                         Metal Color:{" "}
                         <span className="part1_value">{JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
                                     (ele) => ele?.colorcode == selectMtColor
                                           )[0]?.metalcolorname}</span>
-                      </sapn>
+                      </sapn>: null}
 
                       {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ?<sapn className="part1_key">
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc && singleProd?.IsMrpBase !== 1) ?<sapn className="part1_key">
                         Diamond Quality Color:{" "}
                         <span className="part1_value">{`${selectDiaQc}`}</span>
                       </sapn> : null}
-                      
+
+                      {storeInit?.IsB2BWebsite == 0 ?  <sapn className="part1_key">
+                        Gross Wt:{" "}
+                        <span className="part1_value">
+                          {(singleProd1?.Gwt ?? singleProd?.Gwt)?.toFixed(3)}
+                        </span>
+                      </sapn>: null}
+
                       <sapn className="part1_key">
                         Net Wt:{" "}
                         <span className="part1_value">
                           {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                         </span>
                       </sapn>
+
+                     
                     </div>
                   </div>
 
@@ -2069,11 +2085,11 @@ const ProductDetail = () => {
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">
+                                    <span className="dt_d_keys">
                                       GWT:
                                     </span>
-                                    <span className="smr_d_val">
-                                      {ele?.GrossWt}
+                                    <span className="dt_d_val">
+                                      {ele?.GrossWt.toFixed(3)}
                                     </span>
                                   </span>
                                 </>
@@ -2083,9 +2099,9 @@ const ProductDetail = () => {
                               <>
                                 <span>|</span>
                                 <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">NWT:</span>
-                                  <span className="smr_d_val">
-                                    {ele?.NetWt}
+                                  <span className="dt_d_keys">NWT:</span>
+                                  <span className="dt_d_val">
+                                    {ele?.NetWt.toFixed(3)}
                                   </span>
                                 </span>
                               </>
@@ -2096,7 +2112,7 @@ const ProductDetail = () => {
                                 <>
                                   <span>|</span>
                                   <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">GWT:</span>
+                                    <span className="dt_d_keys">GWT:</span>
                                     <span className="smr_d_val">
                                       {ele?.GrossWt}
                                     </span>
@@ -2108,11 +2124,11 @@ const ProductDetail = () => {
                                 <>
                                   <span>|</span>
                                   <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">
+                                    <span className="dt_d_keys">
                                       DWT:
                                     </span>
-                                    <span className="smr_d_val">
-                                      {ele?.DiaWt}
+                                    <span className="dt_d_val">
+                                      {ele?.DiaWt.toFixed(3)}
                                       {storeInit?.IsDiamondPcs === 1
                                         ? `/${ele?.DiaPcs}`
                                         : null}
@@ -2126,11 +2142,11 @@ const ProductDetail = () => {
                                 <>
                                   <span>|</span>
                                   <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">
+                                    <span className="dt_d_keys">
                                       CWT:
                                     </span>
-                                    <span className="smr_d_val">
-                                      {ele?.CsWt}
+                                    <span className="dt_d_val">
+                                      {ele?.CsWt.toFixed(3)}
                                       {storeInit?.IsStonePcs === 1
                                         ? `/${ele?.CsPcs}`
                                         : null}
@@ -2143,15 +2159,15 @@ const ProductDetail = () => {
                       </td>
                       <td className="dt_stockItem_table_td">
                         {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
-                        <span>
+                        <span className="dt_table_mtcol">
                           {ele?.MetalColorName}-{ele?.metaltypename}
-                          {ele?.metalPurity}
+                          {ele?.metalPurity} 
                           {/* {" "}/{" "} */}
                         </span>
                         {/* </div> */}
                       </td>
                       <td className="dt_stockItem_table_td">
-                        <span>
+                        <span className="dt_table_Price">
                           <span className="smr_currencyFont">
                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                           </span>

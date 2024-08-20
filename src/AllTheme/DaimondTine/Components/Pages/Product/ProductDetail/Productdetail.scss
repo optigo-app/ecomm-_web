@@ -940,6 +940,40 @@
     // }
 }
 
+.dt_d_val{
+    font-size: 13px;
+}
+
+.dt_d_keys{
+    font-size: 13px;
+}
+
+.dt_table_mtcol{
+    font-size: 13px;
+}
+
+.dt_table_Price{
+    font-size: 13px;
+}
+
+@media screen and (max-width:1000px) {
+    .dt_d_val{
+        font-size: 10px;
+    }
+    
+    .dt_d_keys{
+        font-size: 10px;
+    }
+
+    .dt_table_mtcol{
+        font-size: 10px;
+    }
+    
+    .dt_table_Price{
+        font-size: 10px;
+    }
+}
+
 @media screen and (max-width:890px) {
     .dt_srthelook_prodinfo {
         display: flex;
