@@ -134,15 +134,19 @@ function Wishlist() {
                     </div>
                   </div>
                 ) :
-                  <ResponsiveCartUi
-                    stat="wish"
-                    cartData={wishlistData}
-                    isloding={isWLLoading}
-                    CurrencyData={CurrencyData}
-                    CartCardImageFunc={WishCardImageFunc}
-                    decodeEntities={decodeEntities}
-                    onRemoveItem={handleRemoveItem}
-                  />
+                  <>
+                    {wishlistData?.map(item => (
+                      <ResponsiveCartUi
+                        stat="wish"
+                        cartData={item}
+                        isloding={isWLLoading}
+                        CurrencyData={CurrencyData}
+                        CartCardImageFunc={WishCardImageFunc}
+                        decodeEntities={decodeEntities}
+                        onRemoveItem={handleRemoveItem}
+                      />
+                    ))}
+                  </>
                 }
               </>
             ) : (
