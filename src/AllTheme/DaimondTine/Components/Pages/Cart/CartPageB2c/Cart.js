@@ -174,7 +174,7 @@ function Cart(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {cartData.map((item) => (
+                        {cartData?.map((item) => (
                           <CartItem
                             key={item.id}
                             cartData={item}
@@ -283,18 +283,20 @@ function Cart(props) {
                 </div>
               ) : (
                 <>
-                  <ResponsiveCartUi
-                    stat="cart"
-                    cartData={cartData}
-                    isloding={isloding}
-                    qtyCount={qtyCount}
-                    CurrencyData={CurrencyData}
-                    CartCardImageFunc={CartCardImageFunc}
-                    decodeEntities={decodeEntities}
-                    handleIncrement={handleIncrement}
-                    handleDecrement={handleDecrement}
-                    onRemoveItem={handleRemoveItem}
-                  />
+                  {cartData?.map((item) => (
+                    <ResponsiveCartUi
+                      stat="cart"
+                      cartData={item}
+                      isloding={isloding}
+                      qtyCount={qtyCount}
+                      CurrencyData={CurrencyData}
+                      CartCardImageFunc={CartCardImageFunc}
+                      decodeEntities={decodeEntities}
+                      handleIncrement={handleIncrement}
+                      handleDecrement={handleDecrement}
+                      onRemoveItem={handleRemoveItem}
+                    />
+                  ))}
                 </>
               )}
             </>
