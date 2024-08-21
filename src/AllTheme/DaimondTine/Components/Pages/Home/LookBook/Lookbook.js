@@ -570,12 +570,12 @@ const Lookbook = () => {
                       <Accordion
                         elevation={0}
                         sx={{
-                          borderBottom: "1px solid #c7c8c9",
+                          // borderBottom: "1px solid #c7c8c9",
                           borderRadius: 0,
-                          "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                            borderBottomLeftRadius: "0px",
-                            borderBottomRightRadius: "0px",
-                          },
+                          // "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          //   borderBottomLeftRadius: "0px",
+                          //   borderBottomRightRadius: "0px",
+                          // },
                           "&.MuiPaper-root.MuiAccordion-root:before": {
                             background: "none",
                           },
@@ -679,12 +679,12 @@ const Lookbook = () => {
                     <Accordion
                       elevation={0}
                       sx={{
-                        borderBottom: "1px solid #c7c8c9",
+                        // borderBottom: "1px solid #c7c8c9",
                         borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
+                        // "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        //   borderBottomLeftRadius: "0px",
+                        //   borderBottomRightRadius: "0px",
+                        // },
                         "&.MuiPaper-root.MuiAccordion-root:before": {
                           background: "none",
                         },
@@ -944,7 +944,7 @@ const Lookbook = () => {
                           <Accordion
                             elevation={0}
                             sx={{
-                              borderBottom: "1px solid #c7c8c9",
+                              // borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                               {
@@ -965,7 +965,8 @@ const Lookbook = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7d7f85 !important",
+                                color: "rgba(0, 0, 0, 0.87) !important",
+                                fontWeight: 500,
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
@@ -1077,7 +1078,8 @@ const Lookbook = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7d7f85 !important",
+                              // color: "#7d7f85 !important",
+                              color: "rgba(0, 0, 0, 0.87) !important",
                               borderRadius: 0,
 
                               "&.MuiAccordionSummary-root": {
