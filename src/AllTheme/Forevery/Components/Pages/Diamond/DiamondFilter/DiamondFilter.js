@@ -41,7 +41,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
-  const [isloding, setIsloding] = useState(false);
+  const [isloding, setIsLoading] = useState(false);
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
@@ -186,42 +186,42 @@ const DiamondFilter = () => {
   //   }
   // };
 
-  const processDiamondData = (response) => {
-    if (response && response.Data) {
-      let resData = response.Data?.rd;
-      console.log("diamondlistResponse", response.Data);
-      const Newmap = resData?.map((val) => ({
-        img: IMG,
-        vid: Video,
-        HaveCustomization: true,
-        ...val,
-      }));
-      console.log(Newmap, "swdwkhdwkdbwkbd");
-      setDiamondData(Newmap);
-      let count = resData[0]?.icount;
-      setDiaCount(count);
-      setIsloding(false);
+ const processDiamondData = (response) => {
+    if (response && response.Data && response.Data.rd) {
+        let resData = response.Data.rd;
+        console.log("diamondlistResponse", response.Data);
+
+        const Newmap = resData.map((val) => ({
+            img: IMG,
+            vid: Video,
+            HaveCustomization: true,
+            ...val,
+        }));
+        console.log(Newmap, "swdwkhdwkdbwkbd");
+
+        setDiamondData(Newmap);
+        let count = resData[0]?.icount;
+        setDiaCount(count);
+        setIsLoading(false);
     } else {
-      console.warn("No data found in the response");
-      setIsloding(false);
+        console.warn("No data found in the response");
+        setIsLoading(false);
     }
-  };
+};
 
-  const getDiamondData = async (shape, sliderState = {}) => {
-    setIsloding(true);
+const getDiamondData = async (shape, price, carat, color, clarity, cut) => {
+    setIsLoading(true);
     try {
-      const response = await DiamondListData(1, shape, sliderState);
-      processDiamondData(response);
+        const response = await DiamondListData(1, shape, "", price, carat, color, clarity, cut);
+        processDiamondData(response);
     } catch (error) {
-      console.error("Error fetching diamond data:", error);
-    } finally {
-      setIsloding(false);
+        console.error("Error fetching diamond data:", error);
+        setIsLoading(false);
     }
-  };
-
+};
 
   const getDiamondFilterData = async () => {
-    setIsloding(true);
+    setIsLoading(true);
     try {
       const response = await DiamondFilterData();
       if (response && response.Data) {
@@ -231,43 +231,28 @@ const DiamondFilter = () => {
       }
     } catch (error) {
       console.error("Error fetching diamond data:", error);
-      setIsloding(false);
+      setIsLoading(false);
     }
   };
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
-    setIsloding(true);
+    setIsLoading(true);
+    
     try {
-      const response = await DiamondListData(newPage, checkedItem, sliderState);
-      processDiamondData(response);
-      window.scrollTo({ top: 320, behavior: "smooth" });
+        const response = await DiamondListData(newPage, checkedItem ?? "", "", "", "", "");
+        processDiamondData(response);
+        window.scrollTo({ top: 320, behavior: "smooth" });
     } catch (error) {
-      console.error("Error fetching diamond data:", error);
+        console.error("Error fetching diamond data:", error);
     } finally {
-      setIsloding(false);
+        setIsLoading(false);
     }
-  };
-
+};
 
   useEffect(() => {
     getDiamondFilterData();
   }, []);
-
-  useEffect(() => {
-    const shape = location?.pathname?.split("/")[3];
-    const sliderParams = location?.pathname?.split("/").slice(4) || [];
-    const sliderState = sliderParams.reduce((acc, param) => {
-      const [key, value] = param.split("/");
-      if (key && value) {
-        acc[key] = value.split(",").map(Number);
-      }
-      return acc;
-    }, {});
-
-    console.log("pricezczxczxczx", sliderState);
-    getDiamondData(shape, sliderState);
-  }, [location?.pathname]);
 
   const compressAndEncode = (inputString) => {
     try {
@@ -300,7 +285,7 @@ const DiamondFilter = () => {
       ? bannerImage
       : null;
   };
-
+  
   // const handleSliderChange = (sliderType, newValue) => {
   //   setSliderState((prevState) => ({
   //     ...prevState,
@@ -310,24 +295,24 @@ const DiamondFilter = () => {
   // };
 
   const handleSliderChange = (sliderType, newValue) => {
+    console.log("first");
     setSliderState((prevState) => ({
-      ...prevState,
-      [sliderType]: newValue,
+        ...prevState,
+        [sliderType]: newValue,
     }));
+
+    console.log(sliderState, "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf");
 
     const pathname = location?.pathname.split("/");
     const sliderParams = Object.entries(sliderState)
-      .map(([key, value]) => `${key}/${value[0]},${value[1]}`)
-      .join("/");
+        .map(([key, value]) => `${key}/${value[0]},${value[1]}`)
+        .join("/");
+
     const newPath = `${pathname.slice(0, 4).join("/")}/${sliderParams}`;
     Navigate(newPath);
 
-    // Call getDiamondData with updated parameters
-    const shape = location?.pathname?.split("/")[3];
-    getDiamondData(shape, sliderState);
-  };
-
-
+    console.log(sliderState);
+};
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
@@ -347,6 +332,13 @@ const DiamondFilter = () => {
       return newFiltersData;
     });
   };
+
+  useEffect(() => {
+    const [,, , shape, , price, , carat, , color, , clarity, , cut] = location?.pathname?.split("/") || [];
+    console.log("pricezczxczxczx", color);
+
+    getDiamondData(shape, price, carat, color, clarity, cut);
+}, [location?.pathname]);
 
   return (
     <>
@@ -372,8 +364,9 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
-                    }`}
+                  className={`shape_card ${
+                    checkedItem === val?.name ? "active-checked" : ""
+                  }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -933,7 +926,7 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={(e, newValue) => handleSliderChange(newValue)}
+            onChange={(e, newValue) => handleSliderChange(newValue )}
             size="small"
             min={10}
             value={data}
