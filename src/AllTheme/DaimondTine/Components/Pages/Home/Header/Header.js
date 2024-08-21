@@ -356,9 +356,9 @@ const Header = () => {
     };
 
     const searchDataFucn = (e) => {
+        e.preventDefault();
         if (e.key === "Enter") {
 
-            setDrawerOpen(false);
 
             if (searchText) {
                 // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
@@ -379,8 +379,9 @@ const Header = () => {
 
                 let encodeObj = compressAndEncode(JSON.stringify(obj));
 
+                setSearchText("");
+                setDrawerOpen((prev) => !prev);
                 navigate(`/d/${searchText}?p=${encodeObj}`);
-                setSearchText("")
                 // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
 
                 // }
