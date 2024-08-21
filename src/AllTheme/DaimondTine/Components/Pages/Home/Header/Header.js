@@ -53,10 +53,12 @@ const Header = () => {
         let companyInfoData;
 
         if (sessionStorage.getItem("CompanyInfoData")) {
-            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? '';
-            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-            if (parsedSocilaMediaUrlData) {
-                setSocialMediaData(parsedSocilaMediaUrlData)
+            if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+                companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+                const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+                if (parsedSocilaMediaUrlData) {
+                    setSocialMediaData(parsedSocilaMediaUrlData)
+                }
             }
         }
 

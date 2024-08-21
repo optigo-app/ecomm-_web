@@ -24,14 +24,14 @@ const Album1 = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
 
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
 
     useEffect(() => {
-        let data = JSON.parse(sessionStorage.getItem("storeInit"));
+        let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
 
-        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        const loginUserDetail = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -102,8 +102,8 @@ const Album1 = () => {
 
     useEffect(() => {
         if (albumData) {
-            albumData.forEach(album => {
-                const designs = JSON.parse(album?.Designdetail) || [];
+            albumData?.forEach(album => {
+                const designs = JSON?.parse(album?.Designdetail) || [];
                 designs.forEach(async (design) => {
                     const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
                     const available = await checkImageAvailability(imageSrc);
@@ -138,7 +138,7 @@ const Album1 = () => {
                 >
                     {albumData?.map((album) => (
                         <Tab
-                            key={album.Albumid}
+                            key={album?.Albumid}
                             label={album?.AlbumName}
                             value={album?.AlbumName}
                             className={selectedAlbum === album?.AlbumName ? 'active' : ''}
@@ -170,7 +170,7 @@ const Album1 = () => {
                             pagination={false}
                             className='dt_album_swiper_SubDiv'
                         >
-                            {JSON?.parse(album?.Designdetail)?.map((design) => {
+                            {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
                                 const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
                                 const isImageAvailable = imageStatus[imageSrc] !== false;
                                 return (

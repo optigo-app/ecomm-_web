@@ -161,8 +161,8 @@ function Cart(props) {
         <>
           {cartData?.length !== 0 ? (
             <>
-              {!isMobileScreen ? (
-                <div className="cart">
+              <div className="cart">
+                {!isMobileScreen ? (
                   <div className="cart-items">
                     <table>
                       <thead>
@@ -192,113 +192,113 @@ function Cart(props) {
                       </tbody>
                     </table>
                   </div>
-                  <div className="cart-totals">
-                    <div className="card-body">
-                      <h5 className="card-title">Card totals</h5>
-                      <hr className="border-line" />
+                ) :
+                  <>
+                    {cartData?.map((item) => (
+                      <ResponsiveCartUi
+                        stat="cart"
+                        cartData={item}
+                        isloding={isloding}
+                        qtyCount={qtyCount}
+                        CurrencyData={CurrencyData}
+                        CartCardImageFunc={CartCardImageFunc}
+                        decodeEntities={decodeEntities}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                        onRemoveItem={handleRemoveItem}
+                      />
+                    ))}
+                  </>
+                }
+                <div className="cart-totals">
+                  <div className="card-body">
+                    <h5 className="card-title">Card totals</h5>
+                    <hr className="border-line" />
 
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p className="card-subtitle">Subtotal</p>
+                      <p
+                        className="card-subtitle"
+                        style={{ fontWeight: "500", fontSize: "18px" }}
                       >
-                        <p className="card-subtitle">Subtotal</p>
-                        <p
-                          className="card-subtitle"
-                          style={{ fontWeight: "500", fontSize: "18px" }}
-                        >
-                          {storeInitData?.IsPriceShow == 1 && (
-                            <span>
-                              <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ??
-                                  storeInitData?.CurrencyCode}
-                              </span>{" "}
-                              {formatter(totalPrice)}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-
-                      <hr className="border-lines" />
-
-                      <div>
-                        <p className="">Shipping</p>
-                        <p className="addinfotext">Free Shipping</p>
-                        <p className="addinfotext">
-                          Shipping to{" "}
-                          <span style={{ color: "black", fontWeight: "500" }}>
-                            Delhi
-                          </span>
-                          <br />
-                          Estimate for Your Country
-                        </p>
-                        {storeInitData?.IsB2BWebsite == 1 &&
-                          (islogin == "false" || islogin == "f") && (
-                            <a
-                              href="/Delivery"
-                              className="btn btn-link addressLink"
-                              role="button"
-                            >
-                              Change address
-                            </a>
-                          )}
-                      </div>
-
-                      <hr className="border-lines" />
-
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <p className="card-total">Total</p>
-                        <p
-                          className="card-total"
-                          style={{ fontWeight: "500", fontSize: "18px" }}
-                        >
-                          {storeInitData?.IsPriceShow == 1 && (
-                            <span>
+                        {storeInitData?.IsPriceShow == 1 && (
+                          <span>
+                            <span className="smr_currencyFont">
                               {loginInfo?.CurrencyCode ??
-                                storeInitData?.CurrencyCode}{" "}
-                              {formatter(totalPrice)}
-                            </span>
-                          )}
-                        </p>
-                      </div>
+                                storeInitData?.CurrencyCode}
+                            </span>{" "}
+                            {formatter(totalPrice)}
+                          </span>
+                        )}
+                      </p>
+                    </div>
 
-                      <div className="btn-checkout my-3">
-                        <button
-                          className="CheckoutBtn"
-                          onClick={handlePlaceOrder}
-                        >
-                          PROCEED TO CHECKOUT
-                        </button>
-                      </div>
+                    <hr className="border-lines" />
+
+                    <div>
+                      <p className="">Shipping</p>
+                      <p className="addinfotext">Free Shipping</p>
+                      <p className="addinfotext">
+                        Shipping to{" "}
+                        <span style={{ color: "black", fontWeight: "500" }}>
+                          Delhi
+                        </span>
+                        <br />
+                        Estimate for Your Country
+                      </p>
+                      {storeInitData?.IsB2BWebsite == 1 &&
+                        (islogin == "false" || islogin == "f") && (
+                          <a
+                            href="/Delivery"
+                            className="btn btn-link addressLink"
+                            role="button"
+                          >
+                            Change address
+                          </a>
+                        )}
+                    </div>
+
+                    <hr className="border-lines" />
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p className="card-total">Total</p>
+                      <p
+                        className="card-total"
+                        style={{ fontWeight: "500", fontSize: "18px" }}
+                      >
+                        {storeInitData?.IsPriceShow == 1 && (
+                          <span>
+                            {loginInfo?.CurrencyCode ??
+                              storeInitData?.CurrencyCode}{" "}
+                            {formatter(totalPrice)}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="btn-checkout my-3">
+                      <button
+                        className="CheckoutBtn"
+                        onClick={handlePlaceOrder}
+                      >
+                        PROCEED TO CHECKOUT
+                      </button>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <>
-                  {cartData?.map((item) => (
-                    <ResponsiveCartUi
-                      stat="cart"
-                      cartData={item}
-                      isloding={isloding}
-                      qtyCount={qtyCount}
-                      CurrencyData={CurrencyData}
-                      CartCardImageFunc={CartCardImageFunc}
-                      decodeEntities={decodeEntities}
-                      handleIncrement={handleIncrement}
-                      handleDecrement={handleDecrement}
-                      onRemoveItem={handleRemoveItem}
-                    />
-                  ))}
-                </>
-              )}
+              </div>
             </>
           ) : (
             <div>

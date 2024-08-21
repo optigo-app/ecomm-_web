@@ -1,10 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const DiamondListData = async (
-    page,
-    shape,
-    stockno
-) => {
+export const DiamondListData = async (page, shape, stockno, sliderState = {}) => {
+    console.log("sliderState",page, shape, stockno, sliderState);
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = sessionStorage.getItem("loginUserDetail");
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -14,6 +11,7 @@ export const DiamondListData = async (
     const { FrontEnd_RegNo } = storeInit;
 
     let packageId = data?.PackageId ?? 0
+    
 
     try {
         const combinedValue = JSON.stringify({
@@ -36,8 +34,8 @@ export const DiamondListData = async (
             ToClarity: "",
             FromCut: "",
             ToCut: "",
-            FromPrice: "",
-            ToPrice: "",
+            FromPrice:`${sliderState?.price[0]}`,
+            ToPrice: `${sliderState?.price[1]}`,
             FromTable: "",
             ToTable: "",
             FromDepth: "",

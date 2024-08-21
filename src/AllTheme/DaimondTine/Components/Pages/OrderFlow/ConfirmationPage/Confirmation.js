@@ -20,6 +20,12 @@ const Confirmation = () => {
         );
     };
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [])
 
     useEffect(() => {
 
@@ -55,13 +61,6 @@ const Confirmation = () => {
     // }
 
 
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-
     return (
         <div className='dt_confirMaindiv'>
             <div className='dt_confirSecondMaindiv'>
@@ -87,9 +86,6 @@ const Confirmation = () => {
                 </div>
             </div>
             <Footer />
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'rgb(168, 128, 124)', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
-            </div>
         </div>
     );
 }
