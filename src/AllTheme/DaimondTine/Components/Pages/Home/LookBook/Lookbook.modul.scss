@@ -23,15 +23,22 @@
   .dt_lookbookFilterMain {
     position: sticky;
     top: 0;
-    width: 15%;
+    width: 18%;
   }
 
   .dt_lookBookShowMain {
     max-height: 80vh;
     padding-right: 10px;
-    overflow: scroll;
+    overflow-y: auto; /* Allows vertical scroll if content overflows */
+    overflow-x: scroll; /* Allows horizontal scroll if content overflows */
+    position: relative; /* For positioning the pseudo-elements if needed */
   }
-
+  
+  .dt_lookBookShowMain::-webkit-scrollbar {
+    width: 2px; /* Hides the scrollbar for vertical scrolling */
+    height: 0px; /* Hides the scrollbar for horizontal scrolling */
+  }
+  
   ::-webkit-scrollbar {
     width: 2px !important;
   }
@@ -56,7 +63,7 @@
 
   .dt_lookBookImgDiv {
     margin-top: 55px;
-    width: 85%;
+    width: 82%;
   }
 
   .dt_lb2designList_title {

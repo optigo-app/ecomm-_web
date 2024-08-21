@@ -12,7 +12,7 @@ export default function Footer() {
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
     const [email, setEmail] = useState();
-    const [islogin , setIsLogin] = useRecoilState(dt_loginState);
+    const [islogin, setIsLogin] = useRecoilState(dt_loginState);
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
 
@@ -120,7 +120,7 @@ export default function Footer() {
                         {islogin == true ?
                             <div className='FooterLinkMainBox'>
                                 <p className='footerMoteText'>MY ACCOUNT</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/account')}>Account</p>
+                                <p className='FoooterTextLink' onClick={() => { navigation('/account'); window.scroll(0, 0); }}>Account</p>
                                 <p className='FoooterTextLink' onClick={handleLogout}>Sign Out</p>
                                 <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
                             </div>

@@ -152,9 +152,19 @@ const Album1 = () => {
                         <Swiper
                             key={album?.Albumid}
                             spaceBetween={10}
-                            slidesPerView={4}
                             lazy={true}
                             navigation={true}
+                            breakpoints={{
+                                1024: {
+                                    slidesPerView: 4,
+                                },
+                                768: {
+                                    slidesPerView: 2,
+                                },
+                                0: {
+                                    slidesPerView: 2, 
+                                }
+                            }}
                             modules={[Keyboard, FreeMode, Navigation]}
                             keyboard={{ enabled: true }}
                             pagination={false}
