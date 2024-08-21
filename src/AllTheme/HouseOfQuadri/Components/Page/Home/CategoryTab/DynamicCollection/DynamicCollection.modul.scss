@@ -3,6 +3,7 @@
 $scrollbar-width: 2px;
 $scrollbar-track-color: #f1f1f100;
 $scrollbar-thumb-color: #e4e4e4;
+$settedcOLOR  : rgba(112, 128, 144, 0.096) ;
 
 @mixin custom-scrollbar {
   &::-webkit-scrollbar {
@@ -350,7 +351,7 @@ $scrollbar-thumb-color: #e4e4e4;
           overflow: hidden;
           position: relative;
           overflow: hidden;
-          background-color: rgba(112, 128, 144, 0.096);
+          background-color:$settedcOLOR;
           .rollup_video {
             position: absolute;
             z-index: 45;
@@ -369,12 +370,16 @@ $scrollbar-thumb-color: #e4e4e4;
             height: 100%;
             object-fit: cover;
             img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
+              // width: 100%;
+              // height: 100%;
+              object-fit: contain !important;
               border: transparent;
               outline: none;
               mix-blend-mode: multiply;
+              &:hover {
+                transition: 0.3s ease-in-out;
+                scale: 1.01 !important;
+              }
             }
           }
           img {
@@ -384,10 +389,6 @@ $scrollbar-thumb-color: #e4e4e4;
             border: transparent;
             outline: none;
             mix-blend-mode: multiply;
-            &:hover {
-              transition: 0.3s ease-in-out;
-              scale: 1.02;
-            }
           }
         }
         .det {
@@ -452,7 +453,7 @@ $scrollbar-thumb-color: #e4e4e4;
             width: 5%;
           }
         }
-     
+
         .C_Card {
           width: 23.6%;
           height: 560px;
@@ -623,9 +624,9 @@ $scrollbar-thumb-color: #e4e4e4;
         }
       }
       .NoProductFound {
-        width: 100% ;
+        width: 100%;
         height: 90vh;
-        display: flex ;
+        display: flex;
         background-color: #cfcfcf17;
         align-items: center;
         overflow: hidden;
@@ -1064,7 +1065,7 @@ $scrollbar-thumb-color: #e4e4e4;
             height: 520px;
             transition: 0.5s ease-in;
             .hoq_plus {
-              bottom:4.8rem !important;
+              bottom: 4.8rem !important;
             }
             .hoq_plus {
               bottom: 3rem;
@@ -1311,7 +1312,6 @@ $scrollbar-thumb-color: #e4e4e4;
                   scale: 1.02;
                 }
               }
-             
             }
             .det {
               .jewel_parameter {
@@ -1378,7 +1378,6 @@ $scrollbar-thumb-color: #e4e4e4;
                   scale: 1.02;
                 }
               }
-             
             }
             .det {
               gap: 2px;
@@ -1451,7 +1450,6 @@ $scrollbar-thumb-color: #e4e4e4;
                   scale: 1.02;
                 }
               }
-             
             }
             .det {
               gap: 2px;
@@ -1470,20 +1468,19 @@ $scrollbar-thumb-color: #e4e4e4;
           }
         }
       }
-      .pagination_sec{
+      .pagination_sec {
         .pagination-btn .MuiPaginationItem-root {
           font-size: 0.875rem; /* Slightly larger font size */
           width: 1rem; /* Adjust width */
           height: 1rem; /* Adjust height */
           margin: 0 !important;
         }
-      
+
         .pagination-btn .MuiPaginationItem-root {
           font-size: 1rem; /* Larger font size for desktop */
         }
       }
     }
-
   }
   @media screen and (max-width: 358px) {
     .filter_section {
@@ -1538,7 +1535,6 @@ $scrollbar-thumb-color: #e4e4e4;
                   scale: 1.02;
                 }
               }
-             
             }
             .det {
               gap: 2px;
@@ -1557,7 +1553,7 @@ $scrollbar-thumb-color: #e4e4e4;
           }
         }
       }
-      .pagination_sec{
+      .pagination_sec {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1572,6 +1568,5 @@ $scrollbar-thumb-color: #e4e4e4;
         }
       }
     }
-
   }
 }
