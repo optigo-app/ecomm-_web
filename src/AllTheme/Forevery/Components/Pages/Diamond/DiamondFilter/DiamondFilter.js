@@ -207,16 +207,18 @@ const DiamondFilter = () => {
     }
   };
 
-  const getDiamondData = async (shape) => {
+  const getDiamondData = async (shape, sliderState = {}) => {
     setIsloding(true);
     try {
-      const response = await DiamondListData(1, shape);
+      const response = await DiamondListData(1, shape, sliderState);
       processDiamondData(response);
     } catch (error) {
       console.error("Error fetching diamond data:", error);
+    } finally {
       setIsloding(false);
     }
   };
+
 
   const getDiamondFilterData = async () => {
     setIsloding(true);
@@ -237,14 +239,16 @@ const DiamondFilter = () => {
     setCurrentPage(newPage);
     setIsloding(true);
     try {
-      const response = await DiamondListData(newPage, checkedItem);
+      const response = await DiamondListData(newPage, checkedItem, sliderState);
       processDiamondData(response);
       window.scrollTo({ top: 320, behavior: "smooth" });
     } catch (error) {
       console.error("Error fetching diamond data:", error);
+    } finally {
       setIsloding(false);
     }
   };
+
 
   useEffect(() => {
     getDiamondFilterData();
@@ -252,7 +256,17 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
-    getDiamondData(shape);
+    const sliderParams = location?.pathname?.split("/").slice(4) || [];
+    const sliderState = sliderParams.reduce((acc, param) => {
+      const [key, value] = param.split("/");
+      if (key && value) {
+        acc[key] = value.split(",").map(Number);
+      }
+      return acc;
+    }, {});
+
+    console.log("pricezczxczxczx", sliderState);
+    getDiamondData(shape, sliderState);
   }, [location?.pathname]);
 
   const compressAndEncode = (inputString) => {
@@ -286,7 +300,7 @@ const DiamondFilter = () => {
       ? bannerImage
       : null;
   };
-  
+
   // const handleSliderChange = (sliderType, newValue) => {
   //   setSliderState((prevState) => ({
   //     ...prevState,
@@ -296,23 +310,23 @@ const DiamondFilter = () => {
   // };
 
   const handleSliderChange = (sliderType, newValue) => {
-    console.log("first")
     setSliderState((prevState) => ({
       ...prevState,
       [sliderType]: newValue,
     }));
-    console.log(sliderState , "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf")
+
     const pathname = location?.pathname.split("/");
-    const sliderParams = Object?.entries(sliderState)
-      ?.map(([key, value]) => {
-        return `${key}/${value[0]},${value[1]}`;
-      })
+    const sliderParams = Object.entries(sliderState)
+      .map(([key, value]) => `${key}/${value[0]},${value[1]}`)
       .join("/");
-    const newPath = `${pathname?.slice(0, 4)?.join("/")}/${sliderParams}`;
+    const newPath = `${pathname.slice(0, 4).join("/")}/${sliderParams}`;
     Navigate(newPath);
 
-    console.log(sliderState);
+    // Call getDiamondData with updated parameters
+    const shape = location?.pathname?.split("/")[3];
+    getDiamondData(shape, sliderState);
   };
+
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
@@ -358,9 +372,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -920,7 +933,7 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={(e, newValue) => handleSliderChange(newValue )}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={10}
             value={data}

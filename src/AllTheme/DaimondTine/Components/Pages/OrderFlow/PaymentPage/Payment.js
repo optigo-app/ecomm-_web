@@ -143,20 +143,6 @@ const Payment = () => {
         }
     }
 
-
-    const decodeEntities = (html) => {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
-
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-
     return (
         <div className='dt_paymentMainDiv'>
             <div className='dt_paymentSecondMainDiv'>
@@ -268,9 +254,6 @@ const Payment = () => {
                     onSave={handleSaveInternal}
                 />
                 <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p className='dt_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     )
