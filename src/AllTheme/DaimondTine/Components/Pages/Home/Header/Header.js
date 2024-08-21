@@ -20,7 +20,7 @@ import Pako from 'pako';
 
 const Header = () => {
 
-    const [searchText, setSearchText] = useState(null)
+    const [searchText, setSearchText] = useState('')
     const titleImg = useRecoilValue(dt_companyLogo);
     const [storeInit, setStoreInit] = useState();
     const [islogin, setislogin] = useRecoilState(dt_loginState);
@@ -356,13 +356,10 @@ const Header = () => {
     };
 
     const searchDataFucn = (e) => {
-        e.preventDefault();
         if (e.key === "Enter") {
-
-
+            e.preventDefault();
             if (searchText) {
                 // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-
                 // const handleMoveToDetail = () => {
 
                 let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -380,15 +377,13 @@ const Header = () => {
                 let encodeObj = compressAndEncode(JSON.stringify(obj));
 
                 setSearchText("");
-                setDrawerOpen((prev) => !prev);
+                setDrawerOpen(false);
                 navigate(`/d/${searchText}?p=${encodeObj}`);
                 // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-
                 // }
             }
         }
     };
-    console.log('Drawer state:', drawerOpen);
 
     return (
         <div className='dai_headerMain'>
@@ -425,10 +420,7 @@ const Header = () => {
                         type="text"
                         placeholder="Search..."
                         value={searchText}
-                        onChange={(e) => {
-                            setSearchText(e.target.value)
-
-                        }}
+                        onChange={(e) => setSearchText(e.target.value)}
                         className="serachinputBoxOverly"
                         onKeyDown={searchDataFucn}
                     />
@@ -888,7 +880,7 @@ const Header = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '33.33%', display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={() => { setSearchText(''); setDrawerOpen(false); }}>
+                                <IconButton onClick={() => {setSearchText(''); setDrawerOpen(false); }}>
                                     <CloseIcon />
                                 </IconButton>
                             </div>
@@ -963,10 +955,7 @@ const Header = () => {
                                     type="text"
                                     placeholder="Search..."
                                     value={searchText}
-                                    onChange={(e) => {
-                                        setSearchText(e.target.value)
-
-                                    }}
+                                    onChange={(e) => setSearchText(e.target.value)}
                                     style={{ border: '0px', outline: '0px' }}
                                     className="serachinputBoxOverly"
                                     onKeyDown={searchDataFucn}
