@@ -1026,6 +1026,10 @@ const ProductList = () => {
     }
   };
 
+  useEffect(()=>{
+    setSortBySelect("Recommended")
+  },[location?.key])
+
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value);
 
