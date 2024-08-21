@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Header.modul.scss'
 import { IoCallOutline } from 'react-icons/io5'
 import { AiFillInstagram } from "react-icons/ai";
@@ -36,16 +36,13 @@ const Header = () => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
     const [socialMediaData, setSocialMediaData] = useState([]);
-
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
 
     const [cartCountNum, setCartCountNum] = useRecoilState(dt_CartCount);
     const [wishCountNum, setWishCountNum] = useRecoilState(dt_WishCount);
-
+    const [dropdownVisible, setDropdownVisible] = useState(false);
 
     let navigate = useNavigate()
-
-
-
     const fetchData = () => {
         const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
@@ -56,7 +53,7 @@ const Header = () => {
         let companyInfoData;
 
         if (sessionStorage.getItem("CompanyInfoData")) {
-            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? '';
             const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
             if (parsedSocilaMediaUrlData) {
                 setSocialMediaData(parsedSocilaMediaUrlData)
@@ -100,23 +97,7 @@ const Header = () => {
 
 
     //this useEffect for the top header fixed
-    useEffect(() => {
-        fetchData();
-
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            if (scrollY > 100) {
-                setIsFixed(true);
-            } else {
-                setIsFixed(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
+   
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -212,26 +193,74 @@ const Header = () => {
         sessionStorage.setItem('menuparams', JSON.stringify(finalData));
     };
 
-
+    const [menuHover, setMenuHover] = useState(false);
+    const [dropdownHover, setDropdownHover] = useState(false);
     const [isFixed, setIsFixed] = useState(false);
+    const headerRef = useRef(null);
+ 
+    useEffect(() => {
+        fetchData();
 
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
+            setIsFixed(scrollY > 100);
+            if (expandedMenu !== null) {
+                // Adjust dropdown position based on header height
+                setDropdownPosition((prevPosition) => ({
+                    ...prevPosition,
+                    top: prevPosition.top + (headerHeight - (scrollY > 200 ? headerHeight : 0))
+                }));
+            }
+        };
 
-    const handleMouseLeave = (index) => {
-        setExpandedMenu(null);
-        setHoveredIndex(null);
-        document.body.style.overflow = 'auto';
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [fetchData, expandedMenu, isFixed]);
+
+    useEffect(() => {
+        if (!menuHover && !dropdownHover) {
+            const timer = setTimeout(() => {
+                setDropdownVisible(false);
+                setExpandedMenu(null);
+                setHoveredIndex(null);
+            }, 200); // Delay before closing to handle quick mouse movements
+
+            return () => clearTimeout(timer);
+        }
+    }, [menuHover, dropdownHover]);
+
+    const handleMouseEnterMenu = (index, event) => {
+        if (event && event.target) {
+            const target = event.target;
+            const { top, left, height } = target.getBoundingClientRect();
+            const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
+            setDropdownPosition({
+                top: top + height + window.scrollY - headerHeight / 20, // Adjust position below the menu item
+                left: left + window.scrollX, // Adjust horizontal position
+            });
+            setDropdownVisible(true);
+            setHoveredIndex(index);
+            setExpandedMenu(index);
+            setSelectedData(menuItems[index] || []);
+            setMenuHover(true);
+        }
     };
 
-    const handleMouseEnter = (index, param) => {
-        setHoveredIndex(index);
-        setExpandedMenu(index);
-        setSelectedData(menuItems[index] || []);
-
+    const handleMouseLeaveMenu = () => {
+        setMenuHover(false);
     };
 
-    const handleMouseEnter0 = (param) => {
-        setLeval1menu(param)
-    }
+    const handleMouseEnterDropdown = () => {
+        setDropdownHover(true);
+    };
+
+    const handleMouseLeaveDropdown = () => {
+        setDropdownHover(false);
+    };
+
 
     const handleLogout = () => {
         navigation("/");
@@ -261,9 +290,7 @@ const Header = () => {
 
 
     const handelMenu = (param, param1, param2) => {
-
-        console.log("param", param, param1, param2)
-        // setDrawerShowOverlay(false);
+        setDropdownVisible(false);
         let finalData = {
             menuname: param?.menuname ?? "",
             FilterKey: param?.key ?? "",
@@ -384,6 +411,7 @@ const Header = () => {
             }
         }
     };
+
 
     return (
         <div className='dai_headerMain'>
@@ -561,7 +589,7 @@ const Header = () => {
                 </div>
             </div>
 
-            <div className={`dt_TopFixed_Header ${isFixed ? 'fixed' : ''}`}>
+            <div className={`dt_TopFixed_Header ${isFixed ? 'fixed' : ''}`}  ref={headerRef}>
                 <>
                     <ul className="dt_ul_main">
                         <li
@@ -582,13 +610,8 @@ const Header = () => {
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
                                 key={index}
                                 label={item.menuname}
-                                onMouseEnter={() => {
-                                    handleMouseEnter(index, item);
-                                    handleMouseEnter0(item);
-                                }}
-                                onMouseLeave={() => {
-                                    handleMouseLeave();
-                                }}
+                                onMouseEnter={(event) => handleMouseEnterMenu(index, event)}
+                                onMouseLeave={handleMouseLeaveMenu}
                                 onClick={() =>
                                     handelMenu({
                                         menuname: item?.menuname,
@@ -655,32 +678,43 @@ const Header = () => {
             </div>
 
             {/* header menu dropdown */}
-            {/* {selectedData?.param1[0]?.param1name && */}
-            <div id='shopdropdown' className={`dt_shop_dropdown 
-                ${expandedMenu !== null ? "open" : ""}  
-                ${isHeaderFixed ? "fixed" : ""}`}
-                onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+
+           
+            {dropdownVisible && (
                 <div
+                    id='shopdropdown'
+                    className={`dt_shop_dropdown ${expandedMenu !== null ? "open" : ""} ${isFixed ? "fixed" : ""}`}
+                    onMouseEnter={handleMouseEnterDropdown}
+                    onMouseLeave={handleMouseLeaveDropdown}
                     style={{
-                        display: "flex",
-                        padding: "30px",
-                        color: "#7d7f85",
-                        gap: "50px",
-                        justifyContent: 'space-between',
-                        width: 'fit-content',
-                        margin: '0 auto',
-                        backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
-                        boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                        top: dropdownPosition.top,
+                        left: dropdownPosition.left,
+                        position: 'absolute',
+                        zIndex: 99,
+                        display: 'block'
                     }}
-                    className="menuDropdownData"
                 >
-                    <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
-                        {selectedData?.param1?.map((param1Item, param1Index) => (
-                            // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
-                            <div key={param1Index}>
-                                <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
-                                <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
-                                    {param1Item?.param2?.map((param2Item, param2Index) => (
+                    <div
+                        style={{
+                            display: "flex",
+                            padding: "30px",
+                            color: "#7d7f85",
+                            gap: "50px",
+                            justifyContent: 'space-between',
+                            width: 'fit-content',
+                            // margin: '0 auto',
+                            backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
+                            boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                        }}
+                        className="menuDropdownData"
+                    >
+                        <div style={{ width: '100%', gap: '60px', textTransform: 'uppercase' }}>
+                            {selectedData?.param1?.map((param1Item, param1Index) => (
+                                // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
+                                <div key={param1Index}>
+                                    <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                    <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+                                        {/* {param1Item?.param2?.map((param2Item, param2Index) => (
                                         <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
                                             menuname: leval1menu?.menuname,
                                             key: leval1menu?.param0name,
@@ -696,33 +730,17 @@ const Header = () => {
                                             })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                                             {param2Item?.param2dataname}
                                         </p>
-                                    ))}
-                                    {/* {
-                                        menuname: leval1menu?.menuname,
-                                        key: leval1menu?.param0name,
-                                        value: leval1menu?.param0dataname,
-                                      },
-                                      {
-                                        key: param1Item.param1name,
-                                        value: param1Item.param1dataname,
-                                      },
-                                      {
-                                        key: param2Item.param2name,
-                                        value: param2Item.param2dataname,
-                                      } */}
+                                    ))} */}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+
                     </div>
-
-                    {/* <div style={{ display: 'flex', gap: '15px' }}>
-                  <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="#" className="menuImages" />
-                  <img src={`${storImagePath()}/images/Menu/Menu2.jpg`} alt="#" className="menuImages" />
-                </div> */}
-
                 </div>
-            </div>
-            {/* } */}
+            )}
+
+
             {/* mobileHeader................. */}
             <div className="dt_mobileViewHeaderMain" style={{ backgroundColor: drawerOpen ? 'white' : '#e1e1e1 ' }}>
                 <div className="dt_mobileView_div1">
@@ -880,7 +898,7 @@ const Header = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '33.33%', display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={() => {setSearchText(''); setDrawerOpen(false); }}>
+                                <IconButton onClick={() => { setSearchText(''); setDrawerOpen(false); }}>
                                     <CloseIcon />
                                 </IconButton>
                             </div>
