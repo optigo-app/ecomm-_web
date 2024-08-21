@@ -40,7 +40,7 @@ const WishItem = ({
         setloding(true);
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
-            toast.success("Wishlist items added in cart")
+            toast.success("Wishlist item added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCount(res?.cartcount);
                 setloding(false);
