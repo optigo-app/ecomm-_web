@@ -56,10 +56,12 @@ const Header = () => {
         let companyInfoData;
 
         if (sessionStorage.getItem("CompanyInfoData")) {
-            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-            if (parsedSocilaMediaUrlData) {
-                setSocialMediaData(parsedSocilaMediaUrlData)
+            if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+                companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+                const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+                if (parsedSocilaMediaUrlData) {
+                    setSocialMediaData(parsedSocilaMediaUrlData)
+                }
             }
         }
 
@@ -880,7 +882,7 @@ const Header = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '33.33%', display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={() => {setSearchText(''); setDrawerOpen(false); }}>
+                                <IconButton onClick={() => { setSearchText(''); setDrawerOpen(false); }}>
                                     <CloseIcon />
                                 </IconButton>
                             </div>
