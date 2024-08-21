@@ -34,6 +34,7 @@ import { DiamondFilterData } from "../../../../../../utils/API/DiamondStore/Diam
 import { SvgImg } from "../../../data/Dummy";
 import DiamondPage from "..";
 
+
 const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
 const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
@@ -80,9 +81,9 @@ const DiamondFilter = () => {
   const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
-    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storeinitData = JSON?.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
   useEffect(() => {
