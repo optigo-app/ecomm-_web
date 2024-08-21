@@ -185,3 +185,22 @@
     color: $titleColor
   }
 }
+
+@media (max-width: 999px) {
+  .dt_AddressBtnGroup{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    .dt_AddNewAddrModalbtn{
+      margin-right: 0px;
+      width: 100%;
+      font-size: $fontSize2
+    }
+    .dt_Cancelbtn{
+      margin-right: 0px;
+      width: 100%;
+      font-size: $fontSize2
+    }
+  }
+}
