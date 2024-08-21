@@ -42,7 +42,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
-  const [isloding, setIsloding] = useState(false);
+  const [isloding, setIsLoading] = useState(false);
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
@@ -187,40 +187,42 @@ const DiamondFilter = () => {
   //   }
   // };
 
-  const processDiamondData = (response) => {
-    if (response && response.Data) {
-      let resData = response.Data?.rd;
-      console.log("diamondlistResponse", response.Data);
-      const Newmap = resData?.map((val) => ({
-        img: IMG,
-        vid: Video,
-        HaveCustomization: true,
-        ...val,
-      }));
-      console.log(Newmap, "swdwkhdwkdbwkbd");
-      setDiamondData(Newmap);
-      let count = resData[0]?.icount;
-      setDiaCount(count);
-      setIsloding(false);
-    } else {
-      console.warn("No data found in the response");
-      setIsloding(false);
-    }
-  };
+ const processDiamondData = (response) => {
+    if (response && response.Data && response.Data.rd) {
+        let resData = response.Data.rd;
+        console.log("diamondlistResponse", response.Data);
 
-  const getDiamondData = async (shape) => {
-    setIsloding(true);
-    try {
-      const response = await DiamondListData(1, shape);
-      processDiamondData(response);
-    } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsloding(false);
+        const Newmap = resData.map((val) => ({
+            img: IMG,
+            vid: Video,
+            HaveCustomization: true,
+            ...val,
+        }));
+        console.log(Newmap, "swdwkhdwkdbwkbd");
+
+        setDiamondData(Newmap);
+        let count = resData[0]?.icount;
+        setDiaCount(count);
+        setIsLoading(false);
+    } else {
+        console.warn("No data found in the response");
+        setIsLoading(false);
     }
-  };
+};
+
+const getDiamondData = async (shape, price, carat, color, clarity, cut) => {
+    setIsLoading(true);
+    try {
+        const response = await DiamondListData(1, shape, "", price, carat, color, clarity, cut);
+        processDiamondData(response);
+    } catch (error) {
+        console.error("Error fetching diamond data:", error);
+        setIsLoading(false);
+    }
+};
 
   const getDiamondFilterData = async () => {
-    setIsloding(true);
+    setIsLoading(true);
     try {
       const response = await DiamondFilterData();
       if (response && response.Data) {
@@ -230,31 +232,28 @@ const DiamondFilter = () => {
       }
     } catch (error) {
       console.error("Error fetching diamond data:", error);
-      setIsloding(false);
+      setIsLoading(false);
     }
   };
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
-    setIsloding(true);
+    setIsLoading(true);
+    
     try {
-      const response = await DiamondListData(newPage, checkedItem);
-      processDiamondData(response);
-      window.scrollTo({ top: 320, behavior: "smooth" });
+        const response = await DiamondListData(newPage, checkedItem ?? "", "", "", "", "");
+        processDiamondData(response);
+        window.scrollTo({ top: 320, behavior: "smooth" });
     } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsloding(false);
+        console.error("Error fetching diamond data:", error);
+    } finally {
+        setIsLoading(false);
     }
-  };
+};
 
   useEffect(() => {
     getDiamondFilterData();
   }, []);
-
-  useEffect(() => {
-    const shape = location?.pathname?.split("/")[3];
-    getDiamondData(shape);
-  }, [location?.pathname]);
 
   const compressAndEncode = (inputString) => {
     try {
@@ -297,24 +296,24 @@ const DiamondFilter = () => {
   // };
 
   const handleSliderChange = (sliderType, newValue) => {
-    console.log("first")
+    console.log("first");
     setSliderState((prevState) => ({
-      ...prevState,
-      [sliderType]: newValue,
+        ...prevState,
+        [sliderType]: newValue,
     }));
-  };
 
-  useEffect(()=>{
+    console.log(sliderState, "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf");
+
     const pathname = location?.pathname.split("/");
-    const sliderParams = Object?.entries(sliderState)
-      ?.map(([key, value]) => {
-        return `${key}/${value[0]},${value[1]}`;
-      })
-      .join("/");
-    const newPath = `${pathname?.slice(0, 4)?.join("/")}/${sliderParams}`;
-    Navigate(newPath);
-  },[sliderState])
+    const sliderParams = Object.entries(sliderState)
+        .map(([key, value]) => `${key}/${value[0]},${value[1]}`)
+        .join("/");
 
+    const newPath = `${pathname.slice(0, 4).join("/")}/${sliderParams}`;
+    Navigate(newPath);
+
+    console.log(sliderState);
+};
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
@@ -334,6 +333,13 @@ const DiamondFilter = () => {
       return newFiltersData;
     });
   };
+
+  useEffect(() => {
+    const [,, , shape, , price, , carat, , color, , clarity, , cut] = location?.pathname?.split("/") || [];
+    console.log("pricezczxczxczx", color);
+
+    getDiamondData(shape, price, carat, color, clarity, cut);
+}, [location?.pathname]);
 
   return (
     <>

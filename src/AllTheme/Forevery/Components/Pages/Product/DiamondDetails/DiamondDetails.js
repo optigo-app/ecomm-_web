@@ -24,8 +24,8 @@ import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/Newslet
 import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
-import { useSetRecoilState } from 'recoil';
-import { for_CartCount, for_WishCount } from '../../../Recoil/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { for_CartCount, for_WishCount, for_customizationSteps } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
@@ -45,6 +45,7 @@ const DiamondDetails = () => {
     const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
     const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -215,16 +216,24 @@ const DiamondDetails = () => {
 
 
     const getDiamondData = async (stockno, shape) => {
+        setisPriceLoading(true);
+        setIsDataFound(true);
         try {
             const response = await DiamondListData(shape, stockno);
             if (response && response.Data) {
                 let resData = response.Data?.rd
                 setSingleDiaData(resData)
+                setisPriceLoading(false)
+                setIsDataFound(false);
             } else {
                 console.warn("No data found in the response");
+                setisPriceLoading(false)
+                setIsDataFound(false);
             }
         } catch (error) {
             console.error("Error fetching diamond data:", error);
+            setisPriceLoading(false);
+            setIsDataFound(false)
         }
     };
 
@@ -237,10 +246,11 @@ const DiamondDetails = () => {
         setShape(decodeobj?.b)
     }, [location?.pathname]);
 
-    const handleButtonChange = async (value, stockno) => {
-        console.log('stockno: ', stockno);
+    const handleButtonChange = async (value, e, stockno, shape) => {
+        console.log('shape: ', shape);
+        setWishListFlag(e?.target?.checked);
         if (value == 'cart') {
-            await CartAndWishListAPI('', {}, '', '', stockno).then((res) => {
+            await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
                 console.log(res?.Data?.rd[0])
                 if (res) {
                     if (res?.Data?.rd[0]?.msg === 'success') {
@@ -254,6 +264,59 @@ const DiamondDetails = () => {
                 }
             }).catch((err) => console.log("addtocartwishErr", err))
         }
+
+        if (value == 'wish') {
+            if (e?.target?.checked === true) {
+                let res = await CartAndWishListAPI('Wish', {}, '', '', stockno);
+                if (res) {
+                    try {
+                        let cartC = res?.Data?.rd[0]?.Cartlistcount;
+                        let wishC = res?.Data?.rd[0]?.Wishlistcount;
+                        setWishCountVal(wishC);
+                        setCartCountVal(cartC);
+                    } catch (error) {
+                        console.log("err", error)
+                    }
+                }
+            }
+            else {
+                let res1 = await RemoveCartAndWishAPI('Wish', "", '', '', stockno);
+                if (res1) {
+                    try {
+                        let cartC = res1?.Data?.rd[0]?.Cartlistcount;
+                        let wishC = res1?.Data?.rd[0]?.Wishlistcount;
+                        setWishCountVal(wishC);
+                        setCartCountVal(cartC);
+                    } catch (error) {
+                        console.log("err", error);
+                    }
+                }
+            }
+        }
+
+        if (value == 'ring') {
+            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}`);
+            setCustomizeStep({
+                step1: true,
+                step2: true,
+                step3: false,
+            })
+            const step2 = [...step1, { "step2": true }]
+            sessionStorage.setItem("customizeSteps", JSON.stringify(step2));
+        }
+
+        if (value == 'pendant') {
+            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}`);
+            setCustomizeStep({
+                step1: true,
+                step2: true,
+                step3: false,
+            })
+            const step2 = [...step1, { "step2": true }]
+            sessionStorage.setItem("customizeSteps", JSON.stringify(step2));
+        }
     }
 
     const decodeEntities = (html) => {
@@ -261,73 +324,6 @@ const DiamondDetails = () => {
         txt.innerHTML = html;
         return txt.value;
     };
-
-    const handleWishList = async (e, ele) => {
-        console.log('e: ', e);
-        setWishListFlag(e?.target?.checked);
-
-        const metal =
-            metalTypeCombo?.find((ele) => {
-                return ele?.metaltype == metalType
-            }) ?? metalTypeCombo;
-
-        const dia =
-            diaQcCombo?.find((ele) => {
-                return ele?.Quality == selectDiaQc?.split(",")[0] &&
-                    ele?.color == selectDiaQc?.split(",")[1]
-            }) ?? diaQcCombo;
-
-        const cs =
-            csQcCombo?.find((ele) => {
-                return ele?.Quality == selectCsQC?.split(",")[0] &&
-                    ele?.color == selectCsQC?.split(",")[1]
-            }) ?? csQcCombo;
-
-        const mcArr =
-            metalColorCombo?.find((ele) => {
-                return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-            }) ?? metalColorCombo;
-
-        const prodObj = {
-            autocode: singleProd?.autocode,
-            Metalid: metal?.Metalid,
-            MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-            DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-            CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-            Size: sizeData ?? singleProd?.DefaultSize,
-            Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
-            markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-            UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
-            Remark: "",
-        }
-
-        if (e.target.checked === true) {
-            let res = await CartAndWishListAPI("Wish", prodObj, cookie);
-            if (res) {
-                try {
-                    let cartC = res?.Data?.rd[0]?.Cartlistcount;
-                    let wishC = res?.Data?.rd[0]?.Wishlistcount;
-                    setWishCountVal(wishC);
-                    setCartCountVal(cartC);
-                } catch (error) {
-                    console.log("err", error)
-                }
-            }
-        }
-        else {
-            let res1 = await RemoveCartAndWishAPI("Wish", singleProd?.autocode, cookie);
-            if (res1) {
-                try {
-                    let cartC = res1?.Data?.rd[0]?.Cartlistcount;
-                    let wishC = res1?.Data?.rd[0]?.Wishlistcount;
-                    setWishCountVal(wishC);
-                    setCartCountVal(cartC);
-                } catch (error) {
-                    console.log("err", error);
-                }
-            }
-        }
-    }
 
     useEffect(() => {
         const data = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -639,53 +635,66 @@ const DiamondDetails = () => {
                                 <div className="for_DiamondDet_breadcrumbs">
                                     <div
                                         className="for_breadcrumbs"
-                                        style={{ marginLeft: "3px", cursor: 'pointer' }}
+                                        style={{ marginLeft: "3px", cursor: 'pointer', width: '38rem' }}
                                     >
-                                        <span
-                                            onClick={() => {
-                                                navigate("/");
-                                            }}
-                                        >
-                                            {"Home / "}{" "}
-                                        </span>
-                                        <span
-                                            onClick={() => {
-                                                navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-                                            }}
-                                        >
-                                            {`Certified diamond`}
-                                        </span>
-                                        <span
-                                        >
-                                            {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
-                                        </span>
+                                        <div className="for_bredwish_div">
+                                            <div>
+                                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '34rem', marginLeft: '-5px' }} /> : (
+                                                    <>
+                                                        <span
+                                                            onClick={() => {
+                                                                navigate("/");
+                                                            }}
+                                                        >
+                                                            {"Home / "}{" "}
+                                                        </span>
+                                                        <span
+                                                            onClick={() => {
+                                                                navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+                                                            }}
+                                                        >
+                                                            {` Certified diamond`}
+                                                        </span>
+                                                        <span
+                                                        >
+                                                            {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div className="for_DiamondDet_title_wishlist">
+                                                <Checkbox
+                                                    icon={
+                                                        <GoHeart size={26} color='black' />
+                                                    }
+                                                    checkedIcon={
+                                                        <GoHeartFill size={26} color='black' />
+                                                    }
 
+                                                    className='for_wishlist_icon'
+                                                    disableRipple={true}
+                                                    checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                                                    onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="for_DiamondDet_title_main_div">
                                     <div className="for_DiamondDet_title_div">
-                                        <div className="for_DiamondDet_title">
-                                            <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                            {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
-                                        </div>
-                                        <div className="for_DiamondDet_title_sku">
-                                            <span>SKU: {singleDiaData[0]?.stockno}</span>
-                                        </div>
-                                    </div>
-                                    <div className="for_DiamondDet_title_wishlist">
-                                        <Checkbox
-                                            icon={
-                                                <GoHeart size={26} color='black' />
-                                            }
-                                            checkedIcon={
-                                                <GoHeartFill size={26} color='black' />
-                                            }
+                                        {isDataFound ?
+                                            <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                            : (
+                                                <div className="for_DiamondDet_title">
+                                                    <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                    {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                </div>
+                                            )
+                                        }
 
-                                            className='for_wishlist_icon'
-                                            disableRipple={true}
-                                            checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                            onChange={(e) => handleWishList(e, singleProd)}
-                                        />
+                                        <div className="for_DiamondDet_title_sku">
+                                            <div className='for_DiamondDet_sku'>SKU: {isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="for_DiamondDet_prodWeights_div">
@@ -707,13 +716,16 @@ const DiamondDetails = () => {
                                     </span>
                                 </div>
                                 <div className="for_DiamondDet_details_div">
-                                    <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
+                                    {isDataFound ? <Skeleton variant="rounded" style={{ height: '6rem', width: '32rem' }} /> :
+                                        (
+                                            <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
+                                        )}
                                 </div>
                                 <div className="for_DiamondDet_choose_Dia_div">
                                     <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
                                         choose this diamond
                                     </button>
-                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} />
+                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
                                 </div>
                                 <div className="for_DiamondDet_shipping_fee_div">
                                     <div className="for_DiamondDet_shipping_icon">
@@ -739,7 +751,9 @@ const DiamondDetails = () => {
                     <div className="for_DiamondDet_prod_desc_mainDIv">
                         <div className="for_DiamondDet_desc">
                             <span className='for_DiamondDet_desc_title'>General information</span>
-                            <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                            {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
+                                <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                            )}
                         </div>
                         <div className="for_DiamondDet_desc_1">
                             <div className="for_DiamondDet_desc_DiaInfo_1">
@@ -865,7 +879,9 @@ const Modal = ({
     handleClose,
     handleButtonChange,
     stockno,
+    shape,
 }) => {
+    console.log('shape: ', shape);
     return (
         <>
             <Dialog
@@ -899,8 +915,11 @@ const Modal = ({
                             What would you like to do?
                         </span>
                         <div className="for_modal_buttons_div">
-                            <button>Add your diamond to a ring</button>
-                            <button>add your diamond to a pendant</button>
+                            <button onClick={() => {
+                                handleButtonChange('ring', "", stockno, shape);
+                                handleClose();
+                            }}>Add your diamond to a ring</button>
+                            <button onClick={() => { handleButtonChange('pendant', "", stockno, shape); handleClose(); }}>add your diamond to a pendant</button>
                             <button onClick={() => {
                                 handleButtonChange('cart', stockno);
                                 handleClose();

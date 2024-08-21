@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
 export const for_companyLogo = atom({
-    key:'for_companyLogo',
-    default:[]
+  key: 'for_companyLogo',
+  default: []
 })
 
 export const for_loginState = atom({
@@ -34,3 +34,12 @@ export const for_defaultAddressState = atom({
   key: 'for_defaultAddressState',
   default: null,
 });
+
+export const for_customizationSteps = atom({
+  key: "for_customizationSteps",
+  default: {
+    step1: null,
+    step2: null,
+    step3: null,
+  }
+})

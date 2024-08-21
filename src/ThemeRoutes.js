@@ -25,6 +25,7 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState(8);
+  const [themeNo, setThemeNo] = useState(8);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -45,7 +46,7 @@ export default function ThemeRoutes() {
       if (Logindata) {
         if (Logindata?.IsPLWOn == 1) {
           setCompanyTitleLogo(Logindata?.Private_label_logo);
-        }
+        }      
       } else {
         setCompanyTitleLogo(logo?.companylogo);
       }
@@ -114,7 +115,7 @@ export default function ThemeRoutes() {
               setFavIcon(favIcon);
               window.scrollTo({
                 top: 0,
-                left: 0,
+                left: 0,  
                 behavior: "smooth",
               });
             }

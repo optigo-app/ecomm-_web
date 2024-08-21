@@ -1018,7 +1018,7 @@ const scrollToTop = () => {
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
-                  <TableRow style={{zIndex:10000}}>
+                  <TableRow style={{zIndex:1}}>
                   <TableCell style={{backgroundColor: "#f0e0e0", color: "black"}}>
                     <Checkbox
                       checked={allChecked}

@@ -5,8 +5,13 @@
 }
 
 .dt_addMainDiv {
-  margin-inline: 20%;
-  margin-top: 50px;
+  margin-inline: 10%;
+  padding-top: 80px;
+}
+@media (max-width: 800px) {
+  .dt_addMainDiv {
+      margin-inline: 2%;
+  }
 }
 
 .dt_getAddrMainDiv {
@@ -178,5 +183,24 @@
   .dt_DeleteIcon{
     font-size: 20px;
     color: $titleColor
+  }
+}
+
+@media (max-width: 999px) {
+  .dt_AddressBtnGroup{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    .dt_AddNewAddrModalbtn{
+      margin-right: 0px;
+      width: 100%;
+      font-size: $fontSize2
+    }
+    .dt_Cancelbtn{
+      margin-right: 0px;
+      width: 100%;
+      font-size: $fontSize2
+    }
   }
 }

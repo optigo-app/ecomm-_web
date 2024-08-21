@@ -1,10 +1,23 @@
 import React from 'react';
 import './Delivery.scss'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Divider } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Divider, Paper } from '@mui/material';
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
+
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose}
+        PaperComponent={(props) => (
+            <Paper
+              {...props}
+              sx={{
+                margin: '10px !important',
+              }}
+            />
+          )}
+          style={{
+            paddingTop:"30px"
+          }}
+        >
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='dt_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
                 <Divider/>
@@ -83,13 +96,11 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         // type='number'
                         className='dt_addressTextFields'
                     />
-                </DialogContent>
-                <DialogActions>
                     <div className='dt_AddressBtnGroup'>
-                    <button type='submit' className='dt_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     <button type='button' className='dt_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                    <button type='submit' className='dt_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     </div>
-                </DialogActions>
+                </DialogContent>
             </form>
         </Dialog>
     );

@@ -292,7 +292,6 @@ const useCart = () => {
     setMultiSelect(false);
     setOpenModal(false);
     try {
-      debugger
       const response = await updateCartAPI(updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
       let resStatus = response?.Data.rd[0]
       if (resStatus?.msg == "success") {
@@ -483,7 +482,6 @@ const useCart = () => {
   };
 
   const handleSizeChange = (event) => {
-    debugger
     const sizedata = event?.target?.value;
     const selectedID = event.target.name;
     setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));

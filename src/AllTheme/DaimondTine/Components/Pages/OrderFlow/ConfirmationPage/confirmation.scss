@@ -8,6 +8,13 @@
     background-color: #fff;
 }
 
+@media (max-width: 800px) {
+    .dt_confirSecondMaindiv {
+        margin-inline: 2%;
+        background-color: #fff;
+    }
+  }
+
 .thankYouContainer {
     display: flex;
     justify-content: center;

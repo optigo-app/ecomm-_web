@@ -72,7 +72,7 @@ const NewArrival = () => {
                 </p>
             }
 
-            <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px' }}>
+            <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px', display: 'flex', justifyContent: 'start' }}>
                 {newArrivalData?.slice(0, 5).map((product, index) => (
                     <Grid key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                         <div className='dt_newArrivalMian'>
