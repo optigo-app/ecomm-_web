@@ -84,9 +84,12 @@ const NewArrival = () => {
                                 loading='lazy'
                             />
                         </div>
-                        <div>
+                        <div className='dt_newArrivalMainDeatil'>
                             <p className='dt_newArrivalPdTitle'>
                                 {product.TitleLine}
+                            </p>
+                            <p className='dt_newArrivalPdDesignNo'>
+                                {product.designno}
                             </p>
                             <p className='dt_newArrivalPdPrice'>
                                 <span

@@ -113,8 +113,17 @@
             height: auto !important;
             width: 320px !important;
         }
+
+        .smr_bestseler1Title {
+            font-size: 20px !important;
+        }
+
+        .dt_instagram_gallery {
+            display: flex;
+            justify-content: start !important;
+        }
     }
-    
+
     @media screen and (max-width: 600px) {
         .dt_instagram_photo {
             height: auto !important;
