@@ -696,7 +696,7 @@
 
 
 
-  @media(max-width: 415px) {
+  @media(max-width: 468px) {
     .dt_lb3designList_title {
       font-size: $fontSize4;
       display: flex;
@@ -788,9 +788,10 @@
     }
 
     .dt_lb3ctlImg_containe {
-      width: 300px !important;
-      height: 300px !important;
+      // width: 300px !important;
+      // height: 300px !important;
       // height: 100% !important;
+      width: 100%;
     }
 
     .dt_lb3compeletethelook_prodt {
