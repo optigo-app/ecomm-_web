@@ -1,7 +1,15 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const DiamondListData = async (page, shape, stockno, sliderState = {}) => {
-    console.log("sliderState",page, shape, stockno, sliderState);
+export const DiamondListData = async (
+    page,
+    shape,
+    stockno,
+    price,
+    carat,
+    color = "",
+    clarity = "",
+    cut = ""
+) => {
     let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = sessionStorage.getItem("loginUserDetail");
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -10,8 +18,13 @@ export const DiamondListData = async (page, shape, stockno, sliderState = {}) =>
     const customerEmail = data?.userid ?? "";
     const { FrontEnd_RegNo } = storeInit;
 
-    let packageId = data?.PackageId ?? 0
-    
+    let packageId = data?.PackageId ?? 0;
+
+    console.log("pricejhshdhjas", carat);
+
+    // Split price and carat into From and To values
+    const [priceFrom, priceTo] = price ? price?.split(',')?.map(Number) : [null, null];
+    const [caratFrom, caratTo] = carat ? carat?.split(',')?.map(Number) : [null, null];
 
     try {
         const combinedValue = JSON.stringify({
@@ -26,16 +39,16 @@ export const DiamondListData = async (page, shape, stockno, sliderState = {}) =>
             Lab: "",
             Symmetry: "",
             Fluorescence: "",
-            FromColor: "",
+            FromColor:"",
             ToColor: "",
-            FromCarat: "",
-            ToCarat: "",
-            FromClarity: "",
+            FromCarat: `${caratFrom ?? ""}`,
+            ToCarat: `${caratTo ?? ""}`,
+            FromClarity:"" ,
             ToClarity: "",
             FromCut: "",
             ToCut: "",
-            FromPrice:`${sliderState?.price[0]}`,
-            ToPrice: `${sliderState?.price[1]}`,
+            FromPrice: `${priceFrom ?? ""}`,
+            ToPrice: `${priceTo ?? ""}`,
             FromTable: "",
             ToTable: "",
             FromDepth: "",
@@ -58,7 +71,7 @@ export const DiamondListData = async (page, shape, stockno, sliderState = {}) =>
 
         return response;
     } catch (error) {
-        console.error("Error fetching cart details:", error);
+        console.error("Error fetching diamond details:", error);
         throw error;
     }
 };

@@ -104,8 +104,8 @@ const DaimondTine_App = () => {
         }
       }
 
-    }, 3000);
-  }, [])
+    }, 500);
+  }, [location?.pathname])
 
 
   return (
