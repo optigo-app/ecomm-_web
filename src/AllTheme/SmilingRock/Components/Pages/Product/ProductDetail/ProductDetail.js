@@ -1354,7 +1354,7 @@ const ProductDetail = () => {
                         )}
 
                         <div className="smr_main_thumb_prod_img">
-                          {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                          {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
                             pdThumbImg?.map((ele, i) => (
                               <img
                                 src={ele}
