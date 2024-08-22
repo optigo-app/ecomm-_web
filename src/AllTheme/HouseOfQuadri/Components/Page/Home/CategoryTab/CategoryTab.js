@@ -62,6 +62,10 @@ const CategoryTab = () => {
             />
           );
         })}
+        <CategoryCard
+              src={'http://zen/R50B3/UFS/BYJQD1FKE0ON69L2IRW4/AlbumImages/QWxidW1fMjc=/Necklace_27072024171233537.png'}
+              name={"Zero 11"}
+            />
       </div>
       {showShapeSection && <ShapeSection />}
     </div>
@@ -89,7 +93,13 @@ const CategoryCard = ({ src, onClick, name }) => {
   return (
     <div className="c_card" onClick={onClick}>
       <div className="image">
-        <img src={src} alt="" />
+        <img src={src} alt=""
+         onError={(e) => {
+          e.target.onerror = null;
+          e.target.src =
+            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+        }}
+         />
       </div>
       <div className="title">
         <h2 className="hoq_albumName">{name}</h2>
