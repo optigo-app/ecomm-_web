@@ -40,13 +40,8 @@ const Payment = () => {
 
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark.trim();
-    
-        if (trimmedRemark && trimmedRemark !== "null") {
             handleOrderRemarkFun(trimmedRemark);
-            handleClose();
-        } else {
-            toast.info("Please add a remark first!");
-        }        
+            handleClose();   
     };
     
     
