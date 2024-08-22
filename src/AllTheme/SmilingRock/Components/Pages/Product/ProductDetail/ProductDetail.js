@@ -25,6 +25,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import visionArround from '../../../Assets/360.png'
 
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
@@ -39,6 +40,7 @@ import 'swiper/css/scrollbar';
 import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -68,6 +70,7 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false)
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
+  const [vison360,setVision360] = useState()
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -821,6 +824,8 @@ const ProductDetail = () => {
     let pdImgList = [];
     let pdvideoList = [];
 
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+
     let pd = singleProd;
 
     let colImg;
@@ -929,9 +934,27 @@ const ProductDetail = () => {
       setPdVideoArr([]);
     }
 
+    if(storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0){
+
+      // const CheckUrl = async (url) => {
+      //   try {
+      //     const response = await axios.head(url);
+      //     return response.status >= 200 && response.status < 300; 
+      //   } catch (error) {
+      //     console.error('Error checking URL:', error);
+      //     return false;
+      //   }
+      // };
+
+      setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
+
+      //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
+
+    }
+
+
+
     return finalprodListimg;
-
-
   };
 
 
@@ -1378,6 +1401,26 @@ const ProductDetail = () => {
                               />
                             </div>
                           ))}
+                          {
+                            vison360 && vison360?.length > 0 ? (
+                              <img
+                                src={visionArround}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_thumb_img"
+                                id="vision360"
+                                onClick={() => {
+                                  setSelectedThumbImg({
+                                    link: vison360,
+                                    type: "img",
+                                  });
+                                }}
+                              // onError={()=>{
+                              // }}
+                              />
+                            ) : 
+                            null
+                          }
                           {/* <div className="smr_thumb_prod_img">
                       
                       </div> */}
