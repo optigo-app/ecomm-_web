@@ -201,7 +201,7 @@ const Usewishlist = () => {
   const WishCardImageFunc = (pd) => {
     return new Promise((resolve) => {
       let finalprodListimg;
-      const mtcCode = metalColorCombo.find(option => option.metalcolorname === pd?.metalcolorname);
+      const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
       if (pd?.ImageCount > 0) {
         finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         const img = new Image();
