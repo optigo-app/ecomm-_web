@@ -10,6 +10,7 @@ import pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
+import { DiamondListData } from '../../API/DiamondStore/DiamondList';
 
 const Usewishlist = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Usewishlist = () => {
   const [countData, setCountData] = useState();
   const [CurrencyData, setCurrencyData] = useState();
   const [wishlistData, setWishlistData] = useState([]);
+  const [diamondWishData, setDiamondWishData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [countDataUpdted, setCountDataUpdated] = useState();
@@ -56,14 +58,42 @@ const Usewishlist = () => {
     try {
       const response = await fetchWishlistDetails(visiterId);
       if (response?.Data?.rd[0]?.stat != 0) {
+        let diamondData = response?.Data?.rd1;
         console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
         setIsWlLoading(false);
+
+        if (diamondData?.length != 0) {
+          const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
+          const commaSeparatedString = solStockNos?.join(',');
+          console.log(commaSeparatedString, "djskjdlk");
+          if(commaSeparatedString != null || commaSeparatedString != undefined){
+              getDiamondData(commaSeparatedString)
+          }
+      }
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  const getDiamondData = async (commaSeparatedString) => {
+    setIsWlLoading(true);
+    try {
+        const response = await DiamondListData(1,"", commaSeparatedString);
+        if (response && response.Data) {
+            let resData = response.Data?.rd
+            setDiamondWishData(resData)
+            setIsWlLoading(false)
+        } else {
+            console.warn("No data found in the response");
+            setIsWlLoading(false)
+        }
+    } catch (error) {
+        console.error("Error fetching diamond data:", error);
+        setIsWlLoading(false);
+    }
+};
 
   useEffect(() => {
     getWishlistData();
@@ -297,6 +327,7 @@ const Usewishlist = () => {
   return {
     isWLLoading,
     wishlistData,
+    diamondWishData,
     CurrencyData,
     updateCount,
     itemInCart,

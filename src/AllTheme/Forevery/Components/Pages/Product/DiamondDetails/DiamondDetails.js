@@ -306,14 +306,14 @@ const DiamondDetails = () => {
             const updatedStep1 = step1?.map(step => {
                 if (step.step2 !== undefined) {
                     // Replace existing step2 data
-                    return { "step2": true, "Setting": 'ring' };
+                    return { "step2": true, "Setting": 'Ring' };
                 }
                 return step;
             });
 
             // If no existing step2, add new entry
             if (!updatedStep1.some(step => step.step2 !== undefined)) {
-                updatedStep1.push({ "step2": true, "Setting": 'ring' });
+                updatedStep1.push({ "step2": true, "Setting": 'Ring' });
             }
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
@@ -332,14 +332,14 @@ const DiamondDetails = () => {
             const updatedStep1 = step1?.map(step => {
                 if (step.step2 !== undefined) {
                     // Replace existing step2 data
-                    return { "step2": true, "Setting": 'pendant' };
+                    return { "step2": true, "Setting": 'Pendant' };
                 }
                 return step;
             });
 
             // If no existing step2, add new entry
             if (!updatedStep1.some(step => step.step2 !== undefined)) {
-                updatedStep1.push({ "step2": true, "Setting": 'pendant' });
+                updatedStep1.push({ "step2": true, "Setting": 'Pendant' });
             }
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
@@ -451,6 +451,7 @@ const DiamondDetails = () => {
                             StyleCondition={StyleCondition}
                             Swap={Swap}
                             setswap={setswap}
+                            stockno={singleDiaData[0]?.stockno}
                         />
                     </div>
                     <div className="for_DiamondDet_container_div">
@@ -839,18 +840,20 @@ const DiamondDetails = () => {
 
 export default DiamondDetails
 
-const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
+const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
     const Navigation = useNavigate();
     const location = useLocation();
     const getStepName = location?.pathname.split('/');
 
-    const isDiamondPage = 'det345';
+    const isDiamondPage = stockno;
+    console.log('isDiamondPage: ', isDiamondPage);
     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
 
-    const settingActive = 'Ring' || 'Pendant' || 'Diamond_Pendant';
+    const settingActive = getStepName.includes('Ring') || getStepName.includes('Pendant') || getStepName.includes('Diamond_Pendant');
+    console.log('settingActive: ', settingActive);
 
     const compSet = 'setting-complete-product';
 
@@ -899,7 +902,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                         )}
                     </div>
 
-                    <div className={`step_data ${settingActive ? 'active' : ''} d-2`}>
+                    {/* <div className={`step_data ${!isDiamondPage || !settingActive ? 'active' : ''} d-2`}> */}
+                    <div className={`step_data d-2`}>
                         <span
                             className="for_title_span"
                             style={StyleCondition}
@@ -908,7 +912,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                                 setswap("settings");
                             }}
                         >
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[1]?.img : StepImages[1]?.img1} alt="" /> Settings
+                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
                         </span>
                         {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
                             <HandleDrp
@@ -929,7 +933,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                                 setswap("finish");
                             }}
                         >
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[2]?.img : StepImages[2]?.img1} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
+                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
                         </span>
                     </div>
                 </div>
@@ -1076,7 +1080,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-            let navigateUrl = `/d/${data?.stockno}/diamond=${encodeObj}`;
+            let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
             Navigation(navigateUrl);
         }
         if (data?.autocode) {
