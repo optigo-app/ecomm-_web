@@ -29,6 +29,7 @@ const CartPage = () => {
     isloding,
     ispriceloding,
     cartData,
+    diamondCartData,
     selectedItem,
     selectedItems,
     multiSelect,
@@ -206,6 +207,7 @@ const CartPage = () => {
                 <div className="for_cart-left-sides">
                   <CartList
                     items={cartData}
+                    diamondData = {diamondCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}
