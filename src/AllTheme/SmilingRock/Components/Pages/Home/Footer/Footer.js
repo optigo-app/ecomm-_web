@@ -99,6 +99,7 @@ const Footer = ({ fromPage }) => {
                     </div>
                   ))}
                 </div>
+              
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <img src='https://smilingrocks.com/cdn/shop/t/157/assets/passport.svg?v=152807140915720846441675380017' style={{ height: '80px', cursor: 'pointer', paddingBlock: '10px' }} />
