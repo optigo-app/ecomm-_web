@@ -7,6 +7,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 const WishlistData = ({
   isloding,
   items,
+  diamondData,
   updateCount,
   countDataUpdted,
   itemInCart,
@@ -30,6 +31,7 @@ const WishlistData = ({
             <WishlistItems
               key={item.id}
               item={item}
+              diamondValue = {diamondData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}
