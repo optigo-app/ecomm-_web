@@ -239,7 +239,6 @@ const DiamondFilter = () => {
         transformed[item.id] = transformedItem;
       }
     });
-
     return transformed;
   };
 
@@ -317,7 +316,6 @@ const DiamondFilter = () => {
     }
   };
 
-
   console.log(sliderState, "ss");
 
   const getDiamondData = async (shape, finalArray) => {
@@ -375,6 +373,13 @@ const DiamondFilter = () => {
       setIsLoading(false);
     }
   };
+
+useEffect(() => {
+  const dFilterData = JSON?.parse(sessionStorage?.getItem(diamondFilterData))
+  if(dFilterData?.length != 0){
+    getDiamondFilterData()
+  }
+},[])
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);

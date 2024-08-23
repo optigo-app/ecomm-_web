@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/for_Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
