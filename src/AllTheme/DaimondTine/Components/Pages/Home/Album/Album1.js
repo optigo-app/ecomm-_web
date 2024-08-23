@@ -162,7 +162,7 @@ const Album1 = () => {
                                     slidesPerView: 2,
                                 },
                                 0: {
-                                    slidesPerView: 2, 
+                                    slidesPerView: 2,
                                 }
                             }}
                             modules={[Keyboard, FreeMode, Navigation]}
@@ -183,6 +183,9 @@ const Album1 = () => {
                                             />
                                         </div>
                                         <div className="design-info">
+                                            <p className='smr_album1price'>
+                                                {design?.designno}
+                                            </p>
                                             <p className='smr_album1price'>
                                                 <span
                                                     className="smr_currencyFont"

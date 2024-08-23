@@ -67,15 +67,16 @@
                 }
             }
 
-            
+
             @media (max-width: 600px) {
                 .smr_lookbookImageRightDT {
                     position: absolute;
                     top: 80%;
                     left: 40%;
                 }
+
                 h2 {
-                    font-size: 30px!important;
+                    font-size: 30px !important;
                 }
 
             }
@@ -148,10 +149,13 @@
 
                     h3 {
                         font-size: $fontSize1;
-                        color: $titleColor;
+                        color: $primaryfontcolor2;
                         font-family: $primaryFontFamily;
                         margin: 0;
-                        letter-spacing: .5px;
+                        font-weight: bold;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     p {
@@ -182,29 +186,48 @@
                     }
                 }
 
+                @media screen and (max-width: 850px) {
+                    .dt_bestS_mobile_singleView_main {
+                        display: none;
+                    }
+
+                    .smr_btimageDiv {
+                        padding: 10px !important;
+                    }
+
+                    .trending_ifno_mobile_product_info {
+                        padding: 0px !important;
+                        margin-top: 2px;
+
+                        span {
+                            font-size: 12px !important;
+                            color: $primaryfontcolor2;
+                        }
+
+                        p {
+                            margin: 0px;
+                            font-size: $fontSize1;
+                            color: $primaryfontcolor2;
+                            font-family: $primaryFontFamily;
+                            font-weight: bold;
+                        }
+                    }
+
+                }
+
                 @media screen and (max-width: 701px) {
                     .trending_ifno_web_product_info {
                         display: none !important;
                     }
 
 
-                    .dt_bestS_mobile_singleView_main {
-                        display: flex;
-                    }
 
                     .dt_bestS_mobile_singleView {
                         width: 50%;
                         height: 19px !important;
                     }
 
-                    .trending_ifno_mobile_product_info {
-                        padding: 1px !important;
 
-                        span {
-                            font-size: 10px !important;
-                            letter-spacing: .5px;
-                        }
-                    }
                 }
             }
         }

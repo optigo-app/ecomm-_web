@@ -414,7 +414,6 @@ const Header = () => {
         }
     };
 
-
     return (
         <div className='dai_headerMain'>
             <div className="dai_headerMainTop">
@@ -622,7 +621,7 @@ const Header = () => {
                                     })}
 
                             >
-                                <span className="nav-li-sminingSpan">
+                                <span className="nav_li_sminingSpan_Menu" style={{textDecoration : hoveredIndex == index && 'underline'}}>
                                     {item.menuname}
                                 </span>
                             </li>
@@ -680,8 +679,6 @@ const Header = () => {
             </div>
 
             {/* header menu dropdown */}
-
-           
             {dropdownVisible && (
                 <div
                     id='shopdropdown'
@@ -689,9 +686,9 @@ const Header = () => {
                     onMouseEnter={handleMouseEnterDropdown}
                     onMouseLeave={handleMouseLeaveDropdown}
                     style={{
-                        top: dropdownPosition.top,
+                        // top: dropdownPosition.top,
                         left: dropdownPosition.left,
-                        position: 'absolute',
+                        position: isFixed ? 'fixed' : 'absolute',
                         zIndex: 99,
                         display: 'block'
                     }}
@@ -702,6 +699,7 @@ const Header = () => {
                             padding: "30px",
                             color: "#7d7f85",
                             gap: "50px",
+                            marginTop: isFixed && '60px',
                             justifyContent: 'space-between',
                             width: 'fit-content',
                             // margin: '0 auto',
