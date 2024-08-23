@@ -435,7 +435,7 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
   const getBannerImage = (index) => {
@@ -445,57 +445,21 @@ const DiamondFilter = () => {
       : null;
   };
 
-  const handleSliderChange = useCallback(
-    debounce((sliderType, newValue, min, max) => {
-      setSliderState((prevState) => ({
-        ...prevState,
-        [sliderType]: newValue,
-      }));
+  // const handleSliderChange = (sliderType, newValue) => {
+  //   setSliderState((prevState) => ({
+  //     ...prevState,
+  //     [sliderType]: newValue,
+  //   }));
+  //   console.log(sliderState);
+  // };
 
-      setSliderLabels((prev) => {
-        const existingTypeIndex = prev.findIndex(
-          (item) => item.type === sliderType
-        );
-        if (existingTypeIndex !== -1) {
-          const updatedLabels = [...prev];
-          updatedLabels[existingTypeIndex] = {
-            type: sliderType,
-            labels: [min?.label, max?.label],
-          };
-          return updatedLabels;
-        } else {
-          return [
-            ...prev,
-            { type: sliderType, labels: [min?.label, max?.label] },
-          ];
-        }
-      });
-    }, 300),
-    []
-  );
-
-  useEffect(() => {
-    const updatedArray = {
-      Price: sliderState?.price,
-      Carat: sliderState?.Carat,
-      Color: sliderLabels?.find((label) => label.type === 'Color')?.labels || [],
-      Clarity: sliderLabels?.find((label) => label.type === 'Clarity')?.labels || [],
-      Cut: sliderLabels?.find((label) => label.type === 'Cut')?.labels || [],
-      polish: filtersData?.polish,
-      symmetry: filtersData?.symmetry,
-      lab: filtersData?.lab,
-      depth: filtersData?.depth,
-      table: filtersData?.table,
-      fluorescence: filtersData?.fluorescence
-    };
-
-    setFinalArray(updatedArray);
-  }, [sliderState, sliderLabels, filtersData]);
-
-  console.log("sliderstate", finalArray);
-
-
-  useEffect(() => {
+  const handleSliderChange = (sliderType, newValue) => {
+    console.log("first")
+    setSliderState((prevState) => ({
+      ...prevState,
+      [sliderType]: newValue,
+    }));
+    console.log(sliderState, "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf")
     const pathname = location?.pathname.split("/");
     const sliderParams = Object.entries(finalArray)
       .filter(([key, value]) => value && value.length > 0 && value.every(v => v !== null && v !== undefined && v !== ""))
@@ -591,6 +555,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
                     }`}
                   id={val?.name}
