@@ -374,12 +374,12 @@
       width: 100%;
       display: grid;
       height: auto;
-      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
       gap: 10px;
       padding: 16px 10px;
       .filter_card {
         height: auto;
-        padding: 15px 0;
+        padding: 10px 0;
         .advance_filter_title {
           font-weight: 700;
           position: relative;
@@ -416,7 +416,7 @@
           font-weight: 400;
           text-transform: uppercase;
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
         }
       }
     }
