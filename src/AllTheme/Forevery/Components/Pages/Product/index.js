@@ -4,17 +4,18 @@ import DiamondDetails from './DiamondDetails/DiamondDetails';
 import ProductDetail from './ProductDetail/ProductDetail';
 
 const DetailsRoute = () => {
-  const { pathname } = useLocation();
-  console.log('pathname: ', pathname);
+  const location = useLocation();
+  console.log('location: ', location);
   const [DiamondData, setDiamondData] = useState(false);
-  const getDiamondDet = pathname.split('/')[3];
+
+  // Helper function to determine if the URL contains "diamond"
+  const checkIfDiamondPage = (pathname) => {
+    return pathname.split('/').some(part => part.toLowerCase().includes('det345'));
+  };
 
   useEffect(() => {
-    if (getDiamondDet?.includes("diamond")) {
-      setDiamondData(true)
-    }
-
-  }, [pathname])
+    setDiamondData(checkIfDiamondPage(location.pathname));
+  }, [location.pathname]);
   return (
     <>
       {DiamondData === true ? (
