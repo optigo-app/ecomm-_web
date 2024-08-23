@@ -277,7 +277,7 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
   const getBannerImage = (index) => {
@@ -286,7 +286,7 @@ const DiamondFilter = () => {
       ? bannerImage
       : null;
   };
-  
+
   // const handleSliderChange = (sliderType, newValue) => {
   //   setSliderState((prevState) => ({
   //     ...prevState,
@@ -301,7 +301,7 @@ const DiamondFilter = () => {
       ...prevState,
       [sliderType]: newValue,
     }));
-    console.log(sliderState , "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf")
+    console.log(sliderState, "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf")
     const pathname = location?.pathname.split("/");
     const sliderParams = Object?.entries(sliderState)
       ?.map(([key, value]) => {
@@ -358,9 +358,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -920,7 +919,7 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={(e, newValue) => handleSliderChange(newValue )}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             size="small"
             min={10}
             value={data}
