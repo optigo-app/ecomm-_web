@@ -255,7 +255,7 @@ const DiamondFilter = () => {
       console.log(resData[0], "255");
 
       const dataAvaible = JSON?.parse(sessionStorage?.getItem("filterMinMax"));
-      if (!dataAvaible && dataAvaible != undefined && dataAvaible != null  ) {
+      if (dataAvaible === null || dataAvaible === undefined) {
         sessionStorage?.setItem("filterMinMax", JSON?.stringify(resData[0]));
         Transfromdata();
       }
@@ -378,26 +378,55 @@ const DiamondFilter = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const getFilterdata = JSON?.parse(
+  //     sessionStorage?.getItem("diamondFilterData")
+  //   );
+  //   if (getFilterdata !== null || getFilterdata !== undefined) {
+  //     console.log(getFilterdata, "gt");
+  //     setSliderState({
+  //       price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+  //       Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
+  //       Color: [0, 100],
+  //       Clarity: [0, 100],
+  //       Cut: [0, 100],
+  //     });
+  //   }
+  //   if (getFilterdata !== null || getFilterdata !== undefined) {
+  //     getDiamondFilterData();
+  //   } else {
+  //     console.log("Filter data already available.");
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const getFilterdata = JSON?.parse(
-      sessionStorage?.getItem("diamondFilterData")
-    );
-    if (getFilterdata) {
-      console.log(getFilterdata, "gt");
-      setSliderState({
-        price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
-        Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
-        Color: [0, 100],
-        Clarity: [0, 100],
-        Cut: [0, 100],
-      });
-    }
-    if (!getFilterdata) {
-      getDiamondFilterData();
-    } else {
-      console.log("Filter data already available.");
-    }
-  }, []);
+    const fetchData = async () => {
+      try {
+        const getFilterdata = JSON.parse(sessionStorage.getItem("diamondFilterData"));
+  
+        if (getFilterdata !== null && getFilterdata !== undefined) {
+          console.log(getFilterdata, "gt");
+  
+          setSliderState({
+            price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+            Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
+            Color: [0, 100],
+            Clarity: [0, 100],
+            Cut: [0, 100],
+          });
+  
+          await getDiamondFilterData();
+        } else {
+          console.log("Filter data already available.");
+        }
+      } catch (error) {
+        console.error("Error fetching filter data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [sessionStorage.getItem("diamondFilterData")]); // Add as a dependency if applicable
+  
 
   const getDiamondData = async (shape, finalArray) => {
     setIsLoading(true);
@@ -629,6 +658,9 @@ const DiamondFilter = () => {
         const storedData = JSON.parse(
           sessionStorage.getItem("diamondFilterData")
         );
+        const minmax = JSON.parse(
+          sessionStorage.getItem("filterMinMax")
+        );
         if (storedData && Object.keys(storedData).length > 0) {
           setFilterApiOptions(storedData);
           console.log(storedData, "Data loaded from session storage");
@@ -647,8 +679,6 @@ const DiamondFilter = () => {
             "diamondFilterData",
             JSON.stringify(apiObject)
           );
-          setFilterApiOptions(apiObject);
-          setFilters(apiObject);
           console.log(apiObject, "Data processed and saved to session storage");
         }
       } catch (error) {
@@ -657,6 +687,17 @@ const DiamondFilter = () => {
     };
     fetchData();
   }, [ApiData]);
+
+
+  useEffect(()=>{
+    const storedData = JSON.parse(
+      sessionStorage.getItem("diamondFilterData")
+    );
+    if(storedData === null || storedData === undefined){
+      setFilterApiOptions(storedData);
+      setFilters(storedData);
+    }
+  },[])
 
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
