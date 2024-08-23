@@ -10,7 +10,7 @@
 }
 @media (max-width: 800px) {
   .dt_addMainDiv {
-      margin-inline: 2%;
+      margin-inline: 3%;
   }
 }
 
@@ -187,6 +187,13 @@
 }
 
 @media (max-width: 999px) {
+  .dt_ActiveAddrCard, .dt_AddrCard {
+    padding: 15px 0px 0px 0px !important;
+  }
+  .dt_addcardGrid{
+    margin-bottom: 0px !important;
+    padding-top: 12px !important;
+  }
   .dt_AddressBtnGroup{
     display: flex;
     justify-content: space-between;
