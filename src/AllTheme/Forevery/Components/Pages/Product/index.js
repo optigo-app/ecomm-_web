@@ -8,7 +8,6 @@ const DetailsRoute = () => {
   console.log('location: ', location);
   const [DiamondData, setDiamondData] = useState(false);
 
-  // Helper function to determine if the URL contains "diamond"
   const checkIfDiamondPage = (pathname) => {
     return pathname.split('/').some(part => part.toLowerCase().includes('det345'));
   };

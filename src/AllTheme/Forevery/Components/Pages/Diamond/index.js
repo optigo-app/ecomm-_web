@@ -159,7 +159,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/diamond=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
       Navigation(navigateUrl);
     }
     if (data?.autocode) {
@@ -249,6 +249,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const location = useLocation();
   const getStepName = location?.pathname.split('/');
   const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'))
+  console.log('getCustStepData: ', getCustStepData[1]?.Setting);
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
 
@@ -271,6 +272,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const handleOpen = (index) => {
     setOpen(open === index ? null : index)
   }
+
   return (
     <>
       {getdiaData?.length > 0 ? (
@@ -305,7 +307,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                   setswap("settings");
                 }}
               >
-                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[1]?.img : StepImages[1]?.img1} alt="" /> Settings
+                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
               </span>
               {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
                 <HandleDrp
@@ -320,7 +322,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
 
             <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[3]?.step3 === true ? 'active' : ''} d-3`}>
               <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
-                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[2]?.img : StepImages[2]?.img1} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
+                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
               </span>
             </div>
           </div>

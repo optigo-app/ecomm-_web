@@ -600,8 +600,7 @@ const DiamondFilter = () => {
       sliderParams ? `/f=${encodeUrl}` : ""
     }`;
     Navigate(newPath);
-  };
-  // }, [finalArray]);
+  }, [finalArray]);
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {

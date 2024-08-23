@@ -1790,7 +1790,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                 setswap("settings");
               }}
             >
-              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[1]?.img : StepImages[1]?.img1} alt="" /> Settings
+              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
             </span>
             {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
               <HandleDrp
@@ -1811,7 +1811,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                 setswap("finish");
               }}
             >
-              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getStepName.includes('Ring') ? StepImages[2]?.img : StepImages[2]?.img1} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
+              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
             </span>
           </div>
         </div>
@@ -1959,7 +1959,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/diamond=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
       Navigation(navigateUrl);
     }
     if (data?.autocode) {

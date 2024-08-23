@@ -77,7 +77,7 @@
                         .for_navigate_eye_div {
                             position: absolute;
                             top: 2.3rem;
-                            right: -3rem;
+                            right: -3.5rem;
                             background: #FFDFDF;
                             width: 20rem;
                             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
@@ -88,6 +88,7 @@
                             &::after {
                                 content: "";
                                 position: absolute;
+                                bottom: 0;
                                 border: 3px solid #DE687F;
                                 width: 100%;
                             }
