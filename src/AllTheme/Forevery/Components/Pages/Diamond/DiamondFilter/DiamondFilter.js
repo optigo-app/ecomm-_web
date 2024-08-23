@@ -54,7 +54,6 @@ const DiamondFilter = () => {
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const dropdownRefs = useRef({});
-  const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
   const [showMorefilter, setshowMorefilter] = useState(false);
@@ -82,8 +81,8 @@ const DiamondFilter = () => {
     polish: [],
     symmetry: [],
     lab: [],
-    depth: [0,0],
-    table: [0,0],
+    depth: [0, 0],
+    table: [0, 0],
     fluorescence: [],
     culet: [],
   });
@@ -384,7 +383,7 @@ const DiamondFilter = () => {
       sessionStorage?.getItem("diamondFilterData")
     );
     if (getFilterdata) {
-      console.log(getFilterdata);
+      console.log(getFilterdata, "gt");
       setSliderState({
         price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
         Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
@@ -606,7 +605,10 @@ const DiamondFilter = () => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
 
-      if (filters[filterType].type === "multi-select") {
+      if (
+        filters[filterType].type === "checkbox" ||
+        filters[filterType].type === " "
+      ) {
         const currentValues = newFiltersData[filterType] || [];
 
         if (currentValues.includes(value)) {
@@ -661,7 +663,6 @@ const DiamondFilter = () => {
     getDiamondData(shape, finalArray);
   }, [location?.pathname]);
 
-  console.log("filters", filters);
   return (
     <>
       <DiamondPage />
@@ -835,9 +836,9 @@ const DiamondFilter = () => {
             </span>
           </div>
           <div className="more_filter_data">
-            {Object.keys(filters)?.map((filterType) => {
+            {Object.keys(filters).map((filterType) => {
               const filter = filters[filterType];
-              const filterData = filtersData[filterType];
+              const filterData = filtersData[filterType] || filter.default;
 
               if (
                 filterType === "Price" ||
@@ -847,15 +848,13 @@ const DiamondFilter = () => {
                 filterType === "Carat"
               )
                 return null;
-               
-                if(filter?.type === "range"){
-                  console.log(filterType ,filterData ,"1221212")
-                  console.log(filter?.min , "min")
-                }
 
-              const isEmptyFilterType = !filterData || filterData.length === 0;
+              const isCheckbox = !filter.type || filter.type === "checkbox";
+              const isEmptyFilterType =
+                !filterData ||
+                (Array.isArray(filterData) && filterData.length === 0);
 
-              if (filter.type === "checkbox" || isEmptyFilterType) {
+              if (isCheckbox || isEmptyFilterType) {
                 return (
                   <div key={filterType} className="filter_card">
                     <h4 className="advance_filter_title">
@@ -877,7 +876,6 @@ const DiamondFilter = () => {
                   </div>
                 );
               }
-
               if (filter?.type === "range") {
                 return (
                   <div key={filterType} className="filter_card">
@@ -885,10 +883,10 @@ const DiamondFilter = () => {
                       <img src={RoundImage} alt="" /> {filter?.label}
                     </h4>
                     <Slider
-                      value={filter?.default || 20}
-                      min={filter?.min || 1}
-                      max={filter?.max || 100}
-                      step={10}
+                      value={filterData}
+                      min={filter?.min}
+                      max={filter?.max}
+                      step={0.1}
                       sx={{
                         width: "400px",
                         marginLeft: "25px",
@@ -922,21 +920,21 @@ const DiamondFilter = () => {
                     <div className="advance_filter_input_box">
                       <input
                         type="number"
-                        value={filterData[0]}
+                        value={filterData ? filterData[0] : filter.min}
                         onChange={(e) =>
                           handleFilterChange(filterType, [
-                            parseFloat(e.target.value),
-                            filterData[1],
+                            parseFloat(e.target.value) || filter.min,
+                            filterData ? filterData[1] : filter.max,
                           ])
                         }
                       />
                       <input
                         type="number"
-                        value={filterData[1]}
+                        value={filterData ? filterData[1] : filter.max}
                         onChange={(e) =>
                           handleFilterChange(filterType, [
-                            filterData[0],
-                            parseFloat(e.target.value),
+                            filterData ? filterData[0] : filter.min,
+                            parseFloat(e.target.value) || filter.max,
                           ])
                         }
                       />
@@ -944,9 +942,77 @@ const DiamondFilter = () => {
                   </div>
                 );
               }
-
               return null;
             })}
+            {/* {["Depth", "Table"]?.map((filterType) => {
+              const filter = filters[filterType];
+              const filterData = filtersData[filterType] || filter?.default;
+
+              return (
+                <div key={filterType} className="filter_card">
+                  <h4 className="advance_filter_title">
+                    <img src={RoundImage} alt="" /> {filter?.label}
+                  </h4>
+                  <Slider
+                    value={filterData}
+                    min={filter?.min}
+                    max={filter?.max}
+                    step={filter?.step || 0.01}
+                    sx={{
+                      width: "400px",
+                      marginLeft: "25px",
+                      "& .MuiSlider-thumb": {
+                        width: 17,
+                        height: 17,
+                        backgroundColor: "black",
+                        border: "1px solid #000",
+                      },
+                      "& .MuiSlider-rail": {
+                        height: 5,
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-track": {
+                        height: 5,
+                        padding: "0 5px",
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-markLabel": {
+                        fontSize: "12px !important",
+                      },
+                    }}
+                    onChange={(e, newValue) =>
+                      handleFilterChange(filterType, newValue)
+                    }
+                    valueLabelDisplay="off"
+                    aria-labelledby={`${filterType}-slider`}
+                  />
+                  <div className="advance_filter_input_box">
+                    <input
+                      type="number"
+                      value={filterData[0]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          parseFloat(e.target.value) || filter.min,
+                          filterData[1] || filter?.max,
+                        ])
+                      }
+                    />
+                    <input
+                      type="number"
+                      value={filterData[1]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          filterData[0] || filter?.min,
+                          parseFloat(e.target.value) || filter?.max,
+                        ])
+                      }
+                    />
+                  </div>
+                </div>
+              );
+            })} */}
           </div>
         </div>
         <div className="filter_results">
