@@ -1,13 +1,21 @@
 import React from 'react';
 import './Delivery.scss'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Divider } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Divider, Paper, useMediaQuery } from '@mui/material';
 
 export default function AddressForm({ open, handleClose, handleCancel, handleInputChange, handleSubmit, formData, errors, isEditMode }) {
+    const isMobileScreen = useMediaQuery("(max-width:699px)");
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose}
+            PaperProps={{
+                style: {
+                    margin: isMobileScreen ? '10px' : 'auto',
+                    marginTop:"80px"
+                },
+            }}
+        >
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='dt_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
-                <Divider/>
+                <Divider />
                 <DialogContent>
                     <TextField
                         label="First Name"
@@ -83,13 +91,11 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         // type='number'
                         className='dt_addressTextFields'
                     />
-                </DialogContent>
-                <DialogActions>
                     <div className='dt_AddressBtnGroup'>
-                    <button type='submit' className='dt_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
-                    <button type='button' className='dt_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                        <button type='button' className='dt_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                        <button type='submit' className='dt_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     </div>
-                </DialogActions>
+                </DialogContent>
             </form>
         </Dialog>
     );

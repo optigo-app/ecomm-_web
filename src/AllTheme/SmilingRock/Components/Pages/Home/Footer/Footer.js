@@ -15,25 +15,20 @@ const Footer = ({ fromPage }) => {
     setLocalData(localD);
   }, [])
 
+
   useEffect(() => {
-    let storeInit;
-    let companyInfoData;
-    setTimeout(() => {
-      if (sessionStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
+    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? ""
+    if (sessionStorage.getItem("CompanyInfoData")) {
+      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+          companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+          const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+          if (parsedSocilaMediaUrlData) {
+              setSocialMediaData(parsedSocilaMediaUrlData)
+          }
       }
-      if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-        setCompanuInfoData(companyInfoData)
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData)
-        }
-      }
-
-
-    }, 500)
-  }, [])
+  }
+}, [])
 
   return (
     <div>
@@ -104,6 +99,7 @@ const Footer = ({ fromPage }) => {
                     </div>
                   ))}
                 </div>
+              
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <img src='https://smilingrocks.com/cdn/shop/t/157/assets/passport.svg?v=152807140915720846441675380017' style={{ height: '80px', cursor: 'pointer', paddingBlock: '10px' }} />

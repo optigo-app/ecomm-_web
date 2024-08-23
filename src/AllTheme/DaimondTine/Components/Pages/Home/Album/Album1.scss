@@ -70,7 +70,7 @@
         }
 
         .design-info {
-            margin-top: 10px;
+            margin-top: 2px;
             text-align: start;
 
             .smr_album1Titleline {
@@ -148,6 +148,16 @@
         }
     }
 
+    @media (max-width: 850px) {
+        // .dt_album_swiper_SubDiv {
+        //     height: 300px !important;
+        // }
+
+        // .swiper-slide-custom {
+        //     width: 50% !important;
+        // }
+    }
+
     @media (max-width: 1200px) {
         // .swiper-slide-custom {
         //     min-width: 260px !important;
@@ -155,6 +165,10 @@
 
         .design-slide {
             padding: 20px !important;
+        }
+
+        .smr_album1price {
+            font-size: 13px !important;
         }
     }
 
@@ -177,6 +191,9 @@
             padding: 10px !important;
         }
 
+        .smr_album1price {
+            font-size: 12px !important;
+        }
 
 
         //     .design-info {

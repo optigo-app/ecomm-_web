@@ -72,7 +72,7 @@ const NewArrival = () => {
                 </p>
             }
 
-            <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px' }}>
+            <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px', display: 'flex', justifyContent: 'start' }}>
                 {newArrivalData?.slice(0, 5).map((product, index) => (
                     <Grid key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                         <div className='dt_newArrivalMian'>
@@ -84,9 +84,12 @@ const NewArrival = () => {
                                 loading='lazy'
                             />
                         </div>
-                        <div>
+                        <div className='dt_newArrivalMainDeatil'>
                             <p className='dt_newArrivalPdTitle'>
                                 {product.TitleLine}
+                            </p>
+                            <p className='dt_newArrivalPdDesignNo'>
+                                {product.designno}
                             </p>
                             <p className='dt_newArrivalPdPrice'>
                                 <span

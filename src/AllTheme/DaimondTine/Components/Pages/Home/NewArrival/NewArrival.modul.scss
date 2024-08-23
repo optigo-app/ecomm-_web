@@ -10,7 +10,7 @@
         text-decoration: uppercase !important;
     }
 
-    .dt_ViewAllBtn_new{
+    .dt_ViewAllBtn_new {
         color: #7d7f85;
         font-size: 14px;
         margin-left: 12px;
@@ -50,7 +50,52 @@
         padding: 5px;
     }
 
-    @media screen and (max-width: 700px) {
+
+    @media screen and (min-width: 851px) {
+        .dt_newArrivalPdDesignNo {
+            display: none !important;
+        }
+    }
+
+    @media screen and (max-width: 850px) {
+
+        .dt_newArrivalMainDeatil {
+            margin-top: 2px !important;
+        }
+
+        .dt_newArrivalMian {
+            padding: 10px !important;
+        }
+
+        .dt_newArrivalPdDesignNo {
+            color: $primaryfontcolor2 !important;
+            font-size: 12px !important;
+            font-weight: bold;
+            margin: 0px;
+            font-family: "Poppins", sans-serif;
+            padding: 0;
+        }
+
+        .dt_newArrivalPdPrice {
+            color: $primaryfontcolor2 !important;
+            font-size: 12px !important;
+            font-weight: bold;
+            margin: 0px;
+            font-family: "Poppins", sans-serif;
+            padding: 0;
+        }
+
+        .smr_currencyFont {
+            color: $primaryfontcolor2 !important;
+            font-size: 12px !important;
+            font-weight: bold;
+            margin: 0px;
+            font-family: "Poppins", sans-serif;
+            padding: 0;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
 
         .dt_NewArrivalProductMain {
             width: 50% !important;

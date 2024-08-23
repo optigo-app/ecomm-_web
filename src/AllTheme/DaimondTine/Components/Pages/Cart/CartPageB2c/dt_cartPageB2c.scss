@@ -98,9 +98,10 @@
               padding: 0;
               margin: 0;
               text-align: center;
-              border: none;
               font-family: $primaryFontFamily;
               color: $titleColor;
+              border: none !important;
+              outline: none !important;
             }
 
             a.bttn,
@@ -268,6 +269,14 @@
   }
 }
 
+@media (max-width: 800px) {
+  .dt_MainCartDiv {
+    .cart {
+      margin-inline: 2%;
+    }
+  }
+}
+
 @media (max-width: 1250px) {
   .dt_MainCartDiv {
     .cart {
@@ -417,7 +426,7 @@
       border: 1px solid #ddd;
       border-radius: 6px;
       box-shadow: none;
-      max-width: 300px;
+      max-width: 100%;
       text-align: center;
       flex: 1 1 calc(50% - 32px);
       position: relative;

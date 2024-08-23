@@ -87,7 +87,7 @@
     }
   }
   .navbar {
-    height: 120px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -109,7 +109,7 @@
         background: white;
         width: 100%;
         left: 0;
-        height: 130px;
+        height: 140px;
         z-index: 85;
         right: 0;
         display: flex;
@@ -117,8 +117,9 @@
         justify-content: center;
         font-family: $fontCrimsonTextRegular;
         margin-top: -11px;
+        padding-inline: 25.5rem;
         input {
-          width: 75.7%;
+          width: 100%;
           font-size: 17px;
           padding: 14px 25px;
           border: none;
@@ -160,6 +161,7 @@
         font-family: $fontDmSans;
         color: #525252;
         font-weight: 500;
+        margin-top: 10px;
         .mobile-close {
           display: none;
         }
@@ -312,6 +314,43 @@
     color: inherit;
   }
 
+  @media screen and (max-width : 2560px) {
+    .navbar {
+      .nav_left {
+        .SearchBar {
+          padding-inline: 23.5rem;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1875px) {
+    .navbar {
+      .nav_left {
+        .SearchBar {
+          padding-inline: 12.8rem;
+        }
+      }
+    }
+  }
+  @media screen and (max-width : 1700px) {
+    .navbar {
+      .nav_left {
+        .SearchBar {
+          padding-inline: 10rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width : 1506px) {
+    .navbar {
+      .nav_left {
+        .SearchBar {
+          padding-inline: 8rem;
+        }
+      }
+    }
+  }
   @media screen and (max-width: 1440px) {
     .nav_top_head {
       .contact_icon {
@@ -354,9 +393,7 @@
       .nav_left {
         flex: 0.3;
         .SearchBar {
-          input {
-            width: 81.1%;
-          }
+          padding-inline: 8rem;
         }
       }
       .nav_right {
@@ -404,6 +441,14 @@
         font-size: $fontSize2;
         gap: 5px;
       }
+    }
+      .navbar {
+        .nav_left {
+          flex: 0.3;
+          .SearchBar {
+            padding-inline: 6rem;
+          }
+        }
     }
   }
   @media screen and (max-width: 1250px) {
@@ -567,7 +612,7 @@
         flex: 1;
         justify-content: flex-start;
         .SearchBar {
-          height: 100px;
+          height: 110px;
           padding: 0 20px;
         }
       }

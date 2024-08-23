@@ -869,7 +869,7 @@
 }
 
 .dt_mobile_filter_portion{
-    width:19%;
+    width:23%;
     font-family: $primaryFontFamily;
     height: 100%;
     position: sticky;
@@ -1207,6 +1207,13 @@
 
 .inputCheck:checked {
     background-color: "#7f7d85";
+}
+
+
+@media screen and (max-width: 1000px) {
+    .bg-image{
+        display: none;
+    }
 }
 
 @media screen and (min-width: 376px) and (max-width: 425px) {

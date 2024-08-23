@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import "./dt_wishPageB2c.scss"
 import Footer from "../../Home/Footer/Footer"
 import { dt_loginState } from '../../../Recoil/atom';
-import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { Backdrop, useMediaQuery } from '@mui/material';
 import WishItem from './WishItem';
 import Usewishlist from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist';
-import ResponsiveCartUi from '../../Cart/CartPageB2c/ResponsiveCartUi';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import ResponsiveWishUi from './ResponsiveWishUi';
+import { ToastContainer } from 'react-toastify';
 
 function Wishlist() {
   const {
@@ -65,6 +65,10 @@ function Wishlist() {
 
   return (
     <div className='dt_MainWishDiv'>
+      <ToastContainer
+            autoClose={2000}
+            style={{ zIndex: "99999999999999" }}
+          />
       <div
         className="bg-imageCart"
         style={{
@@ -136,14 +140,19 @@ function Wishlist() {
                 ) :
                   <>
                     {wishlistData?.map(item => (
-                      <ResponsiveCartUi
-                        stat="wish"
-                        cartData={item}
-                        isloding={isWLLoading}
-                        CurrencyData={CurrencyData}
-                        CartCardImageFunc={WishCardImageFunc}
+                      <ResponsiveWishUi
+                        key={item.id}
+                        item={item}
+                        updateCount={updateCount}
+                        countDataUpdted={countDataUpdted}
+                        currency={CurrencyData}
+                        itemInCart={itemInCart}
                         decodeEntities={decodeEntities}
-                        onRemoveItem={handleRemoveItem}
+                        WishCardImageFunc={WishCardImageFunc}
+                        itemsLength={wishlistData?.length}
+                        handleRemoveItem={handleRemoveItem}
+                        handleWishlistToCart={handleWishlistToCart}
+                        handleMoveToDetail={handleMoveToDetail}
                       />
                     ))}
                   </>

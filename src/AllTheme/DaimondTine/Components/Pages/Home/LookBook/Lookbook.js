@@ -515,7 +515,7 @@ const Lookbook = () => {
   const CustomTooltipContent = ({ categories }) => (
     <div>
       <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-        {categories.map((category, index) => (
+        {categories?.map((category, index) => (
           <li key={index}>{category}</li>
         ))}
       </ul>
@@ -570,12 +570,12 @@ const Lookbook = () => {
                       <Accordion
                         elevation={0}
                         sx={{
-                          borderBottom: "1px solid #c7c8c9",
+                          // borderBottom: "1px solid #c7c8c9",
                           borderRadius: 0,
-                          "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                            borderBottomLeftRadius: "0px",
-                            borderBottomRightRadius: "0px",
-                          },
+                          // "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          //   borderBottomLeftRadius: "0px",
+                          //   borderBottomRightRadius: "0px",
+                          // },
                           "&.MuiPaper-root.MuiAccordion-root:before": {
                             background: "none",
                           },
@@ -675,16 +675,20 @@ const Lookbook = () => {
                         </AccordionDetails>
                       </Accordion>
                     )}
+                 
+
+
+
                   {ele?.id?.includes("Price") && (
                     <Accordion
                       elevation={0}
                       sx={{
-                        borderBottom: "1px solid #c7c8c9",
+                        // borderBottom: "1px solid #c7c8c9",
                         borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
+                        // "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        //   borderBottomLeftRadius: "0px",
+                        //   borderBottomRightRadius: "0px",
+                        // },
                         "&.MuiPaper-root.MuiAccordion-root:before": {
                           background: "none",
                         },
@@ -697,7 +701,7 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7d7f85 !important",
+                          color: "rgba(0, 0, 0, 0.87) !important",
                           borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
@@ -944,7 +948,7 @@ const Lookbook = () => {
                           <Accordion
                             elevation={0}
                             sx={{
-                              borderBottom: "1px solid #c7c8c9",
+                              // borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                               {
@@ -965,7 +969,8 @@ const Lookbook = () => {
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
-                                color: "#7d7f85 !important",
+                                color: "rgba(0, 0, 0, 0.87) !important",
+                                fontWeight: 500,
                                 borderRadius: 0,
 
                                 "&.MuiAccordionSummary-root": {
@@ -1057,7 +1062,6 @@ const Lookbook = () => {
                         <Accordion
                           elevation={0}
                           sx={{
-                            borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
                             "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
@@ -1077,7 +1081,9 @@ const Lookbook = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                             sx={{
-                              color: "#7d7f85 !important",
+                              // color: "#7d7f85 !important",
+                              color: "rgba(0, 0, 0, 0.87) !important",
+                              fontWeight: 500,
                               borderRadius: 0,
 
                               "&.MuiAccordionSummary-root": {
@@ -1210,7 +1216,7 @@ const Lookbook = () => {
                 }
               />
               <HtmlTooltip
-                title={<CustomTooltipContent categories={selectedCategories} />}
+                title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
               >
                 <button
                   onClick={handleOpen}
@@ -1913,12 +1919,11 @@ const Lookbook = () => {
                                           <div
                                             style={{
                                               fontSize: "14px",
-                                              color: "#7d7f85",
                                               textTransform: "uppercase",
                                             }}
                                             className="dt_lb3srthelook_prodinfo_inner"
                                           >
-                                            <p>
+                                            <p className="dt_titlline">
                                               <span>
                                                 {ele?.designno} - {ele?.CategoryName}
                                               </span>

@@ -95,9 +95,9 @@
                     }
 
                     p {
-                        margin: 5px 0;
-                        font-size: $fontSize2;
-                        color: $titleColor;
+                        margin: 0px;
+                        font-size: $fontSize1;
+                        color: #7d7f85;
                         font-family: $primaryFontFamily;
                         font-weight: bold;
                         letter-spacing: .5px;
@@ -123,28 +123,47 @@
                     }
                 }
 
+                @media screen and (max-width: 850px) {
+                    .dt_bestS_mobile_singleView_main {
+                        display: none !important;
+                    }
+
+                    .dt_bestSaller_product_info_mobile {
+                        margin-top: 2px !important;
+                        padding: 0px !important;
+
+                        span {
+                            font-size: 12px !important;
+                            letter-spacing: .5px;
+                            color: $primaryfontcolor2 !important;
+
+                        }
+
+                        h3 {
+                            color: $primaryfontcolor2 !important;
+                            font-size: 12px !important;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .smr_btimageDiv {
+                        padding: 10px !important;
+                    }
+                }
+
                 @media screen and (max-width: 701px) {
                     .dt_bestSaller_product_info_Web {
                         display: none !important;
                     }
 
-                    .dt_bestS_mobile_singleView_main {
-                        display: flex;
-                    }
+
 
                     .dt_bestS_mobile_singleView {
                         width: 50%;
                         height: 19px !important;
                     }
 
-                    .dt_bestSaller_product_info_mobile {
-                        padding: 1px !important;
 
-                        span {
-                            font-size: 10px !important;
-                            letter-spacing: .5px;
-                        }
-                    }
 
                 }
             }
@@ -204,8 +223,9 @@
                     left: 40%;
 
                 }
+
                 h2 {
-                    font-size: 30px!important;
+                    font-size: 28px !important;
                 }
 
             }

@@ -9,6 +9,7 @@ import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import { ToastContainer } from 'react-toastify';
 
 const AddressManagement = () => {
     const {
@@ -33,15 +34,12 @@ const AddressManagement = () => {
 
     const navigate = useNavigate();
 
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-
     return (
         <div className='dt_DeliverMainDiv'>
+            <ToastContainer
+                autoClose={2000}
+                style={{ zIndex: "99999999999999" }}
+            />
             <div className='dt_secondMaindivAdd'>
                 <div className='dt_addMainDiv'>
                     <div className='dt_TitleDetailMainDiv'>
@@ -99,9 +97,6 @@ const AddressManagement = () => {
                     </div>
                 </div>
                 <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );
