@@ -82,9 +82,10 @@ const DiamondFilter = () => {
     polish: [],
     symmetry: [],
     lab: [],
-    depth: [0.0, 8.51],
-    table: [0.0, 76.0],
+    depth: [0,0],
+    table: [0,0],
     fluorescence: [],
+    culet: [],
   });
 
   const [ApiData, setApiData] = useState([]);
@@ -383,7 +384,7 @@ const DiamondFilter = () => {
       sessionStorage?.getItem("diamondFilterData")
     );
     if (getFilterdata) {
-      console.log(getFilterdata)
+      console.log(getFilterdata);
       setSliderState({
         price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
         Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
@@ -527,7 +528,6 @@ const DiamondFilter = () => {
       ? bannerImage
       : null;
   };
-
   const handleSliderChange = useCallback(
     debounce((sliderType, newValue, min, max) => {
       setSliderState((prevState) => ({
@@ -630,6 +630,7 @@ const DiamondFilter = () => {
         if (storedData && Object.keys(storedData).length > 0) {
           setFilterApiOptions(storedData);
           console.log(storedData, "Data loaded from session storage");
+          setFilters(storedData);
           return;
         }
         const apiObject = ApiData?.reduce((acc, val) => {
@@ -645,6 +646,7 @@ const DiamondFilter = () => {
             JSON.stringify(apiObject)
           );
           setFilterApiOptions(apiObject);
+          setFilters(apiObject);
           console.log(apiObject, "Data processed and saved to session storage");
         }
       } catch (error) {
@@ -658,8 +660,8 @@ const DiamondFilter = () => {
     const shape = location?.pathname?.split("/")[3];
     getDiamondData(shape, finalArray);
   }, [location?.pathname]);
-  // console.log(Object.keys(FilterApiOptions).map((filterType) => {filterType}) , "dynmic")
 
+  console.log("filters", filters);
   return (
     <>
       <DiamondPage />
@@ -816,7 +818,7 @@ const DiamondFilter = () => {
         <div
           className="for_filter_more"
           style={{
-            height: showMorefilter ? "60vh" : "50px",
+            height: showMorefilter ? "auto" : "50px",
             background: showMorefilter ? " #fcf4f4" : "#fff",
           }}
         >
@@ -833,26 +835,37 @@ const DiamondFilter = () => {
             </span>
           </div>
           <div className="more_filter_data">
-            {Object.keys(filters).map((filterType) => {
+            {Object.keys(filters)?.map((filterType) => {
               const filter = filters[filterType];
               const filterData = filtersData[filterType];
-              
-              console.log(filterType)
-              if (filterType === "price") return null;
-      
+
+              if (
+                filterType === "Price" ||
+                filterType === "Cut" ||
+                filterType === "Color" ||
+                filterType === "Clarity" ||
+                filterType === "Carat"
+              )
+                return null;
+               
+                if(filter?.type === "range"){
+                  console.log(filterType ,filterData ,"1221212")
+                  console.log(filter?.min , "min")
+                }
+
               const isEmptyFilterType = !filterData || filterData.length === 0;
 
               if (filter.type === "checkbox" || isEmptyFilterType) {
                 return (
                   <div key={filterType} className="filter_card">
                     <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter.label}
+                      <img src={RoundImage} alt="" /> {filter?.label}
                     </h4>
                     <div className="advance_filter_checkboxes">
-                      {filter.options.map((option) => (
+                      {filter?.options?.map((option) => (
                         <label key={option.value}>
                           <Checkbox
-                            checked={filterData.includes(option.value)}
+                            checked={filterData?.includes(option.value)}
                             onChange={() =>
                               handleFilterChange(filterType, option.value)
                             }
@@ -865,16 +878,17 @@ const DiamondFilter = () => {
                 );
               }
 
-              if (filter.type === "range") {
+              if (filter?.type === "range") {
                 return (
                   <div key={filterType} className="filter_card">
                     <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter.label}
+                      <img src={RoundImage} alt="" /> {filter?.label}
                     </h4>
                     <Slider
-                      value={filterData}
-                      min={filter.min}
-                      max={filter.max}
+                      value={filter?.default || 20}
+                      min={filter?.min || 1}
+                      max={filter?.max || 100}
+                      step={10}
                       sx={{
                         width: "400px",
                         marginLeft: "25px",
