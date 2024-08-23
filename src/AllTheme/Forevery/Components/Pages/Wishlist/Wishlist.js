@@ -21,6 +21,7 @@ const Wishlist = () => {
   const {
     isWLLoading,
     wishlistData,
+    diamondWishData,
     CurrencyData,
     updateCount,
     countDataUpdted,
@@ -121,6 +122,7 @@ const Wishlist = () => {
             <WishlistData
               isloding={isWLLoading}
               items={wishlistData}
+              diamondData = {diamondWishData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               curr={CurrencyData}

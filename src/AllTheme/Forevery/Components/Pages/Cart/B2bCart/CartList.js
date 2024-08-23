@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import CartItem from './CartItem';
 
 const CartList = ({
   items,
+  diamondData,
   setOpenMobileModal,
   openHandleUpdateCartModal,
   CartCardImageFunc,
@@ -22,6 +23,7 @@ const CartList = ({
   handleCancel,
 }) => {
   console.log('itemgsgdhas-', selectedItem);
+  
   return (
     <div className="for_RightCartList">
       <div className='for_tablelable'>
@@ -30,11 +32,13 @@ const CartList = ({
         <p>Price</p>
         <p>Total Price</p>
       </div>
+
       <>
         {items.map((item, index) => (
           <CartItem
             key={item.id}
             item={item}
+            diamondValue={diamondData}
             index={index}
             CartCardImageFunc={CartCardImageFunc}
             CurrencyData={CurrencyData}

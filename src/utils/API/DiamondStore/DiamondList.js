@@ -51,10 +51,10 @@ export const DiamondListData = async (
       ToCut: `${cutTo ?? ""}`,
       FromPrice: `${priceFrom ?? ""}`,
       ToPrice: `${priceTo ?? ""}`,
-      FromTable: `${tableFrom ?? ""}`,
-      ToTable: `${tableTo ?? ""}`,
-      FromDepth: `${depthFrom ?? ""}`,
-      ToDepth: `${depthTo ?? ""}`,
+      FromTable: '',
+      ToTable: '',
+      FromDepth: '',
+      ToDepth: '',
       stockno: `${stockno ?? ""}`
     });
 
