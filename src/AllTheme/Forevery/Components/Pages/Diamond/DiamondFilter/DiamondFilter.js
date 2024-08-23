@@ -246,7 +246,6 @@ const DiamondFilter = () => {
         transformed[item.id] = transformedItem;
       }
     });
-
     return transformed;
   };
 
@@ -519,7 +518,7 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
   const getBannerImage = (index) => {
