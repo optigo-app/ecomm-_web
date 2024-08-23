@@ -128,7 +128,9 @@ const useCart = () => {
                     const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
                     const commaSeparatedString = solStockNos?.join(',');
                     console.log(commaSeparatedString, "djskjdlk");
-                    getDiamondData()
+                    if(commaSeparatedString != null || commaSeparatedString != undefined){
+                        getDiamondData(commaSeparatedString)
+                    }
                 }
             }
         } catch (error) {
@@ -139,10 +141,10 @@ const useCart = () => {
     };
 
 
-    const getDiamondData = async (stockno, shape) => {
+    const getDiamondData = async (commaSeparatedString) => {
         setIsLoading(true);
         try {
-            const response = await DiamondListData(shape, stockno);
+            const response = await DiamondListData(1,"", commaSeparatedString);
             if (response && response.Data) {
                 let resData = response.Data?.rd
                 setDiamondCartData(resData)
@@ -157,6 +159,8 @@ const useCart = () => {
         }
     };
 
+    console.log("jskjdkjska", diamondCartData);
+    
 
     useEffect(() => {
         getCartData();
@@ -711,6 +715,7 @@ const useCart = () => {
         isloding,
         ispriceloding,
         cartData,
+        diamondCartData,
         selectedItem,
         selectedItems,
         multiSelect,
