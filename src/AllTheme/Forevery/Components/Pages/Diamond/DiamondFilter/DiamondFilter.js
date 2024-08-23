@@ -256,7 +256,7 @@ const DiamondFilter = () => {
       console.log(resData[0], "255");
 
       const dataAvaible = JSON?.parse(sessionStorage?.getItem("filterMinMax"));
-      if (!dataAvaible) {
+      if (!dataAvaible && dataAvaible != undefined && dataAvaible != null  ) {
         sessionStorage?.setItem("filterMinMax", JSON?.stringify(resData[0]));
         Transfromdata();
       }
