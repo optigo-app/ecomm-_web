@@ -475,7 +475,8 @@ const DiamondFilter = () => {
     );
     const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ''}`;
     Navigate(newPath);
-  }, [finalArray]);
+  };
+  // }, [finalArray]);
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
@@ -555,8 +556,6 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
-                    }`}
                   className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
                     }`}
                   id={val?.name}
