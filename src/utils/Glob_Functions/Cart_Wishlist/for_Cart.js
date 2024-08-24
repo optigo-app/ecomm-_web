@@ -106,7 +106,6 @@ const useCart = () => {
     }, [])
 
     const getCartData = async () => {
-        debugger
         setIsLoading(true);
         const visiterId = Cookies.get('visiterId');
         try {
