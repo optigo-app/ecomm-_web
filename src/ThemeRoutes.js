@@ -199,7 +199,7 @@ export default function ThemeRoutes() {
       {/* <SmilingRock_MobileApp_App /> */}
       
       {/* {themeNo === 9 &&   */}
-      <Procatalog_MobileApp_App />
+      {/* <Procatalog_MobileApp_App /> */}
       {/*  } */}
 
       {/* {themeNo === 4 && <SmilingRock_MobileApp_App />} */}
@@ -207,7 +207,7 @@ export default function ThemeRoutes() {
 
       {/* <Procatalog_App />  */}
 
-      {/* {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -223,7 +223,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 8 && <ForEveryRoutes />}
 
-      {themeNo === 9 &&   <Procatalog_MobileApp_App />} */}
+      {themeNo === 9 &&   <Procatalog_MobileApp_App />}
     </>
   );
 }
