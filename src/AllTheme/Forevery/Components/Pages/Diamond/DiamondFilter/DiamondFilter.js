@@ -399,34 +399,7 @@ const DiamondFilter = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const getFilterdata = JSON.parse(sessionStorage.getItem("diamondFilterData"));
-  
-        if (getFilterdata !== null && getFilterdata !== undefined) {
-          console.log(getFilterdata, "gt");
-  
-          setSliderState({
-            price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
-            Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
-            Color: [0, 100],
-            Clarity: [0, 100],
-            Cut: [0, 100],
-          });
-  
-          await getDiamondFilterData();
-        } else {
-          console.log("Filter data already available.");
-        }
-      } catch (error) {
-        console.error("Error fetching filter data:", error);
-      }
-    };
-  
-    fetchData();
-  }, [sessionStorage.getItem("diamondFilterData")]); // Add as a dependency if applicable
-  
+
 
   const getDiamondData = async (shape, finalArray) => {
     setIsLoading(true);
@@ -651,6 +624,35 @@ const DiamondFilter = () => {
       return newFiltersData;
     });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getFilterdata = JSON.parse(sessionStorage.getItem("diamondFilterData"));
+  
+        if (getFilterdata !== null && getFilterdata !== undefined) {
+          console.log(getFilterdata, "gt");
+  
+          setSliderState({
+            price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+            Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
+            Color: [0, 100],
+            Clarity: [0, 100],
+            Cut: [0, 100],
+          });
+  
+          await getDiamondFilterData();
+        } else {
+          console.log("Filter data already available.");
+        }
+      } catch (error) {
+        console.error("Error fetching filter data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [sessionStorage.getItem("diamondFilterData")]); // Add as a dependency if applicable
+  
 
   useEffect(() => {
     const fetchData = async () => {
