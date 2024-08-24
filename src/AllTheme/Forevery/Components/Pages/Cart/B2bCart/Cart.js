@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/for_Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
@@ -29,6 +29,7 @@ const CartPage = () => {
     isloding,
     ispriceloding,
     cartData,
+    diamondCartData,
     selectedItem,
     selectedItems,
     multiSelect,
@@ -206,6 +207,7 @@ const CartPage = () => {
                 <div className="for_cart-left-sides">
                   <CartList
                     items={cartData}
+                    diamondData = {diamondCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}

@@ -7,7 +7,6 @@ const Footer = () => {
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [companyInfoData, setCompanuInfoData] = useState();
   const [localData, setLocalData] = useState();
-  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeSection, setActiveSection] = useState(null);
 
@@ -25,7 +24,7 @@ const Footer = () => {
   };
 
   useEffect(() => {
-    let localD = JSON.parse(sessionStorage.getItem('storeInit'));
+    let localD = JSON?.parse(sessionStorage.getItem('storeInit'));
     setLocalData(localD);
   }, []);
 
@@ -39,10 +38,12 @@ const Footer = () => {
       if (sessionStorage.getItem("CompanyInfoData")) {
         companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
         setCompanuInfoData(companyInfoData);
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData);
-        }
+        if(companyInfoData?.SocialLinkObj !== '' && companyInfoData?.SocialLinkObj !== null && companyInfoData?.SocialLinkObj !== undefined ){
+          const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+          if (parsedSocilaMediaUrlData) {
+            setSocialMediaData(parsedSocilaMediaUrlData);
+          }
+        } 
       }
     }, 500);
   }, []);

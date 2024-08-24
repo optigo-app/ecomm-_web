@@ -15,6 +15,151 @@
                 flex-direction: row;
                 align-items: center;
                 height: auto;
+
+                .diamond_Step_data_det {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    margin: 0 auto;
+                    justify-content: space-between;
+                    height: 70px;
+                    border: 1px solid #eeeeee;
+                    margin-bottom: 25px;
+
+                    .step_data {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: inherit;
+                        position: relative;
+
+                        .for_title_span {
+                            cursor: pointer;
+                        }
+
+                        &.finish_set {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                            pointer-events: none;
+                        }
+
+                        &.active {
+                            background-color: #ffdfdf;
+                            position: relative;
+
+                            &::after {
+                                content: "";
+                                border-color: transparent transparent transparent #ffdfdf !important;
+                                border-style: solid;
+                                border-width: 36px 0 33px 24px;
+                                position: absolute;
+                                right: -24px;
+                                top: -1px;
+                                z-index: 9;
+                            }
+
+                        }
+
+                        .for_pendant_view {
+                            width: 35px;
+                            object-fit: contain;
+                            margin-top: -3px;
+                            height: 35px;
+                        }
+
+                        .for_dia_step_eye_div {
+                            position: relative;
+                            z-index: 5;
+
+                            .for_dia_step_eye {
+                                position: absolute;
+                                top: -10px;
+                                left: 6rem;
+                                height: 21px;
+                                z-index: 10;
+                            }
+
+                            .for_navigate_eye_div {
+                                position: absolute;
+                                top: 2.3rem;
+                                right: -3.5rem;
+                                background: #FFDFDF;
+                                width: 20rem;
+                                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+                                font-family: "Nunito", sans-serif;
+                                z-index: 1000;
+                                transition: 0.2s ease-in-out;
+
+                                &::after {
+                                    content: "";
+                                    position: absolute;
+                                    bottom: 0;
+                                    border: 3px solid #DE687F;
+                                    width: 100%;
+                                }
+
+                                .for_dia_data_div {
+                                    display: flex;
+                                    margin-inline: 0.5rem;
+                                    margin-block: 0.5rem;
+                                    justify-content: space-between;
+                                    align-items: center;
+
+
+                                    .for_dia_data_image {
+                                        img {
+                                            height: 50px;
+                                            width: 50px;
+                                            mix-blend-mode: darken;
+                                        }
+                                    }
+
+                                    .for_dia_price {
+                                        font-family: $primaryFontFamily;
+                                        font-size: $fontSize0;
+                                    }
+
+                                    .for_view_rem_div {
+                                        font-family: $primaryFontFamily;
+                                        display: flex;
+                                        align-items: center;
+
+                                        .for_view {
+                                            font-size: 11px;
+                                            text-transform: capitalize;
+                                            cursor: pointer;
+                                            font-weight: 500;
+                                        }
+
+                                        .for_rem {
+                                            font-size: 11px;
+                                            text-transform: capitalize;
+                                            cursor: pointer;
+                                            font-weight: 500;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        span {
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            font-size: 10px;
+                            font-weight: 700;
+                            text-transform: uppercase;
+
+                            img {
+                                width: 28px;
+                                object-fit: scale-down;
+                                margin-top: -3px;
+                            }
+                        }
+                    }
+                }
             }
 
             .for_DiamondDet_thumb_image_div {

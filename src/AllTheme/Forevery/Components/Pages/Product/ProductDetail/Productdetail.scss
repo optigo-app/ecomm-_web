@@ -9,6 +9,151 @@
             max-width: 82.5rem;
             margin-inline: auto;
 
+            .diamond_Step_data_det {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 0 auto;
+                justify-content: space-between;
+                height: 70px;
+                border: 1px solid #eeeeee;
+                margin-bottom: 25px;
+
+                .step_data {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: inherit;
+                    position: relative;
+
+                    .for_title_span {
+                        cursor: pointer;
+                    }
+
+                    &.finish_set {
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                        pointer-events: none;
+                    }
+
+                    &.active {
+                        background-color: #ffdfdf;
+                        position: relative;
+
+                        &::after {
+                            content: "";
+                            border-color: transparent transparent transparent #ffdfdf !important;
+                            border-style: solid;
+                            border-width: 36px 0 33px 24px;
+                            position: absolute;
+                            right: -24px;
+                            top: -1px;
+                            z-index: 9;
+                        }
+
+                    }
+
+                    .for_pendant_view {
+                        width: 35px;
+                        object-fit: contain;
+                        margin-top: -3px;
+                        height: 35px;
+                    }
+
+                    .for_dia_step_eye_div {
+                        position: relative;
+                        z-index: 5;
+
+                        .for_dia_step_eye {
+                            position: absolute;
+                            top: -10px;
+                            left: 6rem;
+                            height: 21px;
+                            z-index: 10;
+                        }
+
+                        .for_navigate_eye_div {
+                            position: absolute;
+                            top: 2.3rem;
+                            right: -3.5rem;
+                            background: #FFDFDF;
+                            width: 20rem;
+                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+                            font-family: "Nunito", sans-serif;
+                            z-index: 1000;
+                            transition: 0.2s ease-in-out;
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                bottom: 0;
+                                border: 3px solid #DE687F;
+                                width: 100%;
+                            }
+
+                            .for_dia_data_div {
+                                display: flex;
+                                margin-inline: 0.5rem;
+                                margin-block: 0.5rem;
+                                justify-content: space-between;
+                                align-items: center;
+
+
+                                .for_dia_data_image {
+                                    img {
+                                        height: 50px;
+                                        width: 50px;
+                                        mix-blend-mode: darken;
+                                    }
+                                }
+
+                                .for_dia_price {
+                                    font-family: $primaryFontFamily;
+                                    font-size: $fontSize0;
+                                }
+
+                                .for_view_rem_div {
+                                    font-family: $primaryFontFamily;
+                                    display: flex;
+                                    align-items: center;
+
+                                    .for_view {
+                                        font-size: 11px;
+                                        text-transform: capitalize;
+                                        cursor: pointer;
+                                        font-weight: 500;
+                                    }
+
+                                    .for_rem {
+                                        font-size: 11px;
+                                        text-transform: capitalize;
+                                        cursor: pointer;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        font-size: 10px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+
+                        img {
+                            width: 28px;
+                            object-fit: scale-down;
+                            margin-top: -3px;
+                        }
+                    }
+                }
+            }
+
             .for_ProductDet_thumb_image_div {
                 height: 12rem;
                 width: 12rem;
@@ -138,6 +283,16 @@
 
                             .for_main_image {
                                 min-width: 34rem;
+                                position: relative;
+
+                                .zoom-lens {
+                                    position: absolute;
+                                    border: 1px solid #d4d4d4;
+                                    border-radius: 50%;
+                                    cursor: none;
+                                    background-repeat: no-repeat;
+                                    pointer-events: none;
+                                }
 
                                 .for_slider_card {
                                     width: 100%;
@@ -146,18 +301,19 @@
                                     padding: 0 !important;
 
                                     .for_image {
-                                        background-color: rgba(175, 172, 172, 0.164);
                                         height: 80%;
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
+                                        cursor: zoom-in;
 
                                         img {
                                             width: 100%;
+                                            border: 1px solid rgba(255, 228, 234, .451);
                                             min-height: 570px;
+                                            max-height: 570px;
                                             object-fit: contain;
                                             object-position: center;
-                                            mix-blend-mode: multiply !important;
                                         }
 
                                         video {
@@ -309,7 +465,16 @@
                             font-size: $fontSize4;
                             font-weight: 600;
                         }
+
+                        .for_productDet_choose_Dia {
+                            text-transform: uppercase;
+                            width: 288px;
+                            height: 44px;
+                            font-size: $fontSize4;
+                            font-weight: 600;
+                        }
                     }
+
 
                     .for_productDet_shipping_fee_div {
                         margin-top: 2rem;
@@ -529,4 +694,112 @@
     padding: 0;
     margin: 0;
     list-style: none;
+}
+
+.forWeb_app_product_label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 14px;
+    font-family: $primaryFontFamily;
+    z-index: 100;
+
+    .forWeb_app_instock {
+        background-color: #00b894;
+        color: white;
+        text-transform: uppercase;
+        width: 70px;
+        font-size: 10px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .forWeb_app_bestSeller {
+        background-color: #ff5100;
+        color: white;
+        text-transform: uppercase;
+        width: 70px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .forWeb_app_newarrival {
+        background-color: darkblue;
+        color: white;
+        text-transform: uppercase;
+        width: 70px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .forWeb_app_intrending {
+        background-color: darkorange;
+        color: white;
+        text-transform: uppercase;
+        width: 70px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+}
+
+.for_diamond_Step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 96%;
+    margin: 0 auto;
+    justify-content: space-between;
+    height: 70px;
+    border: 1px solid #eeeeee;
+    overflow: hidden;
+    margin-bottom: 25px;
+
+    .for_step {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: inherit;
+        position: relative;
+        cursor: pointer;
+
+        &:last-child {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        &:nth-child(1) {
+            background-color: #ffdfdf;
+            position: relative;
+
+            &::after {
+                content: "";
+                width: 100px;
+                height: 100px;
+                background-color: #ffdfdf;
+                position: absolute;
+                right: -12px;
+                transform: rotate(48deg);
+            }
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+
+            img {
+                width: 28px;
+                object-fit: scale-down;
+                margin-top: -3px;
+            }
+        }
+    }
 }

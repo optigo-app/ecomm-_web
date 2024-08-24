@@ -6,17 +6,17 @@ export const MetalColorCombo = async (visiterId) => {
     let response;
 
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    const { FrontEnd_RegNo } = storeInit;
+    const FrontEnd_RegNo = storeInit?.FrontEnd_RegNo;
     const storedEmail = sessionStorage.getItem('registerEmail') || '';
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"))
 
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
-    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginInfo?.userid ?? "";
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginInfo?.userid ?? "";
 
     try {
-       
+
         const combinedValue = JSON.stringify({
             FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerId}`
         });

@@ -460,7 +460,6 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
   };
 
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
-  console.log('customizeStep: ', customizeStep);
 
   return (
     <>
