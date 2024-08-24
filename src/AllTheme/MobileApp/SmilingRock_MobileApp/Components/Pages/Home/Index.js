@@ -34,6 +34,66 @@ const Home = () => {
   const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
 
   useEffect(() => {
+    const UserToken = localStorage.getItem('userLoginTokenApp');
+    if (UserToken) {
+      WebLoginWithMobileToken(UserToken)
+        .then((response) => {
+          if (response.Data.rd[0].stat === 1) {
+            const visiterID = Cookies.get('visiterId');
+            setislogin(true);
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
+              "loginUserDetail",
+              JSON.stringify(response.Data.rd[0])
+            );
+
+            GetCountAPI(visiterID).then((res) => {
+              if (res) {
+                setCartCountNum(res?.cartcount)
+                setWishCountNum(res?.wishcount)
+              }
+            }).catch((err) => {
+              if (err) {
+                console.log("getCountApiErr", err);
+              }
+            })
+
+            CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+              if (response?.Data?.rd) {
+                let data = JSON.stringify(response?.Data?.rd)
+                sessionStorage.setItem('CurrencyCombo', data)
+              }
+            }).catch((err) => console.log(err))
+
+
+            MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
+              if (response?.Data?.rd) {
+                let data = JSON.stringify(response?.Data?.rd)
+                sessionStorage.setItem('MetalColorCombo', data)
+              }
+            }).catch((err) => console.log(err))
+
+
+            MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
+              if (response?.Data?.rd) {
+                let data = JSON.stringify(response?.Data?.rd)
+                sessionStorage.setItem('metalTypeCombo', data)
+              }
+            }).catch((err) => console.log(err))
+
+
+            navigation("/");
+            if (redirectEmailUrl) {
+              navigation(redirectEmailUrl);
+            } else {
+              navigation("/");
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get("ismobile");
     const token = queryParams.get("token");
@@ -77,7 +137,7 @@ const Home = () => {
     //   };
     //   const response = await CommonAPI(body);
     //   console.log('ressssssssssssssssss', response);
-
+    localStorage.setItem('userLoginTokenApp', token);
     WebLoginWithMobileToken(token)
       .then((response) => {
         if (response.Data.rd[0].stat === 1) {
