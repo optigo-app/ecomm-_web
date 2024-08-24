@@ -2,8 +2,6 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj={},page,obj={},mainData = "",visiterId,sortby="",diaRange={},netWt={},gross={}) => {
-  console.log("caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
   let MenuParams = {};
   let serachVar = ""
 

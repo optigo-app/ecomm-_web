@@ -10,6 +10,9 @@ const AlbumSkeleton = ({ fromPage }) => {
     return (
         <div className='album_SkeltenShow'>
             <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center', width: '100% !important' }}>
+                <CardMedia style={{ width: '100%', height: '30vh' }} className='cardMainSkeleton'>
+                    <Skeleton animation="wave" variant="rect" width={'100%'} height='20vh' style={{ backgroundColor: '#e8e8e86e' }} />
+                </CardMedia>
                 {cardsArray.map((item) => (
                     <Grid item xs={isMobile ? 6 : 3} key={item} className='proCat_album_skle_Main'>
                         <Card className="proCat_lookbookcards_listpage">

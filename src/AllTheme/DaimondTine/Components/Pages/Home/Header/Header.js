@@ -754,6 +754,7 @@ const Header = () => {
                                 style={{ color: "#7D7F85" }}
                                 onClick={() => setDrawerOpen(true)}
                                 aria-label="open menu"
+                                autoFocus={false}
                             >
                                 <MenuIcon style={{ fontSize: "35px" }} className="mobileViewSmilingTop4Icone" />
                             </IconButton>)
