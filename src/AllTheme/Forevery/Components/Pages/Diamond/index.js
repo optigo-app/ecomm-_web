@@ -163,7 +163,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       Navigation(navigateUrl);
     }
     if (data?.autocode) {
-      let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' };
+      let pValue = isRing === 'Ring' ? { menuname: 'Engagement_Ring' } : { menuname: 'Diamond_Pendants' };
       let obj = {
         a: data?.autocode,
         b: data?.designno,
@@ -243,15 +243,21 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 });
 
 const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
-  const dropdownRefs = useRef({})
-  const [open, setOpen] = useState(null)
+  const dropdownRefs = useRef({});
+  const [open, setOpen] = useState(null);
+  const [isSetting, setIsSetting] = useState([]);
   const Navigation = useNavigate();
   const location = useLocation();
   const getStepName = location?.pathname.split('/');
-  const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'))
-  // console.log('getCustStepData: ', getCustStepData[1]?.Setting);
+  const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
+  // const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
+  const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
+
+  useEffect(() => {
+    setIsSetting(location?.pathname.split('/'));
+  }, [location?.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -270,122 +276,180 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   }, []);
 
   const handleOpen = (index) => {
-    setOpen(open === index ? null : index)
-  }
+    setOpen(open === index ? null : index);
+  };
+
+  const renderSteps = () => {
+    return (
+      <>
+        <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
+          <span className="for_title_span" style={StyleCondition}
+            onClick={() => {
+              Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+              setswap("settings");
+            }}
+          >
+            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={
+              (getCustStepData2?.[0]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+              StepImages[1]?.img
+            } alt="" /> Settings
+          </span>
+          {getdiaData2?.[0]?.step1Data?.[0] && (
+            <HandleDrp
+              index={0}
+              open={open === 'setting'}
+              handleOpen={() => handleOpen('setting')}
+              data={getdiaData2?.[0]?.step1Data?.[0]}
+              ref={(el) => { dropdownRefs.current[0] = el; }}
+            />
+          )}
+        </div>
+
+        <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
+          <span className="for_title_span" style={StyleCondition} onClick={() => {
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+            setswap("diamond");
+          }}>
+            <img src={StepImages[0]?.img} alt="" /> Diamond
+          </span>
+          {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
+            <HandleDrp
+              index={1}
+              open={open === 'diamond'}
+              handleOpen={() => handleOpen('diamond')}
+              data={getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data}
+              ref={(el) => { dropdownRefs.current[1] = el; }}
+            />
+          )}
+        </div>
+
+        <div className={`step_data ${(getdiaData2?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData2?.[2]?.step3 === true ? 'active' : ''} d-3`}>
+          <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
+            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[0]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+              StepImages[2]?.img} alt="" /> {getCustStepData2?.[0]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
+          </span>
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
-      {getdiaData?.length > 0 ? (
-        <>
-          <div className="diamond_Step_data">
-            <div
-              className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}
-            >
-              <span className="for_title_span" style={StyleCondition} onClick={() => {
-                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-                setswap("diamond");
-              }}>
-                <img src={StepImages[0]?.img} alt="" /> Diamond
-              </span>
-              {getdiaData?.[0]?.step1Data?.[0] && (
-                <HandleDrp
-                  index={0}
-                  open={open === 'diamond'}
-                  handleOpen={() => handleOpen('diamond')}
-                  data={getdiaData?.[0]?.step1Data?.[0]}
-                  ref={(el) => { dropdownRefs.current[0] = el; }}
-                />
-              )}
-            </div>
-
-            <div
-              className={`step_data ${setting === true ? 'active' : ''} d-2`}
-            >
-              <span className="for_title_span" style={StyleCondition}
-                onClick={() => {
-                  Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
-                  setswap("settings");
-                }}
-              >
-                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
-              </span>
-              {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
-                <HandleDrp
-                  index={1} open={open === 'setting'}
-                  handleOpen={() => handleOpen('setting')}
-                  data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
-                  ref={(el) => { dropdownRefs.current[1] = el; }}
-                />
-              )}
-
-            </div>
-
-            <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[3]?.step3 === true ? 'active' : ''} d-3`}>
-              <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
-                <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
-              </span>
-            </div>
+      {getdiaData?.length > 0 || getStepName.includes('diamond') ? (
+        <div className="diamond_Step_data">
+          <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
+            <span className="for_title_span" style={StyleCondition} onClick={() => {
+              Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+              setswap("diamond");
+            }}>
+              <img src={StepImages[0]?.img} alt="" /> Diamond
+            </span>
+            {getdiaData?.[0]?.step1Data?.[0] && (
+              <HandleDrp
+                index={0}
+                open={open === 'diamond'}
+                handleOpen={() => handleOpen('diamond')}
+                data={getdiaData?.[0]?.step1Data?.[0]}
+                ref={(el) => { dropdownRefs.current[0] = el; }}
+              />
+            )}
           </div>
-        </>
+
+          <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
+            <span className="for_title_span" style={StyleCondition}
+              onClick={() => {
+                Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+                setswap("settings");
+              }}
+            >
+              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+                StepImages[2]?.img} alt="" /> Settings
+            </span>
+            {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
+              <HandleDrp
+                index={1}
+                open={open === 'setting'}
+                handleOpen={() => handleOpen('setting')}
+                data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
+                ref={(el) => { dropdownRefs.current[1] = el; }}
+              />
+            )}
+          </div>
+
+          <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[3]?.step3 === true ? 'active' : ''} d-3`}>
+            <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
+              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+                StepImages[2]?.img} alt="" /> {getCustStepData?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
+            </span>
+          </div>
+        </div>
       ) : (
         <>
-          <div className="diamond_Step">
-            {Swap === "diamond" ? (
-              <div
-                className="step d-1"
-                onClick={() => {
-                  Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-                  setswap("diamond");
-                }}
-              >
-                <span style={StyleCondition}>
-                  <img src={StepImages[0]?.img} alt="" /> Diamond
-                </span>
-              </div>
-            ) : (
-              <div
-                className="step d-2"
-                onClick={() => {
-                  Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
-                  setswap("settings");
-                }}
-              >
-                <span style={StyleCondition}>
-                  <img src={StepImages[1]?.img} alt="" /> Settings
-                </span>
-              </div>
-            )}
-            {Swap !== "diamond" ? (
-              <div
-                className="step d-1"
-                onClick={() => {
-                  Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
-                  setswap("diamond");
-                }}
-              >
-                <span style={StyleCondition}>
-                  <img src={StepImages[0]?.img} alt="" /> Diamond
-                </span>
-              </div>
-            ) : (
-              <div
-                className="step d-2"
-                onClick={() => {
-                  Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
-                  setswap("settings");
-                }}
-              >
-                <span style={StyleCondition}>
-                  <img src={StepImages[1]?.img} alt="" /> Settings
-                </span>
-              </div>
-            )}
-            <div className="step d-3">
-              <span style={StyleCondition} onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`)}>
-                <img src={StepImages[2]?.img} alt="" /> Rings
-              </span>
+          {!isSetting.join(' ').includes('diamond_shape') ? (
+            <div className="diamond_Step_data">
+              {renderSteps()}
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="diamond_Step">
+                {Swap === "diamond" ? (
+                  <div
+                    className="step d-1"
+                    onClick={() => {
+                      Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                      setswap("diamond");
+                    }}
+                  >
+                    <span style={StyleCondition}>
+                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    className="step d-2"
+                    onClick={() => {
+                      Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=V29tZW4vZ2VuZGVy`);
+                      setswap("settings");
+                    }}
+                  >
+                    <span style={StyleCondition}>
+                      <img src={StepImages[1]?.img} alt="" /> Settings
+                    </span>
+                  </div>
+                )}
+                {Swap !== "diamond" ? (
+                  <div
+                    className="step d-1"
+                    onClick={() => {
+                      Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
+                      setswap("diamond");
+                    }}
+                  >
+                    <span style={StyleCondition}>
+                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    className="step d-2"
+                    onClick={() => {
+                      Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+                      setswap("settings");
+                    }}
+                  >
+                    <span style={StyleCondition}>
+                      <img src={StepImages[1]?.img} alt="" /> Settings
+                    </span>
+                  </div>
+                )}
+                <div className="step d-3">
+                  <span style={StyleCondition} onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`)}>
+                    <img src={StepImages[2]?.img} alt="" /> Rings
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </>
