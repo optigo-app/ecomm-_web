@@ -190,7 +190,7 @@ const Header = () => {
                 {/* <a href="/"> */}
                 <img src={compnyLogo} loading='lazy' className='smrMA_logo_header' />
                 {/* </a> */}
-                {isB2bFlag == 1 ?
+                {/* {isB2bFlag == 1 ?
                   islogin == false ?
                     ''
                     :
@@ -239,7 +239,7 @@ const Header = () => {
                       </li>
                     </Tooltip>
                   </Badge>
-                }
+                } */}
 
               </div>
               {isB2bFlag == 1 ?

@@ -17,25 +17,18 @@ const Footer = ({ fromPage }) => {
   }, [])
 
   useEffect(() => {
-    let storeInit;
     let companyInfoData;
-    setTimeout(() => {
-      if (sessionStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
-      }
-      if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-        setCompanuInfoData(companyInfoData)
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData)
+    if (sessionStorage.getItem("CompanyInfoData")) {
+        if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+            if (parsedSocilaMediaUrlData) {
+                setSocialMediaData(parsedSocilaMediaUrlData)
+            }
         }
-      }
-
-
-    }, 500)
-
+    }
   }, [])
+
 
 
   return (
