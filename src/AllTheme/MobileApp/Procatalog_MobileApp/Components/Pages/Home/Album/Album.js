@@ -39,7 +39,6 @@ const Album = () => {
 
   // 17620240727141443263
   useEffect(() => {
-    console.log('calllllllllllllll');
     let login = sessionStorage.getItem('LoginUser');
     setISLoginSet(login);
     const fetchAlbumData = async () => {
@@ -163,8 +162,11 @@ const Album = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
+  console.log('albumDataalbumData',albumData);
+
   return (
-    <div className="proCat_alubmMainDiv">
+    <div className="proCatApp_alubmMainDiv">
       <Modal
         open={open}
         onClose={handleClose}
@@ -234,17 +236,12 @@ const Album = () => {
       </Modal>
       <p className="smr_albumTitle">ALBUM</p>
       <div className="proCat_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
-
         {isLoding ?
           <>
             <AlbumSkeleton /> 
           </>
           :
           albumData?.map((data, index) => {
-            // const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-            // const imgSrc = imageStatus[imageUrlI]
-            //   ? imageUrlI
-            //   : fallbackImages[imageUrlI] || imageNotFound;
             const imageUrlI = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
             const imgSrc = imageStatus[imageUrlI] ? imageUrlI : imageNotFound;
 

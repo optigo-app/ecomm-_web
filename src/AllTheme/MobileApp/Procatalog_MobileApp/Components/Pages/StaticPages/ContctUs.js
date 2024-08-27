@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IoMdCall, IoMdMail } from 'react-icons/io';
-import { IoLocationOutline } from 'react-icons/io5';
+import { IoArrowBack, IoLocationOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import './ContactUs.scss'
 
@@ -34,6 +34,9 @@ function ContctUs() {
         <div>
             {localData?.Footerno === 1 &&
                 <div className='ProCatApp_Footer1_main'>
+                    <p className="SmiCartListTitle">
+                        <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />Contact US
+                    </p>
                     <div className='footerBottomMain' style={{ marginTop: '0%' }}>
                         <div className='footerMoreOption'>
                             <div className='proCat_AddresMain' style={{ marginLeft: '100px' }}>
@@ -41,26 +44,26 @@ function ContctUs() {
                                 <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
                                     <IoLocationOutline style={{ width: '22px', height: '22px' }} />
                                     <span style={{ color: '#7d7f85', fontSize: '14px', width: '80%' }}>
-                                        D-Block G20, ITC( International Trade Centre),
-                                        Majura Gate, Ring Road,
+                                        D-Block G20, ITC( International Trade Centre),<br />
+                                        Majura Gate, Ring Road,<br />
+                                        Surat - 395001
                                         {/* {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode} */}
                                     </span>
                                 </p>
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
                                     <IoMdCall />
                                     <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                                        <a href={`tel:+91 9099887762`}>
+                                        {/* <a href="tel:+919099887762"style={{ textDecoration: 'none', color: '#7d7f85' }}> */}
                                             +91 9099887762
-                                        </a>
+                                        {/* </a> */}
                                     </span>
                                 </p>
-                                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif', marginTop: "8px" }}>
                                     <IoMdMail />
                                     <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                                        {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
-                      {companyInfoData?.FrontEndEmail1}
-                    </a> */}
-                                        hello@optigoapps.com
+                                        {/* <a href="mailto:hello@optigoapps.com" style={{ textDecoration: 'none', color: '#7d7f85' }}> */}
+                                            hello@optigoapps.com
+                                        {/* </a> */}
                                     </span>
                                 </p>
                             </div>

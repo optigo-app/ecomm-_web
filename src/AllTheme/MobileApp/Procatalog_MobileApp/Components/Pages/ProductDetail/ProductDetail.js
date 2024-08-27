@@ -1731,14 +1731,14 @@ const ProductDetail = () => {
                           <div>
                             <div className="Smr_CartAndWish_portion">
                               <button
-                                className="smrMA_AddToCart_btn"
+                                className="proCatApp_AddToCart_btn"
                                 onClick={() => handleCart(!addToCartFlag)}
                               >
                                 <span className="smrMA_addtocart_btn_txt">
                                   {!addToCartFlag ? "ADD TO CART" : "REMOVE FROM CART"}
                                 </span>
                               </button>
-                              <div className="Smr_wishlistcont">
+                              {/* <div className="Smr_wishlistcont">
                                 <Checkbox
                                   icon={
                                     <FavoriteBorderIcon
@@ -1754,7 +1754,7 @@ const ProductDetail = () => {
                                   checked={wishListFlag ?? singleProd?.IsInWish}
                                   onChange={(e) => handleWishList(e)}
                                 />
-                              </div>
+                              </div> */}
                             </div>
                             {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
                             {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
