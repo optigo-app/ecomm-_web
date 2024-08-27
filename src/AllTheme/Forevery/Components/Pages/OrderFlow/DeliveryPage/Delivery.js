@@ -42,9 +42,9 @@ const AddressManagement = () => {
 
     return (
         <div className='for_DeliverMainDiv'>
-            <div className='smr_secondMaindivAdd'>
-                <div className='smr_addMainDiv'>
-                    <div className='smr_TitleDetailMainDiv'>
+            <div className='for_secondMaindivAdd'>
+                <div className='for_addMainDiv'>
+                    <div className='for_TitleDetailMainDiv'>
                         <div>
                         <h1 className='for_deliveryTitle'>Delivery</h1>
                         <p className='for_deliverydesc'>Order Will be delivered to selected address</p>

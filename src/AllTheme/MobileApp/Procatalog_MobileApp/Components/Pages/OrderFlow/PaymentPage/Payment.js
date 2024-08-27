@@ -45,6 +45,7 @@ const Payment = () => {
 
     
   useEffect(() => {
+    localStorage.removeItem('navigateUrl');
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
   }, [])
@@ -98,7 +99,7 @@ const Payment = () => {
                 setIsOrderloding(false);
             }
 
-            const totalPriceData = sessionStorage.getItem('TotalPriceData');
+            const totalPriceData = localStorage.getItem('TotalPriceData');
             if (totalPriceData) {
                 const totalPriceNum = parseFloat(totalPriceData);
                 const finalTotalPrice = totalPriceNum;

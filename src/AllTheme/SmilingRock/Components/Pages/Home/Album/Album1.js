@@ -96,7 +96,7 @@ const Album1 = () => {
 
     return (
         <>
-            {albumData?.length &&
+            {albumData?.length != 0 &&
                 <div className="album-container">
                     <div className='smr_ablbumtitleDiv'>
                         <span className='smr_albumtitle'>Album</span>
@@ -134,27 +134,27 @@ const Album1 = () => {
                         {albumData?.map((album) =>
                             album?.AlbumName === selectedAlbum ? (
                                 <Swiper
-                                key={album?.Albumid}
-                                spaceBetween={10}
-                                slidesPerView={4}
-                                // breakpoints={{
-                                //     1200: {
-                                //         slidesPerView: 4,
-                                //     },
-                                //     992: {
-                                //         slidesPerView: 3,
-                                //     },
-                                //     768: {
-                                //         slidesPerView: 2,
-                                //     },
-                                // }}
-                                lazy={true}
-                                navigation={true}
-                                // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
-                                modules={[Keyboard, FreeMode, Navigation]}
-                                keyboard={{ enabled: true }}
-                                pagination={false}
-                            >
+                                    key={album?.Albumid}
+                                    spaceBetween={10}
+                                    slidesPerView={4}
+                                    // breakpoints={{
+                                    //     1200: {
+                                    //         slidesPerView: 4,
+                                    //     },
+                                    //     992: {
+                                    //         slidesPerView: 3,
+                                    //     },
+                                    //     768: {
+                                    //         slidesPerView: 2,
+                                    //     },
+                                    // }}
+                                    lazy={true}
+                                    navigation={true}
+                                    // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
+                                    modules={[Keyboard, FreeMode, Navigation]}
+                                    keyboard={{ enabled: true }}
+                                    pagination={false}
+                                >
                                     {JSON?.parse(album?.Designdetail)?.map((design) => (
                                         <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
                                             <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>

@@ -3,6 +3,8 @@ import Grid from '@mui/material/Grid';
 import CartItem from './CartItemMo';
 import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const CartList = ({
   items,
@@ -27,19 +29,25 @@ const CartList = ({
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const islogin = useRecoilValue(smrMA_loginState);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
     setStoreInitData(storeinitData)
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
     setTotalPrice(priceData)
-  },[onRemove,handleSave])
+  }, [onRemove, handleSave])
 
   const handlePlaceOrder = () => {
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
-    console.log("TotalPriceData",items)
-    sessionStorage.setItem('TotalPriceData', priceData)
-    navigate("/payment")
+    localStorage.setItem('TotalPriceData', priceData)
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      navigate('/signin');
+      localStorage.setItem('navigateUrl', 'true');
+    } else {
+      navigate("/payment")
+    }
     window.scrollTo(0, 0);
   }
 
@@ -75,8 +83,8 @@ const CartList = ({
           <Box className="smrMo_product-containerBox">
             {storeInitData?.IsPriceShow == 1 &&
               <div className="smrMo_product-price">
-                  <span style={{fontWeight: 600 , fontSize: '20px', color:'#7d7f85'}}>
-                    {/* <span
+                <span style={{ fontWeight: 600, fontSize: '20px', color: '#7d7f85' }}>
+                  {/* <span
                       className="smrMO_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
@@ -84,9 +92,9 @@ const CartList = ({
                         ),
                       }}
                     /> */}
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {totalPrice}
-                  </span>
+                  <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                  {totalPrice}
+                </span>
               </div>
             }
             <Button

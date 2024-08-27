@@ -236,7 +236,7 @@ const ForEveryRoutes = () => {
           element={<RingPage />}
         />
         <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-
+        <Route path="/Delivery" element={<Delivery />} />
         <Route path="/diamond" element={<Diamond />} />
         <Route path="/diamond-test" element={<Test />} />
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
@@ -245,9 +245,7 @@ const ForEveryRoutes = () => {
         {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           
           
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
+          
           {/* <Route path="/account" element={<Account />} /> */}
         <Route path="/Lookbook" element={<Lookbook />} />
         {/* </Route> */}

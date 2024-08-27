@@ -1,15 +1,50 @@
 @import '../../../scss/variable';
 
-.smrMA_alubmMainDiv {
 
-    margin-inline: 0px;
-    margin-top: -5px;
+.smr_AlbumImageMainPopup {
+    height: 270px;
+    width: 19%;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
+}
+
+.proCat_AlbumLockIcone_popup {
+    height: 25px;
+    position: absolute;
+    right: 40%;
+    top: 40%;
+}
+
+.smr_AlbumImageMainPopup_img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.lock_icon {
+    background-color: #fff;
+    box-shadow: 5px 5px 10px rgba(25, 25, 25, .6);
+    display: inline-block;
+    padding: 13px;
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+    object-fit: contain;
+}
+
+.proCatApp_alubmMainDiv {
+
+    margin-inline: 60px;
 
     .smr_AlbumImageMain {
-        width: 300px;
-        padding: 2px;
+        width: 19%;
+        padding: 0px;
+        margin: 5px;
         cursor: pointer;
-        // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+        border: 1px solid lightgray;
+        height: fit-content;
     }
 
     .smr_albumTitle {
@@ -17,47 +52,106 @@
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
-        margin: 0px;
+        margin-top: 50px;
     }
 
     .smr_albumName {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        margin: 0px 0px 10px 0px;
+        margin: 0px;
         text-align: center;
     }
 
     .smr_AlbumImageMain_img {
         width: 100%;
         object-fit: contain;
-        height: 100%;
     }
 
-    .smr_albumALL_div {
+    .proCat_albumALL_div {
         display: flex;
+        flex-wrap: wrap;
+        flex-flow: wrap;
         justify-content: center;
+    }
+
+    .proCat_AlbumLockIcone {
+        height: 25px;
+        position: absolute;
+        right: 40%;
+        top: 40%;
+    }
+
+    .lock_icon {
+        background-color: #fff;
+        box-shadow: 5px 5px 10px rgba(25, 25, 25, .6);
+        display: inline-block;
+        padding: 13px;
+        width: 50px;
+        border-radius: 50%;
+        height: 50px;
+        object-fit: contain;
     }
 
     @media screen and (max-width: 1200px) {
         .smr_AlbumImageMain_img {
-            // height: auto !important;
+            height: auto !important;
         }
+
+        .smr_AlbumImageMain {
+            width: 24% !important;
+            margin: 3px !important;
+            cursor: pointer;
+        }
+
+
     }
 
     @media screen and (max-width: 1000px) {
-        // margin-inline: 10px !important;
+        margin-inline: 10px !important;
     }
 
 
+    @media screen and (max-width: 850px) {
+        .smr_AlbumImageMain {
+            width: 32% !important;
+            margin: 3px !important;
+            cursor: pointer;
+        }
+    }
+
     @media screen and (max-width: 650px) {
-        .smr_albumALL_div {
+        margin-inline: 2px !important;
+
+        .smr_albumTitle {
+            display: none;
+        }
+
+        .proCat_albumALL_div {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
         }
 
         .smr_AlbumImageMain {
-            width: 50% !important;
+            width: 49% !important;
+        }
+
+        .smr_AlbumImageMain {
+            margin: 2px !important;
         }
     }
+
+    @media screen and (max-width: 450px) {
+        .smr_AlbumImageMain {
+            width: 49% !important;
+        }
+    }
+
+    
+    @media screen and (max-width: 408px) {
+        .smr_AlbumImageMain {
+            width: 48% !important;
+        }
+    }
+
 }

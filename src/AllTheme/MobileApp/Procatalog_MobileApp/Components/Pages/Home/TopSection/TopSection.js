@@ -1,16 +1,32 @@
-
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react';
+import TopSkeleten from './TopSkeleten';
 
 const TopSection = () => {
   const localData = JSON.parse(sessionStorage.getItem('storeInit'));
+  const [imageLoaded, setImageLoaded] = useState(true);
+
+  const handleImageError = () => {
+    setImageLoaded(false);
+  };
+
   return (
     <div>
-      <img src={`${localData?.ProCatLogbanner}`} style={{ width: '100%' }} />
+      {imageLoaded && localData?.ProCatLogbanner ? (
+        <img 
+          src={`${localData?.ProCatLogbanner}`} 
+          style={{ width: '100%' }} 
+          onError={handleImageError} 
+          alt="ProCatLogbanner"
+        />
+      ) : (
+        <TopSkeleten />  
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default TopSection
+export default TopSection;
+
 
 // import React, { useState, useEffect } from "react";
 // import { useRecoilValue } from "recoil";
