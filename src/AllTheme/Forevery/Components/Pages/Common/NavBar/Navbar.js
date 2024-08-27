@@ -15,7 +15,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   for_CartCount,
@@ -407,6 +407,7 @@ const NavbarLeft = ({
   hoveredIndex,
 }) => {
   const Navigate = useNavigate();
+
   return (
     <>
       <div className="left">
@@ -422,7 +423,10 @@ const NavbarLeft = ({
               onMouseOut={() => setHoveredIndex(null)}
               onClick={() => Navigate(val?.link)}
             >
-              <span className="for_nav_menu">
+              <Link
+                to={val?.link}
+                className="for_nav_menu"
+              >
                 {val?.category}
                 {hoveredIndex === i ? (
                   <FaChevronUp
@@ -435,7 +439,7 @@ const NavbarLeft = ({
                     className={`chevorn-icon hide-Fo-2 `}
                   />
                 )}
-              </span>
+              </Link>
             </div>
           );
         })}
@@ -459,7 +463,9 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
     }
   };
 
-  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const [customizeStep, setCustomizeStep] = useRecoilState(
+    for_customizationSteps
+  );
 
   return (
     <>
@@ -487,7 +493,10 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
               <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]} />
             )}
             {SelectedMenu?.index == 1 && (
-              <SecondNavMenu data={NavbarMenu[SelectedMenu?.index]} setCustomizeStep={setCustomizeStep} />
+              <SecondNavMenu
+                data={NavbarMenu[SelectedMenu?.index]}
+                setCustomizeStep={setCustomizeStep}
+              />
             )}
             {SelectedMenu?.index == 2 && (
               <ThirdNavMenu data={NavbarMenu[SelectedMenu?.index]} />
@@ -589,9 +598,9 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       step1: true,
       step2: false,
       step3: false,
-    })
-    const step1 = [{ "step1": true, "shape": shape }]
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    });
+    const step1 = [{ step1: true, shape: shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
   return (
     <div className="Second_Nav_first_Menu">
