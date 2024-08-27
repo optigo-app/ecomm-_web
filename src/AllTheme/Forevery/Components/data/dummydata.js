@@ -1,3 +1,5 @@
+import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
+
 export const faqList = [
   {
     question:
@@ -165,4 +167,34 @@ export const sortingOptions = [
       { label: "High to Low", value: "Price-desc" },
     ],
   },
+];
+
+export const foreveryProcess = [
+  {
+    step: 1,
+    img : `${storImagePath()}/Forevery/static/1.png`,
+    title: "Share Your Mind",
+    Subtitle  :"Your ring. Your way.",
+    description: "At Forevery, we cherish your creative ideas. Share your vision with us, including your design preferences and how you envision your ring. We are dedicated to transforming your dream ring into reality, reflecting your unique style."
+  },
+  {
+    step: 2,
+    img : `${storImagePath()}/Forevery/static/2.png`,
+    title: "Design",
+    Subtitle  :"CAD designs and/or sketches for your approval.",
+    description: "Once we have your ideas, we will get down to work. We will provide you with detailed CAD drawings or sketches for your final approval. These sketches will be prepared by professionals with years of experience. With designs by your side you will get a clear idea of how your ring will turn into. Forevery believes in transparency in every step of the design process."
+  },
+  {
+    step: 3,
+    img : `${storImagePath()}/Forevery/static/3.png`,
+    title: "Manufacture",
+    Subtitle  :"Your ring will be brought to life by experts in our workshops and your specifications will be catered.",
+    description: "Once we have your approval on our proposed sketches, we will go ahead with manufacturing your ring. Details will be kept in mind and our goldsmiths will make sure that all your aspirations regarding your ring are met. Every ring is different and deserves special attention. A perfect blend of craftsmanship and design will give your ring the complementary shine and bling. With Forevery, you can be assured of quality & finesse."
+  },
+  {
+    step: 4,
+    img : `${storImagePath()}/Forevery/static/4.png`,
+    title: "Completion",
+    Subtitle  :"Your dream ring is ready for collection.",
+    description: 'Your ring will be manufactured by our artisans and made available to you within the specified time committed to you. This whole process will be smooth and hassle-free owing to our reliable features of free shipping, free 30 Day returns and 60- Days free resizing. From the moment you conceived the idea of a tailor-made ring till the time you receive it, Forevery will be by your side.'  }
 ];

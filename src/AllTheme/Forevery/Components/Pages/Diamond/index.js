@@ -248,8 +248,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const Navigation = useNavigate();
   const location = useLocation();
   const getStepName = location?.pathname.split('/');
-  const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'))
-  console.log('getCustStepData: ', getCustStepData[1]?.Setting);
+  const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'))
+  // console.log('getCustStepData: ', getCustStepData[1]?.Setting);
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
 

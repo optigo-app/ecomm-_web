@@ -4,7 +4,6 @@ import React, {
   useState,
   forwardRef,
   useCallback,
-  useReducer,
 } from "react";
 import "./DiamondFilter.scss";
 import { DiamondLists } from "../../../data/NavbarMenu";
@@ -31,7 +30,7 @@ import {
   Slider,
   useMediaQuery,
 } from "@mui/material";
-import { json, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
@@ -42,37 +41,6 @@ import { SvgImg } from "../../../data/Dummy";
 import DiamondPage from "..";
 import debounce from "lodash.debounce";
 import { UseLabelGap } from "../../../hooks/UseLabelGap";
-
-const ACTIONS = {
-  SET_FILTER_DATA: "SET_FILTER_DATA",
-  SET_DIAMOND_LIST: "SET_DIAMOND_LIST",
-  SET_LOADING: "SET_LOADING",
-  SET_ERROR: "SET_ERROR",
-};
-
-// Reducer function to manage state
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.SET_FILTER_DATA:
-      return { ...state, filterData: action.payload };
-    case ACTIONS.SET_DIAMOND_LIST:
-      return { ...state, diamondList: action.payload };
-    case ACTIONS.SET_LOADING:
-      return { ...state, loading: action.payload };
-    case ACTIONS.SET_ERROR:
-      return { ...state, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-// Initial state
-const initialState = {
-  filterData: null,
-  diamondList: null,
-  loading: true,
-  error: null,
-};
 
 const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
@@ -121,10 +89,9 @@ const DiamondFilter = () => {
 
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [isFilterDataFetched, setIsFilterDataFetched] = useState(false);
+
   const [finalArray, setFinalArray] = useState({
-    Price: "" || [],
+    Price: [],
     Color: [],
     Clarity: [],
     Cut: [],
@@ -141,7 +108,6 @@ const DiamondFilter = () => {
   const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log(isloding)
   const loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
     const storeinitData = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -209,8 +175,8 @@ const DiamondFilter = () => {
   };
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
-    //("Selected Sort Value:", value);
-    //(label, "eikedekdb", categories);
+    console.log("Selected Sort Value:", value);
+    console.log(label, "eikedekdb", categories);
     setselectedsort({
       title: categories,
       sort: label,
@@ -245,7 +211,7 @@ const DiamondFilter = () => {
     }
   };
   const HandleDiamondRoute = (val) => {
-    //("hsahdjash", val);
+    console.log("hsahdjash", val);
     const obj = {
       a: val?.stockno,
       b: val?.shapename,
@@ -263,6 +229,11 @@ const DiamondFilter = () => {
       : null;
   };
 
+
+
+
+  
+
   const transformApiResponse = async (apiResponse) => {
     try {
       const data = apiResponse?.Data?.rd;
@@ -271,7 +242,7 @@ const DiamondFilter = () => {
 
       data.forEach((item) => {
         const options = JSON?.parse(item.options);
-        //(options);
+        console.log(options);
 
         // Create the base object
         const transformedItem = {
@@ -301,7 +272,7 @@ const DiamondFilter = () => {
       });
       return transformed;
     } catch (error) {
-      //(error);
+      console.log(error);
     }
   };
 
@@ -309,42 +280,15 @@ const DiamondFilter = () => {
     try {
       if (response && response.Data && response.Data.rd) {
         let resData = response?.Data?.rd;
-        sessionStorage?.setItem("filterMinMax", JSON?.stringify(resData[0]));
-        const data1 = resData[0];
-        const transformedData = {
-          price: {
-            label: "Price",
-            type: "range",
-            min: data1?.minprice,
-            max: data1?.maxprice,
-            default: [data1?.minprice, data1?.maxprice],
-          },
-          carat: {
-            label: "Carat",
-            type: "range",
-            min: data1?.mincarat,
-            max: data1?.maxcarat,
-            default: [data1?.mincarat, data1?.maxcarat],
-          },
-          depth: {
-            label: "Depth",
-            type: "range",
-            min: data1?.mindepth,
-            max: data1?.maxdepth,
-            default: [data1?.mindepth, data1?.maxdepth],
-          },
-          table: {
-            label: "Table",
-            type: "range",
-            min: data1?.mintable,
-            max: data1?.maxtable,
-            default: [data1?.mintable, data1?.maxtable],
-          },
-        };
-        const transformedArray = Object?.values(transformedData);
-        setApiData((prev) => {
-          return [...prev, ...transformedArray];
-        });
+        console.log(resData[0], "255");
+
+        const dataAvaible = JSON?.parse(
+          sessionStorage?.getItem("filterMinMax")
+        );
+        if (dataAvaible === null || dataAvaible === undefined) {
+          sessionStorage?.setItem("filterMinMax", JSON?.stringify(resData[0]));
+          await Transfromdata(resData[0]);
+        }
         const Newmap = resData?.map((val) => ({
           img: IMG,
           vid: Video,
@@ -361,147 +305,122 @@ const DiamondFilter = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      //(error, "processDiamondError");
+      console.log(error, "processDiamondError");
     }
   };
 
-  // const getDiamondData = async (shape, finalArray) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await DiamondListData(1, shape, "", finalArray);
-  //     if (response.Data.rd[0]?.stat != 0) {
-  //       processDiamondData(response);
-  //     } else {
-  //       return setDiamondData([]);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching diamond data:", error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const updateApiData = (transformedFilters) => {
-  //   //(transformedFilters, "325");
-  //   sessionStorage.setItem("extraVal21", JSON.stringify(transformedFilters));
-  //   setApiData((prev) => {
-  //     const transformedFiltersArray = Object?.entries(transformedFilters)?.map(
-  //       ([key, value]) => ({
-  //         type: key,
-  //         ...value,
-  //       })
-  //     );
-  //     return [...prev, ...transformedFiltersArray];
-  //     // const existingTypes = new Set(prev?.map((item) => item?.type));
-  //     // const newFilters = transformedFiltersArray?.filter(
-  //     //   (item) => !existingTypes?.has(item.type)
-  //     // );
-  //     // const updatedPrev = prev.filter(
-  //     //   (item) => !newFilters?.some((newItem) => newItem?.type === item?.type)
-  //     // );
-  //     // return [...updatedPrev, ...newFilters];
-  //   });
-  // };
-
-  // const getDiamondFilterData = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await DiamondFilterData();
-  //     if (response && response.Data) {
-  //       let resData = response.Data?.rd;
-  //       setDiamondFilterData(resData);
-  //       const transformedFilters = await transformApiResponse(response);
-  //       updateApiData(transformedFilters);
-  //       console.log("updateApiData", transformedFilters);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching diamond data:", error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const shape = location?.pathname?.split("/")[3];
-      setIsLoading(true)
-      try {
-        dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-        const filterData = await DiamondListData(1, shape, "", finalArray);
-        const data1 = filterData?.Data?.rd[0];
-        const resData = filterData?.Data?.rd ;
-        const Newmap = resData?.map((val) => ({
-          img: IMG,
-          vid: Video,
-          HaveCustomization: true,
-          ...val,
-        }));
-        setDiamondData(Newmap);
+  const Transfromdata = async (data) => {
+    try {
+      const resData = data || JSON.parse(sessionStorage.getItem("filterMinMax"));
+      if (resData && Object.keys(resData).length > 0) {
         const transformedData = {
           price: {
             label: "Price",
             type: "range",
-            min: data1?.minprice,
-            max: data1?.maxprice,
-            default: [data1?.minprice, data1?.maxprice],
+            min: resData?.minprice,
+            max: resData?.maxprice,
+            default: [resData?.minprice, resData?.maxprice],
           },
           carat: {
             label: "Carat",
             type: "range",
-            min: data1?.mincarat,
-            max: data1?.maxcarat,
-            default: [data1?.mincarat, data1?.maxcarat],
+            min: resData?.mincarat,
+            max: resData?.maxcarat,
+            default: [resData?.mincarat, resData?.maxcarat],
           },
           depth: {
             label: "Depth",
             type: "range",
-            min: data1?.mindepth,
-            max: data1?.maxdepth,
-            default: [data1?.mindepth, data1?.maxdepth],
+            min: resData?.mindepth,
+            max: resData?.maxdepth,
+            default: [resData?.mindepth, resData?.maxdepth],
           },
           table: {
             label: "Table",
             type: "range",
-            min: data1?.mintable,
-            max: data1?.maxtable,
-            default: [data1?.mintable, data1?.maxtable],
+            min: resData?.mintable,
+            max: resData?.maxtable,
+            default: [resData?.mintable, resData?.maxtable],
           },
         };
-        dispatch({ type: ACTIONS.SET_FILTER_DATA, payload: transformedData });
-        if (!isFilterDataFetched) {
-          const diamondListData = await DiamondFilterData();
-          const data = await transformApiResponse(diamondListData);
-          dispatch({
-            type: ACTIONS.SET_DIAMOND_LIST,
-            payload: data,
-          });
-          setIsFilterDataFetched(true);
-        }
-      } catch (error) {
-        dispatch({ type: ACTIONS.SET_ERROR, payload: error });
-        setIsLoading(false)
-      } finally {
-        dispatch({ type: ACTIONS.SET_LOADING, payload: false });
-        setIsLoading(false)
+        sessionStorage.setItem("extraVal", JSON.stringify(transformedData));
+        setApiData((prev) => {
+          const transformedArray = Object.values(transformedData);
+          return [
+            ...prev?.filter(
+              (item) =>
+                !["Price", "Carat", "Depth", "Table"].includes(item?.label)
+            ),
+            ...transformedArray,
+          ];
+        });
       }
-    };
+    } catch (error) {
+      console.error("Error transforming data:", error);
+    }
+  };
 
-    fetchData();
-  }, [location.pathname]);
+  const getDiamondData = async (shape, finalArray) => {
+    setIsLoading(true);
+    console.log("kjskdjkjsdkak", shape, finalArray);
+    try {
+      const response = await DiamondListData(1, shape, "", finalArray);
+      if (response.Data.rd[0]?.stat != 0) {
+        processDiamondData(response);
+        console.log("255", response);
+      } else {
+        return setDiamondData([]);
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const updateApiData = (transformedFilters) => {
+    console.log(transformedFilters, "325");
+    setApiData((prev) => {
+      const transformedFiltersArray = Object?.entries(transformedFilters)?.map(
+        ([key, value]) => ({
+          type: key,
+          ...value,
+        })
+      );
+      const existingTypes = new Set(prev?.map((item) => item?.type));
+      const newFilters = transformedFiltersArray?.filter(
+        (item) => !existingTypes?.has(item.type)
+      );
+      const updatedPrev = prev.filter(
+        (item) => !newFilters?.some((newItem) => newItem?.type === item?.type)
+      );
+      return [...updatedPrev, ...newFilters];
+    });
+  };
+
+  const getDiamondFilterData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await DiamondFilterData();
+      if (response && response.Data) {
+        let resData = response.Data?.rd;
+        setDiamondFilterData(resData);
+        const transformedFilters = await transformApiResponse(response);
+        updateApiData(transformedFilters);
+      }
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const { filterData, diamondList } = state;
-    const mergedData =
-    filterData && diamondList ? { ...filterData, ...diamondList } : {};
-    sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
-  }, [state]);
-
-  // useEffect(() => {
-  //   const dFilterData = JSON?.parse(
-  //     sessionStorage?.getItem("diamondFilterData")
-  //   );
-  //   if (dFilterData) {
-  //     getDiamondFilterData();
-  //   }
-  // }, []);
+    const dFilterData = JSON?.parse(
+      sessionStorage?.getItem("diamondFilterData")
+    );
+    if (dFilterData) {
+      getDiamondFilterData();
+    }
+  }, []);
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
@@ -531,7 +450,6 @@ const DiamondFilter = () => {
         [sliderType]: newValue,
       }));
 
-      console.log(sliderType ,newValue ,min ,max , "gh")
       setSliderLabels((prev) => {
         const existingTypeIndex = prev.findIndex(
           (item) => item.type === sliderType
@@ -553,6 +471,26 @@ const DiamondFilter = () => {
     }, 300),
     []
   );
+
+  useEffect(() => {
+    const updatedArray = {
+      Price: sliderState?.price,
+      Carat: sliderState?.Carat,
+      Color:
+        sliderLabels?.find((label) => label.type === "Color")?.labels || [],
+      Clarity:
+        sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
+      Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
+      polish: filtersData?.polish,
+      symmetry: filtersData?.symmetry,
+      lab: filtersData?.lab,
+      depth: filtersData?.depth,
+      table: filtersData?.table,
+      fluorescence: filtersData?.fluorescence,
+    };
+
+    setFinalArray(updatedArray);
+  }, [sliderState, sliderLabels, filtersData]);
 
   useEffect(() => {
     const pathname = location?.pathname.split("/");
@@ -601,27 +539,23 @@ const DiamondFilter = () => {
     });
   };
 
-const storedData = sessionStorage.getItem('filterMenu');
-const isDataHave = storedData ? JSON.parse(storedData) : null;
-const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(isDataHave).length > 0;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const getFilterdata = JSON.parse(
-          sessionStorage.getItem("filterMenu")
+          sessionStorage.getItem("diamondFilterData")
         );
+
         if (getFilterdata !== null && getFilterdata !== undefined) {
-          setFilterApiOptions(getFilterdata);
-          setFilters(getFilterdata);
           setSliderState({
-            price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
-            Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
+            price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+            Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
             Color: [0, 100],
             Clarity: [0, 100],
             Cut: [0, 100],
           });
-          // await getDiamondFilterData();
+
+          await getDiamondFilterData();
         } else {
           console.log("Filter data already available.");
         }
@@ -631,76 +565,54 @@ const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(is
     };
 
     fetchData();
-  }, [Condition]);
+  }, [sessionStorage.getItem("diamondFilterData")]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const storedData = JSON.parse(
-  //         sessionStorage.getItem("diamondFilterData")
-  //       );
-  //       const minmax = JSON.parse(sessionStorage.getItem("filterMinMax"));
-  //       if (storedData && Object.keys(storedData).length > 0) {
-  //         setFilterApiOptions(storedData);
-  //         //(storedData, "Data loaded from session storage");
-  //         setFilters(storedData);
-  //         return;
-  //       }
-  //       const apiObject = ApiData?.reduce((acc, val) => {
-  //         if (val?.label) {
-  //           acc[val?.label] = val;
-  //         }
-  //         return acc;
-  //       }, {});
-  //       //(apiObject, "644");
-  //       if (apiObject) {
-  //         sessionStorage.setItem(
-  //           "diamondFilterData",
-  //           JSON.stringify(apiObject)
-  //         );
-  //         //(apiObject, "Data processed and saved to session storage");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error handling session storage or API data:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [ApiData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedData = JSON.parse(
+          sessionStorage.getItem("diamondFilterData")
+        );
+        const minmax = JSON.parse(sessionStorage.getItem("filterMinMax"));
+        if (storedData && Object.keys(storedData).length > 0) {
+          setFilterApiOptions(storedData);
+          console.log(storedData, "Data loaded from session storage");
+          setFilters(storedData);
+          return;
+        }
+        const apiObject = ApiData?.reduce((acc, val) => {
+          if (val?.label) {
+            acc[val?.label] = val;
+          }
+          return acc;
+        }, {});
+        console.log(apiObject, "644");
+        if (apiObject) {
+          sessionStorage.setItem(
+            "diamondFilterData",
+            JSON.stringify(apiObject)
+          );
+          console.log(apiObject, "Data processed and saved to session storage");
+        }
+      } catch (error) {
+        console.error("Error handling session storage or API data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(sessionStorage.getItem("diamondFilterData"));
-  //   if (storedData === null || storedData === undefined) {
-  //     setFilterApiOptions(storedData);
-  //     setFilters(storedData);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const storedData = JSON.parse(sessionStorage.getItem("diamondFilterData"));
+    if (storedData === null || storedData === undefined) {
+      setFilterApiOptions(storedData);
+      setFilters(storedData);
+    }
+  }, []);
 
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
-    // getDiamondData(shape, finalArray);
+    getDiamondData(shape, finalArray);
   }, [location?.pathname]);
-
-  
-  useEffect(() => {
-    const updatedArray = {
-      Price: "" || sliderState?.price,
-      Carat: sliderState?.Carat,
-      Color:
-        sliderLabels?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
-      Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
-      polish: filtersData?.polish,
-      symmetry: filtersData?.symmetry,
-      lab: filtersData?.lab,
-      depth: filtersData?.depth,
-      table: filtersData?.table,
-      fluorescence: filtersData?.fluorescence,
-    };
-
-    setFinalArray(updatedArray);
-  }, [sliderState, sliderLabels, filtersData]);
-
 
   return (
     <>
@@ -795,7 +707,7 @@ const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(is
                 handleSliderChange("price", newValue)
               }
               open={open === "price"}
-              priceVal={FilterApiOptions?.price}
+              priceVal={FilterApiOptions?.Price}
             />
           </div>
           <div className="for_Color">
@@ -823,7 +735,7 @@ const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(is
               }
               data={sliderState?.Carat}
               ref={(el) => (dropdownRefs.current["Carat"] = el)}
-              CaratVal={FilterApiOptions?.carat}
+              CaratVal={FilterApiOptions?.Carat}
             />
           </div>
           <div className="for_Clarity">
@@ -875,7 +787,7 @@ const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(is
             </span>
           </div>
           <div className="more_filter_data">
-            {/* {Object?.keys(filters) &&
+            {Object.keys(filters) &&
               Object.keys(filters)?.map((filterType) => {
                 const filter = filters[filterType];
                 const filterData = filtersData[filterType] || filter.default;
@@ -983,7 +895,7 @@ const Condition = isDataHave && typeof isDataHave === 'object' && Object.keys(is
                   );
                 }
                 return null;
-              })} */}
+              })}
             {/* {["Depth", "Table"]?.map((filterType) => {
               const filter = filters[filterType];
               const filterData = filtersData[filterType] || filter?.default;
@@ -1264,7 +1176,7 @@ const CollectionPriceRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChangeCommitted={(e, newValue) => handleSliderChange(newValue)}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={priceVal?.min}
             max={priceVal?.max}
@@ -1318,7 +1230,7 @@ const CollectionCaratRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChangeCommitted={(e, newValue) => handleSliderChange(newValue)}
+            onChange={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
             min={CaratVal?.min}
             max={CaratVal?.max}
@@ -1394,8 +1306,8 @@ const CollectionColor = forwardRef(
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
       handleSliderChange(newValue, minLabel, maxLabel);
-      //("Slider values changed:", newValue);
-      //("Min label:", minLabel, "Max label:", maxLabel);
+      console.log("Slider values changed:", newValue);
+      console.log("Min label:", minLabel, "Max label:", maxLabel);
     };
     return (
       <div
@@ -1412,7 +1324,7 @@ const CollectionColor = forwardRef(
             aria-labelledby="range-slider"
             style={{ color: "black" }}
             name={marks}
-            onChangeCommitted={handleChange}
+            onChange={handleChange}
             size="small"
             min={marks[marks?.length - 1]?.value}
             max={marks[0]?.value}
@@ -1479,8 +1391,8 @@ const CollectionClarity = forwardRef(
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
       handleSliderChange(newValue, minLabel, maxLabel);
-      //("Slider values changed:", newValue);
-      //("Min label:", minLabel, "Max label:", maxLabel);
+      console.log("Slider values changed:", newValue);
+      console.log("Min label:", minLabel, "Max label:", maxLabel);
     };
     return (
       <div
@@ -1497,7 +1409,7 @@ const CollectionClarity = forwardRef(
             value={data}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChangeCommitted={handleChange}
+            onChange={handleChange}
             size="small"
             min={marks[marks?.length - 1]?.value}
             max={marks[0]?.value}
@@ -1562,8 +1474,8 @@ const CollectionCut = forwardRef(
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
       handleSliderChange(newValue, minLabel, maxLabel);
-      //("Slider values changed:", newValue);
-      //("Min label:", minLabel, "Max label:", maxLabel);
+      console.log("Slider values changed:", newValue);
+      console.log("Min label:", minLabel, "Max label:", maxLabel);
     };
 
     return (
@@ -1581,7 +1493,7 @@ const CollectionCut = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChangeCommitted={handleChange}
+            onChange={handleChange}
             size="small"
             min={marks[marks?.length - 1]?.value}
             max={marks[0]?.value}
@@ -1662,7 +1574,7 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
 //     const response = await DiamondListData(1, shape);
 //     if (response && response.Data) {
 //       let resData = response.Data?.rd;
-//       //("diamondlistResponse", response.Data);
+//       console.log("diamondlistResponse", response.Data);
 //       const Newmap = resData?.map((val, i) => {
 //         return {
 //           img: IMG,
@@ -1671,7 +1583,7 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
 //           ...val,
 //         };
 //       });
-//       //(Newmap, "swdwkhdwkdbwkbd");
+//       console.log(Newmap, "swdwkhdwkdbwkbd");
 //       setDiamondData(Newmap);
 //       let count = resData[0]?.icount
 //       setDiaCount(count)
@@ -1736,7 +1648,7 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
 //     sessionStorage?.getItem("diamondFilterData")
 //   );
 //   if (getFilterdata !== null || getFilterdata !== undefined) {
-//     //(getFilterdata, "gt");
+//     console.log(getFilterdata, "gt");
 //     setSliderState({
 //       price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
 //       Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
@@ -1748,6 +1660,6 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
 //   if (getFilterdata !== null || getFilterdata !== undefined) {
 //     getDiamondFilterData();
 //   } else {
-//     //("Filter data already available.");
+//     console.log("Filter data already available.");
 //   }
 // }, []);
