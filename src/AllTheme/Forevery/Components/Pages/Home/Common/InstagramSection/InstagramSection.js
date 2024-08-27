@@ -4,12 +4,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import {  Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import { useEffect, useRef } from "react";
+import useInstagramPosts from "../../../../hooks/UseInstagram";
 
 const InstagramSection = () => {
   const instaFrame = `${storImagePath()}/Forevery/frame.png`;
   const instaLogo = `${storImagePath()}/Forevery/instagram-draw.png`;
+  const { posts, loading, error } = useInstagramPosts("foreverydiamonds");
   const swiperRef = useRef(null);
 
   useEffect(() => {
@@ -17,19 +19,23 @@ const InstagramSection = () => {
     const updateOpacity = () => {
       const slides = swiperInstance.slides;
       slides.forEach((slide, index) => {
-        // Check if the slide is the center one
         const isActive = swiperInstance.activeIndex + 2 === index;
         slide.style.opacity = isActive ? "1" : "0.5";
       });
     };
 
-    updateOpacity(); // Initial call to set the correct opacity
-    swiperInstance.on("slideChange", updateOpacity); // Update opacity on slide change
+    updateOpacity(); 
+    swiperInstance.on("slideChange", updateOpacity); 
 
     return () => {
-      swiperInstance.off("slideChange", updateOpacity); // Clean up event listener
+      swiperInstance.off("slideChange", updateOpacity); 
     };
   }, []);
+
+  const postlist = posts?.map((val, i) => {
+    return { imageUrl: val?.node?.image_versions2?.candidates[0]?.url };
+  });
+
   return (
     <div className="for_InstagramSection">
       <div className="for_heading">
@@ -60,10 +66,10 @@ const InstagramSection = () => {
             modules={[Pagination, Autoplay]}
             className="mySwiper"
           >
-            {Array.from({ length: 10 }).map((val, i) => {
+            {Array.from({ length: 12 })?.map((val, i) => {
               return (
                 <SwiperSlide>
-                  <InstaCard />
+                  <InstaCard src={val?.imageUrl} />
                 </SwiperSlide>
               );
             })}
@@ -76,11 +82,18 @@ const InstagramSection = () => {
 
 export default InstagramSection;
 
-const InstaCard = () => {
+const InstaCard = ({ src }) => {
   const image = `${storImagePath()}/Forevery/insta.jpg`;
   return (
     <div className="insta_card">
-      <img src={image} alt="" />
+      <img
+        src={src || image}
+        alt=""
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = image;
+        }}
+      />
     </div>
   );
 };
