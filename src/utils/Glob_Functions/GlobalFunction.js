@@ -1,5 +1,4 @@
 export function storImagePath() {
-  let storeinit = JSON.parse(localStorage.getItem("storeInit"))
   let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`

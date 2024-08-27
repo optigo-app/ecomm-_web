@@ -37,7 +37,6 @@ const WishItem = ({
     }, [])
 
     const handleWishlistToCartFun = async (item) => {
-        debugger
         setloding(true);
         const returnValue = await handleWishlistToCart(item);
         console.log('returnValue',returnValue);
