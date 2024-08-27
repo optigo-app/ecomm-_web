@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation from react-router-dom
+import { useLocation } from "react-router-dom";
 import "./App.css"; // Ensure you create this CSS file for styling
 
 const Preloader = () => {
@@ -9,6 +9,11 @@ const Preloader = () => {
   const location = useLocation(); // Get current location
 
   useEffect(() => {
+    // Reset the preloader state
+    setLoaded(false);
+    setWidth(0);
+    setPercentage(0);
+
     // Simulate load event timing
     const perfData = window.performance.timing;
     const estimatedTime = -(perfData.loadEventEnd - perfData.navigationStart);
@@ -50,12 +55,13 @@ const Preloader = () => {
     animatePercentage();
 
     // Simulate preloader fade-out
-    setTimeout(() => {
+    const fadeTimeout = setTimeout(() => {
       setLoaded(true);
     }, time);
 
     // Cleanup and reset preloader state on location change
     return () => {
+      clearTimeout(fadeTimeout);
       setLoaded(false);
       setWidth(0);
       setPercentage(0);
@@ -63,7 +69,7 @@ const Preloader = () => {
   }, [location]);
 
   return (
-    <div className={`for_preloader-wrap ${!loaded ? "fade-in" : "fade-out"}`}>
+    <div className={`for_preloader-wrap ${loaded ? "fade-out" : "fade-in"}`}>
       <div className="for_loader">
         <div className="for_trackbar">
           <div className="for_loadbar" style={{ width: `${width}%` }}></div>

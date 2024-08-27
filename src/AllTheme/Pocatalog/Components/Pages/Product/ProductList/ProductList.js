@@ -543,10 +543,7 @@ const ProductList = () => {
         StatusId
       };
     });
-
-    console.log("finalProdWithPrice", finalProdWithPrice);
     setFinalProductListData(finalProdWithPrice);
-    // console.log("SoketData",SoketData);
   }, [productListData, SoketData]);
 
   // useEffect(()=>{

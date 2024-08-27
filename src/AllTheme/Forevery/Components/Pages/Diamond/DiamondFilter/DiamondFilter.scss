@@ -376,7 +376,7 @@
       height: auto;
       grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
       gap: 10px;
-      padding: 16px 10px;
+      padding: 0px 10px;
       .filter_card {
         height: auto;
         padding: 10px 0;
@@ -398,7 +398,7 @@
           align-items: center;
           width: 50%;
           justify-content: space-between;
-          padding-left: 25px;
+          padding-left: 15px;
           input {
             width: 25%;
             text-align: left;
@@ -416,7 +416,21 @@
           font-weight: 400;
           text-transform: uppercase;
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+          label {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            color: #5e5e5ec9;
+            gap: 0;
+            margin-left: 8px;
+            .checkbox {
+              border-radius: 0%;
+              padding: 5px 2px;
+            }
+          }
         }
       }
     }

@@ -8,6 +8,7 @@ export const Storeinit = async (param) => {
     || window.location.hostname === 'zen'
     || window.location.hostname === 'fgstore.web'
     || window.location.hostname === 'fgstore.mapp'
+    || window.location.hostname === 'fgstorepro.mapp'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
     
