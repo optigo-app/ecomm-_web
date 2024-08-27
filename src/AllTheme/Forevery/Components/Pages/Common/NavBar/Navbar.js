@@ -26,10 +26,11 @@ import {
 import Cookies from "js-cookie";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
-import { Badge } from "@mui/material";
+import { Badge, Dialog, DialogContent } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Preloader from "../../../../../../dum/Load";
+import { RxCross1 } from "react-icons/rx";
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -505,6 +506,13 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
   );
 };
 const FirstNavMenu = ({ data }) => {
+  const navigate = useNavigate();
+
+  const HandleDiamondNavigation = () => {
+    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+    const step1 = [{ "step1": true, "Setting": 'Ring' }];
+    sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+  };
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -514,7 +522,7 @@ const FirstNavMenu = ({ data }) => {
             <div className="for_col_1">
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
-                <span class="ring-type">
+                <span class="ring-type" onClick={() => HandleDiamondNavigation()}>
                   <GiDiamondRing size={15} /> start with a setting
                 </span>
                 <span class="ring-type">
@@ -582,31 +590,65 @@ const FirstNavMenu = ({ data }) => {
   );
 };
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
   const Navigate = useNavigate();
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null;
+
+  const handleCheckSteps = () => {
+    if (checkSteps) {
+      setShowModal(true);
+    } else {
+      console.log('Alternative action');
+    }
+  };
+
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     setCustomizeStep({
       step1: true,
       step2: false,
       step3: false,
-    })
-    const step1 = [{ "step1": true, "shape": shape }]
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    });
+    const step1 = [{ "step1": true, "shape": shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
+
+  const handleRemoveData = () => {
+    sessionStorage.removeItem('customizeSteps');
+    sessionStorage.removeItem('custStepData');
+    Navigate('/');
+    handleToggle();
+  }
+
   return (
     <div className="Second_Nav_first_Menu">
       <div className="for_first_col">
         <h3>Lab Grown Diamonds</h3>
         <div className="for_ring_section">
           <div className="for_col_2">
-            <h3>shop By style</h3>
-            <div class="ring-types-col">
+            <h3>Shop By Style</h3>
+            <div className="ring-types-col">
               {diamondShapes?.map((val, i) => {
                 return (
-                  <span onClick={() => HandleDiamondNavigation(val?.name)}>
-                    <img src={val?.img} alt="" width={15} height={15} />
-                    {val?.name}
-                  </span>
+                  <>
+                    {checkSteps ? (
+                      <span onClick={() => handleCheckSteps()}>
+                        <img src={val?.img} alt="" width={15} height={15} />
+                        {val?.name}
+                      </span>
+                    ) : (
+                      <span onClick={() => HandleDiamondNavigation(val?.name)}>
+                        <img src={val?.img} alt="" width={15} height={15} />
+                        {val?.name}
+                      </span>
+                    )}
+                  </>
                 );
               })}
               <span className="view-all-last">View All</span>
@@ -615,21 +657,21 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         </div>
       </div>
       <div className="for_second_col">
-        <h3>Build Your Jewlery</h3>
+        <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
-          {SideItems?.map((val, i) => {
-            return (
-              <span class="ring-type">
-                <img src={val?.img} alt="" width={18} height={18} />
-                {val?.name}
-              </span>
-            );
-          })}
+          {SideItems?.map((val, i) => (
+            <span className="ring-type" key={i}>
+              <img src={val?.img} alt="" width={18} height={18} />
+              {val?.name}
+            </span>
+          ))}
         </div>
       </div>
       <div className="for_third_col">
         <img src={commonImage} alt="" />
       </div>
+
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
     </div>
   );
 };
@@ -845,3 +887,57 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
+
+const Modal = ({
+  open,
+  handleClose,
+  handleRemoveData,
+}) => {
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          '& .MuiDialog-root': {
+            zIndex: 9999,
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: 'transparent',
+            border: '1px solid white',
+            zIndex: 9999,
+          },
+          '& .MuiDialogContent-root': {
+            padding: '10px',
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: '0px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className='for_modal_cancel_nav_btn' size={'12px'} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className='for_modal_nav_title'>
+              You have already selected mount & diamond, would you like to view it?
+            </span>
+            <div className="for_modal_buttons_nav_div">
+              <button onClick={() => {
+                handleClose();
+              }}>Yes</button>
+              <button onClick={() => { handleRemoveData() }}>No</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
