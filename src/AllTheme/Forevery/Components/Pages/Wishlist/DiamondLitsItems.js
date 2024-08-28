@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 
-const WishlistItems = ({
+const DiamondLitsItems = ({
     item,
     diamondValue,
     itemInCart,
@@ -47,7 +47,8 @@ const WishlistItems = ({
     };
 
     const handleRemoveItemFun = async (item) => {
-        const returnValue = await handleRemoveItem(item);
+        const isdiamond = "isdiamond"
+        const returnValue = await handleRemoveItem(item,isdiamond);
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
                 setWishCountVal(res?.wishcount);
@@ -69,17 +70,17 @@ const WishlistItems = ({
         <>
             <Grid
                 item
-                xs={itemsLength <= 2 ? 6 : 6}
-                sm={itemsLength <= 2 ? 4 : 4}
-                md={itemsLength <= 2 ? 4 : 4}
-                lg={itemsLength <= 2 ? 3 : 3}
+                xs={diamondValue?.length <= 2 ? 6 : 6}
+                sm={diamondValue?.length <= 2 ? 4 : 4}
+                md={diamondValue?.length <= 2 ? 4 : 4}
+                lg={diamondValue?.length <= 2 ? 3 : 3}
                 className="for_wlListGrid"
             >
                 <Card className="for_WlListCard">
                     <div className="for_cardContentMainDiv">
                         <CardMedia
                             component="img"
-                            image={imageSrc}
+                            image={`https://www.freeiconspng.com/thumbs/diamond-png/diamond-png-6.jpg`}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
                             onClick={() => handleMoveToDetail(item)}
@@ -90,69 +91,35 @@ const WishlistItems = ({
                                     variant="body2"
                                     className="for_card-ContentData for_WlTitleline"
                                 >
-                                    {item?.designno != "" && item?.designno}
-                                    {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                    SKU:{" "}{item?.stockno != "" && item?.stockno}
                                 </Typography>
                                 <Typography variant="body2" className="for_card-ContentData">
-                                    <span className="for_wishDT">GWT: </span>
-                                    <span className="for_wishDT">
-                                        {(item?.Gwt || 0)?.toFixed(3)}
+                                    <span>
+                                        {item?.carat}{" "}
+                                        Carat {item?.colorname} {item?.clarityname}{" "}
+                                        {item?.cutname} Cut {item?.shapename} Diamond
                                     </span>
-                                    <span className="for_wishDT">NWT : </span>
-                                    <span className="for_wishDT">
-                                        <span className="for_pipes"> | </span>
-                                        {(item?.Nwt || 0)?.toFixed(3)}
-                                    </span>
-                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                                        <>
-                                            <span className="for_pipes"> | </span>
-                                            <span className="for_wishDT">DWT: </span>
-                                            <span>
-                                                {(item?.Dwt || 0)?.toFixed(3)} /
-                                                {(item?.Dpcs || 0)}
-                                            </span>
-                                        </>
-                                    }
-                                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                                        <>
-                                            <span className="for_pipes"> | </span>
-                                            <span className="for_wishDT">CWT: </span>
-                                            <span>
-                                                {(item?.CSwt || 0)?.toFixed(3)} /
-                                                {(item?.CSpcs || 0)}
-                                            </span>
-                                        </>
-                                    }
                                 </Typography>
                                 <Typography variant="body2" className="for_card-ContentData">
-                                    {item?.metalcolorname !== "" && (
-                                        <span>{item.metalcolorname}</span>
-                                    )}
-                                    {item?.metalcolorname !== "" &&
-                                        item?.metaltypename !== "" && <span> - </span>}
-                                    {item?.metaltypename !== "" && (
-                                        <span>{item?.metaltypename}</span>
-                                    )}
-                                    {" / "}
                                     <span className="for_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>{" "}
-                                    <span>{formatter(item?.FinalCost)}</span>
+                                    <span>{formatter(item?.price)}</span>
                                 </Typography>
                             </div>
                         </CardContent>
                         <div className="for_Wl-CartbtnDiv">
                             <button
                                 className="for_Wl-Cartbtn"
-                                onClick={() => handleWishlistToCartFun(item)}
+                            // onClick={() => handleWishlistToCartFun(item)}
                             >
-                                {item?.IsInCart != 1 ? "Add to cart +" : "In cart"}
+                                {item?.IsInCart != 1 ? "Select This Diamond" : "In cart"}
                             </button>
                         </div>
                     </div>
                     <div
                         className="for_closeWlIconDiv"
-                        onClick={(e) => handleRemoveItemFun(item)}
+                    onClick={(e) => handleRemoveItemFun(item)}
                     >
                         <CloseIcon className="closeWlIcon" />
                     </div>
@@ -162,4 +129,4 @@ const WishlistItems = ({
     );
 };
 
-export default WishlistItems;
+export default DiamondLitsItems;
