@@ -19,7 +19,7 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 
 const CartItem = ({
   item,
-  diamondValue,
+  itemlength,
   index,
   CartCardImageFunc,
   onSelect,
@@ -42,7 +42,7 @@ const CartItem = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(noImageFound);
   const [open, setOpen] = useState(false);
-  const [remark, setRemark] = useState(item.Remarks || '');
+  const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(for_CartCount)
   const [storeInitData, setStoreInitData] = useState();
@@ -109,6 +109,8 @@ const CartItem = ({
       setImageSrc(noImageFound);
     }
   }, [item]);
+
+
 
   return (
     <>
@@ -188,51 +190,6 @@ const CartItem = ({
           <button className="for_remove-button" onClick={() => handleRemoveItem(item, index)}>×</button>
         </div>
       </div>
-      {diamondValue?.map((diaData) => (
-        <div className="for_cart-item"
-          style={{
-            // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
-            boxShadow: "none",
-            border: !multiSelect && !isMobileScreen && selectedItem?.id == diaData?.id && '1px solid rgba(223, 100, 126, 1)'
-          }}
-        // onClick={() => onSelect(diaData)}
-        >
-          <div className="for_cart-item__image">
-            <img src={`https://www.freeiconspng.com/thumbs/diamond-png/diamond-png-6.jpg`} alt='Product-image' />
-          </div>
-          <div className="for_cart-item__details">
-            <div className="for_weightsContainer">
-              <span>
-                {diaData?.carat}{" "}
-                Carat {diaData?.colorname} {diaData?.clarityname}{" "}
-                {diaData?.cutname} Cut {diaData?.shapename} Diamond
-              </span>
-            </div>
-            <div className='for_diamondSKUNO'>
-              <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
-            </div>
-            {/* {item?.Size != "" &&
-            <p className='for_ringSize'>Ring Size: {item?.Size}</p>
-          } */}
-            {/* <span className="for_change-size">CHANGE SIZE</span> */}
-          </div>
-          {storeInitData?.IsPriceShow == 1 &&
-            <div className="for_cart-item__price">
-              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
-              <span className="for_price-excl-vat">(Excl. VAT)</span>
-            </div>
-          }
-          {storeInitData?.IsPriceShow == 1 &&
-            <div className="for_cart-item__total-price">
-              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diaData?.price)}</p>
-              <span className="for_price-excl-vat">(Excl. VAT)</span>
-            </div>
-          }
-          <div className="for_cart-item__remove">
-            <button className="for_remove-button" onClick={() => handleRemoveItem(item, index)}>×</button>
-          </div>
-        </div>
-      ))}
     </>
   );
 };

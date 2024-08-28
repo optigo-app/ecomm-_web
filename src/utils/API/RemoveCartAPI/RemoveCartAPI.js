@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const removeFromCartList = async (data,param, visiterId) => {
+export const removeFromCartList = async (data, param, visiterId, isdiamond) => {
   try {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) || {};
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail")) || {};
@@ -21,7 +21,18 @@ export const removeFromCartList = async (data,param, visiterId) => {
         Cartidlist: "",
         isdelete_all: '1'
       });
-    } else {
+    }else if(isdiamond == "isdiamond"){
+      combinedValue = JSON.stringify({
+        ForEvt: param,
+        FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+        Customerid: `${customerId ?? 0}`,
+        autocode: "",
+        Cartidlist: "",
+        isdelete_all: '',
+        stockno : `${data?.stockno ?? ""}`
+      });
+    } 
+    else {
       combinedValue = JSON.stringify({
         ForEvt: param,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,

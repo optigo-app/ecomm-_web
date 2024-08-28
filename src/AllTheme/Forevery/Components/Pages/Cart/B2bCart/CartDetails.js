@@ -41,16 +41,26 @@ const CartDetails = ({
   }, [selectedItem]);
 
   console.log('selectediTem', selectedItem);
+  const keyToCheck = "stockno"
   return (
     <div className="for_cart-container">
       <div className="for_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='for_cartImage' /> */}
-        <img 
-        src={imageSrc} 
-        alt="image" 
-        className='for_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+        {!selectedItem?.hasOwnProperty(keyToCheck) ? (
+          <img
+            src={imageSrc}
+            alt="image"
+            className='for_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        ) :
+          <img
+            src='https://www.freeiconspng.com/thumbs/diamond-png/diamond-png-6.jpg'
+            alt="image"
+            className='for_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        }
       </div>
       <Customization
         ispriceloding={ispriceloding}
