@@ -34,7 +34,7 @@ export const DiamondListData = async (
       PageSize: `${storeInit?.PageSize ?? 50}`,
       OrderBy: "order by carat asc",
       FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-      Customerid: `${customerId}`,
+      Customerid: `${customerId ?? 0}`,
       PackageId: packageId,
       Shape: `${shape ?? ''}`,
       Polish: `${polish ?? []}`,

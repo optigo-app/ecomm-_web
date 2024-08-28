@@ -141,6 +141,12 @@ const Home = () => {
     WebLoginWithMobileToken(token)
       .then((response) => {
         if (response.Data.rd[0].stat === 1) {
+
+          let Data = localStorage.getItem('navigateUrl');
+          let isNavigate = (Data === 'true');
+          if (isNavigate) {
+            navigation("/payment");
+          }
           const visiterID = Cookies.get('visiterId');
           setislogin(true);
           sessionStorage.setItem("LoginUser", true);
@@ -183,13 +189,12 @@ const Home = () => {
             }
           }).catch((err) => console.log(err))
 
-
-          navigation("/");
-          if (redirectEmailUrl) {
-            navigation(redirectEmailUrl);
-          } else {
-            navigation("/");
-          }
+          // navigation("/");
+          // if (redirectEmailUrl) {
+          //   navigation(redirectEmailUrl);
+          // } else {
+          //   navigation("/");
+          // }
         }
       })
       .catch((err) => console.log(err));
@@ -211,7 +216,7 @@ const Home = () => {
       <TopSection />
       {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection />} */}
       {/* {localData?.IsHomeAlbum === 1 && */}
-       <Album />
+      <Album />
       {/* //  } */}
       {/* <PromotionBaner1 />
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}

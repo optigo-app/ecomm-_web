@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { FaChevronRight } from "react-icons/fa";
 import { LuBox } from "react-icons/lu";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdContactEmergency, MdFavoriteBorder } from "react-icons/md";
 import { IoGiftOutline } from "react-icons/io5";
 import { FaHeadset } from "react-icons/fa6";
 import { smrMA_loginState } from '../../Recoil/atom';
@@ -88,6 +88,7 @@ export default function Account() {
     const handleLogout = () => {
         navigation("/");
         setIsLoginState(false);
+        localStorage.clear();
         sessionStorage.setItem("LoginUser", false);
         sessionStorage.removeItem("storeInit");
         sessionStorage.removeItem("loginUserDetail");
@@ -99,7 +100,6 @@ export default function Account() {
         sessionStorage.removeItem("remarks");
         sessionStorage.removeItem("registerMobile");
         sessionStorage.removeItem("allproductlist");
-        sessionStorage.clear();
         sessionStorage.clear();
         window.location.reload();
     }
@@ -123,9 +123,9 @@ export default function Account() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', marginTop: '10px', paddingInline: '10px' }}>
-                        <div className='boxMainTopSection' onClick={() => naviagation('/Coupons')}>
-                            <IoGiftOutline style={{ marginLeft: '15px' }} />
-                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Coupons</p>
+                        <div className='boxMainTopSection' onClick={() => naviagation('/ContctUs')}>
+                            <MdContactEmergency style={{ marginLeft: '15px' }} />
+                            <p style={{ margin: '0px 0px 0px 10px', fontWeight: 600, fontSize: '15px' }}>Contct Us</p>
                         </div>
                         <div className='boxMainTopSection' style={{ marginRight: '0px' }} onClick={() => naviagation('/HelpCenter')}>
                             <FaHeadset style={{ marginLeft: '15px' }} />

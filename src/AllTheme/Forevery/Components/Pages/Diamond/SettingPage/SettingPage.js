@@ -93,6 +93,8 @@ const SettingPage = () => {
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
+  const [Shape, setShape] = useState(null);
+  console.log('Shape: ', Shape);
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -170,17 +172,33 @@ const SettingPage = () => {
   };
 
   useEffect(() => {
+    const extractShape = () => {
+      const urlPath = location?.pathname?.slice(1).split("/");
+      const shapeParam = urlPath?.[3]?.split('=');
+
+      if (shapeParam?.[0] === 'diamond_shape') {
+        return shapeParam?.[1] || ''; // Return shape or empty string
+      }
+      return ''; // Default to empty string if shape is not present
+    };
+
+    const shapeFromUrl = extractShape();
+    setShape(shapeFromUrl);
+  }, [location?.pathname]);
+
+  // Fetch data based on shape and other parameters
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-        let UrlVal = location?.pathname?.slice(1).split("/");
-        console.log('UrlVal: ', UrlVal);
+        if (!Shape) return; // Don't fetch if shape is not available
 
+        const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+        const UrlVal = location?.pathname?.slice(1).split("/");
         let MenuVal = "";
         let productlisttype;
 
         UrlVal.forEach((ele) => {
-          let firstChar = ele.charAt(0);
+          const firstChar = ele.charAt(0);
 
           switch (firstChar) {
             case "M":
@@ -192,31 +210,22 @@ const SettingPage = () => {
         });
 
         if (MenuVal.length > 0) {
-          let menuDecode = atob(MenuVal?.split("=")[1]);
-          let key = menuDecode?.split("/")[1].split(",");
-          let val = menuDecode?.split("/")[0].split(",");
-          // setIsBreadcumShow(true)
+          const menuDecode = atob(MenuVal?.split("=")[1]);
+          const key = menuDecode?.split("/")[1].split(",");
+          const val = menuDecode?.split("/")[0].split(",");
           productlisttype = [key, val];
         }
         setprodListType(productlisttype);
         setIsProdLoading(true);
+
         console.log('MenuVal: ', MenuVal);
+        console.log('productlisttype: ', productlisttype);
 
-        if (isRing === 'Ring') {
-          const res = await ProductListApi({ category: "1" }, 1, obj, productlisttype, cookie);
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
+        const res = await ProductListApi({}, 1, obj, productlisttype, (Shape ?? ''), cookie, "");
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
-        else {
-          const res = await ProductListApi({ category: "13" }, 1, obj, productlisttype, cookie);
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-        }
-
       } catch (error) {
         console.error("Error fetching product list:", error);
       }
@@ -229,41 +238,25 @@ const SettingPage = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
-  }, [location?.key, isRing]);
+  }, [Shape, location?.key]);
 
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
       setIsOnlySettLoading(true);
-      if (isRing === 'Ring') {
-        ProductListApi({ category: '1' }, 1, obj, prodListType, cookie)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .catch((err) => console.log("err", err))
-          .finally(() => {
-            setIsOnlySettLoading(false);
-          });
-      }
-      else {
-        ProductListApi({ category: '13' }, 1, obj, prodListType, cookie)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .catch((err) => console.log("err", err))
-          .finally(() => {
-            setIsOnlySettLoading(false);
-          });
-      }
+      ProductListApi({}, 1, obj, prodListType, (Shape ?? ''), cookie)
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlySettLoading(false);
+        });
     }
   }, [selectedMetalId, selectedDiaId]);
 
@@ -337,36 +330,19 @@ const SettingPage = () => {
         behavior: 'smooth'
       })
     }, 100)
-    if (isRing === 'Ring') {
-      ProductListApi({ category: '1' }, value, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err)).finally(() => {
-          setTimeout(() => {
-            setIsProdLoading(false)
-          }, 100);
-        })
-    }
-    else {
-      ProductListApi({ category: '13' }, value, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err)).finally(() => {
-          setTimeout(() => {
-            setIsProdLoading(false)
-          }, 100);
-        })
-    }
+    ProductListApi({}, value, obj, prodListType, (Shape ?? ''), cookie, sortBySelect)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err)).finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false)
+        }, 100);
+      })
   }
 
   const handleSortby = async (e) => {
@@ -378,34 +354,18 @@ const SettingPage = () => {
 
     let sortby = e.target?.value
 
-    if (isRing === 'Ring') {
-      await ProductListApi({ category: '1' }, 1, obj, prodListType, cookie, sortby)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlySettLoading(false)
-        })
-    }
-    else {
-      await ProductListApi({ category: '13' }, 1, obj, prodListType, cookie, sortby)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlySettLoading(false)
-        })
-    }
+    await ProductListApi({}, 1, obj, prodListType, (Shape ?? ''), cookie, sortby)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlySettLoading(false)
+      })
 
   }
 
@@ -989,7 +949,7 @@ const Product_Card = ({
               readOnly
             />
           </div>
-          <div className="forWeb_app_product_label">
+          <div className="forWeb_app_product_label_set">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
             {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}

@@ -393,7 +393,7 @@ const ProductList = () => {
         setprodListType(productlisttype);
         setIsProdLoading(true);
 
-        const res = await ProductListApi({}, 1, obj, productlisttype, cookie);
+        const res = await ProductListApi({}, 1, obj, productlisttype, "", cookie);
         const res1 = await FilterListAPI(productlisttype, cookie);
 
         if (res) {
@@ -423,7 +423,7 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie)
+      ProductListApi({}, 1, obj, prodListType, "", cookie)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -537,7 +537,7 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi(output, 1, obj, prodListType, cookie)
+      ProductListApi(output, 1, obj, prodListType, "", cookie)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -561,7 +561,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, cookie, sortby)
+    await ProductListApi({}, 1, obj, prodListType, "", cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -650,7 +650,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect)
+    ProductListApi({}, value, obj, prodListType, "", cookie, sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1229,7 +1229,7 @@ const Product_Card = ({
               readOnly
             />
           </div>
-          <div className="forWeb_app_product_label">
+          <div className="forWeb_app_product_label_prd">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
             {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}

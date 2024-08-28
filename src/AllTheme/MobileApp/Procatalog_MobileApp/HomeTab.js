@@ -112,11 +112,10 @@ const HomeTab = () => {
               </Button>
             </NavLink>}
 
-          {islogin === true ?
+          {/* {islogin === true ? */}
             <NavLink to="/CartPage" style={styles.tab} activeClassName="active"
               onClick={() => {
                 handleTabChange("/CartPage");
-                // handleClick();
               }}
             >
               <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
@@ -134,27 +133,18 @@ const HomeTab = () => {
                 <span style={activeTab === "/CartPage" ? styles.activeText : styles.text}>Cart</span>
               </Button>
             </NavLink>
-            :
+            {/* :
             <NavLink to="/WithoutLoginCart" style={styles.tab} activeClassName="active"
               onClick={() => {
                 handleTabChange("/WithoutLoginCart");
-                // handleClick();
               }}
             >
               <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
-                {/* <Badge
-                  badgeContent={getCartListCount}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  style={{ marginInline: '10px' }}
-                > */}
-                {/* <Tooltip title="Cart"> */}
                 <FaShoppingCart style={activeTab === "/WithoutLoginCart" ? styles.activeIcon : styles.icon} />
-                {/* </Tooltip> */}
-                {/* </Badge> */}
                 <span style={activeTab === "/WithoutLoginCart" ? styles.activeText : styles.text}>Cart</span>
               </Button>
-            </NavLink>}
+            </NavLink>
+            } */}
 
           <NavLink to="/ContctUs" style={styles.tab} activeClassName="active" onClick={() => handleTabChange("/ContctUs")}>
             <Button style={{ display: 'flex', flexDirection: 'column', color: 'rgb(102, 102, 102)' }}>
