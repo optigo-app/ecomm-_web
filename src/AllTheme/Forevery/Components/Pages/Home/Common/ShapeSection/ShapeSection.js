@@ -11,8 +11,9 @@ const ShapeSection = () => {
     <div className="for_ShapeSection">
       <div className="shape_Section">
         <div className="head">
-          <span>Explore With Diamond shapes </span>
+          <h3>Explore With Diamond shapes </h3>
         </div>
+        <div className="shape_list">
         {DiamondLists?.slice(0, DiamondLists.length - 3)?.map((val, i) => {
           return (
             <div className="shape_card_for" onClick={() => handleMoveTo(val?.name)}>
@@ -21,6 +22,7 @@ const ShapeSection = () => {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );
