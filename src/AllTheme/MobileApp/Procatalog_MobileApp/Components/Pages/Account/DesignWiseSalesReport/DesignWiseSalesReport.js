@@ -208,19 +208,19 @@ const DesignWiseSalesReport = () => {
             let todat = moment(todates);
             if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-                
+
                 let salescount = dataRd2?.reduce((acc, cObj) => {
                     let cutDate = cObj?.["Date"]?.split(" ");
                     cutDate = `${cutDate[2]}-${cutDate[1]}-${cutDate[0]}`;
                     let cutDat = moment(cutDate);
-                    if(moment(fromdat).isSameOrBefore(todat)){   
+                    if (moment(fromdat).isSameOrBefore(todat)) {
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (e?.designno === cObj?.designno && (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat))) {
                             return acc + cObj?.salescount;
                         } else {
                             return acc;
                         }
-                    }else{
+                    } else {
                         setTimeout(() => {
                             resetAllFilters();
                         }, 0);
@@ -235,9 +235,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-                   
+
                     return acc + cObj?.salescount;
-             
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -256,9 +256,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-          
+
                     return acc + cObj?.salescount;
-               
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -281,7 +281,7 @@ const DesignWiseSalesReport = () => {
                     datass?.push(obj);
                 }
             }
-        //   } 
+            //   } 
         });
         datass?.forEach((e, i) => {
             let flags = {
@@ -306,10 +306,10 @@ const DesignWiseSalesReport = () => {
                     flags.grossWt = true;
                 }
             }
-            if(e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())){
+            if (e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())) {
                 flags.designNo = true;
             }
-           
+
             switch (purchase_Count?.toLowerCase()) {
                 case "all":
                     flags.purchaseCount = true;
@@ -402,7 +402,7 @@ const DesignWiseSalesReport = () => {
             // };
             // const response = await CommonAPI(body);
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
                 resetAllFilters();
                 let datass = [];
@@ -537,285 +537,286 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
-        <>
-        <div className='sticky-header'>
-            <MobViewHeader title="Design Wise Report" />
-        </div>
+        <div className='proCatApp_desisnwiseSaleReportMain'>
+            <div className='sticky-header'>
+                <MobViewHeader title="Design Wise Report" />
+            </div>
             <Box className="designWiseSalesReport mt-2  ">
                 <Accordion>
-                    <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         More Filters
                     </AccordionSummary>
-                    <AccordionDetails>
-                    <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
-                    </Box>
-            
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Date From"
-                                value={fromDate}
-                                ref={fromDateRef}
-                                format="DD MM YYYY"
-                                className='quotationFilterDates'
-                                onChange={(newValue) => {
-                                    if (newValue === null) {
-                                        setFromDate(null)
-                                    } else {
-                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                            setFromDate(newValue)
-                                        } else {
-                                            Swal.fire({
-                                                title: "Error !",
-                                                text: "Enter Valid Date From",
-                                                icon: "error",
-                                                confirmButtonText: "ok"
-                                            });
-                                            resetAllFilters();
-                                        }
-                                    }
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Box>
-                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Date To"
-                                value={toDate}
-                                ref={toDateRef}
-                                format="DD MM YYYY"
-                                className='quotationFilterDates'
-                                onChange={(newValue) => {
-                                    if (newValue === null) {
-                                        setToDate(null)
-                                    } else {
-                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                            setToDate(newValue)
-                                        } else {
-                                            Swal.fire({
-                                                title: "Error !",
-                                                text: "Enter Valid Date To",
-                                                icon: "error",
-                                                confirmButtonText: "ok"
-                                            });
-                                            resetAllFilters();
-                                        }
-                                    }
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Box>
+                    <AccordionDetails className="proCat_DWSR_BoxMainDiv">
+                        <div className='proCatApp_DWSR_SubDivMain_Top'>
+                            <div style={{ display: 'flex' }}>
+                                <Box sx={{ padding: "0px 5px" }}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date From"
+                                            value={fromDate}
+                                            ref={fromDateRef}
+                                            format="DD MM YYYY"
+                                            className='quotationFilterDates'
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setFromDate(null)
+                                                } else {
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setFromDate(newValue)
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date From",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                </Box>
+                                <Box sx={{ padding: "0px 5px" }}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date To"
+                                            value={toDate}
+                                            ref={toDateRef}
+                                            format="DD MM YYYY"
+                                            className='quotationFilterDates'
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setToDate(null)
+                                                } else {
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setToDate(newValue)
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date To",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                </Box>
+                            </div>
+                            <div className='proCatApp_gwsr_TopDivMainSet' style={{ display: 'flex' }}>
+                                <Box sx={{ padding: "0px 5px", }}>
+                                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                                </Box>
+                                <Box sx={{ padding: "0px 5px", }} className="searchDesignWiseSalesReport">
+                                    <Button variant='contained' className='muiSmilingRocksBtn'
+                                        sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+                                        onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
+                                        <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                                </Box>
+                            </div>
+                        </div>
 
-                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
-                        <Button variant='contained' className='muiSmilingRocksBtn'
-                            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
-                            onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                            <SearchIcon sx={{ color: "#fff !important" }} /></Button>
-                    </Box>
+                        <div className='proCatApp_DWSR_SubDivMain' style={{ marginTop: '10px' }}>
+                            <Box sx={{ padding: "0px 5px",width: '50%' }}>
+                                <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={metal}
+                                    label="Age"
+                                    onChange={handleMetalChange}
+                                    sx={{ width: "200px" }}
+                                >
+                                    {metalList?.map((ele, ind) => {
+                                        return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
+                            </Box>
 
-                    <Box sx={{ marginRight: "35px", paddingBottom: "10px", width: 170 }}>
-                        <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                        <Slider
-                            className='netWtSecSlider'
-                            getAriaLabel={() => 'NetWt(gm)'}
-                            value={netWtSlider}
-                            onChange={handleNetWtSlider}
-                            valueLabelDisplay="auto"
-                            getAriaValueText={valuetext}
-                            disableSwap
-                            min={netWtLimit?.min}
-                            max={netWtLimit?.max}
-                        />
+                            <Box sx={{ padding: "0px 5px",width: '50%'}}>
+                                <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={productType}
+                                    label="Product Type"
+                                    onChange={handleChangeProductType}
+                                    sx={{ width: "200px" }}
+                                >
+                                    {productTypeList?.map((ele, ind) => {
+                                        return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
+                            </Box>
+                        </div>
 
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={netWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
-                                    onChange={handleNetWtSliderCustom(0)}
-                                    onBlur={handleBlurNetWt(0)}
-                                    inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                        <div className='proCatApp_DWSR_SubDivMain' style={{ marginTop: '10px' }}>
+                            <Box sx={{ padding: "0px 5px",width: '50%' }}>
+                                <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                                <Select
+                                    labelId="metalColor"
+                                    id="demo-simple-select"
+                                    value={metalColor}
+                                    label="Product Type"
+                                    onChange={handleChangeMetalColor}
+                                    sx={{ width: "200px" }}
+                                >
+                                    {metalColorList?.map((ele, ind) => {
+                                        return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
+                            </Box>
+
+                            <Box sx={{ padding: "0px 5px",width: '50%' }}>
+                                <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                                <Select
+                                    labelId="metalColor"
+                                    id="demo-simple-select"
+                                    value={category}
+                                    label="Product Type"
+                                    onChange={handleChangeCategory}
+                                    sx={{ width: "200px" }}
+                                >
+                                    {categorylist?.map((ele, ind) => {
+                                        return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
+                            </Box>
+                        </div>
+
+                        <div className='proCatApp_DWSR_SubDivMain' style={{ marginTop: '10px' }}>
+                            <div style={{ width: '50%' }}>
+                                <Box sx={{ padding: "0px 5px", }}>
+                                    <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                                    <Select
+                                        labelId="SubCategory"
+                                        id="demo-simple-select"
+                                        value={subCategory}
+                                        label="Product Type"
+                                        onChange={handleChangeSubCategory}
+                                        sx={{ width: "100%" }}
+                                    >
+                                        {subCategoryList?.map((ele, ind) => {
+                                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                        })}
+                                    </Select>
+                                </Box>
+                            </div>
+                            <div style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
+                                <Box sx={{ padding: "0px 5px", width: "50%" }}>
+                                    <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                                    <Box
+                                    >
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={purchaseCount}
+                                            label="Age"
+                                            onChange={handleChangePurchaseCount}
+                                        >
+                                            {purchaseCountList?.map((ele, ind) => {
+                                                return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                            })}
+                                        </Select>
+                                    </Box>
+                                </Box>
+                                <Box sx={{ padding: "0px 5px", width: "50%" }}>
+                                    <Typography>DesignNo</Typography>
+                                    <TextField type='text' value={designNo} onChange={eve => {
+                                        setDesignNo(eve?.target?.value);
+                                        handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                                    }} className='design_No' placeholder='#DesignNo' />
+                                </Box>
+                            </div>
+                        </div>
+
+                        <div className='' style={{ display: 'flex', justifyContent: 'space-around', marginTop: '5px', marginBottom: '7px' }}>
+                            <Box sx={{ padding: "0px 5px", width: '45%' }}>
+                                <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'NetWt(gm)'}
+                                    value={netWtSlider}
+                                    onChange={handleNetWtSlider}
+                                    valueLabelDisplay="auto"
+                                    getAriaValueText={valuetext}
+                                    disableSwap
+                                    min={netWtLimit?.min}
+                                    max={netWtLimit?.max}
                                 />
-                            </Typography>
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={netWtSlider[1]}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
-                                    inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                    onChange={handleNetWtSliderCustom(1)}
-                                    onBlur={handleBlurNetWt(1)}
+
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={netWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                                            onChange={handleNetWtSliderCustom(0)}
+                                            onBlur={handleBlurNetWt(0)}
+                                            inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={netWtSlider[1]}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                                            inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleNetWtSliderCustom(1)}
+                                            onBlur={handleBlurNetWt(1)}
+                                        />
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ padding: "0px 5px", width: '45%' }}>
+                                <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'GrossWt'}
+                                    value={grossWtSlider}
+                                    onChange={handleGrossWtSlider}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                    min={grossWtLimit?.min}
+                                    max={grossWtLimit?.max}
                                 />
-                            </Typography>
-                        </Box>
-                    </Box>
-
-                    <Box sx={{ marginRight: "35px", paddingBottom: "10px", width: 170 }}>
-                        <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
-                        <Slider
-                            className='netWtSecSlider'
-                            getAriaLabel={() => 'GrossWt'}
-                            value={grossWtSlider}
-                            onChange={handleGrossWtSlider}
-                            valueLabelDisplay="auto"
-                            disableSwap
-                            min={grossWtLimit?.min}
-                            max={grossWtLimit?.max}
-                        />
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
-                                    onChange={handleGrossWtSliderCustom(0)}
-                                    onBlur={handleBlurGrossWt(0)}
-                                    inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
-                                />
-                            </Typography>
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={grossWtSlider[1]}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
-                                    inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
-                                    onChange={handleGrossWtSliderCustom(1)}
-                                    onBlur={handleBlurGrossWt(1)}
-                                />
-                            </Typography>
-                        </Box>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                        <Box
-                        >
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={purchaseCount}
-                                label="Age"
-                                onChange={handleChangePurchaseCount}
-                                sx={{ width: "80px" }}
-                            >
-                                {purchaseCountList?.map((ele, ind) => {
-                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
-                                })}
-                            </Select>
-                        </Box>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography>DesignNo</Typography>
-                        <TextField type='text' value={designNo} onChange={eve => {
-                            setDesignNo(eve?.target?.value);
-                            handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                        }} className='design_No' placeholder='#DesignNo' />
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={metal}
-                            label="Age"
-                            onChange={handleMetalChange}
-                            sx={{ width: "200px" }}
-                        >
-                            {metalList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={productType}
-                            label="Product Type"
-                            onChange={handleChangeProductType}
-                            sx={{ width: "200px" }}
-                        >
-                            {productTypeList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                        <Select
-                            labelId="metalColor"
-                            id="demo-simple-select"
-                            value={metalColor}
-                            label="Product Type"
-                            onChange={handleChangeMetalColor}
-                            sx={{ width: "200px" }}
-                        >
-                            {metalColorList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
-                        <Select
-                            labelId="metalColor"
-                            id="demo-simple-select"
-                            value={category}
-                            label="Product Type"
-                            onChange={handleChangeCategory}
-                            sx={{ width: "200px" }}
-                        >
-                            {categorylist?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-
-                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                        <Select
-                            labelId="SubCategory"
-                            id="demo-simple-select"
-                            value={subCategory}
-                            label="Product Type"
-                            onChange={handleChangeSubCategory}
-                            sx={{ width: "200px" }}
-                        >
-                            {subCategoryList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                                            onChange={handleGrossWtSliderCustom(0)}
+                                            onBlur={handleBlurGrossWt(0)}
+                                            inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[1]}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "50px" }}
+                                            inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleGrossWtSliderCustom(1)}
+                                            onBlur={handleBlurGrossWt(1)}
+                                        />
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </div>
                     </AccordionDetails>
                 </Accordion>
-               
+
 
                 {isLoading ?
                     <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
-                    <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
+                    <Box sx={{ display: "flex", flexWrap: 'wrap', paddingTop: "10px", justifyContent: 'center', gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
                         {filteredDataPaginated?.map((products, i) => (
                             <div
-                                style={{
-                                    minWidth: "100%",
-                                    border: "1px solid #e1e1e1",
-                                    textAlign: "center",
-                                    color: "#7d7f85",
-                                    position: "relative",
-                                    zIndex: 0,
-                                    background: "#c0bbb133",
-                                }}
-                                className="smilingProductImageBox designWiseSalesReportProduct"
+                                className="proCatAPP_DWSRP_DeatilBoxMain"
                             >
                                 <Box sx={{
                                     paddingBottom: "10px"
                                 }}>
-                                
+
                                     <Box sx={{ minheight: "271px" }}>
                                         {products?.imgsrc ? (
-                                            <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
+                                            <img className="proCat_APP_prod_img" src={products?.imgsrc} alt='' />
                                         ) : (
-                                            <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                            <Skeleton variant="rectangular" width={"100%"} height={271} style={{ marginBottom: '76px' }} />
                                         )}
                                     </Box>
 
@@ -829,6 +830,7 @@ const DesignWiseSalesReport = () => {
                                             fontWeight: "bold",
                                             textAlign: "start"
                                         }}
+                                        className='proCatAPP_DEWSR_Deatail_Show'
                                     >
                                         {products?.designno}
                                     </Typography>
@@ -840,25 +842,32 @@ const DesignWiseSalesReport = () => {
                                             fontWeight: "bold",
                                             textAlign: "start"
                                         }}
+                                        className='proCatAPP_DEWSR_Deatail_Show'
+
                                     >
                                         NetWt: {products?.DesignNetWt}
                                     </Typography>
                                 </Box>
                                 <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                    <Typography
+                                        className='proCatAPP_DEWSR_Deatail_Show'
+                                        style={{ fontSize: "12px", textAlign: "start", }}>
                                         Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
                                     </Typography>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                    <Typography
+                                        className='proCatAPP_DEWSR_Deatail_Show'
+                                        style={{ fontSize: "12px", textAlign: "start", }}>
                                         Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
                                     </Typography>
                                 </Box>
                                 <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                    <Typography
+                                        className='proCatAPP_DEWSR_Deatail_Show'
+                                        style={{ fontSize: "12px", textAlign: "start", }}>
                                         Purchase Count: {NumberWithCommas(products?.salescount, 0)}
                                     </Typography>
-                                
-                                </Box>
 
+                                </Box>
                             </div>
                         ))}
                     </Box>
@@ -879,18 +888,8 @@ const DesignWiseSalesReport = () => {
                     className='reactPaginationDesignWise'
                 />}
             </Box>
-        </>
+        </div>
     )
 }
 
 export default DesignWiseSalesReport
-
-// import React from 'react'
-
-// const DesignWiseSalesReport = () => {
-//   return (
-//     <div>DesignWiseSalesReport</div>
-//   )
-// }
-
-// export default DesignWiseSalesReport

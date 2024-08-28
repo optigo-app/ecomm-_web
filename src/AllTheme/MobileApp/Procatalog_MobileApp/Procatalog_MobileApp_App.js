@@ -119,7 +119,7 @@ const Procatalog_MobileApp_App = () => {
           <Route path="/myWishList" element={<Wishlist />} />
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/SearchPage" element={<SearchPage />} />
+          <Route path="/SearchPage" element={<SearchPage />} />  
           <Route path="/account" element={<Account />} />
           <Route path="/AccountLedger" element={<AccountLedger />} />
           <Route path="/QuotationQuote" element={<QuotationQuote />} />

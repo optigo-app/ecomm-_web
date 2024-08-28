@@ -55,66 +55,66 @@ export default function ThemeRoutes() {
     }
 
     if (!SessionData) {
-    Storeinit()
-      .then((response) => {
-        if (response.status === 200) {
-          setLoading(false);
-          // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-          sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
-          sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
-          sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
-          callAllApi(response?.data?.Data);
+      Storeinit()
+        .then((response) => {
+          if (response.status === 200) {
+            setLoading(false);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
+            sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
+            sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
+            callAllApi(response?.data?.Data);
 
-          let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-          const existingVisitorId = Cookies.get("visiterId");
-          if (islogin == false) {
-            if (!existingVisitorId) {
-              Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
-            } else {
-              const expirationDate =
-                Cookies.getJSON("visiterId")?.expires &&
-                new Date(Cookies.getJSON("visiterId").expires);
-              if (expirationDate && expirationDate <= new Date()) {
-                Cookies.remove("visiterId", { path: "/" });
+            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
+            const existingVisitorId = Cookies.get("visiterId");
+            if (islogin == false) {
+              if (!existingVisitorId) {
+                Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
+              } else {
+                const expirationDate =
+                  Cookies.getJSON("visiterId")?.expires &&
+                  new Date(Cookies.getJSON("visiterId").expires);
+                if (expirationDate && expirationDate <= new Date()) {
+                  Cookies.remove("visiterId", { path: "/" });
+                }
               }
-            }
 
-            if (response?.data?.Data?.rd[0]?.Themeno === 1) {
-              setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-            }
+              if (response?.data?.Data?.rd[0]?.Themeno === 1) {
+                setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              }
 
-            if (response?.data?.Data?.rd[0]?.Themeno === 2) {
-              dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-            }
+              if (response?.data?.Data?.rd[0]?.Themeno === 2) {
+                dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              }
 
-            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
-              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-            }
+              if (response?.data?.Data?.rd[0]?.Themeno === 3) {
+                el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              }
 
-            if (response?.data?.Data?.rd[0]?.Themeno === 4) {
-              smrMA_setCompanyTitleLogo(
-                response?.data?.Data?.rd[0]?.companylogo
-              );
-            }
+              if (response?.data?.Data?.rd[0]?.Themeno === 4) {
+                smrMA_setCompanyTitleLogo(
+                  response?.data?.Data?.rd[0]?.companylogo
+                );
+              }
 
-            let title = response?.data?.Data?.rd[0]?.companyname;
-            let favIcon = response?.data?.Data?.rd[0]?.favicon;
-            setTitle(title);
-            setFavIcon(favIcon);
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: "smooth",
-            });
+              let title = response?.data?.Data?.rd[0]?.companyname;
+              let favIcon = response?.data?.Data?.rd[0]?.favicon;
+              setTitle(title);
+              setFavIcon(favIcon);
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+              });
+            }
           }
-        }
-      })
-      .catch((err) => console.log(err));
-      } else {
-        // setThemeNo(SessionData?.Themeno);
-        setThemeNo(6);
-      }
-      // .finally(() => setLoading(false));
+        })
+        .catch((err) => console.log(err));
+    } else {
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(2);
+    }
+    // .finally(() => setLoading(false));
   }, []);
 
   const callAllApi = (Data) => {
@@ -195,7 +195,7 @@ export default function ThemeRoutes() {
           />
         </Helmet>
       </div>
-      
+
       {/* <Procatalog_MobileApp_App /> */}
 
       {themeNo === 1 && <SmilingRock_App />}
@@ -214,7 +214,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 8 && <ForEveryRoutes />}
 
-      {themeNo === 9 &&   <Procatalog_MobileApp_App />}
+      {themeNo === 9 && <Procatalog_MobileApp_App />}
     </>
   );
 }
