@@ -615,14 +615,28 @@ const DiamondFilter = () => {
       try {
         const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
+          console.log();
+          const gapSize = getFilterdata?.Color?.options?.length / 1;
+          // const gapSize = numberOfLabels / 1;
+
+          const value = (
+            getFilterdata?.Color?.options?.length * gapSize
+          ).toFixed(2);
+          console.log(parseFloat(Math.floor(value)), "gap12");
           setFilterApiOptions(getFilterdata);
+          const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+          const ClarityMarks = UseLabelGap(
+            getFilterdata?.Clarity?.options,
+            100
+          );
+          const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
           setFilters(getFilterdata);
           setSliderState({
             price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
             Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
-            Color: [0, 100],
-            Clarity: [0, 100],
-            Cut: [0, 100],
+            Color: [0, ColorMarks[0]?.value],
+            Clarity: [0, ClarityMarks[0]?.value],
+            Cut: [0, Cutmarks[0]?.value],
           });
           setFiltersData({
             polish: [],
@@ -712,7 +726,7 @@ const DiamondFilter = () => {
     setFinalArray(updatedArray);
   }, [sliderState, sliderLabels, filtersData]);
 
-  console.log('gh' , "slider label" , sliderLabels);
+  console.log("gh", "slider label", sliderLabels);
 
   return (
     <>
@@ -1312,6 +1326,7 @@ const CollectionColor = forwardRef(
       event.stopPropagation();
     };
     const marks = UseLabelGap(ColorVal?.options, 100);
+    console.log(marks[0], "gap12");
     // const marks = [
     //   { label: "M", value: 10, name: "M" },
     //   { label: "L", value: 20, name: "L" },
@@ -1424,7 +1439,7 @@ const CollectionClarity = forwardRef(
       return data;
     };
 
-    console.log(marks , "marks")
+    console.log(marks, "marks");
     const handleChange = (e, newValue) => {
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
