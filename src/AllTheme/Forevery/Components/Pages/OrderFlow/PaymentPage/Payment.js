@@ -168,7 +168,6 @@ const Payment = () => {
                             {orderRemakdata == "" || orderRemakdata == undefined ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                    {!isloding ? (
                         <div className='for_paymentDetailMainDiv'>
                             <div className='for_paymentDetailLeftSideContent'>
                                 <h2>Payment Card Method</h2>
@@ -253,9 +252,6 @@ const Payment = () => {
                                 </div>
                             </div>
                         </div>
-                    ) :
-                        <WebLoder />
-                    }
                     <div className='for_paymentButtonDiv'>
                         <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
