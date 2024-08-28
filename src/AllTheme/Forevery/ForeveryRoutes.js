@@ -255,7 +255,7 @@ const ForEveryRoutes = () => {
           
           
           {/* <Route path="/account" element={<Account />} /> */}
-        <Route path="/Lookbook" element={<Lookbook />} />
+        {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
         {/* </Route> */}
         {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
         <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />

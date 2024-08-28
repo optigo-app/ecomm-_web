@@ -40,6 +40,8 @@
     width: 88%;
     margin: 0 auto;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
     .swiper-slide {
       text-align: center;
@@ -49,7 +51,7 @@
       height: auto;
     }
     .for_product_card {
-      width: 408px;
+      width: 100%;
       height: auto;
       transition: 0.3s ease-in-out;
       .image_box {
@@ -132,5 +134,12 @@
         }
       }
     }
+  }
+
+  @media screen and (max-width : 1973px) {
+    
+  }
+  @media screen and (max-width : 1973px) {
+    
   }
 }

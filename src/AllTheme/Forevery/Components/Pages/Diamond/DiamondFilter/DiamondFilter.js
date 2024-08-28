@@ -30,7 +30,8 @@ import {
   Slider,
   useMediaQuery,
 } from "@mui/material";
-import { json, useLocation, useNavigate, useParams } from "react-router-dom";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { json, useLocation, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
@@ -104,6 +105,7 @@ const DiamondFilter = () => {
     fluorescence: [],
   });
 
+  const [AccordianChecked, setAccordianChecked] = useState(false);
   const [sliderLabels, setSliderLabels] = useState([]);
   const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,6 +115,7 @@ const DiamondFilter = () => {
     const storeinitData = JSON?.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -400,16 +403,68 @@ const DiamondFilter = () => {
   // }, []);
 
 
-
-  const getDiamondData = async (shape, finalArray) => {
-    setIsLoading(true);
-    console.log("kjskdjkjsdkak", shape, finalArray);
-    try {
-      const response = await DiamondListData(1, shape, "", finalArray);
-      if (response.Data.rd[0]?.stat != 0) {
-        processDiamondData(response);
-      } else {
-        return setDiamondData([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const shape = location?.pathname?.split("/")[3];
+      setIsLoading(true);
+      try {
+        dispatch({ type: ACTIONS.SET_LOADING, payload: true });
+        const filterData = await DiamondListData(1, shape, "", finalArray);
+        const data1 = filterData?.Data?.rd[0];
+        const resData = filterData?.Data?.rd;
+        const Newmap = resData?.map((val) => ({
+          img: IMG,
+          vid: Video,
+          HaveCustomization: true,
+          ...val,
+        }));
+        setDiamondData(Newmap);
+        const transformedData = {
+          price: {
+            label: "Price",
+            type: "range",
+            min: data1?.minprice,
+            max: data1?.maxprice,
+            default: [data1?.minprice, data1?.maxprice],
+          },
+          carat: {
+            label: "Carat",
+            type: "range",
+            min: data1?.mincarat,
+            max: data1?.maxcarat,
+            default: [data1?.mincarat, data1?.maxcarat],
+          },
+          depth: {
+            label: "Depth",
+            type: "range",
+            min: data1?.mindepth,
+            max: data1?.maxdepth,
+            default: [data1?.mindepth, data1?.maxdepth],
+          },
+          table: {
+            label: "Table",
+            type: "range",
+            min: data1?.mintable,
+            max: data1?.maxtable,
+            default: [data1?.mintable, data1?.maxtable],
+          },
+        };
+        dispatch({ type: ACTIONS.SET_FILTER_DATA, payload: transformedData });
+        if (!isFilterDataFetched) {
+          const diamondListData = await DiamondFilterData();
+          const data = await transformApiResponse(diamondListData);
+          dispatch({
+            type: ACTIONS.SET_DIAMOND_LIST,
+            payload: data,
+          });
+          setIsFilterDataFetched(true);
+        }
+      } catch (error) {
+        dispatch({ type: ACTIONS.SET_ERROR, payload: error });
+        setIsLoading(false);
+      } finally {
+        dispatch({ type: ACTIONS.SET_LOADING, payload: false });
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error fetching diamond data:", error);
@@ -436,21 +491,13 @@ const DiamondFilter = () => {
     });
   };
 
-  const getDiamondFilterData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await DiamondFilterData();
-      if (response && response.Data) {
-        let resData = response.Data?.rd;
-        setDiamondFilterData(resData);
-        const transformedFilters = transformApiResponse(response);
-        updateApiData(transformedFilters);
-      }
-    } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsLoading(false);
-    }
-  };
+
+  useEffect(() => {
+    const { filterData, diamondList } = state;
+    const mergedData =
+      filterData && diamondList ? { ...filterData, ...diamondList } : {};
+    sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
+  }, [state]);
 
   useEffect(() => {
     const dFilterData = JSON?.parse(
@@ -625,11 +672,18 @@ const DiamondFilter = () => {
     });
   };
 
+
+  const storedData = sessionStorage.getItem("filterMenu");
+  const isDataHave = storedData ? JSON.parse(storedData) : null;
+  const Condition =
+    isDataHave &&
+    typeof isDataHave === "object" &&
+    Object.keys(isDataHave).length > 0;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getFilterdata = JSON.parse(sessionStorage.getItem("diamondFilterData"));
-  
+        const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
           console.log(getFilterdata, "gt");
   
@@ -640,8 +694,16 @@ const DiamondFilter = () => {
             Clarity: [0, 100],
             Cut: [0, 100],
           });
-  
-          await getDiamondFilterData();
+          setFiltersData({
+            polish: [],
+            symmetry: [],
+            lab: [],
+            depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+            table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+            fluorescence: [],
+            culet: [],
+          });
+          // await getDiamondFilterData();
         } else {
           console.log("Filter data already available.");
         }
@@ -879,183 +941,93 @@ const DiamondFilter = () => {
             </span>
           </div>
           <div className="more_filter_data">
-            {Object.keys(filters).map((filterType) => {
-              const filter = filters[filterType];
-              const filterData = filtersData[filterType] || filter.default;
+            {Object?.keys(filters) &&
+              Object?.keys(filters)?.map((filterType) => {
+                const filter = filters[filterType];
+                const filterData = filtersData[filterType] || filter.default;
+                console.log(filter, "filtertype", filterType, filterData);
+                if (
+                  filterType === "price" ||
+                  filterType === "Cut" ||
+                  filterType === "Color" ||
+                  filterType === "Clarity" ||
+                  filterType === "carat"
+                )
+                  return null;
 
-              if (
-                filterType === "Price" ||
-                filterType === "Cut" ||
-                filterType === "Color" ||
-                filterType === "Clarity" ||
-                filterType === "Carat"
-              )
+                const isCheckbox = !filter?.type || filter?.type === "checkbox";
+                const isEmptyFilterType =
+                  !filterData ||
+                  (Array.isArray(filterData) && filterData.length === 0);
+
+                if (isCheckbox || isEmptyFilterType) {
+                  return (
+                    <div key={filterType} className="filter_card">
+                      <h4 className="advance_filter_title">
+                        <img src={RoundImage} alt="" /> {filter?.label}
+                      </h4>
+                      <div className="advance_filter_checkboxes">
+                        {filter?.options?.map((option) => (
+                          <label key={option.value}>
+                            <Checkbox
+                              checked={filterData?.includes(option.value)}
+                              onChange={() =>
+                                handleFilterChange(filterType, option.value)
+                              }
+                            />
+                            {option.label}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                if (filter?.type === "range") {
+                  console.log(filterData, filter, "range slider");
+                  return (
+                    <div key={filterType} className="filter_card">
+                      <h4 className="advance_filter_title">
+                        <img src={RoundImage} alt="" /> {filter?.label}
+                      </h4>
+                      <Slider
+                        value={filterData || filter?.default}
+                        min={filter?.min}
+                        defaultValue={filter?.default}
+                        max={filter?.max}
+                        step={0.1}
+                        sx={{
+                          width: "400px",
+                          marginLeft: "25px",
+                          "& .MuiSlider-thumb": {
+                            width: 17,
+                            height: 17,
+                            backgroundColor: "black",
+                            border: "1px solid #000",
+                          },
+                          "& .MuiSlider-rail": {
+                            height: 5, // Adjust height of the rail
+                            bgcolor: "black",
+                            border: " none",
+                          },
+                          "& .MuiSlider-track": {
+                            height: 5, // Adjust height of the track
+                            padding: "0 5px",
+                            bgcolor: "black",
+                            border: " none",
+                          },
+                          "& .MuiSlider-markLabel": {
+                            fontSize: "12px !important",
+                          },
+                        }}
+                        onChange={(e, newValue) =>
+                          handleFilterChange(filterType, newValue)
+                        }
+                      />
+                    </div>
+                  );
+                }
                 return null;
-
-              const isCheckbox = !filter.type || filter.type === "checkbox";
-              const isEmptyFilterType =
-                !filterData ||
-                (Array.isArray(filterData) && filterData.length === 0);
-
-              if (isCheckbox || isEmptyFilterType) {
-                return (
-                  <div key={filterType} className="filter_card">
-                    <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter?.label}
-                    </h4>
-                    <div className="advance_filter_checkboxes">
-                      {filter?.options?.map((option) => (
-                        <label key={option.value}>
-                          <Checkbox
-                            checked={filterData?.includes(option.value)}
-                            onChange={() =>
-                              handleFilterChange(filterType, option.value)
-                            }
-                          />
-                          {option.label}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
-              if (filter?.type === "range") {
-                return (
-                  <div key={filterType} className="filter_card">
-                    <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter?.label}
-                    </h4>
-                    <Slider
-                      value={filterData}
-                      min={filter?.min}
-                      max={filter?.max}
-                      step={0.1}
-                      sx={{
-                        width: "400px",
-                        marginLeft: "25px",
-                        "& .MuiSlider-thumb": {
-                          width: 17,
-                          height: 17,
-                          backgroundColor: "black",
-                          border: "1px solid #000",
-                        },
-                        "& .MuiSlider-rail": {
-                          height: 5, // Adjust height of the rail
-                          bgcolor: "black",
-                          border: " none",
-                        },
-                        "& .MuiSlider-track": {
-                          height: 5, // Adjust height of the track
-                          padding: "0 5px",
-                          bgcolor: "black",
-                          border: " none",
-                        },
-                        "& .MuiSlider-markLabel": {
-                          fontSize: "12px !important",
-                        },
-                      }}
-                      onChange={(e, newValue) =>
-                        handleFilterChange(filterType, newValue)
-                      }
-                      valueLabelDisplay="off"
-                      aria-labelledby={`${filterType}-slider`}
-                    />
-                    <div className="advance_filter_input_box">
-                      <input
-                        type="number"
-                        value={filterData ? filterData[0] : filter.min}
-                        onChange={(e) =>
-                          handleFilterChange(filterType, [
-                            parseFloat(e.target.value) || filter.min,
-                            filterData ? filterData[1] : filter.max,
-                          ])
-                        }
-                      />
-                      <input
-                        type="number"
-                        value={filterData ? filterData[1] : filter.max}
-                        onChange={(e) =>
-                          handleFilterChange(filterType, [
-                            filterData ? filterData[0] : filter.min,
-                            parseFloat(e.target.value) || filter.max,
-                          ])
-                        }
-                      />
-                    </div>
-                  </div>
-                );
-              }
-              return null;
-            })}
-            {/* {["Depth", "Table"]?.map((filterType) => {
-              const filter = filters[filterType];
-              const filterData = filtersData[filterType] || filter?.default;
-
-              return (
-                <div key={filterType} className="filter_card">
-                  <h4 className="advance_filter_title">
-                    <img src={RoundImage} alt="" /> {filter?.label}
-                  </h4>
-                  <Slider
-                    value={filterData}
-                    min={filter?.min}
-                    max={filter?.max}
-                    step={filter?.step || 0.01}
-                    sx={{
-                      width: "400px",
-                      marginLeft: "25px",
-                      "& .MuiSlider-thumb": {
-                        width: 17,
-                        height: 17,
-                        backgroundColor: "black",
-                        border: "1px solid #000",
-                      },
-                      "& .MuiSlider-rail": {
-                        height: 5,
-                        bgcolor: "black",
-                        border: "none",
-                      },
-                      "& .MuiSlider-track": {
-                        height: 5,
-                        padding: "0 5px",
-                        bgcolor: "black",
-                        border: "none",
-                      },
-                      "& .MuiSlider-markLabel": {
-                        fontSize: "12px !important",
-                      },
-                    }}
-                    onChange={(e, newValue) =>
-                      handleFilterChange(filterType, newValue)
-                    }
-                    valueLabelDisplay="off"
-                    aria-labelledby={`${filterType}-slider`}
-                  />
-                  <div className="advance_filter_input_box">
-                    <input
-                      type="number"
-                      value={filterData[0]}
-                      onChange={(e) =>
-                        handleFilterChange(filterType, [
-                          parseFloat(e.target.value) || filter.min,
-                          filterData[1] || filter?.max,
-                        ])
-                      }
-                    />
-                    <input
-                      type="number"
-                      value={filterData[1]}
-                      onChange={(e) =>
-                        handleFilterChange(filterType, [
-                          filterData[0] || filter?.min,
-                          parseFloat(e.target.value) || filter?.max,
-                        ])
-                      }
-                    />
-                  </div>
-                </div>
-              );
-            })} */}
+              })}
           </div>
         </div>
         <div className="filter_results">
@@ -1219,7 +1191,14 @@ const DiamondFilter = () => {
         <div className="faq_accordian_Design">
           <Accordion>
             <AccordionSummary
-              expandIcon={<AddCircleOutlineIcon />}
+              onClick={() => setAccordianChecked(!AccordianChecked)}
+              expandIcon={
+                AccordianChecked ? (
+                  <RemoveCircleOutlineIcon />
+                ) : (
+                  <AddCircleOutlineIcon />
+                )
+              }
               aria-controls="panel1-content"
               id="panel1-header"
             >
@@ -1303,7 +1282,6 @@ const CollectionPriceRange = forwardRef(
     );
   }
 );
-
 const CollectionCaratRange = forwardRef(
   ({ open, handleSliderChange, data, CaratVal }, ref) => {
     const handleSliderMouseDown = (event) => {
@@ -1358,7 +1336,6 @@ const CollectionCaratRange = forwardRef(
     );
   }
 );
-
 const CollectionColor = forwardRef(
   ({ handleSliderChange, data, open, ColorVal }, ref) => {
     const handleSliderMouseDown = (event) => {
@@ -1444,7 +1421,6 @@ const CollectionColor = forwardRef(
     );
   }
 );
-
 const CollectionClarity = forwardRef(
   ({ handleSliderChange, data, open, ClarityVal }, ref) => {
     const handleSliderMouseDown = (event) => {
@@ -1469,21 +1445,20 @@ const CollectionClarity = forwardRef(
     };
 
     const FindMaxLabel = (max) => {
-      const data = marks.find((val) => val.value === max);
+      const data = marks?.find((val) => val?.value === max);
       return data;
     };
 
     const FindMinLabel = (min) => {
-      const data = marks.find((val) => val.value === min);
+      const data = marks?.find((val) => val?.value === min);
       return data;
     };
 
+    console.log(marks , "marks")
     const handleChange = (e, newValue) => {
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
       handleSliderChange(newValue, minLabel, maxLabel);
-      console.log("Slider values changed:", newValue);
-      console.log("Min label:", minLabel, "Max label:", maxLabel);
     };
     return (
       <div
@@ -1528,7 +1503,6 @@ const CollectionClarity = forwardRef(
     );
   }
 );
-
 const CollectionCut = forwardRef(
   ({ handleSliderChange, data, open, CutVal }, ref) => {
     const handleSliderMouseDown = (event) => {
@@ -1552,12 +1526,12 @@ const CollectionCut = forwardRef(
     // ];
 
     const FindMaxLabel = (max) => {
-      const data = marks.find((val) => val.value === max);
+      const data = marks?.find((val) => val?.value === max);
       return data;
     };
 
     const FindMinLabel = (min) => {
-      const data = marks.find((val) => val.value === min);
+      const data = marks?.find((val) => val?.value === min);
       return data;
     };
 
@@ -1612,7 +1586,6 @@ const CollectionCut = forwardRef(
     );
   }
 );
-
 const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
   return (
     <div
@@ -1658,3 +1631,170 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
     </div>
   );
 });
+
+// const getDiamondData = async (shape) => {
+//   setIsloding(true);
+//   try {
+//     const response = await DiamondListData(1, shape);
+//     if (response && response.Data) {
+//       let resData = response.Data?.rd;
+//       //("diamondlistResponse", response.Data);
+//       const Newmap = resData?.map((val, i) => {
+//         return {
+//           img: IMG,
+//           vid: Video,
+//           HaveCustomization: true,
+//           ...val,
+//         };
+//       });
+//       //(Newmap, "swdwkhdwkdbwkbd");
+//       setDiamondData(Newmap);
+//       let count = resData[0]?.icount
+//       setDiaCount(count)
+//       setIsloding(false);
+//     } else {
+//       console.warn("No data found in the response");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching diamond data:", error);
+//   }
+// };
+
+// const Transfromdata = () => {
+//   const resData = JSON?.parse(sessionStorage.getItem("filterMinMax"));
+//   if (resData) {
+//     const transformedData = {
+//       price: {
+//         label: "Price",
+//         type: "range",
+//         min: resData?.minprice,
+//         max: resData?.maxprice,
+//         default: [resData?.minprice, resData?.maxprice],
+//       },
+//       carat: {
+//         label: "Carat",
+//         type: "range",
+//         min: resData?.mincarat,
+//         max: resData?.maxcarat,
+//         default: [resData?.mincarat, resData?.maxcarat],
+//       },
+//       depth: {
+//         label: "Depth",
+//         type: "range",
+//         min: resData?.mindepth,
+//         max: resData?.maxdepth,
+//         default: [resData?.mindepth, resData?.maxdepth],
+//       },
+//       table: {
+//         label: "Table",
+//         type: "range",
+//         min: resData?.mintable,
+//         max: resData?.maxtable,
+//         default: [resData?.mintable, resData?.maxtable],
+//       },
+//     };
+
+//     setApiData((prev) => {
+//       const transformedArray = Object?.values(transformedData);
+//       return [
+//         ...prev?.filter(
+//           (item) =>
+//             !["Price", "Carat", "Depth", "Table"]?.includes(item?.label)
+//         ),
+//         ...transformedArray,
+//       ];
+//     });
+//   }
+// };
+
+// useEffect(() => {
+//   const getFilterdata = JSON?.parse(
+//     sessionStorage?.getItem("diamondFilterData")
+//   );
+//   if (getFilterdata !== null || getFilterdata !== undefined) {
+//     //(getFilterdata, "gt");
+//     setSliderState({
+//       price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+//       Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
+//       Color: [0, 100],
+//       Clarity: [0, 100],
+//       Cut: [0, 100],
+//     });
+//   }
+//   if (getFilterdata !== null || getFilterdata !== undefined) {
+//     getDiamondFilterData();
+//   } else {
+//     //("Filter data already available.");
+//   }
+// }, []);
+{
+  /* {["Depth", "Table"]?.map((filterType) => {
+              const filter = filters[filterType];
+              const filterData = filtersData[filterType] || filter?.default;
+
+              return (
+                <div key={filterType} className="filter_card">
+                  <h4 className="advance_filter_title">
+                    <img src={RoundImage} alt="" /> {filter?.label}
+                  </h4>
+                  <Slider
+                    value={filterData}
+                    min={filter?.min}
+                    max={filter?.max}
+                    step={filter?.step || 0.01}
+                    sx={{
+                      width: "400px",
+                      marginLeft: "25px",
+                      "& .MuiSlider-thumb": {
+                        width: 17,
+                        height: 17,
+                        backgroundColor: "black",
+                        border: "1px solid #000",
+                      },
+                      "& .MuiSlider-rail": {
+                        height: 5,
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-track": {
+                        height: 5,
+                        padding: "0 5px",
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-markLabel": {
+                        fontSize: "12px !important",
+                      },
+                    }}
+                    onChange={(e, newValue) =>
+                      handleFilterChange(filterType, newValue)
+                    }
+                    valueLabelDisplay="off"
+                    aria-labelledby={`${filterType}-slider`}
+                  />
+                  <div className="advance_filter_input_box">
+                    <input
+                      type="number"
+                      value={filterData[0]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          parseFloat(e.target.value) || filter.min,
+                          filterData[1] || filter?.max,
+                        ])
+                      }
+                    />
+                    <input
+                      type="number"
+                      value={filterData[1]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          filterData[0] || filter?.min,
+                          parseFloat(e.target.value) || filter?.max,
+                        ])
+                      }
+                    />
+                  </div>
+                </div>
+              );
+            })} */
+}
