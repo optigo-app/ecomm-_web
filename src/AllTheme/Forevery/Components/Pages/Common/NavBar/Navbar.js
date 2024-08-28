@@ -408,7 +408,6 @@ const NavbarLeft = ({
   hoveredIndex,
 }) => {
   const Navigate = useNavigate();
-
   return (
     <>
       <div className="left">
@@ -421,13 +420,9 @@ const NavbarLeft = ({
                 setActiveMenu({ menu: val, index: i });
                 setHoveredIndex(i);
               }}
-              onMouseOut={() => setHoveredIndex(null)}
               onClick={() => Navigate(val?.link)}
             >
-              <Link
-                to={val?.link}
-                className="for_nav_menu"
-              >
+              <Link to={val?.link} className="for_nav_menu">
                 {val?.category}
                 {hoveredIndex === i ? (
                   <FaChevronUp
@@ -448,13 +443,14 @@ const NavbarLeft = ({
           <NavitemsWrapper
             SelectedMenu={ActiveMenu}
             setActiveMenu={setActiveMenu}
+            setHoveredIndex={setHoveredIndex}
           />
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
@@ -467,7 +463,33 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          console.log("firstNavRef is visible");
+        } else {
+          console.log("firstNavRef is not visible");
+          setHoveredIndex(null);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
 
+    if (firstNavRef.current) {
+      observer.observe(firstNavRef.current);
+    }
+
+    return () => {
+      if (firstNavRef.current) {
+        observer.unobserve(firstNavRef.current);
+      }
+    };
+  }, []);
   return (
     <>
       <div className="first_nav" ref={firstNavRef}>

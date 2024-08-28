@@ -268,7 +268,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const Navigation = useNavigate();
   const location = useLocation();
   const getStepName = location?.pathname.split('/');
-  const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
   const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
   const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));

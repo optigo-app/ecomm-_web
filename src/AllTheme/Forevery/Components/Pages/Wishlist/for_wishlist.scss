@@ -349,6 +349,13 @@
     }
 
     @media (max-width: 400px) {
+        .for_wlListGrid{
+            .css-16cooyn-MuiGrid-root{
+                max-width: 100% !important;
+                width: 100% !important;
+                flex-basis: 100% !important;
+            }
+        }
         .for_WishlistDiv {
             margin-inline: 10px;
         }
