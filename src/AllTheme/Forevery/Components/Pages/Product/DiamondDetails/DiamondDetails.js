@@ -31,12 +31,14 @@ import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
 import { StepImages } from '../../../data/NavbarMenu';
 import { DiamondListData } from '../../../../../../utils/API/DiamondStore/DiamondList';
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { toast } from 'react-toastify';
 
 
 const DiamondDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    console.log('location: ', location?.pathname.split('/'));
     const sliderRef = useRef(null);
     const videoRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -46,6 +48,12 @@ const DiamondDetails = () => {
     const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
     const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
     const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+    const [settingSteps, setSettingSteps] = useState();
+    console.log('settingSteps: ', settingSteps?.[1]?.step2);
+
+    useEffect(() => {
+        setSettingSteps(JSON.parse(sessionStorage.getItem('customizeSteps2')));
+    }, [])
 
     const [showModal, setShowModal] = useState(false);
 
@@ -96,6 +104,9 @@ const DiamondDetails = () => {
     const [path, setpath] = useState();
     const [metalWiseColorImg, setMetalWiseColorImg] = useState()
     const [videoArr, SETvideoArr] = useState([]);
+    const [diamondData, setDiamondData] = useState([]);
+    const [settingData, setSettingData] = useState([]);
+    const [setshape, setSetShape] = useState();
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -105,12 +116,38 @@ const DiamondDetails = () => {
     const [ratingvalue, setratingvalue] = useState(5);
     const [Swap, setswap] = useState("diamond");
     const breadCrumb = location?.pathname?.split("/")[2];
+    const [compSet, setCompSet] = useState(false);
+    console.log('compSet: ', compSet);
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
         fontWeight: breadCrumb === "settings" && "700",
     };
 
+    const checkIfSettingCompPage = (pathname) => {
+        return pathname.split('/').some(part => part.toLowerCase().includes('setting-complete-product'));
+    };
+
+    useEffect(() => {
+        setCompSet(checkIfSettingCompPage(location?.pathname))
+    }, [location?.pathname]);
+
+    useEffect(() => {
+        if (compSet) {
+            const handleCompset = () => {
+                const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0];
+                setDiamondData(diamondDatas)
+                const SettingDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[1];
+                setSettingData(SettingDatas)
+                const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps'));
+                setSetShape(getSetShape);
+            }
+            handleCompset();
+        }
+    }, [compSet])
+
+    console.log('diamondData: ', diamondData);
+    console.log('settingData: ', settingData);
     const services = [
         {
             title: 'Free Shipping',
@@ -155,6 +192,22 @@ const DiamondDetails = () => {
         }
     };
 
+    const sizeCombo = [
+        {
+            title: '5MM',
+            value: '5mm'
+        },
+        {
+            title: '9MM',
+            value: '9mm'
+        },
+        {
+            title: '10MM',
+            value: '10mm'
+        },
+    ]
+    console.log('sizeCombo: ', sizeCombo);
+
     useEffect(() => {
         const videoElement = videoRef.current;
 
@@ -178,6 +231,76 @@ const DiamondDetails = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const isInCart = singleProd?.IsInCart === 0 ? false : true;
+        setAddToCartFlag(isInCart);
+    }, [singleProd])
+
+    const handleCart = async (cartFlag) => {
+        const metal =
+            metalTypeCombo?.find((ele) => {
+                return ele?.metaltype == metalType
+            }) ?? metalTypeCombo;
+
+        const dia =
+            diaQcCombo?.find((ele) => {
+                return ele?.Quality == selectDiaQc?.split(",")[0] &&
+                    ele?.color == selectDiaQc?.split(",")[1]
+            }) ?? diaQcCombo;
+
+        const cs =
+            csQcCombo?.find((ele) => {
+                return ele?.Quality == selectCsQC?.split(",")[0] &&
+                    ele?.color == selectCsQC?.split(",")[1]
+            }) ?? csQcCombo;
+
+        const mcArr =
+            metalColorCombo?.find((ele) => {
+                return ele?.metalcolorname == metalColor
+            }) ?? metalColorCombo;
+
+        const prodObj = {
+            autocode: singleProd?.autocode,
+            Metalid: metal?.Metalid,
+            MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
+            DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
+            CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+            Size: sizeData ?? singleProd?.DefaultSize,
+            Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
+            markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
+            UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+            Remark: "",
+        }
+
+        if (cartFlag) {
+            let res = await CartAndWishListAPI("Cart", prodObj, cookie);
+            if (res) {
+                try {
+                    let cartC = res?.Data?.rd[0]?.Cartlistcount;
+                    let wishC = res?.Data?.rd[0]?.Wishlistcount;
+                    setWishCountVal(wishC);
+                    setCartCountVal(cartC);
+                } catch (error) {
+                    console.log("err", error)
+                }
+                setAddToCartFlag(cartFlag);
+            }
+        }
+        else {
+            let res1 = await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie);
+            if (res1) {
+                try {
+                    let cartC = res1?.Data?.rd[0]?.Cartlistcount;
+                    let wishC = res1?.Data?.rd[0]?.Wishlistcount;
+                    setWishCountVal(wishC);
+                    setCartCountVal(cartC);
+                } catch (error) {
+                    console.log("err", error);
+                }
+                setAddToCartFlag(cartFlag);
+            }
+        }
+    }
 
     const settings = {
         dots: false,
@@ -246,6 +369,19 @@ const DiamondDetails = () => {
         setShape(decodeobj?.b)
     }, [location?.pathname]);
 
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+
+            const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error("Error compressing and encoding:", error);
+            return null;
+        }
+    };
+
     const handleButtonChange = async (value, e, stockno, shape) => {
         console.log('stockno: ', stockno);
         setWishListFlag(e?.target?.checked);
@@ -294,9 +430,56 @@ const DiamondDetails = () => {
             }
         }
 
+        if (value == 'diamond') {
+            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+            const stepsData = JSON.parse(sessionStorage.getItem('custStepData2'));
+
+            // Replace or add the step2 entry in the step1 data
+            const updatedStep1 = step1?.map(step => {
+                if (step.step3 !== undefined) {
+                    // Replace existing step2 data
+                    return { "step3": true, };
+                }
+                return step;
+            });
+
+            // If no existing step2, add new entry
+            if (!updatedStep1.some(step => step.step3 !== undefined)) {
+                updatedStep1.push({ "step3": true });
+            }
+
+            const updatedStepData = stepsData.map(step => {
+                if (step?.step2Data !== undefined) {
+                    return { "step2Data": singleDiaData };
+                }
+                return step;
+            });
+
+            if (!updatedStepData.some(step => step?.step2Data !== undefined)) {
+                updatedStepData.push({ "step2Data": singleDiaData });
+            }
+            sessionStorage.setItem('custStepData2', JSON.stringify(updatedStepData));
+            sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedStep1));
+
+            const obj = {
+                a: singleDiaData?.stockno,
+                b: singleDiaData?.shapename,
+                a: step1?.[0]?.autocode,
+                b: step1?.[0]?.designno,
+                m: stepsData?.[0]?.selectedMetalId,
+                d: stepsData?.[0]?.selectedDiaId,
+                c: stepsData?.[0]?.selectedCsId,
+                f: { category: '1' },
+            };
+
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            navigate(`/d/setting-complete-product/det345/?p=${encodeObj}`);
+        }
+
         if (value == 'ring') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=V29tZW4vZ2VuZGVy`);
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=UmluZy9jYXRlZ29yeQ==`);
             setCustomizeStep({
                 step1: true,
                 step2: true,
@@ -322,7 +505,7 @@ const DiamondDetails = () => {
 
         if (value == 'pendant') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=Q2xhaXJlL2NvbGxlY3Rpb24=`);
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
             setCustomizeStep({
                 step1: true,
                 step2: true,
@@ -441,6 +624,44 @@ const DiamondDetails = () => {
             value: `${singleDiaData[0]?.PavillionAngle !== '' ? Number(singleDiaData[0]?.PavillionAngle).toFixed(2) : '0.00'}`,
         },
     ]
+
+    const SizeSorting = (SizeArr) => {
+
+        let SizeSorted = SizeArr?.sort((a, b) => {
+            const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+            const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+
+            return nameA - nameB;
+        })
+
+        return SizeSorted
+
+    }
+
+    const handleCustomChange = async (e, type) => {
+        // let size;
+
+        // if (type === "size") {
+        //   setSizeData(e.target.value)
+        //   size = e.target.value
+        // }
+
+        // const res = await SingleProdListAPI(prod, (size ?? sizeData), obj, cookie)
+        // if (res) {
+        //   setSingleProd1(res?.pdList[0])
+        // }
+
+        // if (res?.pdList?.length > 0) {
+        //   setisPriceLoading(false)
+        // }
+        // setnetWTData(res?.pdList[0])
+        // setDiaList(res?.pdResp?.rd3)
+        // setCsList(res?.pdResp?.rd4)
+    }
+
+    const totalPrice = (Number(diamondData?.step1Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp)).toFixed(2);
+
+    console.log("lll", settingSteps?.[1]?.step2)
 
     return (
         <div className="for_DiamondDet_mainDiv">
@@ -660,214 +881,589 @@ const DiamondDetails = () => {
                             </div>
                         </div>
                         <div className="for_DiamondDet_right_prodDetails">
-                            <div className="for_DiamondDet_breadcrumbs">
+                            {!compSet ? (
                                 <div className="for_DiamondDet_breadcrumbs">
-                                    <div
-                                        className="for_breadcrumbs"
-                                        style={{ marginLeft: "3px", cursor: 'pointer', width: '38rem' }}
-                                    >
-                                        <div className="for_bredwish_div">
-                                            <div>
-                                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '34rem', marginLeft: '-5px' }} /> : (
+                                    <div className="for_DiamondDet_breadcrumbs">
+                                        <div
+                                            className="for_breadcrumbs"
+                                            style={{ marginLeft: "3px", cursor: 'pointer', width: '38rem' }}
+                                        >
+                                            <div className="for_bredwish_div">
+                                                <div>
+                                                    {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '34rem', marginLeft: '-5px' }} /> : (
+                                                        <>
+                                                            <span
+                                                                onClick={() => {
+                                                                    navigate("/");
+                                                                }}
+                                                            >
+                                                                {"Home / "}{" "}
+                                                            </span>
+                                                            <span
+                                                                onClick={() => {
+                                                                    navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+                                                                }}
+                                                            >
+                                                                {` Certified diamond`}
+                                                            </span>
+                                                            <span
+                                                            >
+                                                                {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <div className="for_DiamondDet_title_wishlist">
+                                                    <Checkbox
+                                                        icon={
+                                                            <GoHeart size={26} color='black' />
+                                                        }
+                                                        checkedIcon={
+                                                            <GoHeartFill size={26} color='black' />
+                                                        }
+
+                                                        className='for_wishlist_icon'
+                                                        disableRipple={true}
+                                                        checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                                                        onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="for_DiamondDet_title_main_div">
+                                        <div className="for_DiamondDet_title_div">
+                                            {isDataFound ?
+                                                <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
+                                                : (
+                                                    <div className="for_DiamondDet_title">
+                                                        <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
+                                                        {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+                                                    </div>
+                                                )
+                                            }
+
+                                            <div className="for_DiamondDet_title_sku">
+                                                <div className='for_DiamondDet_sku'>SKU: {isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="for_DiamondDet_prodWeights_div">
+                                    </div>
+                                    <div className="for_DiamondDet_price_div">
+                                        <span className='for_DiamondDet_price'>
+                                            <span
+                                                dangerouslySetInnerHTML={{
+                                                    __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
+                                                }}
+                                            />
+                                            {
+                                                isPriceloading ?
+                                                    <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                    :
+                                                    <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                                            }
+                                        </span>
+                                    </div>
+                                    <div className="for_DiamondDet_details_div">
+                                        {isDataFound ? <Skeleton variant="rounded" style={{ height: '6rem', width: '32rem' }} /> :
+                                            (
+                                                <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
+                                            )}
+                                    </div>
+                                    <div className="for_DiamondDet_choose_Dia_div">
+                                        {settingSteps?.[1]?.step2 ? (
+                                            <button onClick={() => handleButtonChange('diamond', "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                choose this diamond
+                                            </button>
+                                        ) : (
+                                            <>
+                                                <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                    choose this diamond
+                                                </button>
+                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                            </>
+                                        )}
+                                    </div>
+                                    <div className="for_DiamondDet_shipping_fee_div">
+                                        <div className="for_DiamondDet_shipping_icon">
+                                            <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                                        </div>
+                                        <div className="for_DiamondDet_shipp_desc">
+                                            <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
+                                            <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
+                                        </div>
+                                    </div>
+                                    <div className="for_DiamondDet_calender_div">
+                                        <div className="for_DiamondDet_calender_icon">
+                                            <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
+                                        </div>
+                                        <div className="for_DiamondDet_calender_desc">
+                                            <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
+                                            <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="for_Complete_set_main_div">
+                                    <div className="for_Complete_set_title_div">
+                                        <div className="for_Complete_set_Setting_div">
+                                            {isDataFound ?
+                                                <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                : (
                                                     <>
-                                                        <span
-                                                            onClick={() => {
-                                                                navigate("/");
-                                                            }}
-                                                        >
-                                                            {"Home / "}{" "}
-                                                        </span>
-                                                        <span
-                                                            onClick={() => {
-                                                                navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-                                                            }}
-                                                        >
-                                                            {` Certified diamond`}
-                                                        </span>
-                                                        <span
-                                                        >
-                                                            {` / ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}
-                                                        </span>
+                                                        <div className='for_Complete_set_title_des_div'>
+                                                            <div className="for_Complete_set_title">
+                                                                <span>{settingData?.step2Data?.designno} {settingData?.step2Data?.TitleLine?.length > 0 && " - " + settingData?.step2Data?.TitleLine}</span>
+                                                            </div>
+
+                                                            <div className="for_Complete_set_title_wishlist">
+                                                                <Checkbox
+                                                                    icon={
+                                                                        <GoHeart size={24} color='black' />
+                                                                    }
+                                                                    checkedIcon={
+                                                                        <GoHeartFill size={24} color='black' />
+                                                                    }
+
+                                                                    className='for_wishlist_icon'
+                                                                    disableRipple={true}
+                                                                    checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                                                                // onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
+                                                                />
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="for_Complete_set_title_sku">
+                                                            <div className='for_Complete_set_sku'>SKU: {settingData?.step2Data?.designno}</div>
+                                                        </div>
+                                                        <div className="for_Complete_set_price_div">
+                                                            <div className="for_Complete_set_price">
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp)}</span>
+                                                            </div>
+                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting}/${setshape?.[1]?.Setting === 'Ring' ? 'M=V29tZW4vZ2VuZGVy' : 'M=Q2xhaXJlL2NvbGxlY3Rpb24='}`) }}>
+
+                                                                <HiOutlinePencilSquare fontWeight={700} />
+                                                                <span style={{ marginTop: '1px' }}>Change</span>
+                                                            </div>
+                                                        </div>
                                                     </>
                                                 )}
-                                            </div>
-                                            <div className="for_DiamondDet_title_wishlist">
-                                                <Checkbox
-                                                    icon={
-                                                        <GoHeart size={26} color='black' />
-                                                    }
-                                                    checkedIcon={
-                                                        <GoHeartFill size={26} color='black' />
-                                                    }
-
-                                                    className='for_wishlist_icon'
-                                                    disableRipple={true}
-                                                    checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                                    onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
-                                                />
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="for_DiamondDet_title_main_div">
-                                    <div className="for_DiamondDet_title_div">
-                                        {isDataFound ?
-                                            <Skeleton variant="rounded" style={{ height: '30px', width: '32rem' }} />
-                                            : (
-                                                <div className="for_DiamondDet_title">
-                                                    <span>{`${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.colorname} ${singleDiaData[0]?.clarityname} ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Diamond`}</span>
-                                                    {/* <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span> */}
+
+                                        <div className="for_Complete_set_Diamond_div">
+                                            {isDataFound ?
+                                                <Skeleton variant="rounded" style={{ height: '8rem', width: '38rem' }} />
+                                                : (
+                                                    <>
+                                                        <div className="for_Complete_set_title">
+                                                            <span>{`${diamondData?.step1Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename} Diamond`}</span>
+                                                        </div>
+
+                                                        <div className="for_Complete_set_title_sku_dia">
+                                                            <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno}</div>
+                                                        </div>
+                                                        <div className="for_Complete_set_price_div">
+                                                            <div className="for_Complete_set_price">
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price)}</span>
+                                                            </div>
+                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape}`) }}>
+                                                                <HiOutlinePencilSquare fontWeight={700} />
+                                                                <span style={{ marginTop: '1px' }}>Change</span>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                )}
+                                        </div>
+
+                                        <div className="for_Complete_set_size_div">
+                                            {sizeCombo?.length > 0 && (
+                                                <div className="for_prodWeights_metalType_div">
+                                                    <div className='for_prodWeight_title_div'>
+                                                        <span className="for_prodWeights_metalType_title">{setshape?.[1]?.Setting} Size</span>
+                                                        <span className="for_prodWeights_metalType_title_1">{`(Choose your ${setshape?.[1]?.Setting} size)`}</span>
+                                                    </div>
+                                                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                                                        <select
+                                                            className="for_prodWeights_weights_drp"
+                                                            value={sizeData}
+                                                            onChange={(e) => handleCustomChange(e, 'size')}
+                                                        >
+                                                            {sizeCombo?.map((ele, index) => (
+                                                                <option key={index} value={ele?.value}>
+                                                                    {ele?.title}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </FormControl>
                                                 </div>
-                                            )
-                                        }
+                                            )}
+                                        </div>
 
-                                        <div className="for_DiamondDet_title_sku">
-                                            <div className='for_DiamondDet_sku'>SKU: {isDataFound ? <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} /> : singleDiaData[0]?.stockno}</div>
+                                        <div className="for_Complete_set_final_price_div">
+                                            <div className="for_Complete_set_price">
+                                                <span className='for_com_set_prc_loader'>
+                                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    {isDataFound ? (
+                                                        <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                                                    ) : (
+                                                        <span>{formatter(totalPrice)}</span>
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="for_Complete_set_choose_Dia_div">
+                                            {compSet ? (
+                                                <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15}`}>
+                                                    {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
+                                                </button>
+                                            ) : (
+                                                <>
+                                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                        choose this diamond
+                                                    </button>
+                                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="for_Complete_set_shipp_div">
+                                            <div className="for_DiamondDet_shipping_fee_div">
+                                                <div className="for_DiamondDet_shipping_icon">
+                                                    <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
+                                                </div>
+                                                <div className="for_DiamondDet_shipp_desc">
+                                                    <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
+                                                    <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
+                                                </div>
+                                            </div>
+                                            <div className="for_DiamondDet_calender_div">
+                                                <div className="for_DiamondDet_calender_icon">
+                                                    <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
+                                                </div>
+                                                <div className="for_DiamondDet_calender_desc">
+                                                    <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
+                                                    <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="for_DiamondDet_prodWeights_div">
-                                </div>
-                                <div className="for_DiamondDet_price_div">
-                                    <span className='for_DiamondDet_price'>
-                                        <span
-                                            dangerouslySetInnerHTML={{
-                                                __html: decodeEntities(loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode),
-                                            }}
-                                        />
-                                        {
-                                            isPriceloading ?
-                                                <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                                                :
-                                                <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
-                                            // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
-                                        }
-                                    </span>
-                                </div>
-                                <div className="for_DiamondDet_details_div">
-                                    {isDataFound ? <Skeleton variant="rounded" style={{ height: '6rem', width: '32rem' }} /> :
-                                        (
-                                            <span className='for_Diamond_details_span'>{`This ${singleDiaData[0]?.companyname} diamond is a stunning symbol of perfection & brilliance with its flawless ${singleDiaData[0]?.clarityname} clarity, ${singleDiaData[0]?.colorname} color, and expertly crafted excellent round cut.`}</span>
-                                        )}
-                                </div>
-                                <div className="for_DiamondDet_choose_Dia_div">
-                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
-                                        choose this diamond
-                                    </button>
-                                    <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
-                                </div>
-                                <div className="for_DiamondDet_shipping_fee_div">
-                                    <div className="for_DiamondDet_shipping_icon">
-                                        <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
-                                    </div>
-                                    <div className="for_DiamondDet_shipp_desc">
-                                        <span className='for_shipp_desc_title_1'>Free shipping, free 30 days return</span>
-                                        <span className='for_shipp_desc_title_2'><span className='for_shipp_desc_bold'>Please Note :</span> If the diamond is part of a diamond ring, the completed ring will ship according to the shipping date of the setting</span>
-                                    </div>
-                                </div>
-                                <div className="for_DiamondDet_calender_div">
-                                    <div className="for_DiamondDet_calender_icon">
-                                        <img className='for_DiamondDet_calender_image' src={`${storImagePath()}/images/ProductListing/Shipping/calendar.png`} alt='calender-icon' ></img>
-                                    </div>
-                                    <div className="for_DiamondDet_calender_desc">
-                                        <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
-                                        <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="for_DiamondDet_prod_desc_mainDIv">
-                        <div className="for_DiamondDet_desc">
-                            <span className='for_DiamondDet_desc_title'>General information</span>
-                            {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
-                                <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
                             )}
-                        </div>
-                        <div className="for_DiamondDet_desc_1">
-                            <div className="for_DiamondDet_desc_DiaInfo_1">
-                                <span className='for_DiamondDet_desc_title_1'>Diamond information</span>
-                                <div className='for_DiamondDet_desc_div'>
-                                    {diaArr1?.map((item, index) => (
-                                        <div className="for_Diamond_desc_div" key={index}>
-                                            <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
-                                            <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="for_DiamondDet_desc_DiaInfo_1">
-                                <span className='for_DiamondDet_desc_title_1'>More Diamond information</span>
-                                <div className='for_DiamondDet_desc_div'>
-                                    {diaArr2?.map((item, index) => (
-                                        <div className="for_Diamond_desc_div" key={index}>
-                                            <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
-                                            <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                    <div className="for_DiamondDet_services_div">
+                    {!compSet && (
+                        <div className="for_DiamondDet_prod_desc_mainDIv">
+                            <div className="for_DiamondDet_desc">
+                                <span className='for_DiamondDet_desc_title'>General information</span>
+                                {isDataFound ? <Skeleton variant="rounded" style={{ height: '30px', width: '40rem' }} /> : (
+                                    <p className='for_DiamondDet_desc_1_para'>{`This ${singleDiaData[0]?.carat} Carat ${singleDiaData[0]?.cutname} Cut ${singleDiaData[0]?.shapename} Shape Diamond ${singleDiaData[0]?.colorname} Color ${singleDiaData[0]?.clarityname} Clarity has a diamond grading report from ${singleDiaData[0]?.certyname}.`}</p>
+                                )}
+                            </div>
+                            <div className="for_DiamondDet_desc_1">
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr1?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="for_DiamondDet_desc_DiaInfo_1">
+                                    <span className='for_DiamondDet_desc_title_1'>More Diamond information</span>
+                                    <div className='for_DiamondDet_desc_div'>
+                                        {diaArr2?.map((item, index) => (
+                                            <div className="for_Diamond_desc_div" key={index}>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.title}: </div>
+                                                <div className='for_DiamondDet_desc_title_para'>{item?.value}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <div className="for_Complete_set_services_div">
                         <Services title={"Our Exclusive services"} services={services} />
                     </div>
                 </div>
-                <div className="for_DiamondDet_trend_coll_banner_div">
-                    <div className="for_trend_coll_details_div">
-                        <div className="for_trend_coll_det_title">
-                            <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
-                            <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
-                            <div className='for_trend_coll_para'>
-                                <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
-                            </div>
-                            <div className="for_trend_coll_btn">
-                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                {setshape?.[1]?.Setting === 'Ring' ? (
+                    <div className="for_DiamondDet_trend_coll_banner_div">
+                        <div className="for_trend_coll_details_div">
+                            <div className="for_trend_coll_det_title">
+                                <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Rings</span></span></div>
+                                <div className='for_trend_coll_para'>
+                                    <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                </div>
+                                <div className="for_trend_coll_btn">
+                                    <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Rings</button>
+                                </div>
                             </div>
                         </div>
+                        <div className='for_trend_coll_image_div'>
+                            <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/banner-3.png`} alt="" />
+                        </div>
+                        <div className="for_DiamondDet_NewsLetter">
+                            <NewsletterSignup />
+                        </div>
                     </div>
-                    <div className='for_trend_coll_image_div'>
-                        <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
-                    </div>
-                    <div className="for_DiamondDet_NewsLetter">
-                        <NewsletterSignup />
-                    </div>
-                </div>
-            </div>
+                ) : (
+                    <>
+                        {setshape?.[1]?.Setting === 'Pendant' ? (
+                            <div className="for_DiamondDet_trend_coll_banner_div">
+                                <div className="for_trend_coll_details_div">
+                                    <div className="for_trend_coll_det_title">
+                                        <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                        <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Pendants</span></span></div>
+                                        <div className='for_trend_coll_para'>
+                                            <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                        </div>
+                                        <div className="for_trend_coll_btn">
+                                            <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Pendants</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='for_trend_coll_image_div'>
+                                    <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/pendants.webp`} alt="" />
+                                </div>
+                                <div className="for_DiamondDet_NewsLetter">
+                                    <NewsletterSignup />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="for_DiamondDet_trend_coll_banner_div">
+                                <div className="for_trend_coll_details_div">
+                                    <div className="for_trend_coll_det_title">
+                                        <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                        <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
+                                        <div className='for_trend_coll_para'>
+                                            <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                        </div>
+                                        <div className="for_trend_coll_btn">
+                                            <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='for_trend_coll_image_div'>
+                                    <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
+                                </div>
+                                <div className="for_DiamondDet_NewsLetter">
+                                    <NewsletterSignup />
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+
+            </div >
         </div >
     )
 }
 
 export default DiamondDetails
 
+// const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
+//     const dropdownRefs = useRef({});
+//     const [open, setOpen] = useState(null);
+//     const Navigation = useNavigate();
+//     const location = useLocation();
+//     const getStepName = location?.pathname.split('/');
+
+//     const isDiamondPage = stockno;
+//     console.log('isDiamondPage: ', isDiamondPage);
+//     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
+//     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
+
+//     const settingActive = getStepName.includes('Ring') || getStepName.includes('Pendant') || getStepName.includes('Diamond_Pendant');
+//     console.log('settingActive: ', settingActive);
+
+//     const compSet = 'setting-complete-product';
+
+//     const isActive = (pathSegment) => getStepName.includes(pathSegment) || location?.pathname.slice('/')?.includes(pathSegment);
+
+//     useEffect(() => {
+//         const handleClickOutside = (event) => {
+//             if (Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target))) {
+//                 setOpen(null);
+//             }
+//         };
+
+//         document.addEventListener('mousedown', handleClickOutside);
+//         return () => {
+//             document.removeEventListener('mousedown', handleClickOutside);
+//         };
+//     }, []);
+
+//     const handleOpen = (index) => {
+//         setOpen(open === index ? null : index);
+//     };
+
+//     return (
+//         <>
+//             {getdiaData?.length > 0 ? (
+//                 <div className="diamond_Step_data_det">
+//                     <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
+//                         <span
+//                             className="for_title_span"
+//                             style={StyleCondition}
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+//                                 setswap("diamond");
+//                             }}
+//                         >
+//                             <img src={StepImages[0]?.img} alt="" /> Diamond
+//                         </span>
+//                         {getdiaData?.[0]?.step1Data?.[0] && (
+//                             <HandleDrp
+//                                 index={0}
+//                                 open={open === 'diamond'}
+//                                 handleOpen={() => handleOpen('diamond')}
+//                                 data={getdiaData?.[0]?.step1Data?.[0]}
+//                                 ref={(el) => { dropdownRefs.current[0] = el; }}
+//                             />
+//                         )}
+//                     </div>
+
+//                     {/* <div className={`step_data ${!isDiamondPage || !settingActive ? 'active' : ''} d-2`}> */}
+//                     <div className={`step_data d-2`}>
+//                         <span
+//                             className="for_title_span"
+//                             style={StyleCondition}
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+//                                 setswap("settings");
+//                             }}
+//                         >
+//                             <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
+//                         </span>
+//                         {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
+//                             <HandleDrp
+//                                 index={1}
+//                                 open={open === 'setting'}
+//                                 handleOpen={() => handleOpen('setting')}
+//                                 data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
+//                                 ref={(el) => { dropdownRefs.current[1] = el; }}
+//                             />
+//                         )}
+//                     </div>
+
+//                     <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'}  ${isActive(compSet) ? 'active' : ''} d-3`}>
+//                         <span
+//                             style={StyleCondition}
+//                             onClick={() => {
+//                                 Navigation(`/diamond`);
+//                                 setswap("finish");
+//                             }}
+//                         >
+//                             <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
+//                         </span>
+//                     </div>
+//                 </div>
+//             ) : (
+//                 <div className="for_diamond_Step">
+//                     {Swap === "diamond" ? (
+//                         <div
+//                             className="for_step d-1"
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+//                                 setswap("diamond");
+//                             }}
+//                         >
+//                             <span style={StyleCondition}>
+//                                 <img src={StepImages[0]?.img} alt="" /> Diamond
+//                             </span>
+//                         </div>
+//                     ) : (
+//                         <div
+//                             className="for_step d-2"
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+//                                 setswap("settings");
+//                             }}
+//                         >
+//                             <span style={StyleCondition}>
+//                                 <img src={StepImages[1]?.img} alt="" /> Settings
+//                             </span>
+//                         </div>
+//                     )}
+//                     {Swap !== "diamond" ? (
+//                         <div
+//                             className="for_step d-1"
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
+//                                 setswap("diamond");
+//                             }}
+//                         >
+//                             <span style={StyleCondition}>
+//                                 <img src={StepImages[0]?.img} alt="" /> Diamond
+//                             </span>
+//                         </div>
+//                     ) : (
+//                         <div
+//                             className="for_step d-2"
+//                             onClick={() => {
+//                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+//                                 setswap("settings");
+//                             }}
+//                         >
+//                             <span style={StyleCondition}>
+//                                 <img src={StepImages[1]?.img} alt="" /> Settings
+//                             </span>
+//                         </div>
+//                     )}
+//                     <div className="for_step d-3">
+//                         <span
+//                             style={StyleCondition}
+//                             onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`)}
+//                         >
+//                             <img src={StepImages[2]?.img} alt="" /> Rings
+//                         </span>
+//                     </div>
+//                 </div>
+//             )}
+//         </>
+//     );
+// };
+
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
+    const [isSetting, setIsSetting] = useState([]);
     const Navigation = useNavigate();
     const location = useLocation();
+    const isDiamondPage = stockno || 'det345';
     const getStepName = location?.pathname.split('/');
-
-    const isDiamondPage = stockno;
-    console.log('isDiamondPage: ', isDiamondPage);
     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
-
-    const settingActive = getStepName.includes('Ring') || getStepName.includes('Pendant') || getStepName.includes('Diamond_Pendant');
-    console.log('settingActive: ', settingActive);
-
-    const compSet = 'setting-complete-product';
+    const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
+    const settingActive = 'Ring' || 'Pendant' || 'Diamond_Pendants' || 'Engagement_Ring';
+    const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+    const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
 
     const isActive = (pathSegment) => getStepName.includes(pathSegment) || location?.pathname.slice('/')?.includes(pathSegment);
 
     useEffect(() => {
+        setIsSetting(location?.pathname.split('/'));
+    }, [location?.pathname]);
+
+    useEffect(() => {
         const handleClickOutside = (event) => {
+            // Check if the click was outside of any dropdown
             if (Object.values(dropdownRefs.current).every(ref => ref && !ref.contains(event.target))) {
-                setOpen(null);
+                setOpen(null); // Close all dropdowns
             }
         };
 
+        // Add event listener for clicks outside
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
+            // Clean up event listener on component unmount
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
@@ -876,19 +1472,71 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
         setOpen(open === index ? null : index);
     };
 
+    console.log('step3:', getCustStepData?.[3]?.step3);
+
+    const renderSteps = () => {
+        return (
+            <>
+                <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
+                    <span className="for_title_span" style={StyleCondition}
+                        onClick={() => {
+                            Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+                            setswap("settings");
+                        }}
+                    >
+                        <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={
+                            (getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+                            StepImages[1]?.img
+                        } alt="" /> Settings
+                    </span>
+                    {getdiaData2?.[0]?.step1Data?.[0] && (
+                        <HandleDrp
+                            index={1}
+                            open={open === 'setting'}
+                            handleOpen={() => handleOpen('setting')}
+                            data={getdiaData2?.[0]?.step1Data?.[0]}
+                            ref={(el) => { dropdownRefs.current[1] = el; }}
+                        />
+                    )}
+                </div>
+
+                <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
+                    <span className="for_title_span" style={StyleCondition} onClick={() => {
+                        Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                        setswap("diamond");
+                    }}>
+                        <img src={StepImages[0]?.img} alt="" /> Diamond
+                    </span>
+                    {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
+                        <HandleDrp
+                            index={0}
+                            open={open === 'diamond'}
+                            handleOpen={() => handleOpen('diamond')}
+                            data={getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data}
+                            ref={(el) => { dropdownRefs.current[0] = el; }}
+                        />
+                    )}
+                </div>
+
+                <div className={`step_data ${(getdiaData2?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData2?.[2]?.step3 === true ? 'active' : ''} d-3`}>
+                    <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
+                        <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+                            StepImages[2]?.img} alt="" /> {getCustStepData2?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
+                    </span>
+                </div>
+            </>
+        );
+    };
+
     return (
         <>
-            {getdiaData?.length > 0 ? (
+            {getdiaData?.length > 0 || isActive(isDiamondPage) ? (
                 <div className="diamond_Step_data_det">
                     <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
-                        <span
-                            className="for_title_span"
-                            style={StyleCondition}
-                            onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-                                setswap("diamond");
-                            }}
-                        >
+                        <span className="for_title_span" style={StyleCondition} onClick={() => {
+                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                            setswap("diamond");
+                        }}>
                             <img src={StepImages[0]?.img} alt="" /> Diamond
                         </span>
                         {getdiaData?.[0]?.step1Data?.[0] && (
@@ -902,17 +1550,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                         )}
                     </div>
 
-                    {/* <div className={`step_data ${!isDiamondPage || !settingActive ? 'active' : ''} d-2`}> */}
-                    <div className={`step_data d-2`}>
-                        <span
-                            className="for_title_span"
-                            style={StyleCondition}
+                    <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
+                        <span className="for_title_span" style={StyleCondition}
                             onClick={() => {
                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
                                 setswap("settings");
                             }}
                         >
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img} alt="" /> Settings
+                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+                                StepImages[2]?.img} alt="" /> Settings
                         </span>
                         {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
                             <HandleDrp
@@ -925,83 +1571,86 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                         )}
                     </div>
 
-                    <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'}  ${isActive(compSet) ? 'active' : ''} d-3`}>
-                        <span
-                            style={StyleCondition}
-                            onClick={() => {
-                                Navigation(`/diamond`);
-                                setswap("finish");
-                            }}
-                        >
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={getCustStepData[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img} alt="" /> {getStepName.includes('Pendant') ? 'Pendant' : 'Ring'}
+                    <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[2]?.step3 === true ? 'active' : ''} d-3`}>
+                        <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
+                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+                                StepImages[2]?.img} alt="" /> {getCustStepData?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
                         </span>
                     </div>
                 </div>
             ) : (
-                <div className="for_diamond_Step">
-                    {Swap === "diamond" ? (
-                        <div
-                            className="for_step d-1"
-                            onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-                                setswap("diamond");
-                            }}
-                        >
-                            <span style={StyleCondition}>
-                                <img src={StepImages[0]?.img} alt="" /> Diamond
-                            </span>
+                <>
+                    {!isSetting.join(' ').includes('diamond_shape') ? (
+                        <div className="diamond_Step_data_det">
+                            {renderSteps()}
                         </div>
                     ) : (
-                        <div
-                            className="for_step d-2"
-                            onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
-                                setswap("settings");
-                            }}
-                        >
-                            <span style={StyleCondition}>
-                                <img src={StepImages[1]?.img} alt="" /> Settings
-                            </span>
-                        </div>
+                        <>
+                            <div className="for_diamond_Step">
+                                {Swap === "diamond" ? (
+                                    <div
+                                        className="for_step d-1"
+                                        onClick={() => {
+                                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+                                            setswap("diamond");
+                                        }}
+                                    >
+                                        <span style={StyleCondition}>
+                                            <img src={StepImages[0]?.img} alt="" /> Diamond
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="for_step d-2"
+                                        onClick={() => {
+                                            Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=V29tZW4vZ2VuZGVy`);
+                                            setswap("settings");
+                                        }}
+                                    >
+                                        <span style={StyleCondition}>
+                                            <img src={StepImages[1]?.img} alt="" /> Settings
+                                        </span>
+                                    </div>
+                                )}
+                                {Swap !== "diamond" ? (
+                                    <div
+                                        className="for_step d-1"
+                                        onClick={() => {
+                                            Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
+                                            setswap("diamond");
+                                        }}
+                                    >
+                                        <span style={StyleCondition}>
+                                            <img src={StepImages[0]?.img} alt="" /> Diamond
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="for_step d-2"
+                                        onClick={() => {
+                                            Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
+                                            setswap("settings");
+                                        }}
+                                    >
+                                        <span style={StyleCondition}>
+                                            <img src={StepImages[1]?.img} alt="" /> Settings
+                                        </span>
+                                    </div>
+                                )}
+                                <div className="for_step d-3">
+                                    <span style={StyleCondition} onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`)}>
+                                        <img src={StepImages[2]?.img} alt="" /> Rings
+                                    </span>
+                                </div>
+                            </div>
+                        </>
                     )}
-                    {Swap !== "diamond" ? (
-                        <div
-                            className="for_step d-1"
-                            onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/diamond`);
-                                setswap("diamond");
-                            }}
-                        >
-                            <span style={StyleCondition}>
-                                <img src={StepImages[0]?.img} alt="" /> Diamond
-                            </span>
-                        </div>
-                    ) : (
-                        <div
-                            className="for_step d-2"
-                            onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`);
-                                setswap("settings");
-                            }}
-                        >
-                            <span style={StyleCondition}>
-                                <img src={StepImages[1]?.img} alt="" /> Settings
-                            </span>
-                        </div>
-                    )}
-                    <div className="for_step d-3">
-                        <span
-                            style={StyleCondition}
-                            onClick={() => Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring`)}
-                        >
-                            <img src={StepImages[2]?.img} alt="" /> Rings
-                        </span>
-                    </div>
-                </div>
+                </>
             )}
         </>
     );
 };
+
 
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     const [storeInit, setStoreInit] = useState({});
@@ -1084,7 +1733,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             Navigation(navigateUrl);
         }
         if (data?.autocode) {
-            let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' };
+            let pValue = isRing === 'Ring' ? { menuname: 'Engagement_Ring' } : { menuname: 'Diamond_Pendants' };
             let obj = {
                 a: data?.autocode,
                 b: data?.designno,
