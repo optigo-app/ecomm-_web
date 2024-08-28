@@ -89,6 +89,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const location = useLocation();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [isRing, setIsRing] = useState(false);
+  const getShape1 = JSON.parse(sessionStorage.getItem('customizeSteps'))
+  const getShape2 = JSON.parse(sessionStorage.getItem('customizeSteps2'))
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -104,10 +106,13 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
   const handleRemoveItem = (index) => {
     const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
+    const storedData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
     const storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+    const storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
 
     if (index === 0) {
       sessionStorage.removeItem('custStepData');
+      sessionStorage.removeItem('custStepData2');
       handleOpen(null)
     }
     else {
@@ -117,10 +122,17 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
         sessionStorage.setItem('custStepData', JSON.stringify(storedData));
       }
+      if (Array.isArray(storedData2)) {
+        storedData2.splice(index, 1);
+        handleOpen(null)
+
+        sessionStorage.setItem('custStepData2', JSON.stringify(storedData2));
+      }
     }
 
     if (index === 0) {
       sessionStorage.removeItem('customizeSteps');
+      sessionStorage.removeItem('customizeSteps2');
       handleOpen(null)
     }
     else {
@@ -129,6 +141,12 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         handleOpen(null)
 
         sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+      }
+      if (Array.isArray(storedSteps2)) {
+        storedSteps2.splice(index, 2);
+        handleOpen(null)
+
+        sessionStorage.setItem('customizeSteps2', JSON.stringify(storedSteps2));
       }
     }
   };
@@ -162,14 +180,14 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
       Navigation(navigateUrl);
     }
-    if (data?.autocode) {
-      let pValue = isRing === 'Ring' ? { menuname: 'Engagement_Ring' } : { menuname: 'Diamond_Pendants' };
+    if ((data?.autocode ?? data?.step1Data?.autocode)) {
+      let pValue = getShape1?.[1]?.Setting === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' } || getShape2?.[0]?.Setting === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' }
       let obj = {
-        a: data?.autocode,
-        b: data?.designno,
-        m: data?.MetalPurityid,
-        d: loginUserDetail?.cmboDiaQCid,
-        c: loginUserDetail?.cmboCSQCid,
+        a: (data?.autocode ?? data?.step1Data?.autocode),
+        b: (data?.designno ?? data?.step1Data?.designno),
+        m: (data?.MetalPurityid ?? data?.selectedMetalId),
+        d: (loginUserDetail?.cmboDiaQCid ?? data?.selectedDiaId),
+        c: (loginUserDetail?.cmboCSQCid ?? data?.selectedCsId),
         p: pValue,
         f: {},
       };
@@ -177,8 +195,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
       Navigation(
-        `/d/${data?.TitleLine.replace(/\s+/g, `_`)}${data?.TitleLine?.length > 0 ? "_" : ""
-        }${data?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
+        `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
+        }${(data?.designno ?? data?.step1Data?.designno)}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
       );
     }
   }
@@ -216,13 +234,13 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages(data?.designno, data?.ImageExtension)}
+              src={(data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
               alt=""
               style={{ cursor: 'default' }}
             />
           </div>
           <div className="for_dia_price">
-            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price || data?.UnitCostWithMarkUp)}</span>
+            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
           </div>
           <div className="for_view_rem_div">
             <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
@@ -242,6 +260,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   );
 });
 
+
 const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const dropdownRefs = useRef({});
   const [open, setOpen] = useState(null);
@@ -253,11 +272,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
   const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
   const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+  console.log('getdiaData2: ', getdiaData2);
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
 
-  useEffect(() => {
-    setIsSetting(location?.pathname.split('/'));
-  }, [location?.pathname]);
+  // useEffect(() => {
+  //   setIsSetting(location?.pathname.split('/'));
+  // }, [location?.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -294,12 +314,21 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
               StepImages[1]?.img
             } alt="" /> Settings
           </span>
-          {getdiaData2?.[0]?.step1Data?.[0] && (
+          {getdiaData2?.[0]?.step1Data && (
             <HandleDrp
               index={0}
               open={open === 'setting'}
               handleOpen={() => handleOpen('setting')}
-              data={getdiaData2?.[0]?.step1Data?.[0]}
+              data={getdiaData2?.[0]}
+              ref={(el) => { dropdownRefs.current[0] = el; }}
+            />
+          )}
+          {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
+            <HandleDrp
+              index={0}
+              open={open === 'setting'}
+              handleOpen={() => handleOpen('setting')}
+              data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
               ref={(el) => { dropdownRefs.current[0] = el; }}
             />
           )}
@@ -318,6 +347,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
               open={open === 'diamond'}
               handleOpen={() => handleOpen('diamond')}
               data={getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data}
+              ref={(el) => { dropdownRefs.current[1] = el; }}
+            />
+          )}
+          {getdiaData?.[0]?.step1Data?.[0] && (
+            <HandleDrp
+              index={1}
+              open={open === 'diamond'}
+              handleOpen={() => handleOpen('diamond')}
+              data={getdiaData?.[0]?.step1Data?.[0]}
               ref={(el) => { dropdownRefs.current[1] = el; }}
             />
           )}
@@ -353,6 +391,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                 ref={(el) => { dropdownRefs.current[0] = el; }}
               />
             )}
+            {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
+              <HandleDrp
+                index={0}
+                open={open === 'diamond'}
+                handleOpen={() => handleOpen('diamond')}
+                data={getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data}
+                ref={(el) => { dropdownRefs.current[0] = el; }}
+              />
+            )}
           </div>
 
           <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
@@ -374,6 +421,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
                 ref={(el) => { dropdownRefs.current[1] = el; }}
               />
             )}
+            {getdiaData2?.[0]?.step1Data && (
+              <HandleDrp
+                index={1}
+                open={open === 'setting'}
+                handleOpen={() => handleOpen('setting')}
+                data={getdiaData2?.[0]}
+                ref={(el) => { dropdownRefs.current[1] = el; }}
+              />
+            )}
           </div>
 
           <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[3]?.step3 === true ? 'active' : ''} d-3`}>
@@ -385,7 +441,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
         </div>
       ) : (
         <>
-          {!isSetting.join(' ').includes('diamond_shape') ? (
+          {!getStepName.includes('diamond_shape') ? (
             <div className="diamond_Step_data">
               {renderSteps()}
             </div>
