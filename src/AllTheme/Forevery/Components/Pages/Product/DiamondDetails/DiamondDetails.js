@@ -105,8 +105,11 @@ const DiamondDetails = () => {
     const [metalWiseColorImg, setMetalWiseColorImg] = useState()
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
+    console.log('diamondData: ', diamondData);
     const [settingData, setSettingData] = useState([]);
+    console.log('settingData: ', settingData);
     const [setshape, setSetShape] = useState();
+    console.log('setshape: ', setshape);
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -135,11 +138,11 @@ const DiamondDetails = () => {
     useEffect(() => {
         if (compSet) {
             const handleCompset = () => {
-                const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0];
+                const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? JSON?.parse(sessionStorage.getItem('custStepData2'))?.[1];
                 setDiamondData(diamondDatas)
-                const SettingDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[1];
+                const SettingDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[1] ?? JSON?.parse(sessionStorage.getItem('custStepData2'))?.[0];
                 setSettingData(SettingDatas)
-                const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps'));
+                const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? JSON.parse(sessionStorage.getItem('customizeSteps2'));
                 setSetShape(getSetShape);
             }
             handleCompset();
@@ -232,44 +235,24 @@ const DiamondDetails = () => {
     }, []);
 
     useEffect(() => {
-        const isInCart = singleProd?.IsInCart === 0 ? false : true;
+        const isInCart = (settingData?.step2Data?.IsInCart ?? settingData?.step1Data?.IsInCart) === 0 ? false : true;
         setAddToCartFlag(isInCart);
     }, [singleProd])
 
-    const handleCart = async (cartFlag) => {
-        const metal =
-            metalTypeCombo?.find((ele) => {
-                return ele?.metaltype == metalType
-            }) ?? metalTypeCombo;
-
-        const dia =
-            diaQcCombo?.find((ele) => {
-                return ele?.Quality == selectDiaQc?.split(",")[0] &&
-                    ele?.color == selectDiaQc?.split(",")[1]
-            }) ?? diaQcCombo;
-
-        const cs =
-            csQcCombo?.find((ele) => {
-                return ele?.Quality == selectCsQC?.split(",")[0] &&
-                    ele?.color == selectCsQC?.split(",")[1]
-            }) ?? csQcCombo;
-
-        const mcArr =
-            metalColorCombo?.find((ele) => {
-                return ele?.metalcolorname == metalColor
-            }) ?? metalColorCombo;
+    const handleCart = async (cartFlag, diamond, setting) => {
 
         const prodObj = {
-            autocode: singleProd?.autocode,
-            Metalid: metal?.Metalid,
-            MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-            DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-            CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
-            Size: sizeData ?? singleProd?.DefaultSize,
-            Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
-            markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
-            UnitCostWithmarkup: singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
+            autocode: setting?.step2Data?.autocode ?? setting?.step1Data?.autocode,
+            Metalid: setting?.selectedMetalId,
+            MetalColorId: setting?.step2Data?.MetalColorid ?? setting?.step1Data?.MetalColorid,
+            DiaQCid: setting?.selectedDiaId,
+            CsQCid: setting?.selectedCsId,
+            Size: setting?.step2Data?.DefaultSize ?? setting?.step1Data?.DefaultSize,
+            Unitcost: setting?.step2Data?.UnitCost ?? setting?.step1Data?.UnitCost,
+            markup: setting?.step2Data?.DesignMarkUp ?? setting?.step1Data?.DesignMarkUp,
+            UnitCostWithmarkup: setting?.step2Data?.UnitCostWithMarkUp ?? setting?.step1Data?.UnitCostWithMarkUp,
             Remark: "",
+            stockno: diamond?.step1Data?.[0]?.stockno ?? diamond?.step2Data?.[0]?.stockno,
         }
 
         if (cartFlag) {
@@ -287,7 +270,7 @@ const DiamondDetails = () => {
             }
         }
         else {
-            let res1 = await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie);
+            let res1 = await RemoveCartAndWishAPI("Cart", (setting?.step2Data?.autocode ?? setting?.step1Data?.autocode), cookie, "", (diamond?.step1Data?.[0]?.stockno ?? diamond?.step2Data?.[0]?.stockno));
             if (res1) {
                 try {
                     let cartC = res1?.Data?.rd[0]?.Cartlistcount;
@@ -383,14 +366,12 @@ const DiamondDetails = () => {
     };
 
     const handleButtonChange = async (value, e, stockno, shape) => {
-        console.log('stockno: ', stockno);
         setWishListFlag(e?.target?.checked);
         if (value == 'cart') {
             await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
                 console.log(res?.Data?.rd[0])
                 if (res) {
                     if (res?.Data?.rd[0]?.msg === 'success') {
-                        toast.success("Your Diamond is added to cart")
                         let cartC = res?.Data?.rd[0]?.Cartlistcount
                         let wishC = res?.Data?.rd[0]?.Wishlistcount
                         setWishCountVal(wishC)
@@ -479,7 +460,9 @@ const DiamondDetails = () => {
 
         if (value == 'ring') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=UmluZy9jYXRlZ29yeQ==`);
+            const addCategory = `Ring/category/${stockno}`;
+            const filterKeyVal = btoa(addCategory)
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
             setCustomizeStep({
                 step1: true,
                 step2: true,
@@ -505,7 +488,9 @@ const DiamondDetails = () => {
 
         if (value == 'pendant') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
+            const addCategory = `Pendant/category/${stockno}`;
+            const filterKeyVal = btoa(addCategory);
+            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
             setCustomizeStep({
                 step1: true,
                 step2: true,
@@ -659,9 +644,7 @@ const DiamondDetails = () => {
         // setCsList(res?.pdResp?.rd4)
     }
 
-    const totalPrice = (Number(diamondData?.step1Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp)).toFixed(2);
-
-    console.log("lll", settingSteps?.[1]?.step2)
+    const totalPrice = (Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2);
 
     return (
         <div className="for_DiamondDet_mainDiv">
@@ -673,6 +656,8 @@ const DiamondDetails = () => {
                             Swap={Swap}
                             setswap={setswap}
                             stockno={singleDiaData[0]?.stockno}
+                            totalPrice={totalPrice}
+                            compSet={compSet}
                         />
                     </div>
                     <div className="for_DiamondDet_container_div">
@@ -1015,7 +1000,7 @@ const DiamondDetails = () => {
                                                     <>
                                                         <div className='for_Complete_set_title_des_div'>
                                                             <div className="for_Complete_set_title">
-                                                                <span>{settingData?.step2Data?.designno} {settingData?.step2Data?.TitleLine?.length > 0 && " - " + settingData?.step2Data?.TitleLine}</span>
+                                                                <span>{settingData?.step2Data?.designno ?? settingData?.step1Data?.designno} {(settingData?.step2Data?.TitleLine?.length > 0 && " - " + settingData?.step2Data?.TitleLine) ?? (settingData?.step1Data?.TitleLine?.length > 0 && " - " + settingData?.step1Data?.TitleLine)}</span>
                                                             </div>
 
                                                             <div className="for_Complete_set_title_wishlist">
@@ -1036,13 +1021,13 @@ const DiamondDetails = () => {
 
                                                         </div>
                                                         <div className="for_Complete_set_title_sku">
-                                                            <div className='for_Complete_set_sku'>SKU: {settingData?.step2Data?.designno}</div>
+                                                            <div className='for_Complete_set_sku'>SKU: {settingData?.step2Data?.designno ?? settingData?.step1Data?.designno}</div>
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp)}</span>
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
                                                             </div>
-                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting}/${setshape?.[1]?.Setting === 'Ring' ? 'M=V29tZW4vZ2VuZGVy' : 'M=Q2xhaXJlL2NvbGxlY3Rpb24='}`) }}>
+                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${(setshape?.[1]?.Setting === 'Ring' ? 'M=V29tZW4vZ2VuZGVy' : 'M=Q2xhaXJlL2NvbGxlY3Rpb24=') ?? (setshape?.[0]?.Setting === 'Ring' ? 'M=V29tZW4vZ2VuZGVy' : 'M=Q2xhaXJlL2NvbGxlY3Rpb24=')}`) }}>
 
                                                                 <HiOutlinePencilSquare fontWeight={700} />
                                                                 <span style={{ marginTop: '1px' }}>Change</span>
@@ -1058,15 +1043,15 @@ const DiamondDetails = () => {
                                                 : (
                                                     <>
                                                         <div className="for_Complete_set_title">
-                                                            <span>{`${diamondData?.step1Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename} Diamond`}</span>
+                                                            <span>{`${diamondData?.step1Data?.[0]?.carat ?? diamondData?.step2Data?.[0]?.carat} Carat ${diamondData?.step1Data?.[0]?.colorname ?? diamondData?.step2Data?.[0]?.colorname} ${diamondData?.step1Data?.[0]?.clarityname ?? diamondData?.step2Data?.[0]?.clarityname} ${diamondData?.step1Data?.[0]?.cutname ?? diamondData?.step2Data?.[0]?.cutname} Cut ${diamondData?.step1Data?.[0]?.shapename ?? diamondData?.step2Data?.[0]?.shapename} Diamond`}</span>
                                                         </div>
 
                                                         <div className="for_Complete_set_title_sku_dia">
-                                                            <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno}</div>
+                                                            <div className='for_Complete_set_sku'>SKU: {diamondData?.step1Data?.[0]?.stockno ?? diamondData?.step2Data?.[0]?.stockno}</div>
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price)}</span>
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
                                                             </div>
                                                             <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape}`) }}>
                                                                 <HiOutlinePencilSquare fontWeight={700} />
@@ -1081,8 +1066,8 @@ const DiamondDetails = () => {
                                             {sizeCombo?.length > 0 && (
                                                 <div className="for_prodWeights_metalType_div">
                                                     <div className='for_prodWeight_title_div'>
-                                                        <span className="for_prodWeights_metalType_title">{setshape?.[1]?.Setting} Size</span>
-                                                        <span className="for_prodWeights_metalType_title_1">{`(Choose your ${setshape?.[1]?.Setting} size)`}</span>
+                                                        <span className="for_prodWeights_metalType_title">{setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} Size</span>
+                                                        <span className="for_prodWeights_metalType_title_1">{`(Choose your ${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting} size)`}</span>
                                                     </div>
                                                     <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                                                         <select
@@ -1116,7 +1101,7 @@ const DiamondDetails = () => {
 
                                         <div className="for_Complete_set_choose_Dia_div">
                                             {compSet ? (
-                                                <button onClick={() => handleCart(!addToCardFlag)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15}`}>
+                                                <button onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15}`}>
                                                     {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
                                                 </button>
                                             ) : (
@@ -1192,7 +1177,7 @@ const DiamondDetails = () => {
                         <Services title={"Our Exclusive services"} services={services} />
                     </div>
                 </div>
-                {setshape?.[1]?.Setting === 'Ring' ? (
+                {(setshape?.[1]?.Setting === 'Ring' ?? setshape?.[0]?.Setting === 'Ring') ? (
                     <div className="for_DiamondDet_trend_coll_banner_div">
                         <div className="for_trend_coll_details_div">
                             <div className="for_trend_coll_det_title">
@@ -1215,7 +1200,7 @@ const DiamondDetails = () => {
                     </div>
                 ) : (
                     <>
-                        {setshape?.[1]?.Setting === 'Pendant' ? (
+                        {(setshape?.[1]?.Setting === 'Pendant' ?? setshape?.[0]?.Setting === 'Pendant') ? (
                             <div className="for_DiamondDet_trend_coll_banner_div">
                                 <div className="for_trend_coll_details_div">
                                     <div className="for_trend_coll_det_title">
@@ -1268,7 +1253,6 @@ const DiamondDetails = () => {
 
 export default DiamondDetails
 
-// const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
 //     const dropdownRefs = useRef({});
 //     const [open, setOpen] = useState(null);
 //     const Navigation = useNavigate();
@@ -1431,20 +1415,211 @@ export default DiamondDetails
 //     );
 // };
 
-const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
+const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
+    console.log('data2121: ', data?.designno);
+    const [storeInit, setStoreInit] = useState({});
+    const [loginCurrency, setLoginCurrency] = useState();
+    const Navigation = useNavigate();
+    const location = useLocation();
+    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const [isRing, setIsRing] = useState(false);
+    const getShape1 = JSON.parse(sessionStorage.getItem('customizeSteps'))
+    const getShape2 = JSON.parse(sessionStorage.getItem('customizeSteps2'))
+
+    useEffect(() => {
+        setIsRing(location?.pathname.split('/')[3])
+    }, [location?.pathname])
+
+    useEffect(() => {
+        const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
+        setStoreInit(storeData);
+
+        const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        setLoginCurrency(loginData);
+    }, []);
+
+    const handleRemoveItem = (index) => {
+        const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
+        const storedData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+        const storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+        const storedSteps2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+
+        if (index === 0) {
+            sessionStorage.removeItem('custStepData');
+            sessionStorage.removeItem('custStepData2');
+            handleOpen(null)
+        }
+        else {
+            if (Array.isArray(storedData)) {
+                storedData.splice(index, 1);
+                handleOpen(null)
+
+                sessionStorage.setItem('custStepData', JSON.stringify(storedData));
+            }
+            if (Array.isArray(storedData2)) {
+                storedData2.splice(index, 1);
+                handleOpen(null)
+
+                sessionStorage.setItem('custStepData2', JSON.stringify(storedData2));
+            }
+        }
+
+        if (index === 0) {
+            sessionStorage.removeItem('customizeSteps');
+            sessionStorage.removeItem('customizeSteps2');
+            handleOpen(null)
+        }
+        else {
+            if (Array.isArray(storedSteps)) {
+                storedSteps.splice(index, 2);
+                handleOpen(null)
+
+                sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
+            }
+            if (Array.isArray(storedSteps2)) {
+                storedSteps2.splice(index, 2);
+                handleOpen(null)
+
+                sessionStorage.setItem('customizeSteps2', JSON.stringify(storedSteps2));
+            }
+        }
+    };
+
+    const handleInnerClick = (event) => {
+        event.stopPropagation();
+    };
+
+    const compressAndEncode = (inputString) => {
+        try {
+            const uint8Array = new TextEncoder().encode(inputString);
+
+            const compressed = Pako.deflate(uint8Array, { to: "string" });
+
+            return btoa(String.fromCharCode.apply(null, compressed));
+        } catch (error) {
+            console.error("Error compressing and encoding:", error);
+            return null;
+        }
+    };
+
+    const handleMoveToDet = (data) => {
+        if (data?.stockno) {
+            const obj = {
+                a: data?.stockno,
+                b: data?.shapename,
+            };
+
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+            Navigation(navigateUrl);
+        }
+        if ((data?.autocode ?? data?.step1Data?.autocode)) {
+            let pValue = getShape1?.[1]?.Setting === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' } || getShape2?.[0]?.Setting === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' }
+            let obj = {
+                a: (data?.autocode ?? data?.step1Data?.autocode),
+                b: (data?.designno ?? data?.step1Data?.designno),
+                m: (data?.MetalPurityid ?? data?.selectedMetalId),
+                d: (loginUserDetail?.cmboDiaQCid ?? data?.selectedDiaId),
+                c: (loginUserDetail?.cmboCSQCid ?? data?.selectedCsId),
+                p: pValue,
+                f: {},
+            };
+            console.log("ksjkfjkjdkjfkjsdk--", obj);
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            Navigation(
+                `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
+                }${(data?.designno ?? data?.step1Data?.designno)}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
+            );
+        }
+    }
+
+    let getDesignImageFol = storeInit?.DesignImageFol;
+    const getDynamicImages = (designno, extension) => {
+        return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    };
+
+    return (
+        <div
+            className="for_dia_step_eye_div"
+            onClick={() => handleOpen(null)}
+            style={{ cursor: 'pointer' }}
+            ref={ref}
+        >
+            <img
+                className="for_dia_step_eye"
+                src={StepImages[0]?.eyeIcon}
+                alt=""
+                style={{ cursor: 'pointer' }}
+            />
+            <div
+                className="for_navigate_eye_div"
+                style={{
+                    height: open ? "65px" : "0px",
+                    overflow: open ? "unset" : "hidden",
+                    cursor: 'default'
+                }}
+            >
+                <div
+                    className="for_dia_data_div"
+                    onClick={handleInnerClick}
+                    style={{ cursor: 'default' }}
+                >
+                    <div className="for_dia_data_image">
+                        <img
+                            src={(data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+                            alt=""
+                            style={{ cursor: 'default' }}
+                        />
+                    </div>
+                    <div className="for_dia_price">
+                        <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
+                    </div>
+                    <div className="for_view_rem_div">
+                        <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
+                        <span
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveItem(index)
+                            }}
+                            className="for_rem"
+                        >
+                            &nbsp;Remove
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+
+
+const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, totalPrice, compSet }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
     const [isSetting, setIsSetting] = useState([]);
+    const [storeInit, setStoreInit] = useState({});
+    const [loginCurrency, setLoginCurrency] = useState();
     const Navigation = useNavigate();
     const location = useLocation();
     const isDiamondPage = stockno || 'det345';
     const getStepName = location?.pathname.split('/');
     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
+    console.log('getdiaData: ', getdiaData);
     const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
     const settingActive = 'Ring' || 'Pendant' || 'Diamond_Pendants' || 'Engagement_Ring';
     const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
     const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+
+    useEffect(() => {
+        const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
+        setStoreInit(storeData);
+
+        const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        setLoginCurrency(loginData);
+    }, []);
 
     const isActive = (pathSegment) => getStepName.includes(pathSegment) || location?.pathname.slice('/')?.includes(pathSegment);
 
@@ -1489,13 +1664,22 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                             StepImages[1]?.img
                         } alt="" /> Settings
                     </span>
-                    {getdiaData2?.[0]?.step1Data?.[0] && (
+                    {getdiaData2?.[0]?.step1Data && (
                         <HandleDrp
-                            index={1}
+                            index={0}
                             open={open === 'setting'}
                             handleOpen={() => handleOpen('setting')}
-                            data={getdiaData2?.[0]?.step1Data?.[0]}
-                            ref={(el) => { dropdownRefs.current[1] = el; }}
+                            data={getdiaData2?.[0]}
+                            ref={(el) => { dropdownRefs.current[0] = el; }}
+                        />
+                    )}
+                    {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
+                        <HandleDrp
+                            index={0}
+                            open={open === 'setting'}
+                            handleOpen={() => handleOpen('setting')}
+                            data={getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data}
+                            ref={(el) => { dropdownRefs.current[0] = el; }}
                         />
                     )}
                 </div>
@@ -1509,11 +1693,20 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                     </span>
                     {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
                         <HandleDrp
-                            index={0}
+                            index={1}
                             open={open === 'diamond'}
                             handleOpen={() => handleOpen('diamond')}
-                            data={getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data}
-                            ref={(el) => { dropdownRefs.current[0] = el; }}
+                            data={getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]}
+                            ref={(el) => { dropdownRefs.current[1] = el; }}
+                        />
+                    )}
+                    {getdiaData?.[0]?.step1Data?.[0] && (
+                        <HandleDrp
+                            index={1}
+                            open={open === 'diamond'}
+                            handleOpen={() => handleOpen('diamond')}
+                            data={getdiaData?.[0]?.step1Data?.[0]}
+                            ref={(el) => { dropdownRefs.current[1] = el; }}
                         />
                     )}
                 </div>
@@ -1523,6 +1716,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                         <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                             StepImages[2]?.img} alt="" /> {getCustStepData2?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
                     </span>
+                    <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(totalPrice)}</span>
                 </div>
             </>
         );
@@ -1548,6 +1742,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                                 ref={(el) => { dropdownRefs.current[0] = el; }}
                             />
                         )}
+                        {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
+                            <HandleDrp
+                                index={0}
+                                open={open === 'diamond'}
+                                handleOpen={() => handleOpen('diamond')}
+                                data={getdiaData2?.[1]?.step2Data?.[0] ?? getdiaData2?.[0]?.step2Data?.[0]}
+                                ref={(el) => { dropdownRefs.current[0] = el; }}
+                            />
+                        )}
                     </div>
 
                     <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
@@ -1569,6 +1772,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                                 ref={(el) => { dropdownRefs.current[1] = el; }}
                             />
                         )}
+                        {getdiaData2?.[0]?.step1Data && (
+                            <HandleDrp
+                                index={1}
+                                open={open === 'setting'}
+                                handleOpen={() => handleOpen('setting')}
+                                data={getdiaData2?.[0]}
+                                ref={(el) => { dropdownRefs.current[1] = el; }}
+                            />
+                        )}
                     </div>
 
                     <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[2]?.step3 === true ? 'active' : ''} d-3`}>
@@ -1576,6 +1788,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
                             <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                                 StepImages[2]?.img} alt="" /> {getCustStepData?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
                         </span>
+                        {compSet && (
+                            <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(totalPrice)}</span>
+                        )}
                     </div>
                 </div>
             ) : (
@@ -1651,166 +1866,6 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno }) => {
     );
 };
 
-
-const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
-    const [storeInit, setStoreInit] = useState({});
-    const [loginCurrency, setLoginCurrency] = useState();
-    const Navigation = useNavigate();
-    const location = useLocation();
-    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const [isRing, setIsRing] = useState(false);
-
-    useEffect(() => {
-        setIsRing(location?.pathname.split('/')[3])
-    }, [location?.pathname])
-
-    useEffect(() => {
-        const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
-        setStoreInit(storeData);
-
-        const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        setLoginCurrency(loginData);
-    }, []);
-
-    const handleRemoveItem = (index) => {
-        const storedData = JSON.parse(sessionStorage.getItem('custStepData'));
-        const storedSteps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-
-        if (index === 0) {
-            sessionStorage.removeItem('custStepData');
-            handleOpen(null)
-        }
-        else {
-            if (Array.isArray(storedData)) {
-                storedData.splice(index, 1);
-                handleOpen(null)
-
-                sessionStorage.setItem('custStepData', JSON.stringify(storedData));
-            }
-        }
-
-        if (index === 0) {
-            sessionStorage.removeItem('customizeSteps');
-            handleOpen(null)
-        }
-        else {
-            if (Array.isArray(storedSteps)) {
-                storedSteps.splice(index, 2);
-                handleOpen(null)
-
-                sessionStorage.setItem('customizeSteps', JSON.stringify(storedSteps));
-            }
-        }
-    };
-
-    const handleInnerClick = (event) => {
-        event.stopPropagation();
-    };
-
-    const compressAndEncode = (inputString) => {
-        try {
-            const uint8Array = new TextEncoder().encode(inputString);
-
-            const compressed = Pako.deflate(uint8Array, { to: "string" });
-
-            return btoa(String.fromCharCode.apply(null, compressed));
-        } catch (error) {
-            console.error("Error compressing and encoding:", error);
-            return null;
-        }
-    };
-
-    const handleMoveToDet = (data) => {
-        if (data?.stockno) {
-            const obj = {
-                a: data?.stockno,
-                b: data?.shapename,
-            };
-
-            let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-            let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
-            Navigation(navigateUrl);
-        }
-        if (data?.autocode) {
-            let pValue = isRing === 'Ring' ? { menuname: 'Engagement_Ring' } : { menuname: 'Diamond_Pendants' };
-            let obj = {
-                a: data?.autocode,
-                b: data?.designno,
-                m: data?.MetalPurityid,
-                d: loginUserDetail?.cmboDiaQCid,
-                c: loginUserDetail?.cmboCSQCid,
-                p: pValue,
-                f: {},
-            };
-            console.log("ksjkfjkjdkjfkjsdk--", obj);
-            let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-            Navigation(
-                `/d/${data?.TitleLine.replace(/\s+/g, `_`)}${data?.TitleLine?.length > 0 ? "_" : ""
-                }${data?.designno}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
-            );
-        }
-    }
-
-    let getDesignImageFol = storeInit?.DesignImageFol;
-    const getDynamicImages = (designno, extension) => {
-        return `${getDesignImageFol}${designno}_${1}.${extension}`;
-    };
-
-    return (
-        <div
-            className="for_dia_step_eye_div"
-            onClick={() => handleOpen(null)}
-            style={{ cursor: 'pointer' }}
-            ref={ref}
-        >
-            <img
-                className="for_dia_step_eye"
-                src={StepImages[0]?.eyeIcon}
-                alt=""
-                style={{ cursor: 'pointer' }}
-            />
-            <div
-                className="for_navigate_eye_div"
-                style={{
-                    height: open ? "65px" : "0px",
-                    overflow: open ? "unset" : "hidden",
-                    cursor: 'default'
-                }}
-            >
-                <div
-                    className="for_dia_data_div"
-                    onClick={handleInnerClick}
-                    style={{ cursor: 'default' }}
-                >
-                    <div className="for_dia_data_image">
-                        <img
-                            src={data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages(data?.designno, data?.ImageExtension)}
-                            alt=""
-                            style={{ cursor: 'default' }}
-                        />
-                    </div>
-                    <div className="for_dia_price">
-                        <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price || data?.UnitCostWithMarkUp)}</span>
-                    </div>
-                    <div className="for_view_rem_div">
-                        <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>
-                        <span
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleRemoveItem(index)
-                            }}
-                            className="for_rem"
-                        >
-                            &nbsp;Remove
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-});
 
 
 const Modal = ({
