@@ -247,6 +247,9 @@ $borderColor: rgba(232, 232, 232, 1);
                 // overflow: hidden;
                 // text-overflow: ellipsis;
               }
+              .for_dividerline{
+                margin-bottom: 10px !important;
+              }
 
               .for_Cart-options {
                 color: $primaryfontcolor2;
@@ -294,6 +297,76 @@ $borderColor: rgba(232, 232, 232, 1);
 
                   span {
                     color: $primaryfontcolor2;
+                  }
+                }
+              }
+
+              .for_StockCart-options {
+                color: $primaryfontcolor2;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-bottom: 20px;
+                margin-top: 20px;
+
+
+                .option {
+                  color: $primaryfontcolor2;
+                  flex: 1 1 45%;
+                  display: flex;
+                  flex-direction: column;
+                  font-family: $primaryFontFamily !important;
+
+                  label {
+                    color: $primaryfontcolor2;
+                    font-weight: bold;
+                    font-size: $fontSize2;
+                    margin-bottom: 5px;
+                  }
+
+                  span {
+                    border: 1px solid $borderColor;
+                    padding: 10px;
+                  }
+
+                  select {
+                    color: $primaryfontcolor2;
+                    padding: 10px;
+                    border-radius: 0px !important;
+                    border: 1px solid $borderColor;
+                    // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+                    border: 1px solid $borderColor;
+                  }
+                }
+              }
+
+              .for_stockPriceQtyDiv {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .option {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+
+                  label {
+                    color: $primaryfontcolor2;
+                    font-weight: bold;
+                    font-size: $fontSize2;
+                  }
+
+                  span {
+                    color: $primaryfontcolor2;
+                    font-size: $fontSize2;
+                    margin-left: 10px;
+                  }
+                }
+                .for_Stockproduct-price{
+                  span{
+                    color: $primaryfontcolor2;
+                    font-weight: bold;
+                    font-size: $fontSize2;
                   }
                 }
               }

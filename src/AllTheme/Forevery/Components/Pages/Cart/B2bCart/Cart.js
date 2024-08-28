@@ -161,12 +161,14 @@ const CartPage = () => {
     }
   }
 
+  console.log("diamondCartData", diamondCartData);
+  
   return (
     <div className='for_MainBGDiv'>
       <div className="for_cart-title">Cart</div>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          {!isloding && cartData.length != 0 &&
+          {!isloding && (cartData.length !== 0 || diamondCartData?.length !== 0) &&
             <div className='for_cartButton-groups'>
               <Link
                 className='for_ReomoveAllCartbtn'
@@ -177,7 +179,7 @@ const CartPage = () => {
               </Link>
             </div>
           }
-          {!isloding && cartData.length != 0 &&
+          {!isloding && (cartData.length !== 0 || diamondCartData?.length !== 0) &&
             <div className='for_placeOrderMainbtnDivs'>
               <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePlaceOrder}>Place Order</button>
             </div>
@@ -202,7 +204,7 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
+            {!isloding && (cartData.length != 0 || diamondCartData?.length != 0) ? (
               <div className="for_cartMainPage">
                 <div className="for_cart-left-sides">
                   <CartList
