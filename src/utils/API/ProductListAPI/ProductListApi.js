@@ -103,7 +103,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", Sha
     PageSize: `${storeinit?.PageSize}`,
     Metalid: `${mtid}`,
     DiaQCid: `${diaQc}`,
-    CsQCid: `${csQc}`,
+    CsQCid: `${csQc ?? '0,0'}`,
     Collectionid: `${filterObj?.collection ?? ""}`,
     Categoryid: `${filterObj?.category ?? ""}`,
     SubCategoryid: `${filterObj?.subcategory ?? ""}`,

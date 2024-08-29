@@ -88,15 +88,42 @@ const ProductCarousel = () => {
       <div className="for_carousel">
         <Swiper
           slidesPerView={4}
-          // freeMode={true}
+          freeMode={true}
           spaceBetween={10}
           loop={true}
           breakpoints={{
-            574: {
+            320: {
               slidesPerView: 1,
+              freeMode : {
+                enabled : false
+              }
+            },
+            360: {
+              slidesPerView: 1,
+              freeMode : {
+                enabled : false
+              }
+            },
+            510: {
+              slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+             
+            },
+            574: {
+              slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+             
             },
             768: {
               slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+              
             },
             1000: {
               slidesPerView: 3,
@@ -111,7 +138,7 @@ const ProductCarousel = () => {
             pauseOnMouseEnter: true,
           }}
           pagination={false}
-          modules={[Pagination, Autoplay]}
+          modules={[Pagination, Autoplay ,FreeMode]}
           className="mySwiper"
         >
           {TrendingProductlist?.map((data, i) => {
@@ -181,7 +208,8 @@ const ProductCard = ({
       </div>
       <div className="details">
         <span>{title}</span>
-        <div className="diamond_Details">
+        <div className="diamond_Details"
+        >
           {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
             <div className="separator_for">
               <span>
@@ -226,7 +254,7 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-        <h4>
+        <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
         </h4>

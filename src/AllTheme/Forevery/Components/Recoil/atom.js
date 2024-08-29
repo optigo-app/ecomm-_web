@@ -40,6 +40,6 @@ export const for_customizationSteps = atom({
   default: {
     step1: null,
     step2: null,
-    step3: null,
+    step3: {},
   }
 })

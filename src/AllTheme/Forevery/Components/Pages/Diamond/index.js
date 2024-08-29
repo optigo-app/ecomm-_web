@@ -361,7 +361,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
           )}
         </div>
 
-        <div className={`step_data ${(getdiaData2?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData2?.[2]?.step3 === true ? 'active' : ''} d-3`}>
+        <div className={`step_data ${(getdiaData2?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
           <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
             <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[0]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
               StepImages[2]?.img} alt="" /> {getCustStepData2?.[0]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
@@ -373,7 +373,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
 
   return (
     <>
-      {getdiaData?.length > 0 || getStepName.includes('diamond') ? (
+      {getdiaData?.length > 0 || getCustStepData?.[0]?.step1 === true ? (
         <div className="diamond_Step_data">
           <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
             <span className="for_title_span" style={StyleCondition} onClick={() => {
@@ -432,7 +432,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap }) => {
             )}
           </div>
 
-          <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getCustStepData?.[3]?.step3 === true ? 'active' : ''} d-3`}>
+          <div className={`step_data ${(getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
             <span style={StyleCondition} onClick={() => { Navigation(`/diamond`); setswap("finish"); }}>
               <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                 StepImages[2]?.img} alt="" /> {getCustStepData?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
