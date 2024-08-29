@@ -20,6 +20,7 @@ export const RemoveCartAndWishAPI = async (type, autocode, visiterId, isFromStoc
     "Cartidlist": "",
     "isdelete_all": 0,
     "stockno": `${stockno ?? ""}`,
+    "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
   }
   let removeApiObj1 = {
     "ForEvt": `${type}`,
@@ -30,6 +31,7 @@ export const RemoveCartAndWishAPI = async (type, autocode, visiterId, isFromStoc
     "Cartidlist": "",
     "isdelete_all": 0,
     "stockno": `${stockno ?? ""}`,
+    "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
   }
 
   let DataObj = isFromStock == true ? removeApiObj1 : removeApiObj

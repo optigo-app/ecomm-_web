@@ -2,8 +2,6 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", Shape = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}) => {
-  console.log("caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
   let MenuParams = {};
   let serachVar = ""
 
@@ -145,7 +143,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", Sha
     Size: "",
     IsFromDesDet: "",
     IsPLW: storeinit?.IsPLW,
-
+    DomainForNo: `${storeinit?.DomainForNo ?? ""}`
   };
 
   let encData = JSON.stringify(data)
