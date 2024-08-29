@@ -99,14 +99,14 @@ const Header = () => {
 
 
     //this useEffect for the top header fixed
-   
+
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-        if (storeinit?.IsB2BWebsite === 0) {
+        if (storeinit?.IsB2BWebsite == 0) {
             getMenuApi();
             return;
-        } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
+        } else if (storeinit?.IsB2BWebsite == 1 && isUserLogin == true) {
             getMenuApi();
             return;
         } else {
@@ -199,7 +199,7 @@ const Header = () => {
     const [dropdownHover, setDropdownHover] = useState(false);
     const [isFixed, setIsFixed] = useState(false);
     const headerRef = useRef(null);
- 
+
     useEffect(() => {
         fetchData();
 
@@ -590,7 +590,7 @@ const Header = () => {
                 </div>
             </div>
 
-            <div className={`dt_TopFixed_Header ${isFixed ? 'fixed' : ''}`}  ref={headerRef}>
+            <div className={`dt_TopFixed_Header ${isFixed ? 'fixed' : ''}`} ref={headerRef}>
                 <>
                     <ul className="dt_ul_main">
                         <li
@@ -621,7 +621,7 @@ const Header = () => {
                                     })}
 
                             >
-                                <span className="nav_li_sminingSpan_Menu" style={{textDecoration : hoveredIndex == index && 'underline'}}>
+                                <span className="nav_li_sminingSpan_Menu" style={{ textDecoration: hoveredIndex == index && 'underline' }}>
                                     {item.menuname}
                                 </span>
                             </li>
@@ -680,65 +680,68 @@ const Header = () => {
 
             {/* header menu dropdown */}
             {dropdownVisible && (
-                <div
-                    id='shopdropdown'
-                    className={`dt_shop_dropdown ${expandedMenu !== null ? "open" : ""} ${isFixed ? "fixed" : ""}`}
-                    onMouseEnter={handleMouseEnterDropdown}
-                    onMouseLeave={handleMouseLeaveDropdown}
-                    style={{
-                        // top: dropdownPosition.top,
-                        left: dropdownPosition.left,
-                        position: isFixed ? 'fixed' : 'absolute',
-                        zIndex: 99,
-                        display: 'block'
-                    }}
-                >
                     <div
+                        id='shopdropdown'
+                        className={`dt_shop_dropdown ${expandedMenu !== null ? "open" : ""} ${isFixed ? "fixed" : ""}`}
+                        onMouseEnter={handleMouseEnterDropdown}
+                        onMouseLeave={handleMouseLeaveDropdown}
                         style={{
-                            display: "flex",
-                            padding: "30px",
-                            color: "#7d7f85",
-                            gap: "50px",
-                            marginTop: isFixed && '60px',
-                            justifyContent: 'space-between',
-                            width: 'fit-content',
-                            // margin: '0 auto',
-                            backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
-                            boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                            left: selectedData?.param1?.some(param1Item =>
+                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? dropdownPosition.left : '0px',
+                            position: isFixed ? 'fixed' : 'absolute',
+                            zIndex: 99,
+                            display: selectedData?.param1?.some(param1Item =>
+                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? 'block' : 'flex',
+                            width: selectedData?.param1?.some(param1Item =>
+                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length != 0)) && '100%',
+                            justifyContent: selectedData?.param1?.some(param1Item =>
+                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length != 0)) && 'center'
                         }}
-                        className="menuDropdownData"
                     >
-                        <div style={{ width: '100%', gap: '60px', textTransform: 'uppercase' }}>
-                            {selectedData?.param1?.map((param1Item, param1Index) => (
-                                // { "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }
-                                <div key={param1Index}>
-                                    <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
-                                    <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
-                                        {/* {param1Item?.param2?.map((param2Item, param2Index) => (
-                                        <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
-                                            menuname: leval1menu?.menuname,
-                                            key: leval1menu?.param0name,
-                                            value: leval1menu?.param0dataname,
-                                        },
-                                            {
-                                                key: param1Item.param1name,
-                                                value: param1Item.param1dataname,
-                                            },
-                                            {
-                                                key: param2Item.param2name,
-                                                value: param2Item.param2dataname,
-                                            })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
-                                            {param2Item?.param2dataname}
-                                        </p>
-                                    ))} */}
+                        <div
+                            style={{
+                                display: "flex",
+                                padding: "30px",
+                                color: "#7d7f85",
+                                gap: "50px",
+                                marginTop: isFixed && '60px',
+                                justifyContent: 'space-between',
+                                width: 'fit-content',
+                                backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
+                                boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
+                            }}
+                            className="menuDropdownData"
+                        >
+                            <div style={{ width: '100%', gap: '60px', textTransform: 'uppercase', display: 'flex' }}>
+                                {selectedData?.param1?.map((param1Item, param1Index) => (
+                                    <div key={param1Index}>
+                                        <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                                        <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+                                            {param1Item?.param2?.map((param2Item, param2Index) => (
+                                                <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
+                                                    menuname: leval1menu?.menuname,
+                                                    key: leval1menu?.param0name,
+                                                    value: leval1menu?.param0dataname,
+                                                },
+                                                    {
+                                                        key: param1Item.param1name,
+                                                        value: param1Item.param1dataname,
+                                                    },
+                                                    {
+                                                        key: param2Item.param2name,
+                                                        value: param2Item.param2dataname,
+                                                    })} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                                    {param2Item?.param2dataname}
+                                                </p>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
 
             {/* mobileHeader................. */}

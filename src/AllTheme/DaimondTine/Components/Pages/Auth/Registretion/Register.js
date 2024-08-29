@@ -252,7 +252,7 @@ export default function Register() {
               id="outlined-basic"
               label="First Name"
               variant="outlined"
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               autoComplete="new-FirstName"
               value={firstName}
@@ -267,7 +267,7 @@ export default function Register() {
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               autoComplete="new-LastName"
               value={lastName}
@@ -282,7 +282,7 @@ export default function Register() {
               id="outlined-basic"
               label="Mobile No."
               variant="outlined"
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               value={mobileNo}
               inputRef={mobileNoRef}
@@ -297,7 +297,7 @@ export default function Register() {
               label="Email"
               autoComplete="ne-Email"
               variant="outlined"
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               value={email}
               inputRef={emailRef}
@@ -312,7 +312,7 @@ export default function Register() {
               label="Password"
               autoComplete="enter-NewPass-Word"
               type={showPassword ? 'text' : 'password'}
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               value={password}
               onChange={handlePasswordChange}
@@ -341,7 +341,7 @@ export default function Register() {
               label="Confirm Password"
               autoComplete="Enetr-NewConfirm-Pass"
               type={showConfirmPassword ? 'text' : 'password'}
-              className='labgrowRegister'
+              className='dt_register_labgrowRegister'
               style={{ margin: '15px' }}
               value={confirmPassword}
               inputRef={confirmPasswordRef}

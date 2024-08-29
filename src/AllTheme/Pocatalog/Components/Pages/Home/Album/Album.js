@@ -40,7 +40,6 @@ const Album = () => {
 
   // 17620240727141443263
   useEffect(() => {
-    console.log('calllllllllllllll');
     let login = sessionStorage.getItem('LoginUser');
     setISLoginSet(login);
     const fetchAlbumData = async () => {
@@ -236,7 +235,8 @@ const Album = () => {
 
         {isLoding ?
           <>
-            <AlbumSkeleton /> 
+
+            {/* <AlbumSkeleton />  */}
           </>
           :
           albumData?.map((data, index) => {

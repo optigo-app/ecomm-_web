@@ -1,3 +1,5 @@
+@import '../../../scss/variable.scss';
+
 .dt_footer_main {
 
     .daimondFooterMain {
@@ -20,7 +22,7 @@
 
     .subScriMainTitle {
         color: white;
-        font-family: "Playfair Display", serif;
+        font-family: $homePageFontFamily;
         font-size: 30px;
         text-align: center;
         margin: 0px;
@@ -28,7 +30,7 @@
 
     .subScriMainSubTitle {
         color: #999999;
-        font-family: "Playfair Display", serif;
+        font-family: $homePageFontFamily;
         text-align: center;
     }
 
@@ -57,7 +59,7 @@
 
     .footerMoteText {
         font-weight: 600;
-        font-family: "Poppins", sans-serif;
+        font-family: $homePageFontFamily;
     }
 
     .FoooterText {
@@ -65,12 +67,12 @@
         font-size: 14px;
         text-align: justify;
         width: 85%;
-        font-family: "Poppins", sans-serif;
+        font-family: $homePageFontFamily;
     }
 
     .FoooterTextLink {
         color: #999;
-        font-family: "Poppins", sans-serif;
+        font-family: $homePageFontFamily;
         cursor: pointer;
         font-size: 14px;
         margin: 7px;
@@ -99,7 +101,7 @@
     }
 
     .FooterBottomText {
-        font-family: "Poppins", sans-serif;
+        font-family: $homePageFontFamily;
         margin: 0px;
         color: #999;
         margin-top: 0px;

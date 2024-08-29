@@ -20,9 +20,10 @@
 
     .dt_newArrivalPdTitle {
         color: #7d7f85;
-        font-size: 16px;
+        font-size: 12px;
         font-weight: 500;
         margin: 0px;
+        font-family: $homePageFontFamily;
     }
 
     .dt_newArrivalMian {
@@ -35,7 +36,7 @@
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         text-align: center;
-        padding: 1% 0px 1% 0px;
+        padding: 10px 0px 0px 0px;
     }
 
     .dt_newArrivalPdPrice {
@@ -43,6 +44,7 @@
         font-weight: bold;
         color: #7d7f85;
         margin: 0px;
+        font-family: $homePageFontFamily;
     }
 
     .dt_NewArrivalProductMain {
@@ -102,7 +104,11 @@
         }
 
         .dt_newArrivalGridMain {
-            padding: 0px 10px 0px 20px !important;
+            padding: 0px 5px 0px 20px !important;
+        }
+
+        .dt_newArrivalPdTitle{
+            display: none;
         }
     }
 }

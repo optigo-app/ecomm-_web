@@ -18,6 +18,17 @@ export default function YourProfile() {
     const defaultAddress = useRecoilValue(smrMA_defaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
 
+    const [state, setState] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal, open } = state;
+
+    const handleCloseSank = () => {
+        setState({ ...state, open: false });
+    };
+
     const [toastMsg, setToastMsg] = useState('');
     const [showToast, setShowToast] = useState(false);
 
@@ -29,7 +40,7 @@ export default function YourProfile() {
         const storedUserData = sessionStorage.getItem('loginUserDetail');
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
-            let obj = {...parsedUserData};
+            let obj = { ...parsedUserData };
             obj.mobileno = obj.mobileno.replace(/-/g, '');
             setUserData(obj);
         }
@@ -46,15 +57,15 @@ export default function YourProfile() {
             ...prevData,
             [id]: value,
         }));
-       
+
         // Validate the field
         const errorsCopy = { ...errors };
         errorsCopy[id] = validateChangeYPAccount(id, value);
- 
+
         setErrors(errorsCopy);
 
     };
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -62,35 +73,33 @@ export default function YourProfile() {
         const { errors, isValid } = validateUserDataYPAccount(editedUserData);
 
         if (isValid) {
-            
-           
-           try {
-            setIsLoading(true);
-            const storedData = sessionStorage.getItem('loginUserDetail');
-            const data = JSON.parse(storedData);
-            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-            const { FrontEnd_RegNo } = storeInit;
-            const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
-            if (response?.Data?.rd[0]?.stat === 1) {
-                toast.success('Edit success');
-                setUserData(editedUserData);
-                sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
-                setEditMode(false);
-            } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
-                setErrors(prevErrors => ({
-                    ...prevErrors,
-                    mobileno: 'MobileNo Already Exists',
-                }));
-            } else {
-                toast.error('Error in saving profile.');
-            }
+            try {
+                setIsLoading(true);
+                const storedData = sessionStorage.getItem('loginUserDetail');
+                const data = JSON.parse(storedData);
+                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+                const { FrontEnd_RegNo } = storeInit;
+                const response = await saveEditProfile(editedUserData, data, FrontEnd_RegNo);
+                if (response?.Data?.rd[0]?.stat === 1) {
+                    setState({ open: true, vertical: 'bottom', horizontal: 'center' });
+                    setUserData(editedUserData);
+                    sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
+                    setEditMode(false);
+                } else if (response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists") {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        mobileno: 'MobileNo Already Exists',
+                    }));
+                } else {
+                    setToastMsg('Error in saving profile.');
+                }
 
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error('An error occurred. Please try again.');
-        } finally {
-            setIsLoading(false);
-        }
+            } catch (error) {
+                console.error('Error:', error);
+                setToastMsg('An error occurred. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
         } else {
             // Set errors to display validation messages
             setErrors(errors);
@@ -108,92 +117,92 @@ export default function YourProfile() {
 
     return (
         <div>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
 
             {isLoading && (
-                <div className="loader-overlay" style={{zIndex:10000}}>
+                <div className="loader-overlay" style={{ zIndex: 10000 }}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-             <div className="sticky-header">
+            <div className="sticky-header">
                 <MobViewHeader title="Your Profile" />
-             </div>
+            </div>
 
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px', padding: '10px' }}>
-               {
-                  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                {userData && (
-                    <>
-                        <div className='mobileEditProfileDiv'>
-                            <TextField
-                                autoFocus
-                                id="defaddress_shippingfirstname"
-                                label="First Name"
-                                variant="outlined"
-                                className='labgrowRegister'
-                                style={{ margin: '15px', color: 'black' }}
-                                value={userData?.firstname || ''}
-                                disabled
-                                onChange={handleInputChange}
-                            />
-                            <TextField
-                                id="defaddress_shippinglastname"
-                                label="Last Name"
-                                variant="outlined"
-                                className='labgrowRegister'
-                                style={{ margin: '15px' }}
-                                value={userData?.lastname || ''}
-                                disabled
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className='mobileEditProfileDiv'>
-                            <TextField
-                                id="userid"
-                                label="Email"
-                                variant="outlined"
-                                className='labgrowRegister'
-                                style={{ margin: '15px' }}
-                                value={userData?.userid || ''}
-                                disabled
-                                onChange={handleInputChange}
-                            />
-                            <TextField
-                                id="defaddress_shippingmobile"
-                                label="Mobile No."
-                                variant="outlined"
-                                className='labgrowRegister'
-                                style={{ margin: '15px' }}
-                                value={userData?.mobileno || ''}
-                                disabled
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className='mobileEditProfileDiv'>
-                            <TextField
-                                id="defaddress_street"
-                                label="Address"
-                                variant="outlined"
-                                className='labgrowRegister'
-                                style={{ margin: '15px' }}
-                                value={userData?.street || ''}
-                                disabled
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </>
-                )}
-            </div>
-               }
-                {  <div className='btnPaddingYP'>
+                {
+                    <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        {userData && (
+                            <>
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        autoFocus
+                                        id="defaddress_shippingfirstname"
+                                        label="First Name"
+                                        variant="outlined"
+                                        className='labgrowRegister'
+                                        style={{ margin: '15px', color: 'black' }}
+                                        value={userData?.firstname || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                    <TextField
+                                        id="defaddress_shippinglastname"
+                                        label="Last Name"
+                                        variant="outlined"
+                                        className='labgrowRegister'
+                                        style={{ margin: '15px' }}
+                                        value={userData?.lastname || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        id="userid"
+                                        label="Email"
+                                        variant="outlined"
+                                        className='labgrowRegister'
+                                        style={{ margin: '15px' }}
+                                        value={userData?.userid || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                    <TextField
+                                        id="defaddress_shippingmobile"
+                                        label="Mobile No."
+                                        variant="outlined"
+                                        className='labgrowRegister'
+                                        style={{ margin: '15px' }}
+                                        value={userData?.mobileno || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        id="defaddress_street"
+                                        label="Address"
+                                        variant="outlined"
+                                        className='labgrowRegister'
+                                        style={{ margin: '15px' }}
+                                        value={userData?.street || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                }
+                {<div className='btnPaddingYP'>
                     <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
             <Modal open={editMode} onClose={handleClose} style={{ padding: '10px' }} >
                 <div className='smilingEditProfilePopup pop_yp_MAPP' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24 }}>
-                    <form  onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                    <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
                             <>
@@ -251,7 +260,7 @@ export default function YourProfile() {
                             </>
                         )}
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px', padding: '10px' }}>
-                            <button type='submit'  className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
+                            <button type='submit' className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
                             <button onClick={() => handleCancel()} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                         </div>
                     </form>
@@ -259,11 +268,13 @@ export default function YourProfile() {
                 </div>
             </Modal>
             <Snackbar
-                open={showToast}
-                autoHideDuration={2000}
-                onClose={handleCloseSnackbar}
-                message={`${toastMsg}`}
-                className='smr_MoSnakbarTM'
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                onClose={handleCloseSank}
+                message="Profile updated successfully!"
+                key={vertical + horizontal}
+                autoHideDuration={3000} 
+                style={{ marginBottom: '80px' }}
             />
         </div>
     );
