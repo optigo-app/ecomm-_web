@@ -11,7 +11,7 @@ import useInstagramPosts from "../../../../hooks/UseInstagram";
 const InstagramSection = () => {
   const instaFrame = `${storImagePath()}/Forevery/frame.png`;
   const instaLogo = `${storImagePath()}/Forevery/instagram-draw.png`;
-  const { posts, loading, error } = useInstagramPosts("foreverydiamonds");
+  // const { posts, loading, error } = useInstagramPosts("foreverydiamonds");
   const swiperRef = useRef(null);
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const InstagramSection = () => {
     };
   }, []);
 
-  const postlist = posts?.map((val, i) => {
-    return { imageUrl: val?.node?.image_versions2?.candidates[0]?.url };
-  });
+  // const postlist = posts?.map((val, i) => {
+  //   return { imageUrl: val?.node?.image_versions2?.candidates[0]?.url };
+  // });
 
   return (
     <div className="for_InstagramSection">
@@ -52,20 +52,20 @@ const InstagramSection = () => {
           </div>
           <Swiper
             ref={swiperRef}
-            slidesPerView={4.5}
-            spaceBetween={90}
+            slidesPerView={5}
+            spaceBetween={20}
             loop={true}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            pagination={{
-              clickable: true,
-            }}
+            pagination={false}
             modules={[Pagination, Autoplay]}
-            className="mySwiper"
+            className="mySwiper-1"
           >
+            <div className="left-over-lay"></div>
+            <div className="right-over-lay"></div>
             {Array.from({ length: 12 })?.map((val, i) => {
               return (
                 <SwiperSlide>
@@ -87,6 +87,10 @@ const InstaCard = ({ src }) => {
   return (
     <div className="insta_card">
       <img
+      style={{
+        objectFit  :"cover",
+        width  :"100%"
+      }}
         src={src || image}
         alt=""
         onError={(e) => {

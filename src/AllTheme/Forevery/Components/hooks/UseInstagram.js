@@ -26,7 +26,7 @@ const useInstagramPosts = (username) => {
             ?.xdt_api__v1__feed__user_timeline_graphql_connection?.edges
         );
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        // console.error("Error fetching posts:", error);
         setError(error);
       } finally {
         setLoading(false);
