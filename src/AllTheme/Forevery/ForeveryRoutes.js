@@ -77,8 +77,6 @@ const ForEveryRoutes = () => {
   };
 
   useEffect(() => {
-    setCSSVariable();
-
     let data = sessionStorage.getItem("storeInit");
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
@@ -91,9 +89,12 @@ const ForEveryRoutes = () => {
     } else {
       setCompanyTitleLogo(logo?.companylogo);
     }
+    setCSSVariable();
   });
 
   useEffect(() => {
+
+    console.log('callllllllllllllllllllll');
     const cookieValue = Cookies.get("userLoginCookie");
     const loginUser = sessionStorage.getItem("LoginUser");
 
