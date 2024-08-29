@@ -1,7 +1,7 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", Shape = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}) => {
+const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "") => {
   let MenuParams = {};
   let serachVar = ""
 
