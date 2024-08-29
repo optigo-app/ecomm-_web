@@ -408,7 +408,6 @@ const NavbarLeft = ({
   hoveredIndex,
 }) => {
   const Navigate = useNavigate();
-
   return (
     <>
       <div className="left">
@@ -421,13 +420,9 @@ const NavbarLeft = ({
                 setActiveMenu({ menu: val, index: i });
                 setHoveredIndex(i);
               }}
-              onMouseOut={() => setHoveredIndex(null)}
               onClick={() => Navigate(val?.link)}
             >
-              <Link
-                to={val?.link}
-                className="for_nav_menu"
-              >
+              <Link to={val?.link} className="for_nav_menu">
                 {val?.category}
                 {hoveredIndex === i ? (
                   <FaChevronUp
@@ -448,13 +443,14 @@ const NavbarLeft = ({
           <NavitemsWrapper
             SelectedMenu={ActiveMenu}
             setActiveMenu={setActiveMenu}
+            setHoveredIndex={setHoveredIndex}
           />
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
@@ -467,7 +463,33 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          console.log("firstNavRef is visible");
+        } else {
+          console.log("firstNavRef is not visible");
+          setHoveredIndex(null);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
 
+    if (firstNavRef.current) {
+      observer.observe(firstNavRef.current);
+    }
+
+    return () => {
+      if (firstNavRef.current) {
+        observer.unobserve(firstNavRef.current);
+      }
+    };
+  }, []);
   return (
     <>
       <div className="first_nav" ref={firstNavRef}>
@@ -514,14 +536,48 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
     </>
   );
 };
-const FirstNavMenu = ({ data }) => {
+const FirstNavMenu = ({ data, setCustomizeStep }) => {
   const navigate = useNavigate();
 
-  const HandleDiamondNavigation = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
+
+  const handleCheckSteps = () => {
+    if (checkSteps) {
+      setShowModal(true);
+    } else {
+      console.log('Alternative action');
+    }
+  };
+
+  const HandleSettingNavigation = () => {
     navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
     const step1 = [{ "step1": true, "Setting": 'Ring' }];
     sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
   };
+
+  const HandleDiamondNavigation = () => {
+    navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+
+    const step1 = [{ "step1": true, "shape": "Round" }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  };
+
+  const handleRemoveData = () => {
+    sessionStorage.removeItem('customizeSteps');
+    sessionStorage.removeItem('custStepData');
+    sessionStorage.removeItem('customizeSteps2');
+    sessionStorage.removeItem('custStepData2');
+    navigate('/');
+    handleToggle();
+  }
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -531,12 +587,25 @@ const FirstNavMenu = ({ data }) => {
             <div className="for_col_1">
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
-                <span class="ring-type" onClick={() => HandleDiamondNavigation()}>
-                  <GiDiamondRing size={15} /> start with a setting
-                </span>
-                <span class="ring-type">
-                  <IoDiamondOutline size={15} /> Start With a Diamond
-                </span>
+                {checkSteps ? (
+                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                    <GiDiamondRing size={15} /> start with a setting
+                  </span>
+                ) : (
+                  <span class="ring-type" onClick={() => HandleSettingNavigation()}>
+                    <GiDiamondRing size={15} /> start with a setting
+                  </span>
+                )}
+                {checkSteps ? (
+                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                    <IoDiamondOutline size={15} /> Start With a Diamond
+                  </span>
+                ) : (
+                  <span class="ring-type" onClick={() => HandleDiamondNavigation()}>
+                    <IoDiamondOutline size={15} /> Start With a Diamond
+                  </span>
+                )}
+
               </div>
             </div>
             <div className="for_col_2">
@@ -595,6 +664,7 @@ const FirstNavMenu = ({ data }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
     </>
   );
 };
@@ -607,7 +677,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   const Navigate = useNavigate();
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null;
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
 
   const handleCheckSteps = () => {
     if (checkSteps) {
@@ -631,6 +702,8 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const handleRemoveData = () => {
     sessionStorage.removeItem('customizeSteps');
     sessionStorage.removeItem('custStepData');
+    sessionStorage.removeItem('customizeSteps2');
+    sessionStorage.removeItem('custStepData2');
     Navigate('/');
     handleToggle();
   }

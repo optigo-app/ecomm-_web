@@ -95,7 +95,9 @@ const ForEveryRoutes = () => {
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
+    const loginUser = sessionStorage.getItem("LoginUser");
+
+    if (cookieValue && !loginUser) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
@@ -114,10 +116,13 @@ const ForEveryRoutes = () => {
           }
         })
         .catch((err) => console.log(err));
+    } else if (loginUser) {
+      setIsLoginState(true);
     }
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+
+    const localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, []);
+  }, [navigation, redirectEmailUrl]);
 
   if (islogin === true) {
     const restrictedPaths = [
@@ -142,7 +147,7 @@ const ForEveryRoutes = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-      <Preloader />
+        <Preloader />
         <TopBar />
         <Navbar />
       </div>
@@ -236,9 +241,12 @@ const ForEveryRoutes = () => {
           element={<RingPage />}
         />
         <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-        <Route path="/Delivery" element={<Delivery />} />
         <Route path="/diamond" element={<Diamond />} />
         <Route path="/diamond-test" element={<Test />} />
+        <Route path="/Delivery" element={<Delivery />} />
+        <Route path="/Payment" element={<Payment />} />
+        <Route path="/Confirmation" element={<Confirmation />} />
+
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
@@ -247,7 +255,7 @@ const ForEveryRoutes = () => {
           
           
           {/* <Route path="/account" element={<Account />} /> */}
-        <Route path="/Lookbook" element={<Lookbook />} />
+        {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
         {/* </Route> */}
         {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
         <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
