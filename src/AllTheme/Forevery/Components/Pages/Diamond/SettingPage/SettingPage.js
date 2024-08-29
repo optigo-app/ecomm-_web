@@ -86,6 +86,7 @@ const SettingPage = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  console.log('selectedCsId: ', selectedCsId);
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [locationKey, setLocationKey] = useState();
   const [productListData, setProductListData] = useState([]);
@@ -212,7 +213,7 @@ const SettingPage = () => {
         }
         setprodListType(productlisttype);
 
-        const res = await ProductListApi({}, 1, obj, productlisttype, Shape, cookie);
+        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, Shape);
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
@@ -237,7 +238,7 @@ const SettingPage = () => {
 
     if (location?.key === locationKey) {
       setIsOnlySettLoading(true);
-      ProductListApi({}, 1, obj, prodListType, (Shape ?? ''), cookie)
+      ProductListApi({}, 1, obj, prodListType, cookie, (Shape ?? ''))
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -250,7 +251,7 @@ const SettingPage = () => {
           setIsOnlySettLoading(false);
         });
     }
-  }, [selectedMetalId, selectedDiaId]);
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -322,7 +323,7 @@ const SettingPage = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi({}, value, obj, prodListType, (Shape ?? ''), cookie, sortBySelect)
+    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, (Shape ?? ''))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -346,7 +347,7 @@ const SettingPage = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, (Shape ?? ''), cookie, sortby)
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, (Shape ?? ''))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -976,24 +977,28 @@ const Product_Card = ({
         </div>
         <div className="for_settingList_card_description" onClick={() => handleMoveToDetail(productData)}>
           <div className="for_settingList_desc_title">
-            <span className="for_listing_desc_span">18K WHITE GOLD 1.0 Carat Round Stud Earrings with butterfly back</span>
+            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>
           <div className="for_settingList_desc_div">
             <div>
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
+                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
+                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
-                  ? `/${productData?.Dpcs?.toFixed(0)}`
-                  : null} |</span>
+                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? `/ ${productData?.Dpcs?.toFixed(0)}`
+                  : null}</span>
               )}
-              <span>&nbsp;DWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
-                ? `/${productData?.CSpcs?.toFixed(0)}`
-                : null}</span>
+              {storeInit?.IsStoneWeight == 1 &&
+                Number(productData?.CSwt) !== 0 && (
+                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                    ? `/ ${productData?.CSpcs?.toFixed(0)}`
+                    : null}</span>
+                )}
+
             </div>
           </div>
           <div className="for_settingList_price_div">
