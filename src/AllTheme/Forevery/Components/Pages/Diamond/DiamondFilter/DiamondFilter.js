@@ -584,13 +584,14 @@ const DiamondFilter = () => {
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
-
+      console.log(filterType, value, newFiltersData, "more filter");
+     
       if (
         filters[filterType].type === "checkbox" ||
-        filters[filterType].type === " "
+        filters[filterType].type === ""
       ) {
         const currentValues = newFiltersData[filterType] || [];
-
+        console.log(currentValues ,"more filter","1")
         if (currentValues.includes(value)) {
           newFiltersData[filterType] = currentValues.filter((v) => v !== value);
         } else {
@@ -599,10 +600,12 @@ const DiamondFilter = () => {
       } else if (filters[filterType].type === "range") {
         newFiltersData[filterType] = value;
       }
+      console.log("more filter", newFiltersData);
       return newFiltersData;
     });
   };
 
+  console.log(filtersData, "checkboxes data");
   const storedData = sessionStorage.getItem("filterMenu");
   const isDataHave = storedData ? JSON.parse(storedData) : null;
   const Condition =
@@ -615,16 +618,21 @@ const DiamondFilter = () => {
       try {
         const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
-          console.log()
+          console.log();
           const gapSize = getFilterdata?.Color?.options?.length / 1;
-  // const gapSize = numberOfLabels / 1;
+          // const gapSize = numberOfLabels / 1;
 
-          const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
-          console.log(parseFloat(Math.floor(value)) , "gap12")
+          const value = (
+            getFilterdata?.Color?.options?.length * gapSize
+          ).toFixed(2);
+          console.log(parseFloat(Math.floor(value)), "gap12");
           setFilterApiOptions(getFilterdata);
-    const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
-    const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
-    const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+          const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+          const ClarityMarks = UseLabelGap(
+            getFilterdata?.Clarity?.options,
+            100
+          );
+          const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
           setFilters(getFilterdata);
           setSliderState({
             price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
@@ -653,6 +661,8 @@ const DiamondFilter = () => {
 
     fetchData();
   }, [Condition]);
+
+  console.log(sliderState, "price log");
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -721,7 +731,7 @@ const DiamondFilter = () => {
     setFinalArray(updatedArray);
   }, [sliderState, sliderLabels, filtersData]);
 
-  console.log('gh' , "slider label" , sliderLabels);
+  console.log("gh", "slider label", sliderLabels);
 
   return (
     <>
@@ -1321,7 +1331,7 @@ const CollectionColor = forwardRef(
       event.stopPropagation();
     };
     const marks = UseLabelGap(ColorVal?.options, 100);
-    console.log(marks[0] , "gap12")
+    console.log(marks[0], "gap12");
     // const marks = [
     //   { label: "M", value: 10, name: "M" },
     //   { label: "L", value: 20, name: "L" },
@@ -1434,7 +1444,7 @@ const CollectionClarity = forwardRef(
       return data;
     };
 
-    console.log(marks , "marks")
+    console.log(marks, "marks");
     const handleChange = (e, newValue) => {
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
