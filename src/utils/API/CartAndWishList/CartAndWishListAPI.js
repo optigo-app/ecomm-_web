@@ -19,6 +19,7 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stock
         "IsPLW": `${storeInit?.IsPLW}`,
         "AddCartDetail": type2 ? obj : [obj],
         "stockno": `${stockno ?? ""}`,
+        "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
     }
 
     let body = {
