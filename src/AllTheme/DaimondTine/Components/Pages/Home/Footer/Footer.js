@@ -122,13 +122,13 @@ export default function Footer() {
                                 <p className='footerMoteText'>MY ACCOUNT</p>
                                 <p className='FoooterTextLink' onClick={() => { navigation('/account'); window.scroll(0, 0); }}>Account</p>
                                 <p className='FoooterTextLink' onClick={handleLogout}>Sign Out</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                                {/* <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p> */}
                             </div>
                             :
                             <div className='FooterLinkMainBox'>
                                 <p className='footerMoteText'>MY ACCOUNT</p>
                                 <p className='FoooterTextLink' onClick={() => navigation('/LoginOption')}>Sign In</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                                {/* <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p> */}
                             </div>
                         }
 

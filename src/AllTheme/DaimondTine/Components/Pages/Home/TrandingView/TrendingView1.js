@@ -14,10 +14,8 @@ import { dt_loginState } from '../../../Recoil/atom';
 
 const TrendingView1 = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
-
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring1ImageChangeOdd, setRing1ImageChangeOdd] = useState(false);
     const [ring3ImageChange, setRing3ImageChange] = useState(false);

@@ -1386,14 +1386,12 @@ const ProductList = () => {
         <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end', padding: '8px 8px 0px 0px', marginTop: '12px' }} >
           <CloseIcon onClick={() => { setIsDrawerOpen(false) }} />
         </div>
-        <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
+        
+        {/* <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
           <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
             Customization
           </Typography>
-          <div
-          // className="smr_metal_custom"
-
-          >
+          <div >
             <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
               Metal:&nbsp;
             </Typography>
@@ -1407,9 +1405,7 @@ const ProductList = () => {
           </div>
 
           {storeInit?.IsDiamondCustomization === 1 &&
-            <div
-            // className="smr_dia_custom"
-            >
+            <div >
               <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
                 Diamond:&nbsp;
               </Typography>
@@ -1423,9 +1419,7 @@ const ProductList = () => {
             </div>}
 
           {storeInit?.IsCsCustomization === 1 &&
-            <div
-            // className="smr_cs_custom"
-            >
+            <div>
               <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
                 color stone:&nbsp;
               </Typography>
@@ -1437,48 +1431,8 @@ const ProductList = () => {
                 }
               </select>
             </div>}
+        </div> */}
 
-          {/* <div 
-                      // className="smr_sorting_custom"
-                      >
-                      <div
-                        // className="container"
-                        >
-                        <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
-                          Sort By:&nbsp;
-                        </Typography>
-                        <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select">
-                          <option
-                            className="option"
-                            value="Recommended"
-                          >
-                            Recommended
-                          </option>
-                          <option className="option" value="New">
-                            New
-                          </option>
-                          <option
-                            className="option"
-                            value="In Stock"
-                          >
-                            In stock
-                          </option>
-                          <option
-                            className="option"
-                            value="PRICE HIGH TO LOW"
-                          >
-                            Price High To Low
-                          </option>
-                          <option
-                            className="option"
-                            value="PRICE LOW TO HIGH"
-                          >
-                            Price Low To High
-                          </option>
-                        </select>
-                      </div>
-                    </div> */}
-        </div>
         <div className="smr_mobile_filter_portion" >
           {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
             <span className="smr_filter_text">

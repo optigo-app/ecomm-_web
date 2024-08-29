@@ -93,7 +93,7 @@ const SettingPage = () => {
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
-  const [Shape, setShape] = useState(null);
+  const [Shape, setShape] = useState("");
   console.log('Shape: ', Shape);
 
   useEffect(() => {
@@ -172,65 +172,57 @@ const SettingPage = () => {
   };
 
   useEffect(() => {
-    const extractShape = () => {
+    setTimeout(() => {
       const urlPath = location?.pathname?.slice(1).split("/");
       const shapeParam = urlPath?.[3]?.split('=');
 
       if (shapeParam?.[0] === 'diamond_shape') {
-        return shapeParam?.[1] || ''; // Return shape or empty string
+        setShape(shapeParam?.[1]);
+      } else if (shapeParam?.[0] === 'M') {
+        setShape("");
+      } else {
+        setShape("");
       }
-      return ''; // Default to empty string if shape is not present
-    };
+    }, 1000)
 
-    const shapeFromUrl = extractShape();
-    setShape(shapeFromUrl);
   }, [location?.pathname]);
 
-  // Fetch data based on shape and other parameters
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!Shape) return; // Don't fetch if shape is not available
 
         const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-        const UrlVal = location?.pathname?.slice(1).split("/");
-        let MenuVal = "";
+        const urlPath = location?.pathname?.slice(1).split("/");
+        let menuVal = "";
         let productlisttype;
 
-        UrlVal.forEach((ele) => {
+        urlPath.forEach((ele) => {
           const firstChar = ele.charAt(0);
-
-          switch (firstChar) {
-            case "M":
-              MenuVal = ele;
-              break;
-            default:
-              return "";
+          if (firstChar === "M") {
+            menuVal = ele;
           }
         });
 
-        if (MenuVal.length > 0) {
-          const menuDecode = atob(MenuVal?.split("=")[1]);
-          const key = menuDecode?.split("/")[1].split(",");
-          const val = menuDecode?.split("/")[0].split(",");
+        if (menuVal.length > 0) {
+          const menuDecode = atob(menuVal.split("=")[1]);
+          console.log('menuDecode: ', menuDecode);
+          const key = menuDecode.split("/")[1].split(",");
+          const val = menuDecode.split("/")[0].split(",");
           productlisttype = [key, val];
         }
         setprodListType(productlisttype);
-        setIsProdLoading(true);
 
-        console.log('MenuVal: ', MenuVal);
-        console.log('productlisttype: ', productlisttype);
-
-        const res = await ProductListApi({}, 1, obj, productlisttype, (Shape ?? ''), cookie, "");
+        const res = await ProductListApi({}, 1, obj, productlisttype, Shape, cookie);
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
       } catch (error) {
         console.error("Error fetching product list:", error);
+      } finally {
+        setIsProdLoading(false);
+        setIsOnlySettLoading(false);
       }
-      setIsProdLoading(false);
-      setIsOnlySettLoading(false);
     };
 
     fetchData();
