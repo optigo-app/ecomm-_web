@@ -17,7 +17,7 @@
     .dt_desognSetTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize5;
+        font-size: $fontSize6;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -25,7 +25,7 @@
         // margin-top: 20px;
         margin: 0;
         padding: 0;
-        padding: 1% 0px 1% 0px;
+        padding: 10px 0px 0px 0px;
     }
 
 
@@ -75,7 +75,7 @@
         margin: 4px 0;
         font-size: $fontSize1;
         color: $titleColor;
-        font-family: $primaryFontFamily;
+        font-family: $homePageFontFamily;
         text-align: center;
         letter-spacing: .5px;
     }
@@ -84,7 +84,7 @@
         margin: 4px 0;
         font-size: $fontSize2;
         color: $titleColor;
-        font-family: $primaryFontFamily;
+        font-family: $homePageFontFamily;
         font-weight: bold;
         text-align: center;
         letter-spacing: 1.2px;
@@ -93,7 +93,7 @@
     .fs3 {
         color: $titleColor;
         font-size: $fontSize1;
-        font-family: $primaryFontFamily;
+        font-family: $homePageFontFamily;
         letter-spacing: 1.2px;
         text-decoration: underline;
         text-decoration-color: $titleColor;
@@ -124,7 +124,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
+        font-family: $homePageFontFamily;
         .smr_ds2ImageDiv {
             background-color: $homePageColor;
             padding: 20px;

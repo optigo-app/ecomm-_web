@@ -117,94 +117,98 @@ const Album1 = () => {
     }, [albumData]);
 
     return (
-        <div className="dt_album_container">
-            {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
-                <span className='smr_albumtitle'>Album</span>
-            </div>}
-            <Box className="tabs"
-                sx={{
-                    flexGrow: 1,
-                    maxWidth: "100%",
-                }}>
-                <Tabs
-                    value={selectedAlbum}
-                    onChange={handleChangeTab}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
-                    TabIndicatorProps={{
-                        style: { display: 'none' }
-                    }}
-                >
-                    {albumData?.map((album) => (
-                        <Tab
-                            key={album?.Albumid}
-                            label={album?.AlbumName}
-                            value={album?.AlbumName}
-                            className={selectedAlbum === album?.AlbumName ? 'active' : ''}
-                        />
-                    ))}
-                </Tabs>
-            </Box>
-            <div className="Dt_swiper_container">
-                {albumData?.map((album) =>
-                    album?.AlbumName === selectedAlbum ? (
-                        <Swiper
-                            key={album?.Albumid}
-                            spaceBetween={10}
-                            lazy={true}
-                            navigation={true}
-                            breakpoints={{
-                                1024: {
-                                    slidesPerView: 4,
-                                },
-                                768: {
-                                    slidesPerView: 2,
-                                },
-                                0: {
-                                    slidesPerView: 2,
-                                }
+        <>
+            {albumData?.length != 0 &&
+                <div className="dt_album_container">
+                    {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
+                        <span className='smr_albumtitle'>Album</span>
+                    </div>}
+                    <Box className="tabs"
+                        sx={{
+                            flexGrow: 1,
+                            maxWidth: "100%",
+                        }}>
+                        <Tabs
+                            value={selectedAlbum}
+                            onChange={handleChangeTab}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                            TabIndicatorProps={{
+                                style: { display: 'none' }
                             }}
-                            modules={[Keyboard, FreeMode, Navigation]}
-                            keyboard={{ enabled: true }}
-                            pagination={false}
-                            className='dt_album_swiper_SubDiv'
                         >
-                            {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
-                                const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
-                                const isImageAvailable = imageStatus[imageSrc] !== false;
-                                return (
-                                    <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                        <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
-                                            <img
-                                                src={isImageAvailable ? imageSrc : imageNotFound}
-                                                alt={design?.TitleLine}
-                                                loading="lazy"
-                                            />
-                                        </div>
-                                        <div className="design-info">
-                                            <p className='smr_album1price'>
-                                                {design?.designno}
-                                            </p>
-                                            <p className='smr_album1price'>
-                                                <span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                        ),
-                                                    }}
-                                                /> {formatter(design?.UnitCostWithMarkUp)}
-                                            </p>
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
-                    ) : null
-                )}
-            </div>
-        </div>
+                            {albumData?.map((album) => (
+                                <Tab
+                                    key={album?.Albumid}
+                                    label={album?.AlbumName}
+                                    value={album?.AlbumName}
+                                    className={selectedAlbum === album?.AlbumName ? 'active' : ''}
+                                />
+                            ))}
+                        </Tabs>
+                    </Box>
+                    <div className="Dt_swiper_container">
+                        {albumData?.map((album) =>
+                            album?.AlbumName === selectedAlbum ? (
+                                <Swiper
+                                    key={album?.Albumid}
+                                    spaceBetween={10}
+                                    lazy={true}
+                                    navigation={true}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 2,
+                                        }
+                                    }}
+                                    modules={[Keyboard, FreeMode, Navigation]}
+                                    keyboard={{ enabled: true }}
+                                    pagination={false}
+                                    className='dt_album_swiper_SubDiv'
+                                >
+                                    {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
+                                        const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                        const isImageAvailable = imageStatus[imageSrc] !== false;
+                                        return (
+                                            <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
+                                                <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                    <img
+                                                        src={isImageAvailable ? imageSrc : imageNotFound}
+                                                        alt={design?.TitleLine}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <div className="design-info">
+                                                    <p className='smr_album1price'>
+                                                        {design?.designno}
+                                                    </p>
+                                                    <p className='smr_album1price'>
+                                                        <span
+                                                            className="smr_currencyFont"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                                ),
+                                                            }}
+                                                        /> {formatter(design?.UnitCostWithMarkUp)}
+                                                    </p>
+                                                </div>
+                                            </SwiperSlide>
+                                        );
+                                    })}
+                                </Swiper>
+                            ) : null
+                        )}
+                    </div>
+                </div>
+            }
+        </>
     );
 };
 

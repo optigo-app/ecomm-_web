@@ -26,7 +26,7 @@
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         text-align: center;
-        margin: 20px 0px 0px 0px;
+        margin: 10px 0px 0px 0px;
     }
 
     .widgetsComponentsCard {
@@ -133,6 +133,10 @@
 
     @media screen and (max-width: 550px) {
 
+        .dt_instagram_gallery{
+            padding-inline: 6px!important;
+        }
+        
         .widgetsComponentsCard {
             width: 100% !important;
         }
