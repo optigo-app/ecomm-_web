@@ -393,7 +393,7 @@ const ProductList = () => {
         setprodListType(productlisttype);
         setIsProdLoading(true);
 
-        const res = await ProductListApi({}, 1, obj, productlisttype, "", cookie);
+        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");
         const res1 = await FilterListAPI(productlisttype, cookie);
 
         if (res) {
@@ -423,7 +423,7 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi({}, 1, obj, prodListType, "", cookie)
+      ProductListApi({}, 1, obj, prodListType, cookie, "")
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -537,7 +537,7 @@ const ProductList = () => {
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi(output, 1, obj, prodListType, "", cookie)
+      ProductListApi(output, 1, obj, prodListType, cookie, "")
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -561,7 +561,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, "", cookie, sortby)
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -650,7 +650,7 @@ const ProductList = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi({}, value, obj, prodListType, "", cookie, sortBySelect)
+    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -1309,24 +1309,28 @@ const Product_Card = ({
             </div>
           </div>
           <div className="for_productList_desc_title">
-            <span className="for_listing_desc_span">18K WHITE GOLD 1.0 Carat Round Stud Earrings with butterfly back</span>
+            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>
           <div className="for_productList_desc_div">
             <div className="">
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
+                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
+                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
-                  ? `/${productData?.Dpcs?.toFixed(0)}`
-                  : null} |</span>
+                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? `/ ${productData?.Dpcs?.toFixed(0)}`
+                  : null}</span>
               )}
-              <span>&nbsp;DWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
-                ? `/${productData?.CSpcs?.toFixed(0)}`
-                : null}</span>
+              {storeInit?.IsStoneWeight == 1 &&
+                Number(productData?.CSwt) !== 0 && (
+                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                    ? `/ ${productData?.CSpcs?.toFixed(0)}`
+                    : null}</span>
+                )}
+
             </div>
           </div>
           <div className="for_productList_price_div">
