@@ -148,9 +148,7 @@ const useCart = () => {
                 let resData = response.Data?.rd
                 setDiamondCartData(resData)
                 setIsLoading(false)
-                if (cartData?.length == 0) {
-                    setSelectedItem(resData[0]);
-                }
+
             } else {
                 console.warn("No data found in the response");
                 setIsLoading(false)
@@ -167,6 +165,14 @@ const useCart = () => {
     useEffect(() => {
         getCartData();
     }, [cartStatus]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (cartData?.length == 0) {
+                setSelectedItem(diamondCartData[0]);
+            }
+        }, 200);
+    }, [diamondCartData])
 
     // for multiselect
     const handleSelectItem = async (item) => {
@@ -662,12 +668,12 @@ const useCart = () => {
             const obj = {
                 a: cartData?.stockno,
                 b: cartData?.shapename,
-              };
-          
-              let encodeObj = compressAndEncode(JSON.stringify(obj));
-          
-              let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
-              navigate(navigateUrl);
+            };
+
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
+            navigate(navigateUrl);
         } else {
             let obj = {
                 a: cartData?.autocode,

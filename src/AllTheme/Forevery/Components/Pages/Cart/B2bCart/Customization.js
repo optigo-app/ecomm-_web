@@ -9,6 +9,7 @@ import btnStyle from "../../../scss/Button.module.scss"
 const Customization = ({
   ispriceloding,
   selectedItem,
+  diamondCartData,
   qtyCount,
   handleIncrement,
   handleDecrement,
@@ -29,6 +30,7 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
+  // const [diadata, setDiaData] = useState();
 
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -58,12 +60,15 @@ const Customization = ({
 
   console.log("kjhsjhkakjhd", selectedItem);
 
+
+  console.log("diamondData", diamondCartData);
+
   const keyToCheck = "stockno"
   return (
     <>
-      {!selectedItem?.hasOwnProperty(keyToCheck) ? (
+      {(!selectedItem?.hasOwnProperty(keyToCheck)) ? (
         <>
-          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
+          {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0 && selectedItem?.Sol_StockNo == "") ? (
             <div className="for_CartCusto_R-details">
               <p className='for_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
               <Divider className='for_dividerline' />
@@ -192,6 +197,15 @@ const Customization = ({
             <div className="for_CartCusto_R-details">
               <p className='for_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider className='for_dividerline' />
+              {selectedItem?.Sol_StockNo != "" &&
+                <div className='for_diaTitleLine'>
+                  <span>
+                    {diamondCartData?.carat}{" "}
+                    Carat {diamondCartData?.colorname} {diamondCartData?.clarityname}{" "}
+                    {diamondCartData?.cutname} Cut {diamondCartData?.shapename} Diamond
+                  </span>
+                </div>
+              }
               <div className="for_StockCart-options">
                 {selectedItem?.metaltypename != "" &&
                   <div className="option">
@@ -229,21 +243,13 @@ const Customization = ({
                   <label htmlFor="qty">Qty:</label>
                   <span>{selectedItem?.Quantity}</span>
                 </div>
-                <div className=''>
+                <div>
                   {storeInitData?.IsPriceShow == 1 &&
                     <div className="for_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                          {/* <span
-                        className="for_currencyFont"
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
-                        }}
-                      /> */}
                           <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {formatter(selectedItem?.FinalCost)}
+                          {formatter(selectedItem?.Sol_StockNo != "" ? selectedItem?.FinalCost + diamondCartData?.price : selectedItem?.FinalCost )}
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />

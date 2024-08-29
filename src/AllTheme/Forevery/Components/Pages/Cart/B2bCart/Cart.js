@@ -81,6 +81,7 @@ const CartPage = () => {
   const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
+  const [selectedDia, setSelectedDia] = useState();
 
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
@@ -162,6 +163,11 @@ const CartPage = () => {
   }
 
   console.log("diamondCartData", diamondCartData);
+
+  useEffect(() => {
+    const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
+    setSelectedDia(diamondValue)
+  },[selectedItem])
   
   return (
     <div className='for_MainBGDiv'>
@@ -234,6 +240,7 @@ const CartPage = () => {
                         <CartDetails
                           ispriceloding={ispriceloding}
                           selectedItem={selectedItem}
+                          diamondData = {selectedDia}
                           CartCardImageFunc={CartCardImageFunc}
                           handleIncrement={handleIncrement}
                           handleDecrement={handleDecrement}

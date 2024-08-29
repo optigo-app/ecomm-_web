@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './for_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import diaImage from "../../../Assets/round.png"
 
 const CartDetails = ({
   ispriceloding,
   selectedItem,
+  diamondData,
   CartCardImageFunc,
   qtyCount,
   handleIncrement,
@@ -41,6 +43,7 @@ const CartDetails = ({
   }, [selectedItem]);
 
   console.log('selectediTem', selectedItem);
+
   const keyToCheck = "stockno"
   return (
     <div className="for_cart-container">
@@ -55,7 +58,7 @@ const CartDetails = ({
           />
         ) :
           <img
-            src='https://www.freeiconspng.com/thumbs/diamond-png/diamond-png-6.jpg'
+            src={diaImage}
             alt="image"
             className='for_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
@@ -65,6 +68,7 @@ const CartDetails = ({
       <Customization
         ispriceloding={ispriceloding}
         selectedItem={selectedItem}
+        diamondCartData = {diamondData}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         qtyCount={qtyCount}

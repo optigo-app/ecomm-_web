@@ -496,14 +496,6 @@ const DiamondFilter = () => {
     sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
   }, [state]);
 
-  // useEffect(() => {
-  //   const dFilterData = JSON?.parse(
-  //     sessionStorage?.getItem("diamondFilterData")
-  //   );
-  //   if (dFilterData) {
-  //     getDiamondFilterData();
-  //   }
-  // }, []);
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
@@ -557,28 +549,30 @@ const DiamondFilter = () => {
   );
 
   useEffect(() => {
-    const pathname = location?.pathname.split("/");
-    const sliderParams = Object.entries(finalArray)
-      .filter(
-        ([key, value]) =>
-          value &&
-          value.length > 0 &&
-          value.every((v) => v !== null && v !== undefined && v !== "")
-      )
-      .map(([key, value]) =>
-        Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-      )
-      .join("/");
+    setTimeout(() => {
+      const pathname = location?.pathname.split("/");
+      const sliderParams = Object.entries(finalArray)
+        .filter(
+          ([key, value]) =>
+            value &&
+            value.length > 0 &&
+            value.every((v) => v !== null && v !== undefined && v !== "")
+        )
+        .map(([key, value]) =>
+          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+        )
+        .join("/");
 
-    let encodeUrl = compressAndEncode(
-      `${pathname.slice(0, 4).join("/")}${
-        sliderParams ? `/${sliderParams}` : ""
-      }`
-    );
-    const newPath = `${pathname.slice(0, 4).join("/")}${
-      sliderParams ? `/f=${encodeUrl}` : ""
-    }`;
-    Navigate(newPath);
+      let encodeUrl = compressAndEncode(
+        `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+        }`
+      );
+      // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+      //   }`;
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+        }`;
+      Navigate(newPath);
+    }, 500);
   }, [finalArray]);
 
   const handleFilterChange = (filterType, value) => {
@@ -617,14 +611,14 @@ const DiamondFilter = () => {
         if (getFilterdata !== null && getFilterdata !== undefined) {
           console.log()
           const gapSize = getFilterdata?.Color?.options?.length / 1;
-  // const gapSize = numberOfLabels / 1;
+          // const gapSize = numberOfLabels / 1;
 
           const value = (getFilterdata?.Color?.options?.length * gapSize).toFixed(2);
-          console.log(parseFloat(Math.floor(value)) , "gap12")
+          console.log(parseFloat(Math.floor(value)), "gap12")
           setFilterApiOptions(getFilterdata);
-    const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
-    const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
-    const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+          const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+          const ClarityMarks = UseLabelGap(getFilterdata?.Clarity?.options, 100);
+          const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
           setFilters(getFilterdata);
           setSliderState({
             price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
@@ -654,48 +648,6 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const storedData = JSON.parse(
-  //         sessionStorage.getItem("diamondFilterData")
-  //       );
-  //       const minmax = JSON.parse(sessionStorage.getItem("filterMinMax"));
-  //       if (storedData && Object.keys(storedData).length > 0) {
-  //         setFilterApiOptions(storedData);
-  //         //(storedData, "Data loaded from session storage");
-  //         setFilters(storedData);
-  //         return;
-  //       }
-  //       const apiObject = ApiData?.reduce((acc, val) => {
-  //         if (val?.label) {
-  //           acc[val?.label] = val;
-  //         }
-  //         return acc;
-  //       }, {});
-  //       //(apiObject, "644");
-  //       if (apiObject) {
-  //         sessionStorage.setItem(
-  //           "diamondFilterData",
-  //           JSON.stringify(apiObject)
-  //         );
-  //         //(apiObject, "Data processed and saved to session storage");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error handling session storage or API data:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [ApiData]);
-
-  // useEffect(() => {
-  //   const storedData = JSON.parse(sessionStorage.getItem("diamondFilterData"));
-  //   if (storedData === null || storedData === undefined) {
-  //     setFilterApiOptions(storedData);
-  //     setFilters(storedData);
-  //   }
-  // }, []);
-
   useEffect(() => {
     const shape = location?.pathname?.split("/")[3];
     // getDiamondData(shape, finalArray);
@@ -703,12 +655,10 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     const updatedArray = {
-      Price: "" || sliderState?.price,
+      Price: sliderState?.price || "",
       Carat: sliderState?.Carat,
-      Color:
-        sliderLabels?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
+      Color: sliderLabels?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
       polish: filtersData?.polish,
       symmetry: filtersData?.symmetry,
@@ -718,10 +668,41 @@ const DiamondFilter = () => {
       fluorescence: filtersData?.fluorescence,
     };
 
-    setFinalArray(updatedArray);
+    setTimeout(() => {
+      const copiedArrayString = JSON.stringify(updatedArray);
+      const getfilterData = sessionStorage.getItem("filterArrCopy");
+
+      if (!getfilterData) {
+        sessionStorage.setItem("filterArrCopy", copiedArrayString);
+        setFinalArray(updatedArray);
+        return;
+      }
+
+      const filterArrCopy = JSON.parse(getfilterData);
+      const changedValues = {};
+
+      Object.keys(updatedArray).forEach((key) => {
+        if (JSON.stringify(updatedArray[key]) !== JSON.stringify(filterArrCopy[key])) {
+          changedValues[key] = updatedArray[key];
+        }
+      });
+
+      if (Object.keys(changedValues).length > 0) {
+        setFinalArray((prevArray) => ({
+          ...prevArray,
+          ...changedValues,
+        }));
+      }
+
+      console.log("Changed Values:", changedValues);
+
+    }, 400);
+
   }, [sliderState, sliderLabels, filtersData]);
 
-  console.log('gh' , "slider label" , sliderLabels);
+  console.log("sliderstate", sliderState,sliderLabels);
+  console.log("finalArray", finalArray, filtersData);
+
 
   return (
     <>
@@ -747,9 +728,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -1321,7 +1301,7 @@ const CollectionColor = forwardRef(
       event.stopPropagation();
     };
     const marks = UseLabelGap(ColorVal?.options, 100);
-    console.log(marks[0] , "gap12")
+    console.log(marks[0], "gap12")
     // const marks = [
     //   { label: "M", value: 10, name: "M" },
     //   { label: "L", value: 20, name: "L" },
@@ -1434,7 +1414,7 @@ const CollectionClarity = forwardRef(
       return data;
     };
 
-    console.log(marks , "marks")
+    console.log(marks, "marks")
     const handleChange = (e, newValue) => {
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);
