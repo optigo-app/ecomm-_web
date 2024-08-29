@@ -61,19 +61,20 @@ const CartList = ({
             openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
         ))}
-        {diamondData.map((item, index) => (
+        {diamondData?.length != 0 &&
           <DiamondItems
-            key={item.id}
-            diaData={item}
-            index={index}
+            // key={item.id}
+            diaData={diamondData}
+            // index={index}
+            cartData={items}
             CartCardImageFunc={CartCardImageFunc}
             CurrencyData={CurrencyData}
             decodeEntities={decodeEntities}
             onSelect={onSelect}
             selectedItem={selectedItem}
             selectedItemsLength={selectedItems?.length}
-            isActive={selectedItems?.includes(item)}
-            isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
+            // isActive={selectedItems?.includes(item)}
+            // isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
             multiSelect={multiSelect}
             onRemove={onRemove}
             itemLength={items?.length}
@@ -85,7 +86,7 @@ const CartList = ({
             handleCancel={handleCancel}
             openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
-        ))}
+        }
       </>
     </div>
   );

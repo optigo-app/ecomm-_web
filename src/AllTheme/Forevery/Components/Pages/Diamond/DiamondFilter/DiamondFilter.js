@@ -496,14 +496,6 @@ const DiamondFilter = () => {
     sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
   }, [state]);
 
-  // useEffect(() => {
-  //   const dFilterData = JSON?.parse(
-  //     sessionStorage?.getItem("diamondFilterData")
-  //   );
-  //   if (dFilterData) {
-  //     getDiamondFilterData();
-  //   }
-  // }, []);
 
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
@@ -557,28 +549,30 @@ const DiamondFilter = () => {
   );
 
   useEffect(() => {
-    const pathname = location?.pathname.split("/");
-    const sliderParams = Object.entries(finalArray)
-      .filter(
-        ([key, value]) =>
-          value &&
-          value.length > 0 &&
-          value.every((v) => v !== null && v !== undefined && v !== "")
-      )
-      .map(([key, value]) =>
-        Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
-      )
-      .join("/");
+    setTimeout(() => {
+      const pathname = location?.pathname.split("/");
+      const sliderParams = Object.entries(finalArray)
+        .filter(
+          ([key, value]) =>
+            value &&
+            value.length > 0 &&
+            value.every((v) => v !== null && v !== undefined && v !== "")
+        )
+        .map(([key, value]) =>
+          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+        )
+        .join("/");
 
-    let encodeUrl = compressAndEncode(
-      `${pathname.slice(0, 4).join("/")}${
-        sliderParams ? `/${sliderParams}` : ""
-      }`
-    );
-    const newPath = `${pathname.slice(0, 4).join("/")}${
-      sliderParams ? `/f=${encodeUrl}` : ""
-    }`;
-    Navigate(newPath);
+      let encodeUrl = compressAndEncode(
+        `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+        }`
+      );
+      // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+      //   }`;
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+        }`;
+      Navigate(newPath);
+    }, 500);
   }, [finalArray]);
 
   const handleFilterChange = (filterType, value) => {
@@ -713,12 +707,10 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     const updatedArray = {
-      Price: "" || sliderState?.price,
+      Price: sliderState?.price || "",
       Carat: sliderState?.Carat,
-      Color:
-        sliderLabels?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
+      Color: sliderLabels?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
       polish: filtersData?.polish,
       symmetry: filtersData?.symmetry,
@@ -728,10 +720,42 @@ const DiamondFilter = () => {
       fluorescence: filtersData?.fluorescence,
     };
 
-    setFinalArray(updatedArray);
+    setTimeout(() => {
+      const copiedArrayString = JSON.stringify(updatedArray);
+      const getfilterData = sessionStorage.getItem("filterArrCopy");
+
+      if (!getfilterData) {
+        sessionStorage.setItem("filterArrCopy", copiedArrayString);
+        setFinalArray(updatedArray);
+        return;
+      }
+
+      const filterArrCopy = JSON.parse(getfilterData);
+      const changedValues = {};
+
+      Object.keys(updatedArray).forEach((key) => {
+        if (JSON.stringify(updatedArray[key]) !== JSON.stringify(filterArrCopy[key])) {
+          changedValues[key] = updatedArray[key];
+        }
+      });
+
+      if (Object.keys(changedValues).length > 0) {
+        setFinalArray((prevArray) => ({
+          ...prevArray,
+          ...changedValues,
+        }));
+      }
+
+      console.log("Changed Values:", changedValues);
+
+    }, 400);
+
   }, [sliderState, sliderLabels, filtersData]);
 
   console.log("gh", "slider label", sliderLabels);
+  console.log("sliderstate", sliderState,sliderLabels);
+  console.log("finalArray", finalArray, filtersData);
+
 
   return (
     <>
@@ -757,9 +781,8 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
