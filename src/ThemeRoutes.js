@@ -22,6 +22,7 @@ import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App";
+import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
@@ -215,6 +216,8 @@ export default function ThemeRoutes() {
       {themeNo === 8 && <ForEveryRoutes />}
 
       {themeNo === 9 && <Procatalog_MobileApp_App />}
+
+      {themeNo === 10 && <StamFordJewels_App />}
     </>
   );
 }
