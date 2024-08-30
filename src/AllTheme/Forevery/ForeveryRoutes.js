@@ -123,7 +123,7 @@ const ForEveryRoutes = () => {
 
     const localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
-  }, [navigation, redirectEmailUrl]);
+  }, []);
 
   if (islogin === true) {
     const restrictedPaths = [

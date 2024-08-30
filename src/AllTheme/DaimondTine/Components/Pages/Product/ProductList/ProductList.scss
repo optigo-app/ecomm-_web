@@ -778,11 +778,25 @@
     min-height: 312px;
 }
 
-.dt_productCard_video {
-    object-fit: scale-down;
-    height: 312px;
-    min-height: 312px;
+.main_breadCrumb_menu_List{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.dt_productCard_video{
+    object-fit:scale-down;
+    height:312px;
+    min-height:312px;
+    width:100%;
+}
+
+@media screen and (max-width: 1000px) {
+    .main_breadCrumb_menu_List{
+        padding-top: 63px;
+    }
 }
 
 @media screen and (max-width: 1483px) {
