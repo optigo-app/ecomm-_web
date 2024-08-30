@@ -53,6 +53,10 @@ const DiamondDetails = () => {
     console.log('customizeStep-diam: ', customizeStep);
     const [settingSteps, setSettingSteps] = useState();
     console.log('settingSteps: ', settingSteps?.[1]?.step2);
+    const stepsData = JSON.parse(sessionStorage.getItem('custStepData'))
+    console.log('stepsData: ', stepsData);
+    const steps = JSON.parse(sessionStorage.getItem('customizeSteps'))
+    console.log('steps21: ', steps);
 
     useEffect(() => {
         setSettingSteps(JSON.parse(sessionStorage.getItem('customizeSteps2')));
@@ -157,6 +161,8 @@ const DiamondDetails = () => {
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
+            const existingSteps = JSON.parse(sessionStorage.getItem('customizeSteps')) || {};
+
             const updatedStep = {
                 ...customizeStep,
                 step3: {
@@ -165,6 +171,18 @@ const DiamondDetails = () => {
                 }
             };
 
+            const updatedStep1 = steps.map(step => {
+                if (step.step3 !== undefined) {
+                    return { "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice };
+                }
+                return step;
+            });
+
+            if (!updatedStep1.some(step => step.step3 !== undefined)) {
+                updatedStep1.push({ "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice });
+            }
+
+            sessionStorage.setItem('customizeSteps', JSON.stringify(updatedStep1));
             setCustomizeStep(updatedStep);
         }
     }, [compSet, totalPrice]);
@@ -386,7 +404,7 @@ const DiamondDetails = () => {
         }
     };
 
-    const handleButtonChange = async (value, e, stockno, shape) => {
+    const handleButtonChange = async (value, e, stockno, shape, settingType) => {
         setWishListFlag(e?.target?.checked);
         if (value == 'cart') {
             await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
@@ -483,10 +501,11 @@ const DiamondDetails = () => {
 
         if (value == 'ring') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
+            const stepData = JSON.parse(sessionStorage.getItem("custStepData"));
+            console.log('stepData: ', stepData);
             const addCategory = `Ring/category`;
             // const addCategory = `Ring/category/${stockno}`;
             const filterKeyVal = btoa(addCategory)
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
             setCustomizeStep({
                 ...customizeStep,
                 step2: true,
@@ -507,14 +526,21 @@ const DiamondDetails = () => {
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+
+            if (stepData?.[1]?.step2Data.id > 0) {
+                navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
+            }
+            else {
+                navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
+            }
         }
 
         if (value == 'pendant') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
+            const stepData = JSON.parse(sessionStorage.getItem("custStepData"));
             const addCategory = `Pendant/category`;
             // const addCategory = `Pendant/category/${stockno}`;
             const filterKeyVal = btoa(addCategory);
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
             setCustomizeStep({
                 ...customizeStep,
                 step2: true,
@@ -535,6 +561,31 @@ const DiamondDetails = () => {
             const step1Data = [{ "step1Data": singleDiaData }]
             sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+
+            if (stepData?.[1]?.step2Data.id > 0) {
+                navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
+            }
+            else {
+                navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
+            }
+        }
+
+        if (value === 'hasData') {
+            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps")) || {};
+            const stepData = JSON.parse(sessionStorage.getItem("custStepData")) || [];
+
+            const step1Index = stepData.findIndex(item => item.step1Data !== undefined);
+
+            const updatedStepData = [...stepData];
+            if (step1Index !== -1) {
+                updatedStepData[step1Index] = { step1Data: singleDiaData };
+            } else {
+                updatedStepData.unshift({ step1Data: singleDiaData });
+            }
+
+            sessionStorage.setItem('custStepData', JSON.stringify(updatedStepData));
+
+            navigate(`/d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
         }
     }
 
@@ -932,7 +983,7 @@ const DiamondDetails = () => {
                                                         className='for_wishlist_icon'
                                                         disableRipple={true}
                                                         checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                                        onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
+                                                        onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno, "", "")}
                                                     />
                                                 </div>
                                             </div>
@@ -981,15 +1032,23 @@ const DiamondDetails = () => {
                                     </div>
                                     <div className="for_DiamondDet_choose_Dia_div">
                                         {settingSteps?.[1]?.step2 ? (
-                                            <button onClick={() => handleButtonChange('diamond', "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                            <button onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
                                                 choose this diamond
                                             </button>
                                         ) : (
                                             <>
-                                                <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
-                                                    choose this diamond
-                                                </button>
-                                                <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                {stepsData?.[1]?.step2Data?.id > 0 ? (
+                                                    <button onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                        choose this diamond
+                                                    </button>
+                                                ) : (
+                                                    <>
+                                                        <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                            choose this diamond
+                                                        </button>
+                                                        <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+                                                    </>
+                                                )}
                                             </>
                                         )}
                                     </div>
@@ -1132,6 +1191,7 @@ const DiamondDetails = () => {
                                                         choose this diamond
                                                     </button>
                                                     <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
+
                                                 </>
                                             )}
                                         </div>
@@ -1199,74 +1259,76 @@ const DiamondDetails = () => {
                         <Services title={"Our Exclusive services"} services={services} />
                     </div>
                 </div>
-                {(setshape?.[1]?.Setting === 'Ring' || setshape?.[0]?.Setting === 'Ring') ? (
-                    <div className="for_DiamondDet_trend_coll_banner_div">
-                        <div className="for_trend_coll_details_div">
-                            <div className="for_trend_coll_det_title">
-                                <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
-                                <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Rings</span></span></div>
-                                <div className='for_trend_coll_para'>
-                                    <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
-                                </div>
-                                <div className="for_trend_coll_btn">
-                                    <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Rings</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='for_trend_coll_image_div'>
-                            <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/banner-3.png`} alt="" />
-                        </div>
-                        <div className="for_DiamondDet_NewsLetter">
-                            <NewsletterSignup />
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        {(setshape?.[1]?.Setting === 'Pendant' || setshape?.[0]?.Setting === 'Pendant') ? (
-                            <div className="for_DiamondDet_trend_coll_banner_div">
-                                <div className="for_trend_coll_details_div">
-                                    <div className="for_trend_coll_det_title">
-                                        <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
-                                        <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Pendants</span></span></div>
-                                        <div className='for_trend_coll_para'>
-                                            <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
-                                        </div>
-                                        <div className="for_trend_coll_btn">
-                                            <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Pendants</button>
-                                        </div>
+                {
+                    (setshape?.[1]?.Setting === 'Ring' || setshape?.[0]?.Setting === 'Ring') ? (
+                        <div className="for_DiamondDet_trend_coll_banner_div">
+                            <div className="for_trend_coll_details_div">
+                                <div className="for_trend_coll_det_title">
+                                    <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                    <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Rings</span></span></div>
+                                    <div className='for_trend_coll_para'>
+                                        <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                    </div>
+                                    <div className="for_trend_coll_btn">
+                                        <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Rings</button>
                                     </div>
                                 </div>
-                                <div className='for_trend_coll_image_div'>
-                                    <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/pendants.webp`} alt="" />
-                                </div>
-                                <div className="for_DiamondDet_NewsLetter">
-                                    <NewsletterSignup />
-                                </div>
                             </div>
-                        ) : (
-                            <div className="for_DiamondDet_trend_coll_banner_div">
-                                <div className="for_trend_coll_details_div">
-                                    <div className="for_trend_coll_det_title">
-                                        <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
-                                        <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
-                                        <div className='for_trend_coll_para'>
-                                            <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
-                                        </div>
-                                        <div className="for_trend_coll_btn">
-                                            <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                            <div className='for_trend_coll_image_div'>
+                                <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/banner-3.png`} alt="" />
+                            </div>
+                            <div className="for_DiamondDet_NewsLetter">
+                                <NewsletterSignup />
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            {(setshape?.[1]?.Setting === 'Pendant' || setshape?.[0]?.Setting === 'Pendant') ? (
+                                <div className="for_DiamondDet_trend_coll_banner_div">
+                                    <div className="for_trend_coll_details_div">
+                                        <div className="for_trend_coll_det_title">
+                                            <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                            <div className='for_trenf_coll_tit2'><span>Complete Setting With <span style={{ fontWeight: '700' }}>Pendants</span></span></div>
+                                            <div className='for_trend_coll_para'>
+                                                <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                            </div>
+                                            <div className="for_trend_coll_btn">
+                                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Pendants</button>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className='for_trend_coll_image_div'>
+                                        <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/pendants.webp`} alt="" />
+                                    </div>
+                                    <div className="for_DiamondDet_NewsLetter">
+                                        <NewsletterSignup />
+                                    </div>
                                 </div>
-                                <div className='for_trend_coll_image_div'>
-                                    <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
+                            ) : (
+                                <div className="for_DiamondDet_trend_coll_banner_div">
+                                    <div className="for_trend_coll_details_div">
+                                        <div className="for_trend_coll_det_title">
+                                            <div className='for_trenf_coll_tit1'><span>Make her heart race</span></div>
+                                            <div className='for_trenf_coll_tit2'><span>Trending & Unique Collection</span></div>
+                                            <div className='for_trend_coll_para'>
+                                                <p>We offers a huge lab grown diamonds jewelry collection. Surprise your significant other with a stunning diamond jewelry and a proposal they will never forget. Browse our collection now and find the perfect diamond jewelry for your love story.</p>
+                                            </div>
+                                            <div className="for_trend_coll_btn">
+                                                <button className={`${btnstyle?.btn_for_new} for_trend_jewel_coll ${btnstyle?.btn_15} `}>View all Diamonds</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='for_trend_coll_image_div'>
+                                        <img className='for_trend_coll_image' src={`${storImagePath()}/images/ProductListing/DiamondDetBanner/diamond-banner.webp`} alt="" />
+                                    </div>
+                                    <div className="for_DiamondDet_NewsLetter">
+                                        <NewsletterSignup />
+                                    </div>
                                 </div>
-                                <div className="for_DiamondDet_NewsLetter">
-                                    <NewsletterSignup />
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
+                            )}
+                        </>
+                    )
+                }
 
             </div >
         </div >
@@ -1620,7 +1682,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
                     <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
                         <span className="for_title_span" style={StyleCondition}
                             onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                                 setswap("settings");
                             }}
                         >
@@ -1771,12 +1833,12 @@ const Modal = ({
                         </span>
                         <div className="for_modal_buttons_div">
                             <button onClick={() => {
-                                handleButtonChange('ring', "", stockno, shape);
+                                handleButtonChange('ring', "", stockno, shape, "");
                                 handleClose();
                             }}>Add your diamond to a ring</button>
-                            <button onClick={() => { handleButtonChange('pendant', "", stockno, shape); handleClose(); }}>add your diamond to a pendant</button>
+                            <button onClick={() => { handleButtonChange('pendant', "", stockno, shape, ""); handleClose(); }}>add your diamond to a pendant</button>
                             <button onClick={() => {
-                                handleButtonChange('cart', "", stockno, "");
+                                handleButtonChange('cart', "", stockno, "", "");
                                 handleClose();
                             }}>add your diamond to cart</button>
                         </div>

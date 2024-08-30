@@ -1197,11 +1197,10 @@ const ProductDetail = () => {
         ...customizeStep,
         step3: {
           "step": true,
-          "url": encodeObj
+          "url": encodeObj,
+          "price": totalPrice,
         },
       })
-
-      sessionStorage.setItem('completeSteps1', JSON.stringify(customizeStep))
 
       navigate(`/d/setting-complete-product/det345/?p=${encodeObj}`);
     }
