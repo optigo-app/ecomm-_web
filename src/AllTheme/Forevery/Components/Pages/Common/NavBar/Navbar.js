@@ -551,7 +551,7 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
 
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
+  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {
@@ -689,7 +689,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const Navigate = useNavigate();
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
+  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {
