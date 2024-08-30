@@ -579,26 +579,40 @@ const useCart = () => {
 
   const CartCardImageFunc = (pd) => {
     return new Promise((resolve) => {
-      let finalprodListimg;
-      const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
-      if (pd?.ImageCount > 0) {
-        finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-        const img = new Image();
-        img.src = finalprodListimg;
-  
-        img.onload = () => {
-          resolve(finalprodListimg);
+        const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => resolve(src);
+                img.onerror = () => reject(src);
+            });
         };
-        img.onerror = () => {
-          finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-          resolve(finalprodListimg);
-        };
-      } else {
-        finalprodListimg = imageNotFound;
-        resolve(finalprodListimg);
-      }
+
+        const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+        let primaryImage, secondaryImage;
+
+        if (pd?.ImageCount > 0) {
+            primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+            secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
+        } else {
+            primaryImage = secondaryImage = imageNotFound;
+        }
+
+        loadImage(primaryImage)
+            .then((imgSrc) => {
+                resolve(imgSrc);
+            })
+            .catch(() => {
+                loadImage(secondaryImage)
+                    .then((imgSrc) => {
+                        resolve(imgSrc);
+                    })
+                    .catch(() => {
+                        resolve(imageNotFound);
+                    });
+            });
     });
-  };
+};
 
   
 
