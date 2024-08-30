@@ -110,8 +110,8 @@ export default function Footer() {
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Shipping & Returns</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Shipping & Returns</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Exchange & Buyback</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}

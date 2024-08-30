@@ -1214,6 +1214,7 @@ const ProductList = () => {
               justifyContent: "end",
               padding: "8px 8px 0px 0px",
             }}
+            className="dt_prodtList_drawer_close"
           >
             <CloseIcon
               onClick={() => {
