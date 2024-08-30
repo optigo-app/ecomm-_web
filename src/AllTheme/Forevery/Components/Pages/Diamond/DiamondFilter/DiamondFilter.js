@@ -136,7 +136,7 @@ const DiamondFilter = () => {
     depth: [],
     table: [],
     fluorescence: [],
-    Culet:[]
+    Culet: []
   });
 
   const [AccordianChecked, setAccordianChecked] = useState(false);
@@ -438,7 +438,7 @@ const DiamondFilter = () => {
   }, [state]);
 
 
-  const handlePageChange = async (event, newPage) => {  
+  const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
     setIsLoading(true);
     try {
@@ -592,7 +592,7 @@ const DiamondFilter = () => {
       Depth: filtersData?.Depth,
       Table: filtersData?.Table,
       Fluorescence: filtersData?.Fluorescence,
-      Culet:filtersData?.Culet,
+      Culet: filtersData?.Culet,
     };
 
     setTimeout(() => {
@@ -654,19 +654,19 @@ const DiamondFilter = () => {
     const result = {};
 
     for (let i = 0; i < parts?.length; i += 2) {
-        const key = parts[i];
-        const value = parts[i + 1];
-        if (value) {
-            if (value.includes(',')) {
-                result[key] = value.split(',').map(item => item === 'null' ? "null" : item);
-            } else {
-                result[key] = value;
-            }
+      const key = parts[i];
+      const value = parts[i + 1];
+      if (value) {
+        if (value.includes(',')) {
+          result[key] = value.split(',').map(item => item === 'null' ? "null" : item);
+        } else {
+          result[key] = value;
         }
+      }
     }
 
     return result;
-}
+  }
 
   useEffect(() => {
     const extractedValue = location?.pathname.split("f=")[1] ?? "";
@@ -689,7 +689,7 @@ const DiamondFilter = () => {
   console.log("gh", "slider label", sliderLabels);
   console.log("sliderstate", sliderState, sliderLabels);
   console.log("finalArray", finalArray, filtersData);
-  console.log("filtersData",filtersData)
+  console.log("filtersData", filtersData)
 
 
   return (
@@ -1088,7 +1088,7 @@ const DiamondFilter = () => {
                                   {loginInfo?.CurrencyCode ??
                                     storeInitData?.CurrencyCode}
                                 </span>
-                                <span> {val?.price}</span>
+                                <span> {formatter(val?.price)}</span>
                               </div>
                             </div>
                           </>
@@ -1101,14 +1101,14 @@ const DiamondFilter = () => {
                   {storeInitData?.IsProductListPagination == 1 &&
                     Math.ceil(diaCount / storeInitData.PageSize) > 1 && (
                       <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginBlock: "3%",
-                        width: "100%",
-                      }}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBlock: "3%",
+                          width: "100%",
+                        }}
                       >
-                      <div style={{background:"red"}}></div>
+                        <div style={{ background: "red" }}></div>
                         <Pagination
                           count={Math.ceil(diaCount / storeInitData.PageSize)}
                           size={maxwidth464px ? "small" : "large"}
