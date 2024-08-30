@@ -111,7 +111,7 @@
     @media screen and (max-width: 800px) {
         .dt_instagram_photo {
             height: auto !important;
-            width: 320px !important;
+            width: 50% !important;
         }
 
         .smr_bestseler1Title {
@@ -121,13 +121,6 @@
         .dt_instagram_gallery {
             display: flex;
             justify-content: start !important;
-        }
-    }
-
-    @media screen and (max-width: 600px) {
-        .dt_instagram_photo {
-            height: auto !important;
-            width: 50% !important;
         }
     }
 

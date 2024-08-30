@@ -417,7 +417,6 @@ const Header = () => {
         }
     };
 
-    console.log('menuItemsmenuItems',menuItems);
 
     return (
         <div className='dai_headerMain'>
@@ -607,7 +606,7 @@ const Header = () => {
                                 Home
                             </span>
                         </li>
-                        {menuItems.map((item, index) =>(
+                        {menuItems.map((item, index) => (
                             <li
                                 className="dt_menu_li"
                                 style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
@@ -689,15 +688,18 @@ const Header = () => {
                     onMouseLeave={handleMouseLeaveDropdown}
                     style={{
                         left: selectedData?.param1?.some(param1Item =>
-                            param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? dropdownPosition.left : '0px',
+                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length == 0)) ? dropdownPosition.left :
+                            (menuItems?.length > 4 && Object?.keys(selectedData?.param1)?.length < 4) ? dropdownPosition.left : '0px',
                         position: isFixed ? 'fixed' : 'absolute',
                         zIndex: 99,
                         display: selectedData?.param1?.some(param1Item =>
-                            param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? 'block' : 'flex',
+                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length == 0)) ? 'block' :
+                            (menuItems?.length > 4 && Object?.keys(selectedData?.param1)?.length < 4) ? 'block' : 'flex',
                         width: selectedData?.param1?.some(param1Item =>
-                            param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length != 0)) && '100%',
+                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) && 
+                            (menuItems?.length > 4 && Object?.keys(selectedData?.param1)?.length < 4) ? 'fit-content' : '100%',
                         justifyContent: selectedData?.param1?.some(param1Item =>
-                            param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length != 0)) && 'center',
+                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) && 'center',
 
                     }}
                 >
@@ -713,14 +715,14 @@ const Header = () => {
                             backgroundColor: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? 'white' : '',
                             boxShadow: selectedData?.param1?.length > 0 && selectedData?.param1[0]?.param1dataname ? '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)' : '',
                             height: selectedData?.param1?.some(param1Item =>
-                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length != 0)) && 'fit-content'
+                                param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) && 'fit-content'
                         }}
                         className="menuDropdownData"
                     >
                         <div style={{
                             width: '100%', gap: selectedData?.param1?.some(param1Item =>
-                                param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? '0px' : '60px', textTransform: 'uppercase', display: 'flex', flexDirection: selectedData?.param1?.some(param1Item =>
-                                    param1Item?.param2?.some(param2Item => Object.keys(param2Item?.param2name).length == 0)) ? 'column' : 'row'
+                                param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length == 0)) ? '0px' : '60px', textTransform: 'uppercase', display: 'flex', flexDirection: selectedData?.param1?.some(param1Item =>
+                                    param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length == 0)) ? 'column' : 'row'
                         }}>
                             {selectedData?.param1?.map((param1Item, param1Index) => (
                                 <div key={param1Index}>

@@ -95,10 +95,11 @@ export default function LoginWithEmailCode() {
         }
     };
 
+  
     const handleSubmit = async () => {
         const visiterId = Cookies.get('visiterId');
         if (!mobileNo.trim()) {
-            errors.mobileNo = 'Password is required';
+            errors.mobileNo = 'Code is required';
             return;
         }
 
@@ -118,56 +119,17 @@ export default function LoginWithEmailCode() {
         // };
         // const response = await CommonAPI(body);
 
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login', '', visiterId).then((response) => {
+        LoginWithEmailAPI(email, '', mobileNo, 'otp_email_login', '', visiterId).then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
-                const visiterID = Cookies.get('visiterId');
-                console.log('responseresponse', response?.Data?.rd[0]?.Token);
-                Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
-                sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
-                GetCountAPI(visiterID).then((res) => {
-                    if (res) {
-                        setCartCountNum(res?.cartcount)
-                        setWishCountNum(res?.wishcount)
-                    }
-                }).catch((err) => {
-                    if (err) {
-                        console.log("getCountApiErr", err);
-                    }
-                })
-
-                CurrencyComboAPI(response?.Data?.rd[0]?.id).then((response) => {
-                    if (response?.Data?.rd) {
-                        let data = JSON.stringify(response?.Data?.rd)
-                        sessionStorage.setItem('CurrencyCombo', data)
-                    }
-                }).catch((err) => console.log(err))
-
-
-                MetalColorCombo(response?.Data?.rd[0]?.id).then((response) => {
-                    if (response?.Data?.rd) {
-                        let data = JSON.stringify(response?.Data?.rd)
-                        sessionStorage.setItem('MetalColorCombo', data)
-                    }
-                }).catch((err) => console.log(err))
-
-
-                MetalTypeComboAPI(response?.Data?.rd[0]?.id).then((response) => {
-                    if (response?.Data?.rd) {
-                        let data = JSON.stringify(response?.Data?.rd)
-                        sessionStorage.setItem('metalTypeCombo', data)
-                    }
-                }).catch((err) => console.log(err))
-
-                if(redirectEmailUrl){
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
-                    window.location.reload(); 
                 }
             } else {
                 errors.mobileNo = 'Code is Invalid'
