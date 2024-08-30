@@ -279,10 +279,10 @@ const ProductList = () => {
         .finally(() => {
           setIsProdLoading(false);
           setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
+          // window.scroll({
+          //   top: 0,
+          //   behavior: "smooth",
+          // });
         })
         .catch((err) => console.log("err", err));
     };
