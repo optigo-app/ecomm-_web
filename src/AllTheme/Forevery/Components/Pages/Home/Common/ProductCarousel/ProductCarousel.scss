@@ -40,16 +40,19 @@
     width: 88%;
     margin: 0 auto;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
     .swiper-slide {
       text-align: center;
       font-size: 18px;
       background: #fff;
-      width: auto ;
+      width: auto;
       height: auto;
+      margin-top: -2rem;
     }
     .for_product_card {
-      width: 408px;
+      width: 100%;
       height: auto;
       transition: 0.3s ease-in-out;
       .image_box {
@@ -82,7 +85,8 @@
         }
       }
       &:hover {
-        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+          rgba(0, 0, 0, 0.23) 0px 6px 6px;
         .image_box {
           .addtocart_overlay {
             display: flex;
@@ -103,14 +107,14 @@
           font-weight: 700;
           @include Truncate(1);
         }
-        .diamond_Details{
+        .diamond_Details {
           display: flex !important;
           gap: 5px;
-          .separator_for{
+          .separator_for {
             display: flex !important;
             align-items: center;
             font-weight: 500 !important;
-            span{
+            span {
               display: flex !important;
               align-items: center;
               font-size: 13px !important;
@@ -125,10 +129,58 @@
           margin-top: 0;
           margin-bottom: 10px;
         }
-        h4 {
+        .price_fresj {
+          font-size: 17px;
+          font-weight: 800;
+          letter-spacing: 0.3px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .for_carousel {
+      .for_product_card {
+        .details {
+          .diamond_Details {
+            display: flex !important;
+            gap: 5px;
+            flex-wrap: wrap !important;
+            line-height: 15px;
+            text-align: center !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            .separator_for {
+              display: flex !important;
+              align-items: center;
+              font-weight: 500 !important;
+              padding: 0 !important;
+              margin: 0 !important;
+              span {
+                display: flex !important;
+                align-items: center;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+              }
+            }
+          }
+          p {
+            font-size: 14px;
+            font-weight: 450;
+            padding: 0 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+          }
+          .price_fresj {
             font-size: 17px;
             font-weight: 800;
             letter-spacing: 0.3px;
+            margin-top: 10px;
+          }
         }
       }
     }

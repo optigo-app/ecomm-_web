@@ -29,6 +29,7 @@ import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyP
 import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
 import ScrollToTop from './Components/Pages/ScrollToTop '
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
+import WhtasIcone from './Components/Pages/Home/ChatMenu/ChatMenu'
 
 
 const DaimondTine_App = () => {
@@ -104,8 +105,8 @@ const DaimondTine_App = () => {
         }
       }
 
-    }, 3000);
-  }, [])
+    }, 500);
+  }, [location?.pathname])
 
 
   return (
@@ -138,6 +139,7 @@ const DaimondTine_App = () => {
         </Route>
       </Routes>
       <ScrollToTop />
+      <WhtasIcone />
     </div>
   )
 }

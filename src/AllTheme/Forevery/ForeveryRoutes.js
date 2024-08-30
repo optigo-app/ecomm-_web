@@ -51,6 +51,9 @@ import DiamondPage from "./Components/Pages/Diamond";
 import Diamond from "./Components/Pages/Diamond/Diamond/Diamond";
 import DetailsRoute from "./Components/Pages/Product";
 import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
+import Preloader from "../../dum/Load";
+import Bespokejewelry from "./Components/Pages/staticpages/Bespokejewelry/Bespokejewelry";
+import Test from "./Components/Pages/ReusableComponent/Test";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -74,8 +77,6 @@ const ForEveryRoutes = () => {
   };
 
   useEffect(() => {
-    setCSSVariable();
-
     let data = sessionStorage.getItem("storeInit");
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
@@ -88,33 +89,41 @@ const ForEveryRoutes = () => {
     } else {
       setCompanyTitleLogo(logo?.companylogo);
     }
+    setCSSVariable();
   });
 
-  // useEffect(() => {
-  //   const cookieValue = Cookies.get("userLoginCookie");
-  //   if (cookieValue) {
-  //     LoginWithEmailAPI("", "", "", "", cookieValue)
-  //       .then((response) => {
-  //         if (response.Data.rd[0].stat === 1) {
-  //           Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
-  //           setIsLoginState(true);
-  //           sessionStorage.setItem("LoginUser", true);
-  //           sessionStorage.setItem(
-  //             "loginUserDetail",
-  //             JSON.stringify(response.Data.rd[0])
-  //           );
-  //           if (redirectEmailUrl) {
-  //             navigation(redirectEmailUrl);
-  //           } else {
-  //             navigation("/");
-  //           }
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  //   let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localD);
-  // }, []);
+  useEffect(() => {
+
+    console.log('callllllllllllllllllllll');
+    const cookieValue = Cookies.get("userLoginCookie");
+    const loginUser = sessionStorage.getItem("LoginUser");
+
+    if (cookieValue && !loginUser) {
+      LoginWithEmailAPI("", "", "", "", cookieValue)
+        .then((response) => {
+          if (response.Data.rd[0].stat === 1) {
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
+            setIsLoginState(true);
+            sessionStorage.setItem("LoginUser", true);
+            sessionStorage.setItem(
+              "loginUserDetail",
+              JSON.stringify(response.Data.rd[0])
+            );
+            if (redirectEmailUrl) {
+              navigation(redirectEmailUrl);
+            } else {
+              navigation("/");
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    } else if (loginUser) {
+      setIsLoginState(true);
+    }
+
+    const localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localD);
+  }, []);
 
   if (islogin === true) {
     const restrictedPaths = [
@@ -139,6 +148,7 @@ const ForEveryRoutes = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
+        <Preloader />
         <TopBar />
         <Navbar />
       </div>
@@ -232,21 +242,25 @@ const ForEveryRoutes = () => {
           element={<RingPage />}
         />
         <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-
         <Route path="/diamond" element={<Diamond />} />
+        <Route path="/diamond-test" element={<Test />} />
+        <Route path="/Delivery" element={<Delivery />} />
+        <Route path="/Payment" element={<Payment />} />
+        <Route path="/Confirmation" element={<Confirmation />} />
+
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}
         {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
         {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           
           
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
+          
           {/* <Route path="/account" element={<Account />} /> */}
-        <Route path="/Lookbook" element={<Lookbook />} />
+        {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
         {/* </Route> */}
         {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
+        <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
+        <Route path="/about-us" element={<AboutUs />} />
       </Routes>
       <Footer />
     </>

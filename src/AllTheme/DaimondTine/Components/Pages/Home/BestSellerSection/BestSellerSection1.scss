@@ -5,7 +5,7 @@
 
     .smr_bestseler1TitleDiv {
         text-align: center;
-        padding: 1% 0px 1% 0px;
+        padding: 10px 0px 0px 0px;
 
         .smr_bestseler1Title {
             font-size: $fontSize6;
@@ -36,7 +36,7 @@
 
                     img {
                         width: 100%;
-                        height: 100%;
+                        // height: 100%;
                         display: block;
                         object-fit: cover;
                         max-height: 450px;
@@ -50,8 +50,9 @@
                     h3 {
                         font-size: $fontSize1;
                         color: $titleColor;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         margin: 0;
+                        color: #7d7f85;
                         letter-spacing: .5px;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -62,20 +63,28 @@
                         margin: 5px 0;
                         font-size: $fontSize2;
                         color: #7d7f85;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         font-weight: bold;
                         letter-spacing: .5px;
                     }
 
                     span {
                         font-size: $fontSize2;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         color: #7d7f85;
                         letter-spacing: .5px;
                     }
 
                     .smr_btpipe {
                         margin: 0px 3px;
+                    }
+                }
+
+                @media screen and (max-width: 1200px) {
+                    .dt_bestSaller_product_info_Web {
+                        span {
+                            font-size: $fontSize1 !important;
+                        }
                     }
                 }
 
@@ -95,9 +104,9 @@
                     }
 
                     p {
-                        margin: 5px 0;
-                        font-size: $fontSize2;
-                        color: $titleColor;
+                        margin: 0px;
+                        font-size: $fontSize1;
+                        color: #7d7f85;
                         font-family: $primaryFontFamily;
                         font-weight: bold;
                         letter-spacing: .5px;
@@ -115,11 +124,37 @@
                     }
                 }
 
-
-
                 @media screen and (min-width: 700px) {
                     .dt_bestSaller_product_info_mobile {
                         display: none !important;
+                    }
+                }
+
+                @media screen and (max-width: 850px) {
+                    .dt_bestS_mobile_singleView_main {
+                        display: none !important;
+                    }
+
+                    .dt_bestSaller_product_info_mobile {
+                        margin-top: 2px !important;
+                        padding: 0px !important;
+
+                        span {
+                            font-size: 12px !important;
+                            letter-spacing: .5px;
+                            color: $primaryfontcolor2 !important;
+
+                        }
+
+                        h3 {
+                            color: $primaryfontcolor2 !important;
+                            font-size: 12px !important;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .smr_btimageDiv {
+                        padding: 10px !important;
                     }
                 }
 
@@ -128,23 +163,14 @@
                         display: none !important;
                     }
 
-                    .dt_bestS_mobile_singleView_main {
-                        display: flex;
-                    }
+
 
                     .dt_bestS_mobile_singleView {
                         width: 50%;
                         height: 19px !important;
                     }
 
-                    .dt_bestSaller_product_info_mobile {
-                        padding: 1px !important;
 
-                        span {
-                            font-size: 10px !important;
-                            letter-spacing: .5px;
-                        }
-                    }
 
                 }
             }
@@ -180,7 +206,7 @@
 
                 p {
                     font-size: $fontSize3;
-                    font-family: $primaryFontFamily;
+                    font-family: $homePageFontFamily;
                     left: .5px;
                 }
 
@@ -188,7 +214,7 @@
                     width: 160px;
                     height: 35px;
                     font-size: $fontSize2;
-                    font-family: $primaryFontFamily;
+                    font-family: $homePageFontFamily;
                     background-color: #fff;
                     color: $titleColor;
                     letter-spacing: .5px;
@@ -204,8 +230,9 @@
                     left: 40%;
 
                 }
+
                 h2 {
-                    font-size: 30px!important;
+                    font-size: 28px !important;
                 }
 
             }
@@ -235,10 +262,12 @@
                 width: 100%;
                 order: 2;
                 margin-top: 10px;
+                display: flex;
+                justify-content: space-between !important;
 
-                .product-card {
-                    width: calc(50% - 10px);
-                }
+                // .product-card {
+                //     width: calc(50% - 10px);
+                // }
             }
 
         }
@@ -246,7 +275,7 @@
         @media (max-width: 768px) {
             .smr_leftSideBestSeler {
                 .product-card {
-                    width: calc(50% - 8px);
+                    width: calc(50% - 5px);
                 }
             }
         }

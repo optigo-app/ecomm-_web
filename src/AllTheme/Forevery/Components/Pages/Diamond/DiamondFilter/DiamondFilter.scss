@@ -374,12 +374,12 @@
       width: 100%;
       display: grid;
       height: auto;
-      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
       gap: 10px;
-      padding: 16px 10px;
+      padding: 0px 10px;
       .filter_card {
         height: auto;
-        padding: 15px 0;
+        padding: 10px 0;
         .advance_filter_title {
           font-weight: 700;
           position: relative;
@@ -398,7 +398,7 @@
           align-items: center;
           width: 50%;
           justify-content: space-between;
-          padding-left: 25px;
+          padding-left: 15px;
           input {
             width: 25%;
             text-align: left;
@@ -417,6 +417,20 @@
           text-transform: uppercase;
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+          label {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            color: #5e5e5ec9;
+            gap: 0;
+            margin-left: 8px;
+            .checkbox {
+              border-radius: 0%;
+              padding: 5px 2px;
+            }
+          }
         }
       }
     }

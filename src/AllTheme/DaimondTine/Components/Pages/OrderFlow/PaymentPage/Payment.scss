@@ -3,16 +3,22 @@
 
 
 @media (max-width: 1200px) {
-    .dt_paymentSecondMainDiv {
-        margin-inline: 1% !important;
+    .dt_PaymentContainer {
+        margin-inline: 10% !important;
     }
 }
 
 
 .dt_PaymentContainer {
     margin-inline: 20%;
-    margin-top: 50px;
+    padding-top: 80px;
 }
+
+@media (max-width: 800px) {
+    .dt_PaymentContainer {
+        margin-inline: 2% !important;
+    }
+  }
 
 .dt_paymentBackbtnDiv {
     display: flex;

@@ -1,4 +1,11 @@
-import React, { useEffect, useRef, useState, forwardRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useCallback,
+  useReducer,
+} from "react";
 import "./DiamondFilter.scss";
 import { DiamondLists } from "../../../data/NavbarMenu";
 import { FaChevronDown } from "react-icons/fa";
@@ -24,15 +31,49 @@ import {
   Slider,
   useMediaQuery,
 } from "@mui/material";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { json, useLocation, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import btnstyle from "../../../scss/Button.module.scss";
 import { DiamondListData } from "../../../../../../utils/API/DiamondStore/DiamondList";
-import Pako from "pako";
+import pako from "pako";
 import WebLoder from "../../WebLoder/WebLoder";
 import { DiamondFilterData } from "../../../../../../utils/API/DiamondStore/DiamondFilter";
 import { SvgImg } from "../../../data/Dummy";
 import DiamondPage from "..";
+import debounce from "lodash.debounce";
+import { UseLabelGap } from "../../../hooks/UseLabelGap";
+
+const ACTIONS = {
+  SET_FILTER_DATA: "SET_FILTER_DATA",
+  SET_DIAMOND_LIST: "SET_DIAMOND_LIST",
+  SET_LOADING: "SET_LOADING",
+  SET_ERROR: "SET_ERROR",
+};
+
+// Reducer function to manage state
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.SET_FILTER_DATA:
+      return { ...state, filterData: action.payload };
+    case ACTIONS.SET_DIAMOND_LIST:
+      return { ...state, diamondList: action.payload };
+    case ACTIONS.SET_LOADING:
+      return { ...state, loading: action.payload };
+    case ACTIONS.SET_ERROR:
+      return { ...state, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+// Initial state
+const initialState = {
+  filterData: null,
+  diamondList: null,
+  loading: true,
+  error: null,
+};
 
 const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
@@ -41,12 +82,11 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
-  const [isloding, setIsloding] = useState(false);
+  const [isloding, setIsLoading] = useState(false);
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const dropdownRefs = useRef({});
-  const { id } = useParams();
   const Navigate = useNavigate();
   const [checkedItem, setCheckedItem] = useState(null);
   const [showMorefilter, setshowMorefilter] = useState(false);
@@ -57,34 +97,59 @@ const DiamondFilter = () => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [open, setOpen] = useState(null);
   const [storeInitData, setStoreInitData] = useState();
+  const [sortValue, setSortValue] = useState("");
   const [selectedsort, setselectedsort] = useState({
     title: "Price",
     sort: "Low to High",
   });
   const [sliderState, setSliderState] = useState({
-    price: [5000, 250000],
+    price: [0, 0],
     Carat: [0.96, 41.81],
     Color: [10, 100],
     Clarity: [10, 100],
     Cut: [20, 100],
   });
-  const [filters, setFilters] = useState(AdvancesfiltersOption);
+  const [filters, setFilters] = useState({});
   const [filtersData, setFiltersData] = useState({
     polish: [],
     symmetry: [],
     lab: [],
-    depth: [0.0, 8.51],
-    table: [0.0, 76.0],
+    depth: [0, 0],
+    table: [0, 0],
     fluorescence: [],
+    culet: [],
   });
+
+  const [ApiData, setApiData] = useState([]);
+  const [FilterApiOptions, setFilterApiOptions] = useState();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [isFilterDataFetched, setIsFilterDataFetched] = useState(false);
+  const [finalArray, setFinalArray] = useState({
+    Price: "" || [],
+    Color: [],
+    Clarity: [],
+    Cut: [],
+    Carat: [],
+    polish: [],
+    symmetry: [],
+    lab: [],
+    depth: [],
+    table: [],
+    fluorescence: [],
+    Culet: []
+  });
+
+  const [AccordianChecked, setAccordianChecked] = useState(false);
+  const [sliderLabels, setSliderLabels] = useState([]);
   const maxwidth464px = useMediaQuery("(max-width:464px)");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const loginInfo = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   useEffect(() => {
-    const storeinitData = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storeinitData = JSON?.parse(sessionStorage.getItem("storeInit"));
     setStoreInitData(storeinitData);
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -123,9 +188,11 @@ const DiamondFilter = () => {
       prevCheckedItem === name ? null : name
     );
   };
+
   const HandleMedia = (type, index) => {
     setShowMedia((prev) => ({ ...prev, [index]: type }));
   };
+
   const handleMouseMove = async (e, i) => {
     const videoElement = e.target;
     setHoveredCard(i);
@@ -136,6 +203,7 @@ const DiamondFilter = () => {
       console.error("Error playing video:", error);
     }
   };
+
   const handleMouseLeave = async (e, i) => {
     const videoElement = e.target;
     setHoveredCard(null);
@@ -146,130 +214,37 @@ const DiamondFilter = () => {
     }
   };
 
-  const [sortValue, setSortValue] = useState("");
-
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
-    console.log("Selected Sort Value:", value);
-    console.log(label, "eikedekdb", categories);
+    //("Selected Sort Value:", value);
+    //(label, "eikedekdb", categories);
     setselectedsort({
       title: categories,
       sort: label,
     });
   };
 
-  // const getDiamondData = async (shape) => {
-  //   setIsloding(true);
-  //   try {
-  //     const response = await DiamondListData(1, shape);
-  //     if (response && response.Data) {
-  //       let resData = response.Data?.rd;
-  //       console.log("diamondlistResponse", response.Data);
-  //       const Newmap = resData?.map((val, i) => {
-  //         return {
-  //           img: IMG,
-  //           vid: Video,
-  //           HaveCustomization: true,
-  //           ...val,
-  //         };
-  //       });
-  //       console.log(Newmap, "swdwkhdwkdbwkbd");
-  //       setDiamondData(Newmap);
-  //       let count = resData[0]?.icount
-  //       setDiaCount(count)
-  //       setIsloding(false);
-  //     } else {
-  //       console.warn("No data found in the response");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching diamond data:", error);
-  //   }
-  // };
+  function toBase64(str) {
+    return btoa(String?.fromCharCode(...new Uint8Array(str)));
+  }
 
-  const processDiamondData = (response) => {
-    if (response && response.Data) {
-      let resData = response.Data?.rd;
-      console.log("diamondlistResponse", response.Data);
-      const Newmap = resData?.map((val) => ({
-        img: IMG,
-        vid: Video,
-        HaveCustomization: true,
-        ...val,
-      }));
-      console.log(Newmap, "swdwkhdwkdbwkbd");
-      setDiamondData(Newmap);
-      let count = resData[0]?.icount;
-      setDiaCount(count);
-      setIsloding(false);
-    } else {
-      console.warn("No data found in the response");
-      setIsloding(false);
-    }
-  };
+  function fromBase64(base64) {
+    return new Uint8Array(atob(base64)?.split("")?.map(c => c?.charCodeAt(0)));
+  }
 
-  const getDiamondData = async (shape) => {
-    setIsloding(true);
-    try {
-      const response = await DiamondListData(1, shape);
-      processDiamondData(response);
-    } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsloding(false);
-    }
-  };
+  function compressAndEncode(url) {
+    const compressed = pako?.deflate(url, { to: 'string' });
+    return toBase64(compressed);
+  }
 
-  const getDiamondFilterData = async () => {
-    setIsloding(true);
-    try {
-      const response = await DiamondFilterData();
-      if (response && response.Data) {
-        let resData = response.Data?.rd;
-        setDiamondFilterData(resData);
-        console.log(resData);
-      }
-    } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsloding(false);
-    }
-  };
-
-  const handlePageChange = async (event, newPage) => {
-    setCurrentPage(newPage);
-    setIsloding(true);
-    try {
-      const response = await DiamondListData(newPage, checkedItem);
-      processDiamondData(response);
-      window.scrollTo({ top: 320, behavior: "smooth" });
-    } catch (error) {
-      console.error("Error fetching diamond data:", error);
-      setIsloding(false);
-    }
-  };
-
-  useEffect(() => {
-    getDiamondFilterData();
-  }, []);
-
-  useEffect(() => {
-    const shape = location?.pathname?.split("/")[3];
-    getDiamondData(shape);
-  }, [location?.pathname]);
-
-  const compressAndEncode = (inputString) => {
-    try {
-      const uint8Array = new TextEncoder().encode(inputString);
-
-      const compressed = Pako.deflate(uint8Array, { to: "string" });
-
-      return btoa(String.fromCharCode.apply(null, compressed));
-    } catch (error) {
-      console.error("Error compressing and encoding:", error);
-      return null;
-    }
-  };
+  function decodeAndDecompress(encodedUrl) {
+    const compressed = fromBase64(encodedUrl);
+    const decompressed = pako?.inflate(compressed, { to: 'string' });
+    return decompressed;
+  }
 
   const HandleDiamondRoute = (val) => {
-    console.log("hsahdjash", val);
+    //("hsahdjash", val);
     const obj = {
       a: val?.stockno,
       b: val?.shapename,
@@ -277,50 +252,261 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/diamond=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
+
   const getBannerImage = (index) => {
     const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
     return index < 0 || (index >= 2 && (index - 2) % 16 === 0)
       ? bannerImage
       : null;
   };
-  
-  // const handleSliderChange = (sliderType, newValue) => {
-  //   setSliderState((prevState) => ({
-  //     ...prevState,
-  //     [sliderType]: newValue,
-  //   }));
-  //   console.log(sliderState);
-  // };
 
-  const handleSliderChange = (sliderType, newValue) => {
-    console.log("first")
-    setSliderState((prevState) => ({
-      ...prevState,
-      [sliderType]: newValue,
-    }));
-    console.log(sliderState , "webwefwbkfwebkjfbwjkfbkwebfjkwebjkf")
-    const pathname = location?.pathname.split("/");
-    const sliderParams = Object?.entries(sliderState)
-      ?.map(([key, value]) => {
-        return `${key}/${value[0]},${value[1]}`;
-      })
-      .join("/");
-    const newPath = `${pathname?.slice(0, 4)?.join("/")}/${sliderParams}`;
-    Navigate(newPath);
+  const transformApiResponse = async (apiResponse) => {
+    try {
+      const data = apiResponse?.Data?.rd;
+      const transformed = {};
+      const excludedKeys = new Set(["Gridle", "Shape"]);
 
-    console.log(sliderState);
+      data.forEach((item) => {
+        const options = JSON?.parse(item.options);
+        //(options);
+
+        // Create the base object
+        const transformedItem = {
+          label: item.Name,
+          type: item?.inptype,
+          options: options.map((option) => ({
+            value: option.Name,
+            label: option.Name,
+          })),
+        };
+
+        // Add properties only if they exist
+        if (item.min !== null && item.min !== undefined) {
+          transformedItem.min = item.min;
+        }
+        if (item.max !== null && item.max !== undefined) {
+          transformedItem.max = item.max;
+        }
+        if (item.default !== null && item.default !== undefined) {
+          transformedItem.default = item.default;
+        }
+
+        // Add to the transformed object only if it's not in excludedKeys
+        if (!excludedKeys.has(item.Name)) {
+          transformed[item.id] = transformedItem;
+        }
+      });
+      return transformed;
+    } catch (error) {
+      //(error);
+    }
   };
+
+  const processDiamondData = async (response) => {
+    try {
+      if (response && response.Data && response.Data.rd) {
+        let resData = response?.Data?.rd;
+        sessionStorage?.setItem("filterMinMax", JSON?.stringify(resData[0]));
+        const data1 = resData[0];
+        const transformedData = {
+          price: {
+            label: "Price",
+            type: "range",
+            min: data1?.minprice,
+            max: data1?.maxprice,
+            default: [data1?.minprice, data1?.maxprice],
+          },
+          carat: {
+            label: "Carat",
+            type: "range",
+            min: data1?.mincarat,
+            max: data1?.maxcarat,
+            default: [data1?.mincarat, data1?.maxcarat],
+          },
+          depth: {
+            label: "Depth",
+            type: "range",
+            min: data1?.mindepth,
+            max: data1?.maxdepth,
+            default: [data1?.mindepth, data1?.maxdepth],
+          },
+          table: {
+            label: "Table",
+            type: "range",
+            min: data1?.mintable,
+            max: data1?.maxtable,
+            default: [data1?.mintable, data1?.maxtable],
+          },
+        };
+        const transformedArray = Object?.values(transformedData);
+        setApiData((prev) => {
+          return [...prev, ...transformedArray];
+        });
+        const Newmap = resData?.map((val) => ({
+          img: IMG,
+          vid: Video,
+          HaveCustomization: true,
+          ...val,
+        }));
+        setDiamondData(Newmap);
+        let count = resData[0]?.icount;
+        setDiaCount(count);
+
+        setIsLoading(false);
+      } else {
+        console.warn("No data found in the response");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      //(error, "processDiamondError");
+    }
+  };
+
+  const fetchData = async (shape, parsedData) => {
+    setIsLoading(true);
+    try {
+      dispatch({ type: ACTIONS.SET_LOADING, payload: true });
+      const filterData = await DiamondListData(1, shape, "", parsedData);
+      const data1 = filterData?.Data?.rd[0];
+      const resData = filterData?.Data?.rd;
+      const Newmap = resData?.map((val) => ({
+        img: IMG,
+        vid: Video,
+        HaveCustomization: true,
+        ...val,
+      }));
+      setDiamondData(Newmap);
+      const count = data1?.icount;
+      setDiaCount(count);
+      const transformedData = {
+        price: {
+          label: "Price",
+          type: "range",
+          min: data1?.minprice,
+          max: data1?.maxprice,
+          default: [data1?.minprice, data1?.maxprice],
+        },
+        carat: {
+          label: "Carat",
+          type: "range",
+          min: data1?.mincarat,
+          max: data1?.maxcarat,
+          default: [data1?.mincarat, data1?.maxcarat],
+        },
+        depth: {
+          label: "Depth",
+          type: "range",
+          min: data1?.mindepth,
+          max: data1?.maxdepth,
+          default: [data1?.mindepth, data1?.maxdepth],
+        },
+        table: {
+          label: "Table",
+          type: "range",
+          min: data1?.mintable,
+          max: data1?.maxtable,
+          default: [data1?.mintable, data1?.maxtable],
+        },
+      };
+      dispatch({ type: ACTIONS.SET_FILTER_DATA, payload: transformedData });
+      if (!isFilterDataFetched) {
+        const diamondListData = await DiamondFilterData();
+        const data = await transformApiResponse(diamondListData);
+        dispatch({
+          type: ACTIONS.SET_DIAMOND_LIST,
+          payload: data,
+        });
+        setIsFilterDataFetched(true);
+      }
+    } catch (error) {
+      dispatch({ type: ACTIONS.SET_ERROR, payload: error });
+      setIsLoading(false);
+    } finally {
+      dispatch({ type: ACTIONS.SET_LOADING, payload: false });
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const { filterData, diamondList } = state;
+    const mergedData =
+      filterData && diamondList ? { ...filterData, ...diamondList } : {};
+    sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
+  }, [state]);
+
+
+  const handlePageChange = async (event, newPage) => {
+    setCurrentPage(newPage);
+    setIsLoading(true);
+    try {
+      const response = await DiamondListData(
+        newPage,
+        checkedItem ?? "",
+        "",
+        "",
+        "",
+        ""
+      );
+      const resData = response?.Data?.rd;
+      const Newmap = resData?.map((val) => ({
+        img: IMG,
+        vid: Video,
+        HaveCustomization: true,
+        ...val,
+      }));
+      setDiamondData(Newmap);
+      window.scrollTo({ top: 320, behavior: "smooth" });
+    } catch (error) {
+      console.error("Error fetching diamond data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSliderChange = useCallback(
+    debounce((sliderType, newValue, min, max) => {
+      setSliderState((prevState) => ({
+        ...prevState,
+        [sliderType]: newValue,
+      }));
+
+      console.log(sliderType, newValue, min, max, "gh");
+      setSliderLabels((prev) => {
+        const existingTypeIndex = prev.findIndex(
+          (item) => item.type === sliderType
+        );
+        if (existingTypeIndex !== -1) {
+          const updatedLabels = [...prev];
+          updatedLabels[existingTypeIndex] = {
+            type: sliderType,
+            labels: [min?.label, max?.label],
+          };
+          return updatedLabels;
+        } else {
+          return [
+            ...prev,
+            { type: sliderType, labels: [min?.label, max?.label] },
+          ];
+        }
+      });
+    }, 300),
+    []
+  );
 
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
+      console.log(filterType, value, newFiltersData, "more filter");
 
-      if (filters[filterType].type === "multi-select") {
+      if (
+        filters[filterType].type === "checkbox" ||
+        filters[filterType].type === ""
+      ) {
         const currentValues = newFiltersData[filterType] || [];
-
+        console.log(currentValues, "more filter", "1")
         if (currentValues.includes(value)) {
           newFiltersData[filterType] = currentValues.filter((v) => v !== value);
         } else {
@@ -329,10 +515,182 @@ const DiamondFilter = () => {
       } else if (filters[filterType].type === "range") {
         newFiltersData[filterType] = value;
       }
-      console.log(newFiltersData);
+      console.log("more filter", newFiltersData);
       return newFiltersData;
     });
   };
+
+  console.log(filtersData, "checkboxes data");
+  const storedData = sessionStorage.getItem("filterMenu");
+  const isDataHave = storedData ? JSON.parse(storedData) : null;
+  const Condition =
+    isDataHave &&
+    typeof isDataHave === "object" &&
+    Object.keys(isDataHave).length > 0;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
+        if (getFilterdata !== null && getFilterdata !== undefined) {
+          console.log();
+          const gapSize = getFilterdata?.Color?.options?.length / 1;
+          // const gapSize = numberOfLabels / 1;
+
+          const value = (
+            getFilterdata?.Color?.options?.length * gapSize
+          ).toFixed(2);
+          console.log(parseFloat(Math.floor(value)), "gap12");
+          setFilterApiOptions(getFilterdata);
+          const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
+          const ClarityMarks = UseLabelGap(
+            getFilterdata?.Clarity?.options,
+            100
+          );
+          const Cutmarks = UseLabelGap(getFilterdata?.Cut?.options, 100);
+          setFilters(getFilterdata);
+          setSliderState({
+            price: [getFilterdata?.price?.min, getFilterdata?.price?.max],
+            Carat: [getFilterdata?.carat?.min, getFilterdata?.carat?.max],
+            Color: [0, ColorMarks[0]?.value],
+            Clarity: [0, ClarityMarks[0]?.value],
+            Cut: [0, Cutmarks[0]?.value],
+          });
+          setFiltersData({
+            polish: [],
+            symmetry: [],
+            lab: [],
+            depth: [getFilterdata?.depth?.min, getFilterdata?.depth?.max],
+            table: [getFilterdata?.table?.min, getFilterdata?.table?.max],
+            fluorescence: [],
+            culet: [],
+          });
+          // await getDiamondFilterData();
+        } else {
+          console.log("Filter data already available.");
+        }
+      } catch (error) {
+        console.error("Error fetching filter data:", error);
+      }
+    };
+
+    fetchData();
+  }, [Condition]);
+
+  console.log(sliderState, "price log");
+
+  useEffect(() => {
+    const updatedArray = {
+      Price: sliderState?.price || "",
+      Carat: sliderState?.Carat,
+      Color: sliderLabels?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
+      Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
+      Polish: filtersData?.Polish,
+      Symmetry: filtersData?.Symmetry,
+      Lab: filtersData?.Lab,
+      Depth: filtersData?.Depth,
+      Table: filtersData?.Table,
+      Fluorescence: filtersData?.Fluorescence,
+      Culet: filtersData?.Culet,
+    };
+
+    setTimeout(() => {
+      const copiedArrayString = JSON.stringify(updatedArray);
+      const getfilterData = sessionStorage.getItem("filterArrCopy");
+
+      if (!getfilterData) {
+        sessionStorage.setItem("filterArrCopy", copiedArrayString);
+        setFinalArray(updatedArray);
+        return;
+      }
+
+      const filterArrCopy = JSON.parse(getfilterData);
+      const changedValues = {};
+
+      Object.keys(updatedArray).forEach((key) => {
+        if (JSON.stringify(updatedArray[key]) !== JSON.stringify(filterArrCopy[key])) {
+          changedValues[key] = updatedArray[key];
+        }
+      });
+
+      if (Object.keys(changedValues).length > 0) {
+        setFinalArray((prevArray) => ({
+          ...prevArray,
+          ...changedValues,
+        }));
+      }
+    }, 400);
+
+  }, [sliderState, sliderLabels, filtersData]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const pathname = location?.pathname.split("/");
+      const sliderParams = Object.entries(finalArray)
+        .filter(
+          ([key, value]) =>
+            value &&
+            value.length > 0 &&
+            value.every((v) => v !== null && v !== undefined && v !== "")
+        )
+        .map(([key, value]) =>
+          Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
+        )
+        .join("/");
+      const shape = location?.pathname?.split("/")[3];
+      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""}`;
+      let encodeUrl = compressAndEncode(urlToEncode);
+      const decodedUrl = decodeAndDecompress(encodeUrl);
+      console.log("decodedUrl", decodedUrl)
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+        }`;
+      Navigate(newPath);
+    }, 500);
+  }, [finalArray]);
+
+  function parseUrlSegment(segment) {
+    const parts = segment?.split('/')?.slice(1);
+    const result = {};
+
+    for (let i = 0; i < parts?.length; i += 2) {
+      const key = parts[i];
+      const value = parts[i + 1];
+      if (value) {
+        if (value.includes(',')) {
+          result[key] = value.split(',').map(item => item === 'null' ? "null" : item);
+        } else {
+          result[key] = value;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  useEffect(() => {
+    const extractedValue = location?.pathname.split("f=")[1] ?? "";
+    const shape = location?.pathname?.split("/")[3];
+    if (extractedValue) {
+      try {
+        const decodedUrl = decodeAndDecompress(extractedValue);
+        const parsedData = parseUrlSegment(decodedUrl);
+        console.log("ljldlas", parsedData)
+        fetchData(shape, parsedData);
+      } catch (error) {
+        console.error("Error decoding and parsing URL:", error);
+        fetchData(shape);
+      }
+    } else {
+      fetchData(shape);
+    }
+  }, [location?.pathname]);
+
+  console.log("gh", "slider label", sliderLabels);
+  console.log("sliderstate", sliderState, sliderLabels);
+  console.log("finalArray", finalArray, filtersData);
+  console.log("filtersData", filtersData)
+
 
   return (
     <>
@@ -358,13 +716,18 @@ const DiamondFilter = () => {
                   onChange={() => handleCheckboxChange(val?.name)}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name ? "active-checked" : ""
-                  }`}
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
-                  <span>{val?.name}</span>
+                  <span
+                    style={{
+                      fontWeight: checkedItem === val?.name ? "800" : "500",
+                    }}
+                  >
+                    {val?.name}
+                  </span>
                 </div>
               </label>
             ))}
@@ -383,7 +746,13 @@ const DiamondFilter = () => {
                 >
                   <div id={val?.name} className="shape">
                     <img src={val?.img} alt={val?.name} />
-                    <span>{val?.name}</span>
+                    <span
+                      style={{
+                        fontWeight: checkedItem === val?.name ? "800" : "500",
+                      }}
+                    >
+                      {val?.name}
+                    </span>
                   </div>
                   <input
                     type="checkbox"
@@ -415,6 +784,7 @@ const DiamondFilter = () => {
                 handleSliderChange("price", newValue)
               }
               open={open === "price"}
+              priceVal={FilterApiOptions?.price}
             />
           </div>
           <div className="for_Color">
@@ -422,12 +792,13 @@ const DiamondFilter = () => {
               Color <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionColor
-              handleSliderChange={(newValue) =>
-                handleSliderChange("Color", newValue)
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Color", newValue, min, max)
               }
               data={sliderState?.Color}
               ref={(el) => (dropdownRefs.current["Color"] = el)}
               open={open === "Color"}
+              ColorVal={FilterApiOptions?.Color}
             />
           </div>
           <div className="for_Carat">
@@ -441,6 +812,7 @@ const DiamondFilter = () => {
               }
               data={sliderState?.Carat}
               ref={(el) => (dropdownRefs.current["Carat"] = el)}
+              CaratVal={FilterApiOptions?.carat}
             />
           </div>
           <div className="for_Clarity">
@@ -449,11 +821,12 @@ const DiamondFilter = () => {
             </span>
             <CollectionClarity
               open={open === "Clarity"}
-              handleSliderChange={(newValue) =>
-                handleSliderChange("Clarity", newValue)
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Clarity", newValue, min, max)
               }
               ref={(el) => (dropdownRefs.current["Clarity"] = el)}
               data={sliderState?.Clarity}
+              ClarityVal={FilterApiOptions?.Clarity}
             />
           </div>
           <div className="for_Cut">
@@ -463,17 +836,18 @@ const DiamondFilter = () => {
             <CollectionCut
               open={open === "Cut"}
               data={sliderState?.Cut}
-              handleSliderChange={(newValue) =>
-                handleSliderChange("Cut", newValue)
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Cut", newValue, min, max)
               }
               ref={(el) => (dropdownRefs.current["Cut"] = el)}
+              CutVal={FilterApiOptions?.Cut}
             />
           </div>
         </div>
         <div
           className="for_filter_more"
           style={{
-            height: showMorefilter ? "52vh" : "50px",
+            height: showMorefilter ? "auto" : "50px",
             background: showMorefilter ? " #fcf4f4" : "#fff",
           }}
         >
@@ -490,101 +864,117 @@ const DiamondFilter = () => {
             </span>
           </div>
           <div className="more_filter_data">
-            {Object.keys(filters).map((filterType) => {
-              const filter = filters[filterType];
-              const filterData = filtersData[filterType];
+            {Object?.keys(filters) &&
+              Object?.keys(filters)?.map((filterType) => {
+                const filter = filters[filterType];
+                const filterData = filtersData[filterType] || filter.default;
+                console.log(filter, "filtertype", filterType, filterData);
+                if (
+                  filterType === "price" ||
+                  filterType === "Cut" ||
+                  filterType === "Color" ||
+                  filterType === "Clarity" ||
+                  filterType === "carat"
+                )
+                  return null;
 
-              if (filter.type === "multi-select") {
-                return (
-                  <div key={filterType} className="filter_card">
-                    <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter.label}
-                    </h4>
-                    <div className="advance_filter_checkboxes">
-                      {filter.options.map((option) => (
-                        <label key={option.value}>
-                          <Checkbox
-                            checked={filterData.includes(option.value)}
-                            onChange={() =>
-                              handleFilterChange(filterType, option.value)
-                            }
-                          />
-                          {option.label}
-                        </label>
-                      ))}
+                const isCheckbox = !filter?.type || filter?.type === "checkbox";
+                const isEmptyFilterType =
+                  !filterData ||
+                  (Array.isArray(filterData) && filterData.length === 0);
+
+                if (isCheckbox || isEmptyFilterType) {
+                  return (
+                    <div key={filterType} className="filter_card">
+                      <h4 className="advance_filter_title">
+                        <img src={RoundImage} alt="" /> {filter?.label}
+                      </h4>
+                      <div className="advance_filter_checkboxes">
+                        {filter?.options?.map((option) => (
+                          <label key={option.value}>
+                            <Checkbox
+                              checked={filterData?.includes(option.value)}
+                              onChange={() =>
+                                handleFilterChange(filterType, option.value)
+                              }
+                            />
+                            {option.label}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              }
-
-              if (filter.type === "range") {
-                return (
-                  <div key={filterType} className="filter_card">
-                    <h4 className="advance_filter_title">
-                      <img src={RoundImage} alt="" /> {filter.label}
-                    </h4>
-                    <Slider
-                      value={filterData}
-                      min={filter.min}
-                      max={filter.max}
-                      sx={{
-                        width: "400px",
-                        marginLeft: "25px",
-                        "& .MuiSlider-thumb": {
-                          width: 17,
-                          height: 17,
-                          backgroundColor: "black",
-                          border: "1px solid #000",
-                        },
-                        "& .MuiSlider-rail": {
-                          height: 5, // Adjust height of the rail
-                          bgcolor: "black",
-                          border: " none",
-                        },
-                        "& .MuiSlider-track": {
-                          height: 5, // Adjust height of the track
-                          padding: "0 5px",
-                          bgcolor: "black",
-                          border: " none",
-                        },
-                        "& .MuiSlider-markLabel": {
-                          fontSize: "12px !important",
-                        },
-                      }}
-                      onChange={(e, newValue) =>
-                        handleFilterChange(filterType, newValue)
-                      }
-                      valueLabelDisplay="off"
-                      aria-labelledby={`${filterType}-slider`}
-                    />
-                    <div className="advance_filter_input_box">
-                      <input
-                        type="number"
-                        value={filterData[0]}
-                        onChange={(e) =>
-                          handleFilterChange(filterType, [
-                            parseFloat(e.target.value),
-                            filterData[1],
-                          ])
+                  );
+                }
+                if (filter?.type === "range") {
+                  console.log(filterData, filter, "range slider");
+                  return (
+                    <div key={filterType} className="filter_card">
+                      <h4 className="advance_filter_title">
+                        <img src={RoundImage} alt="" /> {filter?.label}
+                      </h4>
+                      <Slider
+                        value={filterData || filter?.default}
+                        min={filter?.min}
+                        defaultValue={filter?.default}
+                        max={filter?.max}
+                        step={0.1}
+                        sx={{
+                          width: "400px",
+                          marginLeft: "25px",
+                          "& .MuiSlider-thumb": {
+                            width: 17,
+                            height: 17,
+                            backgroundColor: "black",
+                            border: "1px solid #000",
+                          },
+                          "& .MuiSlider-rail": {
+                            height: 5, // Adjust height of the rail
+                            bgcolor: "black",
+                            border: " none",
+                          },
+                          "& .MuiSlider-track": {
+                            height: 5, // Adjust height of the track
+                            padding: "0 5px",
+                            bgcolor: "black",
+                            border: " none",
+                          },
+                          "& .MuiSlider-markLabel": {
+                            fontSize: "12px !important",
+                          },
+                        }}
+                        onChange={(e, newValue) =>
+                          handleFilterChange(filterType, newValue)
                         }
+                        valueLabelDisplay="off"
+                        aria-labelledby={`${filterType}-slider`}
                       />
-                      <input
-                        type="number"
-                        value={filterData[1]}
-                        onChange={(e) =>
-                          handleFilterChange(filterType, [
-                            filterData[0],
-                            parseFloat(e.target.value),
-                          ])
-                        }
-                      />
+                      <div className="advance_filter_input_box">
+                        <input
+                          type="number"
+                          value={filterData ? filterData[0] : filter.min}
+                          onChange={(e) =>
+                            handleFilterChange(filterType, [
+                              parseFloat(e.target.value) || filter.min,
+                              filterData ? filterData[1] : filter.max,
+                            ])
+                          }
+                        />
+                        <input
+                          type="number"
+                          value={filterData ? filterData[1] : filter.max}
+                          onChange={(e) =>
+                            handleFilterChange(filterType, [
+                              filterData ? filterData[0] : filter.min,
+                              parseFloat(e.target.value) || filter.max,
+                            ])
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              }
-
-              return null;
-            })}
+                  );
+                }
+                return null;
+              })}
           </div>
         </div>
         <div className="filter_results">
@@ -698,7 +1088,7 @@ const DiamondFilter = () => {
                                   {loginInfo?.CurrencyCode ??
                                     storeInitData?.CurrencyCode}
                                 </span>
-                                <span> {val?.price}</span>
+                                <span> {formatter(val?.price)}</span>
                               </div>
                             </div>
                           </>
@@ -718,6 +1108,7 @@ const DiamondFilter = () => {
                           width: "100%",
                         }}
                       >
+                        <div style={{ background: "red" }}></div>
                         <Pagination
                           count={Math.ceil(diaCount / storeInitData.PageSize)}
                           size={maxwidth464px ? "small" : "large"}
@@ -748,7 +1139,14 @@ const DiamondFilter = () => {
         <div className="faq_accordian_Design">
           <Accordion>
             <AccordionSummary
-              expandIcon={<AddCircleOutlineIcon />}
+              onClick={() => setAccordianChecked(!AccordianChecked)}
+              expandIcon={
+                AccordianChecked ? (
+                  <RemoveCircleOutlineIcon />
+                ) : (
+                  <AddCircleOutlineIcon />
+                )
+              }
               aria-controls="panel1-content"
               id="panel1-header"
             >
@@ -781,7 +1179,7 @@ const DiamondFilter = () => {
 export default DiamondFilter;
 
 const CollectionPriceRange = forwardRef(
-  ({ handleSliderChange, data, open }, ref) => {
+  ({ handleSliderChange, data, open, priceVal }, ref) => {
     const handleSliderMouseDown = (event) => {
       event.stopPropagation();
     };
@@ -796,10 +1194,10 @@ const CollectionPriceRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={(e, newValue) => handleSliderChange(newValue)}
+            onChangeCommitted={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
-            min={5000}
-            max={250000}
+            min={priceVal?.min}
+            max={priceVal?.max}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
             size="small"
@@ -832,9 +1230,8 @@ const CollectionPriceRange = forwardRef(
     );
   }
 );
-
 const CollectionCaratRange = forwardRef(
-  ({ open, handleSliderChange, data }, ref) => {
+  ({ open, handleSliderChange, data, CaratVal }, ref) => {
     const handleSliderMouseDown = (event) => {
       event.stopPropagation();
     };
@@ -850,10 +1247,10 @@ const CollectionCaratRange = forwardRef(
         <div className="for_ma_collection_slider_div">
           <Slider
             value={data}
-            onChange={(e, newValue) => handleSliderChange(newValue)}
+            onChangeCommitted={(e, newValue) => handleSliderChange(newValue)}
             onMouseDown={handleSliderMouseDown}
-            min={0.96}
-            max={41.81}
+            min={CaratVal?.min}
+            max={CaratVal?.max}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
             size="small"
@@ -887,25 +1284,48 @@ const CollectionCaratRange = forwardRef(
     );
   }
 );
-
 const CollectionColor = forwardRef(
-  ({ handleSliderChange, data, open }, ref) => {
+  ({ handleSliderChange, data, open, ColorVal }, ref) => {
     const handleSliderMouseDown = (event) => {
-      event.stopPropagation(); // Prevent click from propagating to parent div
+      event.stopPropagation();
     };
-    const marks = [
-      { label: "M", value: 10 },
-      { label: "L", value: 20 },
-      { label: "K", value: 30 },
-      { label: "J", value: 40 },
-      { label: "I", value: 50 },
-      { label: "H", value: 60 },
-      { label: "G", value: 70 },
-      { label: "F", value: 80 },
-      { label: "E", value: 90 },
-      { label: "D", value: 100 },
-    ];
-    console.log(data);
+    const marks = UseLabelGap(ColorVal?.options, 100);
+    console.log(marks[0], "gap12");
+    // const marks = [
+    //   { label: "M", value: 10, name: "M" },
+    //   { label: "L", value: 20, name: "L" },
+    //   { label: "K", value: 30, name: "K" },
+    //   { label: "J", value: 40, name: "J" },
+    //   { label: "I", value: 50, name: "I" },
+    //   { label: "H", value: 60, name: "H" },
+    //   { label: "G", value: 70, name: "G" },
+    //   { label: "F", value: 80, name: "F" },
+    //   { label: "E", value: 90, name: "E" },
+    //   { label: "D", value: 100, name: "D" },
+    // ];
+
+    const calculateStepSize = () => {
+      if (!marks || marks?.length < 2) return 10; // Default step size if not enough marks
+      const gapSize = marks[1]?.value - marks[0]?.value;
+      return gapSize;
+    };
+    const FindMaxLabel = (max) => {
+      const data = marks?.find((val, i) => val?.value === max);
+      return data;
+    };
+
+    const FindMinLabel = (min) => {
+      const data = marks?.find((val, i) => val?.value === min);
+      return data;
+    };
+
+    const handleChange = (e, newValue) => {
+      const minLabel = FindMinLabel(newValue[0]);
+      const maxLabel = FindMaxLabel(newValue[1]);
+      handleSliderChange(newValue, minLabel, maxLabel);
+      //("Slider values changed:", newValue);
+      //("Min label:", minLabel, "Max label:", maxLabel);
+    };
     return (
       <div
         className="for_ma_color"
@@ -920,14 +1340,15 @@ const CollectionColor = forwardRef(
             marks={marks}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={(e, newValue) => handleSliderChange(newValue )}
+            name={marks}
+            onChangeCommitted={handleChange}
             size="small"
-            min={10}
+            min={marks[marks?.length - 1]?.value}
+            max={marks[0]?.value}
             value={data}
-            max={100}
-            step={10}
+            step={calculateStepSize()}
             sx={{
-              width: "400px",
+              width: "580px",
               "& .MuiSlider-thumb": {
                 width: 16,
                 height: 16,
@@ -949,23 +1370,45 @@ const CollectionColor = forwardRef(
     );
   }
 );
-
 const CollectionClarity = forwardRef(
-  ({ handleSliderChange, data, open }, ref) => {
+  ({ handleSliderChange, data, open, ClarityVal }, ref) => {
     const handleSliderMouseDown = (event) => {
       event.stopPropagation(); // Prevent click from propagating to parent div
     };
-    const marks = [
-      { label: "SI2", value: 12.5 },
-      { label: "SI1", value: 25 },
-      { label: "VS2", value: 37.5 },
-      { label: "VS1", value: 50 },
-      { label: "VVS2", value: 62.5 },
-      { label: "VVS1", value: 75 },
-      { label: "IF", value: 87.5 },
-      { label: "FL", value: 100 },
-    ];
+    const marks = UseLabelGap(ClarityVal?.options, 100);
+    // const marks = [
+    //   { label: "SI2", value: 12.5 },
+    //   { label: "SI1", value: 25 },
+    //   { label: "VS2", value: 37.5 },
+    //   { label: "VS1", value: 50 },
+    //   { label: "VVS2", value: 62.5 },
+    //   { label: "VVS1", value: 75 },
+    //   { label: "IF", value: 87.5 },
+    //   { label: "FL", value: 100 },
+    // ];
 
+    const calculateStepSize = () => {
+      if (!marks || marks?.length < 2) return 10; // Default step size if not enough marks
+      const gapSize = marks[1]?.value - marks[0]?.value;
+      return gapSize;
+    };
+
+    const FindMaxLabel = (max) => {
+      const data = marks?.find((val) => val?.value === max);
+      return data;
+    };
+
+    const FindMinLabel = (min) => {
+      const data = marks?.find((val) => val?.value === min);
+      return data;
+    };
+
+    console.log(marks, "marks");
+    const handleChange = (e, newValue) => {
+      const minLabel = FindMinLabel(newValue[0]);
+      const maxLabel = FindMaxLabel(newValue[1]);
+      handleSliderChange(newValue, minLabel, maxLabel);
+    };
     return (
       <div
         className="for_ma_color"
@@ -981,11 +1424,11 @@ const CollectionClarity = forwardRef(
             value={data}
             aria-labelledby="range-slider"
             style={{ color: "black" }}
-            onChange={(e, newValue) => handleSliderChange(newValue)}
+            onChangeCommitted={handleChange}
             size="small"
-            min={12.5}
-            max={100}
-            step={12.5}
+            min={marks[marks?.length - 1]?.value}
+            max={marks[0]?.value}
+            step={calculateStepSize()}
             sx={{
               width: "400px",
               "& .MuiSlider-thumb": {
@@ -1009,62 +1452,89 @@ const CollectionClarity = forwardRef(
     );
   }
 );
+const CollectionCut = forwardRef(
+  ({ handleSliderChange, data, open, CutVal }, ref) => {
+    const handleSliderMouseDown = (event) => {
+      event.stopPropagation(); // Prevent click from propagating to parent div
+    };
 
-const CollectionCut = forwardRef(({ handleSliderChange, data, open }, ref) => {
-  const handleSliderMouseDown = (event) => {
-    event.stopPropagation(); // Prevent click from propagating to parent div
-  };
-  const marks = [
-    { label: "None", value: 20 },
-    { label: "Good", value: 40 },
-    { label: "Very Good", value: 60 },
-    { label: "Excellent", value: 80 },
-    { label: "Heart And Arrow", value: 100 },
-  ];
+    const marks = UseLabelGap(CutVal?.options, 100);
 
-  return (
-    <div
-      className="for_ma_color"
-      style={{
-        height: open ? "90px" : "0px",
-      }}
-    >
-      <div className="for_ma_collection_slider_div">
-        <Slider
-          defaultValue={[20, 100]}
-          value={data}
-          aria-label="Restricted values"
-          marks={marks}
-          aria-labelledby="range-slider"
-          style={{ color: "black" }}
-          onChange={(e, newValue) => handleSliderChange(newValue)}
-          size="small"
-          min={20}
-          max={100}
-          step={20}
-          sx={{
-            width: "450px",
-            "& .MuiSlider-thumb": {
-              width: 16,
-              height: 16,
-              backgroundColor: "black",
-              border: "1px solid #000",
-            },
-            "& .MuiSlider-rail": {
-              height: 6, // Adjust height of the rail
-            },
-            "& .MuiSlider-track": {
-              height: 6, // Adjust height of the track
-              padding: "0 15px",
-            },
-            "& .MuiSlider-markLabel": { fontSize: "12px !important" },
-          }}
-        />
+    const calculateStepSize = () => {
+      if (!marks || marks?.length < 2) return 10; // Default step size if not enough marks
+      const gapSize = marks[1]?.value - marks[0]?.value;
+      return gapSize;
+    };
+
+    // const marks = [
+    //   { label: "None", value: 20 },
+    //   { label: "Good", value: 40 },
+    //   { label: "Very Good", value: 60 },
+    //   { label: "Excellent", value: 80 },
+    //   { label: "Heart And Arrow", value: 100 },
+    // ];
+
+    const FindMaxLabel = (max) => {
+      const data = marks?.find((val) => val?.value === max);
+      return data;
+    };
+
+    const FindMinLabel = (min) => {
+      const data = marks?.find((val) => val?.value === min);
+      return data;
+    };
+
+    const handleChange = (e, newValue) => {
+      const minLabel = FindMinLabel(newValue[0]);
+      const maxLabel = FindMaxLabel(newValue[1]);
+      handleSliderChange(newValue, minLabel, maxLabel);
+      //("Slider values changed:", newValue);
+      //("Min label:", minLabel, "Max label:", maxLabel);
+    };
+
+    return (
+      <div
+        className="for_ma_color"
+        style={{
+          height: open ? "90px" : "0px",
+        }}
+      >
+        <div className="for_ma_collection_slider_div">
+          <Slider
+            defaultValue={[20, 100]}
+            value={data}
+            aria-label="Restricted values"
+            marks={marks}
+            aria-labelledby="range-slider"
+            style={{ color: "black" }}
+            onChangeCommitted={handleChange}
+            size="small"
+            min={marks[marks?.length - 1]?.value}
+            max={marks[0]?.value}
+            step={calculateStepSize()}
+            sx={{
+              width: "450px",
+              "& .MuiSlider-thumb": {
+                width: 16,
+                height: 16,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 6, // Adjust height of the rail
+              },
+              "& .MuiSlider-track": {
+                height: 6, // Adjust height of the track
+                padding: "0 15px",
+              },
+              "& .MuiSlider-markLabel": { fontSize: "12px !important" },
+            }}
+          />
+        </div>
       </div>
-    </div>
-  );
-});
-
+    );
+  }
+);
 const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
   return (
     <div
@@ -1110,3 +1580,170 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
     </div>
   );
 });
+
+// const getDiamondData = async (shape) => {
+//   setIsloding(true);
+//   try {
+//     const response = await DiamondListData(1, shape);
+//     if (response && response.Data) {
+//       let resData = response.Data?.rd;
+//       //("diamondlistResponse", response.Data);
+//       const Newmap = resData?.map((val, i) => {
+//         return {
+//           img: IMG,
+//           vid: Video,
+//           HaveCustomization: true,
+//           ...val,
+//         };
+//       });
+//       //(Newmap, "swdwkhdwkdbwkbd");
+//       setDiamondData(Newmap);
+//       let count = resData[0]?.icount
+//       setDiaCount(count)
+//       setIsloding(false);
+//     } else {
+//       console.warn("No data found in the response");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching diamond data:", error);
+//   }
+// };
+
+// const Transfromdata = () => {
+//   const resData = JSON?.parse(sessionStorage.getItem("filterMinMax"));
+//   if (resData) {
+//     const transformedData = {
+//       price: {
+//         label: "Price",
+//         type: "range",
+//         min: resData?.minprice,
+//         max: resData?.maxprice,
+//         default: [resData?.minprice, resData?.maxprice],
+//       },
+//       carat: {
+//         label: "Carat",
+//         type: "range",
+//         min: resData?.mincarat,
+//         max: resData?.maxcarat,
+//         default: [resData?.mincarat, resData?.maxcarat],
+//       },
+//       depth: {
+//         label: "Depth",
+//         type: "range",
+//         min: resData?.mindepth,
+//         max: resData?.maxdepth,
+//         default: [resData?.mindepth, resData?.maxdepth],
+//       },
+//       table: {
+//         label: "Table",
+//         type: "range",
+//         min: resData?.mintable,
+//         max: resData?.maxtable,
+//         default: [resData?.mintable, resData?.maxtable],
+//       },
+//     };
+
+//     setApiData((prev) => {
+//       const transformedArray = Object?.values(transformedData);
+//       return [
+//         ...prev?.filter(
+//           (item) =>
+//             !["Price", "Carat", "Depth", "Table"]?.includes(item?.label)
+//         ),
+//         ...transformedArray,
+//       ];
+//     });
+//   }
+// };
+
+// useEffect(() => {
+//   const getFilterdata = JSON?.parse(
+//     sessionStorage?.getItem("diamondFilterData")
+//   );
+//   if (getFilterdata !== null || getFilterdata !== undefined) {
+//     //(getFilterdata, "gt");
+//     setSliderState({
+//       price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
+//       Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
+//       Color: [0, 100],
+//       Clarity: [0, 100],
+//       Cut: [0, 100],
+//     });
+//   }
+//   if (getFilterdata !== null || getFilterdata !== undefined) {
+//     getDiamondFilterData();
+//   } else {
+//     //("Filter data already available.");
+//   }
+// }, []);
+{
+  /* {["Depth", "Table"]?.map((filterType) => {
+              const filter = filters[filterType];
+              const filterData = filtersData[filterType] || filter?.default;
+
+              return (
+                <div key={filterType} className="filter_card">
+                  <h4 className="advance_filter_title">
+                    <img src={RoundImage} alt="" /> {filter?.label}
+                  </h4>
+                  <Slider
+                    value={filterData}
+                    min={filter?.min}
+                    max={filter?.max}
+                    step={filter?.step || 0.01}
+                    sx={{
+                      width: "400px",
+                      marginLeft: "25px",
+                      "& .MuiSlider-thumb": {
+                        width: 17,
+                        height: 17,
+                        backgroundColor: "black",
+                        border: "1px solid #000",
+                      },
+                      "& .MuiSlider-rail": {
+                        height: 5,
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-track": {
+                        height: 5,
+                        padding: "0 5px",
+                        bgcolor: "black",
+                        border: "none",
+                      },
+                      "& .MuiSlider-markLabel": {
+                        fontSize: "12px !important",
+                      },
+                    }}
+                    onChange={(e, newValue) =>
+                      handleFilterChange(filterType, newValue)
+                    }
+                    valueLabelDisplay="off"
+                    aria-labelledby={`${filterType}-slider`}
+                  />
+                  <div className="advance_filter_input_box">
+                    <input
+                      type="number"
+                      value={filterData[0]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          parseFloat(e.target.value) || filter.min,
+                          filterData[1] || filter?.max,
+                        ])
+                      }
+                    />
+                    <input
+                      type="number"
+                      value={filterData[1]}
+                      onChange={(e) =>
+                        handleFilterChange(filterType, [
+                          filterData[0] || filter?.min,
+                          parseFloat(e.target.value) || filter?.max,
+                        ])
+                      }
+                    />
+                  </div>
+                </div>
+              );
+            })} */
+}

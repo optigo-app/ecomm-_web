@@ -12,7 +12,7 @@ export default function Footer() {
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
     const [email, setEmail] = useState();
-    const [islogin , setIsLogin] = useRecoilState(dt_loginState);
+    const [islogin, setIsLogin] = useRecoilState(dt_loginState);
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
 
@@ -110,8 +110,8 @@ export default function Footer() {
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Shipping & Returns</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Shipping & Returns</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Exchange & Buyback</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}
@@ -120,15 +120,15 @@ export default function Footer() {
                         {islogin == true ?
                             <div className='FooterLinkMainBox'>
                                 <p className='footerMoteText'>MY ACCOUNT</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/account')}>Account</p>
+                                <p className='FoooterTextLink' onClick={() => { navigation('/account'); window.scroll(0, 0); }}>Account</p>
                                 <p className='FoooterTextLink' onClick={handleLogout}>Sign Out</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                                {/* <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p> */}
                             </div>
                             :
                             <div className='FooterLinkMainBox'>
                                 <p className='footerMoteText'>MY ACCOUNT</p>
                                 <p className='FoooterTextLink' onClick={() => navigation('/LoginOption')}>Sign In</p>
-                                <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p>
+                                {/* <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p> */}
                             </div>
                         }
 

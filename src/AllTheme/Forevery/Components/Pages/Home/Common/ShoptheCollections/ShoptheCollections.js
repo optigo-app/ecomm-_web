@@ -8,7 +8,6 @@ const ShoptheCollections = () => {
     <div className="forevery_ShoptheCollections">
       <div className="heading">
         <h1 className="title_for">
-          {" "}
           Lab Grown Diamond Jewelry - Shop the Collection
         </h1>
         <p className="para_for">

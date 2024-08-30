@@ -284,7 +284,6 @@ const Header = () => {
     if (e.key === 'Enter') {
       if (searchText) {
         // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-
         // const handleMoveToDetail = () => {
 
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -409,7 +408,7 @@ const Header = () => {
 
                 {islogin &&
                   <>
-                    <Badge
+                    {/* <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
@@ -431,14 +430,14 @@ const Header = () => {
                           />
                         </li>
                       </Tooltip>
-                    </Badge>
-                    {/* <li
+                    </Badge> */}
+                    <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
-                      onClick={toggleOverlay} style={{}}>
+                      onClick={toggleOverlay}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li> */}
+                    </li>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -454,7 +453,8 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' ,
+                            sx={{
+                              height: '30px', width: '30px',
                               color: 'black'
 
                             }}
@@ -534,9 +534,9 @@ const Header = () => {
               <p className='smr_menuStaicMobilePage'>About us</p>
             </div> */}
 
-            <div>
+            {/* <div>
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/myWishList') }}>WishList</p>
-            </div>
+            </div> */}
 
             <div>
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}>Lookbook</p>
@@ -650,7 +650,7 @@ const Header = () => {
 
                 IsB2BWebsiteChek == 0 ?
                   <>
-                    <Badge
+                    {/* <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
@@ -671,14 +671,14 @@ const Header = () => {
                           />
                         </li>
                       </Tooltip>
-                    </Badge>
-                    {/* <li
+                    </Badge> */}
+                    <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
-                        style={{ height: "20px", cursor: "pointer", width: "20px" }}
+                        style={{ height: "20px", cursor: "pointer", width: "20px", color: 'black' }}
                       />
-                    </li> */}
+                    </li>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -688,13 +688,14 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                         onClick={() => navigation("/cartPage")}
+                          onClick={() => navigation("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px',
+                            sx={{
+                              height: '30px', width: '30px',
                               color: 'black'
-                             }}
+                            }}
                           />
                         </li>
                       </Tooltip>
@@ -703,7 +704,7 @@ const Header = () => {
                   :
                   islogin &&
                   <>
-                    <Badge
+                    {/* <Badge
                       badgeContent={wishCountNum}
                       max={1000}
                       overlap={"rectangular"}
@@ -724,14 +725,14 @@ const Header = () => {
                           />
                         </li>
                       </Tooltip>
-                    </Badge>
-                    {/* <li
+                    </Badge> */}
+                    <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li> */}
+                    </li>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -745,7 +746,8 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: '30px', width: '30px' ,
+                            sx={{
+                              height: '30px', width: '30px',
                               color: 'black'
                             }}
                           />
@@ -826,7 +828,7 @@ const Header = () => {
                 {
                   IsB2BWebsiteChek == 0 ?
                     <>
-                      <Badge
+                      {/* <Badge
                         badgeContent={wishCountNum}
                         max={1000}
                         overlap={"rectangular"}
@@ -846,14 +848,14 @@ const Header = () => {
                             />
                           </li>
                         </Tooltip>
-                      </Badge>
-                      {/* <li
+                      </Badge> */}
+                      <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li> */}
+                      </li>
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -863,7 +865,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                           onClick={() => navigation("/cartPage")}
+                            onClick={() => navigation("/cartPage")}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -876,7 +878,7 @@ const Header = () => {
                     :
                     islogin &&
                     <>
-                      <Badge
+                      {/* <Badge
                         badgeContent={wishCountNum}
                         max={1000}
                         overlap={"rectangular"}
@@ -896,14 +898,14 @@ const Header = () => {
                             />
                           </li>
                         </Tooltip>
-                      </Badge>
-                      {/* <li
+                      </Badge> */}
+                      <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li> */}
+                      </li>
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -995,7 +997,7 @@ const Header = () => {
                                 <div
                                   component="div"
                                   style={{ width: '100%' }}
-                                onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
+                                  onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
 
                                 >
                                   <a
@@ -1003,7 +1005,7 @@ const Header = () => {
                                     className='smr_menuSubTitle'
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
-                                      <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
+                                    <p className="muilist2ndSubMenutext">{subSubMenuItem.param2dataname}</p>
                                     {/* </ListItem> */}
                                   </a>
                                 </div>

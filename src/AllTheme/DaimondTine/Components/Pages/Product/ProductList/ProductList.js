@@ -118,13 +118,22 @@ const ProductList = () => {
 
 
   useEffect(()=>{
-    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId)
-    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)
-    setSelectedCsId(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid)
-  },[location?.key])
 
-  console.log("selectedMetalId",selectedMetalId)
+    let loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
+    if(Object?.keys(loginUserDetail ?? {})?.length > 0){
+      setSelectedMetalId(loginUserDetail?.MetalId)
+      setSelectedDiaId(loginUserDetail?.cmboDiaQCid)
+      setSelectedCsId(loginUserDetail?.cmboCSQCid)
+    }else{
+      setSelectedMetalId(storeInit?.MetalId)
+      setSelectedDiaId(storeInit?.cmboDiaQCid)
+      setSelectedCsId(storeInit?.cmboCSQCid)
+    }
+  },[])
+
+  console.log("selectedMetalId",loginUserDetail)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -270,10 +279,10 @@ const ProductList = () => {
         .finally(() => {
           setIsProdLoading(false);
           setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
+          // window.scroll({
+          //   top: 0,
+          //   behavior: "smooth",
+          // });
         })
         .catch((err) => console.log("err", err));
     };
@@ -319,6 +328,8 @@ const ProductList = () => {
 
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
+
+    console.log("BreadCum",BreadCum)
 
     const values = BreadCum[0]?.split(",");
     const labels = BreadCum[1]?.split(",");
@@ -1015,6 +1026,10 @@ const ProductList = () => {
     }
   };
 
+  useEffect(()=>{
+    setSortBySelect("Recommended")
+  },[location?.key])
+
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value);
 
@@ -1199,6 +1214,7 @@ const ProductList = () => {
               justifyContent: "end",
               padding: "8px 8px 0px 0px",
             }}
+            className="dt_prodtList_drawer_close"
           >
             <CloseIcon
               onClick={() => {
@@ -1849,13 +1865,14 @@ const ProductList = () => {
         </div>
       </div>
       <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          padding: "5px 0px",
-          borderBottom: "1px solid #ebebeb",
-        }}
+        // style={{
+        //   width: "100%",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   padding: "5px 0px",
+        //   borderBottom: "1px solid #ebebeb",
+        // }}
+        className="main_breadCrumb_menu_List"
       >
         <div className="breadCrumb_menu_List">
           <span
@@ -2398,7 +2415,7 @@ const ProductList = () => {
                                                 size="small"
                                               />
                                             }
-                                            style={{fontSize:'12px !important'}}
+                                            style={{fontSize:'10px !important'}}
                                             className="smr_mui_checkbox_label"
                                             label={
                                               opt?.Minval == 0

@@ -36,12 +36,13 @@ export default function Register() {
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
+  const singupRedirectUrl = `/LoginOption/${search}`;
 
   const setIsLoginState = useSetRecoilState(proCat_loginState)
 
   const handleKeyDown = (event, nextRef) => {
     if (event.key === 'Enter') {
-      event.preventDefault();
+      // event.preventDefault();
       nextRef.current.focus();
     }
   };
@@ -209,16 +210,18 @@ export default function Register() {
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          sessionStorage.setItem('LoginUser', true)
-          sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState(true)
-          sessionStorage.setItem('registerEmail', email)
+          navigation(singupRedirectUrl);
 
-          if (redirectEmailUrl) {
-            navigation(redirectEmailUrl);
-          } else {
-            navigation('/')
-          }
+          // sessionStorage.setItem('LoginUser', true)
+          // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+          // setIsLoginState(true)
+          // sessionStorage.setItem('registerEmail', email)
+
+          // if (redirectEmailUrl) {
+          //   navigation(redirectEmailUrl);
+          // } else {
+          //   navigation('/')
+          // }
 
         } else {
           if (response.Data?.rd[0].ismobileexists === 1) {
@@ -363,7 +366,7 @@ export default function Register() {
               inputRef={confirmPasswordRef}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
-                  handleSubmit();
+                  handleSubmit(event);
                 }
               }}
               onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}

@@ -53,7 +53,7 @@ const Album = () => {
 
   return (
     <>
-      {albumData?.length &&
+      {albumData?.length != 0 &&
         <div className="smrMA_alubmMainDiv">
           <p className="smr_albumTitle">Album</p>
           <div className="smr_albumALL_div">

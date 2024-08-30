@@ -418,7 +418,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
-    let storeinitInside = JSON.parse(localStorage.getItem("storeInit"));
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
     if (decodeobj) {
       setDecodeUrl(decodeobj);

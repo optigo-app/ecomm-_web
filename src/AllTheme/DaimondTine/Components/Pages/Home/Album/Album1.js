@@ -24,14 +24,14 @@ const Album1 = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
 
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
 
     useEffect(() => {
-        let data = JSON.parse(sessionStorage.getItem("storeInit"));
+        let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
 
-        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        const loginUserDetail = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
@@ -102,8 +102,8 @@ const Album1 = () => {
 
     useEffect(() => {
         if (albumData) {
-            albumData.forEach(album => {
-                const designs = JSON.parse(album?.Designdetail) || [];
+            albumData?.forEach(album => {
+                const designs = JSON?.parse(album?.Designdetail) || [];
                 designs.forEach(async (design) => {
                     const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
                     const available = await checkImageAvailability(imageSrc);
@@ -117,81 +117,98 @@ const Album1 = () => {
     }, [albumData]);
 
     return (
-        <div className="dt_album_container">
-            {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
-                <span className='smr_albumtitle'>Album</span>
-            </div>}
-            <Box className="tabs"
-                sx={{
-                    flexGrow: 1,
-                    maxWidth: "100%",
-                }}>
-                <Tabs
-                    value={selectedAlbum}
-                    onChange={handleChangeTab}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
-                    TabIndicatorProps={{
-                        style: { display: 'none' }
-                    }}
-                >
-                    {albumData?.map((album) => (
-                        <Tab
-                            key={album.Albumid}
-                            label={album?.AlbumName}
-                            value={album?.AlbumName}
-                            className={selectedAlbum === album?.AlbumName ? 'active' : ''}
-                        />
-                    ))}
-                </Tabs>
-            </Box>
-            <div className="Dt_swiper_container">
-                {albumData?.map((album) =>
-                    album?.AlbumName === selectedAlbum ? (
-                        <Swiper
-                            key={album?.Albumid}
-                            spaceBetween={10}
-                            slidesPerView={4}
-                            lazy={true}
-                            navigation={true}
-                            modules={[Keyboard, FreeMode, Navigation]}
-                            keyboard={{ enabled: true }}
-                            pagination={false}
-                            className='dt_album_swiper_SubDiv'
+        <>
+            {albumData?.length != 0 &&
+                <div className="dt_album_container">
+                    {albumData?.length != 0 && <div className='smr_ablbumtitleDiv'>
+                        <span className='smr_albumtitle'>Album</span>
+                    </div>}
+                    <Box className="tabs"
+                        sx={{
+                            flexGrow: 1,
+                            maxWidth: "100%",
+                        }}>
+                        <Tabs
+                            value={selectedAlbum}
+                            onChange={handleChangeTab}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                            TabIndicatorProps={{
+                                style: { display: 'none' }
+                            }}
                         >
-                            {JSON?.parse(album?.Designdetail)?.map((design) => {
-                                const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
-                                const isImageAvailable = imageStatus[imageSrc] !== false;
-                                return (
-                                    <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                        <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
-                                            <img
-                                                src={isImageAvailable ? imageSrc : imageNotFound}
-                                                alt={design?.TitleLine}
-                                                loading="lazy"
-                                            />
-                                        </div>
-                                        <div className="design-info">
-                                            <p className='smr_album1price'>
-                                                <span
-                                                    className="smr_currencyFont"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: decodeEntities(
-                                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                        ),
-                                                    }}
-                                                /> {formatter(design?.UnitCostWithMarkUp)}
-                                            </p>
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
-                    ) : null
-                )}
-            </div>
-        </div>
+                            {albumData?.map((album) => (
+                                <Tab
+                                    key={album?.Albumid}
+                                    label={album?.AlbumName}
+                                    value={album?.AlbumName}
+                                    className={selectedAlbum === album?.AlbumName ? 'active' : ''}
+                                />
+                            ))}
+                        </Tabs>
+                    </Box>
+                    <div className="Dt_swiper_container">
+                        {albumData?.map((album) =>
+                            album?.AlbumName === selectedAlbum ? (
+                                <Swiper
+                                    key={album?.Albumid}
+                                    spaceBetween={10}
+                                    lazy={true}
+                                    navigation={true}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 2,
+                                        }
+                                    }}
+                                    modules={[Keyboard, FreeMode, Navigation]}
+                                    keyboard={{ enabled: true }}
+                                    pagination={false}
+                                    className='dt_album_swiper_SubDiv'
+                                >
+                                    {album?.Designdetail && JSON?.parse(album?.Designdetail)?.map((design) => {
+                                        const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                        const isImageAvailable = imageStatus[imageSrc] !== false;
+                                        return (
+                                            <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
+                                                <div className="design-slide" onClick={() => handleNavigation(design?.designno, design?.autocode, design?.TitleLine)}>
+                                                    <img
+                                                        src={isImageAvailable ? imageSrc : imageNotFound}
+                                                        alt={design?.TitleLine}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <div className="design-info">
+                                                    <p className='smr_album1price'>
+                                                        {design?.designno}
+                                                    </p>
+                                                    <p className='smr_album1price'>
+                                                        <span
+                                                            className="smr_currencyFont"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                                ),
+                                                            }}
+                                                        /> {formatter(design?.UnitCostWithMarkUp)}
+                                                    </p>
+                                                </div>
+                                            </SwiperSlide>
+                                        );
+                                    })}
+                                </Swiper>
+                            ) : null
+                        )}
+                    </div>
+                </div>
+            }
+        </>
     );
 };
 

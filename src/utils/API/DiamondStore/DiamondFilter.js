@@ -20,7 +20,7 @@ export const DiamondFilterData = async (visiterId) => {
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            con: `{\"id\":\"\",\"mode\":\"GETDIAMONDSTOREMASTER\",\"appuserid\":\"${customerEmail}\"}`,
+            con: `{\"id\":\"\",\"mode\":\"GETDIAMONDSTOREMASTER\",\"appuserid\":\"${customerEmail ?? ''}\"}`,
             f: "Header (getCartData)",
             p: encodedCombinedValue,
             dp: combinedValue

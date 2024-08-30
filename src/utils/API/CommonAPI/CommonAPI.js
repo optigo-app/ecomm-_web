@@ -7,6 +7,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'zen'
     || window.location.hostname === 'fgstore.web'
     || window.location.hostname === 'fgstore.mapp'
+    || window.location.hostname === 'fgstorepro.mapp'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
 
@@ -28,9 +29,13 @@ const APIURL = (window.location.hostname === 'localhost'
 
 
 export const CommonAPI = async (body) => {
+    // const storeInitDat = JSON.parse(sessionStorage.getItem('storeInit'));
+    // const storeInit = JSON.stringify(storeInitDat);
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     try {
         // const { YearCode, version, token , sv } = storeInit;
+        // alert(`storeInit storeInit ${storeInit?.YearCode} , ${storeInit?.version} , ${storeInit?.token} , ${storeInit?.sv}`);
+
         const YearCode = storeInit?.YearCode ?? '' ;
         const version = storeInit?.version  ?? '';
         const token = storeInit?.token ?? '';

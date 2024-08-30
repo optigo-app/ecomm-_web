@@ -1,3 +1,6 @@
+
+@import '../../../scss/variable.scss';
+
 .dai_headerMain {
   .dai_headerMainTop {
     display: flex;
@@ -17,10 +20,15 @@
     align-items: center;
   }
 
+  .level1MenuData {
+    font-family: $homePageFontFamily;
+  }
+
   .dai_login_link {
     display: flex;
     gap: 15px;
     align-items: center;
+    font-family: $homePageFontFamily;
   }
 
   .dt_headermainDiv {
@@ -45,7 +53,7 @@
   }
 
   .dt_header_logo {
-    max-width: 150px;
+    max-width: 550px;
   }
 
   .dt_headermainDiv3 {
@@ -104,10 +112,19 @@
     margin-inline: 10px;
   }
 
+
+  .nav_li_sminingSpan_Menu {
+    color: rgb(0, 0, 0) !important;
+    font-weight: 600;
+    font-family: $homePageFontFamily;
+  }
+
   .nav-li-sminingSpan_Home {
     color: black !important;
     position: relative !important;
     font-weight: 600;
+    font-family: $homePageFontFamily;
+
   }
 
   .nav-li-sminingSpan {
@@ -115,6 +132,7 @@
     position: relative !important;
     text-decoration: none !important;
     font-weight: 600;
+    font-family: $homePageFontFamily;
   }
 
   .nav-li-sminingSpan::before {
@@ -159,7 +177,7 @@
     display: block;
     position: absolute;
     z-index: 111111;
-    width: 100%;
+    // width: 100%;
     margin-top: 0px;
     transition: all 0.5s ease;
   }
@@ -172,7 +190,7 @@
     transform: translateY(0px);
     transition: all 0.4s ease;
     height: 60px;
-    margin-top: 50px;
+    // margin-top: 50px;
   }
 
   .menuDropdownData {
@@ -199,13 +217,13 @@
     }
   }
 
-  @media screen and (min-width: 1001px) {
+  @media screen and (min-width: 1151px) {
     .dt_mobileViewHeaderMain {
       display: none;
     }
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1150px) {
     .dt_headermainDiv {
       display: none;
     }
@@ -253,7 +271,8 @@
     .dt_mobile_div3_ulMain {
       display: flex;
       list-style: none;
-      margin: 0px;
+      margin: 0px !important;
+      padding: 0px !important;
     }
 
   }
@@ -270,6 +289,10 @@
       font-weight: 600;
     }
 
+    .dt_mobile_div3_li3{
+      margin-inline: 2px!important;
+    }
+
   }
 
   .dt_lookBookNew_header {
@@ -284,7 +307,7 @@
     font-size: 10px;
     border-radius: 5px;
   }
-  
+
   // @media screen and (max-width: 450px) {
   //   .dt_mobile_div3_li3 {
   //     display: none;

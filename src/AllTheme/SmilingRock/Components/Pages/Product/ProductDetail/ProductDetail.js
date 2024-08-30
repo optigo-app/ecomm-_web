@@ -25,6 +25,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import visionArround from '../../../Assets/360.png'
 
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
@@ -39,6 +40,7 @@ import 'swiper/css/scrollbar';
 import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -68,6 +70,7 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false)
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
+  const [vison360,setVision360] = useState()
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -77,6 +80,8 @@ const ProductDetail = () => {
   const [csList, setCsList] = useState([]);
 
   const [prodLoading, setProdLoading] = useState(false)
+
+  const [isVisionShow,setIsVisionShow] = useState(false)
 
 
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -821,6 +826,8 @@ const ProductDetail = () => {
     let pdImgList = [];
     let pdvideoList = [];
 
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+
     let pd = singleProd;
 
     let colImg;
@@ -929,9 +936,29 @@ const ProductDetail = () => {
       setPdVideoArr([]);
     }
 
+    if(storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0){
+
+      // const CheckUrl = async (url) => {
+      //   try {
+      //     const response = await axios.head(url);
+      //     return response.status >= 200 && response.status < 300; 
+      //   } catch (error) {
+      //     console.error('Error checking URL:', error);
+      //     return false;
+      //   }
+      // };
+      let VisionLink = storeinitInside?.Vision360URL?.replace("{{designno}}",singleProd?.designno)
+
+      // setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
+      setVision360(VisionLink)
+
+      //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
+
+    }
+
+
+
     return finalprodListimg;
-
-
   };
 
 
@@ -1259,7 +1286,14 @@ const ProductDetail = () => {
 
   }
 
-  console.log("ColorStone_Cost",singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
+  // useEffect(()=>{
+  //   console.log("length",!pdThumbImg?.length && !pdVideoArr?.length);
+  //   if( !pdThumbImg?.length && !pdVideoArr?.length){
+  //     setIsVisionShow(true)
+  //   }
+  // },[pdThumbImg,pdVideoArr])
+
+  console.log("ColorStone_Cost",isVisionShow);
 
   return (
     <>
@@ -1303,7 +1337,7 @@ const ProductDetail = () => {
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {(selectedThumbImg?.type == "img") ? (
+                        { !isVisionShow ? ((selectedThumbImg?.type == "img") ? (
                           <img
                             src={selectedThumbImg?.link}
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
@@ -1328,10 +1362,16 @@ const ProductDetail = () => {
                               }}
                             />
                           </div>
-                        )}
+                        )):
+                        (
+                          <iframe src={vison360}  className="smr_prod_img" style={{height:"80%",overflow:'hidden',border:'none',marginLeft:'5%',marginTop:'5%'}} />
+
+                        )
+                        }
+
 
                         <div className="smr_main_thumb_prod_img">
-                          {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                          {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
                             pdThumbImg?.map((ele, i) => (
                               <img
                                 src={ele}
@@ -1344,6 +1384,7 @@ const ProductDetail = () => {
                                     type: "img",
                                   });
                                   setThumbImgIndex(i);
+                                  setIsVisionShow(false)
                                 }}
                               // onError={()=>{
                               // }}
@@ -1357,9 +1398,10 @@ const ProductDetail = () => {
                                 justifyContent: "center",
                                 alignItems: "center",
                               }}
-                              onClick={() =>
+                              onClick={() =>{
                                 setSelectedThumbImg({ link: data, type: "vid" })
-                              }
+                                setIsVisionShow(false)
+                              }}
                             >
                               <video
                                 src={data}
@@ -1378,6 +1420,23 @@ const ProductDetail = () => {
                               />
                             </div>
                           ))}
+                          {
+                            vison360 && vison360?.length > 0 ? (
+                              <img
+                                src={visionArround}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_thumb_img"
+                                id="vision360"
+                                onClick={() => {
+                                  setIsVisionShow(true)
+                                }}
+                              // onError={()=>{
+                              // }}
+                              />
+                            ) : 
+                            null
+                          }
                           {/* <div className="smr_thumb_prod_img">
                       
                       </div> */}

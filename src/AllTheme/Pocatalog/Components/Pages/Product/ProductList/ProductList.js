@@ -543,10 +543,7 @@ const ProductList = () => {
         StatusId
       };
     });
-
-    console.log("finalProdWithPrice", finalProdWithPrice);
     setFinalProductListData(finalProdWithPrice);
-    // console.log("SoketData",SoketData);
   }, [productListData, SoketData]);
 
   // useEffect(()=>{
@@ -1792,16 +1789,16 @@ const ProductList = () => {
                       "Filters"
                     ) : (
                       <>
-                        {afterCountStatus == true ? (
+                        {/* {afterCountStatus == true ? (
                           <Skeleton
                             variant="rounded"
                             width={140}
                             height={22}
                             className="pSkelton"
                           />
-                        ) : (
+                        ) : ( */}
                           <span>{`Product Found:: ${afterFilterCount}`}</span>
-                        )}
+                        {/* )} */}
                       </>
                     )}
                   </span>
@@ -1811,16 +1808,16 @@ const ProductList = () => {
                       "Clear All"
                     ) : (
                       <>
-                        {afterCountStatus == true ? (
+                        {/* {afterCountStatus == true ? (
                           <Skeleton
                             variant="rounded"
                             width={140}
                             height={22}
                             className="pSkelton"
                           />
-                        ) : (
+                        ) : ( */}
                           <span>{`Total Products: ${afterFilterCount}`}</span>
-                        )}
+                        {/* )} */}
                       </>
                     )}
                   </span>
@@ -2485,16 +2482,16 @@ const ProductList = () => {
                               ) : (
                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                                 <>
-                                  {afterCountStatus == true ? (
+                                  {/* {afterCountStatus == true ? (
                                     <Skeleton
                                       variant="rounded"
                                       width={140}
                                       height={22}
                                       className="pSkelton"
                                     />
-                                  ) : (
+                                  ) : ( */}
                                     <span>{`Product Found:: ${afterFilterCount}`}</span>
-                                  )}
+                                  {/* )} */}
                                 </>
                               )}
                             </span>
@@ -2505,16 +2502,16 @@ const ProductList = () => {
                                 "Clear All"
                               ) : (
                                 <>
-                                  {afterCountStatus == true ? (
+                                  {/* {afterCountStatus == true ? (
                                     <Skeleton
                                       variant="rounded"
                                       width={140}
                                       height={22}
                                       className="pSkelton"
                                     />
-                                  ) : (
+                                  ) : ( */}
                                     <span>{`Total Products: ${afterFilterCount}`}</span>
-                                  )}
+                                  {/* )} */}
                                 </>
                               )}
                             </span>
@@ -3164,7 +3161,7 @@ const ProductList = () => {
                                       {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
                                       {/* </Button> */}
                                       {/* <Button className="smr_wish-icon"> */}
-                                      <Checkbox
+                                      {/* <Checkbox
                                         icon={
                                           <StarBorderIcon
                                             sx={{
@@ -3191,16 +3188,13 @@ const ProductList = () => {
                                             "Wish"
                                           )
                                         }
-                                        // checked={productData?.IsInWish}
                                         checked={
                                           wishArr[productData?.autocode] ??
                                           productData?.IsInWish === 1
                                             ? true
                                             : false
                                         }
-                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                        // onChange={(e) => handelWishList(e, products)}
-                                      />
+                                      /> */}
                                       {/* </Button> */}
                                     </div>
 

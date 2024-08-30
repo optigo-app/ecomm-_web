@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
+import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/for_Cart';
 import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
@@ -29,6 +29,7 @@ const CartPage = () => {
     isloding,
     ispriceloding,
     cartData,
+    diamondCartData,
     selectedItem,
     selectedItems,
     multiSelect,
@@ -80,6 +81,7 @@ const CartPage = () => {
   const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
+  const [selectedDia, setSelectedDia] = useState();
 
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
@@ -160,12 +162,19 @@ const CartPage = () => {
     }
   }
 
+  console.log("diamondCartData", diamondCartData);
+
+  useEffect(() => {
+    const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
+    setSelectedDia(diamondValue)
+  },[selectedItem])
+  
   return (
     <div className='for_MainBGDiv'>
       <div className="for_cart-title">Cart</div>
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          {!isloding && cartData.length != 0 &&
+          {!isloding && (cartData.length !== 0 || diamondCartData?.length !== 0) &&
             <div className='for_cartButton-groups'>
               <Link
                 className='for_ReomoveAllCartbtn'
@@ -176,7 +185,7 @@ const CartPage = () => {
               </Link>
             </div>
           }
-          {!isloding && cartData.length != 0 &&
+          {!isloding && (cartData.length !== 0 || diamondCartData?.length !== 0) &&
             <div className='for_placeOrderMainbtnDivs'>
               <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePlaceOrder}>Place Order</button>
             </div>
@@ -201,11 +210,12 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
+            {!isloding && (cartData.length != 0 || diamondCartData?.length != 0) ? (
               <div className="for_cartMainPage">
                 <div className="for_cart-left-sides">
                   <CartList
                     items={cartData}
+                    diamondData = {diamondCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}
@@ -230,6 +240,7 @@ const CartPage = () => {
                         <CartDetails
                           ispriceloding={ispriceloding}
                           selectedItem={selectedItem}
+                          diamondData = {selectedDia}
                           CartCardImageFunc={CartCardImageFunc}
                           handleIncrement={handleIncrement}
                           handleDecrement={handleDecrement}

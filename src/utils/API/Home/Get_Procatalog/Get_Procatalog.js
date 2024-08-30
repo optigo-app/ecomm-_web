@@ -10,12 +10,14 @@ export const Get_Procatalog = async (mode, customerID, ALCID) => {
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
             "Customerid": `${customerID}`,
             "ALC": `${ALCID ?? ""}`,
+            "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
         })
 
         const combinedValueLogin = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
             "Customerid": `${customerID}`,
             "ALC": `${ALCID ?? ""}`,
+            "DomainForNo": `${storeInit?.DomainForNo ?? ""}`
         })
 
 

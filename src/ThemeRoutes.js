@@ -21,12 +21,15 @@ import HemratnaProcatalog_App from "./AllTheme/hemratnaProcatalog/HemratnaProcat
 import Procatalog_App from "./AllTheme/Pocatalog/Procatalog_App";
 import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
+import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App";
+import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
+  
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
@@ -58,23 +61,11 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200) {
             setLoading(false);
-
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-
-            sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
-            sessionStorage.setItem(
-              "myAccountFlags",
-              JSON.stringify(response.data.Data.rd1)
-            );
-            sessionStorage.setItem(
-              "CompanyInfoData",
-              JSON.stringify(response.data.Data.rd2[0])
-            );
-
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
-            callAllApi();
+            callAllApi(response?.data?.Data);
 
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             const existingVisitorId = Cookies.get("visiterId");
@@ -123,14 +114,14 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
+      setThemeNo(2);
     }
     // .finally(() => setLoading(false));
   }, []);
 
-  const callAllApi = () => {
+  const callAllApi = (Data) => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInitSession = JSON.parse(sessionStorage.getItem("storeInit"));
+    const storeInitSession = JSON.parse(Data);
     // const { IsB2BWebsite } = storeInit;
     const { IsB2BWebsite } = storeInitSession;
     const visiterID = Cookies.get("visiterId");
@@ -207,9 +198,7 @@ export default function ThemeRoutes() {
         </Helmet>
       </div>
 
-      {/* <SmilingRock_MobileApp_App /> */}
-
-      {/* <Procatalog_App />  */}
+      {/* <Procatalog_MobileApp_App /> */}
 
       {themeNo === 1 && <SmilingRock_App />}
 
@@ -226,6 +215,10 @@ export default function ThemeRoutes() {
       {themeNo === 7 && <HouseOfQuadri_App />}
 
       {themeNo === 8 && <ForEveryRoutes />}
+
+      {themeNo === 9 && <Procatalog_MobileApp_App />}
+
+      {themeNo === 10 && <StamFordJewels_App />}
     </>
   );
 }

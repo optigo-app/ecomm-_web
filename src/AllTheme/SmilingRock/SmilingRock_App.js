@@ -104,26 +104,26 @@ const SmilingRock_App = () => {
 
   if (islogin === true) {
     const restrictedPaths = [
-        '/LoginOption',
-        '/ContinueWithEmail',
-        '/ContinueWithMobile',
-        '/LoginWithEmailCode',
-        '/LoginWithMobileCode',
-        '/ForgotPass',
-        '/LoginWithEmail',
-        '/register'
+      '/LoginOption',
+      '/ContinueWithEmail',
+      '/ContinueWithMobile',
+      '/LoginWithEmailCode',
+      '/LoginWithMobileCode',
+      '/ForgotPass',
+      '/LoginWithEmail',
+      '/register'
     ];
 
     if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-        return navigation("/");
+      return navigation("/");
     }
-}
+  }
 
   return (
     <>
-    <Helmet>
-      <title>{localData?.BrowserTitle}</title>
-    </Helmet>
+      <Helmet>
+        <title>{localData?.BrowserTitle}</title>
+      </Helmet>
       <div>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
@@ -200,7 +200,7 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
+        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
           <Route path="/cartPage" element={<Cart />} />
@@ -210,7 +210,7 @@ const SmilingRock_App = () => {
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
         </Route>
-          <Route path="/Lookbook" element={<Lookbook />} />
+        <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

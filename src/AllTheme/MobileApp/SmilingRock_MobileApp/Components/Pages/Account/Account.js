@@ -100,6 +100,7 @@ export default function Account() {
         sessionStorage.removeItem("registerMobile");
         sessionStorage.removeItem("allproductlist");
         sessionStorage.clear();
+        sessionStorage.clear();
         window.location.reload();
     }
 

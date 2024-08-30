@@ -127,15 +127,15 @@ const DesignSet2 = () => {
   return (
     <>
       <div className="smr_DesignSet2MainDiv">
-        <div className='smr_DesignSetTitleDiv'>
-          <p className='smr_desognSetTitle'>Complete Your Look
-            <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
-              View more
-            </Link>
-          </p>
-        </div>
         {designSetList?.length !== 0 && (
           <>
+            <div className='smr_DesignSetTitleDiv'>
+              <p className='smr_desognSetTitle'>Complete Your Look
+                <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
+                  View more
+                </Link>
+              </p>
+            </div>
             {/* <Swiper
               className="mySwiper"
               spaceBetween={5}
@@ -145,97 +145,97 @@ const DesignSet2 = () => {
               navigation={true}
               modules={[Navigation]}
             > */}
-              {designSetList?.slice(0, 1)?.map((slide, index) => (
-                // <SwiperSlide key={`slide-${index}`}>
+            {designSetList?.slice(0, 1)?.map((slide, index) => (
+              // <SwiperSlide key={`slide-${index}`}>
+              <div
+                style={{
+                  position: 'relative',
+                }}
+                className="maindiv"
+              >
+                {ProdCardImageFunc(slide) ? (
+                  <img
+                    // src={ProdCardImageFunc(slide)}
+                    // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
+                    src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.webp`}
+                    alt=""
+                    className="imgBG"
+                  />
+                ) : (
                   <div
                     style={{
-                      position: 'relative',
+                      height: "100%",
+                      width: "100%",
+                      ...getRandomBgColor(index),
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
                     }}
-                    className="maindiv"
+                    className="imgBG"
                   >
-                    {ProdCardImageFunc(slide) ? (
-                      <img
-                        // src={ProdCardImageFunc(slide)}
-                        // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                        src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.webp`}
-                        alt=""
-                        className="imgBG"
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          ...getRandomBgColor(index),
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                        }}
-                        className="imgBG"
-                      >
-                        <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
-                      </div>
-                    )}
-                    {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
-                    <div className="subimgpart">
-                      <div className="card">
-                        <Swiper
-                          className="swiper_w"
-                          spaceBetween={5}
-                          slidesPerView={1}
-                          speed={1000}
-                          onSwiper={setSwiper}
-                        >
-                          {slide?.Designdetail && (
-                            <>
-                              {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
-                                <SwiperSlide key={`detail-${detail?.id}`}>
-                                  <div className="centerall">
-                                    <div className="smr_ds2ImageDiv">
-                                    <img
-                                      loading="lazy"
-                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                      alt={`Sub image ${subIndex} for slide ${index}`}
-                                      onClick={() =>
-                                        handleNavigation(
-                                          detail?.designno,
-                                          detail?.autocode,
-                                          detail?.TitleLine ? detail?.TitleLine : ""
-                                        )
-                                      }
-                                      className="cardimg"
-                                    />
-                                    </div>
-                                  </div>
-                                  <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
-                                  <div className="fs2 centerall">
-                                    <p>
-                                      <span
-                                        className="smr_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                          ),
-                                        }}
-                                      /> {formatter(detail?.UnitCostWithMarkUp)}
-                                    </p>
-                                  </div>
-                                  <div className="fs3 centerall">View Details</div>
-                                </SwiperSlide>
-                              ))}
-                            </>
-                          )}
-                        </Swiper>
-                      </div>
-                      <div className="btnflex">
-                        <button className="btncst" onClick={handlePrevious}>&lt;</button>
-                        <button className="btncst" onClick={handleNext}>&gt;</button>
-                      </div>
-                    </div>
+                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                   </div>
-                // </SwiperSlide>
-              ))}
+                )}
+                {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
+                <div className="subimgpart">
+                  <div className="card">
+                    <Swiper
+                      className="swiper_w"
+                      spaceBetween={5}
+                      slidesPerView={1}
+                      speed={1000}
+                      onSwiper={setSwiper}
+                    >
+                      {slide?.Designdetail && (
+                        <>
+                          {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
+                            <SwiperSlide key={`detail-${detail?.id}`}>
+                              <div className="centerall">
+                                <div className="smr_ds2ImageDiv">
+                                  <img
+                                    loading="lazy"
+                                    src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                    alt={`Sub image ${subIndex} for slide ${index}`}
+                                    onClick={() =>
+                                      handleNavigation(
+                                        detail?.designno,
+                                        detail?.autocode,
+                                        detail?.TitleLine ? detail?.TitleLine : ""
+                                      )
+                                    }
+                                    className="cardimg"
+                                  />
+                                </div>
+                              </div>
+                              <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
+                              <div className="fs2 centerall">
+                                <p>
+                                  <span
+                                    className="smr_currencyFont"
+                                    dangerouslySetInnerHTML={{
+                                      __html: decodeEntities(
+                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                      ),
+                                    }}
+                                  /> {formatter(detail?.UnitCostWithMarkUp)}
+                                </p>
+                              </div>
+                              <div className="fs3 centerall">View Details</div>
+                            </SwiperSlide>
+                          ))}
+                        </>
+                      )}
+                    </Swiper>
+                  </div>
+                  <div className="btnflex">
+                    <button className="btncst" onClick={handlePrevious}>&lt;</button>
+                    <button className="btncst" onClick={handleNext}>&gt;</button>
+                  </div>
+                </div>
+              </div>
+              // </SwiperSlide>
+            ))}
             {/* </Swiper> */}
 
           </>

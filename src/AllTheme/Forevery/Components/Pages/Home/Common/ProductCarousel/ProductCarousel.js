@@ -89,22 +89,61 @@ const ProductCarousel = () => {
         <Swiper
           slidesPerView={4}
           freeMode={true}
+          spaceBetween={10}
           loop={true}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              freeMode : {
+                enabled : false
+              }
+            },
+            360: {
+              slidesPerView: 1,
+              freeMode : {
+                enabled : false
+              }
+            },
+            510: {
+              slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+             
+            },
+            574: {
+              slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+             
+            },
+            768: {
+              slidesPerView: 2,
+               freeMode : {
+                enabled : false
+              }
+              
+            },
+            1000: {
+              slidesPerView: 3,
+            },
+            1001: {
+              slidesPerView: 4,
+            },
+          }}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[FreeMode, Pagination, Autoplay]}
+          pagination={false}
+          modules={[Pagination, Autoplay ,FreeMode]}
           className="mySwiper"
         >
           {TrendingProductlist?.map((data, i) => {
-            console.log(TrendingProductlist[0]);
             return (
-              <SwiperSlide>
+              <SwiperSlide >
                 <ProductCard
                   title={
                     !data?.TitleLine?.length > 0
@@ -169,7 +208,8 @@ const ProductCard = ({
       </div>
       <div className="details">
         <span>{title}</span>
-        <div className="diamond_Details">
+        <div className="diamond_Details"
+        >
           {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
             <div className="separator_for">
               <span>
@@ -212,10 +252,9 @@ const ProductCard = ({
               </span>
             </div>
           )}
-          {/* </span> */}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-        <h4>
+        <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
         </h4>

@@ -1,6 +1,5 @@
 import { GiDiamondRing } from "react-icons/gi";
 import { IoDiamondOutline } from "react-icons/io5";
-
 import { storImagePath } from "../../../../utils/Glob_Functions/GlobalFunction";
 
 console.log(`${storImagePath()}/Forevery/writing.png`);
@@ -218,16 +217,21 @@ const StepImages = [
     img: `${storImagePath()}/Forevery/diamondFilter/mount-diamond-icon.svg`,
     name: "Diamond",
     link: "diamond",
+    eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/mount-icon.svg`,
+    img1: `${storImagePath()}/Forevery/diamondFilter/easrrings.png`,
     name: "Settings",
     link: "settings",
+    eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/complete-ring-icon.svg`,
+    img1: `${storImagePath()}/Forevery/diamondFilter/easrrings.png`,
     name: "Rings",
     link: "ring",
+    eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
   },
 ];
 
@@ -460,3 +464,5 @@ export {
   DiamondProductList,
   LooseDiamond,
 };
+
+

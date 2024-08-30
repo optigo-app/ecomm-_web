@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import WishlistItems from './WishlistItems';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import DiamondLitsItems from './DiamondLitsItems';
 
 
 const WishlistData = ({
   isloding,
   items,
+  diamondData,
   updateCount,
   countDataUpdted,
   itemInCart,
@@ -26,10 +28,11 @@ const WishlistData = ({
     <div className="for_WlListData">
       <>
         <Grid container spacing={2} className='for_wlListGrid'>
-          {items.map(item => (
+          {items?.map(item => (
             <WishlistItems
               key={item.id}
               item={item}
+              diamondValue = {diamondData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}
@@ -42,8 +45,25 @@ const WishlistData = ({
               handleMoveToDetail={handleMoveToDetail}
             />
           ))}
+          {diamondData?.map(item => (
+            <DiamondLitsItems
+              key={item.id}
+              item={item}
+              diamondValue = {diamondData}
+              updateCount={updateCount}
+              countDataUpdted={countDataUpdted}
+              currency={curr}
+              itemInCart={itemInCart}
+              decodeEntities={decodeEntities}
+              WishCardImageFunc={WishCardImageFunc} 
+              itemsLength={items?.length}
+              handleRemoveItem={handleRemoveItem}
+              handleWishlistToCart={handleWishlistToCart}
+              handleMoveToDetail={handleMoveToDetail} 
+            />
+          ))}
         </Grid>
-        {items.length == 0 &&
+        {items?.length == 0 || diamondData?.length == 0 &&
           <div className='for_noWishlistData'>
             <p className='for_title'>No Wishlist Found!</p>
             <p className='for_desc'>Please First Add Product in Wishlist</p>
