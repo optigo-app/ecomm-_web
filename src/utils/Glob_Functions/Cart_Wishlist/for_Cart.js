@@ -235,6 +235,7 @@ const useCart = () => {
         let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.Sol_StockNo);
         setDiamondCartData(diaFilter);
 
+
         setTimeout(() => {
             if (cartfilter && isMaxWidth1050) {
                 setSelectedItem(null);

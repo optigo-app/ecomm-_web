@@ -81,6 +81,8 @@ const ProductDetail = () => {
 
   const [prodLoading, setProdLoading] = useState(false)
 
+  const [isVisionShow,setIsVisionShow] = useState(false)
+
 
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
@@ -945,8 +947,10 @@ const ProductDetail = () => {
       //     return false;
       //   }
       // };
+      let VisionLink = storeinitInside?.Vision360URL?.replace("{{designno}}",singleProd?.designno)
 
-      setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
+      // setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
+      setVision360(VisionLink)
 
       //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
 
@@ -1282,7 +1286,14 @@ const ProductDetail = () => {
 
   }
 
-  console.log("ColorStone_Cost",singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
+  // useEffect(()=>{
+  //   console.log("length",!pdThumbImg?.length && !pdVideoArr?.length);
+  //   if( !pdThumbImg?.length && !pdVideoArr?.length){
+  //     setIsVisionShow(true)
+  //   }
+  // },[pdThumbImg,pdVideoArr])
+
+  console.log("ColorStone_Cost",isVisionShow);
 
   return (
     <>
@@ -1326,7 +1337,7 @@ const ProductDetail = () => {
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {(selectedThumbImg?.type == "img") ? (
+                        { !isVisionShow ? ((selectedThumbImg?.type == "img") ? (
                           <img
                             src={selectedThumbImg?.link}
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
@@ -1351,7 +1362,13 @@ const ProductDetail = () => {
                               }}
                             />
                           </div>
-                        )}
+                        )):
+                        (
+                          <iframe src={vison360}  className="smr_prod_img" style={{height:"80%",overflow:'hidden',border:'none',marginLeft:'5%',marginTop:'5%'}} />
+
+                        )
+                        }
+
 
                         <div className="smr_main_thumb_prod_img">
                           {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
@@ -1367,6 +1384,7 @@ const ProductDetail = () => {
                                     type: "img",
                                   });
                                   setThumbImgIndex(i);
+                                  setIsVisionShow(false)
                                 }}
                               // onError={()=>{
                               // }}
@@ -1380,9 +1398,10 @@ const ProductDetail = () => {
                                 justifyContent: "center",
                                 alignItems: "center",
                               }}
-                              onClick={() =>
+                              onClick={() =>{
                                 setSelectedThumbImg({ link: data, type: "vid" })
-                              }
+                                setIsVisionShow(false)
+                              }}
                             >
                               <video
                                 src={data}
@@ -1410,10 +1429,7 @@ const ProductDetail = () => {
                                 className="smr_prod_thumb_img"
                                 id="vision360"
                                 onClick={() => {
-                                  setSelectedThumbImg({
-                                    link: vison360,
-                                    type: "img",
-                                  });
+                                  setIsVisionShow(true)
                                 }}
                               // onError={()=>{
                               // }}

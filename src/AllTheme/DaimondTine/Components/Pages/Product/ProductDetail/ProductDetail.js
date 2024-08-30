@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -34,6 +34,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Footer from "../../Home/Footer/Footer";
+
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -77,6 +78,35 @@ const ProductDetail = () => {
   const setWishCountVal = useSetRecoilState(dt_WishCount);
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
+
+  const imgRef = useRef(null);
+
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsImageLoad(false);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Adjust the threshold as needed
+      }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => {
+      if (imgRef.current) {
+        observer.disconnect();
+      }
+    };
+  }, []);
 
   // console.log("SizeCombo",SizeCombo);
 
@@ -618,10 +648,10 @@ const ProductDetail = () => {
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
               setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setSelectedThumbImg({
+              //   link: vidSkel,
+              //   type: "img",
+              // });
               setProdLoading(false)
             }
 
@@ -1142,17 +1172,18 @@ const ProductDetail = () => {
             className="productDetail-container-flex"
           >
             <div className="dt_product-detail-container">
-              <div className="srprodetail1">
+              <div className="srprodetail1" style={{display:isImageload && "flex",alignItems: isImageload &&'center',}}>
                 {/* <div className="smr_prod_image_Sec"> */}
                 {/* {isImageload && ( */}
                 {isImageload && (
                   <Skeleton
-                    sx={{
-                      width: "95%",
-                      // height: "750px",
-                      height: '100%',
-                      // margin: "20px 0 0 0",
-                    }}
+                    // sx={{
+                    //   width: "95%",
+                    //   // height: "750px",
+                    //   height: '100% !important',
+                    //   // margin: "20px 0 0 0",
+                    // }}
+                    className="dt_skeleton_main"
                     variant="rounded"
                   />
                 )}
@@ -1167,6 +1198,7 @@ const ProductDetail = () => {
                       //     ? selectedThumbImg?.link
                       //     : imageNotFound
                       // }
+                      ref={imgRef}
                       src={selectedThumbImg?.link}
                       onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                       alt={""}
