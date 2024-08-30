@@ -13,6 +13,7 @@ import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import diaImage from "../../Assets/round.png"
 
 const DiamondLitsItems = ({
     item,
@@ -80,7 +81,7 @@ const DiamondLitsItems = ({
                     <div className="for_cardContentMainDiv">
                         <CardMedia
                             component="img"
-                            image={`https://www.freeiconspng.com/thumbs/diamond-png/diamond-png-6.jpg`}
+                            image={diaImage}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
                             onClick={() => handleMoveToDetail(item)}
