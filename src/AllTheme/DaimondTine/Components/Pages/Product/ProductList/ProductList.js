@@ -279,10 +279,10 @@ const ProductList = () => {
         .finally(() => {
           setIsProdLoading(false);
           setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
+          // window.scroll({
+          //   top: 0,
+          //   behavior: "smooth",
+          // });
         })
         .catch((err) => console.log("err", err));
     };
@@ -1864,13 +1864,14 @@ const ProductList = () => {
         </div>
       </div>
       <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          padding: "5px 0px",
-          borderBottom: "1px solid #ebebeb",
-        }}
+        // style={{
+        //   width: "100%",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   padding: "5px 0px",
+        //   borderBottom: "1px solid #ebebeb",
+        // }}
+        className="main_breadCrumb_menu_List"
       >
         <div className="breadCrumb_menu_List">
           <span
