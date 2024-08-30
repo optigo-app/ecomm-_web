@@ -102,12 +102,12 @@ const Usewishlist = () => {
   console.log('cartData--', wishlistData);
 
   // remove
-  const handleRemoveItem = async (item) => {
+  const handleRemoveItem = async (item,isdiamond) => {
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
     try {
-      const response = await removeFromCartList(item, param, visiterId);
+      const response = await removeFromCartList(item, param, visiterId, isdiamond);
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg == "success") {
         return resStatus;

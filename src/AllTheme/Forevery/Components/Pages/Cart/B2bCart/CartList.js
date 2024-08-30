@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import CartItem from './CartItem';
+import DiamondItems from './DiamondItem';
 
 const CartList = ({
   items,
@@ -22,8 +23,8 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-  console.log('itemgsgdhas-', selectedItem);
-  
+  console.log('itemgsgdhas-', diamondData, items);
+
   return (
     <div className="for_RightCartList">
       <div className='for_tablelable'>
@@ -60,6 +61,32 @@ const CartList = ({
             openHandleUpdateCartModal={openHandleUpdateCartModal}
           />
         ))}
+        {diamondData?.length != 0 &&
+          <DiamondItems
+            // key={item.id}
+            diaData={diamondData}
+            // index={index}
+            cartData={items}
+            CartCardImageFunc={CartCardImageFunc}
+            CurrencyData={CurrencyData}
+            decodeEntities={decodeEntities}
+            onSelect={onSelect}
+            selectedItem={selectedItem}
+            selectedItemsLength={selectedItems?.length}
+            // isActive={selectedItems?.includes(item)}
+            // isSelected={multiSelect ? selectedItems?.includes(item) : selectedItem === item}
+            multiSelect={multiSelect}
+            onRemove={onRemove}
+            itemLength={items?.length}
+            showRemark={showRemark}
+            productRemark={productRemark}
+            handleAddReamrk={handleAddReamrk}
+            handleRemarkChange={handleRemarkChange}
+            handleSave={handleSave}
+            handleCancel={handleCancel}
+            openHandleUpdateCartModal={openHandleUpdateCartModal}
+          />
+        }
       </>
     </div>
   );

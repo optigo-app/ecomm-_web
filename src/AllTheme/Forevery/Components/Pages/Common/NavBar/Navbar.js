@@ -15,21 +15,23 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   for_CartCount,
   for_WishCount,
   for_customizationSteps,
+  for_customizationSteps1,
   for_loginState,
 } from "../../../Recoil/atom";
 import Cookies from "js-cookie";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
-import { Badge } from "@mui/material";
+import { Badge, Dialog, DialogContent } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Preloader from "../../../../../../dum/Load";
+import { RxCross1 } from "react-icons/rx";
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -419,10 +421,9 @@ const NavbarLeft = ({
                 setActiveMenu({ menu: val, index: i });
                 setHoveredIndex(i);
               }}
-              onMouseOut={() => setHoveredIndex(null)}
               onClick={() => Navigate(val?.link)}
             >
-              <span className="for_nav_menu">
+              <Link to={val?.link} className="for_nav_menu">
                 {val?.category}
                 {hoveredIndex === i ? (
                   <FaChevronUp
@@ -435,7 +436,7 @@ const NavbarLeft = ({
                     className={`chevorn-icon hide-Fo-2 `}
                   />
                 )}
-              </span>
+              </Link>
             </div>
           );
         })}
@@ -443,13 +444,14 @@ const NavbarLeft = ({
           <NavitemsWrapper
             SelectedMenu={ActiveMenu}
             setActiveMenu={setActiveMenu}
+            setHoveredIndex={setHoveredIndex}
           />
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
+const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
@@ -459,8 +461,37 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
     }
   };
 
-  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const [customizeStep, setCustomizeStep] = useRecoilState(
+    for_customizationSteps
+  );
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          console.log("firstNavRef is visible");
+        } else {
+          console.log("firstNavRef is not visible");
+          setHoveredIndex(null);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
 
+    if (firstNavRef.current) {
+      observer.observe(firstNavRef.current);
+    }
+
+    return () => {
+      if (firstNavRef.current) {
+        observer.unobserve(firstNavRef.current);
+      }
+    };
+  }, []);
   return (
     <>
       <div className="first_nav" ref={firstNavRef}>
@@ -484,10 +515,15 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]} />
+              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+                setCustomizeStep1={setCustomizeStep1}
+              />
             )}
             {SelectedMenu?.index == 1 && (
-              <SecondNavMenu data={NavbarMenu[SelectedMenu?.index]} setCustomizeStep={setCustomizeStep} />
+              <SecondNavMenu
+                data={NavbarMenu[SelectedMenu?.index]}
+                setCustomizeStep={setCustomizeStep}
+              />
             )}
             {SelectedMenu?.index == 2 && (
               <ThirdNavMenu data={NavbarMenu[SelectedMenu?.index]} />
@@ -504,7 +540,55 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu }) => {
     </>
   );
 };
-const FirstNavMenu = ({ data }) => {
+const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
+  const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
+
+  const handleCheckSteps = () => {
+    if (checkSteps) {
+      setShowModal(true);
+    } else {
+      console.log('Alternative action');
+    }
+  };
+
+  const HandleSettingNavigation = () => {
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory)
+    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    setCustomizeStep1({
+      step1: true,
+    })
+    const step1 = [{ "step1": true, "Setting": 'Ring' }];
+    sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+  };
+
+  const HandleDiamondNavigation = () => {
+    navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+    setCustomizeStep({
+      step1: true,
+    })
+    const step1 = [{ "step1": true, "shape": "Round" }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  };
+
+  const handleRemoveData = () => {
+    sessionStorage.removeItem('customizeSteps');
+    sessionStorage.removeItem('custStepData');
+    sessionStorage.removeItem('customizeSteps2');
+    sessionStorage.removeItem('custStepData2');
+    navigate('/');
+    handleToggle();
+  }
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -514,12 +598,25 @@ const FirstNavMenu = ({ data }) => {
             <div className="for_col_1">
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
-                <span class="ring-type">
-                  <GiDiamondRing size={15} /> start with a setting
-                </span>
-                <span class="ring-type">
-                  <IoDiamondOutline size={15} /> Start With a Diamond
-                </span>
+                {checkSteps ? (
+                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                    <GiDiamondRing size={15} /> start with a setting
+                  </span>
+                ) : (
+                  <span class="ring-type" onClick={() => HandleSettingNavigation()}>
+                    <GiDiamondRing size={15} /> start with a setting
+                  </span>
+                )}
+                {checkSteps ? (
+                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                    <IoDiamondOutline size={15} /> Start With a Diamond
+                  </span>
+                ) : (
+                  <span class="ring-type" onClick={() => HandleDiamondNavigation()}>
+                    <IoDiamondOutline size={15} /> Start With a Diamond
+                  </span>
+                )}
+
               </div>
             </div>
             <div className="for_col_2">
@@ -578,35 +675,73 @@ const FirstNavMenu = ({ data }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
     </>
   );
 };
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
   const Navigate = useNavigate();
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = steps?.[1] !== undefined && steps?.[1] !== null || steps?.[2] !== undefined && steps?.[2] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null;
+
+  const handleCheckSteps = () => {
+    if (checkSteps) {
+      setShowModal(true);
+    } else {
+      console.log('Alternative action');
+    }
+  };
+
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     setCustomizeStep({
       step1: true,
       step2: false,
       step3: false,
-    })
-    const step1 = [{ "step1": true, "shape": shape }]
-      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    });
+    const step1 = [{ "step1": true, "shape": shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
+
+  const handleRemoveData = () => {
+    sessionStorage.removeItem('customizeSteps');
+    sessionStorage.removeItem('custStepData');
+    sessionStorage.removeItem('customizeSteps2');
+    sessionStorage.removeItem('custStepData2');
+    Navigate('/');
+    handleToggle();
+  }
+
   return (
     <div className="Second_Nav_first_Menu">
       <div className="for_first_col">
         <h3>Lab Grown Diamonds</h3>
         <div className="for_ring_section">
           <div className="for_col_2">
-            <h3>shop By style</h3>
-            <div class="ring-types-col">
+            <h3>Shop By Style</h3>
+            <div className="ring-types-col">
               {diamondShapes?.map((val, i) => {
                 return (
-                  <span onClick={() => HandleDiamondNavigation(val?.name)}>
-                    <img src={val?.img} alt="" width={15} height={15} />
-                    {val?.name}
-                  </span>
+                  <>
+                    {checkSteps ? (
+                      <span onClick={() => handleCheckSteps()}>
+                        <img src={val?.img} alt="" width={15} height={15} />
+                        {val?.name}
+                      </span>
+                    ) : (
+                      <span onClick={() => HandleDiamondNavigation(val?.name)}>
+                        <img src={val?.img} alt="" width={15} height={15} />
+                        {val?.name}
+                      </span>
+                    )}
+                  </>
                 );
               })}
               <span className="view-all-last">View All</span>
@@ -615,21 +750,21 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         </div>
       </div>
       <div className="for_second_col">
-        <h3>Build Your Jewlery</h3>
+        <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
-          {SideItems?.map((val, i) => {
-            return (
-              <span class="ring-type">
-                <img src={val?.img} alt="" width={18} height={18} />
-                {val?.name}
-              </span>
-            );
-          })}
+          {SideItems?.map((val, i) => (
+            <span className="ring-type" key={i}>
+              <img src={val?.img} alt="" width={18} height={18} />
+              {val?.name}
+            </span>
+          ))}
         </div>
       </div>
       <div className="for_third_col">
         <img src={commonImage} alt="" />
       </div>
+
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
     </div>
   );
 };
@@ -845,3 +980,57 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
+
+const Modal = ({
+  open,
+  handleClose,
+  handleRemoveData,
+}) => {
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          '& .MuiDialog-root': {
+            zIndex: 9999,
+          },
+          '& .MuiDialog-paper': {
+            backgroundColor: 'transparent',
+            border: '1px solid white',
+            zIndex: 9999,
+          },
+          '& .MuiDialogContent-root': {
+            padding: '10px',
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            minWidth: 260,
+            padding: '0px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+            <RxCross1 className='for_modal_cancel_nav_btn' size={'12px'} />
+          </div>
+          <div className="for_modal_inner_nav_div">
+            <span className='for_modal_nav_title'>
+              You have already selected mount & diamond, would you like to view it?
+            </span>
+            <div className="for_modal_buttons_nav_div">
+              <button onClick={() => {
+                handleClose();
+              }}>Yes</button>
+              <button onClick={() => { handleRemoveData() }}>No</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}

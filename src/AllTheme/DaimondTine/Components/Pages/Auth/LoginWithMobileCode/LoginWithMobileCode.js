@@ -129,7 +129,7 @@ export default function LoginWithMobileCode() {
                                 id="outlined-basic"
                                 label="Enter Code"
                                 variant="outlined"
-                                className='labgrowRegister'
+                                className='dt_LoginMobileCode_labgrowRegister'
                                 style={{ margin: '15px' }}
                                 onKeyDown={(event) => {
                                     if (event.key === 'Enter') {

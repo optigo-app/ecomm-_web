@@ -584,7 +584,7 @@
             }
           }
 
-          .forWeb_app_product_label {
+          .forWeb_app_product_label_set {
             position: absolute;
             right: 0;
             display: flex;
@@ -796,6 +796,7 @@
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+              text-align: center;
             }
           }
 

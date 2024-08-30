@@ -127,7 +127,7 @@ const useCart = () => {
                     const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
                     const commaSeparatedString = solStockNos?.join(',');
                     console.log(commaSeparatedString, "djskjdlk");
-                    if(commaSeparatedString != null || commaSeparatedString != undefined){
+                    if (commaSeparatedString != null || commaSeparatedString != undefined) {
                         getDiamondData(commaSeparatedString)
                     }
                 }
@@ -143,11 +143,12 @@ const useCart = () => {
     const getDiamondData = async (commaSeparatedString) => {
         setIsLoading(true);
         try {
-            const response = await DiamondListData(1,"", commaSeparatedString);
+            const response = await DiamondListData(1, "", commaSeparatedString);
             if (response && response.Data) {
                 let resData = response.Data?.rd
                 setDiamondCartData(resData)
                 setIsLoading(false)
+
             } else {
                 console.warn("No data found in the response");
                 setIsLoading(false)
@@ -159,11 +160,19 @@ const useCart = () => {
     };
 
     console.log("jskjdkjska", diamondCartData);
-    
+
 
     useEffect(() => {
         getCartData();
     }, [cartStatus]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (cartData?.length == 0) {
+                setSelectedItem(diamondCartData[0]);
+            }
+        }, 200);
+    }, [diamondCartData])
 
     // for multiselect
     const handleSelectItem = async (item) => {
@@ -219,10 +228,12 @@ const useCart = () => {
     };
 
     // remove
-    const handleRemoveItem = async (item) => {
+    const handleRemoveItem = async (item, isdiamond) => {
         let param = "Cart";
         let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
         setCartData(cartfilter);
+        let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.stockno);
+        setDiamondCartData(diaFilter);
 
         setTimeout(() => {
             if (cartfilter && isMaxWidth1050) {
@@ -230,10 +241,13 @@ const useCart = () => {
             } else if (cartfilter) {
                 setSelectedItem(cartfilter[0]);
             }
-        }, 2);
+        }, 10);
+
+        console.log("jksajkdkask", diaFilter);
+
 
         try {
-            const response = await removeFromCartList(item, param, visiterId);
+            const response = await removeFromCartList(item, param, visiterId, isdiamond);
             let resStatus = response.Data.rd[0];
             if (resStatus?.msg === "success") {
                 return resStatus;
@@ -245,18 +259,19 @@ const useCart = () => {
         }
     };
 
+    console.log("diamond", diamondCartData)
+
     const handleRemoveAll = async () => {
         let param = "Cart"
         try {
             const response = await removeFromCartList('IsDeleteAll', param, visiterId);
             let resStatus = response.Data.rd[0]
             if (resStatus?.msg === "success") {
-                // setCartCountVal(resStatus?.Cartlistcount)
-                // setWishCountVal(resStatus?.Wishlistcount)
                 setSelectedItem([]);
                 getCartData();
                 setCartData([]);
                 setSelectedItem([]);
+                setDiamondCartData([]);
                 return resStatus;
             } else {
                 console.log('Failed to remove product or product not found');
@@ -648,22 +663,32 @@ const useCart = () => {
     };
 
     const handleMoveToDetail = (cartData) => {
+        const keyToCheck = "stockno"
+        if (selectedItem?.hasOwnProperty(keyToCheck)) {
+            const obj = {
+                a: cartData?.stockno,
+                b: cartData?.shapename,
+            };
 
-        console.log("cartDataDet", cartData);
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-        let obj = {
-            a: cartData?.autocode,
-            b: cartData?.designno,
-            m: cartData?.metaltypeid,
-            d: diaIDData,
-            c: colorStoneID,
-            f: {}
+            let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
+            navigate(navigateUrl);
+        } else {
+            let obj = {
+                a: cartData?.autocode,
+                b: cartData?.designno,
+                m: cartData?.metaltypeid,
+                d: diaIDData,
+                c: colorStoneID,
+                f: {}
+            }
+            console.log('hdjhsjj777--', obj);
+            compressAndEncode(JSON?.stringify(obj))
+            let encodeObj = compressAndEncode(JSON?.stringify(obj))
+
+            navigate(`/d/${cartData?.TitleLine?.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
         }
-        console.log('hdjhsjj777--', obj);
-        compressAndEncode(JSON.stringify(obj))
-        let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        navigate(`/d/${cartData?.TitleLine.replace(/\s+/g, `_`)}${cartData?.TitleLine?.length > 0 ? "_" : ""}${cartData?.designno}?p=${encodeObj}`)
     }
 
     // browse our collection

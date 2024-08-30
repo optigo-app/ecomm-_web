@@ -5,7 +5,7 @@
 
     .smr_trending1TitleDiv {
         text-align: center;
-        padding: 1% 0px 1% 0px;
+        padding: 10px 0px 0px 0px;
 
         .smr_trending1Title {
             font-size: $fontSize6;
@@ -50,7 +50,7 @@
 
                 p {
                     font-size: $fontSize3;
-                    font-family: $primaryFontFamily;
+                    font-family: $homePageFontFamily;
                     left: .5px;
                 }
 
@@ -58,7 +58,7 @@
                     width: 160px;
                     height: 35px;
                     font-size: $fontSize2;
-                    font-family: $primaryFontFamily;
+                    font-family: $homePageFontFamily;
                     background-color: #fff;
                     color: $titleColor;
                     letter-spacing: .5px;
@@ -76,7 +76,7 @@
                 }
 
                 h2 {
-                    font-size: 30px !important;
+                    font-size: 25px !important;
                 }
 
             }
@@ -114,26 +114,27 @@
                     h3 {
                         font-size: $fontSize1;
                         color: $titleColor;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         margin: 0;
                         letter-spacing: .5px;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
+                        color: #7d7f85;
                     }
 
                     p {
                         margin: 5px 0;
                         font-size: $fontSize2;
                         color: #7d7f85;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         font-weight: bold;
                         letter-spacing: .5px;
                     }
 
                     span {
                         font-size: $fontSize2;
-                        font-family: $primaryFontFamily;
+                        font-family: $homePageFontFamily;
                         color: #7d7f85;
                         letter-spacing: .5px;
                     }

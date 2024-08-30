@@ -5,7 +5,7 @@
 
     .smr_ablbumtitleDiv {
         text-align: center;
-        padding: 1% 0px 1% 0px;
+        padding: 10px 0px 0px 0px;
 
         .smr_albumtitle {
             font-size: 28px;
@@ -28,6 +28,7 @@
             color: $titleColor;
             background: none;
             cursor: pointer;
+            font-family: $homePageFontFamily;
 
             &.active {
                 background-color: #f5f5f5;
@@ -87,7 +88,7 @@
 
             .smr_album1price {
                 font-size: $fontSize2;
-                font-family: $primaryFontFamily;
+                font-family: $homePageFontFamily;
                 letter-spacing: .5px;
                 color: #7d7f85;
                 font-weight: bold;

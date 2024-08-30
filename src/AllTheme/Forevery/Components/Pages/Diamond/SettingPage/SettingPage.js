@@ -86,6 +86,7 @@ const SettingPage = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  console.log('selectedCsId: ', selectedCsId);
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [locationKey, setLocationKey] = useState();
   const [productListData, setProductListData] = useState([]);
@@ -93,6 +94,8 @@ const SettingPage = () => {
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
+  const [Shape, setShape] = useState("");
+  console.log('Shape: ', Shape);
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -170,58 +173,57 @@ const SettingPage = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      const urlPath = location?.pathname?.slice(1).split("/");
+      const shapeParam = urlPath?.[3]?.split('=');
+
+      if (shapeParam?.[0] === 'diamond_shape') {
+        setShape(shapeParam?.[1]);
+      } else if (shapeParam?.[0] === 'M') {
+        setShape("");
+      } else {
+        setShape("");
+      }
+    }, 1000)
+
+  }, [location?.pathname]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-        let UrlVal = location?.pathname?.slice(1).split("/");
-        console.log('UrlVal: ', UrlVal);
 
-        let MenuVal = "";
+        const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+        const urlPath = location?.pathname?.slice(1).split("/");
+        let menuVal = "";
         let productlisttype;
 
-        UrlVal.forEach((ele) => {
-          let firstChar = ele.charAt(0);
-
-          switch (firstChar) {
-            case "M":
-              MenuVal = ele;
-              break;
-            default:
-              return "";
+        urlPath.forEach((ele) => {
+          const firstChar = ele.charAt(0);
+          if (firstChar === "M") {
+            menuVal = ele;
           }
         });
 
-        if (MenuVal.length > 0) {
-          let menuDecode = atob(MenuVal?.split("=")[1]);
-          let key = menuDecode?.split("/")[1].split(",");
-          let val = menuDecode?.split("/")[0].split(",");
-          // setIsBreadcumShow(true)
+        if (menuVal.length > 0) {
+          const menuDecode = atob(menuVal.split("=")[1]);
+          console.log('menuDecode: ', menuDecode);
+          const key = menuDecode.split("/")[1].split(",");
+          const val = menuDecode.split("/")[0].split(",");
           productlisttype = [key, val];
         }
         setprodListType(productlisttype);
-        setIsProdLoading(true);
-        console.log('MenuVal: ', MenuVal);
 
-        if (isRing === 'Ring') {
-          const res = await ProductListApi({ category: "1" }, 1, obj, productlisttype, cookie);
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
+        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
-        else {
-          const res = await ProductListApi({ category: "13" }, 1, obj, productlisttype, cookie);
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-        }
-
       } catch (error) {
         console.error("Error fetching product list:", error);
+      } finally {
+        setIsProdLoading(false);
+        setIsOnlySettLoading(false);
       }
-      setIsProdLoading(false);
-      setIsOnlySettLoading(false);
     };
 
     fetchData();
@@ -229,43 +231,27 @@ const SettingPage = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
-  }, [location?.key, isRing]);
+  }, [Shape, location?.key]);
 
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
       setIsOnlySettLoading(true);
-      if (isRing === 'Ring') {
-        ProductListApi({ category: '1' }, 1, obj, prodListType, cookie)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .catch((err) => console.log("err", err))
-          .finally(() => {
-            setIsOnlySettLoading(false);
-          });
-      }
-      else {
-        ProductListApi({ category: '13' }, 1, obj, prodListType, cookie)
-          .then((res) => {
-            if (res) {
-              setProductListData(res?.pdList);
-              setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-            }
-            return res;
-          })
-          .catch((err) => console.log("err", err))
-          .finally(() => {
-            setIsOnlySettLoading(false);
-          });
-      }
+      ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, (Shape ?? ''))
+        .then((res) => {
+          if (res) {
+            setProductListData(res?.pdList);
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+          return res;
+        })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlySettLoading(false);
+        });
     }
-  }, [selectedMetalId, selectedDiaId]);
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -337,36 +323,19 @@ const SettingPage = () => {
         behavior: 'smooth'
       })
     }, 100)
-    if (isRing === 'Ring') {
-      ProductListApi({ category: '1' }, value, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err)).finally(() => {
-          setTimeout(() => {
-            setIsProdLoading(false)
-          }, 100);
-        })
-    }
-    else {
-      ProductListApi({ category: '13' }, value, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err)).finally(() => {
-          setTimeout(() => {
-            setIsProdLoading(false)
-          }, 100);
-        })
-    }
+    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, {}, {}, {}, (Shape ?? ''))
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err)).finally(() => {
+        setTimeout(() => {
+          setIsProdLoading(false)
+        }, 100);
+      })
   }
 
   const handleSortby = async (e) => {
@@ -378,34 +347,18 @@ const SettingPage = () => {
 
     let sortby = e.target?.value
 
-    if (isRing === 'Ring') {
-      await ProductListApi({ category: '1' }, 1, obj, prodListType, cookie, sortby)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlySettLoading(false)
-        })
-    }
-    else {
-      await ProductListApi({ category: '13' }, 1, obj, prodListType, cookie, sortby)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlySettLoading(false)
-        })
-    }
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, {}, {}, {}(Shape ?? ''))
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlySettLoading(false)
+      })
 
   }
 
@@ -989,7 +942,7 @@ const Product_Card = ({
               readOnly
             />
           </div>
-          <div className="forWeb_app_product_label">
+          <div className="forWeb_app_product_label_set">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
             {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
             {productData?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
@@ -1024,24 +977,28 @@ const Product_Card = ({
         </div>
         <div className="for_settingList_card_description" onClick={() => handleMoveToDetail(productData)}>
           <div className="for_settingList_desc_title">
-            <span className="for_listing_desc_span">18K WHITE GOLD 1.0 Carat Round Stud Earrings with butterfly back</span>
+            <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>
           <div className="for_settingList_desc_div">
             <div>
               {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
-                <span>GWT : {productData?.Gwt.toFixed(3)} |</span>
+                <span>GWT : {productData?.Gwt.toFixed(3)}</span>
               )}
               {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
-                <span>&nbsp;NWT : {productData?.Nwt.toFixed(3)} |</span>
+                <span>&nbsp;| NWT : {productData?.Nwt.toFixed(3)}</span>
               )}
               {storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0 && (
-                <span>&nbsp;DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
-                  ? `/${productData?.Dpcs?.toFixed(0)}`
-                  : null} |</span>
+                <span>&nbsp;| DWT : {productData?.Dwt.toFixed(3)}{storeInit?.IsDiamondPcs === 1
+                  ? `/ ${productData?.Dpcs?.toFixed(0)}`
+                  : null}</span>
               )}
-              <span>&nbsp;DWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
-                ? `/${productData?.CSpcs?.toFixed(0)}`
-                : null}</span>
+              {storeInit?.IsStoneWeight == 1 &&
+                Number(productData?.CSwt) !== 0 && (
+                  <span>&nbsp;| CWT : {productData?.CSwt.toFixed(3)}{storeInit?.IsStonePcs === 1
+                    ? `/ ${productData?.CSpcs?.toFixed(0)}`
+                    : null}</span>
+                )}
+
             </div>
           </div>
           <div className="for_settingList_price_div">

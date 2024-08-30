@@ -6,11 +6,11 @@ const DiamondLifeTime = () => {
   const videoRef = useRef(null);
   const Video = [
     `${storImagePath()}/Forevery/lr.mp4`,
-    `${storImagePath()}/Forevery/lr.mp4`,
+    `${storImagePath()}/Forevery/lifetime-replacement-mb.mp4`,
   ];
   const VideoBanner = [
     `${storImagePath()}/Forevery/lr.png`,
-    `${storImagePath()}/Forevery/lr.png`,
+    `${storImagePath()}/Forevery/lifetime-replacement-poster-mb.png`,
   ];
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -48,6 +48,17 @@ const DiamondLifeTime = () => {
           loop={true}
           playsInline={true}
           poster={VideoBanner[0]}
+        ></video>
+        <video
+          className="for_Mobile"
+          width="100%"
+          src={Video[1]}
+          ref={videoRef}
+          autoPlay={true}
+          muted={true}
+          loop={true}
+          playsInline={true}
+          poster={VideoBanner[1]}
         ></video>
       </div>
     </div>

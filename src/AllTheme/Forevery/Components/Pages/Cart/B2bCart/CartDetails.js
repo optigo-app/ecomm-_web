@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './for_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import diaImage from "../../../Assets/round.png"
 
 const CartDetails = ({
   ispriceloding,
   selectedItem,
+  diamondData,
   CartCardImageFunc,
   qtyCount,
   handleIncrement,
@@ -41,20 +43,32 @@ const CartDetails = ({
   }, [selectedItem]);
 
   console.log('selectediTem', selectedItem);
+
+  const keyToCheck = "stockno"
   return (
     <div className="for_cart-container">
       <div className="for_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='for_cartImage' /> */}
-        <img 
-        src={imageSrc} 
-        alt="image" 
-        className='for_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+        {!selectedItem?.hasOwnProperty(keyToCheck) ? (
+          <img
+            src={imageSrc}
+            alt="image"
+            className='for_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        ) :
+          <img
+            src={diaImage}
+            alt="image"
+            className='for_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        }
       </div>
       <Customization
         ispriceloding={ispriceloding}
         selectedItem={selectedItem}
+        diamondCartData = {diamondData}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         qtyCount={qtyCount}
