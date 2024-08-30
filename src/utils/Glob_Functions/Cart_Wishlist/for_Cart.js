@@ -232,7 +232,7 @@ const useCart = () => {
         let param = "Cart";
         let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
         setCartData(cartfilter);
-        let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.stockno);
+        let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.Sol_StockNo);
         setDiamondCartData(diaFilter);
 
         setTimeout(() => {
