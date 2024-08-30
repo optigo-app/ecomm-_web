@@ -21,6 +21,7 @@ import {
   for_CartCount,
   for_WishCount,
   for_customizationSteps,
+  for_customizationSteps1,
   for_loginState,
 } from "../../../Recoil/atom";
 import Cookies from "js-cookie";
@@ -463,6 +464,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -513,7 +515,9 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]} />
+              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+                setCustomizeStep1={setCustomizeStep1}
+              />
             )}
             {SelectedMenu?.index == 1 && (
               <SecondNavMenu
@@ -536,7 +540,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
     </>
   );
 };
-const FirstNavMenu = ({ data, setCustomizeStep }) => {
+const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -558,14 +562,21 @@ const FirstNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const HandleSettingNavigation = () => {
-    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`);
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory)
+    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    setCustomizeStep1({
+      step1: true,
+    })
     const step1 = [{ "step1": true, "Setting": 'Ring' }];
     sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
   };
 
   const HandleDiamondNavigation = () => {
     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-
+    setCustomizeStep({
+      step1: true,
+    })
     const step1 = [{ "step1": true, "shape": "Round" }];
     sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };

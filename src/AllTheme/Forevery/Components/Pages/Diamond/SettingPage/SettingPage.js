@@ -213,7 +213,7 @@ const SettingPage = () => {
         }
         setprodListType(productlisttype);
 
-        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, Shape);
+        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
         if (res) {
           setProductListData(res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
@@ -238,7 +238,7 @@ const SettingPage = () => {
 
     if (location?.key === locationKey) {
       setIsOnlySettLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie, (Shape ?? ''))
+      ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, (Shape ?? ''))
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -323,7 +323,7 @@ const SettingPage = () => {
         behavior: 'smooth'
       })
     }, 100)
-    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, (Shape ?? ''))
+    ProductListApi({}, value, obj, prodListType, cookie, sortBySelect, {}, {}, {}, (Shape ?? ''))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -347,7 +347,7 @@ const SettingPage = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, (Shape ?? ''))
+    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, {}, {}, {}(Shape ?? ''))
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
