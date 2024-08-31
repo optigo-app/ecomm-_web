@@ -15,6 +15,7 @@ import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import btnStyle from "../../../scss/Button.module.scss"
 import WebLoder from '../../WebLoder/WebLoder';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -168,90 +169,70 @@ const Payment = () => {
                             {orderRemakdata == "" || orderRemakdata == undefined ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                        <div className='for_paymentDetailMainDiv'>
-                            <div className='for_paymentDetailLeftSideContent'>
-                                <h2>Payment Card Method</h2>
-                                <div className='for_billingAddress'>
-                                    <h3>Billing Address</h3>
-                                    <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
-                                    <p>Address : {selectedAddrData?.street}</p>
-                                    <p>City : {selectedAddrData?.city}</p>
-                                    <p>State : {selectedAddrData?.state}</p>
-                                    <p>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                    {orderRemakdata != "" &&
-                                        <p className='for_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
-                                            Order Remark : {orderRemakdata}
-                                        </p>
-                                    }
-
-                                </div>
-                            </div>
-                            <div className='for_paymentDetailRightSideContent'>
-                                <h3>Order Summary</h3>
-                                <div className='for_paymenttotalpricesummary'>
-                                    <p>Subtotal</p>
-                                    <p>
-                                        {/* <span
-                                        className="for_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(
-                                                CurrencyData
-                                            ),
-                                        }}
-                                    /> */}
-
-                                        <span className="for_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-
-                                        <span>{formatter(taxAmmountData?.TotalAmount)}</span>
+                    <div className='for_paymentDetailMainDiv'>
+                        <div className='for_paymentDetailLeftSideContent'>
+                            <h2>Payment Card Method</h2>
+                            <div className='for_billingAddress'>
+                                <h3>Billing Address</h3>
+                                <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p>Address : {selectedAddrData?.street}</p>
+                                <p>City : {selectedAddrData?.city}</p>
+                                <p>State : {selectedAddrData?.state}</p>
+                                <p>Mobile : {selectedAddrData?.shippingmobile}</p>
+                                {orderRemakdata != "" &&
+                                    <p className='for_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                        Order Remark : {orderRemakdata}
                                     </p>
-                                </div>
-                                <div className='for_paymenttotalpricesummary'>
-                                    <p>Estimated Tax</p>
-                                    <p>
-                                        {/* <span
-                                        className="for_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(
-                                                CurrencyData
-                                            ),
-                                        }}
-                                    />
-                                    <span>{totalpriceText}</span> */}
-                                        <span className="for_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
-                                    </p>
-                                </div>
-                                <div className='for_paymenttotalpricesummary'>
-                                    <p>Estimated Total</p>
-                                    <p>
-                                        {/* <span
-                                        className="for_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                            __html: decodeEntities(
-                                                CurrencyData
-                                            ),
-                                        }}
-                                    /> */}
-                                        <span className="for_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
-                                    </p>
-                                </div>
-                                <div className='for_shippingAddress'>
-                                    <h3>Shipping Address</h3>
-                                    <p className='for_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
-                                    <p>{selectedAddrData?.street}</p>
-                                    <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
-                                    <p>{selectedAddrData?.state}</p>
-                                    <p>{selectedAddrData?.shippingmobile}</p>
-                                </div>
+                                }
+
                             </div>
                         </div>
+                        <div className='for_paymentDetailRightSideContent'>
+                            <h3>Order Summary</h3>
+                            {!isloding ? (
+                                <>
+                                    <div className='for_paymenttotalpricesummary'>
+                                        <p>Subtotal</p>
+                                        <p>
+                                            <span className="for_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+
+                                            <span>{formatter(Number(taxAmmountData?.TotalAmount))}</span>
+                                        </p>
+                                    </div>
+                                    <div className='for_paymenttotalpricesummary'>
+                                        <p>Estimated Tax</p>
+                                        <p>
+                                            <span className="for_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
+                                        </p>
+                                    </div>
+                                    <div className='for_paymenttotalpricesummary'>
+                                        <p>Estimated Total</p>
+                                        <p>
+                                            <span className="for_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
+                                        </p>
+                                    </div>
+                                </>
+                            ) :
+                                <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={100} animation="wave" />
+                            }
+                            <div className='for_shippingAddress'>
+                                <h3>Shipping Address</h3>
+                                <p className='for_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p>{selectedAddrData?.street}</p>
+                                <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
+                                <p>{selectedAddrData?.state}</p>
+                                <p>{selectedAddrData?.shippingmobile}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div className='for_paymentButtonDiv'>
                         <button className={`${btnStyle?.btn_for_new2} ${btnStyle?.btn_16}`} onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}

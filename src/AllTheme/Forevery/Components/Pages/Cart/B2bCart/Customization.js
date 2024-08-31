@@ -249,7 +249,7 @@ const Customization = ({
                       {!ispriceloding ? (
                         <span>
                           <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {formatter(selectedItem?.Sol_StockNo != "" ? selectedItem?.FinalCost + diamondCartData?.price : selectedItem?.FinalCost )}
+                          {formatter(Number(selectedItem?.Sol_StockNo != "" ? (selectedItem?.FinalCost + diamondCartData?.price) : selectedItem?.FinalCost) )}
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />
