@@ -22,6 +22,8 @@ import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { BsHandbag } from 'react-icons/bs';
 import Pako from 'pako';
+import { for_customizationSteps } from '../../../Recoil/atom';
+import { useRecoilState } from 'recoil';
 
 const SettingPage = () => {
 
@@ -85,8 +87,7 @@ const SettingPage = () => {
   const [loginCurrency, setLoginCurrency] = useState();
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-  console.log('selectedCsId: ', selectedCsId);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid)
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [locationKey, setLocationKey] = useState();
   const [productListData, setProductListData] = useState([]);
@@ -96,6 +97,20 @@ const SettingPage = () => {
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [Shape, setShape] = useState("");
   console.log('Shape: ', Shape);
+  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
+  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+
+  const initialSelections = {
+    selectedMetalId: loginUserDetail?.MetalId,
+    selectedDiaId: loginUserDetail?.cmboDiaQCid,
+    selectedCsId: loginUserDetail?.cmboCSQCid
+  };
+
+  // Use shallow copy to track changes
+  const [previousSelections, setPreviousSelections] = useState(initialSelections);
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -173,85 +188,134 @@ const SettingPage = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      const urlPath = location?.pathname?.slice(1).split("/");
-      const shapeParam = urlPath?.[3]?.split('=');
+    const urlPath = location?.pathname?.slice(1).split("/");
+    const shapeParam = urlPath?.[3]?.split('=');
 
-      if (shapeParam?.[0] === 'diamond_shape') {
-        setShape(shapeParam?.[1]);
-      } else if (shapeParam?.[0] === 'M') {
-        setShape("");
-      } else {
-        setShape("");
-      }
-    }, 1000)
+    if (shapeParam?.[0] === 'diamond_shape') {
+      fetchData(shapeParam?.[1])
+      setShape(shapeParam?.[1])
+    }
+    else if (shapeParam?.[0] === 'M') {
+      fetchData('')
+      setShape('')
+    }
+    else {
+      fetchData('')
+      setShape('')
+    }
+    // fetchData('')
 
   }, [location?.pathname]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  const fetchData = async (Shape) => {
+    try {
+      // if(!Shape) return;
 
-        const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-        const urlPath = location?.pathname?.slice(1).split("/");
-        let menuVal = "";
-        let productlisttype;
+      const obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+      const urlPath = location?.pathname?.slice(1).split("/");
+      let menuVal = "";
+      let productlisttype;
 
-        urlPath.forEach((ele) => {
-          const firstChar = ele.charAt(0);
-          if (firstChar === "M") {
-            menuVal = ele;
-          }
-        });
-
-        if (menuVal.length > 0) {
-          const menuDecode = atob(menuVal.split("=")[1]);
-          console.log('menuDecode: ', menuDecode);
-          const key = menuDecode.split("/")[1].split(",");
-          const val = menuDecode.split("/")[0].split(",");
-          productlisttype = [key, val];
+      urlPath.forEach((ele) => {
+        const firstChar = ele.charAt(0);
+        if (firstChar === "M") {
+          menuVal = ele;
         }
-        setprodListType(productlisttype);
+      });
 
-        const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-        }
-      } catch (error) {
-        console.error("Error fetching product list:", error);
-      } finally {
-        setIsProdLoading(false);
-        setIsOnlySettLoading(false);
+      if (menuVal.length > 0) {
+        const menuDecode = atob(menuVal.split("=")[1]);
+        console.log('menuDecode: ', menuDecode);
+        const key = menuDecode.split("/")[1].split(",");
+        const val = menuDecode.split("/")[0].split(",");
+        productlisttype = [key, val];
       }
-    };
+      setprodListType(productlisttype);
 
-    fetchData();
-
-    if (location?.key) {
-      setLocationKey(location?.key);
+      const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "", {}, {}, {}, Shape);
+      if (res) {
+        setProductListData(res?.pdList);
+        setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+      }
+    } catch (error) {
+      console.error("Error fetching product list:", error);
+    } finally {
+      setIsProdLoading(false);
+      setIsOnlySettLoading(false);
     }
-  }, [Shape, location?.key]);
+  };
+
+  const getShapeFromURL = () => {
+    const getSetting = location?.pathname?.split("/")[3];
+    const getPath = location.pathname.split('/').slice(1, 3)
+    const mergePath = getPath.join('/')
+    if (mergePath == 'certified-loose-lab-grown-diamonds/settings') {
+      if (stepsData === null && stepsData2 === null && steps1?.[0]?.step1 !== true) {
+        const step1 = [{ "step1": true, "Setting": getSetting }];
+        sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+      }
+    }
+  }
 
   useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    getShapeFromURL();
+  }, [location?.pathname]);
 
-    if (location?.key === locationKey) {
-      setIsOnlySettLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, (Shape ?? ''))
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlySettLoading(false);
-        });
+  const updateSteps = (shape) => {
+    const updatedStep1 = steps?.map(step => {
+      if (step.step1 !== undefined) {
+        return { "step1": true, "Setting": shape };
+      }
+      return step;
+    });
+
+    if (!updatedStep1.some(step => step.step1 !== undefined)) {
+      updatedStep1.push({ "step1": true, "Setting": shape });
+    }
+    sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+  }
+
+
+  useEffect(() => {
+    // Check if the current values differ from the previous values
+    const hasChanges =
+      selectedMetalId !== previousSelections.selectedMetalId ||
+      selectedDiaId !== previousSelections.selectedDiaId ||
+      selectedCsId !== previousSelections.selectedCsId;
+
+    if (hasChanges) {
+      // Call filterData function
+      filterData(selectedMetalId, selectedDiaId, selectedCsId);
+
+      // Update the previousSelections with current state values
+      setPreviousSelections({
+        selectedMetalId,
+        selectedDiaId,
+        selectedCsId
+      });
     }
   }, [selectedMetalId, selectedDiaId, selectedCsId]);
+
+
+  const filterData = (selectedMetalId, selectedDiaId, selectedCsId) => {
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    // if (location?.key === locationKey) {
+    setIsOnlySettLoading(true);
+    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, Shape)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlySettLoading(false);
+      });
+    // }
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
