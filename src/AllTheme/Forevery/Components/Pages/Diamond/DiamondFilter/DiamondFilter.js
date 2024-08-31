@@ -43,6 +43,8 @@ import { SvgImg } from "../../../data/Dummy";
 import DiamondPage from "..";
 import debounce from "lodash.debounce";
 import { UseLabelGap } from "../../../hooks/UseLabelGap";
+import { for_customizationSteps } from "../../../Recoil/atom";
+import { useRecoilState } from "recoil";
 
 const ACTIONS = {
   SET_FILTER_DATA: "SET_FILTER_DATA",
@@ -120,6 +122,12 @@ const DiamondFilter = () => {
     culet: [],
   });
 
+  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
+  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+  console.log('stepsData: ', stepsData, stepsData2);
+
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -170,8 +178,49 @@ const DiamondFilter = () => {
   useEffect(() => {
     if (location?.pathname) {
       setCheckedItem(location?.pathname?.split("/")[3]);
+      if (steps?.[0]?.step1 == true) {
+        updateSteps(checkedItem)
+      }
     }
   }, [location?.pathname]);
+
+  const getShapeFromURL = () => {
+    const getShape = location?.pathname?.split("/")[3];
+    const getPath = location.pathname.split('/').slice(1, 3)
+    const mergePath = getPath.join('/')
+    if (mergePath == 'certified-loose-lab-grown-diamonds/diamond') {
+      if (stepsData === null && stepsData2 === null && steps?.[0]?.step1 !== true) {
+        if (getShape) {
+          setCustomizeStep({
+            step1: true,
+            step2: false,
+            step3: false,
+          });
+
+          const step1 = [{ "step1": true, "shape": (getShape ?? '') }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    getShapeFromURL();
+  }, [location?.pathname]);
+
+  const updateSteps = (shape) => {
+    const updatedStep1 = steps?.map(step => {
+      if (step.step1 !== undefined) {
+        return { "step1": true, "shape": shape };
+      }
+      return step;
+    });
+
+    if (!updatedStep1.some(step => step.step1 !== undefined)) {
+      updatedStep1.push({ "step1": true, "shape": shape });
+    }
+    sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+  }
 
   const handleOpen = (title) => {
     setOpen((prevOpen) => (prevOpen === title ? null : title));

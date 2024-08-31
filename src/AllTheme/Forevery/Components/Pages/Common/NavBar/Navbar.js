@@ -517,6 +517,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
             {SelectedMenu?.index == 0 && (
               <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
+                setCustomizeStep={setCustomizeStep}
               />
             )}
             {SelectedMenu?.index == 1 && (
@@ -544,6 +545,7 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [checkIndex, setCheckIndex] = useState();
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -553,40 +555,62 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
-  const handleCheckSteps = () => {
+  const handleCheckSteps = (index) => {
     if (checkSteps) {
       setShowModal(true);
+      setCheckIndex(index)
     } else {
       console.log('Alternative action');
     }
   };
 
   const HandleSettingNavigation = () => {
-    const addCategory = `Ring/category`;
-    const filterKeyVal = btoa(addCategory)
-    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
-    setCustomizeStep1({
-      step1: true,
-    })
-    const step1 = [{ "step1": true, "Setting": 'Ring' }];
-    sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+    if ((steps?.[0] !== undefined && steps?.[0] !== null || steps?.[1] !== undefined && steps?.[1] !== null)) {
+      sessionStorage.removeItem('customizeSteps')
+      sessionStorage.removeItem('custStepData')
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory)
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    }
+    else {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory)
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      setCustomizeStep1({
+        step1: true,
+      })
+      const step1 = [{ "step1": true, "Setting": 'Ring' }];
+      sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+    }
   };
 
   const HandleDiamondNavigation = () => {
-    navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-    setCustomizeStep({
-      step1: true,
-    })
-    const step1 = [{ "step1": true, "shape": "Round" }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if ((steps1?.[0] !== undefined && steps1?.[0] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null)) {
+      sessionStorage.removeItem('customizeSteps2')
+      sessionStorage.removeItem('custStepData2')
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      setCustomizeStep({
+        step1: true,
+      })
+      const step1 = [{ "step1": true, "shape": "Round" }];
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    }
   };
 
-  const handleRemoveData = () => {
+  const handleRemoveData = (index) => {
     sessionStorage.removeItem('customizeSteps');
     sessionStorage.removeItem('custStepData');
     sessionStorage.removeItem('customizeSteps2');
     sessionStorage.removeItem('custStepData2');
-    navigate('/');
+    if (index === 0) {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    }
     handleToggle();
   }
   return (
@@ -599,7 +623,7 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                  <span class="ring-type" onClick={() => handleCheckSteps(0)}>
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
                 ) : (
@@ -608,7 +632,7 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
                   </span>
                 )}
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                  <span class="ring-type" onClick={() => handleCheckSteps(1)}>
                     <IoDiamondOutline size={15} /> Start With a Diamond
                   </span>
                 ) : (
@@ -675,12 +699,13 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={checkIndex} />
     </>
   );
 };
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
+  const [shape, setShape] = useState();
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -691,9 +716,10 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
-  const handleCheckSteps = () => {
+  const handleCheckSteps = (value) => {
     if (checkSteps) {
       setShowModal(true);
+      setShape(value);
     } else {
       console.log('Alternative action');
     }
@@ -701,21 +727,21 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    setCustomizeStep({
-      step1: true,
-      step2: false,
-      step3: false,
-    });
-    const step1 = [{ "step1": true, "shape": shape }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    // setCustomizeStep({
+    //   step1: true,
+    //   step2: false,
+    //   step3: false,
+    // });
+    // const step1 = [{ "step1": true, "shape": shape }];
+    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
-  const handleRemoveData = () => {
+  const handleRemoveData = (shape) => {
     sessionStorage.removeItem('customizeSteps');
     sessionStorage.removeItem('custStepData');
     sessionStorage.removeItem('customizeSteps2');
     sessionStorage.removeItem('custStepData2');
-    Navigate('/');
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   }
 
@@ -731,7 +757,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                 return (
                   <>
                     {checkSteps ? (
-                      <span onClick={() => handleCheckSteps()}>
+                      <span onClick={() => handleCheckSteps(val?.name)}>
                         <img src={val?.img} alt="" width={15} height={15} />
                         {val?.name}
                       </span>
@@ -764,7 +790,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <img src={commonImage} alt="" />
       </div>
 
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={shape} />
     </div>
   );
 };
@@ -985,6 +1011,7 @@ const Modal = ({
   open,
   handleClose,
   handleRemoveData,
+  index,
 }) => {
   return (
     <>
@@ -1026,7 +1053,7 @@ const Modal = ({
               <button onClick={() => {
                 handleClose();
               }}>Yes</button>
-              <button onClick={() => { handleRemoveData() }}>No</button>
+              <button onClick={() => { handleRemoveData(index) }}>No</button>
             </div>
           </div>
         </DialogContent>
