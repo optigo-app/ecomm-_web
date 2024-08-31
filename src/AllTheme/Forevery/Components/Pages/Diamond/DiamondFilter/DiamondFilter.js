@@ -105,19 +105,38 @@ const DiamondFilter = () => {
     sort: "Low to High",
   });
   const [sliderState, setSliderState] = useState({
-    price: [0, 0],
-    Carat: [0.96, 41.81],
-    Color: [10, 100],
-    Clarity: [10, 100],
-    Cut: [20, 100],
+    price: [],
+    Carat: [],
+    Color: [],
+    Clarity: [],
+    Cut: [],
   });
+
+  const [sliderState1, setSliderState1] = useState({
+    price: [],
+    Carat: [],
+    Color: [],
+    Clarity: [],
+    Cut: [],
+  });
+  const [sliderLabels1, setSliderLabels1] = useState([]);
+  const [filtersData1, setFiltersData1] = useState({
+    polish: [],
+    symmetry: [],
+    lab: [],
+    depth: [],
+    table: [],
+    fluorescence: [],
+    culet: [],
+  });
+
   const [filters, setFilters] = useState({});
   const [filtersData, setFiltersData] = useState({
     polish: [],
     symmetry: [],
     lab: [],
-    depth: [0, 0],
-    table: [0, 0],
+    depth: [],
+    table: [],
     fluorescence: [],
     culet: [],
   });
@@ -521,12 +540,15 @@ const DiamondFilter = () => {
         ...prevState,
         [sliderType]: newValue,
       }));
-
-      console.log(sliderType, newValue, min, max, "gh");
+      setSliderState1((prevState) => ({
+        ...prevState,
+        [sliderType]: newValue,
+      }))
       setSliderLabels((prev) => {
         const existingTypeIndex = prev.findIndex(
           (item) => item.type === sliderType
         );
+        
         if (existingTypeIndex !== -1) {
           const updatedLabels = [...prev];
           updatedLabels[existingTypeIndex] = {
@@ -541,6 +563,26 @@ const DiamondFilter = () => {
           ];
         }
       });
+      setSliderLabels1((prev) => {
+        const existingTypeIndex = prev.findIndex(
+          (item) => item.type === sliderType
+        );
+        
+        if (existingTypeIndex !== -1) {
+          const updatedLabels = [...prev];
+          updatedLabels[existingTypeIndex] = {
+            type: sliderType,
+            labels: [min?.label, max?.label],
+          };
+          return updatedLabels;
+        } else {
+          return [
+            ...prev,
+            { type: sliderType, labels: [min?.label, max?.label] },
+          ];
+        }
+      })
+
     }, 300),
     []
   );
@@ -567,9 +609,29 @@ const DiamondFilter = () => {
       console.log("more filter", newFiltersData);
       return newFiltersData;
     });
+    setFiltersData1((prevData) => {
+      const newFiltersData = { ...prevData };
+      console.log(filterType, value, newFiltersData, "more filter");
+
+      if (
+        filters[filterType].type === "checkbox" ||
+        filters[filterType].type === ""
+      ) {
+        const currentValues = newFiltersData[filterType] || [];
+        console.log(currentValues, "more filter", "1")
+        if (currentValues.includes(value)) {
+          newFiltersData[filterType] = currentValues.filter((v) => v !== value);
+        } else {
+          newFiltersData[filterType] = [...currentValues, value];
+        }
+      } else if (filters[filterType].type === "range") {
+        newFiltersData[filterType] = value;
+      }
+      console.log("more filter", newFiltersData);
+      return newFiltersData;
+    })
   };
 
-  console.log(filtersData, "checkboxes data");
   const storedData = sessionStorage.getItem("filterMenu");
   const isDataHave = storedData ? JSON.parse(storedData) : null;
   const Condition =
@@ -582,14 +644,12 @@ const DiamondFilter = () => {
       try {
         const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
-          console.log();
           const gapSize = getFilterdata?.Color?.options?.length / 1;
           // const gapSize = numberOfLabels / 1;
 
           const value = (
             getFilterdata?.Color?.options?.length * gapSize
           ).toFixed(2);
-          console.log(parseFloat(Math.floor(value)), "gap12");
           setFilterApiOptions(getFilterdata);
           const ColorMarks = UseLabelGap(getFilterdata?.Color?.options, 100);
           const ClarityMarks = UseLabelGap(
@@ -626,15 +686,14 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
-  console.log(sliderState, "price log");
 
   useEffect(() => {
     const updatedArray = {
-      Price: sliderState?.price || "",
-      Carat: sliderState?.Carat,
-      Color: sliderLabels?.find((label) => label.type === "Color")?.labels || [],
-      Clarity: sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
-      Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
+      Price: sliderState1?.price || "",
+      Carat: sliderState1?.Carat,
+      Color: sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity: sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
       Polish: filtersData?.Polish,
       Symmetry: filtersData?.Symmetry,
       Lab: filtersData?.Lab,
@@ -645,33 +704,10 @@ const DiamondFilter = () => {
     };
 
     setTimeout(() => {
-      const copiedArrayString = JSON.stringify(updatedArray);
-      const getfilterData = sessionStorage.getItem("filterArrCopy");
+      setFinalArray(updatedArray)
+    }, 500);
 
-      if (!getfilterData) {
-        sessionStorage.setItem("filterArrCopy", copiedArrayString);
-        setFinalArray(updatedArray);
-        return;
-      }
-
-      const filterArrCopy = JSON.parse(getfilterData);
-      const changedValues = {};
-
-      Object.keys(updatedArray).forEach((key) => {
-        if (JSON.stringify(updatedArray[key]) !== JSON.stringify(filterArrCopy[key])) {
-          changedValues[key] = updatedArray[key];
-        }
-      });
-
-      if (Object.keys(changedValues).length > 0) {
-        setFinalArray((prevArray) => ({
-          ...prevArray,
-          ...changedValues,
-        }));
-      }
-    }, 400);
-
-  }, [sliderState, sliderLabels, filtersData]);
+  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -694,8 +730,10 @@ const DiamondFilter = () => {
       console.log("decodedUrl", decodedUrl)
       const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
+        // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+        // }`;
       Navigate(newPath);
-    }, 500);
+    }, 600);
   }, [finalArray]);
 
   function parseUrlSegment(segment) {
@@ -739,6 +777,7 @@ const DiamondFilter = () => {
   console.log("sliderstate", sliderState, sliderLabels);
   console.log("finalArray", finalArray, filtersData);
   console.log("filtersData", filtersData)
+  console.log("sliderstate1", sliderState1);
 
 
   return (
@@ -917,7 +956,6 @@ const DiamondFilter = () => {
               Object?.keys(filters)?.map((filterType) => {
                 const filter = filters[filterType];
                 const filterData = filtersData[filterType] || filter.default;
-                console.log(filter, "filtertype", filterType, filterData);
                 if (
                   filterType === "price" ||
                   filterType === "Cut" ||
@@ -955,7 +993,6 @@ const DiamondFilter = () => {
                   );
                 }
                 if (filter?.type === "range") {
-                  console.log(filterData, filter, "range slider");
                   return (
                     <div key={filterType} className="filter_card">
                       <h4 className="advance_filter_title">
@@ -1137,7 +1174,7 @@ const DiamondFilter = () => {
                                   {loginInfo?.CurrencyCode ??
                                     storeInitData?.CurrencyCode}
                                 </span>
-                                <span> {formatter(val?.price)}</span>
+                                <span> {val?.price}</span>
                               </div>
                             </div>
                           </>
@@ -1339,7 +1376,6 @@ const CollectionColor = forwardRef(
       event.stopPropagation();
     };
     const marks = UseLabelGap(ColorVal?.options, 100);
-    console.log(marks[0], "gap12");
     // const marks = [
     //   { label: "M", value: 10, name: "M" },
     //   { label: "L", value: 20, name: "L" },
@@ -1452,7 +1488,6 @@ const CollectionClarity = forwardRef(
       return data;
     };
 
-    console.log(marks, "marks");
     const handleChange = (e, newValue) => {
       const minLabel = FindMinLabel(newValue[0]);
       const maxLabel = FindMaxLabel(newValue[1]);

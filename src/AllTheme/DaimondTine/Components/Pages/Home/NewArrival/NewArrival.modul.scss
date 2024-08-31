@@ -37,6 +37,7 @@
         font-family: $homePageFontFamily;
         text-align: center;
         padding: 10px 0px 0px 0px;
+        margin-bottom: 0px !important;
     }
 
     .dt_newArrivalPdPrice {
@@ -92,24 +93,37 @@
     }
 
 
-    @media screen and (min-width: 851px) {
+    @media screen and (min-width: 701px) {
         .dt_newArrivalPdDesignNo {
             display: none !important;
         }
 
-    
-        .dt_newArrival_DesignNumber_Mobile{
+
+        .dt_newArrival_DesignNumber_Mobile {
             display: none;
         }
     }
 
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1200px) {
+        .smr_btdetailDT {
+            font-size: 12px !important;
+        }
 
-        .dt_newArrival_DesignNumber_web{
+    }
+
+    @media screen and (max-width: 850px) {
+        .dt_newArrivalMian {
+            padding: 10px !important;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+
+        .dt_newArrival_DesignNumber_web {
             display: none;
         }
 
-        .dt_newArrival_DesignNumber_Mobile{
+        .dt_newArrival_DesignNumber_Mobile {
             font-size: $fontSize1;
             color: $primaryfontcolor2;
             font-family: $primaryFontFamily;
@@ -128,9 +142,7 @@
             margin-top: 2px !important;
         }
 
-        .dt_newArrivalMian {
-            padding: 10px !important;
-        }
+
 
         .dt_newArrivalPdDesignNo {
             color: $primaryfontcolor2 !important;
@@ -160,18 +172,31 @@
         }
     }
 
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 950px) {
+        padding: 0px 10px !important;
+
+        .dt_newArrivalGridMain {
+            display: flex;
+            flex-wrap: wrap !important;
+        }
 
         .dt_NewArrivalProductMain {
-            width: 50% !important;
+            width: calc(50% - 5px) !important;
         }
 
         .dt_newArrivalGridMain {
-            padding: 0px 5px 0px 20px !important;
+            padding: 0px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+        }
+
+        .dt_NewArrivalProductMain {
+            padding: 0px !important;
         }
 
         .dt_newArrivalPdTitle {
             display: none;
         }
+
     }
 }

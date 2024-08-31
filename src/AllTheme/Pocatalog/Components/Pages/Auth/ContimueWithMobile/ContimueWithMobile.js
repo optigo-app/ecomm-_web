@@ -126,7 +126,7 @@ export default function ContimueWithMobile() {
                         <TextField
                             autoFocus
                             id="outlined-basic"
-                            label="Enetr Mobile No"
+                            label="Enter Mobile No"
                             variant="outlined"
                             className='smr_loginmobileBox'
                             onKeyDown={(event) => {

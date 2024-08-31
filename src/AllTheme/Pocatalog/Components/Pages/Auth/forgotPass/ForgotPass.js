@@ -92,13 +92,19 @@ export default function ForgotPass() {
         } else if (confirmPassword !== password) {
             errors.confirmPassword = 'Passwords do not match';
         }
+
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const userid = queryParams.get('userid');
+
         if (Object.keys(errors).length === 0) {
             const hashedPassword = hashPasswordSHA1(password);
             setIsLoading(true);
-            ResetPasswordAPI(email, hashedPassword).then((response) => {
+            ResetPasswordAPI(userid, hashedPassword).then((response) => {
                 if (response.Data.rd[0].stat === 1) {
                     navigation('/ContinueWithEmail');
                 } else {
+                    setIsLoading(false);
                     alert(response.Data.rd[0].stat_msg);
                 }
             }).catch((err) => console.log(err))
