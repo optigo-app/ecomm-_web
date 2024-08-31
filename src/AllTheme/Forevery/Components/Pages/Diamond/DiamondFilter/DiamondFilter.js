@@ -156,7 +156,6 @@ const DiamondFilter = () => {
     table: [],
     fluorescence: [],
     Culet: []
-    Culet: []
   });
 
   const [AccordianChecked, setAccordianChecked] = useState(false);
@@ -656,7 +655,7 @@ const DiamondFilter = () => {
     };
 
     setTimeout(() => {
-      setFinalArray(updatedArray);
+      setFinalArray(updatedArray)
     }, 500);
 
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
@@ -702,19 +701,9 @@ const DiamondFilter = () => {
           result[key] = value;
         }
       }
-      const key = parts[i];
-      const value = parts[i + 1];
-      if (value) {
-        if (value.includes(',')) {
-          result[key] = value.split(',').map(item => item === 'null' ? "null" : item);
-        } else {
-          result[key] = value;
-        }
-      }
     }
 
     return result;
-  }
   }
 
   useEffect(() => {
@@ -1136,7 +1125,7 @@ const DiamondFilter = () => {
                                   {loginInfo?.CurrencyCode ??
                                     storeInitData?.CurrencyCode}
                                 </span>
-                                <span> {formatter(val?.price)}</span>
+                                <span> {val?.price}</span>
                               </div>
                             </div>
                           </>
