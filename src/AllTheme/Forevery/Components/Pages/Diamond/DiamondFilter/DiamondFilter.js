@@ -585,13 +585,13 @@ const DiamondFilter = () => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
       console.log(filterType, value, newFiltersData, "more filter");
-     
+
       if (
         filters[filterType].type === "checkbox" ||
         filters[filterType].type === ""
       ) {
         const currentValues = newFiltersData[filterType] || [];
-        console.log(currentValues ,"more filter","1")
+        console.log(currentValues, "more filter", "1");
         if (currentValues.includes(value)) {
           newFiltersData[filterType] = currentValues.filter((v) => v !== value);
         } else {
@@ -712,26 +712,28 @@ const DiamondFilter = () => {
   }, [location?.pathname]);
 
   useEffect(() => {
-    const updatedArray = {
-      Price: "" || sliderState?.price,
-      Carat: sliderState?.Carat,
-      Color:
-        sliderLabels?.find((label) => label.type === "Color")?.labels || [],
-      Clarity:
-        sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
-      Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
-      polish: filtersData?.polish,
-      symmetry: filtersData?.symmetry,
-      lab: filtersData?.lab,
-      depth: filtersData?.depth,
-      table: filtersData?.table,
-      fluorescence: filtersData?.fluorescence,
-    };
-
+    let updatedArray;
+    if (Object.keys(sliderState).length > 0 || Object.keys(sliderLabels).length > 0  ) {
+      updatedArray = {
+        Price: "" || sliderState?.price,
+        Carat: sliderState?.Carat,
+        Color:
+          sliderLabels?.find((label) => label.type === "Color")?.labels || [],
+        Clarity:
+          sliderLabels?.find((label) => label.type === "Clarity")?.labels || [],
+        Cut: sliderLabels?.find((label) => label.type === "Cut")?.labels || [],
+        polish: filtersData?.polish,
+        symmetry: filtersData?.symmetry,
+        lab: filtersData?.lab,
+        depth: filtersData?.depth,
+        table: filtersData?.table,
+        fluorescence: filtersData?.fluorescence,
+      };
+    }
     setFinalArray(updatedArray);
   }, [sliderState, sliderLabels, filtersData]);
 
-  console.log("gh", "slider label", sliderLabels);
+  console.log("gh", "slider label", finalArray);
 
   return (
     <>

@@ -1,156 +1,459 @@
-
-@import '../../../scss/variable';
-
-
-.Fo-contactMain {
-    background-color: white;
-    margin-inline: 6%;
+@import "../../../scss/variable.scss";
+@mixin grid-columns($width: 20%, $columns: 4) {
+  grid-template-columns: repeat(auto-fill, minmax($width, 1fr));
 }
 
-.contactMain{
-    background-color: #c0bbb1;
-}
-.daimondsEveryAbout{
-  background-color: white;
-  margin-inline: 6%;  
-}
-
-.Fo-contactBoxMain {
-    display: flex;
-    margin-inline: 10%;
-}
-
-.Fo-contactBox1 {
-
-    width: 50%;
-    padding-left: 230px;
-    margin-top: 50px;
-    border-right: 1px solid #e1e1e1;
-}
-
-.Fo-contactBox1Title {
-
-    margin: 0px 0px 10px;
-    letter-spacing: 1px;
-    color: #7d7f85;
-    font-weight: 500;
-    font-size: 12px;
-}
-
-.Fo-contactBox1InputBox {
-    height: 50px !important;
-    width: 300px;
-    border: 1px solid #e1e1e1;
-    padding: 0px 5px;
-}
-
-.Fo-contactBox2 {
-    width: 35%;
-    margin: 60px 130px 130px 130px;
-}
-
-.Fo-contactBox2Title {
-    font-family: 'TTCommons-Regular,Helvetica,sans-serif';
-    font-size: 23px;
-    font-weight: 500;
-    color: #7d7f85;
-    margin: 0;
-}
-
-.Fo-contactBox1BtnSub {
-    height: 60px;
-    width: 300px;
-    margin-top: 30px;
-    border: 0;
-    background-color: #7d7f85;
-    color: white;
-    transition: all 0.4s ease;
-}
-
-.Fo-contactBox1BtnSub:hover {
-    background-color: white;
-    border: 1px solid #7d7f85;
-    color: #7d7f85;
-}
-
-.Fo-contactBox2Desc {
-    color: #7d7f85;
-    font-size: 14px;
-}
-
-.error{
-    color: red;
-}
-
-.tab-buttons {
-    display: flex;
+.forevery_ContactMain {
+  width: 100%;
+  height: auto;
+  font-family: $primaryFontFamily;
+  margin-top: 205px;
+  margin-bottom: 4rem;
+  .heading {
     width: 100%;
-    margin-bottom: 20px ;
-  }
-  
-  .tab-buttons button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    margin-right: 10px;
-  }
-  
-  .tab-buttons button.active {
-    border-bottom: 2px solid blue;
-  }
-
-@media screen and (min-width:1441px) {
-    .mobileHeaderSmining {
-        /* display: none; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 250px;
+    justify-content: center;
+    h1 {
+      color: white;
+      font-size: 26px;
+      font-weight: 500;
     }
-}
-
-@media screen and (max-width:1440px) {
-    .Fo-contactBox1 {
-        padding-left: 0px;
-
+  }
+  .form_box_forvery {
+    width: 68%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    .title {
+      font-size: 22px;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 15px;
     }
-
-    .Fo-contactBox2 {
-        width: 40%;
-        margin: 0px;
-        margin-top: 15%;
-        margin-left: 100px;
-    }
-}
-
-@media screen and (max-width:1000px) {
-
-    .Fo-contactBoxMain {
+    .for_grid_col {
+      width: 100%;
+      display: grid;
+      @include grid-columns(20%, 4);
+      gap: 55px;
+      .box1 {
+        padding: 15px;
         display: flex;
-        margin-inline: 10%;
         flex-direction: column;
+        align-items: center;
+        transition: 0.2s ease-in-out;
+        border: 1px solid #c4c4c4;
+        border-radius: 2px !important;
+        box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px, rgba(0, 0, 0, 0.24) 0 1px 2px;
+        border-radius: 2px;
+        .title-box {
+          font-size: 24px;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .desc-box {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+              font-size: 14px;
+              font-weight: 400;
+            }
+          }
+          .href-box {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            color: black;
+            gap: 4px;
+            span {
+              font-size: 16px;
+              font-weight: 400;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              &:first-child {
+                display: block;
+              }
+            }
+          }
+        }
+      }
     }
-
-    .Fo-contactBox1 {
+    .forevery_form {
+      width: 100%;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      form {
+        display: flex;
         width: 100%;
-        padding-left: 0px;
-        margin-top: 50px;
-        border-right: 0;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 25px;
+        .input {
+          display: grid;
+          width: 100%;
+          gap: 20px;
+          @include grid-columns(38%, 2);
+          .box_input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            input {
+              width: 100%;
+              padding: 8px 8px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+        }
+        .textarea {
+          display: flex;
+          align-items: start;
+          flex-direction: column;
+          margin-top: 15px;
+          label {
+            font-size: 16px;
+            font-weight: 400;
+          }
+          textarea {
+            width: 100%;
+            height: 254px;
+            outline: none;
+            border: 1px solid 1px solid rgb(140, 140, 140);
+            padding: 10px;
+            border-radius: none !important;
+            border: 1px solid gray;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+        .btn_form {
+          width: 100%;
+          padding: 20px 0;
+          button {
+            padding: 9px 45px;
+            outline: none;
+            text-align: center;
+            border-radius: 0 !important;
+            font-size: 17px;
+            background-color: transparent;
+          }
+        }
+      }
     }
-    .Fo-contactBox1InputBox {
-        height: 40px;
+  }
+  .for_OurServices {
+    .contact-page {
+      width: 75%;
+      margin: 0 auto;
+    }
+  }
+  @media screen and (max-width: 1344px) {
+    .form_box_forvery {
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+    .for_OurServices {
+        .contact-page {
+          width: 90%;
+          margin: 0 auto;
+        }
+      }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .form_box_forvery {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      .title {
+        font-size: 22px;
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+      .for_grid_col {
         width: 100%;
-        border: 1px solid #e1e1e1;
-    }
-    .Fo-contactBox2 {
+        display: grid;
+        @include grid-columns(45%, 4);
+        gap: 40px;
+        .box1 {
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: 0.2s ease-in-out;
+          border: 1px solid #c4c4c4;
+          border-radius: 2px !important;
+          box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px,
+            rgba(0, 0, 0, 0.24) 0 1px 2px;
+          border-radius: 2px;
+          .title-box {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 5px;
+          }
+          .desc-box {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              li {
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+            .href-box {
+              text-decoration: none;
+              cursor: pointer;
+              display: flex;
+              color: black;
+              gap: 4px;
+              span {
+                font-size: 16px;
+                font-weight: 400;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                &:first-child {
+                  display: block;
+                }
+              }
+            }
+          }
+        }
+      }
+      .forevery_form {
         width: 100%;
-        margin: 10px;
-        margin-top: 30px;
-
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        form {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 25px;
+          .input {
+            display: grid;
+            width: 100%;
+            gap: 20px;
+            @include grid-columns(80%, 2);
+            .box_input {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              label {
+                font-size: 16px;
+                font-weight: 400;
+              }
+              input {
+                width: 100%;
+                padding: 8px 8px;
+                border-radius: none !important;
+                border: 1px solid gray;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+          .textarea {
+            display: flex;
+            align-items: start;
+            flex-direction: column;
+            margin-top: 15px;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            textarea {
+              width: 100%;
+              height: 254px;
+              outline: none;
+              border: 1px solid 1px solid rgb(140, 140, 140);
+              padding: 10px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+          .btn_form {
+            width: 100%;
+            padding: 20px 0;
+            button {
+              padding: 9px 45px;
+              outline: none;
+              text-align: center;
+              border-radius: 0 !important;
+              font-size: 17px;
+              background-color: transparent;
+            }
+          }
+        }
+      }
     }
-
-    .mapContact{
-        width: 100%!important;
+    .for_OurServices {
+      .contact-page {
+        width: 90%;
+        margin: 0 auto;
+      }
     }
+  }
 
-    .contactMain{
-        padding-top: 10px!important;
+  @media screen and (max-width: 768px) {
+    .form_box_forvery {
+      width: 92%;
+      .for_grid_col {
+        gap: 45px;
+      
+      }
+      .forevery_form {
+        form {
+         .input{
+            .box_input{
+                input{
+                    &::placeholder{
+                        font-size: 14px;
+                      }
+                }
+            }
+         }
+        }
+      }
     }
+    .for_OurServices {
+      .contact-page {
+        width: 85%;
+        margin: 0 auto;
+      }
+    }
+  }
+  @media screen and (max-width: 532px) {
+    .form_box_forvery {
+      width: 92%;
+      .for_grid_col {
+        width: 100%;
+        display: grid;
+        @include grid-columns(80%, 4);
+        gap: 40px;
+      }
+      .forevery_form {
+        width: 100%;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        form {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: 25px;
+          .input {
+            display: grid;
+            width: 100%;
+            gap: 20px;
+            @include grid-columns(80%, 2);
+            .box_input {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              label {
+                font-size: 16px;
+                font-weight: 400;
+              }
+              input {
+                width: 100%;
+                padding: 8px 8px;
+                border-radius: none !important;
+                border: 1px solid gray;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+          .textarea {
+            display: flex;
+            align-items: start;
+            flex-direction: column;
+            margin-top: 15px;
+            label {
+              font-size: 16px;
+              font-weight: 400;
+            }
+            textarea {
+              width: 100%;
+              height: 254px;
+              outline: none;
+              border: 1px solid 1px solid rgb(140, 140, 140);
+              padding: 10px;
+              border-radius: none !important;
+              border: 1px solid gray;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+          .btn_form {
+            width: 100%;
+            padding: 20px 0;
+            button {
+              padding: 9px 45px;
+              outline: none;
+              text-align: center;
+              border-radius: 0 !important;
+              font-size: 17px;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+    }
+    .for_OurServices {
+      .contact-page {
+        width: 92%;
+        margin: 0 auto;
+      }
+    }
+  }
 }

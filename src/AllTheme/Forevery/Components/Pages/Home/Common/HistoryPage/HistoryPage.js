@@ -1,9 +1,11 @@
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./HistoryPage.scss";
 import btnstyle from "../../../../scss/Button.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const historyImage = `${storImagePath()}/Forevery/81.webp`;
 const HistoryPage = () => {
+  const navigate = useNavigate()
   return (
     <div className="for_HistoryPage">
       <div
@@ -27,6 +29,8 @@ const HistoryPage = () => {
             <button
               className={`${btnstyle?.btn_15} forevery-btn ${btnstyle?.btn_for_new}`}
               href="about-us"
+              onClick={()=>navigate('/about-us')}
+              style={{cursor:"pointer"}}
             >
               Discover More About Us
             </button>

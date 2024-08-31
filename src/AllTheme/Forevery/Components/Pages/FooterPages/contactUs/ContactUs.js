@@ -1,254 +1,253 @@
-import React, { useState } from 'react'
-import './ContactUs.modul.scss'
-import { toast } from 'react-toastify'
-import Footer from '../../Home/Footer/Footer';
-import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import "./ContactUs.modul.scss";
+import { toast } from "react-toastify";
+import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
+import "react-toastify/dist/ReactToastify.css";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { CiLocationOn, CiMail } from "react-icons/ci";
+import { PiPhoneIncomingThin } from "react-icons/pi";
+import btnstyle from "../../../scss/Button.module.scss";
+import OurServices from "../../Home/Common/OurServices/OurServices";
+import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+
+const Bgimage = `${storImagePath()}/Forevery/contact-us.png`;
 
 export default function ContactUs() {
-    const [activeTab, setActiveTab] = useState('M1');
+  const [formData, setFormData] = useState({
+    fullName: "",
+    emailAddress: "",
+    phoneNumber: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
 
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
-
-    const [formData, setFormData] = useState({
-        fullName: '',
-        companyName: '',
-        emailAddress: '',
-        phoneNumber: '',
-        subject: '',
-        message: ''
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errors = {};
+    if (!formData.fullName) {
+      errors.fullName = "Please enter your full name";
+    }
+    if (!formData.emailAddress) {
+      errors.emailAddress = "Please enter your email address";
+    } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
+      errors.emailAddress = "Please enter a valid email address";
+    }
+    if (!formData.phoneNumber) {
+      errors.phoneNumber = "Please enter your phone number";
+    }
+    if (!formData.message) {
+      errors.message = "Please enter your message";
+    }
+    console.log(formData);
+    setFormData({
+      fullName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      message: "",
     });
 
-    const [errors, setErrors] = useState({});
+    // if (Object.keys(errors).length === 0) {
+    //   console.log("Form submitted:", formData);
+    //   const combinedValue = JSON.stringify({
+    //     fullname: `${formData?.fullName}`,
+    //     emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`,
+    //     mobileno: `${formData?.phoneNumber}`,
+    //     message: `${formData?.message}`,
+    //   });
+    //   const encodedCombinedValue = btoa(combinedValue);
+    //   console.log(encodedCombinedValue);
+    //   const body = {
+    //     con: '{"id":"","mode":"CONTACTUS"}',
+    //     f: "CONTACTUS (handlesubmit)",
+    //     p: encodedCombinedValue,
+    //     dp: combinedValue,
+    //   };
+    //   const response = await CommonAPI(body);
+    //   if (response) {
+    //     console.log("res", response);
+    //     toast.success(
+    //       "Got it! We've received your query. We'll be in touch shortly."
+    //     );
+    //   }
+    //   setFormData({
+    //     fullName: "",
+    //     companyName: "",
+    //     emailAddress: "",
+    //     phoneNumber: "",
+    //     subject: "",
+    //     message: "",
+    //   });
+    // } else {
+    //   setErrors(errors);
+    // }
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-        setErrors({
-            ...errors,
-            [name]: ''
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errors = {};
-        if (!formData.fullName) {
-            errors.fullName = 'Please enter your full name';
-        }
-        if (!formData.companyName) {
-            errors.companyName = 'Please enter your company name';
-        }
-        if (!formData.emailAddress) {
-            errors.emailAddress = 'Please enter your email address';
-        } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
-            errors.emailAddress = 'Please enter a valid email address';
-        }
-        if (!formData.phoneNumber) {
-            errors.phoneNumber = 'Please enter your phone number';
-        }
-        if (!formData.subject) {
-            errors.subject = 'Please enter the subject';
-        }
-        if (!formData.message) {
-            errors.message = 'Please enter your message';
-        }
-
-        if (Object.keys(errors).length === 0) {
-            console.log('Form submitted:', formData);
-            const combinedValue = JSON.stringify({
-                companyname: `${formData?.companyName}`, subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
-            });
-            const encodedCombinedValue = btoa(combinedValue);
-            console.log(encodedCombinedValue);
-            const body = {
-                "con": "{\"id\":\"\",\"mode\":\"CONTACTUS\"}",
-                "f": "CONTACTUS (handlesubmit)",
-                p: encodedCombinedValue,
-                dp: combinedValue
-            };
-            const response = await CommonAPI(body);
-            if (response) {
-                console.log('res', response);
-                toast.success("Got it! We've received your query. We'll be in touch shortly.")
-            }
-            setFormData({
-                fullName: '',
-                companyName: '',
-                emailAddress: '',
-                phoneNumber: '',
-                subject: '',
-                message: ''
-            });
-        } else {
-            setErrors(errors);
-        }
-    };
-
-
-    return (
-        <div className='contactMain' >
-            <div className='Fo-contactMain'>
-                <div>
-                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
-                    </div>
-                    <div className='Fo-contactBoxMain'>
-                        <div className='Fo-contactBox1'>
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <p className='Fo-contactBox1Title'>FULL NAME</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='fullName'
-                                        value={formData.fullName}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.fullName && <p className='error'>{errors.fullName}</p>}
-                                </div>
-                                <div style={{ marginTop: '25px' }}>
-                                    <p className='Fo-contactBox1Title'>COMPANY NAME</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='companyName'
-                                        value={formData.companyName}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.companyName && <p className='error'>{errors.companyName}</p>}
-                                </div>
-                                <div style={{ marginTop: '25px' }}>
-                                    <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='emailAddress'
-                                        value={formData.emailAddress}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.emailAddress && <p className='error'>{errors.emailAddress}</p>}
-                                </div>
-                                <div style={{ marginTop: '25px' }}>
-                                    <p className='Fo-contactBox1Title'>PHONE NUMBER</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='phoneNumber'
-                                        value={formData.phoneNumber}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.phoneNumber && <p className='error'>{errors.phoneNumber}</p>}
-                                </div>
-                                <div style={{ marginTop: '25px' }}>
-                                    <p className='Fo-contactBox1Title'>SUBJECT</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='subject'
-                                        value={formData.subject}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.subject && <p className='error'>{errors.subject}</p>}
-                                </div>
-                                <div style={{ marginTop: '25px' }}>
-                                    <p className='Fo-contactBox1Title'>MESSAGE</p>
-                                    <input
-                                        type='text'
-                                        className='Fo-contactBox1InputBox'
-                                        name='message'
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.message && <p className='error'>{errors.message}</p>}
-                                </div>
-                                <button type="submit" className='Fo-contactBox1BtnSub'>SUBMIT</button>
-                            </form>
-                        </div>
-                        <div className='Fo-contactBox2'>
-                            {/* <p className='Fo-contactBox2Title'>Have questions?</p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>General inquiries<span style={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Customer inquiries<span tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></span></p>
-
-                            <p style={{
-                                fontSize: '15px',
-                                fontWeight: 600
-                            }}>Orders & Returns<spna tyle={{
-                                fontWeight: 400,
-                                fontSize: '13px'
-                            }}></spna></p>
-
-                            <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            <p className='Fo-contactBox2Title'>Orders & Returns</p>
-                            <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p> */}
-                            {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
-                            <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
-
-                            <div>
-                                <div className="tab-buttons">
-                                    <button className={activeTab === 'M1' ? 'active' : ''} onClick={() => handleTabClick('M1')}>Main Office Address</button>
-                                    {/* <button className={activeTab === 'M3' ? 'active' : ''} onClick={() => handleTabClick('M3')}>Head Office Address</button> */}
-                                </div>
-                                <div className="address">
-                                    {activeTab === 'M1' && (
-                                        <div>
-                                            <p>Kayra Creation Limited</p>
-                                            <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
-                                            <p>Kowloon-999077, Hong Kong- China</p>
-                                            <p>+852-52482000</p>
-                                            <p>sales@kayracreation.com</p>
-                                        </div>
-                                        // <div>
-                                        //     <p></p>
-                                        //     <p>D-Block G20, ITC( International Trade Centre),
-                                        //         Majura Gate, Ring Road, </p>
-                                        //     <p>+919099887762</p>
-                                        //     <p>hello@optigoapps.com</p>
-                                        // </div>
-                                    )}
-
-                                    <div className="map-container">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
-                                            width="600"
-                                            height="450"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                            referrerpolicy="no-referrer-when-downgrade"
-                                            className='mapContact'
-                                        >
-                                        </iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <Footer />
-                </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div>
-        </div>
-    )
+  return (
+    <div className="forevery_ContactMain">
+      <Heading />
+      <FormBox
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+        formData={formData}
+      />
+      <OurServices />
+      <NewsletterSignup />
+    </div>
+  );
 }
+
+const Heading = () => {
+  return (
+    <>
+      <div
+        className="heading"
+        style={{
+          background: `url(${Bgimage})`,
+        }}
+      >
+        <h1>Contact us</h1>
+      </div>
+    </>
+  );
+};
+const FormBox = ({ setFormData, handleSubmit, formData }) => {
+  return (
+    <>
+      <div className="form_box_forvery">
+        <div className="title">
+          <span>Send a message</span>
+        </div>
+        <div className="for_grid_col">
+          <div className="box1">
+            <div className="title-box">Address</div>
+            <div className="desc-box">
+              <a
+                href="https://maps.app.goo.gl/8kxW51d2tLW4edAC9"
+                target="_blank"
+                className="href-box"
+              >
+                <span>
+                  <CiLocationOn size={19} />
+                </span>
+                <span>Hoveniersstraat 30, 2018 Antwerpen, Belgium</span>
+              </a>
+            </div>
+          </div>
+          <div className="box1">
+            <div className="title-box">Mail</div>
+            <div className="desc-box">
+              <a href="mailto: info@fake.fake" className="href-box">
+                <span>
+                  <CiMail size={19} />
+                </span>
+                <span>info@fake.fake</span>
+              </a>
+            </div>
+          </div>
+          <div className="box1">
+            <div className="title-box">Phone</div>
+            <div className="desc-box">
+              <a href="tel:+32489791511" className="href-box">
+                <span>
+                  <PiPhoneIncomingThin size={19} />
+                </span>
+                <span>+00 1212121221</span>
+              </a>
+            </div>
+          </div>
+          <div className="box1">
+            <div className="title-box">Hours</div>
+            <div className="desc-box">
+              <ul>
+                <li>Sunday 10:30am–6pm</li>
+                <li>Monday 10am–6pm</li>
+                <li>Tuesday 10am–6pm</li>
+                <li>Wednesday 10am–6pm</li>
+                <li>Thursday 10am–6pm</li>
+                <li>Friday 10am–6pm</li>
+                <li>Saturday Closed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="forevery_form">
+          <form onSubmit={handleSubmit}>
+            <div className="input">
+              <div className="box_input">
+                <label htmlFor="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="fullName"
+                  required
+                  value={formData?.fullName}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      fullName: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className="box_input">
+                <label htmlFor="email">Email address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="emailAddress"
+                  required
+                  value={formData?.emailAddress}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      emailAddress: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className="box_input">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  type="text"
+                  id="phone"
+                  placeholder="Eg. +32 XX XXX XXXX"
+                  name="phoneNumber"
+                  required
+                  value={formData?.phoneNumber}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      phoneNumber: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+            <div className="textarea">
+              <label htmlFor="msg">Message</label>
+              <textarea
+                id="msg"
+                name="message"
+                rows={4}
+                cols={50}
+                value={formData?.message}
+                maxLength={600}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, message: e.target.value }))
+                }
+              ></textarea>
+            </div>
+            <div className="btn_form">
+              <button
+                type="submit"
+                className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+              >
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};

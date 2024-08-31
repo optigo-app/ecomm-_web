@@ -26,7 +26,7 @@ import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(8);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -113,7 +113,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(2);
+      setThemeNo(8);
     }
     // .finally(() => setLoading(false));
   }, []);

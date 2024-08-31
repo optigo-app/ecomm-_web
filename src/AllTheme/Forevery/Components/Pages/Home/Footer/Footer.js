@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './Footer.scss';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import "./Footer.scss";
+import { useNavigate } from "react-router-dom";
+import { BsPlus } from "react-icons/bs";
+import { HiOutlineMinusSmall } from "react-icons/hi2";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -15,8 +17,8 @@ const Footer = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleSection = (index) => {
@@ -24,7 +26,7 @@ const Footer = () => {
   };
 
   useEffect(() => {
-    let localD = JSON?.parse(sessionStorage.getItem('storeInit'));
+    let localD = JSON?.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
   }, []);
 
@@ -36,14 +38,20 @@ const Footer = () => {
         storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
       }
       if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
+        companyInfoData =
+          JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
         setCompanuInfoData(companyInfoData);
-        if(companyInfoData?.SocialLinkObj !== '' && companyInfoData?.SocialLinkObj !== null && companyInfoData?.SocialLinkObj !== undefined ){
-          const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+        if (
+          companyInfoData?.SocialLinkObj !== "" &&
+          companyInfoData?.SocialLinkObj !== null &&
+          companyInfoData?.SocialLinkObj !== undefined
+        ) {
+          const parsedSocilaMediaUrlData =
+            JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
           if (parsedSocilaMediaUrlData) {
             setSocialMediaData(parsedSocilaMediaUrlData);
           }
-        } 
+        }
       }
     }, 500);
   }, []);
@@ -65,49 +73,59 @@ const Footer = () => {
 
   const sections = [
     {
-      title: 'About Us',
+      title: "About Us",
       items: [
-        { name: 'About Us', path: '/about-us' },
-        { name: 'Packaging', path: '/packaging' },
-        { name: 'Affiliate Login', path: '/affiliate-login' },
-        { name: 'Partner Login', path: '/partner-login' }
+        { name: "About Us", path: "/about-us" },
+        // { name: 'Packaging', path: '/packaging' },
+        // { name: 'Affiliate Login', path: '/affiliate-login' },
+        // { name: 'Partner Login', path: '/partner-login' }
       ],
     },
     {
-      title: 'Our Services',
+      title: "Our Services",
       items: [
-        { name: 'Bespoke Jewelry', path: '/bespoke-jewelry' },
-        { name: 'Bespoke Diamonds', path: '/bespoke-diamonds' },
-        { name: 'Lifetime Warranty', path: '/lifetime-warranty' },
-        { name: 'Free Shipping Worldwide', path: '/free-shipping' },
-        { name: '60-Day Free Resizing', path: '/free-resizing' },
-        { name: 'Free Engraving', path: '/free-engraving' }
+        { name: "Bespoke Jewelry", path: "/bespoke-jewelry" },
+        // { name: 'Bespoke Diamonds', path: '/bespoke-diamonds' },
+        // { name: 'Lifetime Warranty', path: '/lifetime-warranty' },
+        // { name: 'Free Shipping Worldwide', path: '/free-shipping' },
+        // { name: '60-Day Free Resizing', path: '/free-resizing' },
+        // { name: 'Free Engraving', path: '/free-engraving' }
       ],
     },
     {
-      title: 'Need Help',
+      title: "Need Help",
       items: [
-        { name: 'Contact Us', path: '/contact-us' },
-        { name: 'Education', path: '/education' },
-        { name: 'Blog', path: '/blog' },
-        { name: 'Forevery Reviews', path: '/reviews' }
+        { name: "Contact Us", path: "/contact-us" },
+        { name: "Education", path: "/education" },
+        { name: "Privacy Policy", path: "/privacy-policy" },
+        { name: "Terms & Condition", path: "/terms-conditions" },
+        // { name: 'Blog', path: '/blog' },
+        // { name: 'Forevery Reviews', path: '/reviews' }
       ],
     },
     {
-      title: 'Quick Links',
+      title: "Quick Links",
       items: [
-        { name: 'Engagement Rings', path: '/engagement-rings' },
-        { name: 'Wedding Rings', path: '/wedding-rings' },
-        { name: 'Fine Jewelry', path: '/fine-jewelry' },
-        { name: 'Certified Loose Diamonds', path: '/loose-diamonds' },
-        { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' }
+        { name: "Engagement Rings", path: "/engagement-rings" },
+        { name: "Wedding Rings", path: "/wedding-rings" },
+        { name: "Fine Jewelry", path: "/fine-jewelry" },
+        // { name: 'Certified Loose Diamonds', path: '/loose-diamonds' },
+        // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' }
       ],
     },
     {
-      title: 'Social Media',
-      items: []
-    }
+      title: "Social Media",
+      items: [],
+    },
   ];
+
+  const OnlyMobile = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignContent: "center",
+    width: "100%",
+  };
 
   return (
     <footer className="footer">
@@ -115,13 +133,25 @@ const Footer = () => {
         {sections.map((section, index) => (
           <div
             key={index}
-            className={`footer-section ${isMobile && activeSection === index ? 'active' : ''}`}
+            className={`footer-section ${
+              isMobile && activeSection === index ? "active" : ""
+            }`}
           >
             <h4
-              className={section.title === "Social Media" ? "socialMediaTitle" : ""}
+              className={
+                section.title === "Social Media" ? "socialMediaTitle" : ""
+              }
+              style={isMobile ? OnlyMobile : {}}
               onClick={() => isMobile && toggleSection(index)}
             >
-              {section.title}
+              <span>{section.title}</span>
+             {isMobile &&  <span>
+                {activeSection === index ? (
+                  <HiOutlineMinusSmall  size={22}/>
+                ) : (
+                  <BsPlus  size={22}/>
+                )}
+              </span>}
             </h4>
             <ul>
               {section.title === "Social Media" ? (
@@ -129,40 +159,65 @@ const Footer = () => {
                   <div className="socialMediaIconDiv">
                     {socialMediaData?.map((social, index) => (
                       <div className="footerSocialIcon" key={index}>
-                        <a href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={`${social.SLink}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <img
                             src={social.SImgPath}
                             alt={social.SName}
-                            style={{ width: '24px', height: '24px', objectFit: 'cover' }}
-                            onError={(e) => { e.target.style.display = 'none'; }}
+                            style={{
+                              width: "24px",
+                              height: "24px",
+                              objectFit: "cover",
+                            }}
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                            }}
                           />
                         </a>
                       </div>
                     ))}
                   </div>
-                  <a href="/payment-methods" className="paymentLink" onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigate(e, "/payment-methods");
-                      }}>
+                  <a
+                    href="/payment-methods"
+                    className="paymentLink"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigate(e, "/payment-methods");
+                    }}
+                  >
                     <h4>Secure Payment Method</h4>
                   </a>
                   <div className="paymentDiv">
-                          <img
-                            src="https://forevery.one/icons_images/card.webp"
-                            alt="paymant-merchant image"
-                            style={{ width: '100%', objectFit: 'cover', mixBlendMode:'multiply' }}
-                            onError={(e) => { e.target.style.display = 'none'; }}
-                          />                  
+                    <img
+                      src="https://forevery.one/icons_images/card.webp"
+                      alt="paymant-merchant image"
+                      style={{
+                        width: "100%",
+                        objectFit: "cover",
+                        mixBlendMode: "multiply",
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
                   </div>
                 </div>
               ) : (
                 <>
                   {section.items.map((item, idx) => (
                     <li key={idx}>
-                      <a href={item?.path} onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigate(e, item.path);
-                      }}>{item.name}</a>
+                      <a
+                        href={item?.path}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavigate(e, item.path);
+                        }}
+                      >
+                        {item.name}
+                      </a>
                     </li>
                   ))}
                 </>
@@ -173,11 +228,61 @@ const Footer = () => {
       </div>
       <ul className="companyCopyRight">
         <li>© 2024 FOREVERY</li>
-        <li><a href="/terms-of-use" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/terms-of-use'); }}>TERMS OF USE</a></li>
-        <li><a href="/privacy-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/privacy-policy'); }}>PRIVACY POLICY</a></li>
-        <li><a href="/cookies-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/cookies-policy'); }}>COOKIES POLICY</a></li>
-        <li><a href="/return-refund-policy" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/return-refund-policy'); }}>RETURN AND REFUND POLICY</a></li>
-        <li><a href="/change-cookie-preferences" onClick={(e) => { e.preventDefault(); handleNavigate(e, '/change-cookie-preferences'); }}>CHANGE COOKIE PREFERENCES</a></li>
+        <li>
+          <a
+            href="/terms-of-use"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(e, "/terms-of-use");
+            }}
+          >
+            TERMS OF USE
+          </a>
+        </li>
+        <li>
+          <a
+            href="/privacy-policy"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(e, "/privacy-policy");
+            }}
+          >
+            PRIVACY POLICY
+          </a>
+        </li>
+        <li>
+          <a
+            href="/cookies-policy"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(e, "/cookies-policy");
+            }}
+          >
+            COOKIES POLICY
+          </a>
+        </li>
+        <li>
+          <a
+            href="/return-refund-policy"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(e, "/return-refund-policy");
+            }}
+          >
+            RETURN AND REFUND POLICY
+          </a>
+        </li>
+        <li>
+          <a
+            href="/change-cookie-preferences"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(e, "/change-cookie-preferences");
+            }}
+          >
+            CHANGE COOKIE PREFERENCES
+          </a>
+        </li>
       </ul>
     </footer>
   );

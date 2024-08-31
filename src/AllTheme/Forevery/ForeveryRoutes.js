@@ -12,7 +12,11 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { for_companyLogo, for_loginState } from "./Components/Recoil/atom";
+import {
+  for_companyLogo,
+  for_loginState,
+  for_nav_height,
+} from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -54,6 +58,9 @@ import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
 import Preloader from "../../dum/Load";
 import Bespokejewelry from "./Components/Pages/staticpages/Bespokejewelry/Bespokejewelry";
 import Test from "./Components/Pages/ReusableComponent/Test";
+import Education from "./Components/Pages/staticpages/Education/Education";
+import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage";
+import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -66,7 +73,7 @@ const ForEveryRoutes = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] =
     useRecoilState(for_companyLogo);
-
+  const navHeight = useRecoilValue(for_nav_height);
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
@@ -75,6 +82,8 @@ const ForEveryRoutes = () => {
       backgroundColor
     );
   };
+
+  console.log(navHeight, "stste");
 
   useEffect(() => {
     setCSSVariable();
@@ -151,116 +160,127 @@ const ForEveryRoutes = () => {
         <TopBar />
         <Navbar />
       </div>
-      <Routes>
-        <>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/LoginOption"
-            element={
-              <div className="authFlowBakcColor">
-                <LoginOption />
-              </div>
-            }
-          />
-          <Route
-            path="/ContinueWithEmail"
-            element={
-              <div className="authFlowBakcColor">
-                <ContinueWithEmail />
-              </div>
-            }
-          />
-          <Route
-            path="/ContimueWithMobile"
-            element={
-              <div className="authFlowBakcColor">
-                <ContimueWithMobile />
-              </div>
-            }
-          />
-          <Route
-            path="/LoginWithEmailCode"
-            element={
-              <div className="authFlowBakcColor">
-                <LoginWithEmailCode />
-              </div>
-            }
-          />
-          <Route
-            path="/LoginWithMobileCode"
-            element={
-              <div className="authFlowBakcColor">
-                <LoginWithMobileCode />
-              </div>
-            }
-          />
-          <Route
-            path="/ForgotPass"
-            element={
-              <div className="authFlowBakcColor">
-                <ForgotPass />
-              </div>
-            }
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={
-              <div className="authFlowBakcColor">
-                <LoginWithEmail />
-              </div>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <div className="authFlowBakcColor">
-                <Register />
-              </div>
-            }
-          />
-        </>
-        <Route path="/appointment" element={<AppointmentPage />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/d/*" element={<DetailsRoute />} />
-        <Route path="/p/*" element={<ProductList />} />
-        {/* <Route
+      <div
+        className="body"
+        style={{
+          marginTop: `${navHeight + 5}px`,
+        }}
+      >
+        <Routes>
+          <>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/LoginOption"
+              element={
+                <div className="authFlowBakcColor">
+                  <LoginOption />
+                </div>
+              }
+            />
+            <Route
+              path="/ContinueWithEmail"
+              element={
+                <div className="authFlowBakcColor">
+                  <ContinueWithEmail />
+                </div>
+              }
+            />
+            <Route
+              path="/ContimueWithMobile"
+              element={
+                <div className="authFlowBakcColor">
+                  <ContimueWithMobile />
+                </div>
+              }
+            />
+            <Route
+              path="/LoginWithEmailCode"
+              element={
+                <div className="authFlowBakcColor">
+                  <LoginWithEmailCode />
+                </div>
+              }
+            />
+            <Route
+              path="/LoginWithMobileCode"
+              element={
+                <div className="authFlowBakcColor">
+                  <LoginWithMobileCode />
+                </div>
+              }
+            />
+            <Route
+              path="/ForgotPass"
+              element={
+                <div className="authFlowBakcColor">
+                  <ForgotPass />
+                </div>
+              }
+            />
+            <Route
+              path="/LoginWithEmail"
+              element={
+                <div className="authFlowBakcColor">
+                  <LoginWithEmail />
+                </div>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <div className="authFlowBakcColor">
+                  <Register />
+                </div>
+              }
+            />
+          </>
+          <Route path="/appointment" element={<AppointmentPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/d/*" element={<DetailsRoute />} />
+          <Route path="/p/*" element={<ProductList />} />
+          {/* <Route
           path="/certified-loose-lab-grown-diamonds"
           element={<DiamondPage />}
         /> */}
-        <Route
-          path="/certified-loose-lab-grown-diamonds/settings/*"
-          element={<SettingPage />}
-        />
-        <Route
-          path="/certified-loose-lab-grown-diamonds/diamond/*"
-          element={<DiamondFilter />}
-        />
-        <Route
-          path="/certified-loose-lab-grown-diamonds/ring/*"
-          element={<RingPage />}
-        />
-        <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-        <Route path="/diamond" element={<Diamond />} />
-        <Route path="/diamond-test" element={<Test />} />
-        <Route path="/Delivery" element={<Delivery />} />
-        <Route path="/Payment" element={<Payment />} />
-        <Route path="/Confirmation" element={<Confirmation />} />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/settings/*"
+            element={<SettingPage />}
+          />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/diamond/*"
+            element={<DiamondFilter />}
+          />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/ring/*"
+            element={<RingPage />}
+          />
+          <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
+          <Route path="/diamond" element={<Diamond />} />
+          <Route path="/diamond-test" element={<Test />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
 
-        {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
-        {/* <Route path="/FunFact" element={<FunFact />} /> */}
-        {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
-        {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
+          {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
+          {/* <Route path="/FunFact" element={<FunFact />} /> */}
+          {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
+          {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           
           
           
           {/* <Route path="/account" element={<Account />} /> */}
-        {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
-        {/* </Route> */}
-        {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
-        <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
-        <Route path="/about-us" element={<AboutUs />} />
-      </Routes>
+          {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
+          {/* </Route> */}
+          {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
+          <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/privacy-policy" element={<PrivacyPage />} />
+          <Route path="/terms-conditions" element={<TermsAndCondition />} />
+        </Routes>
+      </div>
       <Footer />
     </>
   );
