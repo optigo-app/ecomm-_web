@@ -74,120 +74,255 @@ $borderColor: rgba(232, 232, 232, 1);
             }
           }
 
-          .for_cart-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            background-color: white;
-            border-radius: 0;
+          .for_cartMain-item {
             border: 1px solid $borderColor;
-            // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
             margin-bottom: 1rem;
+            position: relative;
 
-            &__image {
-              flex: 1;
+            .for_cart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
 
-              img {
-                width: 100%;
-                height: auto;
-              }
-            }
+              &__image {
+                flex: 1;
 
-            &__details {
-              flex: 2;
-              padding-left: 1rem;
-
-              h3 {
-                margin: 0;
-                font-size: $fontSize3;
-              }
-
-              p {
-                margin: 0.3rem 0;
-                font-size: $fontSize3;
-              }
-
-              .for_ringSize {
-                font-size: $fontSize1;
-                margin: 0;
-                font-weight: 600;
-              }
-
-              .for_change-size {
-                font-size: $fontSize1;
-                color: $primaryfontcolor2;
-                cursor: pointer;
-                text-decoration: underline;
-              }
-
-              .for_weightsContainer {
-                display: flex;
-                flex-wrap: wrap;
-              }
-              .for_diamondSKUNO{
-                margin-top: 10px;
-              }
-
-              .for_weightPair {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                align-items: center;
-                color: $primaryfontcolor2;
-                font-size: $fontSize2;
-
-                .for_pipe {
-                  margin-inline: 4px;
-                }
-
-                .for_weightLabel {
-                  text-transform: capitalize;
-                  margin-right: 2px;
+                img {
+                  width: 100%;
+                  height: auto;
                 }
               }
+
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .for_ringSize {
+                  font-size: $fontSize1;
+                  margin: 0;
+                  font-weight: 600;
+                }
+
+                .for_change-size {
+                  font-size: $fontSize1;
+                  color: $primaryfontcolor2;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .for_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .for_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .for_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $primaryfontcolor2;
+                  font-size: $fontSize2;
+
+                  .for_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .for_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $primaryfontcolor2;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: #df647e;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .for_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: #f2b1b7;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
+              }
             }
 
-            &__price,
-            &__total-price {
-              flex: 1;
-              text-align: center;
+            .for_Diacart-item {
+              display: flex;
+              align-items: center;
+              padding: 0rem 1rem;
+              background-color: white;
+              border-radius: 0;
+              // box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+              // margin-bottom: 1rem;
 
-              p {
-                margin: 0;
-                font-size: $fontSize4;
-                color: $primaryfontcolor2;
-                font-weight: 700;
+              &__image {
+                flex: 1;
+
+                img {
+                  width: 100%;
+                  height: auto;
+                }
               }
 
-              span {
-                font-size: $fontSize0;
+              &__details {
+                flex: 2;
+                padding-left: 1rem;
+
+                h3 {
+                  margin: 0;
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  margin: 0.3rem 0;
+                  font-size: $fontSize3;
+                }
+
+                .for_ringSize {
+                  font-size: $fontSize1;
+                  margin: 0;
+                  font-weight: 600;
+                }
+
+                .for_change-size {
+                  font-size: $fontSize1;
+                  color: $primaryfontcolor2;
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+
+                .for_weightsContainer {
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+
+                .for_diamondSKUNO {
+                  margin-top: 10px;
+                }
+
+                .for_weightPair {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-items: center;
+                  color: $primaryfontcolor2;
+                  font-size: $fontSize2;
+
+                  .for_pipe {
+                    margin-inline: 4px;
+                  }
+
+                  .for_weightLabel {
+                    text-transform: capitalize;
+                    margin-right: 2px;
+                  }
+                }
+              }
+
+              &__price,
+              &__total-price {
+                flex: 1;
+                text-align: center;
+
+                p {
+                  margin: 0;
+                  font-size: $fontSize4;
+                  color: $primaryfontcolor2;
+                  font-weight: 700;
+                }
+
+                span {
+                  font-size: $fontSize0;
+                }
+              }
+
+              &__total-price {
+
+                p,
+                span {
+                  color: #df647e;
+                }
+              }
+
+              &__remove {
+                flex: 0.5;
+                text-align: center;
+
+                .for_remove-button {
+                  background-color: transparent;
+                  border: none;
+                  font-size: $fontSize3;
+                  font-weight: 700;
+                  color: #fff;
+                  background-color: #f2b1b7;
+                  border-radius: 50%;
+                  opacity: .5;
+                  cursor: pointer;
+                  padding: 0px 8px;
+                }
               }
             }
 
-            &__total-price {
-
-              p,
-              span {
-                color: #df647e;
-              }
+            .for_cartDiaTPrice {
+              position: absolute;
+              right: 122px;
+              top: 46%;
             }
 
-            &__remove {
-              flex: 0.5;
-              text-align: center;
-
-              .for_remove-button {
-                background-color: transparent;
-                border: none;
-                font-size: $fontSize3;
-                font-weight: 700;
-                color: #fff;
-                background-color: #f2b1b7;
-                border-radius: 50%;
-                opacity: .5;
-                cursor: pointer;
-                padding: 0px 8px;
-              }
+            .for_Diacart-item__remove {
+              position: absolute;
+              right: 44px;
+              top: 46%;
             }
           }
         }
@@ -247,7 +382,8 @@ $borderColor: rgba(232, 232, 232, 1);
                 // overflow: hidden;
                 // text-overflow: ellipsis;
               }
-              .for_dividerline{
+
+              .for_dividerline {
                 margin-bottom: 10px !important;
               }
 
@@ -349,24 +485,25 @@ $borderColor: rgba(232, 232, 232, 1);
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
+                  font-size: $fontSize3;
 
                   label {
                     color: $primaryfontcolor2;
                     font-weight: bold;
-                    font-size: $fontSize2;
+                    
                   }
 
                   span {
                     color: $primaryfontcolor2;
-                    font-size: $fontSize2;
                     margin-left: 10px;
                   }
                 }
-                .for_Stockproduct-price{
-                  span{
+
+                .for_Stockproduct-price {
+                  span {
                     color: $primaryfontcolor2;
                     font-weight: bold;
-                    font-size: $fontSize2;
+                    font-size: $fontSize4;
                   }
                 }
               }

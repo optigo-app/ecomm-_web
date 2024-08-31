@@ -148,9 +148,7 @@ const useCart = () => {
                 let resData = response.Data?.rd
                 setDiamondCartData(resData)
                 setIsLoading(false)
-                if (cartData?.length == 0) {
-                    setSelectedItem(resData[0]);
-                }
+
             } else {
                 console.warn("No data found in the response");
                 setIsLoading(false)
@@ -167,6 +165,14 @@ const useCart = () => {
     useEffect(() => {
         getCartData();
     }, [cartStatus]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (cartData?.length == 0) {
+                setSelectedItem(diamondCartData[0]);
+            }
+        }, 200);
+    }, [diamondCartData])
 
     // for multiselect
     const handleSelectItem = async (item) => {
@@ -224,10 +230,16 @@ const useCart = () => {
     // remove
     const handleRemoveItem = async (item, isdiamond) => {
         let param = "Cart";
+        const keyToCheck = "stockno"
         let cartfilter = cartData?.filter(cartItem => cartItem.id !== item.id);
         setCartData(cartfilter);
-        let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.stockno);
+        let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.Sol_StockNo);
         setDiamondCartData(diaFilter);
+
+        if (item?.hasOwnProperty(keyToCheck)) {
+            let diaFilter = diamondCartData?.filter(dia => dia?.stockno !== item?.stockno);
+            setDiamondCartData(diaFilter);
+        }
 
         setTimeout(() => {
             if (cartfilter && isMaxWidth1050) {
@@ -619,28 +631,40 @@ const useCart = () => {
 
     const CartCardImageFunc = (pd) => {
         return new Promise((resolve) => {
-            let finalprodListimg;
-            const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
-            if (pd?.ImageCount > 0) {
-                finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-                const img = new Image();
-                img.src = finalprodListimg;
+            const loadImage = (src) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = src;
+                    img.onload = () => resolve(src);
+                    img.onerror = () => reject(src);
+                });
+            };
 
-                img.onload = () => {
-                    resolve(finalprodListimg);
-                };
-                img.onerror = () => {
-                    finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-                    resolve(finalprodListimg);
-                };
+            const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+            let primaryImage, secondaryImage;
+
+            if (pd?.ImageCount > 0) {
+                primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+                secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
             } else {
-                finalprodListimg = imageNotFound;
-                resolve(finalprodListimg);
+                primaryImage = secondaryImage = imageNotFound;
             }
+
+            loadImage(primaryImage)
+                .then((imgSrc) => {
+                    resolve(imgSrc);
+                })
+                .catch(() => {
+                    loadImage(secondaryImage)
+                        .then((imgSrc) => {
+                            resolve(imgSrc);
+                        })
+                        .catch(() => {
+                            resolve(imageNotFound);
+                        });
+                });
         });
     };
-
-
 
     const compressAndEncode = (inputString) => {
         try {
@@ -662,12 +686,12 @@ const useCart = () => {
             const obj = {
                 a: cartData?.stockno,
                 b: cartData?.shapename,
-              };
-          
-              let encodeObj = compressAndEncode(JSON.stringify(obj));
-          
-              let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
-              navigate(navigateUrl);
+            };
+
+            let encodeObj = compressAndEncode(JSON.stringify(obj));
+
+            let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
+            navigate(navigateUrl);
         } else {
             let obj = {
                 a: cartData?.autocode,

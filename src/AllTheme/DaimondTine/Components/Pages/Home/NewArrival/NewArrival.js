@@ -61,52 +61,88 @@ const NewArrival = () => {
     }
 
     return (
-        <div className='dt_newArrivalMain'>
-            {/* <h1 className='dt_titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1> */}
+        <>
             {newArrivalData?.length != 0 &&
-                <p className='smr_bestseler1Title'>
-                    New Arrival
-                    {newArrivalData?.length > 5 && <span className='dt_ViewAllBtn_new' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
-                        View more
-                    </span>}
-                </p>
+                <div className='dt_newArrivalMain'>
+                    {/* <h1 className='dt_titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1> */}
+                    {newArrivalData?.length != 0 &&
+                        <p className='smr_bestseler1Title'>
+                            New Arrival
+                            {newArrivalData?.length > 5 && <span className='dt_ViewAllBtn_new' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                                View more
+                            </span>}
+                        </p>
+                    }
+
+                    <div className='dt_newArrivalGridMain' style={{ paddingInline: '10px', display: 'flex', justifyContent: 'start' }}>
+                        {newArrivalData?.slice(0, 4).map((product, index) => (
+                            <div key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                                <div className='dt_newArrivalMian'>
+                                    <img
+                                        style={{ height: "100%", width: "100%" }}
+                                        src={`${imageUrl}/${product?.designno}_1.${product.ImageExtension}`}
+                                        // src={product.image}
+                                        alt={product.title}
+                                        loading='lazy'
+                                    />
+                                </div>
+                                <div className='dt_newArrivalMainDeatil'>
+                                    <h3 className='dt_newArrival_DesignNumber_web'>{product?.designno}{product?.TitleLine != "" && " - " + product?.TitleLine}</h3>
+                                    <h3 className='dt_newArrival_DesignNumber_Mobile'>{product?.designno}</h3>
+                                    <div className='dt_newArrivalSetData'>
+                                        {storeInit?.IsGrossWeight == 1 &&
+                                            <>
+                                                <span className='smr_btdetailDT'>GWT: </span>
+                                                <span className='smr_btdetailDT'>{(product?.Gwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                        }
+                                        {Number(product?.Nwt) !== 0 && (
+                                            <>
+                                                <span className='smr_btpipe'>|</span>
+                                                <span className='smr_btdetailDT'>NWT : </span>
+                                                <span className='smr_btdetailDT'>{(product?.Nwt || 0)?.toFixed(3)}</span>
+                                            </>
+                                        )}
+                                        {storeInit?.IsDiamondWeight == 1 &&
+                                            <>
+                                                {(product?.Dwt != "0" || product?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>DWT: </span>
+                                                        <span className='smr_btdetailDT'>{(product?.Dwt || 0)?.toFixed(3)}/{(product?.Dpcs || 0)}</span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                        {storeInit?.IsStoneWeight == 1 &&
+                                            <>
+                                                {(product?.CSwt != "0" || product?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className='smr_btpipe'>|</span>
+                                                        <span className='smr_btdetailDT'>CWT: </span>
+                                                        <span className='smr_btdetailDT'>{(product?.CSwt || 0)?.toFixed(3)}/{(product?.CSpcs || 0)}</span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                    </div>
+                                    <p className='dt_newArrivalPdPrice'>
+                                        <span
+                                            className="smr_currencyFont"
+                                            dangerouslySetInnerHTML={{
+                                                __html: decodeEntities(
+                                                    islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                ),
+                                            }}
+                                        /> {formatter(product?.UnitCostWithMarkUp)}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             }
-
-            <Grid container spacing={2} justifyContent="center" className='dt_newArrivalGridMain' style={{ paddingInline: '20px', display: 'flex', justifyContent: 'start' }}>
-                {newArrivalData?.slice(0, 5).map((product, index) => (
-                    <Grid key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
-                        <div className='dt_newArrivalMian'>
-                            <img
-                                style={{ height: "100%", width: "100%" }}
-                                src={`${imageUrl}/${product?.designno}_1.${product.ImageExtension}`}
-                                // src={product.image}
-                                alt={product.title}
-                                loading='lazy'
-                            />
-                        </div>
-                        <div className='dt_newArrivalMainDeatil'>
-                            <p className='dt_newArrivalPdTitle'>
-                                {product.TitleLine}
-                            </p>
-                            <p className='dt_newArrivalPdDesignNo'>
-                                {product.designno}
-                            </p>
-                            <p className='dt_newArrivalPdPrice'>
-                                <span
-                                    className="smr_currencyFont"
-                                    dangerouslySetInnerHTML={{
-                                        __html: decodeEntities(
-                                            islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                        ),
-                                    }}
-                                /> {formatter(product?.UnitCostWithMarkUp)}
-                            </p>
-                        </div>
-                    </Grid>
-                ))}
-            </Grid>
-
-        </div>
+        </>
     )
 }
 

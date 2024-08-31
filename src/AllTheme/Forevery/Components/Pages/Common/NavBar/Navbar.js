@@ -21,6 +21,7 @@ import {
   for_CartCount,
   for_WishCount,
   for_customizationSteps,
+  for_customizationSteps1,
   for_loginState,
 } from "../../../Recoil/atom";
 import Cookies from "js-cookie";
@@ -502,6 +503,7 @@ const NavitemsWrapper = ({
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -558,7 +560,9 @@ const NavitemsWrapper = ({
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]} />
+              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+                setCustomizeStep1={setCustomizeStep1}
+              />
             )}
             {SelectedMenu?.index == 1 && (
               <SecondNavMenu
@@ -581,7 +585,7 @@ const NavitemsWrapper = ({
     </>
   );
 };
-const FirstNavMenu = ({ data, setCustomizeStep }) => {
+const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -590,12 +594,9 @@ const FirstNavMenu = ({ data, setCustomizeStep }) => {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
-  const checkSteps =
-    (steps?.[1] !== undefined && steps?.[1] !== null) ||
-    (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[1] !== undefined && steps1?.[1] !== null);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {
@@ -606,17 +607,22 @@ const FirstNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const HandleSettingNavigation = () => {
-    navigate(
-      `/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`
-    );
-    const step1 = [{ step1: true, Setting: "Ring" }];
+    const addCategory = `Ring/category`;
+    const filterKeyVal = btoa(addCategory)
+    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    setCustomizeStep1({
+      step1: true,
+    })
+    const step1 = [{ "step1": true, "Setting": 'Ring' }];
     sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
   };
 
   const HandleDiamondNavigation = () => {
     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-
-    const step1 = [{ step1: true, shape: "Round" }];
+    setCustomizeStep({
+      step1: true,
+    })
+    const step1 = [{ "step1": true, "shape": "Round" }];
     sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
@@ -735,12 +741,9 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const Navigate = useNavigate();
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
-  const checkSteps =
-    (steps?.[1] !== undefined && steps?.[1] !== null) ||
-    (steps?.[2] !== undefined && steps?.[2] !== null) ||
-    (steps1?.[1] !== undefined && steps1?.[1] !== null);
+  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {

@@ -279,10 +279,10 @@ const ProductList = () => {
         .finally(() => {
           setIsProdLoading(false);
           setIsOnlyProdLoading(false);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          });
+          // window.scroll({
+          //   top: 0,
+          //   behavior: "smooth",
+          // });
         })
         .catch((err) => console.log("err", err));
     };
@@ -1214,6 +1214,7 @@ const ProductList = () => {
               justifyContent: "end",
               padding: "8px 8px 0px 0px",
             }}
+            className="dt_prodtList_drawer_close"
           >
             <CloseIcon
               onClick={() => {
@@ -1308,7 +1309,7 @@ const ProductList = () => {
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                     >
                       {" "}
-                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                      {`${diaQc.Quality.toUpperCase()}, ${diaQc.color.toLowerCase()}`}
                     </option>
                   ))}
                 </select>
@@ -1864,13 +1865,14 @@ const ProductList = () => {
         </div>
       </div>
       <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          padding: "5px 0px",
-          borderBottom: "1px solid #ebebeb",
-        }}
+        // style={{
+        //   width: "100%",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   padding: "5px 0px",
+        //   borderBottom: "1px solid #ebebeb",
+        // }}
+        className="main_breadCrumb_menu_List"
       >
         <div className="breadCrumb_menu_List">
           <span
@@ -2058,7 +2060,7 @@ const ProductList = () => {
                         key={diaQc?.QualityId}
                         value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                       >
-                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                        {`${diaQc.Quality.toUpperCase()}, ${diaQc.color.toLowerCase()}`}
                       </option>
                     ))}
                   </select>
@@ -2810,17 +2812,18 @@ const ProductList = () => {
                                         className="prodTitle"
                                         title={`${productData?.TitleLine}`}
                                       >
-                                        {productData?.designno} {" - "} {productData?.TitleLine}
+                                        {/* {productData?.designno} {" - "}  */}
+                                        {productData?.TitleLine}
                                       </p>
                                     </div>
                                   ) : (
                                     <div className="listing-details">
-                                      <p
+                                      {/* <p
                                         className="prodTitle"
                                         title={`${productData?.designno}`}
                                       >
                                         {productData?.designno}
-                                      </p>
+                                      </p> */}
                                     </div>
                                   )}
                                   <div style={{ margin: '0px', fontSize: '15px', display: 'flex',justifyContent:'center',width:'100%',gap:'5px'}}>
