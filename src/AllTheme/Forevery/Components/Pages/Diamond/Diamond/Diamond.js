@@ -144,7 +144,15 @@ const Diamond = () => {
             of customization with our letter-shaped diamonds.
           </p>
           <div class="cta">
-            <button class="forevery-btn">shop letter diamonds</button>
+            <button
+            style={{
+              backgroundColor  :"transparent",
+              padding : "6px 22px"
+            }}
+              className={`${btnstyle?.btn_for_new} forevery-btn ${btnstyle?.btn_15}`}
+            >
+              shop letter diamonds
+            </button>
           </div>
         </div>
       </div>
@@ -153,8 +161,8 @@ const Diamond = () => {
           <span>Specification of The Hearts and Arrows</span>
           <small></small>
           <p
+          className="para-for-i-q"
             style={{
-              width: "50%",
               margin: "0 auto",
               textAlign: "center",
               padding: "25px 0",

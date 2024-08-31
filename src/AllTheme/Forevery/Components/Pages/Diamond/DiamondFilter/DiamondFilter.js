@@ -730,6 +730,7 @@ const DiamondFilter = () => {
   console.log("filtersData", filtersData)
   console.log("sliderstate1", sliderState1);
 
+  console.log("gh", "slider label", finalArray);
 
   return (
     <>

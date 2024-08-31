@@ -1,11 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
 @import "../../../scss/variable.scss";
-
-.cedarville-cursive-regular {
-  font-family: "Cedarville Cursive", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
 
 .for_Bespokejewelry {
   width: 100%;
@@ -34,7 +27,7 @@
       }
       .Parisienne {
         font-size: 40px;
-        font-family: "Cedarville Cursive", cursive;
+        font-family: $cursive;
         font-weight: 400;
         margin-bottom: 25px;
       }
