@@ -30,7 +30,7 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  // const [diadata, setDiaData] = useState();
+  const [diadata, setDiaData] = useState();
 
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -62,6 +62,9 @@ const Customization = ({
 
 
   console.log("diamondData", diamondCartData);
+  useEffect(() => {
+    setDiaData(diamondCartData)
+  }, [selectedItem])
 
   const keyToCheck = "stockno"
   return (
@@ -249,7 +252,7 @@ const Customization = ({
                       {!ispriceloding ? (
                         <span>
                           <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {formatter(Number(selectedItem?.Sol_StockNo != "" ? (selectedItem?.FinalCost + diamondCartData?.price) : selectedItem?.FinalCost) )}
+                          {formatter(Number(selectedItem?.Sol_StockNo != "" ? (selectedItem?.FinalCost ?? 0 + diadata?.price ?? 0) : selectedItem?.FinalCost))}
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />

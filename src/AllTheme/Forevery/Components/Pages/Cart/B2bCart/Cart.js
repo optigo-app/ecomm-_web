@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
 import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/NewsletterSignup';
-import btnStyle  from "../../../scss/Button.module.scss"
+import btnStyle from "../../../scss/Button.module.scss"
 
 const CartPage = () => {
   const addressData = useAddress();
@@ -165,10 +165,12 @@ const CartPage = () => {
   console.log("diamondCartData", diamondCartData);
 
   useEffect(() => {
-    const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
-    setSelectedDia(diamondValue)
-  },[selectedItem])
-  
+    setTimeout(() => {
+      const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
+      setSelectedDia(diamondValue)
+    }, 500);
+  }, [selectedItem])
+
   return (
     <div className='for_MainBGDiv'>
       <div className="for_cart-title">Cart</div>
@@ -215,7 +217,7 @@ const CartPage = () => {
                 <div className="for_cart-left-sides">
                   <CartList
                     items={cartData}
-                    diamondData = {diamondCartData}
+                    diamondData={diamondCartData}
                     CartCardImageFunc={CartCardImageFunc}
                     showRemark={showRemark}
                     productRemark={productRemark}
@@ -240,7 +242,7 @@ const CartPage = () => {
                         <CartDetails
                           ispriceloding={ispriceloding}
                           selectedItem={selectedItem}
-                          diamondData = {selectedDia}
+                          diamondData={selectedDia}
                           CartCardImageFunc={CartCardImageFunc}
                           handleIncrement={handleIncrement}
                           handleDecrement={handleDecrement}
