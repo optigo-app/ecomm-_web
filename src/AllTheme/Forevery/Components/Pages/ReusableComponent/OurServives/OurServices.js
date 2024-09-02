@@ -1,5 +1,6 @@
 import React from 'react';
 import './OurServices.scss';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 const Services = ({ title, services }) => {
@@ -10,7 +11,7 @@ const Services = ({ title, services }) => {
         <div className="for_services-list">
           {services?.map((service, index) => (
             <div className="for_service-item" key={index}>
-              <img src={service?.image} alt={service?.title} />
+              <img src={`${storImagePath()}${service?.image}`} alt={service?.title} />
               <h3>{service?.title}</h3>
               <p>{service?.description}</p>
               <a href={service?.link}>{service?.btnText}</a>

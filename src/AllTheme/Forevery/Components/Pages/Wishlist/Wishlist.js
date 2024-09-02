@@ -103,16 +103,19 @@ const Wishlist = () => {
             <span>My Wishlist</span>
           </div>
         </div>
-        <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
-          <button onClick={handleRemoveAllDialog}>Remove All</button>
-          <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
-        </div>
+        {wishlistData?.length != 0 &&
+          <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
+            <button onClick={handleRemoveAllDialog}>Remove All</button>
+            <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
+          </div>
+        }
         {!isWLLoading && (
           <>
-            {!islogin && (
-              <div className="for_wishLoginBtnDiv">
-                <span>To save your wish list, create an account or log in.</span>
-                <button>LOG IN / SIGN UP</button>
+            {wishlistData?.length == 0 && (
+              <div className='for_noWishlistData'>
+                <p className='for_title'>No Wishlist Found!</p>
+                <p className='for_desc'>Please First Add Product in Wishlist</p>
+                <button className='for_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             )}
           </>
@@ -122,7 +125,7 @@ const Wishlist = () => {
             <WishlistData
               isloding={isWLLoading}
               items={wishlistData}
-              diamondData = {diamondWishData}
+              diamondData={diamondWishData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               curr={CurrencyData}
@@ -140,7 +143,7 @@ const Wishlist = () => {
             <SkeletonLoader />
           </div>
         }
-         <ConfirmationDialog
+        <ConfirmationDialog
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}

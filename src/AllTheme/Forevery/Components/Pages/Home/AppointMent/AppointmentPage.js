@@ -10,35 +10,35 @@ export const services = [
     {
         title: 'Free Shipping',
         description: 'Now it\'s easier for customers to get the beautiful and sustainable diamonds they want without paying extra for shipping.',
-        image: 'https://forevery.one/images_new/new-home/free-ship.png',
+        image: '/images/HomePage/OurServices/free-ship.png',
         link: '#',
         btnText: "Read More"
     },
     {
         title: 'Free 30 Day Returns',
         description: 'Forevery offers a hassle-free jewelry shopping experience with its 30-DAY Returns policy. Get ready to shop confidently.',
-        image: 'https://forevery.one/images_new/new-home/free-return.png',
+        image: '/images/HomePage/OurServices/free-return.png',
         link: '#',
         btnText: "Read More"
     },
     {
         title: 'Free Lifetime Warranty',
         description: 'Shop with Confidence; a lifetime warranty covers every piece of fine jewelry you buy.',
-        image: 'https://forevery.one/images_new/new-home/waranty.png',
+        image: '/images/HomePage/OurServices/waranty.png',
         link: '#',
         btnText: "Read More"
     },
     {
         title: '60-Days Free Resizing',
         description: 'Within 60 days of purchase, resize your jewelry to the perfect fit without any additional costs.',
-        image: 'https://forevery.one/images_new/new-home/resizing.png',
+        image: '/images/HomePage/OurServices/resizing.png',
         link: '#',
         btnText: "Read More"
     },
     {
         title: 'Free Engraving',
         description: 'Add sentimental value to the piece and make it a unique and meaningful gift.',
-        image: 'https://forevery.one/images_new/new-home/engraving.png',
+        image: '/images/HomePage/OurServices/engraving.png',
         link: '#',
         btnText: "Read More"
     }
@@ -88,10 +88,10 @@ const AppointmentPage = () => {
                         {items.map(item => (
                             <div className="for_item-card" key={item.id}>
                                 <div className="for_imageDiv">
-                                    <img src={`${storImagePath()}${item.image}`} alt={item.title} />
+                                    <img src={`${storImagePath()}${item?.image}`} alt={item?.title} />
                                 </div>
                                 <div className="for_item-content">
-                                    <h2>{item.title}</h2>
+                                    <h2>{item?.title}</h2>
                                     <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}>BOOK NOW</button>
                                 </div>
                             </div>

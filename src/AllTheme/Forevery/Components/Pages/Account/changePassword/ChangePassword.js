@@ -175,7 +175,7 @@ export default function ChangePassword() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }} >
                 <TextField
                     id="outlined-confirm-password-input"
                     label="Old Password"

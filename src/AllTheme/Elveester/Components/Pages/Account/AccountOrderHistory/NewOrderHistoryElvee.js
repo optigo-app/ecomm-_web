@@ -439,7 +439,7 @@ const NewOrderHistoryElvee = () => {
                                   </Box>
                                 ) : (
                                   <>
-                                  <Grid container spacing={4}>
+                                  <Grid container spacing={4} className="grid_m_top_elvee">
                                   {orderDetails?.length > 0 && orderDetails?.map((el, index) => (
                                     <Grid
                                       item
@@ -449,6 +449,7 @@ const NewOrderHistoryElvee = () => {
                                       md={orderDetails?.length === 1 ? 6 : 4}
                                       lg={orderDetails?.length === 1 ? 3 : 3}
                                       xl={orderDetails?.length === 1 ? 3 : 3}
+                                      className="grid_m_top_elvee"
                                     >
                                       <Card sx={{display:'flex', alignItems:'center'}} >
                                           <img src={`${image_path}${el?.imgrandomno}${btoa(el?.autocode)}/Red_Thumb/${el?.DefaultImageName}`} onError={handleOrderImageError} alt="#designimage" style={{maxHeight:'90px', maxWidth:'90px', marginRight:'10px'}} onClick={() => handleMoveToDetail(el)} />

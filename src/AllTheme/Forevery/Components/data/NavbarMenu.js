@@ -84,16 +84,16 @@ const NavbarMenu = [
     link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
     disabled: false,
   },
-  {
-    category: "Fine Jewelry",
-    link: "lab-grown-fine-jewelry",
-    disabled: false,
-  },
-  {
-    category: "Letter Diamonds",
-    link: "letter-diamonds/all",
-    disabled: true,
-  },
+  // {
+  //   category: "Fine Jewelry",
+  //   link: "lab-grown-fine-jewelry",
+  //   disabled: false,
+  // },
+  // {
+  //   category: "Letter Diamonds",
+  //   link: "letter-diamonds/all",
+  //   disabled: true,
+  // },
 ];
 
 // Creating an array of diamond objects
