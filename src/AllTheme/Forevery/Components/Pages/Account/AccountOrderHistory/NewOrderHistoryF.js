@@ -270,7 +270,7 @@ const NewOrderHistoryF = () => {
           </Box>
         ) : (
           <div>
-            <div style={{ width: "100%" }} className="smr_yourProfile_mt8_for">
+            <div style={{ width: "100%" }} >
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
                     return (

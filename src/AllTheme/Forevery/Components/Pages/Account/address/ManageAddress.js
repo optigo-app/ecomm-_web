@@ -498,7 +498,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div className='smr_yourProfile_mt8_for'>
+            <div >
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
