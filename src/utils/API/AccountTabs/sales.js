@@ -1,9 +1,9 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const getSalesData = async(currencyRate, FrontEnd_RegNo, customerid, data) => {
+export const getSalesData = async(CurrencyRate, FrontEnd_RegNo, customerid, data) => {
     try {
            const combinedValue = JSON.stringify({
-                CurrencyRate: currencyRate, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+                CurrencyRate: CurrencyRate, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             });
             const encodedCombinedValue = btoa(combinedValue);
             const encodedCombinedValue2 = (combinedValue);

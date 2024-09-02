@@ -786,6 +786,9 @@ const DesignWiseSalesReport = () => {
                                 position: "relative",
                                 zIndex: 0,
                                 background: "#c0bbb133",
+                                display:'flex',
+                                justifyContent:'space-between',
+                                flexDirection:'column'
                             }}
                             className="smilingProductImageBox designWiseSalesReportProduct"
                         >
@@ -802,6 +805,7 @@ const DesignWiseSalesReport = () => {
                                 </Box>
 
                             </Box>
+                            <div>
                             <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
                                 <Typography
                                     style={{
@@ -840,6 +844,7 @@ const DesignWiseSalesReport = () => {
                                 </Typography>
                                
                             </Box>
+                            </div>
 
                         </div>
                     ))}
