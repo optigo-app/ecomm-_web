@@ -114,14 +114,14 @@ const DiamondItems = ({
         }
     }, [diaData]);
 
-    const diamondData = diaData?.filter(diaItem => 
+    const diamondData = diaData?.filter(diaItem =>
         !cartData?.some(cartItem => cartItem?.Sol_StockNo === diaItem?.stockno)
     );
     console.log("jksjdksakjd", diamondData)
 
     return (
         <>
-            {diamondData?.map((diaData) => 
+            {diamondData?.map((diaData) =>
                 <div className="for_cartMain-item">
                     <div className="for_cart-item"
                         style={{
@@ -145,10 +145,6 @@ const DiamondItems = ({
                             <div className='for_diamondSKUNO'>
                                 <h3>SKU:{" "}{diaData?.stockno != "" && diaData?.stockno}</h3>
                             </div>
-                            {/* {item?.Size != "" &&
-            <p className='for_ringSize'>Ring Size: {item?.Size}</p>
-          } */}
-                            {/* <span className="for_change-size">CHANGE SIZE</span> */}
                         </div>
                         {storeInitData?.IsPriceShow == 1 &&
                             <div className="for_cart-item__price">
