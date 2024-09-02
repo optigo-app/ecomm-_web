@@ -652,58 +652,69 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const handleCheckSteps = (index) => {
     if (checkSteps) {
       setShowModal(true);
-      setCheckIndex(index)
+      setCheckIndex(index);
     } else {
       console.log("Alternative action");
     }
   };
 
   const HandleSettingNavigation = () => {
-    if ((steps?.[0] !== undefined && steps?.[0] !== null || steps?.[1] !== undefined && steps?.[1] !== null)) {
-      sessionStorage.removeItem('customizeSteps')
-      sessionStorage.removeItem('custStepData')
+    if (
+      (steps?.[0] !== undefined && steps?.[0] !== null) ||
+      (steps?.[1] !== undefined && steps?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps");
+      sessionStorage.removeItem("custStepData");
       const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory)
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
-    }
-    else {
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    } else {
       const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory)
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
       setCustomizeStep1({
         step1: true,
-      })
-      const step1 = [{ "step1": true, "Setting": 'Ring' }];
+      });
+      const step1 = [{ step1: true, Setting: "Ring" }];
       sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
-    if ((steps1?.[0] !== undefined && steps1?.[0] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null)) {
-      sessionStorage.removeItem('customizeSteps2')
-      sessionStorage.removeItem('custStepData2')
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    if (
+      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+      (steps1?.[1] !== undefined && steps1?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps2");
+      sessionStorage.removeItem("custStepData2");
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     } else {
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
       setCustomizeStep({
         step1: true,
-      })
-      const step1 = [{ "step1": true, "shape": "Round" }];
+      });
+      const step1 = [{ step1: true, shape: "Round" }];
       sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
     }
   };
 
   const handleRemoveData = (index) => {
-    sessionStorage.removeItem('customizeSteps');
-    sessionStorage.removeItem('custStepData');
-    sessionStorage.removeItem('customizeSteps2');
-    sessionStorage.removeItem('custStepData2');
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
     if (index === 0) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     }
     handleToggle();
   };
@@ -798,10 +809,16 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={checkIndex} />
+      <Modal
+        open={showModal}
+        handleClose={handleToggle}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
+      />
     </>
   );
 };
+
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
   const [shape, setShape] = useState();
@@ -838,10 +855,10 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const handleRemoveData = (shape) => {
-    sessionStorage.removeItem('customizeSteps');
-    sessionStorage.removeItem('custStepData');
-    sessionStorage.removeItem('customizeSteps2');
-    sessionStorage.removeItem('custStepData2');
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };
@@ -895,7 +912,12 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <img src={commonImage} alt="" />
       </div>
 
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={shape} />
+      <Modal
+        open={showModal}
+        handleClose={handleToggle}
+        handleRemoveData={handleRemoveData}
+        index={shape}
+      />
     </div>
   );
 };
@@ -932,11 +954,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
               >
                 Show More
               </button>
@@ -945,11 +967,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
               >
                 Show More
               </button>
@@ -1112,12 +1134,7 @@ const LatsNavMenu = ({ data }) => {
   );
 };
 
-const Modal = ({
-  open,
-  handleClose,
-  handleRemoveData,
-  index,
-}) => {
+const Modal = ({ open, handleClose, handleRemoveData, index }) => {
   return (
     <>
       <Dialog
@@ -1156,10 +1173,20 @@ const Modal = ({
               it?
             </span>
             <div className="for_modal_buttons_nav_div">
-              <button onClick={() => {
-                handleClose();
-              }}>Yes</button>
-              <button onClick={() => { handleRemoveData(index) }}>No</button>
+              <button
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  handleRemoveData(index);
+                }}
+              >
+                No
+              </button>
             </div>
           </div>
         </DialogContent>
